@@ -7,8 +7,33 @@ const links = [
   { href: withBase(""), label: "首頁" },
   { href: withBase("blog/"), label: "文章" },
   { href: withBase("tags/"), label: "標籤" },
-  { href: withBase("about/"), label: "關於" },
-  { href: withBase("subscribe/"), label: "RSS 訂閱" }
+  { href: withBase("about/"), label: "關於" }
+];
+const rssHref = withBase("subscribe/");
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/mashbean",
+    label: "Facebook",
+    iconPath:
+      "M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.78-3.88 1.1 0 2.25.2 2.25.2v2.46H15.2c-1.25 0-1.64.78-1.64 1.57V12h2.8l-.45 2.89h-2.35v6.99A10 10 0 0 0 22 12z"
+  },
+  {
+    href: "https://x.com/mashbean",
+    label: "Twitter/X",
+    iconPath:
+      "M18.9 2H22l-6.78 7.75L23 22h-6.1l-4.77-6.22L6.68 22H3.56l7.25-8.29L2 2h6.25l4.3 5.68L18.9 2zm-1.07 18h1.69L7.33 3.9H5.51z"
+  },
+  {
+    href: "https://www.linkedin.com/in/mashbean/",
+    label: "LinkedIn",
+    iconPath:
+      "M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.95v5.67H9.33V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.8 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0z"
+  },
+  {
+    href: "https://matters.town/@mashbean",
+    label: "Matters",
+    iconPath: "M3 5h3.2l3.8 6.7L13.8 5H17v14h-3V11l-3.2 5.6h-1.6L6 11v8H3z"
+  }
 ];
 
 const isActive = (href: string): boolean => {
@@ -36,6 +61,36 @@ const isActive = (href: string): boolean => {
             </li>
           ))
         }
+        <li class="nav-social-item">
+          <a
+            href={rssHref}
+            class:list={{
+              "nav-link": true,
+              "nav-link-active": isActive(rssHref)
+            }}
+          >
+            RSS 訂閱
+          </a>
+          <span class="nav-social-divider" aria-hidden="true"></span>
+          <div class="nav-social-links" aria-label="社群連結">
+            {
+              socialLinks.map((item) => (
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={item.label}
+                  title={item.label}
+                  class="nav-social-link"
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={item.iconPath} />
+                  </svg>
+                </a>
+              ))
+            }
+          </div>
+        </li>
       </ul>
     </nav>
   </div>
