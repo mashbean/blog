@@ -1,0 +1,61 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { tagCatalog } from "@/data/tagCatalog";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { formatDate } from "@/utils/date";
+
+const allPosts = await getBlogPosts();
+
+const tagSections = tagCatalog.map((item) => {
+  const posts = allPosts.filter((post) => post.data.tags.includes(item.key));
+  return {
+    ...item,
+    posts,
+    count: posts.length,
+    id: item.key.replace(/\s+/g, "-")
+  };
+});
+---
+
+<BaseLayout title="標籤" description="依核心標籤探索文章。">
+  <h1 class="section-title">標籤</h1>
+  <p>本站採用六大核心標籤，讓主題分類更集中、也更容易探索。</p>
+
+  <div class="tag-filter-grid">
+    {
+      tagSections.map((item) => (
+        <a class="tag-filter-chip" href={`#${item.id}`} aria-label={`${item.title} 共 ${item.count} 篇`}>
+          <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
+          <span>{item.title}</span>
+          <strong>{item.count}</strong>
+        </a>
+      ))
+    }
+  </div>
+
+  {
+    tagSections.map((item) => (
+      <section id={item.id} class="tag-section">
+        <h2>
+          <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
+          {item.title} ({item.count})
+        </h2>
+        <p>{item.description}</p>
+        {
+          item.posts.length === 0 ? (
+            <p class="empty-state">目前沒有文章。</p>
+          ) : (
+            <ul class="post-list-compact">
+              {item.posts.map((post) => (
+                <li class="post-list-compact-item">
+                  <a class="post-list-compact-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                  <small class="post-list-compact-date">({formatDate(post.data.pubDate)})</small>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </section>
+    ))
+  }
+</BaseLayout>
