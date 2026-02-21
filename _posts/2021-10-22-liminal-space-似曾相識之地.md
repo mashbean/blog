@@ -3,6 +3,7 @@ title: "Liminal Space 似曾相識之地"
 date: 2021-10-22 10:00:00 +0800
 categories: [blog]
 tags: [數位藝術]
+summary: "夾娃娃機百日 NFT 連載之二 oncyber.io 嵌入夾娃娃機 NFT 的展間畫面 最近頗有人間一天，幣圈一年之感，NFT 收藏圈可能一瞬十載。"
 ---
 +   [# 元宇宙](https://matters.town/tags/55046-%E5%85%83%E5%AE%87%E5%AE%99)
 +   [# 夾娃娃機](https://matters.town/tags/1514-%E5%A4%BE%E5%A8%83%E5%A8%83%E6%A9%9F)

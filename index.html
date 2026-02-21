@@ -9,16 +9,10 @@ title: 首頁
 {% assign posts_list = paginator.posts | default: site.posts %}
 <ul>
   {% for post in posts_list %}
-    {% assign chunks = post.content | split: '## ' %}
-    {% if chunks.size > 1 %}
-      {% assign excerpt_source = chunks[1] %}
-    {% else %}
-      {% assign excerpt_source = post.excerpt %}
-    {% endif %}
     <li>
       <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
       <small>({{ post.date | date: "%Y-%m-%d" }})</small>
-      <p>{{ excerpt_source | strip_html | strip_newlines | truncate: 180 }}</p>
+      <p>{{ post.summary | default: post.excerpt | strip_html | strip_newlines | truncate: 120 }}</p>
     </li>
   {% endfor %}
 </ul>

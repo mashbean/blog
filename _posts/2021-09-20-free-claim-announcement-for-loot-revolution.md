@@ -3,6 +3,7 @@ title: "Free Claim announcement for Loot Revolution"
 date: 2021-09-20 10:00:00 +0800
 categories: [blog]
 tags: [NFT, AI與科技]
+summary: "A declaration of the NFT project for free will, social movement and memento. ***Final ann…"
 ---
 +   [# protest](https://matters.town/tags/1325-protest)
 +   [# hongkong](https://matters.town/tags/46931-hongkong)

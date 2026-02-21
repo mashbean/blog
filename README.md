@@ -153,3 +153,15 @@ python3 scripts/rebuild_tags.py --apply
 標籤頁設定檔：
 - `/tags.md`
 - `/_data/tag_catalog.yml`
+
+## 7) 批次產生一句話摘要（首頁 excerpt）
+
+已提供腳本：`scripts/rebuild_summaries.py`
+
+```bash
+# 只分析，不寫入
+python3 scripts/rebuild_summaries.py
+
+# 套用到所有文章（寫入 summary 欄位）
+python3 scripts/rebuild_summaries.py --apply
+```

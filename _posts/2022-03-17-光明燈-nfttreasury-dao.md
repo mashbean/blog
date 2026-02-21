@@ -3,6 +3,7 @@ title: "光明燈 NFT｜Treasury DAO"
 date: 2022-03-17 10:00:00 +0800
 categories: [blog]
 tags: [NFT, 數位藝術]
+summary: "參展寶藏巖光節，邀請你一起來場信任遊戲。"
 ---
 +   [# 藝術](https://matters.town/tags/1841-%E8%97%9D%E8%A1%93)
 +   [# 信任](https://matters.town/tags/760-%E4%BF%A1%E4%BB%BB)
