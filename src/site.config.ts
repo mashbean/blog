@@ -3,4 +3,4 @@ export const SITE_DESCRIPTION = "公共網路、數位治理、文化科技與�
 export const SITE_LANG = "zh-TW";
 export const SITE_TIMEZONE = "Asia/Taipei";
 export const DEFAULT_AUTHOR = "Mashbean";
-export const DEFAULT_OG_IMAGE = "images/og-default.svg";
+export const DEFAULT_OG_IMAGE = "images/og-image.png";
