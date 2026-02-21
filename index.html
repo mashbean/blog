@@ -4,14 +4,16 @@ title: 首頁
 ---
 
 <section class="home-intro" data-reveal>
-  <p class="home-intro-eyebrow">Mashbean Blog</p>
-  <h1 class="home-intro-title">思想、技術與公共性的交會</h1>
-  <p class="home-intro-quote">
-    能身處黎明時分，簡直是天賜之福；<br>
-    若還年輕，更如置身天堂！<br>
-    ——華茲華斯
-  </p>
+  <figure class="home-quote">
+    <blockquote class="home-intro-quote">
+      <p>能身處黎明時分，簡直是天賜之福；</p>
+      <p>若還年輕，更如置身天堂！</p>
+    </blockquote>
+    <figcaption>華茲華斯</figcaption>
+  </figure>
 </section>
+
+<h1 class="home-feed-heading" data-reveal>最新文章</h1>
 
 {% assign posts_list = paginator.posts | default: site.posts %}
 <ul class="post-feed">

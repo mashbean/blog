@@ -44,11 +44,15 @@ h4 {
 }
 
 h1 {
-  font-size: clamp(1.7rem, 2.4vw, 2.25rem);
+  font-size: clamp(1.32rem, 1.8vw, 1.68rem);
 }
 
 h2 {
-  font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+  font-size: clamp(1.1rem, 1.4vw, 1.34rem);
+}
+
+h3 {
+  font-size: clamp(1rem, 1.2vw, 1.18rem);
 }
 
 strong {
@@ -108,6 +112,7 @@ a:hover {
 
 .site-title {
   font-weight: 700;
+  font-size: 1rem;
 }
 
 .site-nav .page-link {
@@ -225,36 +230,54 @@ a:hover {
 }
 
 .home-intro {
+  margin-bottom: 1.05rem;
+  padding: 0.25rem 0 0.9rem;
   border-bottom: 1px solid var(--line);
-  margin-bottom: 1.3rem;
-  padding-bottom: 1rem;
 }
 
-.home-intro-eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
-  color: #5b6a76;
-  margin-bottom: 0.18rem;
-}
-
-.home-intro-title {
-  margin-bottom: 0.44rem;
+.home-quote {
+  margin: 0;
+  padding: 0.7rem 0.85rem 0.62rem;
+  background: linear-gradient(180deg, #fdfcf9 0%, #f8f6ef 100%);
+  border: 1px solid #e1ddd2;
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .home-intro-quote {
-  color: #364451;
-  margin-bottom: 0;
+  margin: 0;
+  color: #2f3f4a;
+  font-family: "Source Serif 4", "Noto Serif TC", serif;
+  font-size: 1.01rem;
+  line-height: 1.78;
+}
+
+.home-intro-quote p {
+  margin-bottom: 0.2rem;
+}
+
+.home-quote figcaption {
+  margin-top: 0.26rem;
+  color: #5a6976;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  text-align: right;
+}
+
+.home-feed-heading {
+  margin: 0 0 0.74rem;
+  font-size: 1.16rem;
 }
 
 .post-feed {
   list-style: none;
   margin: 0;
+  padding-left: 0;
 }
 
 .post-card {
-  margin-bottom: 0.85rem;
-  padding: 0.92rem 1rem 0.88rem;
+  margin-bottom: 0.72rem;
+  padding: 0.78rem 0.9rem 0.74rem;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: linear-gradient(180deg, #fff 0%, #fdfcf8 100%);
@@ -271,14 +294,14 @@ a:hover {
 .post-card-meta {
   margin: 0;
   color: var(--muted);
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   letter-spacing: 0.01em;
 }
 
 .post-card-title {
-  margin: 0.12rem 0 0.35rem;
-  font-size: clamp(1.2rem, 1.4vw, 1.42rem);
-  line-height: 1.25;
+  margin: 0.08rem 0 0.28rem;
+  font-size: clamp(1.02rem, 1.2vw, 1.18rem);
+  line-height: 1.35;
 }
 
 .post-card-title a {
@@ -294,12 +317,14 @@ a:hover {
 .post-card-summary {
   margin: 0;
   color: #3e4c58;
-  line-height: 1.7;
+  line-height: 1.62;
+  font-size: 0.95rem;
 }
 
 .post-list-compact {
   list-style: none;
   margin: 0.8rem 0 0;
+  padding-left: 0;
 }
 
 .post-list-compact-item {
@@ -382,22 +407,27 @@ a:hover {
 }
 
 .post-title {
-  font-size: clamp(1.7rem, 2.3vw, 2.2rem);
+  font-size: clamp(1.35rem, 1.8vw, 1.65rem);
   line-height: 1.2;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.65rem;
+}
+
+.page-heading {
+  font-size: clamp(1.28rem, 1.7vw, 1.52rem);
+  margin-bottom: 0.7rem;
 }
 
 .post-content {
   font-family: "Source Serif 4", "Noto Serif TC", serif;
-  font-size: 1.14rem;
-  line-height: 1.95;
+  font-size: 1.04rem;
+  line-height: 1.86;
   letter-spacing: 0.003em;
 }
 
 .post-content h2,
 .post-content h3 {
-  margin-top: 1.6rem;
-  margin-bottom: 0.58rem;
+  margin-top: 1.3rem;
+  margin-bottom: 0.42rem;
 }
 
 .post-content p,
@@ -427,14 +457,17 @@ a:hover {
   align-items: center;
   flex-wrap: nowrap;
   gap: 0.35rem;
+  justify-content: center;
   overflow-x: auto;
   padding-bottom: 0.15rem;
+  width: 100%;
 }
 
 .page-numbers {
   display: inline-flex;
   flex-wrap: nowrap;
   gap: 0.3rem;
+  justify-content: center;
 }
 
 .page-chip {
@@ -470,6 +503,20 @@ a.page-chip:hover {
   min-width: 1.5rem;
   color: #66737f;
   font-size: 0.95rem;
+}
+
+.footer-single-block {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  color: #58636f;
+}
+
+.footer-single-block strong {
+  color: #2a343e;
+  font-weight: 600;
 }
 
 /* Subscribe page */
@@ -562,8 +609,8 @@ a.page-chip:hover {
     float: none;
     display: block;
     width: 100%;
-    margin-bottom: 0.9rem;
-    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    font-size: 1rem;
     line-height: 1.35;
   }
 
@@ -619,17 +666,18 @@ a.page-chip:hover {
   }
 
   .home-intro {
-    margin-bottom: 1.1rem;
+    margin-bottom: 0.94rem;
   }
 
   .post-card {
-    padding: 0.86rem 0.82rem;
+    padding: 0.74rem 0.72rem;
   }
 
   .post-content {
-    font-size: 1.07rem;
-    line-height: 1.88;
+    font-size: 0.98rem;
+    line-height: 1.8;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
