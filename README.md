@@ -1,0 +1,114 @@
+# GitHub Pages 極簡部落格（Jekyll）
+
+這個專案採用 GitHub Pages 原生支援的 Jekyll，幾乎零設定即可上線。
+
+## 1) 建立 GitHub Repo
+
+1. 到 GitHub 右上角 `+` -> `New repository`
+2. Repository name 輸入（例如：`my-blog`）
+3. `Public` 或 `Private` 都可以（GitHub Pages 兩者都支援）
+4. 先不要勾 `Add a README file`（避免和本地衝突）
+5. 按 `Create repository`
+6. 建立後會看到 repo URL，像是：
+   - HTTPS: `https://github.com/<username>/<repo>.git`
+   - SSH: `git@github.com:<username>/<repo>.git`
+
+## 1.1) 把本地專案 push 上去
+
+在專案根目錄執行：
+
+```bash
+git init
+git add .
+git commit -m "init blog with jekyll blog skeleton"
+git branch -M main
+git remote add origin <你的-repo-url>
+git push -u origin main
+```
+
+如果 `git commit` 提示沒有 user 設定，先執行：
+
+```bash
+git config --global user.name "你的名字"
+git config --global user.email "你的 GitHub 信箱"
+```
+
+如果 HTTPS push 要密碼，請改用 GitHub Personal Access Token 當密碼，或改用 SSH。
+
+## 2) 開啟 GitHub Pages
+
+1. 進入 GitHub repo 的 `Settings` -> `Pages`
+2. `Build and deployment` 選 `Deploy from a branch`
+3. Branch 選 `main`，資料夾選 `/ (root)`，按 Save
+4. 等 1~3 分鐘後會得到網址：
+   - 專案頁面：`https://<username>.github.io/<repo>/`
+   - 如果 repo 名稱是 `<username>.github.io`，網址就是：`https://<username>.github.io/`
+
+## 3) 發文規則（最重要）
+
+- 文章放在 `_posts/`
+- 檔名格式：`YYYY-MM-DD-文章-slug.md`
+- 每篇檔案前面要有 Front Matter：
+
+```md
+---
+title: "文章標題"
+date: 2026-02-21 10:00:00 +0800
+categories: [分類]
+tags: [tag1, tag2]
+---
+
+這裡是內文
+```
+
+## 4) 你現有很多 Markdown，要怎麼搬？
+
+本專案已提供批次轉換腳本：`scripts/convert_markdown_to_jekyll.py`
+
+### 4.1 準備來源文章資料夾
+
+假設你把舊文章放在 `raw_posts/`：
+
+```bash
+mkdir -p raw_posts
+# 把你原本的 md 檔都放進 raw_posts/
+```
+
+### 4.2 先預覽（不寫入）
+
+```bash
+python3 scripts/convert_markdown_to_jekyll.py raw_posts --recursive --dry-run
+```
+
+### 4.3 正式轉換
+
+```bash
+python3 scripts/convert_markdown_to_jekyll.py raw_posts --recursive
+```
+
+### 4.4 轉換規則
+
+- 來源副檔名：`.md`
+- 目的地：`_posts/`
+- 檔名：`YYYY-MM-DD-slug.md`
+- `title` 優先順序：
+  1. 原文 front matter 的 `title`
+  2. 第一個 Markdown `# 標題`
+  3. 原始檔名
+- `date` 優先順序：
+  1. 原文 front matter 的 `date`
+  2. 檔名中的日期（例如 `2024-01-10-note.md`）
+  3. 檔案最後修改日
+
+### 4.5 常用選項
+
+```bash
+# 指定輸出資料夾
+python3 scripts/convert_markdown_to_jekyll.py raw_posts --dest _posts
+
+# 預設分類與標籤
+python3 scripts/convert_markdown_to_jekyll.py raw_posts --category notes --tag tech
+
+# 允許覆蓋同名檔案
+python3 scripts/convert_markdown_to_jekyll.py raw_posts --overwrite
+```

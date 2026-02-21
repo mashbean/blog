@@ -1,0 +1,8 @@
+title: Mashbean Blog
+description: My notes and articles
+theme: minima
+lang: zh-TW
+timezone: Asia/Taipei
+
+# GitHub Pages 會自動讀取 _posts
+permalink: /:year/:month/:day/:title/
