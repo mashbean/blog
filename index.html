@@ -15,44 +15,63 @@ title: 首頁
 {% assign posts_list = paginator.posts | default: site.posts %}
 <ul id="post-list">
   {% for post in posts_list %}
-    <li class="post-item">
+    {% assign summary_text = post.summary | default: post.excerpt | strip_html | strip_newlines %}
+    {% assign searchable = post.title | append: " " | append: summary_text %}
+    <li class="post-item" data-search="{{ searchable | downcase | escape }}">
       <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
       <small>({{ post.date | date: "%Y-%m-%d" }})</small>
-      <p>{{ post.summary | default: post.excerpt | strip_html | strip_newlines | truncate: 120 }}</p>
+      <p>{{ summary_text | truncate: 120 }}</p>
     </li>
   {% endfor %}
 </ul>
 
 {% if paginator.total_pages > 1 %}
-  <nav aria-label="Pagination">
+  <nav aria-label="Pagination" class="pagination-nav">
     {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path | relative_url }}">上一頁</a>
+      <a class="page-chip page-prev" href="{{ paginator.previous_page_path | relative_url }}">上一頁</a>
     {% endif %}
 
+    <div class="page-numbers">
     {% for page_num in (1..paginator.total_pages) %}
       {% if page_num == paginator.page %}
-        <strong>{{ page_num }}</strong>
+        <span class="page-chip is-current">{{ page_num }}</span>
       {% elsif page_num == 1 %}
-        <a href="{{ '/' | relative_url }}">{{ page_num }}</a>
+        <a class="page-chip" href="{{ '/' | relative_url }}">{{ page_num }}</a>
       {% else %}
-        <a href="{{ '/page/' | append: page_num | append: '/' | relative_url }}">{{ page_num }}</a>
+        <a class="page-chip" href="{{ '/page/' | append: page_num | append: '/' | relative_url }}">{{ page_num }}</a>
       {% endif %}
     {% endfor %}
+    </div>
 
     {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path | relative_url }}">下一頁</a>
+      <a class="page-chip page-next" href="{{ paginator.next_page_path | relative_url }}">下一頁</a>
     {% endif %}
   </nav>
 {% endif %}
 
-<hr>
-<section aria-label="Social links">
-  <h2>Connect</h2>
-  <p>
-    <a href="https://www.facebook.com/mashbean" target="_blank" rel="noopener noreferrer">Facebook</a> ·
-    <a href="mailto:mashbean@gmail.com">Email</a> ·
-    <a href="https://x.com/mashbean" target="_blank" rel="noopener noreferrer">X</a> ·
-    <a href="https://www.linkedin.com/in/mashbean/" target="_blank" rel="noopener noreferrer">LinkedIn</a> ·
-    <a href="https://matters.town/@mashbean" target="_blank" rel="noopener noreferrer">Matters</a>
-  </p>
-</section>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  var input = document.getElementById("post-search");
+  var list = document.getElementById("post-list");
+  var status = document.getElementById("search-status");
+  if (!input || !list || !status) return;
+
+  var items = Array.prototype.slice.call(list.querySelectorAll(".post-item"));
+  var total = items.length;
+  status.textContent = "顯示 " + total + " 篇";
+
+  function applySearch() {
+    var q = input.value.trim().toLowerCase();
+    var shown = 0;
+    items.forEach(function (item) {
+      var text = item.dataset.search || item.textContent.toLowerCase();
+      var visible = !q || text.indexOf(q) !== -1;
+      item.style.display = visible ? "" : "none";
+      if (visible) shown += 1;
+    });
+    status.textContent = q ? "找到 " + shown + " / " + total + " 篇" : "顯示 " + total + " 篇";
+  }
+
+  input.addEventListener("input", applySearch);
+});
+</script>

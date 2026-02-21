@@ -125,6 +125,60 @@ a {
   }
 }
 
+.sidebar-connect {
+  margin-top: 1.1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.sidebar-connect h2 {
+  font-size: 0.95rem;
+  margin-bottom: 0.55rem;
+}
+
+.sidebar-connect ul {
+  list-style: none;
+  margin: 0;
+}
+
+.sidebar-connect li {
+  margin-bottom: 0.35rem;
+}
+
+.sidebar-connect a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #2b3640;
+  font-size: 0.93rem;
+}
+
+.sidebar-connect a:hover {
+  text-decoration: none;
+}
+
+.social-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #dbe8ee;
+  color: #0f3b52;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+@media screen and (max-width: 979px) {
+  .sidebar-connect {
+    margin-top: 0.4rem;
+    border-top: 0;
+    padding-top: 0;
+  }
+}
+
 /* Home list readability */
 ul li {
   margin-bottom: 0.9rem;
@@ -142,7 +196,7 @@ li p {
 }
 
 .post-title {
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-size: clamp(1.55rem, 2.2vw, 2.05rem);
   line-height: 1.2;
   margin-bottom: 0.8rem;
 }
@@ -192,4 +246,45 @@ li p {
   margin-top: 0.35rem;
   margin-bottom: 0.4rem;
   font-size: 0.95rem;
+}
+
+/* Pagination UI */
+.pagination-nav {
+  margin-top: 1.15rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.5rem;
+}
+
+.page-numbers {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.page-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #fff;
+  color: #2a3844;
+  font-size: 0.92rem;
+}
+
+a.page-chip:hover {
+  background: #eef3f5;
+  text-decoration: none;
+}
+
+.page-chip.is-current {
+  background: #0e4a66;
+  color: #fff;
+  border-color: #0e4a66;
+  font-weight: 600;
 }
