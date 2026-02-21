@@ -115,6 +115,10 @@ a:hover {
   font-size: 1rem;
 }
 
+.header-top-row {
+  display: block;
+}
+
 .site-nav .page-link {
   transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
 }
@@ -588,6 +592,10 @@ a.page-chip:hover {
 }
 
 @media screen and (min-width: 980px) {
+  .header-top-row {
+    display: block;
+  }
+
   .site-header {
     position: fixed;
     top: 0;
@@ -654,24 +662,31 @@ a.page-chip:hover {
 }
 
 @media screen and (max-width: 979px) {
+  .header-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+
   .site-header .wrapper {
     padding-top: 0.75rem;
   }
 
-  .site-title,
-  .site-nav {
-    float: none;
-  }
-
   .site-title {
+    float: none;
     display: block;
-    margin: 0 0 0.35rem;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
     font-size: 1.02rem;
     line-height: 1.25;
   }
 
   .site-nav {
-    margin-bottom: 0.35rem;
+    float: none;
+    margin: 0;
+    flex: 0 0 auto;
   }
 
   .sidebar-search {
