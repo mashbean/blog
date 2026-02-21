@@ -10,7 +10,6 @@ const links = [
   { href: withBase("search/"), label: "搜尋" },
   { href: withBase("about/"), label: "關於" }
 ];
-const rssHref = withBase("subscribe/");
 const socialLinks = [
   {
     href: "https://www.facebook.com/mashbean",
@@ -68,24 +67,14 @@ const isActive = (href: string): boolean => {
           ))
         }
         <li class="nav-social-item">
-          <a
-            href={rssHref}
-            class:list={{
-              "nav-link": true,
-              "nav-link-active": isActive(rssHref)
-            }}
-          >
-            RSS 訂閱
-          </a>
           <button
             type="button"
             class="nav-social-toggle"
             aria-expanded="false"
             aria-controls="header-social-links"
           >
-            社群
+            加我好友
           </button>
-          <span class="nav-social-divider" aria-hidden="true"></span>
           <div id="header-social-links" class="nav-social-links" aria-label="社群連結">
             {
               socialLinks.map((item) => {

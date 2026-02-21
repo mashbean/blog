@@ -155,6 +155,15 @@ function inferSlugFromPermalink(permalink) {
     .replace(/^-+|-+$/g, "");
 }
 
+function hashText(input) {
+  let hash = 2166136261;
+  for (const ch of input) {
+    hash ^= ch.codePointAt(0) ?? 0;
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
 function parseScalar(raw) {
   const text = raw.trim();
   if (!text) return "";
@@ -389,16 +398,9 @@ function buildAstroUrl(mapped, outputName) {
   const date = new Date(pub);
   const year = date.getFullYear();
   const monthDay = `${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
-  const stem = outputName.replace(/\.md$/i, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
-  const rawSlug = asString(mapped.slug) ?? stem;
-  const slug = rawSlug
-    .normalize("NFKC")
-    .toLocaleLowerCase("zh-TW")
-    .replace(/[\s_]+/g, "-")
-    .replace(/[^\p{Letter}\p{Number}-]+/gu, "-")
-    .replace(/-+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return `/blog/${year}/${monthDay}-${slug || "post"}/`;
+  const identity = `${outputName}|${pub}|${asString(mapped.slug) ?? ""}`;
+  const shortCode = hashText(identity).toString(36).padStart(6, "0").slice(0, 6);
+  return `/blog/${year}/${monthDay}-${shortCode}/`;
 }
 
 async function ensureDir(filePath) {

@@ -1,13 +1,21 @@
 ---
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/site.config";
+import { withBase } from "@/utils/paths";
 
 const year = new Date().getFullYear();
+const links = [
+  { href: withBase("subscribe/"), label: "RSS 訂閱" },
+  { href: withBase("rss.xml"), label: "RSS XML" }
+];
 ---
 
 <footer class="site-footer">
   <div class="container">
     <p>
       <strong>{SITE_TITLE}</strong> · {SITE_DESCRIPTION}
+    </p>
+    <p class="footer-links">
+      {links.map((item) => <a href={item.href}>{item.label}</a>)}
     </p>
     <p>© {year} All rights reserved.</p>
   </div>

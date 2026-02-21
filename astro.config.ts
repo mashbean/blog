@@ -18,9 +18,8 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         const pathname = new URL(page).pathname;
-        const segments = pathname.split("/").filter(Boolean);
-        if (segments[0] !== "blog") return true;
-        return segments.length === 3 && /^\d{4}$/.test(segments[1]);
+        if (!pathname.startsWith("/blog/")) return true;
+        return /^\/blog\/\d{4}\/\d{4}-[a-z0-9]{6}\/$/i.test(pathname);
       }
     })
   ],

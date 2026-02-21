@@ -28,14 +28,15 @@ npm run build
 
 ### 文章網址規則（SEO）
 
-- Canonical URL：`/blog/{year}/{monthday}-{slug}/`
-- 例如：`/blog/2025/0821-did-wallet/`
-- 舊網址 `/blog/{legacy-id}/` 仍保留可讀（頁面標記 noindex，canonical 指向新網址）
+- Canonical URL：`/blog/{year}/{monthday}-{code}/`
+- 例如：`/blog/2025/0821-a1b2c3/`
+- `code` 由文章 ID 產生短碼，固定且可重建（適合中文標題，不會出現過長 slug）
+- 舊網址 `/blog/{legacy-id}/` 與前一版長網址仍可讀（頁面標記 noindex，canonical 指向新網址）
 
 ### 縮圖策略
 
 - 有 `cover`：直接顯示文章縮圖（卡片與 Open Graph 優先使用）
-- 無 `cover`：卡片使用可讀 fallback（分類 + 標題），不留空白
+- 無 `cover`：卡片改為「精簡橫幅 fallback」，避免首篇卡片出現突兀大空塊
 - 全站社群預覽圖 fallback：`/images/og-image.png`
 
 ## 1) 建立 GitHub Repo

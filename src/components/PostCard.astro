@@ -30,8 +30,15 @@ const fallbackLabel = post.data.category ?? "文章";
         decoding="async"
       />
     ) : (
-      <div class="post-card-thumb post-card-thumb-fallback">
-        <span>{fallbackLabel}</span>
+      <div
+        class:list={{
+          "post-card-thumb": true,
+          "post-card-thumb-fallback": true,
+          "post-card-thumb-fallback-feature": variant === "feature",
+          "post-card-thumb-fallback-compact": variant === "compact"
+        }}
+      >
+        <span class="post-card-thumb-badge">{fallbackLabel}</span>
         <small>{post.data.title}</small>
       </div>
     )}
