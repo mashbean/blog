@@ -379,6 +379,107 @@
     margin: 0.6rem 0 0;
   }
 
+  .search-panel {
+    border: 1px solid #d8e6e1;
+    border-radius: 1rem;
+    background: #ffffff;
+    padding: 1.05rem;
+  }
+
+  .search-form {
+    margin: 0;
+  }
+
+  .search-form label {
+    display: block;
+    margin-bottom: 0.42rem;
+    font-weight: 600;
+  }
+
+  .search-form-row {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .search-form-row input[type="search"] {
+    width: 100%;
+    min-height: 2.3rem;
+    border: 1px solid #c7d8d2;
+    border-radius: 0.78rem;
+    padding: 0.52rem 0.72rem;
+    font-size: 0.96rem;
+    color: var(--color-ink);
+    background: #f8fcfa;
+  }
+
+  .search-form-row input[type="search"]:focus {
+    outline: 2px solid #98d8cb;
+    outline-offset: 1px;
+    border-color: #8bc8bc;
+  }
+
+  .search-form-row .nav-link {
+    min-width: 4.25rem;
+    cursor: pointer;
+  }
+
+  .search-help {
+    margin: 0.45rem 0 0;
+    color: var(--color-muted);
+    font-size: 0.86rem;
+  }
+
+  .search-status {
+    margin: 0.65rem 0 0.35rem;
+    color: #2f5961;
+    font-size: 0.9rem;
+  }
+
+  .search-results {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.58rem;
+  }
+
+  .search-result-item {
+    border: 1px solid #d8e6e1;
+    border-radius: 0.85rem;
+    padding: 0.68rem 0.74rem;
+    background: #fbfefc;
+  }
+
+  .search-result-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .search-result-link {
+    color: var(--color-ink);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .search-result-link:hover {
+    color: var(--color-accent);
+  }
+
+  .search-result-meta {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .search-result-snippet {
+    margin: 0.35rem 0 0;
+    color: #38505b;
+    font-size: 0.9rem;
+  }
+
   .tag-filter-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -481,6 +582,22 @@
   .nav-social-link svg {
     width: 0.8rem;
     height: 0.8rem;
+  }
+
+  .search-form-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-form-row .nav-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .search-result-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.18rem;
   }
 
   .hero {
