@@ -747,6 +747,11 @@
     padding: 1.05rem;
   }
 
+  .search-intro {
+    margin: -0.35rem 0 0.95rem;
+    color: #3a525c;
+  }
+
   .search-status {
     margin: 0 0 0.6rem;
     color: #2f5961;
@@ -763,8 +768,10 @@
 
   .search-form label {
     display: block;
-    margin-bottom: 0.42rem;
+    margin-bottom: 0.34rem;
     font-weight: 600;
+    font-size: 0.9rem;
+    color: #274652;
   }
 
   .search-form-row {
@@ -1006,6 +1013,145 @@
     padding: 0.14rem 0.5rem;
   }
 
+  .about-lang-switch {
+    display: inline-flex;
+    border: 1px solid #c7d8d2;
+    border-radius: 999px;
+    background: #f8fcfa;
+    padding: 0.2rem;
+    margin-bottom: 0.95rem;
+    gap: 0.2rem;
+  }
+
+  .about-lang-btn {
+    border: 0;
+    background: transparent;
+    color: #2e4b59;
+    font-size: 0.86rem;
+    border-radius: 999px;
+    min-height: 1.8rem;
+    padding: 0.18rem 0.76rem;
+    cursor: pointer;
+  }
+
+  .about-lang-btn.is-active {
+    background: #0b7d6d;
+    color: #fff;
+  }
+
+  .about-cv {
+    border: 1px solid #d8e6e1;
+    border-radius: 1rem;
+    background: #ffffff;
+    padding: 1.1rem 1.15rem;
+  }
+
+  .about-cv-header {
+    border-bottom: 1px solid #ddebe5;
+    padding-bottom: 0.95rem;
+    margin-bottom: 0.95rem;
+  }
+
+  .about-cv-kicker {
+    margin: 0;
+    color: #0c6c60;
+    font-size: 0.84rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .about-cv-name {
+    margin: 0.28rem 0 0;
+    font-size: clamp(1.45rem, 2.4vw, 1.95rem);
+  }
+
+  .about-cv-summary {
+    margin: 0.66rem 0 0;
+    color: #2f4d57;
+    max-width: 78ch;
+  }
+
+  .about-cv-links {
+    list-style: none;
+    margin: 0.85rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.48rem;
+  }
+
+  .about-cv-links a {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #ccdfd9;
+    border-radius: 999px;
+    background: #f6fbf9;
+    color: #21414f;
+    text-decoration: none;
+    font-size: 0.84rem;
+    min-height: 1.76rem;
+    padding: 0.2rem 0.62rem;
+  }
+
+  .about-cv-links a:hover {
+    color: var(--color-accent);
+    border-color: #98d8cb;
+    background: #ecf8f4;
+  }
+
+  .about-cv-section + .about-cv-section {
+    margin-top: 1rem;
+  }
+
+  .about-cv-section h2 {
+    margin: 0;
+    font-size: 1rem;
+    color: #1e4150;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .about-cv-entry {
+    margin-top: 0.66rem;
+    border-left: 2px solid #dce9e5;
+    padding-left: 0.78rem;
+  }
+
+  .about-cv-entry-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.35rem 0.75rem;
+  }
+
+  .about-cv-entry-head h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #12313f;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .about-cv-entry-head p {
+    margin: 0;
+    color: #4c616c;
+    font-size: 0.84rem;
+    white-space: nowrap;
+  }
+
+  .about-cv-entry ul {
+    margin: 0.44rem 0 0 1.15rem;
+    padding: 0;
+    color: #28444e;
+  }
+
+  .about-cv-entry li + li {
+    margin-top: 0.3rem;
+  }
+
   .tag-filter-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1173,5 +1319,13 @@
 
   .post-list-compact-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .about-cv {
+    padding: 0.88rem 0.9rem;
+  }
+
+  .about-cv-entry-head p {
+    white-space: normal;
   }
 }

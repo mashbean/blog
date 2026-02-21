@@ -1,74 +1,339 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const contactLinks = [
+  { label: "Email", href: "mailto:mashbean@gmail.com" },
+  { label: "Facebook", href: "https://www.facebook.com/mashbean" },
+  { label: "Matters", href: "https://matters.town/@mashbean" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/mashbean" },
+  { label: "X (Twitter)", href: "https://x.com/mashbean" }
+];
 ---
 
-<BaseLayout title="關於我" description="黃彥霖（mashbean）的背景與工作重點。">
-  <article class="article-prose">
-    <h1 class="section-title">關於我</h1>
+<BaseLayout title="關於我 / About" description="Yen-Lin (mashbean) Huang 的履歷與工作重點（中英切換）。">
+  <section class="about-lang-switch" aria-label="語言切換">
+    <button type="button" class="about-lang-btn is-active" data-lang="zh">中文</button>
+    <button type="button" class="about-lang-btn" data-lang="en">English</button>
+  </section>
 
-    <p>
-      黃彥霖（Yen-Lin Huang, mashbean）是公民科技與數位治理實踐者，關注開放網路、數位自主、民主創新與社會技術系統。工作方法以「反脆弱、不對稱、去中心、抗霸權」為核心，重視把技術轉化為可長期運作的公共基礎設施。
-    </p>
+  <article class="about-cv" data-lang-content="zh">
+    <header class="about-cv-header">
+      <p class="about-cv-kicker">關於我</p>
+      <h1 class="about-cv-name">黃彥霖 Yen-Lin (mashbean) Huang</h1>
+      <p class="about-cv-summary">
+        公民科技與數位治理實踐者，專注開放網路、數位身分、隱私保護與民主創新。工作方法以反脆弱、不對稱、去中心與多方治理為核心，致力把技術落地為可長期運作的公共基礎設施。
+      </p>
+      <ul class="about-cv-links">
+        {contactLinks.map((item) => <li><a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a></li>)}
+      </ul>
+    </header>
 
-    <p>
-      其職涯橫跨醫療、工程、公共政策與平台治理。早期受訓為醫師，後轉向數位治理與公民科技，持續投入分散式技術、數位身分、隱私保護、抗審查媒體與治理設計等領域。
-    </p>
+    <section class="about-cv-section">
+      <h2>政府與公共治理經歷</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>數位發展部（Taiwan MODA）｜Decentralized Architect</h3>
+          <p>台灣 · 2023.02 - 2025.04</p>
+        </div>
+        <ul>
+          <li>主導新設 Section of Plurality，聚焦分散式技術與數位公民基礎建設。</li>
+          <li>管理累積超過 900 萬美元預算，推進台灣第一批數位公共基礎建設專案。</li>
+          <li>推動「台灣數位身分皮夾」並導入 AI 輔助開源審議工具至 Alignment Assemblies。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>行政院青年諮詢委員會｜委員</h3>
+          <p>台灣 · 2022.10 - 2024.10</p>
+        </div>
+        <ul>
+          <li>關注數位民主與制度改革，推進超過 10 項跨部會提案。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>DSET 民主、社會與新興科技研究院｜Correspondent</h3>
+          <p>台灣 · 2025.06 - 至今</p>
+        </div>
+        <ul>
+          <li>支援國家級智庫在地化國際數位身分政策與治理框架。</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>現職與近期角色</h2>
-    <ul>
-      <li>哈佛大學甘迺迪學院 Allen Lab for Democracy Renovation Policy Fellow（2025.08-2026.07）</li>
-      <li>Matters General Manager（2025.05-迄今）</li>
-      <li>台灣數位信任協會顧問，主責數位身分治理社群（2025.05-迄今）</li>
-      <li>DSET（民主、社會與新興科技研究院）對應研究工作（2025.06-迄今）</li>
-    </ul>
+    <section class="about-cv-section">
+      <h2>社會技術與國際角色</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Harvard Kennedy School｜Allen Lab Policy Fellow</h3>
+          <p>Non-resident · 2025.08 - 2026.07</p>
+        </div>
+        <ul>
+          <li>進行民主革新與數位身分的應用研究。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Ethereum Foundation｜The Next Billion Fellowship</h3>
+          <p>Remote · 2025.06 - 2025.11</p>
+        </div>
+        <ul>
+          <li>將 Privacy-Enhancing Technologies 納入國家級數位資料服務，並提出政策藍圖。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Matters｜General Manager</h3>
+          <p>Remote · 2025.05 - 至今</p>
+        </div>
+        <ul>
+          <li>帶領中文抗審查內容平台轉型，發展非營利替代型公共基礎設施框架。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>台灣數位信任協會｜Advisor</h3>
+          <p>台灣 · 2025.05 - 至今</p>
+        </div>
+        <ul>
+          <li>主責 Digital Identity Governance Interest Group，建立台灣多方利害關係人治理模型。</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>公共部門經歷</h2>
-    <ul>
-      <li>
-        數位發展部 Decentralized Architect（2023.02-2025.04）
-        主責分散式技術與數位公民基礎建設，推動台灣數位身分皮夾等公共專案，並導入 AI 輔助審議工具於民主討論場景。
-      </li>
-      <li>
-        行政院青年諮詢委員（2022.10-2024.10）
-        關注數位民主與制度改革，推進跨部會政策討論與提案協作。
-      </li>
-    </ul>
+    <section class="about-cv-section">
+      <h2>公民社會與創作實踐</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>FAB DAO（Formosa Art Bank）｜Founder</h3>
+          <p>台灣 · 2021.12 - 至今</p>
+        </div>
+        <ul>
+          <li>創立台灣首個非營利 DAO，支援超過 20 個 NGO 與倡議團體。</li>
+          <li>以合作社形式群眾募資 14 萬美元，並於 Ars Electronica Festival 2022 展出。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>g0v 零時政府｜Contributor</h3>
+          <p>台灣 · 2022.03 - 至今</p>
+        </div>
+        <ul>
+          <li>參與去中心科技工作組（da0）與 g0v Summit 2024 籌辦。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Independent Art Critic｜Columnist / Speaker / Translator</h3>
+          <p>2021.12 - 至今</p>
+        </div>
+        <ul>
+          <li>ARTouch 專欄作者，年均發表 20+ 文章；年均 30+ 演講（RightsCon、Harvard、東京大學、TEDx 等）。</li>
+          <li>共同作者與翻譯：Autonomous Worlds (2024)、Plurality (2023)。</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>國際與社會技術實作</h2>
-    <ul>
-      <li>
-        Ethereum Foundation Next Billion Fellowship（2025.06-2025.11）
-        聚焦隱私增強技術（PETs）在國家級資料服務中的導入與政策藍圖。
-      </li>
-      <li>參與多個網路治理與國際社群場域，長期關注開放標準、數位身分治理與跨國協作。</li>
-    </ul>
+    <section class="about-cv-section">
+      <h2>學歷、醫療訓練與成果</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>台北榮民總醫院（TVGH）｜住院醫師</h3>
+          <p>台灣 · 2020.08 - 2021.07</p>
+        </div>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>中國醫藥大學｜醫學士 M.D.</h3>
+          <p>台灣 · 2020.07</p>
+        </div>
+      </div>
+      <div class="about-cv-entry">
+        <ul>
+          <li>APRSAF 青年學者徵文佳作（2023）</li>
+          <li>Inter-Asian Studies 論文發表（2025）</li>
+          <li>美國專利公開案發明人（US 2024/0285913 A1）</li>
+          <li>Stanford Design Challenge Asia Winner（2019）</li>
+          <li>工業局智慧城市黑客松首獎（2016）</li>
+        </ul>
+      </div>
+    </section>
+  </article>
 
-    <h2>公民社會與文化實踐</h2>
-    <ul>
-      <li>
-        FAB DAO 創辦人（2021.12-迄今）
-        聚焦 web3 公民科技協作，支援台灣非營利與倡議團體，並推動群眾協作與公共實驗。
-      </li>
-      <li>g0v 貢獻者（2022.03-迄今）參與去中心科技社群協作與公共議題專案。</li>
-      <li>長期投入寫作與翻譯，於數位藝術、網路社會與民主技術相關領域持續發表。</li>
-    </ul>
+  <article class="about-cv" data-lang-content="en" hidden>
+    <header class="about-cv-header">
+      <p class="about-cv-kicker">About</p>
+      <h1 class="about-cv-name">Yen-Lin (mashbean) Huang</h1>
+      <p class="about-cv-summary">
+        Civic-tech and digital-governance practitioner focused on open internet, digital identity, privacy, and democratic innovation.
+        My work emphasizes antifragility, decentralization, and multi-stakeholder governance to build durable public digital infrastructure.
+      </p>
+      <ul class="about-cv-links">
+        {contactLinks.map((item) => <li><a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a></li>)}
+      </ul>
+    </header>
 
-    <h2>教育與專業背景</h2>
-    <ul>
-      <li>中國醫藥大學 醫學士（M.D.）</li>
-      <li>台北榮總住院醫師訓練（2020-2021）</li>
-      <li>具臨床與工程跨域背景，後轉向數位治理與公民科技。</li>
-    </ul>
+    <section class="about-cv-section">
+      <h2>Governmental Experience</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Ministry of Digital Affairs, Taiwan · Decentralized Architect</h3>
+          <p>Taiwan · Feb 2023 - Apr 2025</p>
+        </div>
+        <ul>
+          <li>Led the newly established Section of Plurality for decentralized technologies and digital civic infrastructure.</li>
+          <li>Managed cumulative budgets exceeding USD 9M and delivered Taiwan’s first digital public infrastructure initiatives.</li>
+          <li>Pioneered Taiwan Digital Identity Wallet and AI-assisted open-source deliberation in Alignment Assemblies.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Executive Yuan Youth Advisory Committee · Advisory Board Member</h3>
+          <p>Taiwan · Oct 2022 - Oct 2024</p>
+        </div>
+        <ul>
+          <li>Advanced digital democracy and institutional reform, pushing 10+ inter-ministerial proposals.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Research Institute for Democracy, Society and Emerging Technology (DSET) · Correspondent</h3>
+          <p>Taiwan · Jun 2025 - Present</p>
+        </div>
+        <ul>
+          <li>Supports national think tanks in localizing international digital identity policy frameworks.</li>
+        </ul>
+      </div>
+    </section>
 
-    <h2>研究與成果（節選）</h2>
-    <ul>
-      <li>亞太區域太空機構論壇（APRSAF）青年學者徵文獎項（2023）</li>
-      <li>參與多篇數位身分、民主治理與社會技術相關研究與發表</li>
-      <li>參與醫材相關專利申請（美國公開案）</li>
-    </ul>
+    <section class="about-cv-section">
+      <h2>Socio-technical Systems Experience</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Harvard Kennedy School · Allen Lab for Democracy Renovation Policy Fellow</h3>
+          <p>Non-resident · Aug 2025 - Jul 2026</p>
+        </div>
+        <ul>
+          <li>Conducts applied research on democracy renovation with a focus on digital identity.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Ethereum Foundation · The Next Billion Fellowship</h3>
+          <p>Remote · Jun 2025 - Nov 2025</p>
+        </div>
+        <ul>
+          <li>Embeds privacy-enhancing technologies into public digital data services and drafts policy blueprints.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Matters · General Manager</h3>
+          <p>Remote · May 2025 - Present</p>
+        </div>
+        <ul>
+          <li>Leads transformation of a Chinese-language anti-censorship content platform with a nonprofit infrastructure model.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Digital Trust Association in Taiwan · Advisor</h3>
+          <p>Taiwan · May 2025 - Present</p>
+        </div>
+        <ul>
+          <li>Leads the Digital Identity Governance Interest Group and Taiwan’s multi-stakeholder governance design.</li>
+        </ul>
+      </div>
+    </section>
 
-    <p>
-      目前主要工作重心是串連公民社會、技術社群與制度設計，推進可驗證、可持續、可治理的開放網路公共基礎設施，並降低使用者與創作者對封閉平台的依賴。
-    </p>
+    <section class="about-cv-section">
+      <h2>Civil Society and Cultural Practice</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Formosa Art Bank (FAB DAO) · Founder</h3>
+          <p>Taiwan · Dec 2021 - Present</p>
+        </div>
+        <ul>
+          <li>Founded Taiwan’s first nonprofit DAO and supported 20+ NGOs and advocacy groups.</li>
+          <li>Raised USD 140K through a cooperative crowdfunding model; exhibited at Ars Electronica Festival (2022).</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>g0v (gov-zero) · Contributor</h3>
+          <p>Taiwan · Mar 2022 - Present</p>
+        </div>
+        <ul>
+          <li>Collaborates in decentralized tech community work, including co-organizing g0v Summit 2024.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Independent Art Critic · Columnist / Speaker / Translator</h3>
+          <p>Dec 2021 - Present</p>
+        </div>
+        <ul>
+          <li>Columnist for ARTouch, with 20+ articles and 30+ talks annually across RightsCon, Harvard, University of Tokyo, TEDx, and ENCATC.</li>
+          <li>Co-author and translator of Autonomous Worlds (2024) and Plurality (2023).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="about-cv-section">
+      <h2>Education, Clinical Practice, and Honors</h2>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>Taipei Veterans General Hospital (TVGH) · Resident Physician</h3>
+          <p>Taiwan · Aug 2020 - Jul 2021</p>
+        </div>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3>China Medical University · Doctor of Medicine (M.D.)</h3>
+          <p>Taiwan · Jul 2020</p>
+        </div>
+      </div>
+      <div class="about-cv-entry">
+        <ul>
+          <li>Honorable Mention, APRSAF Young Scholar Essay Competition (2023)</li>
+          <li>Inter-Asian Studies publication on identity autonomy (2025)</li>
+          <li>Inventor, U.S. Patent Application Publication US 2024/0285913 A1</li>
+          <li>Winner, Stanford Design Challenge Asia (2019)</li>
+          <li>Grand Prize, Smart City Hackathon, Taiwan Industrial Development Bureau (2016)</li>
+        </ul>
+      </div>
+    </section>
   </article>
 </BaseLayout>
+
+<script is:inline>
+  const langButtons = Array.from(document.querySelectorAll(".about-lang-btn"));
+  const langPanels = Array.from(document.querySelectorAll("[data-lang-content]"));
+  const queryLang = new URLSearchParams(window.location.search).get("lang");
+  const storedLang = localStorage.getItem("mashbean.about.lang");
+  const preferredLang = queryLang === "en" || queryLang === "zh" ? queryLang : storedLang;
+  let currentLang = preferredLang === "en" ? "en" : "zh";
+
+  const syncState = (lang) => {
+    currentLang = lang;
+    langButtons.forEach((button) => button.classList.toggle("is-active", button.dataset.lang === lang));
+    langPanels.forEach((panel) => {
+      const show = panel.getAttribute("data-lang-content") === lang;
+      panel.hidden = !show;
+    });
+    const url = new URL(window.location.href);
+    if (lang === "en") url.searchParams.set("lang", "en");
+    else url.searchParams.delete("lang");
+    window.history.replaceState({}, "", url.toString());
+    localStorage.setItem("mashbean.about.lang", lang);
+  };
+
+  langButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const next = button.dataset.lang === "en" ? "en" : "zh";
+      syncState(next);
+    });
+  });
+
+  syncState(currentLang);
+</script>

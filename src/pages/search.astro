@@ -7,16 +7,18 @@ const pagefindStyleUrl = withBase("pagefind/pagefind-ui.css");
 const fallbackIndexUrl = withBase("search-index.json");
 ---
 
-<BaseLayout title="全站搜尋" description="搜尋站內文章與頁面內容。">
-  <h1 class="section-title">全站搜尋</h1>
-  <p>輸入關鍵字快速搜尋全站文章。提示：按 <kbd>Cmd/Ctrl</kbd> + <kbd>K</kbd> 可快速開啟本頁。</p>
+<BaseLayout title="搜尋" description="搜尋站內文章與頁面內容。">
+  <h1 class="section-title">搜尋</h1>
+  <p class="search-intro">
+    快速查找全站文章與頁面。快捷鍵：<kbd>Cmd/Ctrl</kbd> + <kbd>K</kbd>
+  </p>
 
-  <section class="search-panel" aria-label="全站搜尋工具">
-    <p id="pagefind-status" class="search-status" aria-live="polite">準備載入搜尋索引中...</p>
+  <section class="search-panel" aria-label="站內搜尋">
+    <p id="pagefind-status" class="search-status" aria-live="polite">搜尋索引載入中...</p>
     <div id="pagefind-search"></div>
     <div id="search-fallback" class="search-fallback" hidden>
       <form id="site-search-form" class="search-form" role="search">
-        <label for="site-search-input">搜尋關鍵字</label>
+        <label for="site-search-input">關鍵字</label>
         <div class="search-form-row">
           <input
             id="site-search-input"
@@ -36,7 +38,6 @@ const fallbackIndexUrl = withBase("search-index.json");
           <button type="button" class="search-filter-btn" data-type="page">頁面</button>
         </div>
       </div>
-      <p class="search-help">目前使用 fallback 搜尋模式，可正常搜尋標題、摘要與部分內文。</p>
       <ul id="site-search-results" class="search-results"></ul>
     </div>
   </section>
@@ -129,7 +130,7 @@ const fallbackIndexUrl = withBase("search-index.json");
       const res = await fetch(fallbackIndexUrl, { headers: { accept: "application/json" } });
       if (!res.ok) throw new Error(`Load failed: ${res.status}`);
       docs = await res.json();
-      status.textContent = "Pagefind 尚未啟用，已切換為 fallback 搜尋。";
+      status.textContent = "搜尋已就緒。";
     } catch (error) {
       status.textContent = "搜尋索引載入失敗，請稍後再試。";
       console.error("[search-fallback] load index failed:", error);
@@ -243,7 +244,7 @@ const fallbackIndexUrl = withBase("search-index.json");
         }
       });
 
-      status.textContent = "搜尋索引已載入，開始搜尋吧。";
+      status.textContent = "搜尋索引已載入。";
 
       if (query) {
         await ui.triggerSearch(query);
