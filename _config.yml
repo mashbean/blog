@@ -6,3 +6,15 @@ timezone: Asia/Taipei
 
 # GitHub Pages 會自動讀取 _posts
 permalink: /:year/:month/:day/:title/
+
+# 首頁文章分頁
+paginate: 10
+paginate_path: "/page/:num/"
+
+# 導覽列顯示頁面
+header_pages:
+  - tags.md
+
+# GitHub Pages 白名單外掛
+plugins:
+  - jekyll-paginate
