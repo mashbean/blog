@@ -112,3 +112,21 @@ python3 scripts/convert_markdown_to_jekyll.py raw_posts --category notes --tag t
 # 允許覆蓋同名檔案
 python3 scripts/convert_markdown_to_jekyll.py raw_posts --overwrite
 ```
+
+## 5) 一鍵部署（add + commit + pull --rebase + push）
+
+已提供腳本：`scripts/deploy.sh`
+
+```bash
+# 使用預設 commit 訊息
+./scripts/deploy.sh
+
+# 自訂 commit 訊息
+./scripts/deploy.sh "update posts and pages"
+```
+
+這個腳本會依序做：
+1. `git add -A`
+2. 如果有變更就 `git commit`
+3. `git pull --rebase origin <目前分支>`
+4. `git push origin <目前分支>`
