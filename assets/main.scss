@@ -1,0 +1,131 @@
+---
+---
+@import "minima";
+
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500&display=swap");
+
+:root {
+  --bg: #f4f2ec;
+  --panel: #fdfcf8;
+  --ink: #1f2328;
+  --muted: #5a6572;
+  --line: #d8d2c5;
+  --accent: #0e4a66;
+}
+
+body {
+  background:
+    radial-gradient(1200px 400px at -10% -10%, #e8efe8 0%, transparent 60%),
+    radial-gradient(1200px 400px at 110% 110%, #ebe6d8 0%, transparent 60%),
+    var(--bg);
+  color: var(--ink);
+  font-family: "IBM Plex Sans", "Noto Sans TC", sans-serif;
+  line-height: 1.72;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Source Serif 4", "Noto Serif TC", serif;
+  color: #182026;
+  letter-spacing: 0.01em;
+}
+
+a {
+  color: var(--accent);
+}
+
+.site-header {
+  background: transparent;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.page-content .wrapper,
+.site-footer .wrapper {
+  max-width: 900px;
+}
+
+.page-content {
+  padding: 2rem 0 3.5rem;
+}
+
+.page-content .wrapper {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px rgba(26, 35, 35, 0.04);
+}
+
+/* Notebook layout: left rail navigation on desktop */
+@media screen and (min-width: 980px) {
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    border-right: 1px solid var(--line);
+    background: linear-gradient(180deg, #f8f6f0 0%, #f2efe6 100%);
+    z-index: 10;
+    overflow-y: auto;
+  }
+
+  .site-header .wrapper {
+    max-width: none;
+    padding: 1.6rem 1.2rem 2rem;
+  }
+
+  .site-title {
+    float: none;
+    display: block;
+    width: 100%;
+    margin-bottom: 0.9rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .site-nav {
+    float: none;
+    width: 100%;
+  }
+
+  .site-nav .trigger {
+    display: block;
+    padding-top: 0.2rem;
+  }
+
+  .site-nav .page-link {
+    display: block;
+    margin: 0.35rem 0;
+    padding: 0.35rem 0.45rem;
+    border-radius: 8px;
+    color: #26303a;
+  }
+
+  .site-nav .page-link:hover {
+    background: #e7ecef;
+    text-decoration: none;
+  }
+
+  .page-content,
+  .site-footer {
+    margin-left: 320px;
+  }
+
+  .site-footer {
+    border-top: 0;
+    color: var(--muted);
+  }
+}
+
+/* Home list readability */
+ul li {
+  margin-bottom: 0.9rem;
+}
+
+li p {
+  margin-top: 0.28rem;
+  margin-bottom: 0.15rem;
+  color: var(--muted);
+}
