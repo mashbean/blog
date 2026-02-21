@@ -2,7 +2,7 @@
 title: "參與 ICANN82 隨筆：網路與治理 - 豆泥 - Matters"
 date: 2025-03-17 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/aryv5higybp5 參與 ICANN82 隨筆：網路與治理 黃豆泥，最近在做什麼呢？"
 ---
 來源：[https://matters.town/a/aryv5higybp5](https://matters.town/a/aryv5higybp5)
@@ -116,9 +116,3 @@ ICANN 報名免費，一年三次，甚至線上就可以參加，討論流程�
 如果你對於 TWNIC 的培育計畫有興趣，目前每年都有一次，所有年齡層都歡迎加入，今年的 Fellow 都是一時之選（自己說）。
 
 喜歡上網的你，又對於「網」的背後有點興趣的話，不容錯過。
-
-網路治理
-
-ICANN
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！

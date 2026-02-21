@@ -2,7 +2,7 @@
 title: "zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters"
 date: 2025-12-28 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/ehku76i9wdoc zkID Day：在政府推動密碼龐克ID政策的困境 在政府推動密碼龐克ID政策的困境 The Har…"
 ---
 來源：[https://matters.town/a/ehku76i9wdoc](https://matters.town/a/ehku76i9wdoc)
@@ -157,19 +157,3 @@ Tea 是一個讓女性得以匿名分享「哪些男性在交友軟體上可能�
 數位公共建設（digital public infrastructure）（各國政策改革）
 
 歡迎自由分享與交流。謝謝大家。
-
-數位身分
-
-數位皮夾
-
-DID
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-以保護之名造成傷害
-
-《拒絕回傳》運動，自己的身分證自己救
-
-台灣數位憑證皮夾試玩心得

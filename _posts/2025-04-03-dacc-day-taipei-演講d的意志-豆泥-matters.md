@@ -2,7 +2,7 @@
 title: "d/acc day Taipei 演講：D的意志 - 豆泥 - Matters"
 date: 2025-04-03 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/5cy949h9w8on d/acc day Taipei 演講：D的意志 大家好，我是 mashbean。"
 ---
 來源：[https://matters.town/a/5cy949h9w8on](https://matters.town/a/5cy949h9w8on)
@@ -124,15 +124,3 @@ DAO 裡的 mashbean 也許給出了一個初步的答案──當我們能使用
 舉例來說，DID 與 VC 的數位公共建設在 d/acc 的地圖中，明顯位於 Sovereignty 的路徑上，甚至蘊含濃濃的 Cypherpunk 精神。但它尚未納入 Solidarity 的治理工具與公共參與機制，因此顯得不夠平衡。
 
 最終，我想說的是：這張以 d/acc 精神發展的「技術政治地圖」不只是給研究者使用，也可以是任何想要實踐 d/acc 精神者的行動指南，幫助我們理解自己在世界上的位置，並且找到抵抗霸權的座標。
-
-d acc
-
-Web3
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-[譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin
-
-◉戍衛轉型指南

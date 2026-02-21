@@ -2,7 +2,7 @@
 title: "木可的保險箱，是web3的保險箱嗎？ - 豆泥 - Matters"
 date: 2024-09-17 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/n1fupdwjxq25 木可的保險箱，是web3的保險箱嗎？"
 ---
 來源：[https://matters.town/a/n1fupdwjxq25](https://matters.town/a/n1fupdwjxq25)
@@ -56,23 +56,3 @@ summary: "來源：https://matters.town/a/n1fupdwjxq25 木可的保險箱，是w
 註3、AI時代的現金戰爭：通膨、銀行倒閉、金融詐騙……當金錢只剩一組數字，如何在「無現金社會」保護自己的雲端財富？
 
 註3、AI時代的現金戰爭：通膨、銀行倒閉、金融詐騙……當金錢只剩一組數字，如何在「無現金社會」保護自己的雲端財富？
-
-註4、FAB DAO 多簽公開資訊
-
-註4、FAB DAO 多簽公開資訊
-
-Web3
-
-數位民主
-
-DAO
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-在科技與公益的碰撞下搞組織：我的 FAB DAO 參與觀察錄（上）
-
-FAB DAO 通過 FIP-2 議案，啟動去中心化自治的新里程碑
-
-能夠永存善意的NFT：FAB DAO - 百岳計畫 Project %

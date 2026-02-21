@@ -251,6 +251,91 @@ li p {
   color: var(--muted);
 }
 
+/* Tag UI */
+.post-tag-chips {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.32rem;
+}
+
+.post-tag-chips li {
+  margin: 0;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid #d7dee2;
+  background: #f5f8fa;
+  color: #224458;
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.tag-chip:hover {
+  text-decoration: none;
+  background: #e9f0f4;
+}
+
+.tag-chip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.tag-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.55rem;
+  margin: 0.8rem 0 1rem;
+}
+
+.tag-filter-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid #d4dde2;
+  border-radius: 12px;
+  background: #f7fbfd;
+  padding: 0.55rem 0.65rem;
+  color: #1f3e50;
+}
+
+.tag-filter-chip:hover {
+  background: #ecf4f8;
+  text-decoration: none;
+}
+
+.tag-filter-chip strong {
+  margin-left: auto;
+  font-size: 0.8rem;
+  color: #3a5566;
+}
+
+.tag-section {
+  margin: 1.5rem 0 2rem;
+}
+
+.tag-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.tag-section ul li {
+  margin-bottom: 0.8rem;
+}
+
 /* Reading optimization for post pages */
 .post {
   max-width: 78ch;

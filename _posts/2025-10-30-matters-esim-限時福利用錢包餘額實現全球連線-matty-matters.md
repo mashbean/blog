@@ -2,7 +2,7 @@
 title: "Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters"
 date: 2025-10-30 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/pd5qrqglkb4u Matters eSIM 限時福利｜用錢包餘額實現全球連線 對於習慣跨境移動的你，網路連線早已不只是…"
 ---
 來源：[https://matters.town/a/pd5qrqglkb4u](https://matters.town/a/pd5qrqglkb4u)
@@ -154,9 +154,3 @@ Android：Google Pixel 3及以上型號、三星Galaxy S20及以上型號等
 8. 如果購買後發現eSIM不能使用或使用有問題，應該怎麼辦？
 
 若你購買後發現eSIM無法使用，或在使用過程中遇到連線問題，請立即發送問題並提供相關截圖證明描述至 customer@matters.town，我們將在24小時內回覆。如果確認是eSIM本身的問題，我們將提供全額退款，確保你的權益！
-
-馬特市福利
-
-eSIM
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！

@@ -2,7 +2,7 @@
 title: "[譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin - 豆泥 - Matters"
 date: 2025-01-07 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/hv0vnqm5vkq7 [譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin 作者：Vitali…"
 ---
 來源：[https://matters.town/a/hv0vnqm5vkq7](https://matters.town/a/hv0vnqm5vkq7)
@@ -384,17 +384,3 @@ AI 作為提煉人類判斷的工具：每位評審只需隨機回答少量問�
 工具的可得性意味著我們能夠適應並改善我們的生物體系與環境，而 d/acc 的「防禦」部分意味著我們可以在不侵犯他人也擁有同樣權利的情況下實現這一目標。自由多元主義的原則意味著我們在如何實現這一點上可以有很大的多樣性，而我們對於共同人性目標的承諾則意味著這些事情應該被實現。
 
 我們，人類，仍然是最閃耀的明星。面對我們的使命——建構一個更燦爛的 21 世紀，同時在邁向星辰大海的過程中保護人類的生存、自由與自主性——這將是一項極具挑戰的任務。但我相信，我們能夠勝任。
-
-Vitalik Buterin
-
-d acc
-
-多元宇宙
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-數位時代的意識形態光譜
-
-尋找有別於電馭極權與財閥亂鬥的第三條路

@@ -2,7 +2,7 @@
 title: "從馬特市到行星，雖然 Google 導航很方便，但紙本地圖… - 豆泥 - Matters"
 date: 2022-10-26 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/t63kp8l33lv3 從馬特市到行星，雖然 Google 導航很方便，但紙本地圖有時也很重要。"
 ---
 來源：[https://matters.town/a/t63kp8l33lv3](https://matters.town/a/t63kp8l33lv3)
@@ -32,17 +32,3 @@ Matters 方便的前端網頁介面就是國道高速公路，只要點點連結
 這意味著，即使 Matters 倒閉了，我的文章可以很簡單的在 Planet 或類似的服務上被看到。這便是鄉間小路與紙本地圖的數位韌性，而 Matters 與 Planet 的對接，完成了去中心寫作的最後一哩路。
 
 承平時期使用 Matters，麻煩的時候換軌至 Planet，這大概是目前在分散式寫作的中文服務中，最好的解決方案。而看來這個需求越來越重要...。
-
-Web3
-
-IPFS
-
-ddos
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-IPNS Content Feed 还可以拿来做什么？
-
-Matters Lab 與 Planetable.xyz 達成戰略夥伴合作關係

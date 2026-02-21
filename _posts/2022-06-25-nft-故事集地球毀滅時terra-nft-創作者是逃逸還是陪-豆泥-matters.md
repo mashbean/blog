@@ -2,7 +2,7 @@
 title: "NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪… - 豆泥 - Matters"
 date: 2022-06-25 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/zi9mweui1m1r NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？"
 ---
 來源：[https://matters.town/a/zi9mweui1m1r](https://matters.town/a/zi9mweui1m1r)
@@ -90,15 +90,3 @@ Terra 事件是一個很好的機會，讓我們可以思索從公鏈逃逸的�
 但願人長久。
 
 祝大家身體健康。
-
-NFT
-
-Tezos
-
-Terra
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-NFT 故事集：消失的此時此刻，是封聖還是叛徒？

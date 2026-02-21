@@ -2,7 +2,7 @@
 title: "光與甘露水 1｜NFT 如何成為美術館群眾參與的新… - 豆泥 - Matters"
 date: 2022-04-18 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/2kr3osv57zu8 光與甘露水 1｜NFT 如何成為美術館群眾參與的新媒介？"
 ---
 來源：[https://matters.town/a/2kr3osv57zu8](https://matters.town/a/2kr3osv57zu8)
@@ -98,15 +98,3 @@ akaSwap - 光—化烏 Kng—huà-oo
 讓大家一睹為快。
 
 本作品為《Kng》NFT之測試紀念版，僅給予實驗工作坊的參與者，共50份。正式版本將由共創工作坊大家共同打造。
-
-民眾參與
-
-POAP
-
-美術館
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-到美術館欣賞 NFT 收藏（北美館／混沌空間）

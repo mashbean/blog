@@ -2,7 +2,7 @@
 title: "將 NFT 投射到衛星電視節目的展覽「TeleNFT」"
 date: 2022-01-29 10:00:00 +0800
 categories: [blog]
-tags: [NFT, 數位藝術]
+tags: [NFT, 數位藝術, 薄荷薄荷專欄]
 summary: "媒介即內容，當古老的電傳文訊技術與新媒材 NFT 交會，會迸出什麼火花？"
 ---
 +   [# 電視](https://matters.town/tags/1442-%E9%9B%BB%E8%A6%96)

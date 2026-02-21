@@ -2,7 +2,7 @@
 title: "綠藥丸網絡1：在地組織發行NFT有什麼是值得注… - 豆泥 - Matters"
 date: 2023-08-30 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/pkexlymdb17l 綠藥丸網絡1：在地組織發行NFT有什麼是值得注意的事？"
 ---
 來源：[https://matters.town/a/pkexlymdb17l](https://matters.town/a/pkexlymdb17l)
@@ -34,19 +34,3 @@ summary: "來源：https://matters.town/a/pkexlymdb17l 綠藥丸網絡1：在地
 「擁有感」比較不像是「擁有權」，而更接近知識的傳播。我們將腦中的知識帶給其他人，並不會減損我們習得這份知識的價值，就如同蠟燭的光照亮了一屋子，這些都是非競爭且非排他的公共財。當公益類別或倡議類別的 NFT 成功運轉，其擁有者雖然有限定數量，但透過轉換使用者的過程，其「擁有感」是成倍增加的。最棒的是產生的金流可以直接回饋給行動者。
 
 然為何我會敦促有餘裕的非營利行動者此時關注 NFT 數位體驗，因為當新事物比舊事物更容易創造時，歷久彌新的舊事物便會產生巨大價值，不論數位與否。這是在台灣的我，向全球 Regen 發出的初步呼籲。
-
-GreenPill
-
-Web3
-
-NFT
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-#08 - 繼續寫下去，與<GreenPill.Network>
-
-百岳計畫「我們想打造經得起時間考驗的生成藝術。」
-
-能夠永存善意的NFT：FAB DAO - 百岳計畫 Project %

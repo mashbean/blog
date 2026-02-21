@@ -2,7 +2,7 @@
 title: "Ethereum Privacy Stack 演講：抗審查真的不可或缺嗎 - 豆泥 - Matters"
 date: 2025-12-28 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/10jxa0qu0ca5 Ethereum Privacy Stack 演講：抗審查真的不可或缺嗎 抗審查真的不可或缺嗎 Is…"
 ---
 來源：[https://matters.town/a/10jxa0qu0ca5](https://matters.town/a/10jxa0qu0ca5)
@@ -211,19 +211,3 @@ Is censorship resilience truly necessary?
 人們需要它，不是因為便利，而是因為另一種選擇是沉默、自我審查，或是在流亡之中失去聲音。
 
 我想，我們今天在場所有人的使命，是確保當那一刻到來時：工具已經在、誘因已經在，而建造與使用工具的人，無論在線上或線下，都能夠活下去。
-
-平台
-
-抗審查
-
-隱私
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-和平演變抑或風暴前夜？淺談數位世代的廚房呢喃（Кухонные разговоры）
-
-以太坊、森林社與自我變革
-
-分散式身分會被資本市場的鐵拳制裁嗎？

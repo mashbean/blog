@@ -2,7 +2,7 @@
 title: "d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters"
 date: 2025-12-28 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/pl3rg4n8wk29 d/acc day Argentina 演講：維持現狀加速主義 Slow Resistance, F…"
 ---
 來源：[https://matters.town/a/pl3rg4n8wk29](https://matters.town/a/pl3rg4n8wk29)
@@ -44,19 +44,3 @@ Time is in the side of the people, who aspire for freedom.
 我個人並不相信單一科技技術的發明，就可以永遠解決社會問題、或政治問題；我更相信科技技術與政治權力息息相關，並且科技的走向並不是決定論的，需要隨時自我審視，並且調整。民主社會可能是最適合自我調適的社會體制，如果有科技能夠促進這樣的體制，那無非就是 d/acc 莫屬，我今天只分享了強化隱私的數位身分案例，但其實還有許多種技術，無論是促進數位集會（digital assembly）的技術，還是促進數位結社（digital association）的技術。
 
 許多案例都可以在台灣，或是以太坊的生態系找到。我現在正在搜集相關的案例，彙整成一篇文章，討論 Fabian Approach、非對稱、反霸權、反脆弱的技術哲學如何實踐。
-
-維持現狀
-
-去中心
-
-d acc
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-d/acc day Taipei 演講：D的意志
-
-[譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin
-
-◉戍衛轉型指南

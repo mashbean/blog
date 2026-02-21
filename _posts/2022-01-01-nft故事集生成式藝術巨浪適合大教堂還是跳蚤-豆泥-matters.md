@@ -2,7 +2,7 @@
 title: "NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤… - 豆泥 - Matters"
 date: 2022-01-01 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/2sa4j4xh0oos NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤市集？"
 ---
 來源：[https://matters.town/a/2sa4j4xh0oos](https://matters.town/a/2sa4j4xh0oos)
@@ -122,17 +122,3 @@ fxhash 平台由此進：https://www.fxhash.xyz/
 最後還是要提醒，fxhash 目前已經演化到新手難以獲利的狀態，請不要輕易砸大錢嘗試，非常不建議。但小額購買喜歡的生成式 NFT 藝術品，沒有比這裡更適合的地方。
 
 DYOR。
-
-Art
-
-NFT藝術
-
-藝術
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-NFT故事集：用程式碼畫畫賣出一億元的台灣人
-
-NFT 故事集：消失的此時此刻，是封聖還是叛徒？

@@ -2,7 +2,7 @@
 title: "為何 NFT 這麼多 Pixel Art？"
 date: 2022-03-31 10:00:00 +0800
 categories: [blog]
-tags: [數位藝術, NFT]
+tags: [數位藝術, NFT, 薄荷薄荷專欄]
 summary: "像素藝術除了已成為 NFT 世界的文化迷因，也先天適合成為 web3 原生的互動媒介。"
 ---
 +   [# pop](https://matters.town/tags/102023-pop)

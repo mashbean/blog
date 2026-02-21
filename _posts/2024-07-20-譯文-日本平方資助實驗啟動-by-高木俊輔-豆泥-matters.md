@@ -2,7 +2,7 @@
 title: "[譯文] 日本平方資助實驗啟動 by 高木俊輔 - 豆泥 - Matters"
 date: 2024-07-20 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/5r6bjckrexyx [譯文] 日本平方資助實驗啟動 by 高木俊輔 原文在 Substack 於 2024 年 7 月…"
 ---
 來源：[https://matters.town/a/5r6bjckrexyx](https://matters.town/a/5r6bjckrexyx)
@@ -134,17 +134,3 @@ English: x.com/0xcommune
 Japanese: x.com/0xtkgshn
 
 Japanese: x.com/0xtkgshn
-
-公民科技
-
-群眾募資
-
-平方募資法
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-我們成為女巫，攻擊了一個平方資助活動
-
-FAB DAO 補助讚！平方募資行動結果

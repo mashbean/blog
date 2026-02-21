@@ -2,7 +2,7 @@
 title: "流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝… - 豆泥 - Matters"
 date: 2022-10-20 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/a4vy3dd9f6j6 流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝術 流明獎 NFT 類首獎公布，得獎類型為音像藝術。"
 ---
 來源：[https://matters.town/a/a4vy3dd9f6j6](https://matters.town/a/a4vy3dd9f6j6)
@@ -50,15 +50,3 @@ Carla：「NFT 作為一種新技術，竟然是先降臨於藝術世界。電�
 HOW DO YOU JUDGE THE LUMEN PRIZE?
 
 HOW NFTS CHANGED DIGITAL ART FOREVER
-
-數位
-
-NFT review
-
-生成藝術
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-到美術館欣賞 NFT 收藏（北美館／混沌空間）

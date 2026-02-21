@@ -2,7 +2,7 @@
 title: "我眼中的 Matters - 豆泥 - Matters"
 date: 2025-12-30 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/vhzitynih7lr 我眼中的 Matters 最近在台灣，Privilege（翻為特權，但我更喜歡翻為福氣）在河道上被大…"
 ---
 來源：[https://matters.town/a/vhzitynih7lr](https://matters.town/a/vhzitynih7lr)
@@ -112,17 +112,3 @@ Matters 或許一直都不是一個以獲利最大化為目標的超級市場，
 若但凡有一點可能，讓我們知道社群平台不一定非得是超級市場，我想這就是 Matters 存在的意義吧。
 
 公共廣場的想像已經遙遠，2026 或許是重新討論人們需要什麼數位平台的好時刻。
-
-Long live matters.
-
-社群平台
-
-Matters
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-馬特市旅遊短記．一名數位觀光客的凝視
-
-從馬特市到行星，雖然 Google 導航很方便，但紙本地圖有時也很重要。

@@ -2,7 +2,7 @@
 title: "去中心身分（DID）標準制定組織（SDO）總覽 - 豆泥 - Matters"
 date: 2024-05-21 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/re2j91fedsrz 去中心身分（DID）標準制定組織（SDO）總覽 這半年掉進了去中心身分（Decetralised I…"
 ---
 來源：[https://matters.town/a/re2j91fedsrz](https://matters.town/a/re2j91fedsrz)
@@ -54,17 +54,3 @@ B-2 其他數位皮夾服務（相對分散）
 最後有關數位身分的區域級或產業型組織也包含推進數位身分的IDPRO、加拿大數位身分認證委員會（Digital ID & Authentication Council of Canada, DIACC）、非洲身分（ID for Africa）、歐盟區塊鏈服務基礎架構（EBSI）、探討快速登入與行動密鑰標準的FIDO Alliance、全球可驗證身分網絡（Global Assured Identity Network, GAIN）、全球法人識別符基金會（Global Legal Entity Identifier Foundation, GLEIF）、開放身分交換組織（The Open Identity Exchange, OIX）等。這些組織與聯合國相關組織如發展署（UNDP）、兒童基金會（UNICEF）、國際飛航組織或G20都曾有合作專案。更多有關分散式身分之新創企業與大型平台內部創新專案，過於龐雜便不在此贅述。
 
 以上只是從既有組織淺談目前的去中心身分生態系，有興趣的朋友很適合去各個組織檢視他們所提出的標準文件或白皮書，甚至可以直接加入他們每週固定的線上討論，由於在產業初期，多數貢獻者是樂意擁抱開放討論的精神。個人是相信在未來數年內，相關科技是會進入成熟階段的，畢竟忘了哪一個網路先賢曾經說過「網路從一開始被發明就忘了把身分的概念放進去。」
-
-數位身分
-
-去中心化
-
-DID
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-[譯文] 皮夾戰爭，或是協作皮夾生態系？
-
-[譯文] 人工智慧與民主的數位身分危機

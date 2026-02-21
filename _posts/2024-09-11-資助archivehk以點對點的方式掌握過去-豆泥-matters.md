@@ -2,7 +2,7 @@
 title: "資助「ArchiveHK」，以點對點的方式掌握過去 - 豆泥 - Matters"
 date: 2024-09-11 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/iq3xsqvzcvv9 資助「ArchiveHK」，以點對點的方式掌握過去 這是最糟的時代，香港的言論自由正在被抹滅，意識形…"
 ---
 來源：[https://matters.town/a/iq3xsqvzcvv9](https://matters.town/a/iq3xsqvzcvv9)
@@ -36,15 +36,3 @@ summary: "來源：https://matters.town/a/iq3xsqvzcvv9 資助「ArchiveHK」，�
 香港民間檔案館：捐款連結 Giveth
 
 香港民間檔案館：捐款連結 Giveth
-
-香港民間檔案館 Linktree
-
-香港民間檔案館 Linktree
-
-自由
-
-圖書館
-
-平方募資法
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！

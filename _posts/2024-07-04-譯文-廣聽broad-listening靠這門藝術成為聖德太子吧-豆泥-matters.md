@@ -2,7 +2,7 @@
 title: "[譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 - 豆泥 - Matters"
 date: 2024-07-04 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/nbf6mvnyq7j8 [譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 給日本以外的讀者前情提要…"
 ---
 來源：[https://matters.town/a/nbf6mvnyq7j8](https://matters.town/a/nbf6mvnyq7j8)
@@ -96,17 +96,3 @@ LLM 也可以用於建議報告，如上文宣言所述。具體來說，我使�
 在本文中，我們討論了「廣聽」及其特定工具之一「我城對談」。如果您有任何意見、想法或問題，請在AI安野和回饋頁面告訴我們。
 
 另外，如果您能將這個想法傳播給您的家人和熟人，我將不勝感激。
-
-youtu.be/WMcF6Ujrn2U
-
-東京
-
-AI
-
-審議式民主
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-初探 Polis 2.0：邁向關鍵評論網絡

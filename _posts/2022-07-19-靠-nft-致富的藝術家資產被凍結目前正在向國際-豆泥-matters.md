@@ -2,7 +2,7 @@
 title: "靠 NFT 致富的藝術家資產被凍結，目前正在向國際… - 豆泥 - Matters"
 date: 2022-07-19 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/2tzkohv11vda 靠 NFT 致富的藝術家資產被凍結，目前正在向國際求救 享譽國際的生成藝術家 Shvembldr 其…"
 ---
 來源：[https://matters.town/a/2tzkohv11vda](https://matters.town/a/2tzkohv11vda)
@@ -62,9 +62,3 @@ Shvembldr 的文章除了詳細交代他與警察周旋之外，也寫了他是�
 網站連結：「Art is Crime」
 
 聲援 Shvembdlr：Twitter
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-NFT故事集：登上萬神殿之後，王新仁的2021奮鬥史

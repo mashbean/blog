@@ -2,7 +2,7 @@
 title: "我們如何鑄造光？＿NFT 如何成為美術群眾參與的新… - 豆泥 - Matters"
 date: 2022-06-07 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/mdkyaniiloh3 我們如何鑄造光？"
 ---
 來源：[https://matters.town/a/mdkyaniiloh3](https://matters.town/a/mdkyaniiloh3)
@@ -154,17 +154,3 @@ Kng NFT 約有四成兌換率，以圖錄兌換而言，有超出我的想像。
 （全文完）
 
 此文獻給 MoNTUE 工作團隊與兩位導演。
-
-甘露水
-
-美術館
-
-NFT
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-光與甘露水 1｜NFT 如何成為美術館群眾參與的新媒介？
-
-103 | 林曼麗與〈甘露水〉：我從來不敢想像她真的會現身

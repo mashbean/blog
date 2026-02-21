@@ -2,7 +2,7 @@
 title: "ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？ - 豆泥 - Matters"
 date: 2025-06-18 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported]
+tags: [matters, imported, 薄荷薄荷專欄]
 summary: "來源：https://matters.town/a/gnw9mvy3x88o ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？"
 ---
 來源：[https://matters.town/a/gnw9mvy3x88o](https://matters.town/a/gnw9mvy3x88o)
@@ -100,15 +100,3 @@ BNS 之所以做不到，是因為 BNS 立足在「去信任」的區塊鏈網�
 文章談及 DNS 與 BNS 各自脈絡，得出域名（web1.0）與區塊鏈（web3）的平行宇宙短期內難以融合的結論。但隨著穩定幣業者成為新金融體系的破壞者，他們可能成為下一波頂級域名競標中意料之外的參與者。未來的網域可能不只是網路治理的數位身分，也有可能成為可信賴的金融治理，為全球支付帶來新典範。
 
 到時候 BNS 就是 Bank Name Service 了。btw，這一點也不去中心化，但總覺得就是會這樣。
-
-DNS
-
-ICANN
-
-喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
-
-關聯作品
-
-參與 ICANN82 隨筆：網路與治理
-
-【ICANN APAC-TWNIC 演講】分享去中心化域名
