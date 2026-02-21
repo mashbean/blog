@@ -10,6 +10,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "postbuild": "node scripts/postbuild-search.mjs",
+    "build:pagefind": "pagefind --site dist --glob \"**/*.html\"",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "npm run check && npm run format:check",

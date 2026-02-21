@@ -2,223 +2,193 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { withBase } from "@/utils/paths";
 
-const searchIndexUrl = withBase("search-index.json");
+const pagefindScriptUrl = withBase("pagefind/pagefind-ui.js");
+const pagefindStyleUrl = withBase("pagefind/pagefind-ui.css");
+const fallbackIndexUrl = withBase("search-index.json");
 ---
 
 <BaseLayout title="全站搜尋" description="搜尋站內文章與頁面內容。">
   <h1 class="section-title">全站搜尋</h1>
-  <p>輸入標題、標籤、摘要或內文關鍵字，快速找到目標內容。</p>
+  <p>輸入關鍵字快速搜尋全站文章。提示：按 <kbd>Cmd/Ctrl</kbd> + <kbd>K</kbd> 可快速開啟本頁。</p>
 
   <section class="search-panel" aria-label="全站搜尋工具">
-    <form id="site-search-form" class="search-form" role="search">
-      <label for="site-search-input">搜尋關鍵字</label>
-      <div class="search-form-row">
-        <input
-          id="site-search-input"
-          type="search"
-          inputmode="search"
-          autocomplete="off"
-          placeholder="例如：隱私、Matters、d/acc、2024"
-        />
-        <button type="submit" class="nav-link">搜尋</button>
-      </div>
-    </form>
-    <p class="search-help">提示：可用空白分隔多個關鍵字。</p>
-    <p id="site-search-status" class="search-status" aria-live="polite">準備搜尋索引中...</p>
-    <ul id="site-search-results" class="search-results"></ul>
+    <p id="pagefind-status" class="search-status" aria-live="polite">準備載入搜尋索引中...</p>
+    <div id="pagefind-search"></div>
+    <div id="search-fallback" class="search-fallback" hidden>
+      <form id="site-search-form" class="search-form" role="search">
+        <label for="site-search-input">搜尋關鍵字</label>
+        <div class="search-form-row">
+          <input
+            id="site-search-input"
+            type="search"
+            inputmode="search"
+            autocomplete="off"
+            placeholder="例如：隱私、Matters、d/acc、2024"
+          />
+          <button type="submit" class="nav-link">搜尋</button>
+        </div>
+      </form>
+      <p class="search-help">目前使用 fallback 搜尋模式，可正常搜尋標題、摘要與部分內文。</p>
+      <ul id="site-search-results" class="search-results"></ul>
+    </div>
   </section>
 </BaseLayout>
 
-<script is:inline define:vars={{ searchIndexUrl }}>
-  const form = document.querySelector("#site-search-form");
-  const input = document.querySelector("#site-search-input");
-  const status = document.querySelector("#site-search-status");
-  const results = document.querySelector("#site-search-results");
+<script is:inline define:vars={{ pagefindScriptUrl, pagefindStyleUrl, fallbackIndexUrl }}>
+  const status = document.querySelector("#pagefind-status");
+  const searchRoot = document.querySelector("#pagefind-search");
+  const query = new URLSearchParams(window.location.search).get("q") ?? "";
+  const fallbackRoot = document.querySelector("#search-fallback");
+  const fallbackForm = document.querySelector("#site-search-form");
+  const fallbackInput = document.querySelector("#site-search-input");
+  const fallbackResults = document.querySelector("#site-search-results");
 
-  let docs = [];
-  let loaded = false;
+  const loadScript = (src) =>
+    new Promise((resolve, reject) => {
+      const tag = document.createElement("script");
+      tag.src = src;
+      tag.async = true;
+      tag.onload = () => resolve(true);
+      tag.onerror = () => reject(new Error(`Unable to load ${src}`));
+      document.head.appendChild(tag);
+    });
+
+  const loadStylesheet = (href) => {
+    if (document.querySelector(`link[data-pagefind=\"${href}\"]`)) return;
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = href;
+    link.dataset.pagefind = href;
+    document.head.appendChild(link);
+  };
 
   const normalize = (value) => value.toLocaleLowerCase("zh-TW").normalize("NFKC").trim();
   const tokenize = (value) => normalize(value).split(/\s+/).filter(Boolean);
 
-  const getDocText = (doc) =>
-    `${doc.title ?? ""} ${doc.description ?? ""} ${doc.content ?? ""} ${(doc.tags ?? []).join(" ")}`
-      .replace(/\s+/g, " ")
-      .trim();
+  const runFallbackSearch = async () => {
+    fallbackRoot.hidden = false;
 
-  const getSnippet = (doc, query) => {
-    const source = getDocText(doc);
-    if (!source) return "";
-
-    const queryNorm = normalize(query);
-    if (!queryNorm) return source.slice(0, 120);
-
-    const sourceNorm = normalize(source);
-    const index = sourceNorm.indexOf(queryNorm);
-    if (index < 0) return source.slice(0, 120);
-
-    const start = Math.max(0, index - 36);
-    const end = Math.min(source.length, index + query.length + 64);
-
-    let snippet = source.slice(start, end);
-    if (start > 0) snippet = `...${snippet}`;
-    if (end < source.length) snippet = `${snippet}...`;
-    return snippet;
-  };
-
-  const scoreDoc = (doc, tokens) => {
-    const title = normalize(doc.title ?? "");
-    const description = normalize(doc.description ?? "");
-    const content = normalize(doc.content ?? "");
-    const tagText = normalize((doc.tags ?? []).join(" "));
-
-    let score = 0;
-    let matched = 0;
-
-    for (const token of tokens) {
-      let tokenMatched = false;
-
-      if (title.includes(token)) {
-        score += 80;
-        tokenMatched = true;
-      }
-      if (description.includes(token)) {
-        score += 36;
-        tokenMatched = true;
-      }
-      if (tagText.includes(token)) {
-        score += 28;
-        tokenMatched = true;
-      }
-      if (content.includes(token)) {
-        score += 10;
-        tokenMatched = true;
-      }
-
-      if (tokenMatched) matched += 1;
-    }
-
-    if (matched === 0) return -1;
-    if (doc.type === "post") score += 6;
-    return score;
-  };
-
-  const renderResults = (items, query) => {
-    results.innerHTML = "";
-
-    if (!query) {
-      status.textContent = "請輸入關鍵字開始搜尋。";
-      return;
-    }
-
-    if (items.length === 0) {
-      status.textContent = "找不到符合的結果。";
-      return;
-    }
-
-    status.textContent = `找到 ${items.length} 筆結果。`;
-
-    for (const item of items) {
-      const li = document.createElement("li");
-      li.className = "search-result-item";
-
-      const top = document.createElement("div");
-      top.className = "search-result-top";
-
-      const link = document.createElement("a");
-      link.className = "search-result-link";
-      link.href = item.url;
-      link.textContent = item.title;
-
-      const meta = document.createElement("span");
-      meta.className = "search-result-meta";
-      meta.textContent = item.type === "post" ? "文章" : "頁面";
-      if (item.pubDate) {
-        const date = item.pubDate.slice(0, 10).replace(/-/g, "/");
-        meta.textContent += ` · ${date}`;
-      }
-
-      top.append(link, meta);
-      li.appendChild(top);
-
-      const snippetText = getSnippet(item, query);
-      if (snippetText) {
-        const snippet = document.createElement("p");
-        snippet.className = "search-result-snippet";
-        snippet.textContent = snippetText;
-        li.appendChild(snippet);
-      }
-
-      results.appendChild(li);
-    }
-  };
-
-  const search = (query) => {
-    const trimmedQuery = query.trim();
-    const tokens = tokenize(trimmedQuery);
-    if (tokens.length === 0) {
-      renderResults([], "");
-      return;
-    }
-
-    const ranked = docs
-      .map((doc) => ({ doc, score: scoreDoc(doc, tokens) }))
-      .filter((item) => item.score > 0)
-      .sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        const aDate = a.doc.pubDate ?? "";
-        const bDate = b.doc.pubDate ?? "";
-        if (bDate !== aDate) return bDate.localeCompare(aDate);
-        return a.doc.title.localeCompare(b.doc.title, "zh-TW");
-      })
-      .slice(0, 120)
-      .map((item) => item.doc);
-
-    renderResults(ranked, trimmedQuery);
-  };
-
-  const updateQueryInURL = (query) => {
-    const url = new URL(window.location.href);
-    if (query) {
-      url.searchParams.set("q", query);
-    } else {
-      url.searchParams.delete("q");
-    }
-    window.history.replaceState({}, "", url.toString());
-  };
-
-  const loadIndex = async () => {
+    let docs = [];
     try {
-      const res = await fetch(searchIndexUrl, { headers: { accept: "application/json" } });
+      const res = await fetch(fallbackIndexUrl, { headers: { accept: "application/json" } });
       if (!res.ok) throw new Error(`Load failed: ${res.status}`);
       docs = await res.json();
-      loaded = true;
-      status.textContent = "請輸入關鍵字開始搜尋。";
+      status.textContent = "Pagefind 尚未啟用，已切換為 fallback 搜尋。";
     } catch (error) {
-      status.textContent = "搜尋索引載入失敗，請稍後重試。";
-      console.error("[site-search] load index failed:", error);
+      status.textContent = "搜尋索引載入失敗，請稍後再試。";
+      console.error("[search-fallback] load index failed:", error);
+      return;
     }
+
+    const scoreDoc = (doc, tokens) => {
+      const text = normalize(
+        `${doc.title ?? ""} ${doc.description ?? ""} ${doc.content ?? ""} ${(doc.tags ?? []).join(" ")}`
+      );
+      let score = 0;
+      for (const token of tokens) {
+        if (text.includes(token)) score += 1;
+      }
+      return score;
+    };
+
+    const renderResults = (items, q) => {
+      fallbackResults.innerHTML = "";
+      if (!q) return;
+      if (items.length === 0) {
+        fallbackResults.innerHTML = `<li class="search-result-item">找不到符合的結果。</li>`;
+        return;
+      }
+
+      for (const item of items) {
+        const li = document.createElement("li");
+        li.className = "search-result-item";
+        li.innerHTML = `
+          <div class="search-result-top">
+            <a class="search-result-link" href="${item.url}">${item.title}</a>
+            <span class="search-result-meta">${item.type === "post" ? "文章" : "頁面"}</span>
+          </div>
+          <p class="search-result-snippet">${item.description ?? ""}</p>
+        `;
+        fallbackResults.appendChild(li);
+      }
+    };
+
+    const search = (q) => {
+      const tokens = tokenize(q);
+      if (tokens.length === 0) {
+        renderResults([], "");
+        return;
+      }
+
+      const ranked = docs
+        .map((doc) => ({ doc, score: scoreDoc(doc, tokens) }))
+        .filter((item) => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 120)
+        .map((item) => item.doc);
+
+      renderResults(ranked, q);
+    };
+
+    fallbackForm?.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const q = fallbackInput?.value.trim() ?? "";
+      search(q);
+    });
+
+    fallbackInput?.addEventListener("input", () => {
+      const q = fallbackInput.value.trim();
+      search(q);
+    });
+
+    if (fallbackInput) {
+      fallbackInput.value = query;
+      fallbackInput.focus();
+    }
+    search(query);
   };
 
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const query = input?.value.trim() ?? "";
-    updateQueryInURL(query);
-    search(query);
-  });
-
-  input?.addEventListener("input", () => {
-    const query = input.value.trim();
-    updateQueryInURL(query);
-    search(query);
-  });
-
   (async () => {
-    await loadIndex();
-    if (!loaded) return;
+    try {
+      loadStylesheet(pagefindStyleUrl);
+      await loadScript(pagefindScriptUrl);
+      if (!window.PagefindUI || !searchRoot) throw new Error("PagefindUI unavailable");
 
-    const initialQuery = new URLSearchParams(window.location.search).get("q") ?? "";
-    if (input) input.value = initialQuery;
-    search(initialQuery);
+      const ui = new window.PagefindUI({
+        element: "#pagefind-search",
+        showSubResults: true,
+        showImages: false,
+        excerptLength: 16,
+        resetStyles: false,
+        translations: {
+          placeholder: "輸入關鍵字搜尋文章",
+          clear_search: "清除搜尋",
+          load_more: "載入更多結果",
+          search_label: "搜尋站內內容",
+          zero_results: "找不到符合的結果",
+          many_results: "[COUNT] 筆結果",
+          one_result: "[COUNT] 筆結果",
+          searching: "搜尋中..."
+        }
+      });
+
+      status.textContent = "搜尋索引已載入，開始搜尋吧。";
+
+      if (query) {
+        await ui.triggerSearch(query);
+      }
+
+      setTimeout(() => {
+        const input = document.querySelector(".pagefind-ui__search-input");
+        if (input instanceof HTMLInputElement) {
+          if (query) input.value = query;
+          input.focus();
+        }
+      }, 0);
+    } catch (error) {
+      console.warn("[pagefind] init failed, falling back to JSON search:", error);
+      await runFallbackSearch();
+      console.error("[pagefind] init failed:", error);
+    }
   })();
 </script>

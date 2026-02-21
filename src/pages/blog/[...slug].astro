@@ -18,7 +18,8 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props as { post: CollectionEntry<"blog"> };
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
+const allPosts = await getBlogPosts();
 
 const coverSrc =
   post.data.cover && /^https?:\/\//.test(post.data.cover)
@@ -28,6 +29,69 @@ const coverSrc =
       : undefined;
 
 const canonicalURL = post.data.canonicalURL;
+const pageURL = canonicalURL ??
+  (Astro.site ? new URL(buildPostUrl(post), Astro.site).toString() : buildPostUrl(post));
+
+const coverURL = coverSrc
+  ? /^https?:\/\//.test(coverSrc)
+    ? coverSrc
+    : Astro.site
+      ? new URL(coverSrc, Astro.site).toString()
+      : coverSrc
+  : undefined;
+
+const readingMinutes = (() => {
+  const plain = (post.body ?? "")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ");
+  const latinWords = (plain.match(/[A-Za-z0-9_]+/g) ?? []).length;
+  const cjkChars = (plain.match(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u30FF]/g) ?? []).length;
+  const mixedWordCount = latinWords + cjkChars / 2;
+  return Math.max(1, Math.round(mixedWordCount / 220));
+})();
+
+const tocHeadings = headings.filter((item) => item.depth === 2 || item.depth === 3);
+
+const currentIndex = allPosts.findIndex((item) => item.id === post.id);
+const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const olderPost = currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+const relatedPosts = allPosts
+  .filter((item) => item.id !== post.id)
+  .map((item) => {
+    const sharedTags = item.data.tags.filter((tag) => post.data.tags.includes(tag));
+    const sameCategory =
+      post.data.category && item.data.category && post.data.category === item.data.category;
+    const closeYear =
+      Math.abs(item.data.pubDate.getFullYear() - post.data.pubDate.getFullYear()) <= 1;
+    const score = sharedTags.length * 4 + (sameCategory ? 2 : 0) + (closeYear ? 1 : 0);
+    return { item, score };
+  })
+  .filter((entry) => entry.score > 0)
+  .sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    return b.item.data.pubDate.getTime() - a.item.data.pubDate.getTime();
+  })
+  .slice(0, 4)
+  .map((entry) => entry.item);
+
+const articleStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.data.title,
+  description: post.data.description,
+  inLanguage: post.data.lang ?? "zh-TW",
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  author: {
+    "@type": "Person",
+    name: post.data.author ?? "Mashbean"
+  },
+  mainEntityOfPage: pageURL,
+  image: coverURL ? [coverURL] : undefined
+};
 ---
 
 <BaseLayout
@@ -36,47 +100,102 @@ const canonicalURL = post.data.canonicalURL;
   canonicalURL={canonicalURL}
   ogImage={post.data.cover}
   ogType="article"
+  structuredData={articleStructuredData}
+  isArticle={true}
 >
-  <article>
-    <header class="article-header">
-      <h1 class="article-title">{post.data.title}</h1>
-      <p class="article-meta">
-        發布：
-        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-        {
-          post.data.updatedDate && (
-            <>
-              {" · 更新："}
-              <time datetime={post.data.updatedDate.toISOString()}>
-                {formatDate(post.data.updatedDate)}
-              </time>
-            </>
-          )
-        }
-        {post.data.draft && !import.meta.env.PROD && " · 草稿"}
-      </p>
+  <article class="article-layout">
+    <div class="article-main">
+      <header class="article-header">
+        <h1 class="article-title">{post.data.title}</h1>
+        <p class="article-meta">
+          發布：
+          <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+          {" · 約 "}
+          {readingMinutes}
+          {" 分鐘閱讀"}
+          {
+            post.data.updatedDate && (
+              <>
+                {" · 更新："}
+                <time datetime={post.data.updatedDate.toISOString()}>
+                  {formatDate(post.data.updatedDate)}
+                </time>
+              </>
+            )
+          }
+          {post.data.draft && !import.meta.env.PROD && " · 草稿"}
+        </p>
 
-      {post.data.tags.length > 0 && (
-        <ul class="tag-list" aria-label="文章標籤">
-          {post.data.tags.map((tag) => <li class="tag-list-item">{tag}</li>)}
-        </ul>
+        {post.data.tags.length > 0 && (
+          <ul class="tag-list" aria-label="文章標籤">
+            {post.data.tags.map((tag) => <li class="tag-list-item">{tag}</li>)}
+          </ul>
+        )}
+      </header>
+
+      {coverSrc && (
+        <figure class="article-cover">
+          <img src={coverSrc} alt={post.data.coverAlt ?? post.data.title} loading="lazy" />
+        </figure>
       )}
-    </header>
 
-    {coverSrc && (
-      <figure class="article-cover">
-        <img src={coverSrc} alt={post.data.coverAlt ?? post.data.title} loading="lazy" />
-      </figure>
-    )}
+      <div class="article-prose">
+        <Content />
+      </div>
 
-    <div class="article-prose">
-      <Content />
+      <nav class="article-pagination" aria-label="文章導覽">
+        <div>
+          <small>較新文章</small>
+          {newerPost ? (
+            <a href={buildPostUrl(newerPost)}>{newerPost.data.title}</a>
+          ) : (
+            <span>目前已是最新</span>
+          )}
+        </div>
+        <div>
+          <small>較舊文章</small>
+          {olderPost ? (
+            <a href={buildPostUrl(olderPost)}>{olderPost.data.title}</a>
+          ) : (
+            <span>目前已是最舊</span>
+          )}
+        </div>
+      </nav>
+
+      {relatedPosts.length > 0 && (
+        <section class="related-posts" aria-label="相關文章">
+          <h2>相關文章</h2>
+          <ul class="post-list-compact">
+            {relatedPosts.map((item) => (
+              <li class="post-list-compact-item">
+                <a class="post-list-compact-link" href={buildPostUrl(item)}>{item.data.title}</a>
+                <small class="post-list-compact-date">({formatDate(item.data.pubDate)})</small>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <p style="margin-top: 1.4rem;">
+        <a href={withBase("blog/")}>← 回文章列表</a>
+        {" · "}
+        <a href={buildPostUrl(post)}>本頁固定連結</a>
+      </p>
     </div>
 
-    <p style="margin-top: 1.4rem;">
-      <a href={withBase("blog/")}>← 回文章列表</a>
-      {" · "}
-      <a href={buildPostUrl(post)}>本頁固定連結</a>
-    </p>
+    {tocHeadings.length > 0 && (
+      <aside class="article-sidebar" aria-label="文章目錄">
+        <div class="toc-card">
+          <h2>目錄</h2>
+          <ol class="toc-list">
+            {tocHeadings.map((item) => (
+              <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
+                <a href={`#${item.slug}`}>{item.text}</a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
+    )}
   </article>
 </BaseLayout>

@@ -103,9 +103,7 @@ export const GET: APIRoute = async () => {
     };
   });
 
-  const payload = [...staticPages, ...postDocs];
-
-  return new Response(JSON.stringify(payload), {
+  return new Response(JSON.stringify([...staticPages, ...postDocs]), {
     headers: {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "public, max-age=600"

@@ -36,7 +36,7 @@ const yearSections = Array.from(yearMap.entries())
     ) : (
       <>
         <p id="year-nav" style="margin: 0.8rem 0 0.2rem;">快速導覽：先選年份，再看該年份內所有文章。</p>
-        <div class="tag-filter-grid">
+        <div class="tag-filter-grid year-filter-grid">
           {
             yearSections.map((section) => (
               <a class="tag-filter-chip" href={`#${section.id}`} aria-label={`${section.year} 年，共 ${section.count} 篇`}>
