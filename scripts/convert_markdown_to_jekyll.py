@@ -12,6 +12,7 @@ DATE_IN_NAME = re.compile(
 FRONT_MATTER_DATE = re.compile(r"^date\s*:\s*(.+)$", re.IGNORECASE)
 FRONT_MATTER_TITLE = re.compile(r"^title\s*:\s*(.+)$", re.IGNORECASE)
 HEADING = re.compile(r"^\s*#\s+(.+?)\s*$")
+JEKYLL_POST_NAME = re.compile(r"^\d{4}-\d{2}-\d{2}-.+\.md$", re.IGNORECASE)
 
 
 def stem_without_leading_date(stem: str) -> str:
@@ -53,6 +54,11 @@ def parse_args() -> argparse.Namespace:
         "--dry-run",
         action="store_true",
         help="Show planned changes without writing files.",
+    )
+    parser.add_argument(
+        "--include-jekyll",
+        action="store_true",
+        help="Also process files already named like Jekyll posts (default: skip).",
     )
     return parser.parse_args()
 
@@ -214,6 +220,11 @@ def main() -> int:
     skipped = 0
 
     for src in files:
+        if not args.include_jekyll and JEKYLL_POST_NAME.match(src.name):
+            print(f"[SKIP] already-jekyll-name: {src}")
+            skipped += 1
+            continue
+
         text = src.read_text(encoding="utf-8")
         front, body = split_front_matter(text)
         title = extract_title(front, body, src)
