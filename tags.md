@@ -10,11 +10,11 @@ permalink: /tags/
   {% for item in site.data.tag_catalog %}
     {% assign posts = site.tags[item.key] %}
     {% assign count = posts | size %}
-    <a class="tag-filter-chip" href="#{{ item.key | slugify }}">
+    <div class="tag-filter-chip" role="status" aria-label="{{ item.title }} 共 {{ count }} 篇">
       <span class="tag-chip-icon" aria-hidden="true">{{ item.icon | default: "🏷" }}</span>
       <span>{{ item.title }}</span>
       <strong>{{ count }}</strong>
-    </a>
+    </div>
   {% endfor %}
 </div>
 
@@ -33,7 +33,6 @@ permalink: /tags/
         <li>
           <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
           <small>({{ post.date | date: "%Y-%m-%d" }})</small>
-          {% include tag-chips.html tags=post.tags %}
         </li>
       {% endfor %}
     </ul>
