@@ -14,7 +14,16 @@ export default defineConfig({
   build: {
     format: "directory"
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) => {
+        const pathname = new URL(page).pathname;
+        const segments = pathname.split("/").filter(Boolean);
+        if (segments[0] !== "blog") return true;
+        return segments.length === 3 && /^\d{4}$/.test(segments[1]);
+      }
+    })
+  ],
   vite: {
     plugins: [tailwindcss()]
   },

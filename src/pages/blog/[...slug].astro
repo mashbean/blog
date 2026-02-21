@@ -1,7 +1,7 @@
 ---
 import { render, type CollectionEntry } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { buildPostUrl, getBlogPosts, getPostCanonicalPathSegment, getPostPathCandidates } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 
@@ -11,13 +11,19 @@ export async function getStaticPaths() {
     includeFuture: !import.meta.env.PROD
   });
 
-  return posts.map((post) => ({
-    params: { slug: post.id },
-    props: { post }
-  }));
+  return posts.flatMap((post) => {
+    const canonical = getPostCanonicalPathSegment(post);
+    return getPostPathCandidates(post).map((segment) => ({
+      params: { slug: segment },
+      props: { post, isLegacyPath: segment !== canonical }
+    }));
+  });
 }
 
-const { post } = Astro.props as { post: CollectionEntry<"blog"> };
+const { post, isLegacyPath = false } = Astro.props as {
+  post: CollectionEntry<"blog">;
+  isLegacyPath?: boolean;
+};
 const { Content, headings } = await render(post);
 const allPosts = await getBlogPosts();
 
@@ -100,9 +106,20 @@ const articleStructuredData = {
   canonicalURL={canonicalURL}
   ogImage={post.data.cover}
   ogType="article"
-  structuredData={articleStructuredData}
-  isArticle={true}
+  structuredData={isLegacyPath ? null : articleStructuredData}
+  isArticle={!isLegacyPath}
+  noindex={isLegacyPath}
 >
+  {
+    isLegacyPath ? (
+      <section class="subscribe-panel">
+        <h1 class="section-title" style="margin-top: 0;">文章網址已更新</h1>
+        <p>你目前在舊連結，我們會自動導向新網址。</p>
+        <p>
+          若未自動跳轉，請點這裡：<a href={buildPostUrl(post)}>{buildPostUrl(post)}</a>
+        </p>
+      </section>
+    ) : (
   <article class="article-layout">
     <div class="article-main">
       <header class="article-header">
@@ -216,4 +233,16 @@ const articleStructuredData = {
       </aside>
     )}
   </article>
+    )
+  }
 </BaseLayout>
+
+{
+  isLegacyPath && (
+    <script is:inline define:vars={{ canonicalPath: buildPostUrl(post) }}>
+      if (window.location.pathname !== canonicalPath) {
+        window.location.replace(canonicalPath);
+      }
+    </script>
+  )
+}

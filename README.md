@@ -2,6 +2,42 @@
 
 這個專案採用 GitHub Pages 原生支援的 Jekyll，幾乎零設定即可上線。
 
+## Astro 站點補充（現行）
+
+### 啟用 Pagefind
+
+1. 安裝依賴（本專案已含）：
+
+```bash
+npm install
+```
+
+2. 本機建置時會自動產生索引：
+
+```bash
+npm run build
+```
+
+3. 檢查是否成功：
+   - 有 `dist/pagefind/` 目錄即代表索引已生成。
+   - 若缺少 Pagefind binary，會自動回退到 JSON fallback 搜尋。
+
+4. GitHub Actions 啟用重點：
+   - workflow 必須跑 `npm ci` + `npm run build`
+   - 不要跳過 `postbuild`（Pagefind 在 postbuild 執行）
+
+### 文章網址規則（SEO）
+
+- Canonical URL：`/blog/{year}/{monthday}-{slug}/`
+- 例如：`/blog/2025/0821-did-wallet/`
+- 舊網址 `/blog/{legacy-id}/` 仍保留可讀（頁面標記 noindex，canonical 指向新網址）
+
+### 縮圖策略
+
+- 有 `cover`：直接顯示文章縮圖（卡片與 Open Graph 優先使用）
+- 無 `cover`：卡片使用可讀 fallback（分類 + 標題），不留空白
+- 全站社群預覽圖 fallback：`/images/og-image.png`
+
 ## 1) 建立 GitHub Repo
 
 1. 到 GitHub 右上角 `+` -> `New repository`

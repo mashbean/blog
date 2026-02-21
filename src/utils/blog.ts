@@ -24,6 +24,56 @@ export async function getBlogPosts(options: GetBlogPostsOptions = {}): Promise<B
     .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 }
 
+function normalizeSlug(input: string): string {
+  return input
+    .normalize("NFKC")
+    .trim()
+    .toLocaleLowerCase("zh-TW")
+    .replace(/[/\\]+/g, "-")
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^\p{Letter}\p{Number}-]+/gu, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function stripLegacyPartsFromId(id: string): string {
+  return id
+    .replace(/^\d{4}-\d{2}-\d{2}-/, "")
+    .replace(/-(豆泥-matters|matters|artouch|medium)$/iu, "")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function shortenSlug(input: string, maxLength = 52): string {
+  if (input.length <= maxLength) return input;
+  const trimmed = input.slice(0, maxLength).replace(/-+$/g, "");
+  const withoutTailToken = trimmed.replace(/-[^-]+$/g, "");
+  return (withoutTailToken || trimmed).replace(/-+$/g, "");
+}
+
+function pad2(value: number): string {
+  return String(value).padStart(2, "0");
+}
+
+export function getPostCanonicalPathSegment(post: BlogEntry): string {
+  const year = post.data.pubDate.getFullYear();
+  const monthDay = `${pad2(post.data.pubDate.getMonth() + 1)}${pad2(post.data.pubDate.getDate())}`;
+  const rawSlug = post.data.slug ?? stripLegacyPartsFromId(post.id);
+  const normalized = shortenSlug(normalizeSlug(rawSlug));
+  const slug = normalized || "post";
+  return `${year}/${monthDay}-${slug}`;
+}
+
+export function getLegacyPostPathSegment(post: BlogEntry): string {
+  return post.id;
+}
+
+export function getPostPathCandidates(post: BlogEntry): string[] {
+  const canonical = getPostCanonicalPathSegment(post);
+  const legacy = getLegacyPostPathSegment(post);
+  return canonical === legacy ? [canonical] : [canonical, legacy];
+}
+
 export function buildPostUrl(post: BlogEntry): string {
-  return withBase(`blog/${post.id}/`);
+  return withBase(`blog/${getPostCanonicalPathSegment(post)}/`);
 }

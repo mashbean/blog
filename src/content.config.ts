@@ -17,7 +17,8 @@ const blog = defineCollection({
     canonicalURL: z.string().url().optional(),
     author: z.string().optional(),
     series: z.string().optional(),
-    seriesOrder: z.number().int().positive().optional()
+    seriesOrder: z.number().int().positive().optional(),
+    slug: z.string().optional()
   })
 });
 

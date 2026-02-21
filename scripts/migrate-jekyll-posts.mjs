@@ -28,7 +28,8 @@ const KNOWN_KEYS = new Set([
   "author",
   "series",
   "seriesOrder",
-  "series_order"
+  "series_order",
+  "slug"
 ]);
 
 function parseArgs(argv) {
@@ -136,6 +137,22 @@ function toOptionalNumber(value, warnings, fieldName) {
     return undefined;
   }
   return parsed;
+}
+
+function inferSlugFromPermalink(permalink) {
+  const raw = asString(permalink);
+  if (!raw) return undefined;
+  const cleaned = raw.split("?")[0].replace(/\/+$/g, "");
+  const parts = cleaned.split("/").filter(Boolean);
+  const tail = parts.at(-1);
+  if (!tail) return undefined;
+  return tail
+    .normalize("NFKC")
+    .toLocaleLowerCase("zh-TW")
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^\p{Letter}\p{Number}-]+/gu, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 function parseScalar(raw) {
@@ -316,13 +333,21 @@ function mapFrontmatter(frontmatter, sourcePath, body, warnings) {
     warnings,
     "seriesOrder"
   );
+  let slug = asString(frontmatter.slug);
 
   if (frontmatter.layout) {
     warnings.push("`layout` was removed (not used in Astro content collections).");
   }
 
   if (frontmatter.permalink) {
-    warnings.push("`permalink` is not written into post frontmatter. Check permalink map report.");
+    if (!slug) {
+      slug = inferSlugFromPermalink(frontmatter.permalink);
+      if (slug) {
+        warnings.push("`slug` inferred from `permalink`.");
+      } else {
+        warnings.push("Could not infer slug from `permalink`. Check permalink map report.");
+      }
+    }
   }
 
   for (const key of Object.keys(frontmatter)) {
@@ -345,7 +370,8 @@ function mapFrontmatter(frontmatter, sourcePath, body, warnings) {
     ...(canonicalURL ? { canonicalURL } : {}),
     ...(author ? { author } : {}),
     ...(series ? { series } : {}),
-    ...(seriesOrder !== undefined ? { seriesOrder } : {})
+    ...(seriesOrder !== undefined ? { seriesOrder } : {}),
+    ...(slug ? { slug } : {})
   };
 
   return {
@@ -358,9 +384,21 @@ function buildOutputName(sourceFile) {
   return path.basename(sourceFile).replace(/\.(markdown|md)$/i, ".md");
 }
 
-function buildAstroUrl(outputName) {
-  const stem = outputName.replace(/\.md$/i, "");
-  return `/blog/${stem}/`;
+function buildAstroUrl(mapped, outputName) {
+  const pub = toDateString(mapped.pubDate) ?? inferDateFromFilename(outputName) ?? new Date().toISOString();
+  const date = new Date(pub);
+  const year = date.getFullYear();
+  const monthDay = `${String(date.getMonth() + 1).padStart(2, "0")}${String(date.getDate()).padStart(2, "0")}`;
+  const stem = outputName.replace(/\.md$/i, "").replace(/^\d{4}-\d{2}-\d{2}-/, "");
+  const rawSlug = asString(mapped.slug) ?? stem;
+  const slug = rawSlug
+    .normalize("NFKC")
+    .toLocaleLowerCase("zh-TW")
+    .replace(/[\s_]+/g, "-")
+    .replace(/[^\p{Letter}\p{Number}-]+/gu, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `/blog/${year}/${monthDay}-${slug || "post"}/`;
 }
 
 async function ensureDir(filePath) {
@@ -446,7 +484,7 @@ async function run() {
 
       if (legacyPermalink) {
         permalinkRows.push(
-          `"${relSource}","${relOutput}","${legacyPermalink}","${buildAstroUrl(outputName)}"`
+          `"${relSource}","${relOutput}","${legacyPermalink}","${buildAstroUrl(mapped, outputName)}"`
         );
       }
 

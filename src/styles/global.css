@@ -317,6 +317,48 @@
     height: 100%;
   }
 
+  .post-card-thumb-link {
+    display: block;
+    text-decoration: none;
+    margin: -1rem -1rem 0.72rem;
+  }
+
+  .post-card-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 1rem 1rem 0 0;
+    border-bottom: 1px solid #deebe6;
+    background: #eff6f3;
+  }
+
+  .post-card-thumb-fallback {
+    display: grid;
+    align-content: center;
+    gap: 0.3rem;
+    padding: 0.75rem 0.9rem;
+    color: #1f3b48;
+    background:
+      radial-gradient(circle at 16% 12%, #dcf4ef 0%, transparent 34%),
+      radial-gradient(circle at 84% 82%, #fef0ce 0%, transparent 35%),
+      #f7fcfa;
+  }
+
+  .post-card-thumb-fallback span {
+    font-size: 0.78rem;
+    color: #0f7668;
+    letter-spacing: 0.03em;
+  }
+
+  .post-card-thumb-fallback small {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
   .post-card-meta {
     margin: 0;
     color: var(--color-muted);
@@ -348,6 +390,10 @@
     padding: 1.15rem 1.15rem 1.05rem;
   }
 
+  .post-card-feature .post-card-thumb-link {
+    margin: -1.15rem -1.15rem 0.82rem;
+  }
+
   .post-card-feature .post-card-title {
     font-size: clamp(1.35rem, 2vw, 1.6rem);
     margin-top: 0.45rem;
@@ -360,6 +406,10 @@
 
   .post-card-compact {
     padding: 0.82rem 0.88rem 0.8rem;
+  }
+
+  .post-card-compact .post-card-thumb-link {
+    margin: -0.82rem -0.88rem 0.58rem;
   }
 
   .post-card-compact .post-card-meta {
