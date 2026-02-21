@@ -28,11 +28,11 @@ permalink: /tags/
       {{ item.title }} ({{ posts | size }})
     </h2>
     <p>{{ item.description }}</p>
-    <ul>
+    <ul class="post-list-compact">
       {% for post in posts %}
-        <li>
-          <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-          <small>({{ post.date | date: "%Y-%m-%d" }})</small>
+        <li class="post-list-compact-item" data-reveal>
+          <a class="post-list-compact-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+          <small class="post-list-compact-date">({{ post.date | date: "%Y-%m-%d" }})</small>
         </li>
       {% endfor %}
     </ul>

@@ -1,4 +1,43 @@
 document.addEventListener("DOMContentLoaded", function () {
+  var progressBar = document.getElementById("reading-progress-bar");
+  function updateProgress() {
+    if (!progressBar) return;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    if (max <= 0) {
+      progressBar.style.width = "0%";
+      return;
+    }
+    var ratio = Math.min(100, Math.max(0, (window.scrollY / max) * 100));
+    progressBar.style.width = ratio.toFixed(1) + "%";
+  }
+  updateProgress();
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
+
+  var revealNodes = document.querySelectorAll("[data-reveal]");
+  if (revealNodes.length) {
+    if ("IntersectionObserver" in window) {
+      var observer = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.12 }
+      );
+      revealNodes.forEach(function (el) {
+        observer.observe(el);
+      });
+    } else {
+      revealNodes.forEach(function (el) {
+        el.classList.add("is-visible");
+      });
+    }
+  }
+
   var input = document.getElementById("sidebar-search-input");
   var status = document.getElementById("sidebar-search-status");
   var results = document.getElementById("sidebar-search-results");
@@ -14,7 +53,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function render(items) {
     results.innerHTML = "";
-    if (!items.length) return;
+    if (!items.length) {
+      var empty = document.createElement("li");
+      empty.textContent = "沒有符合的文章";
+      results.appendChild(empty);
+      return;
+    }
     items.slice(0, 12).forEach(function (p) {
       var li = document.createElement("li");
       var a = document.createElement("a");
