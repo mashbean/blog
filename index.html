@@ -6,10 +6,16 @@ title: 首頁
 <h1>{{ site.title }}</h1>
 <p>{{ site.description }}</p>
 
+<section aria-label="Search posts">
+  <label for="post-search">搜尋文章</label>
+  <input id="post-search" type="search" placeholder="輸入標題或摘要關鍵字..." autocomplete="off">
+  <p id="search-status" aria-live="polite"></p>
+</section>
+
 {% assign posts_list = paginator.posts | default: site.posts %}
-<ul>
+<ul id="post-list">
   {% for post in posts_list %}
-    <li>
+    <li class="post-item">
       <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
       <small>({{ post.date | date: "%Y-%m-%d" }})</small>
       <p>{{ post.summary | default: post.excerpt | strip_html | strip_newlines | truncate: 120 }}</p>

@@ -95,12 +95,18 @@ a {
     padding-top: 0.2rem;
   }
 
-  .site-nav .page-link {
+.site-nav .page-link {
     display: block;
     margin: 0.35rem 0;
     padding: 0.35rem 0.45rem;
     border-radius: 8px;
     color: #26303a;
+  }
+
+  .site-nav .page-link.is-active {
+    background: #dbe8ee;
+    color: #0f3548;
+    font-weight: 600;
   }
 
   .site-nav .page-link:hover {
@@ -128,4 +134,62 @@ li p {
   margin-top: 0.28rem;
   margin-bottom: 0.15rem;
   color: var(--muted);
+}
+
+/* Reading optimization for post pages */
+.post {
+  max-width: 78ch;
+}
+
+.post-title {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  line-height: 1.2;
+  margin-bottom: 0.8rem;
+}
+
+.post-content {
+  font-family: "Source Serif 4", "Noto Serif TC", serif;
+  font-size: 1.12rem;
+  line-height: 1.95;
+  letter-spacing: 0.003em;
+}
+
+.post-content p,
+.post-content ul,
+.post-content ol {
+  margin-bottom: 1.05rem;
+}
+
+.post-content blockquote {
+  border-left: 3px solid #9ab5c2;
+  color: #33434f;
+  font-style: normal;
+  background: #f7fafb;
+  padding: 0.6rem 0.9rem;
+}
+
+.post-content code {
+  background: #eef2f5;
+  border-color: #d9e0e7;
+}
+
+/* Homepage search */
+#post-search {
+  width: min(100%, 460px);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.48rem 0.65rem;
+  background: #fff;
+}
+
+#post-search:focus {
+  outline: 2px solid #b9d0da;
+  outline-offset: 1px;
+}
+
+#search-status {
+  color: var(--muted);
+  margin-top: 0.35rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
 }
