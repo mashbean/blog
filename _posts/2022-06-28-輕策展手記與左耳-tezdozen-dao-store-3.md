@@ -2,7 +2,7 @@
 title: "輕策展手記與左耳 TezDozen DAO Store 3"
 date: 2022-06-28 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [數位藝術]
 ---
 +   [# akaSwap](https://matters.town/tags/74842-akaSwap)
 +   [# Tezos](https://matters.town/tags/8394-Tezos)

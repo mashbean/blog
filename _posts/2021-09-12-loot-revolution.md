@@ -2,7 +2,7 @@
 title: "Loot Revolution"
 date: 2021-09-12 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [NFT, AI與科技]
 ---
 +   [# #Blockchain](https://matters.town/tags/64609-Blockchain)
 +   [# 區塊鏈](https://matters.town/tags/2277-%E5%8D%80%E5%A1%8A%E9%8F%88)

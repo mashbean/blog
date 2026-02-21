@@ -2,7 +2,7 @@
 title: "Liminal Space 似曾相識之地"
 date: 2021-10-22 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [數位藝術]
 ---
 +   [# 元宇宙](https://matters.town/tags/55046-%E5%85%83%E5%AE%87%E5%AE%99)
 +   [# 夾娃娃機](https://matters.town/tags/1514-%E5%A4%BE%E5%A8%83%E5%A8%83%E6%A9%9F)

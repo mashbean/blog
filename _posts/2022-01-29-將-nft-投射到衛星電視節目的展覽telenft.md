@@ -2,7 +2,7 @@
 title: "將 NFT 投射到衛星電視節目的展覽「TeleNFT」"
 date: 2022-01-29 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [NFT, 數位藝術]
 ---
 +   [# 電視](https://matters.town/tags/1442-%E9%9B%BB%E8%A6%96)
 +   [# 展覽](https://matters.town/tags/2796-%E5%B1%95%E8%A6%BD)

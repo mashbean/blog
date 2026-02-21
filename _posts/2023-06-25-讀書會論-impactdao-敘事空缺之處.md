@@ -2,7 +2,7 @@
 title: "讀書會：論 ImpactDAO 敘事空缺之處"
 date: 2023-06-25 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [AI與科技, 公共網路]
 ---
 +   [# DAO](https://matters.town/tags/4981-DAO)
 +   [# 多元宇宙](https://matters.town/tags/134289-%E5%A4%9A%E5%85%83%E5%AE%87%E5%AE%99)

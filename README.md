@@ -130,3 +130,26 @@ python3 scripts/convert_markdown_to_jekyll.py raw_posts --overwrite
 2. 如果有變更就 `git commit`
 3. `git pull --rebase origin <目前分支>`
 4. `git push origin <目前分支>`
+
+## 6) 重建五大標籤系統
+
+已提供腳本：`scripts/rebuild_tags.py`
+
+```bash
+# 只分析，不寫入
+python3 scripts/rebuild_tags.py
+
+# 套用到所有文章 front matter 的 tags
+python3 scripts/rebuild_tags.py --apply
+```
+
+目前固定五大標籤：
+- `NFT`
+- `數位藝術`
+- `治理與民主`
+- `公共網路`
+- `AI與科技`
+
+標籤頁設定檔：
+- `/tags.md`
+- `/_data/tag_catalog.yml`

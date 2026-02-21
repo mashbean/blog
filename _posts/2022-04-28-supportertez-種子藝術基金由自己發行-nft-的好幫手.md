@@ -2,7 +2,7 @@
 title: "Supporter.tez 種子藝術基金，由自己發行 NFT 的好幫手"
 date: 2022-04-28 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [數位藝術, NFT]
 ---
 +   [# Tezos](https://matters.town/tags/8394-Tezos)
 +   [# NFT Art](https://matters.town/tags/44032-NFT-Art)

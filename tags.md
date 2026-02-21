@@ -4,24 +4,30 @@ title: 標籤
 permalink: /tags/
 ---
 
+<p>本站採用五大核心標籤，所有文章皆重新分類，避免標籤過度分散。</p>
+
 <div class="tag-index">
-{% assign sorted_tags = site.tags | sort %}
-{% for tag in sorted_tags %}
-  <a href="#{{ tag[0] | slugify }}">{{ tag[0] }} ({{ tag[1].size }})</a>{% unless forloop.last %} · {% endunless %}
+{% for item in site.data.tag_catalog %}
+  {% assign posts = site.tags[item.key] %}
+  {% assign count = posts | size %}
+  <a href="#{{ item.key | slugify }}">{{ item.title }} ({{ count }})</a>{% unless forloop.last %} · {% endunless %}
 {% endfor %}
 </div>
 
 <hr>
 
-{% for tag in sorted_tags %}
-  <h2 id="{{ tag[0] | slugify }}">{{ tag[0] }}</h2>
-  <ul>
-  {% assign posts = tag[1] | sort: "date" | reverse %}
-  {% for post in posts %}
-    <li>
-      <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
-      <small>({{ post.date | date: "%Y-%m-%d" }})</small>
-    </li>
-  {% endfor %}
-  </ul>
+{% for item in site.data.tag_catalog %}
+  {% assign posts = site.tags[item.key] | sort: "date" | reverse %}
+  <section id="{{ item.key | slugify }}">
+    <h2>{{ item.title }} ({{ posts | size }})</h2>
+    <p>{{ item.description }}</p>
+    <ul>
+      {% for post in posts %}
+        <li>
+          <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+          <small>({{ post.date | date: "%Y-%m-%d" }})</small>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
 {% endfor %}

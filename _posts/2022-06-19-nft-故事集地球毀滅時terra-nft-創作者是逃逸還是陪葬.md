@@ -2,7 +2,7 @@
 title: "NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？"
 date: 2022-06-19 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [NFT]
 ---
 +   [# NFT](https://matters.town/tags/7990-NFT)
 +   [# Tezos](https://matters.town/tags/8394-Tezos)

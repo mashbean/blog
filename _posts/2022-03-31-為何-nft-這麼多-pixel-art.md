@@ -2,7 +2,7 @@
 title: "為何 NFT 這麼多 Pixel Art？"
 date: 2022-03-31 10:00:00 +0800
 categories: [blog]
-tags: [imported]
+tags: [數位藝術, NFT]
 ---
 +   [# pop](https://matters.town/tags/102023-pop)
 +   [# NFT](https://matters.town/tags/7990-NFT)
