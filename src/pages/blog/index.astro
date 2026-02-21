@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+import { getBlogPosts } from "@/utils/blog";
+
+const posts = await getBlogPosts();
+---
+
+<BaseLayout title="文章列表" description="依日期由新到舊的所有文章。">
+  <h1 class="section-title">文章列表</h1>
+  <p>共 {posts.length} 篇，依日期由新到舊。</p>
+
+  {
+    posts.length === 0 ? (
+      <p class="empty-state">目前還沒有文章。</p>
+    ) : (
+      <ul class="post-list">
+        {posts.map((post) => <li><PostCard post={post} /></li>)}
+      </ul>
+    )
+  }
+</BaseLayout>
