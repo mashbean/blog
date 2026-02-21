@@ -1,55 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="先進的數位身分法令是什麼模樣? - 豆泥 - Matters">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="cover image">
+  <metadata>
+    keywords: 身分, 與第, 條定義相同, 政府機構, matters, 生物特徵資料, 數位身分, 首席隱私官
+    prompt: minimal pencil sketch, bologna illustration style, no text, editorial cover art
+    motif: privacy
+  </metadata>
   <defs>
     <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.86" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
       <feComponentTransfer>
-        <feFuncA type="table" tableValues="0 0.04"/>
+        <feFuncA type="table" tableValues="0 0.045" />
       </feComponentTransfer>
     </filter>
     <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f8f5ee"/>
-      <stop offset="100%" stop-color="#f1ece3"/>
+      <stop offset="0%" stop-color="hsl(35 27% 90%)" />
+      <stop offset="100%" stop-color="hsl(39 23% 85%)" />
     </linearGradient>
   </defs>
 
-  <rect width="1200" height="630" fill="url(#paper)"/>
-  <rect width="1200" height="630" filter="url(#grain)"/>
+  <rect width="1200" height="630" fill="url(#paper)" />
+  <rect width="1200" height="630" filter="url(#grain)" />
 
-  <g stroke="#71685f" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.62">
-    <path d="M68 92 C244 52, 418 98, 612 76"/>
-    <path d="M628 72 C768 58, 930 92, 1122 66"/>
-    <path d="M72 520 C262 544, 448 498, 658 526"/>
-    <path d="M672 534 C826 550, 968 510, 1132 538"/>
+  <g><line x1="75.0" y1="69.3" x2="753.7" y2="70.4" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="76.3" y1="88.6" x2="737.6" y2="90.4" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="59.3" y1="115.9" x2="761.5" y2="117.9" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="75.5" y1="138.2" x2="819.0" y2="141.3" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="78.4" y1="164.0" x2="792.9" y2="164.1" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="58.7" y1="186.9" x2="713.2" y2="188.7" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="93.2" y1="208.8" x2="767.3" y2="208.8" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="56.8" y1="235.6" x2="771.2" y2="238.7" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="93.6" y1="254.7" x2="768.3" y2="255.5" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="60.3" y1="282.7" x2="705.7" y2="283.2" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="60.5" y1="304.6" x2="788.6" y2="304.6" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="63.6" y1="333.2" x2="789.0" y2="336.0" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="87.4" y1="351.6" x2="816.8" y2="352.3" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="87.3" y1="375.4" x2="702.3" y2="377.1" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="78.3" y1="405.5" x2="783.9" y2="408.9" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="88.7" y1="423.7" x2="774.8" y2="427.4" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="95.4" y1="448.1" x2="706.3" y2="450.3" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="59.1" y1="474.0" x2="714.9" y2="475.1" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="88.0" y1="496.5" x2="788.7" y2="499.8" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="77.5" y1="520.0" x2="802.4" y2="520.7" stroke="hsl(211 8% 45%)" stroke-width="0.9" opacity="0.18"/></g>
+  <g><path d="M 365.3 366.4 C 354.5 184.1, 498.2 184.7, 337.9 433.6" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.08" opacity="0.22"/>
+<path d="M 568.1 434.3 C 195.6 291.2, 872.3 136.8, 212.9 122.2" fill="none" stroke="hsl(211 8% 45%)" stroke-width="0.95" opacity="0.13"/>
+<path d="M 594.7 522.6 C 551.3 278.8, 402.8 271.8, 569.8 267.6" fill="none" stroke="hsl(211 8% 45%)" stroke-width="0.78" opacity="0.21"/>
+<path d="M 537.9 222.5 C 249.6 500.1, 63.1 305.0, 954.6 415.1" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.75" opacity="0.20"/>
+<path d="M 712.0 129.8 C 1071.6 534.2, 923.2 310.2, 602.0 488.7" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.36" opacity="0.13"/>
+<path d="M 795.0 337.0 C 444.0 137.5, 903.2 401.5, 1040.0 473.0" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.36" opacity="0.26"/>
+<path d="M 249.8 420.5 C 856.9 242.8, 105.2 130.9, 559.8 269.3" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.27" opacity="0.26"/>
+<path d="M 1075.0 496.1 C 253.5 515.3, 333.6 308.1, 382.7 465.7" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.35" opacity="0.17"/>
+<path d="M 398.5 398.6 C 542.3 448.5, 321.5 194.0, 403.2 441.0" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.17" opacity="0.24"/>
+<path d="M 1022.6 481.7 C 491.3 321.8, 1097.5 478.0, 1089.9 475.5" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.48" opacity="0.26"/>
+<path d="M 525.1 466.4 C 492.4 70.1, 317.6 149.6, 1065.7 139.4" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.55" opacity="0.25"/>
+<path d="M 101.7 133.4 C 952.0 151.7, 147.7 478.0, 893.8 395.6" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.52" opacity="0.24"/>
+<path d="M 554.0 218.7 C 323.3 315.6, 442.1 132.8, 420.7 541.9" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.88" opacity="0.15"/>
+<path d="M 967.2 282.7 C 466.3 448.2, 578.9 133.0, 993.8 256.7" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.37" opacity="0.23"/>
+<path d="M 385.4 382.4 C 795.8 508.3, 745.2 302.9, 1072.8 450.9" fill="none" stroke="hsl(211 8% 45%)" stroke-width="0.79" opacity="0.14"/>
+<path d="M 522.0 538.7 C 479.5 454.8, 982.3 316.8, 328.5 490.8" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.43" opacity="0.26"/></g>
+
+  <g>
+    <rect x="66" y="74" width="1068" height="482" rx="24" fill="none" stroke="hsl(215 10% 32%)" stroke-width="1.4" opacity="0.48" />
+    <rect x="82" y="90" width="620" height="450" rx="18" fill="none" stroke="hsl(211 8% 45%)" stroke-width="1.1" opacity="0.36" />
   </g>
 
-  <g opacity="0.2" stroke="#7d7268" stroke-width="1">
-    <line x1="760" y1="172" x2="1098" y2="172"/>
-    <line x1="760" y1="196" x2="1098" y2="196"/>
-    <line x1="760" y1="220" x2="1098" y2="220"/>
-    <line x1="760" y1="244" x2="1098" y2="244"/>
-    <line x1="760" y1="268" x2="1098" y2="268"/>
-    <line x1="760" y1="292" x2="1098" y2="292"/>
-  </g>
-
-  <g transform="translate(736,146)">
-    <rect x="0" y="0" width="382" height="312" rx="18" fill="#f5f0e7" stroke="#8f8579" stroke-width="1.2"/>
-    <path d="M30 248 C94 186, 152 194, 210 142 C248 106, 282 98, 340 58" stroke="#625a52" stroke-width="3" fill="none"/>
-    <path d="M34 244 C102 272, 158 258, 238 264 C286 268, 314 254, 356 266" stroke="#7a6f63" stroke-width="2" fill="none"/>
-    <circle cx="98" cy="102" r="24" stroke="#6e6459" stroke-width="2" fill="none"/>
-    <path d="M90 84 L106 120 M106 84 L90 120" stroke="#786d61" stroke-width="1.6"/>
-  </g>
-
-  <g transform="translate(92,86)">
-    <rect x="0" y="0" width="124" height="34" rx="17" fill="#ece6dc" stroke="#9a9084" stroke-width="1"/>
-    <text x="62" y="22" text-anchor="middle" font-size="16" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e">matters</text>
-  </g>
-
-  <text x="92" y="196" font-size="58" font-family="'Noto Serif TC', 'PingFang TC', serif" fill="#2f2a25" letter-spacing="0.3"><tspan x="92" dy="0">先進的數位身分法令是什麼模樣? -</tspan><tspan x="92" dy="56">豆泥 - Matters</tspan></text>
-
-  <text x="94" y="392" font-size="30" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e" letter-spacing="0.2"><tspan x="94" dy="0">先進的數位身分法令是什麼模樣</tspan></text>
-
-  <text x="94" y="562" font-size="18" font-family="'JetBrains Mono', monospace" fill="#655d54" opacity="0.9">2025.08.21</text>
-  <text x="1106" y="562" text-anchor="end" font-size="18" font-family="'Noto Sans TC', sans-serif" fill="#655d54" opacity="0.9">pencil sketch · bologna mood</text>
+  
+    <g transform="translate(760 150)">
+      <path d="M180 26 L304 88 L304 228 C304 298 254 350 180 388 C106 350 56 298 56 228 L56 88 Z" fill="none" stroke="hsl(215 10% 32%)" stroke-width="4"/>
+      <ellipse cx="180" cy="200" rx="72" ry="52" fill="none" stroke="hsl(211 8% 45%)" stroke-width="3"/>
+      <circle cx="180" cy="200" r="22" fill="none" stroke="hsl(215 10% 32%)" stroke-width="3"/>
+      <path d="M110 286 C148 266 210 266 250 286" fill="none" stroke="hsl(211 8% 45%)" stroke-width="3"/>
+    </g>
 </svg>

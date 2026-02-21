@@ -4,7 +4,7 @@ description: "最小文章範例，驗證 content collection 與頁面渲染。"
 pubDate: "2026-02-20T08:00:00+08:00"
 tags: ["Hello"]
 cover: "images/covers/home/hello-astro.svg"
-coverAlt: "Hello Astro｜鉛筆素描風文章縮圖，摘句：這是一篇最小內容測試文"
+coverAlt: "Hello Astro cover illustration (hello, 可以被, hello astro, 最小文章範例)"
 ---
 
 這是一篇最小內容測試文。

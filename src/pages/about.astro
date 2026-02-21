@@ -21,8 +21,16 @@ const contactLinks = [
       <p class="about-cv-kicker">關於我</p>
       <h1 class="about-cv-name">黃彥霖 Yen-Lin (mashbean) Huang</h1>
       <p class="about-cv-summary">
-        公民科技與數位治理實踐者，專注開放網路、數位身分、隱私保護與民主創新。工作方法以反脆弱、不對稱、去中心與多方治理為核心，致力把技術落地為可長期運作的公共基礎設施。
+        由於沈迷網際網路與社會網絡的深層結構，自醫師工作離職，現致力於將密碼龐克精神融入台灣數位社會。現為以太坊諮詢小組「森友會」（Silviculture
+        Society）成員，並為 2025 年哈佛甘迺迪學院（HKS）民主興革訪問學者。筆者曾任職於數位發展部推動分散式技術，現服務於抗審查內容平台
+        Matters。豆泥現同時參與 web3 公民科技社群 FAB DAO，透過區塊鏈技術幫助台灣非營利行動，曾於林茲電子藝術節展出。
       </p>
+      <ul class="about-cv-manifesto" aria-label="工作方法關鍵詞">
+        <li>反脆弱</li>
+        <li>不對稱</li>
+        <li>去中心</li>
+        <li>抗霸權</li>
+      </ul>
       <ul class="about-cv-links">
         {contactLinks.map((item) => <li><a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a></li>)}
       </ul>
@@ -165,9 +173,19 @@ const contactLinks = [
       <p class="about-cv-kicker">About</p>
       <h1 class="about-cv-name">Yen-Lin (mashbean) Huang</h1>
       <p class="about-cv-summary">
-        Civic-tech and digital-governance practitioner focused on open internet, digital identity, privacy, and democratic innovation.
-        My work emphasizes antifragility, decentralization, and multi-stakeholder governance to build durable public digital infrastructure.
+        Fascinated by the deep structure of the internet and social networks, I left clinical practice and now focus on bringing
+        cypherpunk values into Taiwan’s digital society. I am a member of the Ethereum advisory group Silviculture Society and a
+        2025 visiting fellow at Harvard Kennedy School (HKS), working on democracy renovation. I previously worked at Taiwan’s Ministry
+        of Digital Affairs on decentralized technology, and currently serve at Matters, an anti-censorship content platform. I also
+        participate in FAB DAO, a web3 civic-tech community supporting Taiwanese nonprofits through blockchain-based coordination, with
+        work exhibited at Ars Electronica.
       </p>
+      <ul class="about-cv-manifesto" aria-label="Operating principles">
+        <li>Antifragile</li>
+        <li>Asymmetric</li>
+        <li>Decentralized</li>
+        <li>Counter-hegemonic</li>
+      </ul>
       <ul class="about-cv-links">
         {contactLinks.map((item) => <li><a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a></li>)}
       </ul>

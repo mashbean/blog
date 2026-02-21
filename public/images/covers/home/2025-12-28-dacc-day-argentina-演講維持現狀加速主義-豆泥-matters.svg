@@ -1,55 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="d/acc day Argentina 演講:維持現狀加速主義 - 豆泥 - Matters">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="cover image">
+  <metadata>
+    keywords: d/acc, matters, 維持現狀加速主義, imported, 演講, day, digital, d/acc day argentina 演講:維持現狀加速主義 - 豆泥 - matters
+    prompt: minimal pencil sketch, bologna illustration style, no text, editorial cover art
+    motif: network
+  </metadata>
   <defs>
     <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.86" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
       <feComponentTransfer>
-        <feFuncA type="table" tableValues="0 0.04"/>
+        <feFuncA type="table" tableValues="0 0.045" />
       </feComponentTransfer>
     </filter>
     <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f8f5ee"/>
-      <stop offset="100%" stop-color="#f1ece3"/>
+      <stop offset="0%" stop-color="hsl(37 30% 93%)" />
+      <stop offset="100%" stop-color="hsl(41 26% 88%)" />
     </linearGradient>
   </defs>
 
-  <rect width="1200" height="630" fill="url(#paper)"/>
-  <rect width="1200" height="630" filter="url(#grain)"/>
+  <rect width="1200" height="630" fill="url(#paper)" />
+  <rect width="1200" height="630" filter="url(#grain)" />
 
-  <g stroke="#71685f" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.62">
-    <path d="M68 92 C244 52, 418 98, 612 76"/>
-    <path d="M628 72 C768 58, 930 92, 1122 66"/>
-    <path d="M72 520 C262 544, 448 498, 658 526"/>
-    <path d="M672 534 C826 550, 968 510, 1132 538"/>
+  <g><line x1="83.9" y1="63.0" x2="778.2" y2="64.9" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="87.4" y1="91.9" x2="776.4" y2="93.5" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="94.2" y1="113.3" x2="760.9" y2="116.7" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="74.2" y1="141.2" x2="779.9" y2="142.2" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="92.0" y1="160.6" x2="779.4" y2="164.3" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="94.1" y1="183.2" x2="707.9" y2="186.0" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="78.4" y1="209.9" x2="739.5" y2="211.7" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="77.3" y1="236.7" x2="702.4" y2="239.0" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="63.4" y1="256.5" x2="785.6" y2="258.1" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="72.9" y1="279.1" x2="727.6" y2="282.7" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="82.4" y1="306.2" x2="777.5" y2="306.8" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="67.0" y1="328.8" x2="735.3" y2="331.5" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="57.9" y1="352.0" x2="741.9" y2="355.9" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="61.3" y1="377.0" x2="768.1" y2="378.4" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="69.3" y1="400.6" x2="799.2" y2="403.1" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="65.3" y1="424.3" x2="713.3" y2="427.6" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="78.6" y1="448.3" x2="792.8" y2="451.6" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="70.3" y1="472.2" x2="738.5" y2="473.3" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="80.0" y1="496.1" x2="745.0" y2="498.5" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="66.4" y1="524.1" x2="721.5" y2="528.0" stroke="hsl(227 8% 45%)" stroke-width="0.9" opacity="0.18"/></g>
+  <g><path d="M 894.0 284.3 C 163.9 263.8, 554.0 77.3, 1053.6 444.3" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.24" opacity="0.25"/>
+<path d="M 302.7 83.7 C 638.2 126.3, 876.5 93.0, 367.5 483.5" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.52" opacity="0.18"/>
+<path d="M 789.0 374.0 C 584.6 136.7, 101.1 460.6, 313.2 179.0" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.56" opacity="0.22"/>
+<path d="M 61.0 225.0 C 478.2 538.1, 78.1 103.0, 124.3 537.4" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.22" opacity="0.12"/>
+<path d="M 927.7 172.9 C 1013.0 117.1, 1049.3 338.7, 292.0 340.4" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.74" opacity="0.12"/>
+<path d="M 178.6 436.7 C 458.3 552.3, 192.2 351.4, 840.9 167.2" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.25" opacity="0.19"/>
+<path d="M 485.8 160.2 C 240.6 456.2, 388.3 512.0, 360.1 459.6" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.67" opacity="0.26"/>
+<path d="M 673.9 264.4 C 462.9 317.7, 409.6 498.0, 1045.3 487.1" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.28" opacity="0.13"/>
+<path d="M 60.2 471.1 C 303.8 274.0, 741.4 295.1, 633.1 261.2" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.04" opacity="0.23"/>
+<path d="M 629.3 190.0 C 249.4 517.5, 494.4 137.1, 197.9 96.7" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.66" opacity="0.24"/>
+<path d="M 361.6 344.4 C 442.2 83.9, 115.7 277.9, 571.9 248.0" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.42" opacity="0.16"/>
+<path d="M 894.8 375.9 C 365.8 110.9, 157.7 221.2, 761.8 455.6" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.46" opacity="0.21"/>
+<path d="M 160.9 253.8 C 182.5 377.8, 1070.3 321.8, 304.5 511.2" fill="none" stroke="hsl(227 8% 45%)" stroke-width="0.96" opacity="0.13"/>
+<path d="M 582.2 179.9 C 87.7 256.6, 475.8 337.9, 405.7 77.0" fill="none" stroke="hsl(227 8% 45%)" stroke-width="0.98" opacity="0.26"/>
+<path d="M 440.4 505.1 C 1082.7 500.0, 636.7 540.0, 939.8 538.1" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.59" opacity="0.16"/>
+<path d="M 158.5 74.2 C 367.4 347.9, 1032.9 178.3, 471.8 513.6" fill="none" stroke="hsl(227 8% 45%)" stroke-width="0.74" opacity="0.25"/></g>
+
+  <g>
+    <rect x="66" y="74" width="1068" height="482" rx="24" fill="none" stroke="hsl(214 10% 32%)" stroke-width="1.4" opacity="0.48" />
+    <rect x="82" y="90" width="620" height="450" rx="18" fill="none" stroke="hsl(227 8% 45%)" stroke-width="1.1" opacity="0.36" />
   </g>
 
-  <g opacity="0.2" stroke="#7d7268" stroke-width="1">
-    <line x1="760" y1="172" x2="1098" y2="172"/>
-    <line x1="760" y1="196" x2="1098" y2="196"/>
-    <line x1="760" y1="220" x2="1098" y2="220"/>
-    <line x1="760" y1="244" x2="1098" y2="244"/>
-    <line x1="760" y1="268" x2="1098" y2="268"/>
-    <line x1="760" y1="292" x2="1098" y2="292"/>
-  </g>
-
-  <g transform="translate(736,146)">
-    <rect x="0" y="0" width="382" height="312" rx="18" fill="#f5f0e7" stroke="#8f8579" stroke-width="1.2"/>
-    <path d="M30 248 C94 186, 152 194, 210 142 C248 106, 282 98, 340 58" stroke="#625a52" stroke-width="3" fill="none"/>
-    <path d="M34 244 C102 272, 158 258, 238 264 C286 268, 314 254, 356 266" stroke="#7a6f63" stroke-width="2" fill="none"/>
-    <circle cx="98" cy="102" r="24" stroke="#6e6459" stroke-width="2" fill="none"/>
-    <path d="M90 84 L106 120 M106 84 L90 120" stroke="#786d61" stroke-width="1.6"/>
-  </g>
-
-  <g transform="translate(92,86)">
-    <rect x="0" y="0" width="124" height="34" rx="17" fill="#ece6dc" stroke="#9a9084" stroke-width="1"/>
-    <text x="62" y="22" text-anchor="middle" font-size="16" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e">matters</text>
-  </g>
-
-  <text x="92" y="196" font-size="58" font-family="'Noto Serif TC', 'PingFang TC', serif" fill="#2f2a25" letter-spacing="0.3"><tspan x="92" dy="0">d/acc day Argentin</tspan><tspan x="92" dy="56">a 演講:維持現狀加速主義 - 豆泥</tspan><tspan x="92" dy="56">- Matters</tspan></text>
-
-  <text x="94" y="392" font-size="30" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e" letter-spacing="0.2"><tspan x="94" dy="0">d/acc day Argentina 演講:維</tspan><tspan x="94" dy="38">持現狀加速主義 Slow</tspan></text>
-
-  <text x="94" y="562" font-size="18" font-family="'JetBrains Mono', monospace" fill="#655d54" opacity="0.9">2025.12.28</text>
-  <text x="1106" y="562" text-anchor="end" font-size="18" font-family="'Noto Sans TC', sans-serif" fill="#655d54" opacity="0.9">pencil sketch · bologna mood</text>
+  <g><line x1="908.1" y1="264.2" x2="1009.8" y2="475.0" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="1098.5" y1="413.5" x2="869.9" y2="134.4" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="1009.8" y1="475.0" x2="904.9" y2="130.5" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="869.9" y1="134.4" x2="1088.8" y2="467.8" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="904.9" y1="130.5" x2="891.3" y2="283.1" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="1088.8" y1="467.8" x2="776.9" y2="485.6" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="891.3" y1="283.1" x2="889.0" y2="260.2" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="776.9" y1="485.6" x2="908.1" y2="264.2" stroke="hsl(227 8% 45%)" stroke-width="2.3"/>
+<line x1="889.0" y1="260.2" x2="1098.5" y2="413.5" stroke="hsl(227 8% 45%)" stroke-width="2.3"/><circle cx="908.1" cy="264.2" r="7.4" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="1098.5" cy="413.5" r="14.7" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="1009.8" cy="475.0" r="8.5" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="869.9" cy="134.4" r="11.9" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="904.9" cy="130.5" r="8.1" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="1088.8" cy="467.8" r="13.4" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="891.3" cy="283.1" r="13.0" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="776.9" cy="485.6" r="11.0" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/>
+<circle cx="889.0" cy="260.2" r="9.7" fill="none" stroke="hsl(214 10% 32%)" stroke-width="2.6"/></g>
 </svg>

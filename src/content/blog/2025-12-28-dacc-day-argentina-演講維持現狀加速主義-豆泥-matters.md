@@ -7,7 +7,7 @@ tags:
   - "imported"
 category: "matters"
 cover: "images/covers/home/2025-12-28-dacc-day-argentina-演講維持現狀加速主義-豆泥-matters.svg"
-coverAlt: "matters d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters｜鉛筆素描風文章縮圖，摘句：d/acc day Argentina 演講:維持現狀加速主義 Slow"
+coverAlt: "d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters cover illustration (d/acc, matters, 維持現狀加速主義, imported)"
 ---
 來源：[https://matters.town/a/pl3rg4n8wk29](https://matters.town/a/pl3rg4n8wk29)
 

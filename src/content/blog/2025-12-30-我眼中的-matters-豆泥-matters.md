@@ -7,7 +7,7 @@ tags:
   - "imported"
 category: "matters"
 cover: "images/covers/home/2025-12-30-我眼中的-matters-豆泥-matters.svg"
-coverAlt: "matters 我眼中的 Matters - 豆泥 - Matters｜鉛筆素描風文章縮圖，摘句：我眼中的 Matters 最近在台灣,Privilege(翻為特權,但我"
+coverAlt: "我眼中的 Matters - 豆泥 - Matters cover illustration (matters, privilege, imported, 我眼中的)"
 ---
 來源：[https://matters.town/a/vhzitynih7lr](https://matters.town/a/vhzitynih7lr)
 

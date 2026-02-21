@@ -1,55 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="zkID Day:在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="cover image">
+  <metadata>
+    keywords: digital, identity, 因此, 然而, zero-knowledge, proof, matters, 身分
+    prompt: minimal pencil sketch, bologna illustration style, no text, editorial cover art
+    motif: identity
+  </metadata>
   <defs>
     <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.86" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
       <feComponentTransfer>
-        <feFuncA type="table" tableValues="0 0.04"/>
+        <feFuncA type="table" tableValues="0 0.045" />
       </feComponentTransfer>
     </filter>
     <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f8f5ee"/>
-      <stop offset="100%" stop-color="#f1ece3"/>
+      <stop offset="0%" stop-color="hsl(35 32% 91%)" />
+      <stop offset="100%" stop-color="hsl(39 28% 86%)" />
     </linearGradient>
   </defs>
 
-  <rect width="1200" height="630" fill="url(#paper)"/>
-  <rect width="1200" height="630" filter="url(#grain)"/>
+  <rect width="1200" height="630" fill="url(#paper)" />
+  <rect width="1200" height="630" filter="url(#grain)" />
 
-  <g stroke="#71685f" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.62">
-    <path d="M68 92 C244 52, 418 98, 612 76"/>
-    <path d="M628 72 C768 58, 930 92, 1122 66"/>
-    <path d="M72 520 C262 544, 448 498, 658 526"/>
-    <path d="M672 534 C826 550, 968 510, 1132 538"/>
+  <g><line x1="88.5" y1="67.5" x2="707.0" y2="69.0" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="78.8" y1="93.4" x2="721.3" y2="97.1" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="79.5" y1="111.8" x2="799.2" y2="112.1" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="62.5" y1="137.3" x2="714.2" y2="139.7" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="94.3" y1="164.6" x2="760.0" y2="166.8" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="68.0" y1="185.7" x2="735.0" y2="187.6" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="95.6" y1="206.3" x2="812.2" y2="208.0" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="84.6" y1="230.2" x2="748.1" y2="230.8" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="62.8" y1="254.4" x2="797.1" y2="254.8" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="62.8" y1="281.9" x2="788.3" y2="284.3" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="95.4" y1="302.2" x2="789.9" y2="303.5" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="73.4" y1="329.2" x2="771.7" y2="330.6" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="75.3" y1="353.0" x2="814.0" y2="356.0" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="83.0" y1="378.0" x2="767.7" y2="381.0" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="75.9" y1="405.7" x2="788.1" y2="407.1" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="91.7" y1="423.8" x2="741.5" y2="427.3" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="58.9" y1="453.5" x2="707.9" y2="457.0" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="82.9" y1="476.1" x2="790.9" y2="476.1" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="94.8" y1="496.1" x2="778.9" y2="499.6" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="81.4" y1="523.4" x2="767.1" y2="524.1" stroke="hsl(214 8% 45%)" stroke-width="0.9" opacity="0.18"/></g>
+  <g><path d="M 618.7 407.8 C 485.8 482.3, 901.9 225.1, 850.4 349.1" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.80" opacity="0.13"/>
+<path d="M 486.3 145.5 C 1005.2 210.4, 301.7 150.9, 620.8 352.8" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.17" opacity="0.12"/>
+<path d="M 640.4 334.7 C 462.8 488.3, 1122.2 201.1, 460.9 227.2" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.61" opacity="0.15"/>
+<path d="M 186.4 299.3 C 559.9 138.1, 1096.2 182.5, 763.9 515.7" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.07" opacity="0.17"/>
+<path d="M 1119.4 503.1 C 989.7 449.1, 552.3 434.6, 1089.3 387.3" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.42" opacity="0.14"/>
+<path d="M 1090.9 233.3 C 614.3 461.8, 780.4 219.0, 622.4 308.3" fill="none" stroke="hsl(214 8% 45%)" stroke-width="0.98" opacity="0.15"/>
+<path d="M 459.5 114.6 C 94.7 200.9, 1136.6 238.6, 503.4 397.7" fill="none" stroke="hsl(214 8% 45%)" stroke-width="0.77" opacity="0.20"/>
+<path d="M 838.8 377.2 C 852.5 221.7, 655.5 441.9, 491.0 259.9" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.74" opacity="0.12"/>
+<path d="M 624.4 241.0 C 629.9 278.3, 915.0 351.3, 242.6 150.0" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.89" opacity="0.24"/>
+<path d="M 824.9 528.2 C 1051.4 67.7, 158.9 273.2, 794.6 103.2" fill="none" stroke="hsl(214 8% 45%)" stroke-width="0.80" opacity="0.17"/>
+<path d="M 912.4 157.7 C 1046.4 548.7, 339.9 197.1, 470.6 386.1" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.15" opacity="0.15"/>
+<path d="M 394.3 288.4 C 680.8 109.6, 502.8 562.3, 661.0 543.6" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.77" opacity="0.22"/>
+<path d="M 731.4 358.2 C 266.9 168.9, 568.8 95.8, 524.0 74.3" fill="none" stroke="hsl(214 8% 45%)" stroke-width="0.93" opacity="0.18"/>
+<path d="M 680.2 172.8 C 169.8 493.6, 751.0 453.9, 131.2 261.9" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.46" opacity="0.24"/>
+<path d="M 375.2 325.2 C 715.3 96.1, 876.8 166.4, 850.3 219.9" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.76" opacity="0.17"/>
+<path d="M 515.6 197.8 C 95.5 474.7, 302.8 540.6, 632.9 194.2" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.29" opacity="0.22"/></g>
+
+  <g>
+    <rect x="66" y="74" width="1068" height="482" rx="24" fill="none" stroke="hsl(224 10% 32%)" stroke-width="1.4" opacity="0.48" />
+    <rect x="82" y="90" width="620" height="450" rx="18" fill="none" stroke="hsl(214 8% 45%)" stroke-width="1.1" opacity="0.36" />
   </g>
 
-  <g opacity="0.2" stroke="#7d7268" stroke-width="1">
-    <line x1="760" y1="172" x2="1098" y2="172"/>
-    <line x1="760" y1="196" x2="1098" y2="196"/>
-    <line x1="760" y1="220" x2="1098" y2="220"/>
-    <line x1="760" y1="244" x2="1098" y2="244"/>
-    <line x1="760" y1="268" x2="1098" y2="268"/>
-    <line x1="760" y1="292" x2="1098" y2="292"/>
-  </g>
-
-  <g transform="translate(736,146)">
-    <rect x="0" y="0" width="382" height="312" rx="18" fill="#f5f0e7" stroke="#8f8579" stroke-width="1.2"/>
-    <path d="M30 248 C94 186, 152 194, 210 142 C248 106, 282 98, 340 58" stroke="#625a52" stroke-width="3" fill="none"/>
-    <path d="M34 244 C102 272, 158 258, 238 264 C286 268, 314 254, 356 266" stroke="#7a6f63" stroke-width="2" fill="none"/>
-    <circle cx="98" cy="102" r="24" stroke="#6e6459" stroke-width="2" fill="none"/>
-    <path d="M90 84 L106 120 M106 84 L90 120" stroke="#786d61" stroke-width="1.6"/>
-  </g>
-
-  <g transform="translate(92,86)">
-    <rect x="0" y="0" width="124" height="34" rx="17" fill="#ece6dc" stroke="#9a9084" stroke-width="1"/>
-    <text x="62" y="22" text-anchor="middle" font-size="16" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e">matters</text>
-  </g>
-
-  <text x="92" y="196" font-size="58" font-family="'Noto Serif TC', 'PingFang TC', serif" fill="#2f2a25" letter-spacing="0.3"><tspan x="92" dy="0">zkID Day:在政府推動密碼龐克</tspan><tspan x="92" dy="56">ID政策的困境 - 豆泥 - Mat</tspan><tspan x="92" dy="56">ters</tspan></text>
-
-  <text x="94" y="392" font-size="30" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e" letter-spacing="0.2"><tspan x="94" dy="0">zkID Day:在政府推動密碼龐克ID政策的困</tspan><tspan x="94" dy="38">境 在政府推動密碼龐克I</tspan></text>
-
-  <text x="94" y="562" font-size="18" font-family="'JetBrains Mono', monospace" fill="#655d54" opacity="0.9">2025.12.28</text>
-  <text x="1106" y="562" text-anchor="end" font-size="18" font-family="'Noto Sans TC', sans-serif" fill="#655d54" opacity="0.9">pencil sketch · bologna mood</text>
+  
+    <g transform="translate(734 132)">
+      <rect x="0" y="0" width="396" height="364" rx="26" fill="none" stroke="hsl(224 10% 32%)" stroke-width="4"/>
+      <circle cx="112" cy="120" r="52" fill="none" stroke="hsl(214 8% 45%)" stroke-width="3"/>
+      <path d="M58 216 C92 176 136 176 168 216" fill="none" stroke="hsl(214 8% 45%)" stroke-width="3"/>
+      <line x1="208" y1="92" x2="336" y2="92" stroke="hsl(224 10% 32%)" stroke-width="3"/>
+      <line x1="208" y1="132" x2="348" y2="132" stroke="hsl(214 8% 45%)" stroke-width="2.6"/>
+      <line x1="62" y1="276" x2="338" y2="276" stroke="hsl(214 8% 45%)" stroke-width="2.6"/>
+      <line x1="62" y1="312" x2="338" y2="312" stroke="hsl(214 8% 45%)" stroke-width="2.6"/>
+    </g>
 </svg>

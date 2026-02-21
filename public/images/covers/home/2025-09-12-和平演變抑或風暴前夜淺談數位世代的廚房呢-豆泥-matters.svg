@@ -1,55 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="和平演變抑或風暴前夜?淺談數位世代的廚房呢... - 豆泥 - Matters">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="cover image">
+  <metadata>
+    keywords: matters, 廚房, imported, 和平演變抑或風暴, 前夜, 和平演變抑或風暴前夜?淺談數位世代的廚房呢... - 豆泥 - matters, 淺談數位世代的廚, 來源
+    prompt: minimal pencil sketch, bologna illustration style, no text, editorial cover art
+    motif: network
+  </metadata>
   <defs>
     <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix type="saturate" values="0"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.86" numOctaves="2" stitchTiles="stitch" />
+      <feColorMatrix type="saturate" values="0" />
       <feComponentTransfer>
-        <feFuncA type="table" tableValues="0 0.04"/>
+        <feFuncA type="table" tableValues="0 0.045" />
       </feComponentTransfer>
     </filter>
     <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f8f5ee"/>
-      <stop offset="100%" stop-color="#f1ece3"/>
+      <stop offset="0%" stop-color="hsl(35 28% 91%)" />
+      <stop offset="100%" stop-color="hsl(39 24% 86%)" />
     </linearGradient>
   </defs>
 
-  <rect width="1200" height="630" fill="url(#paper)"/>
-  <rect width="1200" height="630" filter="url(#grain)"/>
+  <rect width="1200" height="630" fill="url(#paper)" />
+  <rect width="1200" height="630" filter="url(#grain)" />
 
-  <g stroke="#71685f" stroke-width="1.4" fill="none" stroke-linecap="round" opacity="0.62">
-    <path d="M68 92 C244 52, 418 98, 612 76"/>
-    <path d="M628 72 C768 58, 930 92, 1122 66"/>
-    <path d="M72 520 C262 544, 448 498, 658 526"/>
-    <path d="M672 534 C826 550, 968 510, 1132 538"/>
+  <g><line x1="60.5" y1="67.3" x2="819.5" y2="68.0" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="60.1" y1="88.1" x2="739.8" y2="91.1" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="65.5" y1="110.7" x2="815.7" y2="111.5" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="73.4" y1="138.6" x2="773.2" y2="138.8" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="60.6" y1="161.7" x2="797.7" y2="163.0" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="70.4" y1="188.9" x2="813.2" y2="192.6" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="90.9" y1="212.9" x2="819.2" y2="215.8" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="95.3" y1="235.8" x2="778.3" y2="237.4" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="75.6" y1="260.8" x2="708.4" y2="263.7" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="82.1" y1="283.6" x2="708.8" y2="283.7" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="62.9" y1="307.7" x2="786.6" y2="311.4" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="59.3" y1="327.3" x2="743.3" y2="329.7" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="64.9" y1="355.9" x2="709.9" y2="359.8" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="95.4" y1="375.5" x2="751.7" y2="377.8" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="84.3" y1="399.2" x2="771.4" y2="399.9" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="64.4" y1="429.3" x2="753.3" y2="431.9" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="69.3" y1="451.7" x2="796.4" y2="453.7" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="62.7" y1="470.7" x2="771.4" y2="473.5" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="91.7" y1="495.3" x2="701.1" y2="495.8" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/>
+<line x1="56.3" y1="519.7" x2="793.9" y2="520.4" stroke="hsl(224 8% 45%)" stroke-width="0.9" opacity="0.18"/></g>
+  <g><path d="M 638.3 254.9 C 393.4 486.9, 186.4 335.3, 965.5 105.8" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.10" opacity="0.20"/>
+<path d="M 147.2 426.1 C 731.6 69.0, 543.1 327.3, 745.4 264.1" fill="none" stroke="hsl(224 8% 45%)" stroke-width="0.81" opacity="0.27"/>
+<path d="M 1018.4 226.2 C 1025.4 124.2, 386.9 410.1, 734.5 156.4" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.63" opacity="0.14"/>
+<path d="M 949.9 84.5 C 96.3 518.0, 64.3 127.6, 811.0 448.9" fill="none" stroke="hsl(224 8% 45%)" stroke-width="0.77" opacity="0.13"/>
+<path d="M 156.5 278.6 C 753.4 447.5, 877.7 184.3, 926.4 347.6" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.73" opacity="0.17"/>
+<path d="M 94.0 127.3 C 109.0 408.4, 404.3 458.3, 251.5 77.9" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.30" opacity="0.15"/>
+<path d="M 154.4 133.4 C 843.3 100.4, 710.4 210.4, 661.6 314.0" fill="none" stroke="hsl(224 8% 45%)" stroke-width="0.83" opacity="0.18"/>
+<path d="M 1123.8 76.4 C 337.2 107.8, 419.9 82.4, 730.0 292.4" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.67" opacity="0.12"/>
+<path d="M 716.3 558.8 C 1139.8 468.0, 987.5 219.1, 1119.1 257.0" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.66" opacity="0.13"/>
+<path d="M 571.8 540.7 C 213.4 362.8, 756.8 379.1, 742.3 229.8" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.83" opacity="0.23"/>
+<path d="M 426.1 527.2 C 515.4 393.7, 698.0 257.7, 453.6 155.3" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.83" opacity="0.21"/>
+<path d="M 443.7 525.0 C 1005.4 220.2, 506.7 429.4, 225.8 182.0" fill="none" stroke="hsl(224 8% 45%)" stroke-width="0.88" opacity="0.24"/>
+<path d="M 513.4 131.5 C 511.1 491.5, 977.2 378.2, 1137.1 218.4" fill="none" stroke="hsl(224 8% 45%)" stroke-width="0.83" opacity="0.16"/>
+<path d="M 414.3 268.5 C 581.6 80.4, 138.5 99.9, 130.5 215.5" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.37" opacity="0.17"/>
+<path d="M 1039.6 233.5 C 841.7 200.2, 744.8 293.9, 423.9 283.3" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.10" opacity="0.27"/>
+<path d="M 1122.8 387.5 C 1099.7 524.0, 717.5 140.6, 241.8 332.6" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.74" opacity="0.13"/></g>
+
+  <g>
+    <rect x="66" y="74" width="1068" height="482" rx="24" fill="none" stroke="hsl(220 10% 32%)" stroke-width="1.4" opacity="0.48" />
+    <rect x="82" y="90" width="620" height="450" rx="18" fill="none" stroke="hsl(224 8% 45%)" stroke-width="1.1" opacity="0.36" />
   </g>
 
-  <g opacity="0.2" stroke="#7d7268" stroke-width="1">
-    <line x1="760" y1="172" x2="1098" y2="172"/>
-    <line x1="760" y1="196" x2="1098" y2="196"/>
-    <line x1="760" y1="220" x2="1098" y2="220"/>
-    <line x1="760" y1="244" x2="1098" y2="244"/>
-    <line x1="760" y1="268" x2="1098" y2="268"/>
-    <line x1="760" y1="292" x2="1098" y2="292"/>
-  </g>
-
-  <g transform="translate(736,146)">
-    <rect x="0" y="0" width="382" height="312" rx="18" fill="#f5f0e7" stroke="#8f8579" stroke-width="1.2"/>
-    <path d="M30 248 C94 186, 152 194, 210 142 C248 106, 282 98, 340 58" stroke="#625a52" stroke-width="3" fill="none"/>
-    <path d="M34 244 C102 272, 158 258, 238 264 C286 268, 314 254, 356 266" stroke="#7a6f63" stroke-width="2" fill="none"/>
-    <circle cx="98" cy="102" r="24" stroke="#6e6459" stroke-width="2" fill="none"/>
-    <path d="M90 84 L106 120 M106 84 L90 120" stroke="#786d61" stroke-width="1.6"/>
-  </g>
-
-  <g transform="translate(92,86)">
-    <rect x="0" y="0" width="124" height="34" rx="17" fill="#ece6dc" stroke="#9a9084" stroke-width="1"/>
-    <text x="62" y="22" text-anchor="middle" font-size="16" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e">matters</text>
-  </g>
-
-  <text x="92" y="196" font-size="58" font-family="'Noto Serif TC', 'PingFang TC', serif" fill="#2f2a25" letter-spacing="0.3"><tspan x="92" dy="0">和平演變抑或風暴前夜?淺談數位世代的</tspan><tspan x="92" dy="56">廚房呢... - 豆泥 - Matt</tspan><tspan x="92" dy="56">ers</tspan></text>
-
-  <text x="94" y="392" font-size="30" font-family="'Noto Sans TC', 'PingFang TC', sans-serif" fill="#4f463e" letter-spacing="0.2"><tspan x="94" dy="0">和平演變抑或風暴前夜</tspan></text>
-
-  <text x="94" y="562" font-size="18" font-family="'JetBrains Mono', monospace" fill="#655d54" opacity="0.9">2025.09.12</text>
-  <text x="1106" y="562" text-anchor="end" font-size="18" font-family="'Noto Sans TC', sans-serif" fill="#655d54" opacity="0.9">pencil sketch · bologna mood</text>
+  <g><line x1="916.4" y1="372.6" x2="851.4" y2="350.2" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="1054.9" y1="356.9" x2="822.9" y2="147.0" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="851.4" y1="350.2" x2="901.0" y2="147.5" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="822.9" y1="147.0" x2="797.7" y2="352.0" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="901.0" y1="147.5" x2="907.4" y2="308.5" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="797.7" y1="352.0" x2="1055.0" y2="200.3" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="907.4" y1="308.5" x2="986.2" y2="418.6" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="1055.0" y1="200.3" x2="916.4" y2="372.6" stroke="hsl(224 8% 45%)" stroke-width="2.3"/>
+<line x1="986.2" y1="418.6" x2="1054.9" y2="356.9" stroke="hsl(224 8% 45%)" stroke-width="2.3"/><circle cx="916.4" cy="372.6" r="13.2" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="1054.9" cy="356.9" r="11.7" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="851.4" cy="350.2" r="13.5" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="822.9" cy="147.0" r="10.2" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="901.0" cy="147.5" r="7.1" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="797.7" cy="352.0" r="10.9" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="907.4" cy="308.5" r="12.4" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="1055.0" cy="200.3" r="13.9" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/>
+<circle cx="986.2" cy="418.6" r="13.4" fill="none" stroke="hsl(220 10% 32%)" stroke-width="2.6"/></g>
 </svg>

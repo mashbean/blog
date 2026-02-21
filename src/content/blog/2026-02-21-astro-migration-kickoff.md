@@ -7,7 +7,7 @@ draft: false
 tags: ["Astro", "Migration", "GitHub Pages"]
 category: "工程實作"
 cover: "images/covers/home/2026-02-21-astro-migration-kickoff.svg"
-coverAlt: "工程實作 Astro 遷移 Kickoff：從 Jekyll 到可擴充內容架構｜鉛筆素描風文章縮圖，摘句：這是新的 Astro 架構第一篇文章,目標很明確: 先確保內容遷移穩定"
+coverAlt: "Astro 遷移 Kickoff：從 Jekyll 到可擴充內容架構 cover illustration (astro, migration, github pages, 工程實作)"
 lang: "zh-TW"
 canonicalURL: "https://mashbean.net/blog/2026-02-21-astro-migration-kickoff/"
 author: "Mashbean"
