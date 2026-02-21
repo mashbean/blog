@@ -33,6 +33,11 @@ const socialLinks = [
     href: "https://matters.town/@mashbean",
     label: "Matters",
     iconPath: "M3 5h3.2l3.8 6.7L13.8 5H17v14h-3V11l-3.2 5.6h-1.6L6 11v8H3z"
+  },
+  {
+    href: "mailto:mashbean@gmail.com",
+    label: "Email",
+    iconPath: "M2 5h20v14H2zm10 7L4 7v10h16V7z"
   }
 ];
 
@@ -72,22 +77,25 @@ const isActive = (href: string): boolean => {
             RSS 訂閱
           </a>
           <span class="nav-social-divider" aria-hidden="true"></span>
-          <div class="nav-social-links" aria-label="社群連結">
+            <div class="nav-social-links" aria-label="社群連結">
             {
-              socialLinks.map((item) => (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={item.label}
-                  title={item.label}
-                  class="nav-social-link"
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d={item.iconPath} />
-                  </svg>
-                </a>
-              ))
+              socialLinks.map((item) => {
+                const isMailto = item.href.startsWith("mailto:");
+                return (
+                  <a
+                    href={item.href}
+                    target={isMailto ? undefined : "_blank"}
+                    rel={isMailto ? undefined : "noopener noreferrer"}
+                    aria-label={item.label}
+                    title={item.label}
+                    class="nav-social-link"
+                  >
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d={item.iconPath} />
+                    </svg>
+                  </a>
+                );
+              })
             }
           </div>
         </li>

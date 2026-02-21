@@ -453,19 +453,24 @@
   .nav-list {
     width: 100%;
     justify-content: flex-start;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 0.2rem;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    flex-wrap: wrap;
+    overflow-x: visible;
+    row-gap: 0.45rem;
+    padding-bottom: 0;
   }
 
   .nav-social-item {
+    flex: 0 0 100%;
+    width: 100%;
     gap: 0.34rem;
   }
 
   .nav-social-divider {
     height: 0.9rem;
+  }
+
+  .nav-social-links {
+    flex-wrap: wrap;
   }
 
   .nav-social-link {
