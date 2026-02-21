@@ -6,18 +6,11 @@ title: 首頁
 <h1>{{ site.title }}</h1>
 <p>{{ site.description }}</p>
 
-<section aria-label="Search posts">
-  <label for="post-search">搜尋文章</label>
-  <input id="post-search" type="search" placeholder="輸入標題或摘要關鍵字..." autocomplete="off">
-  <p id="search-status" aria-live="polite"></p>
-</section>
-
 {% assign posts_list = paginator.posts | default: site.posts %}
-<ul id="post-list">
+<ul>
   {% for post in posts_list %}
     {% assign summary_text = post.summary | default: post.excerpt | strip_html | strip_newlines %}
-    {% assign searchable = post.title | append: " " | append: summary_text %}
-    <li class="post-item" data-search="{{ searchable | downcase | escape }}">
+    <li>
       <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
       <small>({{ post.date | date: "%Y-%m-%d" }})</small>
       <p>{{ summary_text | truncate: 120 }}</p>
@@ -48,30 +41,3 @@ title: 首頁
     {% endif %}
   </nav>
 {% endif %}
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  var input = document.getElementById("post-search");
-  var list = document.getElementById("post-list");
-  var status = document.getElementById("search-status");
-  if (!input || !list || !status) return;
-
-  var items = Array.prototype.slice.call(list.querySelectorAll(".post-item"));
-  var total = items.length;
-  status.textContent = "顯示 " + total + " 篇";
-
-  function applySearch() {
-    var q = input.value.trim().toLowerCase();
-    var shown = 0;
-    items.forEach(function (item) {
-      var text = item.dataset.search || item.textContent.toLowerCase();
-      var visible = !q || text.indexOf(q) !== -1;
-      item.style.display = visible ? "" : "none";
-      if (visible) shown += 1;
-    });
-    status.textContent = q ? "找到 " + shown + " / " + total + " 篇" : "顯示 " + total + " 篇";
-  }
-
-  input.addEventListener("input", applySearch);
-});
-</script>

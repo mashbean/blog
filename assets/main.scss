@@ -139,36 +139,91 @@ a {
 .sidebar-connect ul {
   list-style: none;
   margin: 0;
-}
-
-.sidebar-connect li {
-  margin-bottom: 0.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
 }
 
 .sidebar-connect a {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
   color: #2b3640;
-  font-size: 0.93rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #edf3f6;
+  border: 1px solid #d7e0e6;
 }
 
 .sidebar-connect a:hover {
   text-decoration: none;
+  background: #dfe9ee;
 }
 
 .social-icon {
-  width: 1.15rem;
-  height: 1.15rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: #dbe8ee;
-  color: #0f3b52;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: lowercase;
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
+.social-icon-link svg {
+  width: 1rem;
+  height: 1rem;
+  fill: #1d455a;
+}
+
+.sidebar-search {
+  margin-top: 0.95rem;
+}
+
+.sidebar-search label {
+  font-size: 0.9rem;
+  color: #33414d;
+}
+
+#sidebar-search-input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.4rem 0.55rem;
+  background: #fff;
+  margin-top: 0.3rem;
+}
+
+#sidebar-search-status {
+  margin-top: 0.35rem;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+#sidebar-search-results {
+  list-style: none;
+  margin: 0;
+  max-height: 220px;
+  overflow: auto;
+  padding-right: 0.2rem;
+}
+
+#sidebar-search-results li {
+  margin-bottom: 0.3rem;
+  line-height: 1.35;
+}
+
+#sidebar-search-results a {
+  display: inline;
+  background: none;
+  border: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: #1f3f52;
+}
+
+#sidebar-search-results small {
+  color: var(--muted);
+  font-size: 0.78rem;
 }
 
 @media screen and (max-width: 979px) {
@@ -201,7 +256,7 @@ li p {
   margin-bottom: 0.8rem;
 }
 
-.post-content {
+  .post-content {
   font-family: "Source Serif 4", "Noto Serif TC", serif;
   font-size: 1.12rem;
   line-height: 1.95;
@@ -225,27 +280,6 @@ li p {
 .post-content code {
   background: #eef2f5;
   border-color: #d9e0e7;
-}
-
-/* Homepage search */
-#post-search {
-  width: min(100%, 460px);
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  padding: 0.48rem 0.65rem;
-  background: #fff;
-}
-
-#post-search:focus {
-  outline: 2px solid #b9d0da;
-  outline-offset: 1px;
-}
-
-#search-status {
-  color: var(--muted);
-  margin-top: 0.35rem;
-  margin-bottom: 0.4rem;
-  font-size: 0.95rem;
 }
 
 /* Pagination UI */
