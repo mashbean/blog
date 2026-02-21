@@ -5,7 +5,9 @@ import { getBlogPosts } from "@/utils/blog";
 import { withBase } from "@/utils/paths";
 
 const posts = await getBlogPosts();
-const latestPosts = posts.slice(0, 10);
+const latestPosts = posts.slice(0, 12);
+const featuredPost = latestPosts[0];
+const recentPosts = latestPosts.slice(1);
 ---
 
 <BaseLayout title="首頁" description="最新文章與內容更新。">
@@ -19,18 +21,32 @@ const latestPosts = posts.slice(0, 10);
     </figure>
   </section>
 
-  <h2 class="section-title">最新文章</h2>
+  <div class="home-section-head">
+    <h2 class="section-title">最新文章</h2>
+    <p class="home-section-meta">最近更新 {latestPosts.length} 篇</p>
+  </div>
   {
     latestPosts.length === 0 ? (
       <p class="empty-state">目前還沒有文章。</p>
     ) : (
-      <ul class="post-list">
-        {latestPosts.map((post) => <li><PostCard post={post} /></li>)}
-      </ul>
+      <>
+        {featuredPost && (
+          <section aria-label="精選最新文章">
+            <PostCard post={featuredPost} variant="feature" />
+          </section>
+        )}
+        {recentPosts.length > 0 && (
+          <section class="home-post-grid" aria-label="近期更新">
+            <ul class="post-list post-list-compact-grid">
+              {recentPosts.map((post) => <li><PostCard post={post} variant="compact" /></li>)}
+            </ul>
+          </section>
+        )}
+      </>
     )
   }
 
-  <p style="margin-top: 1rem;">
+  <p class="home-all-link">
     <a href={withBase("blog/")}>查看全部文章 -></a>
   </p>
 </BaseLayout>

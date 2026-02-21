@@ -275,6 +275,32 @@
     font-size: clamp(1.3rem, 1.8vw, 1.7rem);
   }
 
+  .home-section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .home-section-head .section-title {
+    margin-bottom: 0.5rem;
+  }
+
+  .home-section-meta {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+
+  .home-post-grid {
+    margin-top: 0.95rem;
+  }
+
+  .home-all-link {
+    margin-top: 1rem;
+  }
+
   .post-list {
     display: grid;
     gap: 1rem;
@@ -288,6 +314,7 @@
     border-radius: 1rem;
     padding: 1rem 1rem 0.95rem;
     background: #ffffff;
+    height: 100%;
   }
 
   .post-card-meta {
@@ -313,6 +340,45 @@
   .post-card-desc {
     margin: 0;
     color: var(--color-muted);
+  }
+
+  .post-card-feature {
+    border-color: #bfe0d8;
+    background: linear-gradient(180deg, #ffffff 0%, #f8fdfa 100%);
+    padding: 1.15rem 1.15rem 1.05rem;
+  }
+
+  .post-card-feature .post-card-title {
+    font-size: clamp(1.35rem, 2vw, 1.6rem);
+    margin-top: 0.45rem;
+  }
+
+  .post-list-compact-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.8rem;
+  }
+
+  .post-card-compact {
+    padding: 0.82rem 0.88rem 0.8rem;
+  }
+
+  .post-card-compact .post-card-meta {
+    font-size: 0.8rem;
+  }
+
+  .post-card-compact .post-card-title {
+    font-size: 1.08rem;
+    line-height: 1.35;
+    margin: 0.3rem 0 0.42rem;
+  }
+
+  .post-card-compact .post-card-desc {
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .post-card-compact .tag-list {
+    margin-top: 0.5rem;
   }
 
   .tag-list {
@@ -642,6 +708,46 @@
     font-size: 0.86rem;
   }
 
+  .search-fallback-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.55rem;
+    margin-top: 0.68rem;
+  }
+
+  .search-result-count {
+    margin: 0;
+    color: #2f5961;
+    font-size: 0.88rem;
+  }
+
+  .search-type-filter {
+    display: inline-flex;
+    border: 1px solid #c7d8d2;
+    border-radius: 999px;
+    background: #f8fcfa;
+    padding: 0.2rem;
+    gap: 0.22rem;
+  }
+
+  .search-filter-btn {
+    border: 0;
+    background: transparent;
+    color: #2e4b59;
+    font-size: 0.82rem;
+    border-radius: 999px;
+    min-height: 1.7rem;
+    padding: 0.16rem 0.64rem;
+    cursor: pointer;
+  }
+
+  .search-filter-btn.is-active {
+    background: #0b7d6d;
+    color: #fff;
+  }
+
   .search-panel kbd {
     font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
     font-size: 0.86em;
@@ -743,6 +849,20 @@
     gap: 0.5rem;
   }
 
+  .search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0.65rem 0 0;
+  }
+
+  .search-result-item {
+    border: 1px solid #d8e6e1;
+    border-radius: 0.85rem;
+    background: #fbfefc;
+    padding: 0.72rem 0.78rem;
+    margin-bottom: 0.55rem;
+  }
+
   .search-result-link {
     color: var(--color-ink);
     text-decoration: none;
@@ -763,6 +883,34 @@
     margin: 0.35rem 0 0;
     color: #38505b;
     font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .search-result-snippet mark,
+  .search-result-link mark,
+  .search-result-tags mark {
+    background: #fff3c5;
+    color: inherit;
+    border-radius: 0.2rem;
+    padding: 0 0.1rem;
+  }
+
+  .search-result-tags {
+    margin: 0.45rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .search-result-tags li {
+    border-radius: 999px;
+    border: 1px solid #c8ddd7;
+    background: #eff9f5;
+    color: #14574f;
+    font-size: 0.76rem;
+    padding: 0.14rem 0.5rem;
   }
 
   .tag-filter-grid {
@@ -930,5 +1078,9 @@
 
   .hero {
     padding: 1rem;
+  }
+
+  .post-list-compact-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

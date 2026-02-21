@@ -5,15 +5,17 @@ import { formatDate } from "@/utils/date";
 
 interface Props {
   post: CollectionEntry<"blog">;
+  variant?: "default" | "feature" | "compact";
 }
 
-const { post } = Astro.props as Props;
+const { post, variant = "default" } = Astro.props as Props;
 const url = buildPostUrl(post);
 ---
 
-<article class="post-card">
+<article class:list={{ "post-card": true, "post-card-feature": variant === "feature", "post-card-compact": variant === "compact" }}>
   <p class="post-card-meta">
     <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+    {post.data.category && <>{" · "}{post.data.category}</>}
     {
       post.data.updatedDate && (
         <>
