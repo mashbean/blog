@@ -1,9 +1,29 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostCard from "@/components/PostCard.astro";
-import { getBlogPosts } from "@/utils/blog";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { formatDate } from "@/utils/date";
 
 const posts = await getBlogPosts();
+const yearMap = new Map<number, typeof posts>();
+
+for (const post of posts) {
+  const year = post.data.pubDate.getFullYear();
+  const bucket = yearMap.get(year);
+  if (bucket) {
+    bucket.push(post);
+  } else {
+    yearMap.set(year, [post]);
+  }
+}
+
+const yearSections = Array.from(yearMap.entries())
+  .map(([year, yearPosts]) => ({
+    year,
+    posts: yearPosts,
+    count: yearPosts.length,
+    id: `year-${year}`
+  }))
+  .sort((a, b) => b.year - a.year);
 ---
 
 <BaseLayout title="文章列表" description="依日期由新到舊的所有文章。">
@@ -14,9 +34,44 @@ const posts = await getBlogPosts();
     posts.length === 0 ? (
       <p class="empty-state">目前還沒有文章。</p>
     ) : (
-      <ul class="post-list">
-        {posts.map((post) => <li><PostCard post={post} /></li>)}
-      </ul>
+      <>
+        <p id="year-nav" style="margin: 0.8rem 0 0.2rem;">快速導覽：先選年份，再看該年份內所有文章。</p>
+        <div class="tag-filter-grid">
+          {
+            yearSections.map((section) => (
+              <a class="tag-filter-chip" href={`#${section.id}`} aria-label={`${section.year} 年，共 ${section.count} 篇`}>
+                <span class="tag-chip-icon" aria-hidden="true">🗓️</span>
+                <span>{section.year} 年</span>
+                <strong>{section.count}</strong>
+              </a>
+            ))
+          }
+        </div>
+
+        {
+          yearSections.map((section) => (
+            <section id={section.id} class="tag-section">
+              <h2>
+                <span class="tag-chip-icon" aria-hidden="true">🗓️</span>
+                {section.year} 年 ({section.count})
+              </h2>
+              <ul class="post-list-compact">
+                {
+                  section.posts.map((post) => (
+                    <li class="post-list-compact-item">
+                      <a class="post-list-compact-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                      <small class="post-list-compact-date">({formatDate(post.data.pubDate)})</small>
+                    </li>
+                  ))
+                }
+              </ul>
+              <p style="margin-top: 0.65rem;">
+                <a href="#year-nav">回到年份導覽</a>
+              </p>
+            </section>
+          ))
+        }
+      </>
     )
   }
 </BaseLayout>
