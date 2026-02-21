@@ -654,6 +654,61 @@ a.page-chip:hover {
 }
 
 @media screen and (max-width: 979px) {
+  .site-header .wrapper {
+    padding-top: 0.75rem;
+  }
+
+  .site-title,
+  .site-nav {
+    float: none;
+  }
+
+  .site-title {
+    display: block;
+    margin: 0 0 0.35rem;
+    font-size: 1.02rem;
+    line-height: 1.25;
+  }
+
+  .site-nav {
+    margin-bottom: 0.35rem;
+  }
+
+  .sidebar-search {
+    clear: both;
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+  }
+
+  .sidebar-search label {
+    display: block;
+    margin-bottom: 0.32rem;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: #5b6470;
+  }
+
+  #sidebar-search-input {
+    height: 2.65rem;
+    font-size: 1rem;
+    padding: 0.52rem 0.72rem;
+    border-radius: 12px;
+  }
+
+  .sidebar-connect ul {
+    gap: 0.42rem;
+  }
+
+  .sidebar-connect a {
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  .social-icon-link svg {
+    width: 0.98rem;
+    height: 0.98rem;
+  }
+
   .page-content .wrapper {
     border-radius: 14px;
     padding: 1.35rem 1.1rem 1.6rem;
