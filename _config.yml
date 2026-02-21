@@ -3,6 +3,8 @@ description: My notes and articles
 theme: minima
 lang: zh-TW
 timezone: Asia/Taipei
+url: "https://mashbean.net"
+baseurl: ""
 
 # GitHub Pages 會自動讀取 _posts
 permalink: /:year/:month/:day/:title/

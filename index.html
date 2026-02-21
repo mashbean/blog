@@ -1,0 +1,31 @@
+---
+layout: default
+title: 首頁
+---
+
+<h1>{{ site.title }}</h1>
+<p>{{ site.description }}</p>
+
+{% assign posts_list = paginator.posts | default: site.posts %}
+<ul>
+  {% for post in posts_list %}
+    <li>
+      <a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+      <small>({{ post.date | date: "%Y-%m-%d" }})</small>
+    </li>
+  {% endfor %}
+</ul>
+
+{% if paginator.total_pages > 1 %}
+  <nav aria-label="Pagination">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | relative_url }}">上一頁</a>
+    {% endif %}
+
+    <span>第 {{ paginator.page }} / {{ paginator.total_pages }} 頁</span>
+
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | relative_url }}">下一頁</a>
+    {% endif %}
+  </nav>
+{% endif %}
