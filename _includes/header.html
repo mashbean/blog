@@ -66,7 +66,14 @@
       {%- endfor -%}
       ]
     </script>
-    <script defer src="{{ '/assets/site.js' | relative_url }}"></script>
+    {%- unless asset_ver -%}
+      {%- if site.github.build_revision -%}
+        {%- assign asset_ver = site.github.build_revision -%}
+      {%- else -%}
+        {%- assign asset_ver = site.time | date: "%s" -%}
+      {%- endif -%}
+    {%- endunless -%}
+    <script defer src="{{ '/assets/site.js' | relative_url }}?v={{ asset_ver }}"></script>
 
     <section class="sidebar-connect" aria-label="Social links">
       <h2>連結</h2>
