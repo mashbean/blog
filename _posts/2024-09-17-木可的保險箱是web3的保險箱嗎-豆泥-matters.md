@@ -2,7 +2,7 @@
 title: "木可的保險箱，是web3的保險箱嗎？ - 豆泥 - Matters"
 date: 2024-09-17 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/n1fupdwjxq25 木可的保險箱，是web3的保險箱嗎？"
 ---
 來源：[https://matters.town/a/n1fupdwjxq25](https://matters.town/a/n1fupdwjxq25)

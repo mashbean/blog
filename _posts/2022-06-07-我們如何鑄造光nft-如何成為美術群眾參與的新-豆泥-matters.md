@@ -2,7 +2,7 @@
 title: "我們如何鑄造光？＿NFT 如何成為美術群眾參與的新… - 豆泥 - Matters"
 date: 2022-06-07 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/mdkyaniiloh3 我們如何鑄造光？"
 ---
 來源：[https://matters.town/a/mdkyaniiloh3](https://matters.town/a/mdkyaniiloh3)

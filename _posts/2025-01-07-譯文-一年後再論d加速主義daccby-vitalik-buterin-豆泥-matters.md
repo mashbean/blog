@@ -2,7 +2,7 @@
 title: "[譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin - 豆泥 - Matters"
 date: 2025-01-07 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/hv0vnqm5vkq7 [譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin 作者：Vitali…"
 ---
 來源：[https://matters.town/a/hv0vnqm5vkq7](https://matters.town/a/hv0vnqm5vkq7)

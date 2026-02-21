@@ -2,7 +2,7 @@
 title: "Loot Revolution"
 date: 2021-09-12 10:00:00 +0800
 categories: [blog]
-tags: [NFT, AI與科技, 薄荷薄荷專欄]
+tags: [NFT, AI與科技]
 summary: "An NFT proposal for free, for freedom, to demo, to democracy. *by Yu-Ren Wang, Mashbean*…"
 ---
 +   [# #Blockchain](https://matters.town/tags/64609-Blockchain)

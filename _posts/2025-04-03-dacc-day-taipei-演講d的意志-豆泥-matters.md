@@ -2,7 +2,7 @@
 title: "d/acc day Taipei 演講：D的意志 - 豆泥 - Matters"
 date: 2025-04-03 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/5cy949h9w8on d/acc day Taipei 演講：D的意志 大家好，我是 mashbean。"
 ---
 來源：[https://matters.town/a/5cy949h9w8on](https://matters.town/a/5cy949h9w8on)

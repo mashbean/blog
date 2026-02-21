@@ -2,7 +2,7 @@
 title: "ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？ - 豆泥 - Matters"
 date: 2025-06-18 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/gnw9mvy3x88o ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？"
 ---
 來源：[https://matters.town/a/gnw9mvy3x88o](https://matters.town/a/gnw9mvy3x88o)

@@ -2,7 +2,7 @@
 title: "翻譯：秘密結社、網路國家、火人祭、ZUZALU—對新政治社群… - 豆泥 - Matters"
 date: 2023-09-02 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/tovt6cabc5an 翻譯：秘密結社、網路國家、火人祭、ZUZALU—對新政治社群的思考 秘密結社 、網路國家、火人祭、Z…"
 ---
 來源：[https://matters.town/a/tovt6cabc5an](https://matters.town/a/tovt6cabc5an)

@@ -2,7 +2,7 @@
 title: "光與甘露水 1｜NFT 如何成為美術館群眾參與的新… - 豆泥 - Matters"
 date: 2022-04-18 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/2kr3osv57zu8 光與甘露水 1｜NFT 如何成為美術館群眾參與的新媒介？"
 ---
 來源：[https://matters.town/a/2kr3osv57zu8](https://matters.town/a/2kr3osv57zu8)

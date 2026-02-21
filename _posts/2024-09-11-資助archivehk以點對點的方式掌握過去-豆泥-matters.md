@@ -2,7 +2,7 @@
 title: "資助「ArchiveHK」，以點對點的方式掌握過去 - 豆泥 - Matters"
 date: 2024-09-11 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/iq3xsqvzcvv9 資助「ArchiveHK」，以點對點的方式掌握過去 這是最糟的時代，香港的言論自由正在被抹滅，意識形…"
 ---
 來源：[https://matters.town/a/iq3xsqvzcvv9](https://matters.town/a/iq3xsqvzcvv9)

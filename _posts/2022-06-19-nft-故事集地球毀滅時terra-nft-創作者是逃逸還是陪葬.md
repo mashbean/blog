@@ -2,7 +2,7 @@
 title: "NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？"
 date: 2022-06-19 10:00:00 +0800
 categories: [blog]
-tags: [NFT, 薄荷薄荷專欄]
+tags: [NFT]
 summary: "當號稱永遠不可篡改的區塊鏈損毀時，NFT 還有價值嗎？"
 ---
 +   [# NFT](https://matters.town/tags/7990-NFT)

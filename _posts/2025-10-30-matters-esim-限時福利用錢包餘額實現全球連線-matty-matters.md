@@ -2,7 +2,7 @@
 title: "Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters"
 date: 2025-10-30 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/pd5qrqglkb4u Matters eSIM 限時福利｜用錢包餘額實現全球連線 對於習慣跨境移動的你，網路連線早已不只是…"
 ---
 來源：[https://matters.town/a/pd5qrqglkb4u](https://matters.town/a/pd5qrqglkb4u)

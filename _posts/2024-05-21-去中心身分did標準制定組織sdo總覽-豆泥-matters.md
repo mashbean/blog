@@ -2,7 +2,7 @@
 title: "去中心身分（DID）標準制定組織（SDO）總覽 - 豆泥 - Matters"
 date: 2024-05-21 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/re2j91fedsrz 去中心身分（DID）標準制定組織（SDO）總覽 這半年掉進了去中心身分（Decetralised I…"
 ---
 來源：[https://matters.town/a/re2j91fedsrz](https://matters.town/a/re2j91fedsrz)

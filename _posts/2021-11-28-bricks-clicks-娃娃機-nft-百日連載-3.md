@@ -2,7 +2,7 @@
 title: "Bricks & Clicks - 娃娃機 NFT 百日連載 (3)"
 date: 2021-11-28 10:00:00 +0800
 categories: [blog]
-tags: [數位藝術, 薄荷薄荷專欄]
+tags: [數位藝術]
 summary: "「大學生靠娃娃機 NFT 月入三十萬？"
 ---
 +   [# 藝術](https://matters.town/tags/1841-%E8%97%9D%E8%A1%93)

@@ -2,7 +2,7 @@
 title: "NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤… - 豆泥 - Matters"
 date: 2022-01-01 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/2sa4j4xh0oos NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤市集？"
 ---
 來源：[https://matters.town/a/2sa4j4xh0oos](https://matters.town/a/2sa4j4xh0oos)

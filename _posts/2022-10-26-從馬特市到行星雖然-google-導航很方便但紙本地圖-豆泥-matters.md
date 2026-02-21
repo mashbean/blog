@@ -2,7 +2,7 @@
 title: "從馬特市到行星，雖然 Google 導航很方便，但紙本地圖… - 豆泥 - Matters"
 date: 2022-10-26 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/t63kp8l33lv3 從馬特市到行星，雖然 Google 導航很方便，但紙本地圖有時也很重要。"
 ---
 來源：[https://matters.town/a/t63kp8l33lv3](https://matters.town/a/t63kp8l33lv3)

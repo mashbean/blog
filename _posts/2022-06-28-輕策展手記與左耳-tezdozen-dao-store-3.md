@@ -2,7 +2,7 @@
 title: "輕策展手記與左耳 TezDozen DAO Store 3"
 date: 2022-06-28 10:00:00 +0800
 categories: [blog]
-tags: [數位藝術, 薄荷薄荷專欄]
+tags: [數位藝術]
 summary: ">喜歡的創作者，創作出喜歡的作品，然後被喜歡的收藏者收藏。"
 ---
 +   [# akaSwap](https://matters.town/tags/74842-akaSwap)

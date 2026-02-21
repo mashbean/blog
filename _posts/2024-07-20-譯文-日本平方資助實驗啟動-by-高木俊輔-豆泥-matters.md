@@ -2,7 +2,7 @@
 title: "[譯文] 日本平方資助實驗啟動 by 高木俊輔 - 豆泥 - Matters"
 date: 2024-07-20 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/5r6bjckrexyx [譯文] 日本平方資助實驗啟動 by 高木俊輔 原文在 Substack 於 2024 年 7 月…"
 ---
 來源：[https://matters.town/a/5r6bjckrexyx](https://matters.town/a/5r6bjckrexyx)

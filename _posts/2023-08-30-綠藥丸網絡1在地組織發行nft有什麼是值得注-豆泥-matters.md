@@ -2,7 +2,7 @@
 title: "綠藥丸網絡1：在地組織發行NFT有什麼是值得注… - 豆泥 - Matters"
 date: 2023-08-30 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/pkexlymdb17l 綠藥丸網絡1：在地組織發行NFT有什麼是值得注意的事？"
 ---
 來源：[https://matters.town/a/pkexlymdb17l](https://matters.town/a/pkexlymdb17l)

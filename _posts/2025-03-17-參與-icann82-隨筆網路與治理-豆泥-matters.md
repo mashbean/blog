@@ -2,7 +2,7 @@
 title: "參與 ICANN82 隨筆：網路與治理 - 豆泥 - Matters"
 date: 2025-03-17 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/aryv5higybp5 參與 ICANN82 隨筆：網路與治理 黃豆泥，最近在做什麼呢？"
 ---
 來源：[https://matters.town/a/aryv5higybp5](https://matters.town/a/aryv5higybp5)

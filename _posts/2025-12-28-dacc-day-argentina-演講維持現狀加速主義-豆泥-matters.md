@@ -2,7 +2,7 @@
 title: "d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters"
 date: 2025-12-28 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/pl3rg4n8wk29 d/acc day Argentina 演講：維持現狀加速主義 Slow Resistance, F…"
 ---
 來源：[https://matters.town/a/pl3rg4n8wk29](https://matters.town/a/pl3rg4n8wk29)

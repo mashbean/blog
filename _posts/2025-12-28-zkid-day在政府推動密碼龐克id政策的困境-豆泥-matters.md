@@ -2,7 +2,7 @@
 title: "zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters"
 date: 2025-12-28 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/ehku76i9wdoc zkID Day：在政府推動密碼龐克ID政策的困境 在政府推動密碼龐克ID政策的困境 The Har…"
 ---
 來源：[https://matters.town/a/ehku76i9wdoc](https://matters.town/a/ehku76i9wdoc)

@@ -2,7 +2,7 @@
 title: "讀書會：論 ImpactDAO 敘事空缺之處"
 date: 2023-06-25 10:00:00 +0800
 categories: [blog]
-tags: [AI與科技, 公共網路, 薄荷薄荷專欄]
+tags: [AI與科技, 公共網路]
 summary: ">邁向數位團結，需有足夠的心靈彈性，找到標準化的次文化脈絡。"
 ---
 +   [# DAO](https://matters.town/tags/4981-DAO)

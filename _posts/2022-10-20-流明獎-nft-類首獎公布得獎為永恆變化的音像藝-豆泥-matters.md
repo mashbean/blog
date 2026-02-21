@@ -2,7 +2,7 @@
 title: "流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝… - 豆泥 - Matters"
 date: 2022-10-20 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/a4vy3dd9f6j6 流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝術 流明獎 NFT 類首獎公布，得獎類型為音像藝術。"
 ---
 來源：[https://matters.town/a/a4vy3dd9f6j6](https://matters.town/a/a4vy3dd9f6j6)

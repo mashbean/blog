@@ -2,7 +2,7 @@
 title: "靠 NFT 致富的藝術家資產被凍結，目前正在向國際… - 豆泥 - Matters"
 date: 2022-07-19 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/2tzkohv11vda 靠 NFT 致富的藝術家資產被凍結，目前正在向國際求救 享譽國際的生成藝術家 Shvembldr 其…"
 ---
 來源：[https://matters.town/a/2tzkohv11vda](https://matters.town/a/2tzkohv11vda)

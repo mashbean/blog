@@ -2,7 +2,7 @@
 title: "[譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 - 豆泥 - Matters"
 date: 2024-07-04 10:00:00 +0800
 categories: [matters]
-tags: [matters, imported, 薄荷薄荷專欄]
+tags: [matters, imported]
 summary: "來源：https://matters.town/a/nbf6mvnyq7j8 [譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 給日本以外的讀者前情提要…"
 ---
 來源：[https://matters.town/a/nbf6mvnyq7j8](https://matters.town/a/nbf6mvnyq7j8)
