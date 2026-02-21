@@ -22,3 +22,4 @@ header_pages:
 # GitHub Pages 白名單外掛
 plugins:
   - jekyll-paginate
+  - jekyll-feed

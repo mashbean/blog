@@ -240,3 +240,11 @@ python3 scripts/crawl_matters_articles.py \
 - `matters_export/markdown/`：可讀 Markdown
 - `matters_export/text/`：純文字版本
 - `matters_export/manifest.json`：文章 URL 與檔案對照（含錯誤紀錄）
+
+## 10) RSS 訂閱
+
+已啟用 `jekyll-feed` 外掛，站上會產生：
+- `/feed.xml`
+
+你可以直接用以下網址訂閱：
+- `https://mashbean.net/feed.xml`
