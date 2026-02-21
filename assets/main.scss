@@ -473,14 +473,47 @@ a.page-chip:hover {
 }
 
 /* Subscribe page */
+.subscribe-panel {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fff 0%, #fdfcf8 100%);
+  padding: 1rem 1rem 0.95rem;
+}
+
+.subscribe-panel h1 {
+  margin-bottom: 0.3rem;
+}
+
+.subscribe-steps {
+  margin: 0.65rem 0 0.85rem 1.1rem;
+  color: #2a3844;
+}
+
+.subscribe-steps li {
+  margin-bottom: 0.35rem;
+}
+
+.subscribe-feed-box {
+  border: 1px dashed #ccd8df;
+  border-radius: 10px;
+  background: #f8fbfd;
+  padding: 0.75rem 0.78rem;
+}
+
 .subscribe-panel code {
   display: inline-block;
   max-width: 100%;
   overflow-wrap: anywhere;
-  padding: 0.35rem 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.55rem;
   border: 1px solid #d8e0e6;
   border-radius: 8px;
   background: #f5f8fa;
+}
+
+.subscribe-panel button.page-chip {
+  cursor: pointer;
 }
 
 .subscribe-actions {
@@ -493,6 +526,7 @@ a.page-chip:hover {
 .subscribe-note {
   color: var(--muted);
   font-size: 0.9rem;
+  margin-bottom: 0.2rem;
 }
 
 [data-reveal] {

@@ -42,6 +42,28 @@ document.addEventListener("DOMContentLoaded", function () {
   var status = document.getElementById("sidebar-search-status");
   var results = document.getElementById("sidebar-search-results");
   var dataNode = document.getElementById("post-search-data");
+  var copyBtn = document.getElementById("rss-copy-btn");
+  var feedUrlNode = document.getElementById("rss-feed-url");
+  var copyStatus = document.getElementById("rss-copy-status");
+  if (copyBtn && feedUrlNode && copyStatus) {
+    copyBtn.addEventListener("click", function () {
+      var text = (feedUrlNode.textContent || "").trim();
+      if (!text) return;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(text)
+          .then(function () {
+            copyStatus.textContent = "Feed URL 已複製";
+          })
+          .catch(function () {
+            copyStatus.textContent = "複製失敗，請手動選取網址";
+          });
+      } else {
+        copyStatus.textContent = "此瀏覽器不支援自動複製，請手動選取網址";
+      }
+    });
+  }
+
   if (!input || !status || !results || !dataNode) return;
 
   var posts = [];
