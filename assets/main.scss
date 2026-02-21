@@ -610,21 +610,27 @@ a.page-chip:hover {
 
   .site-header .wrapper {
     max-width: none;
-    padding: 0 1.2rem 2rem;
+    padding: 1.25rem 1.35rem 2rem;
   }
 
   .site-title {
     float: none;
     display: block;
     width: 100%;
-    margin-bottom: 0.8rem;
-    font-size: 1rem;
-    line-height: 1.35;
+    margin: 0 0 1rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #d7d1c6;
+    font-size: 1.55rem;
+    line-height: 1.14;
+    letter-spacing: -0.015em;
+    color: #1f2b33;
+    font-weight: 700;
   }
 
   .site-nav {
     float: none;
     width: 100%;
+    margin-top: 0.2rem;
   }
 
   .site-nav .trigger {
