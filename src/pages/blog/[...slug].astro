@@ -1,0 +1,82 @@
+---
+import { render, type CollectionEntry } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { formatDate } from "@/utils/date";
+import { withBase } from "@/utils/paths";
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts({
+    includeDrafts: !import.meta.env.PROD,
+    includeFuture: !import.meta.env.PROD
+  });
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post }
+  }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<"blog"> };
+const { Content } = await render(post);
+
+const coverSrc =
+  post.data.cover && /^https?:\/\//.test(post.data.cover)
+    ? post.data.cover
+    : post.data.cover
+      ? withBase(post.data.cover)
+      : undefined;
+
+const canonicalURL = post.data.canonicalURL;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  canonicalURL={canonicalURL}
+  ogImage={post.data.cover}
+  ogType="article"
+>
+  <article>
+    <header class="article-header">
+      <h1 class="article-title">{post.data.title}</h1>
+      <p class="article-meta">
+        發布：
+        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+        {
+          post.data.updatedDate && (
+            <>
+              {" · 更新："}
+              <time datetime={post.data.updatedDate.toISOString()}>
+                {formatDate(post.data.updatedDate)}
+              </time>
+            </>
+          )
+        }
+        {post.data.draft && !import.meta.env.PROD && " · 草稿"}
+      </p>
+
+      {post.data.tags.length > 0 && (
+        <ul class="tag-list" aria-label="文章標籤">
+          {post.data.tags.map((tag) => <li class="tag-list-item">{tag}</li>)}
+        </ul>
+      )}
+    </header>
+
+    {coverSrc && (
+      <figure class="article-cover">
+        <img src={coverSrc} alt={post.data.coverAlt ?? post.data.title} loading="lazy" />
+      </figure>
+    )}
+
+    <div class="article-prose">
+      <Content />
+    </div>
+
+    <p style="margin-top: 1.4rem;">
+      <a href={withBase("blog/")}>← 回文章列表</a>
+      {" · "}
+      <a href={buildPostUrl(post)}>本頁固定連結</a>
+    </p>
+  </article>
+</BaseLayout>

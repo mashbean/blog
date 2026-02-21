@@ -1,0 +1,14 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from "@/site.config";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <p>
+      <strong>{SITE_TITLE}</strong> · {SITE_DESCRIPTION}
+    </p>
+    <p>© {year} All rights reserved.</p>
+  </div>
+</footer>

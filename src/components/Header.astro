@@ -1,0 +1,42 @@
+---
+import { SITE_TITLE } from "@/site.config";
+import { withBase } from "@/utils/paths";
+
+const pathname = Astro.url.pathname;
+const links = [
+  { href: withBase(""), label: "首頁" },
+  { href: withBase("blog/"), label: "文章" },
+  { href: withBase("about/"), label: "關於" },
+  { href: withBase("rss.xml"), label: "RSS" }
+];
+
+const isActive = (href: string): boolean => {
+  if (href.endsWith("rss.xml")) return false;
+  return pathname === href || (href !== withBase("") && pathname.startsWith(href));
+};
+---
+
+<header class="site-header">
+  <div class="container site-header-inner">
+    <a class="brand-link" href={withBase("")}>{SITE_TITLE}</a>
+    <nav aria-label="主選單">
+      <ul class="nav-list">
+        {
+          links.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={{
+                  "nav-link": true,
+                  "nav-link-active": isActive(item.href)
+                }}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,37 @@
+{
+  "name": "mashbean-blog-astro",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.10.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "npm run check && npm run format:check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "migrate:posts": "node scripts/migrate-jekyll-posts.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.6.0",
+    "@tailwindcss/vite": "^4.1.13",
+    "astro": "^5.13.6",
+    "fast-glob": "^3.3.3",
+    "gray-matter": "^4.0.3",
+    "tailwindcss": "^4.1.13",
+    "yaml": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.9.3"
+  }
+}

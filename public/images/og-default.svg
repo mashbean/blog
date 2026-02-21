@@ -1,0 +1,12 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mashbean Blog OG">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e8faf5" />
+      <stop offset="100%" stop-color="#fff4d8" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect x="72" y="72" width="1056" height="486" rx="28" fill="#ffffff" stroke="#cde8df" />
+  <text x="120" y="250" font-size="70" font-family="Noto Serif TC, serif" fill="#13242f">Mashbean Blog</text>
+  <text x="120" y="330" font-size="36" font-family="Noto Sans TC, sans-serif" fill="#285a52">Astro + TypeScript + GitHub Pages</text>
+</svg>
