@@ -1,0 +1,82 @@
+# Loot Revolution - 豆泥 - Matters
+
+Source: https://matters.town/a/1opc7tm4z47w
+Date: 2021-09-12T08:09:35.474Z
+
+Loot Revolution
+
+by Yu-Ren Wang, Mashbean
+
+The project originated from a call from Mashbean when he rushed to me saying that I will surely be excited about this idea. Prior to that, we already had coffee chats about MemeForTaiwan,Taiwan Social Capital, and how they can potentially roll out as a long term project after he successfully conducted the trial with The Flag. (For details, check up How to value a flag?)
+
+Nascent as the concept is, there’s no doubt that Loot has agitated the NFT world, having numerous derivatives developed by the community within only one week. Loot Revolution is Taiwan Social Capital’s responseIt is the first attempt in the GameFi world to bring social activism into the metaverse. We chose the 2019 Hong Kong Protest as our theme, put it into the exquisite frame Loot invented, and here’s what we’ve got, Loot Revolution.
+
+The main article assumes that readers already have basic knowledge of what NFT and Loot are. Nonetheless, it can be that you are a stranger to the blockchain world. To avoid diving into the details too soon, here’s a simple explanation of some keywords.
+
+Blockchain technology basically refers to a digital ledger of transactions that, in this case, is publicly available. The objects transacted can be coins (BTC/ETH) or any other smart contracts. NFTs are (one of the many) objects/applications that are 24/7 being transacted on the Ethereum blockchain (again, Ethereum is one of the many blockchain technology available, also the most popular one), on which each buy and sell activity, its amount, properties (from A to B address) are recorded through its standardised Ethereum smart contract.
+
+Loot is a series of NFTs launched last weekend. It flipped over the idea of top down game design and made it a grassroot action by only releasing bags with simple wording, allowing the broader community to complete the RPG game plot and visuals as they wish.
+
+Loot Revolution is Taiwan Social Capital’s latest product. It’s a derivative of Loot and it brings in the notion of perpetual sharing that Taiwan Social Capital is experimenting with. This is the first GameFi that parted ways from fantasy and instead seeks to become a participant of a real world social action.
+
+The incoincident coincidence
+
+Loot showed perfectly how a bottom-up approach of building games and NFTs can be so fascinating, yet the “grassroot” element in it wasn’t created out of thin air.It is rather a concept deeply ingrained in social activism, where we saw potentially the intricate relationship Loot can bear with real world activism and initiatives.
+
+Throughout 2019-2020 we saw protests, tensions, demonstrations that deeply wounded the Hong Kong people. In fact, it wasn’t a single episode in history but rather can be traced further back to the Umbrella Movement in 2014. Its ripples even crossed the sea and further fuelled nationalism in Taiwan.
+
+Partly due to COVID and partly because no protests can last indefinitely, we are seeing a pause of the Protest in Hong Kong, even though the political dilemma is unanswered and the vague One Country Two Systems seems to be ever clearer a complete lie after all that we’ve been through. Business centres are now running as they were supposed to be, universities resuming classes, people being pushed back to where they ought to be; yet the scar is not going to heal by itself, let alone some people’s lives have been permanently flipped over after escaping arrests by the skin of their teeth. Some of them travelled to Taiwan for a second life, putting faith on the island’s resistance to the CCP to persevere, with strength.
+
+It was against the backdrop of these vivid memories that propelled us to establish Taiwan Social Capital and have Loot Revolution as our #001 Project (The Flag was #000). Loot Revolution seeks to take part in this action, to unleash NFTs’ potential to become powerful instruments in social actions.
+
+Memes, Grassroot, Game(Fi), Action/Activism
+
+We try to combine core concepts from Loot and Taiwan Social Capital, both pioneering projects in their respective fields. On one hand, Loot has a bottom-up game building mechanism that provides only the blueprint, leaving the particulars to the community to jointly develop (exactly how grassroot social movements operate); on the other hand, Taiwan Social Capital seeks to exploit the perpetuity royalty NFTs confer (unless it is burnt) and make them a stable funding source. In this #001 Project, every bit of royalties collected from each single transaction will be donated to HK people who are now starting their second lives in Taiwan or not and who are determined to fight for democracy.
+
+“Letting my creation become your game” is my definition of grassroot, whereas game refers to anything but work. Game creates scarcity, progressivity, the making of status, or even economic value. Seeing Power: Art and Activism in the 21st Century elucidates the context/narrative beneath why performance arts and socially engaged arts (social practice) that appeals to politics cannot make their way to the pedestal of arts, and the role of capital within this process.
+
+Be that as it may, we truly believe socially engaged acts will evolve with lightning speed because of NFTs.
+
+The NFT world is absorbing huge amounts of capital across the world. Whilst the crowd keeps flooding in, pushing NFT deep into the weeds, it is still searching for its own identity. It remains a question if the result is it being reincorporated into part of the exquisite culture, or it gulps up enough capital and metamorphoses into a brand new marketplace.
+
+Our Response: Loot Revolution
+
+The English edition intends to draw the world’s attention to what has happened throughout these years on the peninsula, sarcastically once a glorious English colony. The Mandarin version, to be released soon, is to offer the Mandarin world, especially TW and HK residents, a way to participate in the digital Lennon Wall (also to be released soon). You are welcomed to create NFT images, mini games, cosplay, or let us mint NFTs with customised items for you. This is real life, an RPG game destined to become a tragedy.
+
+If you have created anything based on any Loot Revolution NFTs, please put them on Twitter and hashtag #LootForHongKong #XXXX (the number). We will periodically airdrop the NFTs that you created against, the Mandarin version, to your designated addresses.
+
+Returning to grassroot
+
+The above image shows a poster on a Lennon Wall collected by Initium Media. In it is a swordsman waving a flag resisting the monster of an MTR compartment, resembling David and the GoliathIt depicts perfectly the relation between protestors and the subway system (dubbed CCP railway, or dong tit) in The Protest.
+
+No one could have anticipated the tragic ending from the inception of the Protest and the Umbrella movement, even Hong Kong people find it hard to spit out any feelings. The Protest has permanently accessed their conscious, subconscious, dreams and dreams within dreams.
+
+Can grassroot games serve to benefit grassroom movements?
+
+Our goal of designing Loot Revolution is to, from the funds that we collect from transactions of the bags/NFTs, support the Hong Kong people who have any anti-censorship needs.
+
+Same as the original Loot (For adventurers), feel free to use them in any way you want. These NFTs are for free, for freedom, to demo, to democracy.
+
+We are exploring a new world, a world in which Taiwan has the potential to be the Noak Ark of modern art in that MetaVerse of uncertain distance. If you are interested in Loot Revolution, please follow our Twitter page, any updates will be published on it. We are now producing the first 1000 NFTs and scheduled to release in the next coming week.
+
+Some Detail
+
+Loot Revolution
+release date: 9/13-19, will update at Twitter
+price: free
+amount: 1,000
+marketplace: OpenSea
+
+#Blockchain
+
+區塊鏈
+
+loot
+
+喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！
+
+關聯作品
+
+草根運動與 NFT 數位藝術
+
+Loot：以文字建構的開放式 RPG 冒險遊戲

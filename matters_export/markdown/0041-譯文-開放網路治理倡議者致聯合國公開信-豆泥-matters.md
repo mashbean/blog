@@ -1,0 +1,159 @@
+# [譯文] 開放網路治理倡議者致聯合國公開信 - 豆泥 - Matters
+
+Source: https://matters.town/a/l8gvlw1d2p19
+Date: 2024-07-03T08:04:49.018Z
+
+[譯文] 開放網路治理倡議者致聯合國公開信
+
+今年（2024）七月，一群參與網際網路（Internet）和網路（Web）開發和維護的技術專家，包括網路先驅文頓·瑟夫（Vint Cerf）和網際網路發明者蒂姆·伯納斯-李（Tim Berners-Lee）發表了一封公開信，呼籲聯合國（UN）秘書長和秘書長的技術特使在即將到來的「全球數位契約計畫」（Global Digital Compact, GDC）中「維護過去半個世紀以來全球資訊網治理模式，這種模式為世界帶來自下而上、協作和包容的特色」。
+
+「全球數位契約計畫」最初由聯合國秘書長在 2020 年《Our Common Agenda》中提出，時間點是聯合國 75 週年紀念後。根據聯合國說法，GDC 將「概述一個開放、自由和安全的全球資訊網與其共同原則」，並預計將在 2024 年 9 月於即將舉行的未來峰會上正式達成協議。
+
+技術專家和民間組織對 GDC 的制定流程和實質內容表示關切。正如公開信中所說， 「GDC 是由國與國之間的多邊過程（multilateral process）制定的，這與網際網路和網路發展所習慣使用的開放、包容和共識驅動的方法應用有所不同。我們擔心該文件將成為政府主導的出版品，這將與世界各地人們目前所習慣的網際網路脫節。」
+
+此外公開信也關切 GDC 草案提案的實質內容，包括建立技術事務的科層治理模型、要求更中心化的治理，以及未能充分保護傳統的多方利益關係人的網際網路治理模型。
+
+今年（2024）七月，一群參與網際網路（Internet）和網路（Web）開發和維護的技術專家，包括網路先驅文頓·瑟夫（Vint Cerf）和網際網路發明者蒂姆·伯納斯-李（Tim Berners-Lee）發表了一封公開信，呼籲聯合國（UN）秘書長和秘書長的技術特使在即將到來的「全球數位契約計畫」（Global Digital Compact, GDC）中「維護過去半個世紀以來全球資訊網治理模式，這種模式為世界帶來自下而上、協作和包容的特色」。
+
+「全球數位契約計畫」最初由聯合國秘書長在 2020 年《Our Common Agenda》中提出，時間點是聯合國 75 週年紀念後。根據聯合國說法，GDC 將「概述一個開放、自由和安全的全球資訊網與其共同原則」，並預計將在 2024 年 9 月於即將舉行的未來峰會上正式達成協議。
+
+技術專家和民間組織對 GDC 的制定流程和實質內容表示關切。正如公開信中所說， 「GDC 是由國與國之間的多邊過程（multilateral process）制定的，這與網際網路和網路發展所習慣使用的開放、包容和共識驅動的方法應用有所不同。我們擔心該文件將成為政府主導的出版品，這將與世界各地人們目前所習慣的網際網路脫節。」
+
+此外公開信也關切 GDC 草案提案的實質內容，包括建立技術事務的科層治理模型、要求更中心化的治理，以及未能充分保護傳統的多方利益關係人的網際網路治理模型。
+
+翻譯自原文新聞稿
+
+致聯合國的公開信
+An Open Letter to the United Nations
+
+2024 年 7 月 1 日
+
+致秘書長安東尼奧·古特雷斯（António Guterres）和科技特使阿曼迪普·辛格·吉爾（Amandeep Singh Gill）
+
+五十多年以來，網際網路的技術架構不斷演變，由多方利益相關者共同維護。雖然網路誕生於政府的官方實驗室，但網際網路已經是持續擴展的網絡，網際網路需要不斷維護。此間多數工作由網際網路工程任務組（IETF）協調， IETF 是一個開放、基於共識、由下而上、自願的全球標準組織。
+
+三十五年前，全球資訊網在歐洲核子研究組織（CERN）實驗室誕生，它迅速演變成全球公共工具，由志同道合的工程師和其他利益相關者在全球資訊網協會（W3C）的合作下維護和開發。它也是一個開放、基於共識、自下而上、自願的全球標準組織。
+
+如何衡量網際網路工程任務組（IETF）和全球資訊網協會（W3C）帶來的成功？我們可以從今日網際網路與附帶成就來衡量：全球通訊蓬勃發展，為世界多數人帶來教育、娛樂、訊息、連接和商業交流。網際網路已經是推動數位發展的催化劑，這些社群及其自我組成結構的方式已取得成效。
+
+我們知道政府必須善盡保護公民的責任。因此隨著網際網路和全球資訊網裡頭出現危害加劇，政府希望以監管和立法手段解決問題。技術架構可以啟動和影響網際網路的使用方式，但它本身無法解決濫用、錯誤訊息、不平等或其他許多問題。但如果監管和立法等手段破壞了網際網路的基本賦權性質，就會得不償失。
+
+網際網路是一種不尋常的科技，因為它本質上是分散的，它由所有參與的網路（Web）共同構建而成。每個網路根據自己的需求和優先工項參與其中。因此網際網路實際上是沒有控制中心。這並非偶然，而是網際網路的基本特質。然而過去幾年我們發現有人試圖在技術問題上引入科層治理模式來解決網際網路（Internet）和網路（Web）上的問題。這些提議令我們擔憂，因為這是對基本架構的侵蝕。
+
+特別是「全球數位契約計畫」（Global Digital Compact, GDC）內的部分提議可能會被解讀為國家要求更多的中心化網路治理。如果文件最後仍有這些文字，我們認為這不僅是對網際網路和網路有害，還會對世界經濟和社會造成不利影響。
+
+此外我們注意到 GDC 是由國與國之間的多邊過程（multilateral process）制定的，這與網際網路和網路發展所習慣使用的開放、包容和共識驅動的方法應用有所不同。除了某些高層次概念的諮詢外，非政府利益關係人（包括網際網路技術標準機構和更大的技術社群）很難在 GDC 製作過程中有效參與。我們擔心該文件將成為政府主導的出版品，這將與世界各地人們目前所習慣的網際網路脫節。
+
+因此，我們要求成員國、秘書長和技術特使確保數位治理的提案對齊多方利益關係人的網際網路治理實踐，這種實踐為我們帶來了今天的網際網路。政府參與數位和網際網路治理是必要的，這可以應對這個全球系統的許多濫用行為，但我們有責任共同維護自下而上、協作和包容的網際網路治理模式，這種模式已經在過去半個世紀中為世界服務。
+
+簽署人
+
+//所有簽名均以個人身份進行；所屬機構僅供參考。我們歡迎來自網際網路標準和監管機構的科技領袖（現任或過去）以及對網際網路和網路演進有貢獻的公認人士簽名。請將簽名請求發送至 contact@open-interne...，並附上相關所屬機構的列表。//
+
+Daniel Appelquist W3C TAG co-chair
+David Baron former W3C TAG
+Hadley Beeman W3C TAG
+Robin Berjon former W3C TAG; former W3C HTML Activity Lead
+Andrew Betts former W3C TAG
+Sir Tim Berners-Lee inventor of the World Wide Web; founder & emeritus director, W3C
+Tim Bray former W3C TAG; Editor of XML (W3C), JSON (IETF)
+Randy Bush former IESG, former ISO/WG13
+Dr. Brian E. Carpenter former Group Leader, Communication Systems, CERN; former IAB chair; former ISOC BoT chair; former IETF chair
+Vint Cerf Internet Pioneer
+David Conrad former IANA general manager; former ICANN CTO
+Martin Duke former IESG
+Dr. Lars Eggert former IETF chair; former IRTF chair
+Dr. Stephen Farrell Trinity College Dublin; former IESG; former IAB
+Demi Getschko .br
+Christian Huitema former IAB chair
+Geoff Huston former ISOC BoT chair; former IAB
+Erik Kline IESG
+Mallory Knodel former IAB
+Olaf Kolkman former IAB chair
+Konstantinos Komaitis senior resident fellow, Internet Governance lead, Democracy and Tech Initiative, Atlantic Council
+Chris Lilley W3C Technical Director; former W3C TAG
+Peter Linss W3C TAG co-chair
+Sangwhan Moon former W3C TAG
+Jun Murai former IAB; WIDE Project founder; former W3C steering committee; former ISOC BoT
+Mark Nottingham former IAB; former W3C TAG
+Lukasz Olejnik former W3C TAG
+Colin Perkins IRTF chair
+Pete Resnick former IAB; former IESG
+Alex Russell former W3C TAG
+Peter Saint-Andre former IESG
+David Schinazi IAB
+Melinda Shore IRSG; former IAB
+Robert Sparks former IAB; former IESG
+Lynn St.Amour former Internet Society President and CEO; former UN IGF Multistakeholder Advisory Group chair
+Andrew Sullivan former IAB chair
+Martin Thomson W3C TAG; former IAB
+Brian Trammell IRSG; former IAB
+Paul Wouters IESG
+
+Daniel Appelquist W3C TAG co-chair
+David Baron former W3C TAG
+Hadley Beeman W3C TAG
+Robin Berjon former W3C TAG; former W3C HTML Activity Lead
+Andrew Betts former W3C TAG
+Sir Tim Berners-Lee inventor of the World Wide Web; founder & emeritus director, W3C
+Tim Bray former W3C TAG; Editor of XML (W3C), JSON (IETF)
+Randy Bush former IESG, former ISO/WG13
+Dr. Brian E. Carpenter former Group Leader, Communication Systems, CERN; former IAB chair; former ISOC BoT chair; former IETF chair
+Vint Cerf Internet Pioneer
+David Conrad former IANA general manager; former ICANN CTO
+Martin Duke former IESG
+Dr. Lars Eggert former IETF chair; former IRTF chair
+Dr. Stephen Farrell Trinity College Dublin; former IESG; former IAB
+Demi Getschko .br
+Christian Huitema former IAB chair
+Geoff Huston former ISOC BoT chair; former IAB
+Erik Kline IESG
+Mallory Knodel former IAB
+Olaf Kolkman former IAB chair
+Konstantinos Komaitis senior resident fellow, Internet Governance lead, Democracy and Tech Initiative, Atlantic Council
+Chris Lilley W3C Technical Director; former W3C TAG
+Peter Linss W3C TAG co-chair
+Sangwhan Moon former W3C TAG
+Jun Murai former IAB; WIDE Project founder; former W3C steering committee; former ISOC BoT
+Mark Nottingham former IAB; former W3C TAG
+Lukasz Olejnik former W3C TAG
+Colin Perkins IRTF chair
+Pete Resnick former IAB; former IESG
+Alex Russell former W3C TAG
+Peter Saint-Andre former IESG
+David Schinazi IAB
+Melinda Shore IRSG; former IAB
+Robert Sparks former IAB; former IESG
+Lynn St.Amour former Internet Society President and CEO; former UN IGF Multistakeholder Advisory Group chair
+Andrew Sullivan former IAB chair
+Martin Thomson W3C TAG; former IAB
+Brian Trammell IRSG; former IAB
+Paul Wouters IESG
+
+（組織名稱中譯）
+
+IAB: 網際網路架構委員會
+IESG: 網際網路工程指導小組
+IETF: 網際網路工程任務組
+IRSG: 網際網路研究指導小組
+IRTF: 網際網路研究工作小組
+ISOC BoT: 網際網路協會理事會
+W3C：全球資訊網協會
+W3C TAG：全球資訊網協會技術架構小組
+
+IAB: 網際網路架構委員會
+IESG: 網際網路工程指導小組
+IETF: 網際網路工程任務組
+IRSG: 網際網路研究指導小組
+IRTF: 網際網路研究工作小組
+ISOC BoT: 網際網路協會理事會
+W3C：全球資訊網協會
+W3C TAG：全球資訊網協會技術架構小組
+
+網路治理
+
+聯合國
+
+W3C
+
+喜歡我的作品嗎？別忘了給予支持與讚賞，讓我知道在創作的路上有你陪伴，一起延續這份熱忱！

@@ -165,3 +165,78 @@ python3 scripts/rebuild_summaries.py
 # 套用到所有文章（寫入 summary 欄位）
 python3 scripts/rebuild_summaries.py --apply
 ```
+
+## 8) 從 Snapshot IPNS 匯出文章（Markdown + 純文字）
+
+已提供腳本：`scripts/export_snapshot_articles.py`
+
+```bash
+# 使用你的 IPNS 網址，輸出到 snapshot_export/
+python3 scripts/export_snapshot_articles.py \
+  --ipns "ipns://storage.snapshot.page/registry/0xab51AD23d222fD0afB4e29F3244402af9aa3C420/mashbean.eth" \
+  --out "snapshot_export"
+```
+
+若遇到憑證錯誤（`CERTIFICATE_VERIFY_FAILED`），可加上：
+
+```bash
+python3 scripts/export_snapshot_articles.py \
+  --ipns "ipns://storage.snapshot.page/registry/0xab51AD23d222fD0afB4e29F3244402af9aa3C420/mashbean.eth" \
+  --out "snapshot_export" \
+  --insecure
+```
+
+若你的網路無法解析 `storage.snapshot.page`，可先取得入口 `index.json` 後用本機檔案跑：
+
+```bash
+python3 scripts/export_snapshot_articles.py \
+  --ipns "ipns://storage.snapshot.page/registry/0xab51AD23d222fD0afB4e29F3244402af9aa3C420/mashbean.eth" \
+  --index-file "/path/to/index.json" \
+  --out "snapshot_export" \
+  --insecure
+```
+
+輸出內容：
+- `snapshot_export/markdown/`：可讀 Markdown 文章
+- `snapshot_export/text/`：純文字版本
+- `snapshot_export/raw/`：原始 IPFS 載荷（保留）
+- `snapshot_export/index.json`：IPNS 入口資料
+- `snapshot_export/cids.txt`：發現到的 CID 清單
+- `snapshot_export/manifest.json`：抓取與解析摘要
+
+## 9) 從 Matters 個人頁爬文章（Markdown + 純文字）
+
+已提供腳本：`scripts/crawl_matters_articles.py`
+
+先安裝依賴：
+
+```bash
+pip3 install playwright
+playwright install chromium
+```
+
+執行（以你的帳號為例）：
+
+```bash
+python3 scripts/crawl_matters_articles.py \
+  --profile-url "https://matters.town/@mashbean" \
+  --out "matters_export"
+```
+
+若遇到部分文章只抓到 `matters.town` 驗證頁，可只補抓失敗項目：
+
+```bash
+python3 scripts/crawl_matters_articles.py \
+  --profile-url "https://matters.town/@mashbean" \
+  --out "matters_export" \
+  --retry-from-manifest "matters_export/manifest.json" \
+  --retry-attempts 8 \
+  --challenge-wait 8 \
+  --delay 0.8 \
+  --headful
+```
+
+輸出內容：
+- `matters_export/markdown/`：可讀 Markdown
+- `matters_export/text/`：純文字版本
+- `matters_export/manifest.json`：文章 URL 與檔案對照（含錯誤紀錄）
