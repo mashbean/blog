@@ -131,6 +131,24 @@ const articleStructuredData = {
             {post.data.tags.map((tag) => <li class="tag-list-item">{tag}</li>)}
           </ul>
         )}
+
+        <div class="reading-tools" role="group" aria-label="閱讀偏好">
+          <span class="reading-tools-label">閱讀偏好</span>
+          <button id="reading-font-dec" type="button" class="reading-tool-btn" aria-label="縮小字級">
+            A-
+          </button>
+          <button id="reading-font-inc" type="button" class="reading-tool-btn" aria-label="放大字級">
+            A+
+          </button>
+          <button
+            id="reading-focus-toggle"
+            type="button"
+            class="reading-tool-btn"
+            aria-pressed="false"
+          >
+            聚焦閱讀
+          </button>
+        </div>
       </header>
 
       {coverSrc && (

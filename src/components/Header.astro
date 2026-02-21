@@ -77,8 +77,16 @@ const isActive = (href: string): boolean => {
           >
             RSS 訂閱
           </a>
+          <button
+            type="button"
+            class="nav-social-toggle"
+            aria-expanded="false"
+            aria-controls="header-social-links"
+          >
+            社群
+          </button>
           <span class="nav-social-divider" aria-hidden="true"></span>
-            <div class="nav-social-links" aria-label="社群連結">
+          <div id="header-social-links" class="nav-social-links" aria-label="社群連結">
             {
               socialLinks.map((item) => {
                 const isMailto = item.href.startsWith("mailto:");
@@ -104,3 +112,29 @@ const isActive = (href: string): boolean => {
     </nav>
   </div>
 </header>
+
+<script is:inline>
+  const mq = window.matchMedia("(max-width: 760px)");
+  const toggle = document.querySelector(".nav-social-toggle");
+  const links = document.querySelector("#header-social-links");
+
+  if (toggle instanceof HTMLButtonElement && links instanceof HTMLElement) {
+    const sync = () => {
+      const expanded = !mq.matches;
+      toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+      links.hidden = mq.matches;
+    };
+
+    sync();
+
+    mq.addEventListener("change", sync);
+
+    toggle.addEventListener("click", () => {
+      if (!mq.matches) return;
+      const expanded = toggle.getAttribute("aria-expanded") === "true";
+      const next = !expanded;
+      toggle.setAttribute("aria-expanded", next ? "true" : "false");
+      links.hidden = !next;
+    });
+  }
+</script>

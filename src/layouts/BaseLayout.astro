@@ -85,13 +85,14 @@ const ogImageURL =
     />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">跳到主要內容</a>
     {isArticle && (
       <div class="reading-progress" aria-hidden="true">
         <span id="reading-progress-bar"></span>
       </div>
     )}
     <Header />
-    <main class="container page-shell">
+    <main id="main-content" class="container page-shell">
       <slot />
     </main>
     <Footer />
@@ -111,6 +112,41 @@ const ogImageURL =
       });
 
       if (isArticle) {
+        const storagePrefix = "mashbean.blog";
+        const body = document.body;
+        const fontDecButton = document.querySelector("#reading-font-dec");
+        const fontIncButton = document.querySelector("#reading-font-inc");
+        const focusButton = document.querySelector("#reading-focus-toggle");
+
+        let fontScale = Number(localStorage.getItem(`${storagePrefix}.fontScale`) ?? "1");
+        if (!Number.isFinite(fontScale)) fontScale = 1;
+        fontScale = Math.min(1.2, Math.max(0.92, fontScale));
+        body.style.setProperty("--article-font-scale", String(fontScale));
+
+        const setFocusMode = (enabled) => {
+          body.classList.toggle("focus-reading", enabled);
+          if (focusButton instanceof HTMLButtonElement) {
+            focusButton.textContent = enabled ? "結束聚焦" : "聚焦閱讀";
+            focusButton.setAttribute("aria-pressed", enabled ? "true" : "false");
+          }
+          localStorage.setItem(`${storagePrefix}.focusMode`, enabled ? "1" : "0");
+        };
+
+        const storedFocus = localStorage.getItem(`${storagePrefix}.focusMode`) === "1";
+        setFocusMode(storedFocus);
+
+        const updateFontScale = (delta) => {
+          fontScale = Math.min(1.2, Math.max(0.92, Number((fontScale + delta).toFixed(2))));
+          body.style.setProperty("--article-font-scale", String(fontScale));
+          localStorage.setItem(`${storagePrefix}.fontScale`, String(fontScale));
+        };
+
+        fontDecButton?.addEventListener("click", () => updateFontScale(-0.05));
+        fontIncButton?.addEventListener("click", () => updateFontScale(0.05));
+        focusButton?.addEventListener("click", () =>
+          setFocusMode(!body.classList.contains("focus-reading"))
+        );
+
         const bar = document.querySelector("#reading-progress-bar");
         const article = document.querySelector("article");
         if (bar && article) {
@@ -128,6 +164,73 @@ const ogImageURL =
           update();
           window.addEventListener("scroll", update, { passive: true });
           window.addEventListener("resize", update);
+        }
+
+        const tocLinks = Array.from(document.querySelectorAll(".toc-list a"))
+          .filter((el) => el instanceof HTMLAnchorElement);
+        const observedHeadings = tocLinks
+          .map((link) => {
+            const id = decodeURIComponent(link.hash.replace(/^#/, ""));
+            return document.getElementById(id);
+          })
+          .filter((el) => el instanceof HTMLElement);
+
+        if (tocLinks.length > 0 && observedHeadings.length > 0) {
+          const setActiveToc = (id) => {
+            tocLinks.forEach((link) => {
+              const active = decodeURIComponent(link.hash.replace(/^#/, "")) === id;
+              link.classList.toggle("toc-link-active", active);
+              if (active) link.setAttribute("aria-current", "true");
+              else link.removeAttribute("aria-current");
+            });
+          };
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
+              if (visible[0]?.target?.id) setActiveToc(visible[0].target.id);
+            },
+            { rootMargin: "-20% 0px -70% 0px", threshold: [0, 1] }
+          );
+
+          observedHeadings.forEach((heading) => observer.observe(heading));
+          setActiveToc(observedHeadings[0].id);
+        }
+
+        const copyText = async (text) => {
+          try {
+            await navigator.clipboard.writeText(text);
+            return true;
+          } catch {
+            return false;
+          }
+        };
+
+        const prose = document.querySelector(".article-prose");
+        if (prose) {
+          const headings = prose.querySelectorAll("h2[id], h3[id]");
+          headings.forEach((heading) => {
+            const id = heading.getAttribute("id");
+            if (!id || heading.querySelector(".heading-anchor-btn")) return;
+            const anchorBtn = document.createElement("button");
+            anchorBtn.type = "button";
+            anchorBtn.className = "heading-anchor-btn";
+            anchorBtn.setAttribute("aria-label", "複製段落連結");
+            anchorBtn.textContent = "🔗";
+            anchorBtn.addEventListener("click", async () => {
+              const permalink = `${window.location.origin}${window.location.pathname}#${id}`;
+              const copied = await copyText(permalink);
+              const old = anchorBtn.textContent;
+              anchorBtn.textContent = copied ? "已複製" : "失敗";
+              if (!copied) window.prompt("請手動複製此段落連結", permalink);
+              setTimeout(() => {
+                anchorBtn.textContent = old ?? "🔗";
+              }, 1200);
+            });
+            heading.appendChild(anchorBtn);
+          });
         }
       }
     </script>
