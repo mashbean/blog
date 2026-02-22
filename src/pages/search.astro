@@ -9,12 +9,10 @@ const fallbackIndexUrl = withBase("search-index.json");
 
 <BaseLayout title="搜尋" description="搜尋站內文章與頁面內容。">
   <h1 class="section-title">搜尋</h1>
-  <p class="search-intro">
-    快速查找全站文章與頁面。快捷鍵：<kbd>Cmd/Ctrl</kbd> + <kbd>K</kbd>
-  </p>
+  <p class="search-intro">快速查找全站文章與頁面內容。</p>
 
   <section class="search-panel" aria-label="站內搜尋">
-    <p id="pagefind-status" class="search-status" aria-live="polite">搜尋索引載入中...</p>
+    <p id="pagefind-status" class="search-status" aria-live="polite" hidden></p>
     <div id="pagefind-search"></div>
     <div id="search-fallback" class="search-fallback" hidden>
       <form id="site-search-form" class="search-form" role="search">
@@ -54,6 +52,12 @@ const fallbackIndexUrl = withBase("search-index.json");
   const fallbackCount = document.querySelector("#site-search-count");
   const typeButtons = Array.from(document.querySelectorAll(".search-filter-btn"));
   let activeType = "all";
+
+  const setStatus = (message = "") => {
+    if (!(status instanceof HTMLElement)) return;
+    status.textContent = message;
+    status.hidden = message.length === 0;
+  };
 
   const loadScript = (src) =>
     new Promise((resolve, reject) => {
@@ -130,9 +134,9 @@ const fallbackIndexUrl = withBase("search-index.json");
       const res = await fetch(fallbackIndexUrl, { headers: { accept: "application/json" } });
       if (!res.ok) throw new Error(`Load failed: ${res.status}`);
       docs = await res.json();
-      status.textContent = "搜尋已就緒。";
+      setStatus("");
     } catch (error) {
-      status.textContent = "搜尋索引載入失敗，請稍後再試。";
+      setStatus("搜尋索引載入失敗，請稍後再試。");
       console.error("[search-fallback] load index failed:", error);
       return;
     }
@@ -243,8 +247,7 @@ const fallbackIndexUrl = withBase("search-index.json");
           searching: "搜尋中..."
         }
       });
-
-      status.textContent = "搜尋索引已載入。";
+      setStatus("");
 
       if (query) {
         await ui.triggerSearch(query);
