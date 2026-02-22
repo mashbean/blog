@@ -25,6 +25,15 @@ const yearSections = Array.from(yearMap.entries())
   }))
   .sort((a, b) => b.year - a.year);
 
+const yearNotes: Record<number, string> = {
+  2026: "試圖融合密碼龐克、曲線救國、以及政策設計等不同路線",
+  2025: "離開數位發展部，參與各種 Fellow 計畫，如哈佛甘迺迪學院、以太坊基金會、TWNIC...等等，加入 Matters",
+  2024: "在數位發展部推動數位皮夾，研究各國數位身分政策",
+  2023: "加入數位發展部多元宇宙科，研究 web3 政策與國際標準組織（W3C），開始典藏Artouch 薄荷薄荷專欄",
+  2022: "創辦了 FAB DAO（#非營利 web3 行動），參與 Volume DAO（#數位藝術），參展林茲電子藝術節",
+  2021: "自醫師工作離職，開始探索 web3 與 NFT，畫了新時代國旗"
+};
+
 const topicByPostId = new Map<string, string>();
 for (const post of posts) {
   const classified = classifyPostTags({
@@ -59,6 +68,9 @@ for (const post of posts) {
                 </summary>
                 <div class="archive-accordion-body">
                   <div class="archive-accordion-body-inner">
+                    {yearNotes[section.year] && (
+                      <p class="archive-year-note">🗓️{section.year} 年 {yearNotes[section.year]}</p>
+                    )}
                     <ul class="archive-list">
                       {
                         section.posts.map((post) => (

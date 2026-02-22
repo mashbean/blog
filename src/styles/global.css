@@ -1337,6 +1337,12 @@
     color: #44606a;
   }
 
+  .archive-year-note {
+    margin: 0 0 0.72rem;
+    color: #355764;
+    line-height: 1.68;
+  }
+
   .archive-keyword-chips {
     margin: 0.62rem 0 0.72rem;
     padding: 0;
