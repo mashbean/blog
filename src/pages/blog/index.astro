@@ -64,13 +64,13 @@ for (const post of posts) {
                     <span class="tag-chip-icon" aria-hidden="true">🗓️</span>
                     {section.year} 年
                   </span>
+                  {yearNotes[section.year] && (
+                    <span class="archive-accordion-note">{yearNotes[section.year]}</span>
+                  )}
                   <span class="archive-accordion-count">{section.count} 篇</span>
                 </summary>
                 <div class="archive-accordion-body">
                   <div class="archive-accordion-body-inner">
-                    {yearNotes[section.year] && (
-                      <p class="archive-year-note">🗓️{section.year} 年 {yearNotes[section.year]}</p>
-                    )}
                     <ul class="archive-list">
                       {
                         section.posts.map((post) => (
