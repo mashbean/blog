@@ -17,7 +17,9 @@
     "lint": "npm run check && npm run format:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "migrate:posts": "node scripts/migrate-jekyll-posts.mjs"
+    "migrate:posts": "node scripts/migrate-jekyll-posts.mjs",
+    "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
+    "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",

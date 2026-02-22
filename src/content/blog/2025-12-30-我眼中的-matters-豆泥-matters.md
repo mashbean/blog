@@ -6,7 +6,7 @@ tags:
   - "matters"
   - "imported"
 category: "matters"
-cover: "images/covers/home/2025-12-30-我眼中的-matters-豆泥-matters.svg"
+cover: "images/covers/home/2025-12-30-我眼中的-matters-豆泥-matters.png"
 coverAlt: "我眼中的 Matters - 豆泥 - Matters cover illustration (matters, privilege, imported, 我眼中的)"
 ---
 來源：[https://matters.town/a/vhzitynih7lr](https://matters.town/a/vhzitynih7lr)

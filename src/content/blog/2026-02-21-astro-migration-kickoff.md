@@ -6,7 +6,7 @@ updatedDate: "2026-02-21T10:30:00+08:00"
 draft: false
 tags: ["Astro", "Migration", "GitHub Pages"]
 category: "工程實作"
-cover: "images/covers/home/2026-02-21-astro-migration-kickoff.svg"
+cover: "images/covers/home/2026-02-21-astro-migration-kickoff.png"
 coverAlt: "Astro 遷移 Kickoff：從 Jekyll 到可擴充內容架構 cover illustration (astro, migration, github pages, 工程實作)"
 lang: "zh-TW"
 canonicalURL: "https://mashbean.net/blog/2026-02-21-astro-migration-kickoff/"

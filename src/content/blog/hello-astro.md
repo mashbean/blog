@@ -3,7 +3,7 @@ title: "Hello Astro"
 description: "最小文章範例，驗證 content collection 與頁面渲染。"
 pubDate: "2026-02-20T08:00:00+08:00"
 tags: ["Hello"]
-cover: "images/covers/home/hello-astro.svg"
+cover: "images/covers/home/hello-astro.png"
 coverAlt: "Hello Astro cover illustration (hello, 可以被, hello astro, 最小文章範例)"
 ---
 

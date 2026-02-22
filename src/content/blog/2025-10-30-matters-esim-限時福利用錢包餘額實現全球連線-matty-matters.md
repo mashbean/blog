@@ -6,7 +6,7 @@ tags:
   - "matters"
   - "imported"
 category: "matters"
-cover: "images/covers/home/2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.svg"
+cover: "images/covers/home/2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.png"
 coverAlt: "Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters cover illustration (esim, matters, customer, 使用你的)"
 ---
 來源：[https://matters.town/a/pd5qrqglkb4u](https://matters.town/a/pd5qrqglkb4u)

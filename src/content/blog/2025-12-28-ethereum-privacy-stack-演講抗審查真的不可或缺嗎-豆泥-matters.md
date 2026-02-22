@@ -6,7 +6,7 @@ tags:
   - "matters"
   - "imported"
 category: "matters"
-cover: "images/covers/home/2025-12-28-ethereum-privacy-stack-演講抗審查真的不可或缺嗎-豆泥-matters.svg"
+cover: "images/covers/home/2025-12-28-ethereum-privacy-stack-演講抗審查真的不可或缺嗎-豆泥-matters.png"
 coverAlt: "Ethereum Privacy Stack 演講：抗審查真的不可或缺嗎 - 豆泥 - Matters cover illustration (matters, 抗審查真的不可或, 缺嗎, 第一)"
 ---
 來源：[https://matters.town/a/10jxa0qu0ca5](https://matters.town/a/10jxa0qu0ca5)

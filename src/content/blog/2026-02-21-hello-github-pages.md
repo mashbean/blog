@@ -5,7 +5,7 @@ pubDate: "2026-02-21T02:00:00.000Z"
 tags:
   - "公共網路"
 category: "blog"
-cover: "images/covers/home/2026-02-21-hello-github-pages.svg"
+cover: "images/covers/home/2026-02-21-hello-github-pages.png"
 coverAlt: "Hello GitHub Pages cover illustration (公共網路, blog, hello github pages, 把你的文章放到)"
 ---
 這是第一篇文章。  

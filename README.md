@@ -4,6 +4,39 @@
 
 ## Astro 站點補充（現行）
 
+### OpenAI Images API 批次生圖
+
+1. 設定 API Key：
+
+```bash
+export OPENAI_API_KEY="你的 key"
+```
+
+2. 先預覽任務（不呼叫 API）：
+
+```bash
+npm run images:batch:openai:dry
+```
+
+3. 正式生成：
+
+```bash
+npm run images:batch:openai
+```
+
+常用參數：
+
+```bash
+node scripts/batch-generate-images-openai.mjs \
+  --input scripts/home-cover-prompts.json \
+  --out-dir public/images/covers/home \
+  --concurrency 4 \
+  --retries 3 \
+  --overwrite
+```
+
+執行後會輸出報告：`scripts/openai-image-batch-report.json`
+
 ### 啟用 Pagefind
 
 1. 安裝依賴（本專案已含）：

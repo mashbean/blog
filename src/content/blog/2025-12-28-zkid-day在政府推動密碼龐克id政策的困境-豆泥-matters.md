@@ -6,7 +6,7 @@ tags:
   - "matters"
   - "imported"
 category: "matters"
-cover: "images/covers/home/2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.svg"
+cover: "images/covers/home/2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.png"
 coverAlt: "zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters cover illustration (digital, identity, 因此, 然而)"
 ---
 來源：[https://matters.town/a/ehku76i9wdoc](https://matters.town/a/ehku76i9wdoc)
