@@ -1069,6 +1069,28 @@
     padding: 0.5rem 0.62rem;
   }
 
+  .search-state-stack {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0.1rem 0 0.2rem;
+  }
+
+  .search-state {
+    margin: 0;
+    color: #2f5961;
+    font-size: 0.88rem;
+    border: 1px dashed #c8ddd7;
+    border-radius: 0.7rem;
+    background: #f8fcfa;
+    padding: 0.42rem 0.62rem;
+  }
+
+  .search-state-error {
+    color: #8a2f2f;
+    border-color: #e8c2c2;
+    background: #fff6f6;
+  }
+
   .search-fallback {
     margin-top: 0.8rem;
   }
@@ -1256,6 +1278,36 @@
     display: grid;
     gap: 0.78rem;
     margin-top: 1rem;
+  }
+
+  .archive-quick-filter {
+    margin-top: 0.7rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+  }
+
+  .archive-filter-btn {
+    border: 1px solid #c7d8d2;
+    border-radius: 999px;
+    background: #f8fcfa;
+    color: #274652;
+    min-height: 1.9rem;
+    padding: 0.22rem 0.72rem;
+    font-size: 0.83rem;
+    cursor: pointer;
+  }
+
+  .archive-filter-btn.is-active {
+    border-color: #0b7d6d;
+    background: #0b7d6d;
+    color: #ffffff;
+  }
+
+  .archive-filter-status {
+    margin: 0.4rem 0 0.2rem;
+    color: #3f5963;
+    font-size: 0.86rem;
   }
 
   .archive-accordion {
@@ -1800,6 +1852,20 @@
     line-height: 1.2;
   }
 
+  .archive-update-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.42rem;
+    border: 1px solid #d8cb9a;
+    border-radius: 999px;
+    background: #fff7dc;
+    color: #7a5a08;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.14rem 0.42rem;
+    vertical-align: middle;
+  }
+
   .post-list-compact {
     list-style: none;
     margin: 0.75rem 0 0;
@@ -2155,6 +2221,16 @@
   .archive-accordion-summary {
     flex-wrap: wrap;
     gap: 0.56rem 0.72rem;
+  }
+
+  .archive-quick-filter {
+    gap: 0.36rem;
+  }
+
+  .archive-filter-btn {
+    min-height: 1.82rem;
+    padding-inline: 0.62rem;
+    font-size: 0.8rem;
   }
 
   .archive-accordion-note {

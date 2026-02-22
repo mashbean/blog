@@ -7,6 +7,14 @@ import { cleanPostTitle } from "@/utils/title";
 
 const allPosts = await getBlogPosts();
 const topicCatalog = getTopicCatalog();
+const RECENT_UPDATED_DAYS = 90;
+const recentThreshold = Date.now() - RECENT_UPDATED_DAYS * 24 * 60 * 60 * 1000;
+const isRecentlyUpdated = (updatedDate?: Date) =>
+  Boolean(updatedDate && updatedDate.getTime() >= recentThreshold);
+
+const yearOptions = Array.from(new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))).sort(
+  (a, b) => b - a
+);
 const postClassified = allPosts.map((post) => ({
   post,
   classified: classifyPostTags({
@@ -35,16 +43,32 @@ const tagSections = topicCatalog.map((item) => {
 
   <p><a href="/tags-graph/">試看 3D 關聯圖 MVP →</a></p>
 
+  <div class="archive-quick-filter" role="group" aria-label="標籤頁年份篩選">
+    <button type="button" class="archive-filter-btn is-active" data-year="all">
+      全年份
+    </button>
+    {
+      yearOptions.map((year) => (
+        <button type="button" class="archive-filter-btn" data-year={String(year)}>
+          {year} 年
+        </button>
+      ))
+    }
+  </div>
+  <p id="tags-filter-status" class="archive-filter-status" aria-live="polite">
+    目前顯示全部年份
+  </p>
+
   <div class="archive-accordion-list" aria-label="標籤文章收合列表">
     {
       tagSections.map((item, index) => (
-        <details class="archive-accordion" open={index === 0}>
+        <details class="archive-accordion" open={index === 0} data-filterable-accordion>
           <summary class="archive-accordion-summary">
             <span class="archive-accordion-title">
               <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
               {item.title}
             </span>
-            <span class="archive-accordion-count">{item.count} 篇</span>
+            <span class="archive-accordion-count" data-count data-total={item.count}>{item.count} 篇</span>
           </summary>
           <div class="archive-accordion-body">
             <div class="archive-accordion-body-inner">
@@ -55,7 +79,7 @@ const tagSections = topicCatalog.map((item) => {
                 ) : (
                   <ul class="archive-list">
                     {item.posts.map((post) => (
-                      <li class="archive-item">
+                      <li class="archive-item" data-year={String(post.data.pubDate.getFullYear())}>
                         <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
                           {formatDate(post.data.pubDate)}
                         </time>
@@ -63,6 +87,11 @@ const tagSections = topicCatalog.map((item) => {
                           <a class="archive-link" href={buildPostUrl(post)}>{cleanPostTitle(post.data.title)}</a>
                           <p class="archive-meta">
                             {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
+                            {isRecentlyUpdated(post.data.updatedDate) && (
+                              <span class="archive-update-badge" title={`近 ${RECENT_UPDATED_DAYS} 天內更新`}>
+                                最近更新
+                              </span>
+                            )}
                           </p>
                         </div>
                       </li>
@@ -77,3 +106,48 @@ const tagSections = topicCatalog.map((item) => {
     }
   </div>
 </BaseLayout>
+
+<script is:inline>
+  const yearButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-year]"));
+  const accordions = Array.from(document.querySelectorAll("details[data-filterable-accordion]"));
+  const status = document.querySelector("#tags-filter-status");
+  let activeYear = "all";
+
+  const updateStatus = (year) => {
+    if (!(status instanceof HTMLElement)) return;
+    status.textContent = year === "all" ? "目前顯示全部年份" : `目前顯示：${year} 年`;
+  };
+
+  const applyYearFilter = (year) => {
+    activeYear = year;
+    yearButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.year === year);
+    });
+
+    for (const accordion of accordions) {
+      const items = Array.from(accordion.querySelectorAll(".archive-item[data-year]"));
+      let visibleCount = 0;
+      for (const item of items) {
+        const itemYear = item.getAttribute("data-year");
+        const visible = year === "all" || itemYear === year;
+        item.hidden = !visible;
+        if (visible) visibleCount += 1;
+      }
+
+      const count = accordion.querySelector("[data-count]");
+      if (count instanceof HTMLElement) {
+        count.textContent = `${visibleCount} 篇`;
+      }
+      accordion.hidden = visibleCount === 0;
+    }
+    updateStatus(year);
+  };
+
+  yearButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      applyYearFilter(button.dataset.year ?? "all");
+    });
+  });
+
+  applyYearFilter(activeYear);
+</script>

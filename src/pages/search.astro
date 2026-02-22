@@ -13,6 +13,12 @@ const fallbackIndexUrl = withBase("search-index.json");
 
   <section class="search-panel" aria-label="站內搜尋">
     <p id="pagefind-status" class="search-status" aria-live="polite" hidden></p>
+    <div id="search-state-stack" class="search-state-stack" aria-live="polite">
+      <p class="search-state" data-state="loading" hidden>搜尋索引載入中...</p>
+      <p class="search-state" data-state="idle" hidden>請輸入關鍵字開始搜尋。</p>
+      <p class="search-state" data-state="empty" hidden>找不到符合的結果，請換個關鍵字。</p>
+      <p class="search-state search-state-error" data-state="error" hidden>搜尋暫時不可用，請稍後再試。</p>
+    </div>
     <div id="pagefind-search"></div>
     <div id="search-fallback" class="search-fallback" hidden>
       <form id="site-search-form" class="search-form" role="search">
@@ -51,7 +57,16 @@ const fallbackIndexUrl = withBase("search-index.json");
   const fallbackResults = document.querySelector("#site-search-results");
   const fallbackCount = document.querySelector("#site-search-count");
   const typeButtons = Array.from(document.querySelectorAll(".search-filter-btn"));
+  const stateNodes = Array.from(document.querySelectorAll(".search-state"));
   let activeType = "all";
+  let currentSearchMode = "pagefind";
+
+  const setSearchState = (nextState) => {
+    stateNodes.forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      node.hidden = node.dataset.state !== nextState;
+    });
+  };
 
   const setStatus = (message = "") => {
     if (!(status instanceof HTMLElement)) return;
@@ -127,7 +142,9 @@ const fallbackIndexUrl = withBase("search-index.json");
   };
 
   const runFallbackSearch = async () => {
+    currentSearchMode = "fallback";
     fallbackRoot.hidden = false;
+    setSearchState("loading");
 
     let docs = [];
     try {
@@ -136,6 +153,7 @@ const fallbackIndexUrl = withBase("search-index.json");
       docs = await res.json();
       setStatus("");
     } catch (error) {
+      setSearchState("error");
       setStatus("搜尋索引載入失敗，請稍後再試。");
       console.error("[search-fallback] load index failed:", error);
       return;
@@ -145,13 +163,18 @@ const fallbackIndexUrl = withBase("search-index.json");
       fallbackResults.innerHTML = "";
       const tokens = tokenize(q);
 
-      if (!q) return;
+      if (!q) {
+        setSearchState("idle");
+        return;
+      }
       if (items.length === 0) {
+        setSearchState("empty");
         fallbackResults.innerHTML = `<li class="search-result-item">找不到符合的結果。</li>`;
         if (fallbackCount) fallbackCount.textContent = "0 筆結果";
         return;
       }
 
+      setSearchState("ready");
       if (fallbackCount) fallbackCount.textContent = `${items.length} 筆結果`;
 
       for (const item of items) {
@@ -225,6 +248,7 @@ const fallbackIndexUrl = withBase("search-index.json");
   };
 
   (async () => {
+    setSearchState("loading");
     try {
       loadStylesheet(pagefindStyleUrl);
       await loadScript(pagefindScriptUrl);
@@ -258,8 +282,37 @@ const fallbackIndexUrl = withBase("search-index.json");
         if (input instanceof HTMLInputElement) {
           if (query) input.value = query;
           input.focus();
+          input.addEventListener("input", () => {
+            if (currentSearchMode !== "pagefind") return;
+            if (!input.value.trim()) setSearchState("idle");
+          });
         }
       }, 0);
+
+      const syncPagefindState = () => {
+        if (currentSearchMode !== "pagefind") return;
+        const input = document.querySelector(".pagefind-ui__search-input");
+        const keyword = input instanceof HTMLInputElement ? input.value.trim() : query;
+        if (!keyword) {
+          setSearchState("idle");
+          return;
+        }
+        const resultCount = document.querySelectorAll(".pagefind-ui__result").length;
+        const isSearching = Boolean(document.querySelector(".pagefind-ui__message"));
+        if (resultCount > 0) {
+          setSearchState("ready");
+        } else if (isSearching) {
+          const message = document.querySelector(".pagefind-ui__message")?.textContent?.trim() ?? "";
+          if (message.includes("找不到")) setSearchState("empty");
+          else setSearchState("loading");
+        } else {
+          setSearchState("empty");
+        }
+      };
+
+      const observer = new MutationObserver(() => syncPagefindState());
+      observer.observe(searchRoot, { childList: true, subtree: true });
+      syncPagefindState();
     } catch (error) {
       console.warn("[pagefind] init failed, falling back to JSON search:", error);
       await runFallbackSearch();
