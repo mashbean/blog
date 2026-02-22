@@ -1,6 +1,11 @@
-# GitHub Pages 極簡部落格（Jekyll）
+# Mashbean Blog（Astro）
 
-這個專案採用 GitHub Pages 原生支援的 Jekyll，幾乎零設定即可上線。
+此專案目前以 Astro 為正式站點架構，唯一文章來源為 `src/content/blog/`。
+
+重構與交接請先閱讀：`docs/blog-handover.md`
+
+> [!IMPORTANT]
+> 下方大量 `Jekyll` 內容為歷史遷移紀錄，已非現行流程。若要維護目前站點，請以 `docs/blog-handover.md` 與 `package.json` scripts 為準。
 
 ## Astro 站點補充（現行）
 
