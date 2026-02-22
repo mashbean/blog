@@ -1898,6 +1898,10 @@
     transform: translateY(-120%);
   }
 
+  body.focus-reading .page-shell {
+    padding-top: 0.95rem;
+  }
+
   body.focus-reading .site-footer {
     display: none;
   }
@@ -1998,6 +2002,10 @@
 @media (max-width: 760px) {
   .site-header {
     backdrop-filter: none;
+  }
+
+  body.focus-reading .page-shell {
+    padding-top: 0.72rem;
   }
 
   .site-header-inner {
