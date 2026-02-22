@@ -51,28 +51,25 @@ const identityLinks = [
     href: "https://web3.bio/mashbean.eth",
     label: "ENS",
     value: "mashbean.eth",
-    iconPath: "M12 1 3 6v12l9 5 9-5V6Zm0 2.2L18.8 7 12 10.8 5.2 7Zm-7 5.3 6 3.4v7L5 15.5Zm14 0v7L13 18.9v-7Z"
+    iconSrc: "https://api.iconify.design/simple-icons:ens.svg?color=%23ffffff"
   },
   {
     href: "https://hey.xyz/u/mashbean",
     label: "Lens",
     value: "@mashbean",
-    iconPath:
-      "M3 4.5A1.5 1.5 0 0 1 4.5 3H11v7.5H3zm10 0A1.5 1.5 0 0 1 14.5 3H21v7.5h-8zM3 12.5h8V21H4.5A1.5 1.5 0 0 1 3 19.5zm10 0h8v7A1.5 1.5 0 0 1 19.5 21H13z"
+    iconSrc: "https://api.iconify.design/simple-icons:lens.svg?color=%23ffffff"
   },
   {
     href: "https://bsky.app/profile/mashbean.bsky.social",
     label: "Bluesky",
     value: "@mashbean.bsky.social",
-    iconPath:
-      "M12 11.9c1.6-3.1 4.1-5.8 7.2-7.8 1.2-.8 3.2-1.4 3.2.8 0 .4-.2 3.8-.3 4.2-.5 1.4-2.1 1.8-3.6 1.6 2.6.4 3.3 1.8 1.9 3.3-2.8 3-4 1-4.4.1-.1-.3-.2-.5-.3-.8-.1.3-.2.5-.3.8-.4.9-1.6 2.9-4.4-.1-1.4-1.5-.7-2.9 1.9-3.3-1.5.2-3.1-.2-3.6-1.6-.1-.4-.3-3.8-.3-4.2 0-2.2 2-1.6 3.2-.8 3.1 2 5.6 4.7 7.2 7.8z"
+    iconSrc: "https://api.iconify.design/simple-icons:bluesky.svg?color=%23ffffff"
   },
   {
     href: "https://www.threads.net/@mashbean",
     label: "Threads",
     value: "@mashbean",
-    iconPath:
-      "M16.2 11.5c-.3-2.8-2.1-4.3-4.9-4.3-3.2 0-5.2 2-5.2 4.9 0 3.1 2.2 5 5.5 5 2.6 0 4.4-1.2 4.9-3.3h-2.3c-.4 1-1.4 1.6-2.7 1.6-1.8 0-2.9-1-3-2.7h7.7c.1-.3.1-.7 0-1.2zm-7.6-.6c.2-1.3 1.2-2.1 2.6-2.1 1.3 0 2.2.7 2.4 2.1zM12 1.5A10.5 10.5 0 1 0 22.5 12 10.5 10.5 0 0 0 12 1.5z"
+    iconSrc: "https://api.iconify.design/simple-icons:threads.svg?color=%23ffffff"
   }
 ];
 const subscribeLinks = [
@@ -154,9 +151,7 @@ const isActive = (href: string): boolean => {
                 <li>
                   <a href={item.href} target="_blank" rel="noopener noreferrer" class="nav-social-link">
                     <span class="nav-social-link-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24">
-                        <path d={item.iconPath} />
-                      </svg>
+                      <img src={item.iconSrc} alt="" loading="lazy" decoding="async" />
                     </span>
                     <span class="nav-social-link-copy">
                       <strong>{item.label}</strong>

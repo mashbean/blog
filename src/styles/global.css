@@ -331,6 +331,12 @@
     fill: currentColor;
   }
 
+  .nav-social-link-icon img {
+    width: 1.08rem;
+    height: 1.08rem;
+    display: block;
+  }
+
   .nav-social-link-copy {
     display: grid;
     gap: 0.12rem;
@@ -353,6 +359,10 @@
     display: grid;
     grid-template-columns: 2rem minmax(0, 1fr) auto;
     gap: 0.58rem;
+  }
+
+  .nav-social-link-with-note .nav-social-link-copy strong {
+    white-space: nowrap;
   }
 
   .nav-social-link-note {
@@ -1566,15 +1576,16 @@
   }
 
   .nav-social-link-with-note {
-    grid-template-columns: 1.45rem minmax(0, 1fr);
+    grid-template-columns: 1.72rem minmax(0, 1fr) auto;
     gap: 0.5rem;
   }
 
   .nav-social-link-note {
-    grid-column: 2;
+    grid-column: 3;
     justify-self: end;
-    white-space: normal;
+    white-space: nowrap;
     text-align: right;
+    font-size: 0.68rem;
   }
 
   .nav-social-list-compact {
