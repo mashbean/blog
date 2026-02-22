@@ -262,20 +262,22 @@ const articleStructuredData = {
     </div>
 
     <aside class="article-sidebar" aria-label="文章目錄與分享">
-      {tocHeadings.length > 0 && (
-        <div class="toc-card">
-          <h2>目錄</h2>
-          <ol class="toc-list">
-            {tocHeadings.map((item) => (
-              <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
-                <a href={`#${item.slug}`}>{item.text}</a>
-              </li>
-            ))}
-          </ol>
+      <div class="toc-card">
+        {tocHeadings.length > 0 && (
+          <>
+            <h2>目錄</h2>
+            <ol class="toc-list">
+              {tocHeadings.map((item) => (
+                <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
+                  <a href={`#${item.slug}`}>{item.text}</a>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+        <div class="toc-share-card">
+          <button id="article-copy-link" type="button" class="toc-share-btn">分享本文</button>
         </div>
-      )}
-      <div class="toc-share-card">
-        <button id="article-copy-link" type="button" class="toc-share-btn">分享本文</button>
       </div>
     </aside>
   </article>

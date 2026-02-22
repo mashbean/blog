@@ -757,11 +757,15 @@
   }
 
   .toc-share-card {
-    margin-top: 0.62rem;
-    border: 1px solid #d8e6e1;
-    border-radius: 0.9rem;
-    padding: 0.58rem;
-    background: #f8fcfa;
+    margin-top: 0.72rem;
+    border-top: 1px solid #d8e6e1;
+    padding-top: 0.72rem;
+  }
+
+  .toc-card > .toc-share-card:first-child {
+    margin-top: 0;
+    border-top: 0;
+    padding-top: 0;
   }
 
   .toc-share-btn {
@@ -2007,8 +2011,8 @@
   }
 
   .toc-share-card {
-    margin-top: 0.5rem;
-    padding: 0.5rem;
+    margin-top: 0.56rem;
+    padding-top: 0.56rem;
   }
 
   .toc-share-btn {
