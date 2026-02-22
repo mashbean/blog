@@ -801,6 +801,43 @@
     font-size: 1.12rem;
   }
 
+  .article-share {
+    margin-top: 1.45rem;
+    border: 1px solid #d8e6e1;
+    border-radius: 1rem;
+    background: #fbfefc;
+    padding: 0.95rem 0.9rem 0.85rem;
+  }
+
+  .article-share h2 {
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  .article-share-actions {
+    margin-top: 0.6rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+
+  .article-share-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .article-share-status {
+    margin: 0.52rem 0 0;
+    color: #4b626d;
+    font-size: 0.84rem;
+    min-height: 1.2em;
+  }
+
+  .article-back-link {
+    margin: 0.6rem 0 0;
+  }
+
   .reading-tools {
     margin-top: 0.76rem;
     display: flex;

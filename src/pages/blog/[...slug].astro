@@ -64,24 +64,78 @@ const currentIndex = allPosts.findIndex((item) => item.id === post.id);
 const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 const olderPost = currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
-const relatedPosts = allPosts
+const normalizeTitle = (value: string): string =>
+  value.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+
+const bigrams = (value: string): Set<string> => {
+  if (value.length < 2) return new Set([value]);
+  const out = new Set<string>();
+  for (let i = 0; i < value.length - 1; i += 1) out.add(value.slice(i, i + 2));
+  return out;
+};
+
+const titleSimilarity = (a: string, b: string): number => {
+  const aa = bigrams(normalizeTitle(a));
+  const bb = bigrams(normalizeTitle(b));
+  const union = new Set([...aa, ...bb]).size;
+  if (union === 0) return 0;
+  const overlap = [...aa].filter((item) => bb.has(item)).length;
+  return overlap / union;
+};
+
+const baseTitle = normalizeTitle(post.data.title);
+const baseDate = post.data.pubDate.getTime();
+
+const relatedCandidates = allPosts
   .filter((item) => item.id !== post.id)
+  .filter((item) => {
+    const sim = titleSimilarity(post.data.title, item.data.title);
+    const candidateTitle = normalizeTitle(item.data.title);
+    const nearDuplicate =
+      sim >= 0.66 ||
+      candidateTitle.includes(baseTitle) ||
+      baseTitle.includes(candidateTitle);
+    const nearDate = Math.abs(item.data.pubDate.getTime() - baseDate) <= 7 * 24 * 60 * 60 * 1000;
+    return !(nearDuplicate && nearDate);
+  })
   .map((item) => {
     const sharedTags = item.data.tags.filter((tag) => post.data.tags.includes(tag));
     const sameCategory =
       post.data.category && item.data.category && post.data.category === item.data.category;
-    const closeYear =
-      Math.abs(item.data.pubDate.getFullYear() - post.data.pubDate.getFullYear()) <= 1;
-    const score = sharedTags.length * 4 + (sameCategory ? 2 : 0) + (closeYear ? 1 : 0);
-    return { item, score };
+    const yearGap = Math.abs(item.data.pubDate.getFullYear() - post.data.pubDate.getFullYear());
+    const score = sharedTags.length * 3 + (sameCategory ? 1 : 0) + (yearGap <= 2 ? 1 : 0);
+    return { item, score, sharedTags, year: item.data.pubDate.getFullYear() };
   })
   .filter((entry) => entry.score > 0)
   .sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
     return b.item.data.pubDate.getTime() - a.item.data.pubDate.getTime();
-  })
-  .slice(0, 4)
-  .map((entry) => entry.item);
+  });
+
+const relatedPosts: CollectionEntry<"blog">[] = [];
+const usedYears = new Set<number>();
+const usedPrimaryTags = new Set<string>();
+for (const entry of relatedCandidates) {
+  if (relatedPosts.length >= 4) break;
+  const primaryTag = entry.sharedTags[0] ?? entry.item.data.tags[0] ?? "";
+  const yearUsed = usedYears.has(entry.year);
+  const tagUsed = primaryTag !== "" && usedPrimaryTags.has(primaryTag);
+  if (relatedPosts.length < 2 || !(yearUsed && tagUsed)) {
+    relatedPosts.push(entry.item);
+    usedYears.add(entry.year);
+    if (primaryTag) usedPrimaryTags.add(primaryTag);
+  }
+}
+if (relatedPosts.length < 4) {
+  for (const entry of relatedCandidates) {
+    if (relatedPosts.length >= 4) break;
+    if (relatedPosts.some((item) => item.id === entry.item.id)) continue;
+    relatedPosts.push(entry.item);
+  }
+}
+
+const encodedShareURL = encodeURIComponent(pageURL);
+const encodedShareTitle = encodeURIComponent(post.data.title);
 
 const articleStructuredData = {
   "@context": "https://schema.org",
@@ -211,11 +265,43 @@ const articleStructuredData = {
         </section>
       )}
 
-      <p style="margin-top: 1.4rem;">
-        <a href={withBase("blog/")}>← 回文章列表</a>
-        {" · "}
-        <a href={buildPostUrl(post)}>本頁固定連結</a>
-      </p>
+      <section class="article-share" aria-label="分享本文">
+        <h2>分享本文</h2>
+        <div class="article-share-actions">
+          <button id="article-copy-link" type="button" class="reading-tool-btn">複製連結</button>
+          <button id="article-native-share" type="button" class="reading-tool-btn" hidden>
+            系統分享
+          </button>
+          <a
+            class="reading-tool-btn article-share-link"
+            href={`https://x.com/intent/tweet?url=${encodedShareURL}&text=${encodedShareTitle}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            分享到 X
+          </a>
+          <a
+            class="reading-tool-btn article-share-link"
+            href={`https://www.facebook.com/sharer/sharer.php?u=${encodedShareURL}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            分享到 Facebook
+          </a>
+          <a
+            class="reading-tool-btn article-share-link"
+            href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedShareURL}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            分享到 LinkedIn
+          </a>
+        </div>
+        <p id="article-share-status" class="article-share-status" aria-live="polite"></p>
+        <p class="article-back-link">
+          <a href={withBase("blog/")}>← 回文章列表</a>
+        </p>
+      </section>
     </div>
 
     {tocHeadings.length > 0 && (
@@ -242,6 +328,40 @@ const articleStructuredData = {
     <script is:inline define:vars={{ canonicalPath: buildPostUrl(post) }}>
       if (window.location.pathname !== canonicalPath) {
         window.location.replace(canonicalPath);
+      }
+    </script>
+  )
+}
+
+{
+  !isLegacyPath && (
+    <script is:inline define:vars={{ pageURL, pageTitle: post.data.title }}>
+      const copyButton = document.querySelector("#article-copy-link");
+      const nativeShareButton = document.querySelector("#article-native-share");
+      const status = document.querySelector("#article-share-status");
+
+      const setStatus = (message) => {
+        if (status instanceof HTMLElement) status.textContent = message;
+      };
+
+      copyButton?.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(pageURL);
+          setStatus("連結已複製");
+        } catch {
+          setStatus("複製失敗，請手動複製網址列");
+        }
+      });
+
+      if (typeof navigator.share === "function") {
+        if (nativeShareButton instanceof HTMLButtonElement) nativeShareButton.hidden = false;
+        nativeShareButton?.addEventListener("click", async () => {
+          try {
+            await navigator.share({ title: pageTitle, url: pageURL });
+          } catch {
+            // User canceled the share action.
+          }
+        });
       }
     </script>
   )
