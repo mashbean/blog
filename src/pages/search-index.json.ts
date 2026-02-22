@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { classifyPostTags, getTopicAliasKeywords } from "@/utils/blogTags";
 import { withBase } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
 
 interface SearchDocument {
   id: string;
@@ -88,7 +89,7 @@ export const GET: APIRoute = async () => {
 
   const postDocs: SearchDocument[] = posts.map((post) => {
     const classified = classifyPostTags({
-      title: post.data.title,
+      title: cleanPostTitle(post.data.title),
       description: post.data.description,
       body: post.body,
       tags: post.data.tags
@@ -109,7 +110,7 @@ export const GET: APIRoute = async () => {
 
     return {
       id: `post:${post.id}`,
-      title: post.data.title,
+      title: cleanPostTitle(post.data.title),
       description: post.data.description,
       url: buildPostUrl(post),
       type: "post",

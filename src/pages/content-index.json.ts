@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { classifyPostTags } from "@/utils/blogTags";
+import { cleanPostTitle } from "@/utils/title";
 
 function normalizeForIndex(text: string): string {
   return text
@@ -18,7 +19,7 @@ export const GET: APIRoute = async () => {
 
   const data = posts.map((post) => {
     const classified = classifyPostTags({
-      title: post.data.title,
+      title: cleanPostTitle(post.data.title),
       description: post.data.description,
       body: post.body,
       tags: post.data.tags
@@ -26,7 +27,7 @@ export const GET: APIRoute = async () => {
 
     return {
       id: post.id,
-      title: post.data.title,
+      title: cleanPostTitle(post.data.title),
       description: post.data.description,
       url: buildPostUrl(post),
       pubDate: post.data.pubDate.toISOString(),

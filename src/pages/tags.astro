@@ -3,13 +3,14 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
 import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
+import { cleanPostTitle } from "@/utils/title";
 
 const allPosts = await getBlogPosts();
 const topicCatalog = getTopicCatalog();
 const postClassified = allPosts.map((post) => ({
   post,
   classified: classifyPostTags({
-    title: post.data.title,
+    title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
     tags: post.data.tags
@@ -59,7 +60,7 @@ const tagSections = topicCatalog.map((item) => {
                           {formatDate(post.data.pubDate)}
                         </time>
                         <div class="archive-main">
-                          <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                          <a class="archive-link" href={buildPostUrl(post)}>{cleanPostTitle(post.data.title)}</a>
                           <p class="archive-meta">
                             {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
                           </p>

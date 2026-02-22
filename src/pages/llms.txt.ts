@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { withBase } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
 
 export const GET: APIRoute = async ({ site, url }) => {
   const posts = await getBlogPosts();
@@ -25,7 +26,7 @@ export const GET: APIRoute = async ({ site, url }) => {
   ];
 
   for (const post of posts.slice(0, 80)) {
-    lines.push(`- ${post.data.title} | ${base}${buildPostUrl(post)}`);
+    lines.push(`- ${cleanPostTitle(post.data.title)} | ${base}${buildPostUrl(post)}`);
   }
 
   return new Response(lines.join("\n"), {

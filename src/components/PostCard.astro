@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { buildPostUrl } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
 
 interface Props {
   post: CollectionEntry<"blog">;
@@ -17,6 +18,7 @@ const coverSrc = post.data.cover
     : withBase(post.data.cover)
   : undefined;
 const fallbackLabel = post.data.category ?? "文章";
+const postTitle = cleanPostTitle(post.data.title);
 ---
 
 <article class:list={{ "post-card": true, "post-card-feature": variant === "feature", "post-card-compact": variant === "compact" }}>
@@ -25,7 +27,7 @@ const fallbackLabel = post.data.category ?? "文章";
       <img
         class="post-card-thumb"
         src={coverSrc}
-        alt={post.data.coverAlt ?? post.data.title}
+        alt={post.data.coverAlt ?? postTitle}
         loading="lazy"
         decoding="async"
       />
@@ -39,7 +41,7 @@ const fallbackLabel = post.data.category ?? "文章";
         }}
       >
         <span class="post-card-thumb-badge">{fallbackLabel}</span>
-        <small>{post.data.title}</small>
+        <small>{postTitle}</small>
       </div>
     )}
   </a>
@@ -58,7 +60,7 @@ const fallbackLabel = post.data.category ?? "文章";
     }
   </p>
   <h2 class="post-card-title">
-    <a href={url}>{post.data.title}</a>
+    <a href={url}>{postTitle}</a>
   </h2>
   <p class="post-card-desc">{post.data.description}</p>
   {

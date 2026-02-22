@@ -4,6 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts, getPostCanonicalPathSegment, getPostPathCandidates } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
 import { classifyPostTags } from "@/utils/blogTags";
 
 export async function getStaticPaths() {
@@ -26,9 +27,10 @@ const { post, isLegacyPath = false } = Astro.props as {
   isLegacyPath?: boolean;
 };
 const { Content, headings } = await render(post);
+const postTitle = cleanPostTitle(post.data.title);
 const allPosts = await getBlogPosts();
 const classifiedCurrent = classifyPostTags({
-  title: post.data.title,
+  title: postTitle,
   description: post.data.description,
   body: post.body,
   tags: post.data.tags
@@ -91,14 +93,15 @@ const titleSimilarity = (a: string, b: string): number => {
   return overlap / union;
 };
 
-const baseTitle = normalizeTitle(post.data.title);
+const baseTitle = normalizeTitle(postTitle);
 const baseDate = post.data.pubDate.getTime();
 
 const relatedCandidates = allPosts
   .filter((item) => item.id !== post.id)
   .filter((item) => {
-    const sim = titleSimilarity(post.data.title, item.data.title);
-    const candidateTitle = normalizeTitle(item.data.title);
+    const candidateTitleClean = cleanPostTitle(item.data.title);
+    const sim = titleSimilarity(postTitle, candidateTitleClean);
+    const candidateTitle = normalizeTitle(candidateTitleClean);
     const nearDuplicate =
       sim >= 0.66 ||
       candidateTitle.includes(baseTitle) ||
@@ -108,7 +111,7 @@ const relatedCandidates = allPosts
   })
   .map((item) => {
     const classifiedItem = classifyPostTags({
-      title: item.data.title,
+      title: cleanPostTitle(item.data.title),
       description: item.data.description,
       body: item.body,
       tags: item.data.tags
@@ -152,7 +155,7 @@ if (relatedPosts.length < 4) {
 const articleStructuredData = {
   "@context": "https://schema.org",
   "@type": "Article",
-  headline: post.data.title,
+  headline: postTitle,
   description: post.data.description,
   inLanguage: post.data.lang ?? "zh-TW",
   datePublished: post.data.pubDate.toISOString(),
@@ -167,7 +170,7 @@ const articleStructuredData = {
 ---
 
 <BaseLayout
-  title={post.data.title}
+  title={postTitle}
   description={post.data.description}
   canonicalURL={canonicalURL}
   ogImage={post.data.cover}
@@ -189,7 +192,7 @@ const articleStructuredData = {
   <article class="article-layout">
     <div class="article-main">
       <header class="article-header">
-        <h1 class="article-title">{post.data.title}</h1>
+        <h1 class="article-title">{postTitle}</h1>
         <div class="article-meta-row">
           <p class="article-meta">
             發布：
@@ -233,7 +236,7 @@ const articleStructuredData = {
 
       {coverSrc && (
         <figure class="article-cover">
-          <img src={coverSrc} alt={post.data.coverAlt ?? post.data.title} loading="lazy" />
+          <img src={coverSrc} alt={post.data.coverAlt ?? postTitle} loading="lazy" />
         </figure>
       )}
 
@@ -245,7 +248,7 @@ const articleStructuredData = {
         <div>
           <small>較新文章</small>
           {newerPost ? (
-            <a href={buildPostUrl(newerPost)}>{newerPost.data.title}</a>
+            <a href={buildPostUrl(newerPost)}>{cleanPostTitle(newerPost.data.title)}</a>
           ) : (
             <span>目前已是最新</span>
           )}
@@ -253,7 +256,7 @@ const articleStructuredData = {
         <div>
           <small>較舊文章</small>
           {olderPost ? (
-            <a href={buildPostUrl(olderPost)}>{olderPost.data.title}</a>
+            <a href={buildPostUrl(olderPost)}>{cleanPostTitle(olderPost.data.title)}</a>
           ) : (
             <span>目前已是最舊</span>
           )}
@@ -266,7 +269,7 @@ const articleStructuredData = {
           <ul class="post-list-compact">
             {relatedPosts.map((item) => (
               <li class="post-list-compact-item">
-                <a class="post-list-compact-link" href={buildPostUrl(item)}>{item.data.title}</a>
+                <a class="post-list-compact-link" href={buildPostUrl(item)}>{cleanPostTitle(item.data.title)}</a>
                 <small class="post-list-compact-date">({formatDate(item.data.pubDate)})</small>
               </li>
             ))}

@@ -3,20 +3,21 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
 import { withBase } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
 
 const posts = (await getBlogPosts()).slice(0, 160);
 const topics = getTopicCatalog();
 
 const items = posts.map((post) => {
   const classified = classifyPostTags({
-    title: post.data.title,
+    title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
     tags: post.data.tags
   });
   return {
     id: `post:${post.id}`,
-    title: post.data.title,
+    title: cleanPostTitle(post.data.title),
     url: buildPostUrl(post),
     topics: classified.topics,
     keywords: classified.keywords.slice(0, 6)

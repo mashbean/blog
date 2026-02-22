@@ -3,6 +3,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
 import { classifyPostTags } from "@/utils/blogTags";
+import { cleanPostTitle } from "@/utils/title";
 
 const posts = await getBlogPosts();
 const yearMap = new Map<number, typeof posts>();
@@ -37,7 +38,7 @@ const yearNotes: Record<number, string> = {
 const topicByPostId = new Map<string, string>();
 for (const post of posts) {
   const classified = classifyPostTags({
-    title: post.data.title,
+    title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
     tags: post.data.tags
@@ -79,7 +80,7 @@ for (const post of posts) {
                               {formatDate(post.data.pubDate)}
                             </time>
                           <div class="archive-main">
-                            <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                            <a class="archive-link" href={buildPostUrl(post)}>{cleanPostTitle(post.data.title)}</a>
                             <p class="archive-meta">
                               主題：{topicByPostId.get(post.id) ?? "公共網路"}
                             </p>

@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import rss from "@astrojs/rss";
 import { SITE_DESCRIPTION, SITE_TITLE } from "@/site.config";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { cleanPostTitle } from "@/utils/title";
 
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getBlogPosts();
@@ -11,7 +12,7 @@ export const GET: APIRoute = async ({ site }) => {
     description: SITE_DESCRIPTION,
     site: site ?? "https://username.github.io",
     items: posts.map((post) => ({
-      title: post.data.title,
+      title: cleanPostTitle(post.data.title),
       description: post.data.description,
       pubDate: post.data.pubDate,
       link: buildPostUrl(post)
