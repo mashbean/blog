@@ -37,18 +37,18 @@ const TOPIC_ALIASES: Record<string, string> = {
   democracy: "治理與民主",
   governance: "治理與民主",
 
-  web3: "公共網路",
+  web3: "web3",
   "公共網路": "公共網路",
   matters: "公共網路",
   "網路國家": "公共網路",
   "抗審查": "公共網路",
 
-  nft: "NFT",
-  tezos: "NFT",
-  ethereum: "NFT",
-  "區塊鏈": "NFT",
-  "以太坊": "NFT",
-  "加密貨幣": "NFT",
+  nft: "web3",
+  tezos: "web3",
+  ethereum: "web3",
+  "區塊鏈": "web3",
+  "以太坊": "web3",
+  "加密貨幣": "web3",
 
   "生成藝術": "數位藝術",
   "數位藝術": "數位藝術",
@@ -67,7 +67,7 @@ const TOPIC_HINTS: Array<{ topic: string; regex: RegExp }> = [
   { topic: "AI與科技", regex: /\bai\b|人工智慧|數位身分|did|隱私|科技|技術/i },
   { topic: "治理與民主", regex: /治理|民主|政策|審議|公民|dao|公共財|補助|制度/i },
   { topic: "公共網路", regex: /公共網路|社群|媒體|出版|matters|網路|言論|抗審查|平台/i },
-  { topic: "NFT", regex: /\bnft\b|tezos|ethereum|區塊鏈|以太坊|加密/i },
+  { topic: "web3", regex: /\bnft\b|web3|tezos|ethereum|區塊鏈|以太坊|加密/i },
   { topic: "數位藝術", regex: /數位藝術|生成藝術|藝術|展覽|策展|linz|林茲/i }
 ];
 

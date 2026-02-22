@@ -7,8 +7,8 @@ export interface TagCatalogItem {
 
 export const tagCatalog: TagCatalogItem[] = [
   {
-    key: "NFT",
-    title: "NFT",
+    key: "web3",
+    title: "web3",
     icon: "⛓",
     description: "鏈上資產、收藏、鑄造、交易與錢包生態。"
   },
