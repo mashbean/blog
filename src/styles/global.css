@@ -1122,6 +1122,15 @@
     margin-bottom: 0.56rem;
   }
 
+  #pagefind-search .pagefind-ui__result-inner {
+    padding-left: 0.18rem;
+  }
+
+  #pagefind-search .pagefind-ui__result-title,
+  #pagefind-search .pagefind-ui__result-excerpt {
+    padding-left: 0.1rem;
+  }
+
   #pagefind-search .pagefind-ui__result-link {
     color: var(--color-ink);
     font-weight: 700;
@@ -1198,6 +1207,12 @@
     background: #fbfefc;
     padding: 0.74rem 1rem 0.74rem 1.05rem;
     margin-bottom: 0.55rem;
+  }
+
+  .search-result-top,
+  .search-result-snippet,
+  .search-result-tags {
+    padding-left: 0.1rem;
   }
 
   .search-result-link {
