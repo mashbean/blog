@@ -1181,6 +1181,23 @@
     color: #fff;
   }
 
+  .search-graph-cta {
+    margin: 0.9rem 0 0;
+  }
+
+  .search-graph-cta-link {
+    min-height: 2.15rem;
+    padding: 0.42rem 0.92rem;
+    font-weight: 600;
+    box-shadow: 0 8px 18px rgba(11, 125, 109, 0.12);
+  }
+
+  .search-graph-cta-link:hover {
+    color: #fff;
+    background: #0a6f61;
+    border-color: #0a6f61;
+  }
+
   #pagefind-search .pagefind-ui__search-input {
     border: 1px solid #c7d8d2;
     border-radius: 0.85rem;
