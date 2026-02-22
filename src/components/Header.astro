@@ -1,6 +1,7 @@
 ---
 import { SITE_TITLE } from "@/site.config";
 import { withBase } from "@/utils/paths";
+import Web3IdentityCard from "@/components/Web3IdentityCard.astro";
 
 const pathname = Astro.url.pathname;
 const links = [
@@ -75,13 +76,20 @@ const identityLinks = [
   }
 ];
 const subscribeLinks = [
-  { href: withBase("subscribe/"), label: "RSS 訂閱頁" },
-  { href: withBase("rss.xml"), label: "RSS XML" }
+  { href: withBase("subscribe/"), label: "RSS 訂閱" }
 ];
-const identityHubLinks = [
-  { href: "https://web3.bio/mashbean.eth", label: "web3.bio" },
-  { href: "https://firefly.social/", label: "Firefly" }
-];
+const web3Card = {
+  name: "mashbean",
+  avatarSrc: withBase("images/favicon-512.png"),
+  ens: "mashbean.eth",
+  handles: [
+    { label: "Lens", value: "@mashbean" },
+    { label: "Bluesky", value: "@mashbean.bsky.social" },
+    { label: "Threads", value: "@mashbean" }
+  ],
+  graphHref: "https://web3.bio/mashbean.eth",
+  socialHubHref: "https://firefly.social/"
+};
 
 const isActive = (href: string): boolean => {
   return pathname === href || (href !== withBase("") && pathname.startsWith(href));
@@ -91,7 +99,102 @@ const isActive = (href: string): boolean => {
 <header class="site-header">
   <div class="container site-header-inner">
     <a class="brand-link" href={withBase("")}>{SITE_TITLE}</a>
-    <nav aria-label="主選單">
+    <div class="nav-social-item">
+      <button
+        type="button"
+        class="nav-social-toggle"
+        aria-expanded="false"
+        aria-controls="header-social-drawer"
+      >
+        加我好友
+      </button>
+      <div class="nav-social-backdrop" hidden></div>
+      <div id="header-social-drawer" class="nav-social-drawer" hidden>
+        <div class="nav-social-drawer-head">
+          <p>加我好友</p>
+          <button type="button" class="nav-social-close" aria-label="關閉抽屜">
+            關閉
+          </button>
+        </div>
+        <Web3IdentityCard
+          name={web3Card.name}
+          avatarSrc={web3Card.avatarSrc}
+          ens={web3Card.ens}
+          handles={web3Card.handles}
+          graphHref={web3Card.graphHref}
+          socialHubHref={web3Card.socialHubHref}
+        />
+        <section class="nav-social-section" aria-label="社群平台">
+          <h3 class="nav-social-title">社群平台</h3>
+          <ul class="nav-social-list">
+            {
+              socialLinks.map((item) => {
+                const isMailto = item.href.startsWith("mailto:");
+                return (
+                  <li>
+                    <a
+                      href={item.href}
+                      target={isMailto ? undefined : "_blank"}
+                      rel={isMailto ? undefined : "noopener noreferrer"}
+                      class="nav-social-link nav-social-link-with-note"
+                    >
+                      <span class="nav-social-link-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24">
+                          <path d={item.iconPath} />
+                        </svg>
+                      </span>
+                      <span class="nav-social-link-copy">
+                        <strong>{item.label}</strong>
+                      </span>
+                      <small class="nav-social-link-note">{item.note}</small>
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </section>
+        <section class="nav-social-section" aria-label="Web3 身分">
+          <h3 class="nav-social-title">Web3 身分</h3>
+          <ul class="nav-social-list">
+            {
+              identityLinks.map((item) => (
+                <li>
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" class="nav-social-link">
+                    <span class="nav-social-link-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path d={item.iconPath} />
+                      </svg>
+                    </span>
+                    <span class="nav-social-link-copy">
+                      <strong>{item.label}</strong>
+                      <small>{item.value}</small>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+        <section class="nav-social-section" aria-label="訂閱">
+          <h3 class="nav-social-title">訂閱</h3>
+          <ul class="nav-social-list nav-social-list-compact">
+            {
+              subscribeLinks.map((item) => (
+                <li>
+                  <a href={item.href} class="nav-social-link nav-social-link-compact">
+                    <span class="nav-social-link-copy">
+                      <strong>{item.label}</strong>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+    <nav class="site-nav" aria-label="主選單">
       <ul class="nav-list">
         {
           links.map((item) => (
@@ -108,143 +211,55 @@ const isActive = (href: string): boolean => {
             </li>
           ))
         }
-        <li class="nav-social-item">
-          <span class="nav-social-divider" aria-hidden="true"></span>
-          <button
-            type="button"
-            class="nav-social-toggle"
-            aria-expanded="false"
-            aria-controls="header-social-drawer"
-          >
-            加我好友
-          </button>
-          <div id="header-social-drawer" class="nav-social-drawer" hidden>
-            <section class="nav-social-section" aria-label="社群平台">
-              <h3 class="nav-social-title">社群平台</h3>
-              <ul class="nav-social-list">
-                {
-                  socialLinks.map((item) => {
-                    const isMailto = item.href.startsWith("mailto:");
-                    return (
-                      <li>
-                        <a
-                          href={item.href}
-                          target={isMailto ? undefined : "_blank"}
-                          rel={isMailto ? undefined : "noopener noreferrer"}
-                          class="nav-social-link"
-                        >
-                          <span class="nav-social-link-icon" aria-hidden="true">
-                            <svg viewBox="0 0 24 24">
-                              <path d={item.iconPath} />
-                            </svg>
-                          </span>
-                          <span class="nav-social-link-copy">
-                            <strong>{item.label}</strong>
-                            <small>{item.note}</small>
-                          </span>
-                        </a>
-                      </li>
-                    );
-                  })
-                }
-              </ul>
-            </section>
-            <section class="nav-social-section" aria-label="Web3 身分">
-              <h3 class="nav-social-title">Web3 身分</h3>
-              <ul class="nav-social-list">
-                {
-                  identityLinks.map((item) => (
-                    <li>
-                      <a href={item.href} target="_blank" rel="noopener noreferrer" class="nav-social-link">
-                        <span class="nav-social-link-icon" aria-hidden="true">
-                          <svg viewBox="0 0 24 24">
-                            <path d={item.iconPath} />
-                          </svg>
-                        </span>
-                        <span class="nav-social-link-copy">
-                          <strong>{item.label}</strong>
-                          <small>{item.value}</small>
-                        </span>
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
-            <section class="nav-social-section" aria-label="訂閱">
-              <h3 class="nav-social-title">訂閱</h3>
-              <ul class="nav-social-list nav-social-list-compact">
-                {
-                  subscribeLinks.map((item) => (
-                    <li>
-                      <a href={item.href} class="nav-social-link nav-social-link-compact">
-                        <span class="nav-social-link-copy">
-                          <strong>{item.label}</strong>
-                        </span>
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
-            <section class="nav-social-section" aria-label="身份聚合">
-              <h3 class="nav-social-title">身份聚合</h3>
-              <ul class="nav-social-list nav-social-list-compact">
-                {
-                  identityHubLinks.map((item) => (
-                    <li>
-                      <a href={item.href} target="_blank" rel="noopener noreferrer" class="nav-social-link nav-social-link-compact">
-                        <span class="nav-social-link-copy">
-                          <strong>{item.label}</strong>
-                        </span>
-                      </a>
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
-          </div>
-        </li>
       </ul>
     </nav>
   </div>
 </header>
 
 <script is:inline>
+  const mq = window.matchMedia("(max-width: 760px)");
   const toggle = document.querySelector(".nav-social-toggle");
+  const closeBtn = document.querySelector(".nav-social-close");
+  const backdrop = document.querySelector(".nav-social-backdrop");
   const drawer = document.querySelector("#header-social-drawer");
 
-  if (toggle instanceof HTMLButtonElement && drawer instanceof HTMLElement) {
+  if (
+    toggle instanceof HTMLButtonElement &&
+    backdrop instanceof HTMLElement &&
+    drawer instanceof HTMLElement
+  ) {
+    const setOpen = (isOpen) => {
+      toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      drawer.hidden = !isOpen;
+      backdrop.hidden = !isOpen || !mq.matches;
+      document.body.classList.toggle("nav-drawer-open", isOpen && mq.matches);
+    };
+
     const closeDrawer = () => {
-      toggle.setAttribute("aria-expanded", "false");
-      drawer.hidden = true;
+      setOpen(false);
     };
-
-    const openDrawer = () => {
-      toggle.setAttribute("aria-expanded", "true");
-      drawer.hidden = false;
-    };
-
-    closeDrawer();
 
     toggle.addEventListener("click", () => {
       const expanded = toggle.getAttribute("aria-expanded") === "true";
-      if (expanded) {
-        closeDrawer();
-      } else {
-        openDrawer();
-      }
+      setOpen(!expanded);
     });
 
     document.addEventListener("click", (event) => {
       const target = event.target;
       if (!(target instanceof Node)) return;
+      if (mq.matches) return;
       if (toggle.contains(target) || drawer.contains(target)) return;
       closeDrawer();
     });
 
+    backdrop.addEventListener("click", closeDrawer);
+    closeBtn?.addEventListener("click", closeDrawer);
+
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") closeDrawer();
     });
+
+    mq.addEventListener("change", closeDrawer);
+    closeDrawer();
   }
 </script>

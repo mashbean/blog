@@ -28,10 +28,7 @@ const encodedFeedUrl = encodeURIComponent(feedUrl);
     <div class="subscribe-actions">
       <a class="nav-link" href={`https://feedly.com/i/subscription/feed/${encodedFeedUrl}`} target="_blank" rel="noopener noreferrer">用 Feedly 開啟</a>
       <a class="nav-link" href={`https://www.inoreader.com/?add_feed=${encodedFeedUrl}`} target="_blank" rel="noopener noreferrer">用 Inoreader 開啟</a>
-      <a class="nav-link" href={withBase("rss.xml")} target="_blank" rel="noopener noreferrer">查看原始 XML</a>
     </div>
-
-    <p class="subscribe-note">看到 XML 原始內容是正常的；一般讀者應透過 RSS Reader 閱讀。</p>
   </section>
 
   <script is:inline>
