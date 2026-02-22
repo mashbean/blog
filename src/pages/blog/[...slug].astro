@@ -255,14 +255,13 @@ const articleStructuredData = {
       )}
 
       <section class="article-share" aria-label="分享本文">
-        <h2>分享本文</h2>
         <div class="article-share-actions">
-          <button id="article-copy-link" type="button" class="reading-tool-btn">複製連結</button>
+          <p class="article-back-link">
+            <a href={withBase("blog/")}>← 回文章列表</a>
+          </p>
+          <button id="article-copy-link" type="button" class="reading-tool-btn">分享本文</button>
         </div>
         <p id="article-share-status" class="article-share-status" aria-live="polite"></p>
-        <p class="article-back-link">
-          <a href={withBase("blog/")}>← 回文章列表</a>
-        </p>
       </section>
     </div>
 

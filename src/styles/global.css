@@ -820,39 +820,44 @@
 
   .article-share {
     margin-top: 1.45rem;
-    border: 1px solid #d8e6e1;
-    border-radius: 1rem;
-    background: #fbfefc;
-    padding: 0.95rem 0.9rem 0.85rem;
-  }
-
-  .article-share h2 {
-    margin: 0;
-    font-size: 1.05rem;
+    padding-top: 0.2rem;
   }
 
   .article-share-actions {
-    margin-top: 0.6rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.45rem;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 1.85rem;
   }
 
-  .article-share-link {
-    display: inline-flex;
+  .article-share-actions .reading-tool-btn {
+    margin-left: 0.05rem;
+  }
+
+  .article-share-actions .reading-tool-btn:hover {
+    background: #ebf6f2;
+  }
+
+  .article-share-actions .reading-tool-btn:focus-visible {
+    outline: 2px solid #98d8cb;
+    outline-offset: 1px;
+  }
+
+  .article-share-actions a {
     align-items: center;
     text-decoration: none;
   }
 
   .article-share-status {
-    margin: 0.52rem 0 0;
+    margin: 0.42rem 0 0;
     color: #4b626d;
     font-size: 0.84rem;
     min-height: 1.2em;
   }
 
   .article-back-link {
-    margin: 0.6rem 0 0;
+    margin: 0;
   }
 
   .reading-tools {
