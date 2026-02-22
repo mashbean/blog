@@ -123,9 +123,16 @@
     gap: 1rem;
   }
 
+  .site-nav-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.68rem;
+    margin-left: auto;
+  }
+
   .site-nav {
     order: 2;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .brand-link {
@@ -178,19 +185,31 @@
     order: 3;
   }
 
+  .nav-social-divider {
+    width: 1px;
+    height: 1.2rem;
+    background: #b7cfc9;
+  }
+
   .nav-social-toggle {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 2rem;
-    border: 1px solid #c7d8d2;
+    border: 1px solid #0b7d6d;
     border-radius: 999px;
-    padding: 0.28rem 0.65rem;
-    color: var(--color-ink);
-    background: #f8fcfa;
+    padding: 0.34rem 0.78rem;
+    color: #ffffff;
+    background: #0b7d6d;
     font-size: 0.86rem;
     line-height: 1;
+    font-weight: 700;
+    box-shadow: 0 2px 0 rgba(8, 68, 60, 0.22);
+  }
+
+  .nav-social-toggle:hover {
+    background: #0a6f61;
   }
 
   .nav-social-backdrop[hidden] {
@@ -1665,35 +1684,43 @@
   }
 
   .site-header-inner {
-    min-height: 3.2rem;
+    min-height: 3.4rem;
     display: grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     align-items: center;
     padding-block: 0.55rem;
-    row-gap: 0.55rem;
+    row-gap: 0.45rem;
   }
 
-  .site-nav {
-    order: 3;
+  .brand-link {
+    justify-self: center;
+    text-align: center;
+    line-height: 1.1;
+  }
+
+  .site-nav-wrap {
     margin-left: 0;
-    grid-column: 1 / -1;
-  }
-
-  .nav-social-item {
-    order: 2;
+    width: 100%;
+    justify-content: center;
+    gap: 0.55rem;
   }
 
   .nav-list {
-    width: 100%;
-    justify-content: flex-start;
+    width: auto;
+    justify-content: center;
     flex-wrap: wrap;
     overflow-x: visible;
-    row-gap: 0.45rem;
+    row-gap: 0.35rem;
     padding-bottom: 0;
   }
 
+  .nav-social-divider {
+    height: 1rem;
+  }
+
   .nav-social-toggle {
-    min-height: 1.88rem;
+    min-height: 1.9rem;
+    padding-inline: 0.72rem;
   }
 
   .nav-social-backdrop {

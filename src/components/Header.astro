@@ -5,11 +5,10 @@ import Web3IdentityCard from "@/components/Web3IdentityCard.astro";
 
 const pathname = Astro.url.pathname;
 const links = [
-  { href: withBase(""), label: "首頁" },
+  { href: withBase("about/"), label: "關於" },
   { href: withBase("blog/"), label: "文章" },
   { href: withBase("tags/"), label: "標籤" },
-  { href: withBase("search/"), label: "搜尋" },
-  { href: withBase("about/"), label: "關於" }
+  { href: withBase("search/"), label: "搜尋" }
 ];
 const socialLinks = [
   {
@@ -91,17 +90,38 @@ const isActive = (href: string): boolean => {
 <header class="site-header">
   <div class="container site-header-inner">
     <a class="brand-link" href={withBase("")}>{SITE_TITLE}</a>
-    <div class="nav-social-item">
-      <button
-        type="button"
-        class="nav-social-toggle"
-        aria-expanded="false"
-        aria-controls="header-social-drawer"
-      >
-        加我好友
-      </button>
-      <div class="nav-social-backdrop" hidden></div>
-      <div id="header-social-drawer" class="nav-social-drawer" hidden>
+    <div class="site-nav-wrap">
+      <nav class="site-nav" aria-label="主選單">
+        <ul class="nav-list">
+          {
+            links.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={{
+                    "nav-link": true,
+                    "nav-link-active": isActive(item.href)
+                  }}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <span class="nav-social-divider" aria-hidden="true"></span>
+      <div class="nav-social-item">
+        <button
+          type="button"
+          class="nav-social-toggle"
+          aria-expanded="false"
+          aria-controls="header-social-drawer"
+        >
+          加我好友
+        </button>
+        <div class="nav-social-backdrop" hidden></div>
+        <div id="header-social-drawer" class="nav-social-drawer" hidden>
         <div class="nav-social-drawer-head">
           <p>加我好友</p>
           <button type="button" class="nav-social-close" aria-label="關閉抽屜">
@@ -198,27 +218,9 @@ const isActive = (href: string): boolean => {
             </li>
           </ul>
         </section>
+        </div>
       </div>
     </div>
-    <nav class="site-nav" aria-label="主選單">
-      <ul class="nav-list">
-        {
-          links.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={{
-                  "nav-link": true,
-                  "nav-link-active": isActive(item.href)
-                }}
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
   </div>
 </header>
 
