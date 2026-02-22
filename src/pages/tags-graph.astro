@@ -118,6 +118,27 @@ const graph = { nodes, links };
     .map((link) => ({ ...link, s: byId.get(link.source), t: byId.get(link.target) }))
     .filter((link) => link.s && link.t);
 
+  const topicToPosts = new Map();
+  const postToKeywords = new Map();
+
+  function pushMapSet(map, key, value) {
+    const set = map.get(key);
+    if (set) {
+      set.add(value);
+      return;
+    }
+    map.set(key, new Set([value]));
+  }
+
+  for (const link of links) {
+    if (link.kind === "topic" && link.s.type === "post" && link.t.type === "topic") {
+      pushMapSet(topicToPosts, link.t.id, link.s);
+    }
+    if (link.kind === "keyword" && link.s.type === "post" && link.t.type === "keyword") {
+      pushMapSet(postToKeywords, link.s.id, link.t.id);
+    }
+  }
+
   const svgNS = "http://www.w3.org/2000/svg";
   const svg = document.createElementNS(svgNS, "svg");
   svg.classList.add("graph-links");
@@ -141,15 +162,125 @@ const graph = { nodes, links };
     el.textContent = node.type === "post" ? "" : node.label;
     el.title = node.label;
 
-    el.addEventListener("click", () => {
-      if (inspector instanceof HTMLElement) {
-        inspector.innerHTML = `<h2>${node.label}</h2><p>類型：${node.type}</p>${node.url ? `<p><a href="${node.url}">前往文章</a></p>` : ""}`;
-      }
-      if (node.url) window.location.href = node.url;
-    });
-
     nodesLayer.appendChild(el);
     return el;
+  });
+
+  function escapeHtml(text) {
+    return text
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll("\"", "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  let selectedNodeId = "";
+
+  function setSelectedNode(nodeId) {
+    selectedNodeId = nodeId;
+    nodeEls.forEach((el, i) => {
+      el.classList.toggle("graph-node-selected", nodes[i].id === nodeId);
+    });
+  }
+
+  function renderInspector(node) {
+    if (!(inspector instanceof HTMLElement)) return;
+
+    if (node.type === "topic") {
+      const posts = Array.from(topicToPosts.get(node.id) ?? []).sort((a, b) =>
+        a.label.localeCompare(b.label, "zh-Hant")
+      );
+      const listHtml = posts.length > 0
+        ? `<ul class="graph-inspector-list">${posts
+            .slice(0, 80)
+            .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
+            .join("")}</ul>`
+        : "<p>這個主題目前沒有對應文章。</p>";
+      inspector.innerHTML = `<h2>${escapeHtml(node.label)}</h2><p>類型：主題</p><p>文章數：${posts.length}</p>${listHtml}`;
+      return;
+    }
+
+    if (node.type === "post") {
+      inspector.innerHTML = `<h2>${escapeHtml(node.label)}</h2><p>類型：文章</p><p><a href="${node.url}">前往文章</a></p><p>提示：再點一次該節點會直接開啟文章。</p>`;
+      return;
+    }
+
+    inspector.innerHTML = `<h2>${escapeHtml(node.label)}</h2><p>類型：關鍵字</p>`;
+  }
+
+  function applyTopicFilter() {
+    const selectedTopicId = topicFilter?.value && topicFilter.value !== "all"
+      ? `topic:${topicFilter.value}`
+      : "all";
+
+    const visiblePostIds = new Set();
+    const visibleKeywordIds = new Set();
+
+    if (selectedTopicId === "all") {
+      for (const n of nodes) {
+        if (n.type === "post") visiblePostIds.add(n.id);
+        if (n.type === "keyword") visibleKeywordIds.add(n.id);
+      }
+    } else {
+      const posts = topicToPosts.get(selectedTopicId) ?? new Set();
+      for (const postNode of posts) {
+        visiblePostIds.add(postNode.id);
+        for (const keywordId of postToKeywords.get(postNode.id) ?? []) {
+          visibleKeywordIds.add(keywordId);
+        }
+      }
+    }
+
+    nodeEls.forEach((el, i) => {
+      const n = nodes[i];
+      let visible = true;
+
+      if (selectedTopicId !== "all") {
+        if (n.type === "topic") visible = n.id === selectedTopicId;
+        if (n.type === "post") visible = visiblePostIds.has(n.id);
+        if (n.type === "keyword") visible = visibleKeywordIds.has(n.id);
+      }
+
+      el.style.opacity = visible ? "1" : "0";
+      el.style.pointerEvents = visible ? "auto" : "none";
+    });
+
+    linkEls.forEach((el, i) => {
+      const link = links[i];
+      let visible = true;
+      if (selectedTopicId !== "all") {
+        if (link.kind === "topic") {
+          visible = link.t.id === selectedTopicId && visiblePostIds.has(link.s.id);
+        } else {
+          visible = visiblePostIds.has(link.s.id) && visibleKeywordIds.has(link.t.id);
+        }
+      }
+      el.style.display = visible ? "block" : "none";
+    });
+
+    if (selectedNodeId) {
+      const selectedNode = nodes.find((n) => n.id === selectedNodeId);
+      if (selectedNode) {
+        const selectedEl = nodeEls[selectedNode.i];
+        if (selectedEl.style.opacity === "0") {
+          setSelectedNode("");
+          if (inspector instanceof HTMLElement) {
+            inspector.innerHTML = "<h2>節點資訊</h2><p>點擊任一節點查看詳細資訊。</p>";
+          }
+        }
+      }
+    }
+  }
+
+  nodeEls.forEach((el, i) => {
+    const node = nodes[i];
+    el.addEventListener("click", () => {
+      const wasSelected = selectedNodeId === node.id;
+      setSelectedNode(node.id);
+      renderInspector(node);
+      if (node.url && wasSelected) window.location.href = node.url;
+    });
   });
 
   let yaw = 0;
@@ -286,19 +417,16 @@ const graph = { nodes, links };
     zoom = Math.min(2.2, Math.max(0.55, zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
   }, { passive: false });
 
-  topicFilter?.addEventListener("change", () => {
-    const t = topicFilter.value;
-    nodeEls.forEach((el, i) => {
-      const n = nodes[i];
-      const visible = t === "all" || n.type !== "post" || n.topic === t;
-      el.style.opacity = visible ? "1" : "0.18";
-    });
-  });
+  topicFilter?.addEventListener("change", applyTopicFilter);
 
   searchInput?.addEventListener("input", () => {
     const q = searchInput.value.trim().toLocaleLowerCase("zh-TW");
     nodeEls.forEach((el, i) => {
       const n = nodes[i];
+      if (el.style.opacity === "0") {
+        el.classList.remove("graph-node-match");
+        return;
+      }
       if (!q) {
         el.classList.remove("graph-node-match");
         return;
@@ -309,8 +437,13 @@ const graph = { nodes, links };
 
   resetButton?.addEventListener("click", () => {
     yaw = 0; pitch = 0; zoom = 1;
+    if (topicFilter instanceof HTMLSelectElement) {
+      topicFilter.value = "all";
+      applyTopicFilter();
+    }
   });
 
+  applyTopicFilter();
   frame();
 </script>
 
@@ -342,11 +475,23 @@ const graph = { nodes, links };
   :global(.graph-node-topic) { background: #eef9f5; border-color: #9fcec3; font-weight: 600; }
   :global(.graph-node-keyword) { background: #f9fcfb; border-color: #d2e4de; color: #40606a; }
   :global(.graph-node-match) { outline: 2px solid #ffc766; outline-offset: 1px; }
+  :global(.graph-node-selected) {
+    outline: 2px solid #5ab6a4;
+    outline-offset: 1px;
+  }
   .graph-inspector {
     margin-top: 0.72rem; border: 1px solid #d8e6e1; border-radius: 0.82rem; background: #f8fcfa;
     padding: 0.65rem 0.72rem;
   }
   .graph-inspector h2 { margin: 0; font-size: 0.96rem; }
   .graph-inspector p { margin: 0.34rem 0 0; color: #40606a; font-size: 0.86rem; }
+  .graph-inspector :global(.graph-inspector-list) {
+    margin: 0.52rem 0 0;
+    padding-left: 1.1rem;
+    max-height: 16rem;
+    overflow: auto;
+  }
+  .graph-inspector :global(.graph-inspector-list li) { margin: 0.22rem 0; }
+  .graph-inspector :global(.graph-inspector-list a) { color: #1f5f86; text-decoration: underline; }
   @media (max-width: 760px) { .graph-stage { height: min(66vh, 560px); } }
 </style>
