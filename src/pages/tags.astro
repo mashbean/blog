@@ -1,17 +1,39 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { tagCatalog } from "@/data/tagCatalog";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
+import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
 
 const allPosts = await getBlogPosts();
+const topicCatalog = getTopicCatalog();
+const postClassified = allPosts.map((post) => ({
+  post,
+  classified: classifyPostTags({
+    title: post.data.title,
+    description: post.data.description,
+    body: post.body,
+    tags: post.data.tags
+  })
+}));
 
-const tagSections = tagCatalog.map((item) => {
-  const posts = allPosts.filter((post) => post.data.tags.includes(item.key));
+const tagSections = topicCatalog.map((item) => {
+  const scoped = postClassified.filter((entry) => entry.classified.topics.includes(item.key));
+  const posts = scoped.map((entry) => entry.post);
+  const keywordCount = new Map<string, number>();
+  for (const entry of scoped) {
+    for (const keyword of entry.classified.keywords) {
+      keywordCount.set(keyword, (keywordCount.get(keyword) ?? 0) + 1);
+    }
+  }
+  const topKeywords = Array.from(keywordCount.entries())
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 10);
+
   return {
     ...item,
     posts,
-    count: posts.length
+    count: posts.length,
+    topKeywords
   };
 });
 ---
@@ -38,21 +60,33 @@ const tagSections = tagCatalog.map((item) => {
                 item.posts.length === 0 ? (
                   <p class="empty-state">目前沒有文章。</p>
                 ) : (
-                  <ul class="archive-list">
-                    {item.posts.map((post) => (
-                      <li class="archive-item">
-                        <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                          {formatDate(post.data.pubDate)}
-                        </time>
-                        <div class="archive-main">
-                          <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
-                          <p class="archive-meta">
-                            {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                  <>
+                    {item.topKeywords.length > 0 && (
+                      <ul class="archive-keyword-chips" aria-label={`${item.title} 熱門關鍵字`}>
+                        {item.topKeywords.map(([keyword, count]) => (
+                          <li>
+                            <span>{keyword}</span>
+                            <small>{count}</small>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <ul class="archive-list">
+                      {item.posts.map((post) => (
+                        <li class="archive-item">
+                          <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                            {formatDate(post.data.pubDate)}
+                          </time>
+                          <div class="archive-main">
+                            <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                            <p class="archive-meta">
+                              {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
+                            </p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 )
               }
             </div>

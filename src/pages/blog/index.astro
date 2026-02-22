@@ -2,6 +2,7 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
+import { classifyPostTags } from "@/utils/blogTags";
 
 const posts = await getBlogPosts();
 const yearMap = new Map<number, typeof posts>();
@@ -23,6 +24,17 @@ const yearSections = Array.from(yearMap.entries())
     count: yearPosts.length
   }))
   .sort((a, b) => b.year - a.year);
+
+const topicByPostId = new Map<string, string>();
+for (const post of posts) {
+  const classified = classifyPostTags({
+    title: post.data.title,
+    description: post.data.description,
+    body: post.body,
+    tags: post.data.tags
+  });
+  topicByPostId.set(post.id, classified.topics.join("・"));
+}
 ---
 
 <BaseLayout title="文章列表" description="依日期由新到舊的所有文章。">
@@ -54,12 +66,12 @@ const yearSections = Array.from(yearMap.entries())
                             <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
                               {formatDate(post.data.pubDate)}
                             </time>
-                            <div class="archive-main">
-                              <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
-                              <p class="archive-meta">
-                                {post.data.tags.length > 0 ? `標籤：${post.data.tags.slice(0, 3).join("・")}` : "無標籤"}
-                              </p>
-                            </div>
+                          <div class="archive-main">
+                            <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                            <p class="archive-meta">
+                              主題：{topicByPostId.get(post.id) ?? "公共網路"}
+                            </p>
+                          </div>
                           </li>
                         ))
                       }

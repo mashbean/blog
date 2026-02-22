@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { classifyPostTags, getTopicAliasKeywords } from "@/utils/blogTags";
 import { withBase } from "@/utils/paths";
 
 interface SearchDocument {
@@ -11,13 +12,14 @@ interface SearchDocument {
   pubDate?: string;
   content: string;
   tags: string[];
+  topics?: string[];
 }
 
 const staticPages: SearchDocument[] = [
   {
     id: "page:home",
     title: "首頁",
-    description: "最新文章與內容更新。",
+    description: "站在單向鏡後方觀看世界應對加速科技的方式。",
     url: withBase(""),
     type: "page",
     content: "首頁 最新文章 精選內容",
@@ -85,9 +87,23 @@ export const GET: APIRoute = async () => {
   const posts = await getBlogPosts();
 
   const postDocs: SearchDocument[] = posts.map((post) => {
-    const tags = post.data.tags ?? [];
+    const classified = classifyPostTags({
+      title: post.data.title,
+      description: post.data.description,
+      body: post.body,
+      tags: post.data.tags
+    });
+    const tags = [...classified.topics, ...classified.keywords];
+    const aliasTerms = classified.topics.flatMap((topic) => getTopicAliasKeywords(topic));
     const searchableBody = normalizeForIndex(post.body ?? "").slice(0, 2800);
-    const searchableText = [post.data.description, post.data.category ?? "", tags.join(" "), searchableBody]
+    const searchableText = [
+      post.data.description,
+      post.data.category ?? "",
+      classified.topics.join(" "),
+      classified.keywords.join(" "),
+      aliasTerms.join(" "),
+      searchableBody
+    ]
       .filter(Boolean)
       .join(" ");
 
@@ -99,7 +115,8 @@ export const GET: APIRoute = async () => {
       type: "post",
       pubDate: post.data.pubDate.toISOString(),
       content: searchableText,
-      tags
+      tags,
+      topics: classified.topics
     };
   });
 

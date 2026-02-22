@@ -699,6 +699,12 @@
     padding: 0.18rem 0.55rem;
   }
 
+  .tag-list-item-keyword {
+    background: #f6fbf9;
+    color: #335a66;
+    border-color: #d4e5df;
+  }
+
   .article-header {
     margin-bottom: 1.1rem;
   }
@@ -1329,6 +1335,33 @@
   .archive-accordion-description {
     margin: 0;
     color: #44606a;
+  }
+
+  .archive-keyword-chips {
+    margin: 0.62rem 0 0.72rem;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.36rem;
+  }
+
+  .archive-keyword-chips li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    border: 1px solid #d3e3de;
+    background: #f7fcfa;
+    color: #365a63;
+    font-size: 0.75rem;
+    padding: 0.14rem 0.48rem;
+  }
+
+  .archive-keyword-chips small {
+    color: #5f7880;
+    font-size: 0.7rem;
+    line-height: 1;
   }
 
   @media (prefers-reduced-motion: reduce) {
