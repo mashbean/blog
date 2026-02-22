@@ -869,7 +869,7 @@
 
   .reading-tools {
     margin-top: 0.76rem;
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.45rem;
@@ -1811,12 +1811,15 @@
   }
 
   body.focus-reading .article-header .tag-list,
-  body.focus-reading .article-header .reading-tools,
   body.focus-reading .article-pagination,
   body.focus-reading .related-posts,
   body.focus-reading .article-back-link,
   body.focus-reading .heading-anchor-btn {
     display: none;
+  }
+
+  body.focus-reading .article-header .reading-tools {
+    display: flex;
   }
 
   .reading-focus-fab {
