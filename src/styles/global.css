@@ -1117,18 +1117,18 @@
   #pagefind-search .pagefind-ui__result {
     border: 1px solid #d8e6e1;
     border-radius: 0.85rem;
-    padding: 0.74rem 1rem 0.74rem 1.24rem;
+    padding: 0.78rem 1rem 0.78rem 1.56rem;
     background: #fbfefc;
     margin-bottom: 0.56rem;
   }
 
   #pagefind-search .pagefind-ui__result-inner {
-    padding-left: 0.24rem;
+    padding-left: 0.34rem;
   }
 
   #pagefind-search .pagefind-ui__result-title,
   #pagefind-search .pagefind-ui__result-excerpt {
-    padding-left: 0.16rem;
+    padding-left: 0.26rem;
   }
 
   #pagefind-search .pagefind-ui__result-link {
@@ -1205,14 +1205,14 @@
     border: 1px solid #d8e6e1;
     border-radius: 0.85rem;
     background: #fbfefc;
-    padding: 0.76rem 1rem 0.76rem 1.24rem;
+    padding: 0.8rem 1rem 0.8rem 1.56rem;
     margin-bottom: 0.55rem;
   }
 
   .search-result-top,
   .search-result-snippet,
   .search-result-tags {
-    padding-left: 0.16rem;
+    padding-left: 0.26rem;
   }
 
   .search-result-link {
