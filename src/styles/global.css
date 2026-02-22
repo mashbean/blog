@@ -715,22 +715,6 @@
     font-size: 0.95rem;
   }
 
-  .article-meta-share-btn {
-    border: 1px solid #c7d8d2;
-    border-radius: 999px;
-    background: #f8fcfa;
-    color: #2f5664;
-    min-height: 1.72rem;
-    padding: 0.2rem 0.65rem;
-    font-size: 0.8rem;
-    line-height: 1;
-    cursor: pointer;
-  }
-
-  .article-meta-share-btn:hover {
-    background: #ebf6f2;
-  }
-
   .article-cover {
     margin: 1rem 0 1.4rem;
     border: 1px solid #d7e7e1;
@@ -770,6 +754,31 @@
   .toc-card h2 {
     margin: 0;
     font-size: 1rem;
+  }
+
+  .toc-share-card {
+    margin-top: 0.62rem;
+    border: 1px solid #d8e6e1;
+    border-radius: 0.9rem;
+    padding: 0.58rem;
+    background: #f8fcfa;
+  }
+
+  .toc-share-btn {
+    width: 100%;
+    border: 1px solid #c7d8d2;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #2f5664;
+    min-height: 1.92rem;
+    padding: 0.24rem 0.72rem;
+    font-size: 0.82rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .toc-share-btn:hover {
+    background: #ebf6f2;
   }
 
   .toc-list {
@@ -1744,7 +1753,6 @@
 
   body.focus-reading .article-header .tag-list,
   body.focus-reading .article-header .reading-tools,
-  body.focus-reading .article-meta-share-btn,
   body.focus-reading .article-pagination,
   body.focus-reading .related-posts,
   body.focus-reading .article-back-link,
@@ -1950,10 +1958,14 @@
     font-size: 0.82rem;
   }
 
-  .article-meta-share-btn {
-    min-height: 1.68rem;
-    padding: 0.18rem 0.58rem;
-    font-size: 0.78rem;
+  .toc-share-card {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+  }
+
+  .toc-share-btn {
+    min-height: 1.8rem;
+    font-size: 0.8rem;
   }
 
   .article-layout {

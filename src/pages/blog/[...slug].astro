@@ -194,7 +194,6 @@ const articleStructuredData = {
             }
             {post.data.draft && !import.meta.env.PROD && " · 草稿"}
           </p>
-          <button id="article-copy-link" type="button" class="article-meta-share-btn">分享本文</button>
         </div>
 
         {post.data.tags.length > 0 && (
@@ -262,8 +261,8 @@ const articleStructuredData = {
       </p>
     </div>
 
-    {tocHeadings.length > 0 && (
-      <aside class="article-sidebar" aria-label="文章目錄">
+    <aside class="article-sidebar" aria-label="文章目錄與分享">
+      {tocHeadings.length > 0 && (
         <div class="toc-card">
           <h2>目錄</h2>
           <ol class="toc-list">
@@ -274,8 +273,11 @@ const articleStructuredData = {
             ))}
           </ol>
         </div>
-      </aside>
-    )}
+      )}
+      <div class="toc-share-card">
+        <button id="article-copy-link" type="button" class="toc-share-btn">分享本文</button>
+      </div>
+    </aside>
   </article>
     )
   }
