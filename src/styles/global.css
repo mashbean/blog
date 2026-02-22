@@ -1664,7 +1664,7 @@
   }
 
   body.focus-reading .site-footer {
-    opacity: 0.1;
+    display: none;
   }
 
   body.focus-reading .article-layout {
@@ -1678,6 +1678,16 @@
   body.focus-reading .article-main {
     max-width: 78ch;
     margin-inline: auto;
+  }
+
+  body.focus-reading .article-header .tag-list,
+  body.focus-reading .article-header .reading-tools,
+  body.focus-reading .article-meta-share-btn,
+  body.focus-reading .article-pagination,
+  body.focus-reading .related-posts,
+  body.focus-reading .article-back-link,
+  body.focus-reading .heading-anchor-btn {
+    display: none;
   }
 
   .reading-focus-fab {
