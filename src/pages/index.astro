@@ -8,10 +8,11 @@ const posts = await getBlogPosts();
 const latestPosts = posts.slice(0, 12);
 const featuredPost = latestPosts[0];
 const recentPosts = latestPosts.slice(1);
+const heroArt = withBase("images/hero/dawn-paper-collage.svg");
 ---
 
 <BaseLayout title="首頁" description="最新文章與內容更新。">
-  <section class="hero">
+  <section class="hero hero-with-art" style={`--hero-art: url('${heroArt}')`}>
     <figure style="margin:0;">
       <blockquote class="hero-text" style="margin:0;">
         <p style="margin:0 0 .5rem;">能身處黎明時分，簡直是天賜之福；</p>

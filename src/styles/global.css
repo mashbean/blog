@@ -271,71 +271,6 @@
     font-size: 0.76rem;
   }
 
-  .web3-card-kicker {
-    margin: 0;
-    color: #3f6268;
-    font-size: 0.67rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-weight: 700;
-  }
-
-  .web3-card-handle-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.28rem;
-  }
-
-  .web3-card-handle-list li {
-    border: 1px solid #c7d8d2;
-    border-radius: 0.54rem;
-    background: #ffffff;
-    padding: 0.3rem 0.45rem;
-    display: grid;
-    gap: 0.08rem;
-  }
-
-  .web3-card-handle-list span {
-    color: #587370;
-    font-size: 0.66rem;
-    line-height: 1.1;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .web3-card-handle-list strong {
-    font-size: 0.74rem;
-    line-height: 1.15;
-    color: #153742;
-    overflow-wrap: anywhere;
-  }
-
-  .web3-card-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.36rem;
-  }
-
-  .web3-card-actions a {
-    border: 1px solid #9bc2b8;
-    border-radius: 0.54rem;
-    background: #ffffff;
-    color: #153742;
-    text-decoration: none;
-    text-align: center;
-    font-size: 0.74rem;
-    line-height: 1.15;
-    padding: 0.36rem 0.42rem;
-  }
-
-  .web3-card-actions a:hover {
-    background: #ecf7f3;
-    border-color: #7ea89e;
-  }
-
   .nav-social-section {
     padding: 0.15rem 0;
   }
@@ -378,12 +313,13 @@
   }
 
   .nav-social-link-icon {
-    width: 2rem;
-    height: 2rem;
+    width: 2.05rem;
+    height: 2.05rem;
     flex: 0 0 auto;
     border-radius: 999px;
-    border: 1px solid #c7d8d2;
-    background: #ffffff;
+    border: 0;
+    background: var(--brand-bg, #0f766e);
+    color: #ffffff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -464,10 +400,48 @@
   }
 
   .hero {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     border: 1px solid #d9e8e2;
     border-radius: 1.2rem;
     padding: 1.4rem;
     background: #f5fcf9;
+  }
+
+  .hero > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-with-art::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      linear-gradient(
+        90deg,
+        #f5fcf9 0%,
+        rgba(245, 252, 249, 0.94) 34%,
+        rgba(245, 252, 249, 0.7) 56%,
+        rgba(245, 252, 249, 0.28) 78%,
+        rgba(245, 252, 249, 0) 100%
+      );
+  }
+
+  .hero-with-art::after {
+    content: "";
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(52%, 30rem);
+    z-index: 0;
+    background-image: var(--hero-art);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: cover;
+    opacity: 0.95;
+    filter: saturate(0.92) contrast(1.03);
   }
 
   .hero-kicker {
@@ -1475,6 +1449,10 @@
 }
 
 @media (max-width: 760px) {
+  .site-header {
+    backdrop-filter: none;
+  }
+
   .site-header-inner {
     min-height: 3.2rem;
     display: grid;
@@ -1569,22 +1547,14 @@
     font-size: 0.72rem;
   }
 
-  .web3-card-handle-list {
-    grid-template-columns: 1fr;
-  }
-
-  .web3-card-actions {
-    grid-template-columns: 1fr;
-  }
-
   .nav-social-link {
     min-height: 1.9rem;
     padding: 0.36rem 0.48rem;
   }
 
   .nav-social-link-icon {
-    width: 1.45rem;
-    height: 1.45rem;
+    width: 1.72rem;
+    height: 1.72rem;
   }
 
   .nav-social-link-copy strong {
@@ -1638,6 +1608,22 @@
 
   .hero {
     padding: 1rem;
+  }
+
+  .hero-with-art::after {
+    width: min(62%, 16rem);
+    opacity: 0.88;
+  }
+
+  .hero-with-art::before {
+    background:
+      linear-gradient(
+        90deg,
+        #f5fcf9 0%,
+        rgba(245, 252, 249, 0.96) 46%,
+        rgba(245, 252, 249, 0.72) 74%,
+        rgba(245, 252, 249, 0.1) 100%
+      );
   }
 
   .post-list-compact-grid {
