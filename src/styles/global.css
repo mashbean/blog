@@ -1117,7 +1117,7 @@
   #pagefind-search .pagefind-ui__result {
     border: 1px solid #d8e6e1;
     border-radius: 0.85rem;
-    padding: 0.7rem 0.75rem;
+    padding: 0.72rem 1rem 0.72rem 1.05rem;
     background: #fbfefc;
     margin-bottom: 0.56rem;
   }
@@ -1196,7 +1196,7 @@
     border: 1px solid #d8e6e1;
     border-radius: 0.85rem;
     background: #fbfefc;
-    padding: 0.72rem 0.78rem;
+    padding: 0.74rem 1rem 0.74rem 1.05rem;
     margin-bottom: 0.55rem;
   }
 
