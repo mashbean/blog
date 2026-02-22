@@ -74,14 +74,6 @@ const affiliations = [
     logoWidth: "4.9rem",
     zh: "g0v 零時政府",
     en: "g0v Civic Tech Community"
-  },
-  {
-    key: "ars-electronica",
-    href: "https://www.ars.electronica.art/",
-    logo: "images/about/org-logos/ars-electronica.png",
-    logoWidth: "4.2rem",
-    zh: "林茲電子藝術節",
-    en: "Ars Electronica Festival"
   }
 ];
 ---
@@ -111,32 +103,6 @@ const affiliations = [
         {contactLinks.map((item) => <li><a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a></li>)}
       </ul>
     </header>
-
-    <section class="about-orgs" aria-labelledby="about-orgs-zh">
-      <div class="about-orgs-head">
-        <h2 id="about-orgs-zh">參與機構</h2>
-        <p>以下標誌使用各機構官方版本，並統一轉為本站單色系。</p>
-      </div>
-      <ul class="about-org-grid">
-        {
-          affiliations.map((org) => (
-            <li class="about-org-card">
-              <a href={org.href} target="_blank" rel="noopener noreferrer">
-                <span class="about-org-logo-wrap">
-                  <span
-                    class="about-org-logo"
-                    style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
-                    aria-hidden="true"
-                  ></span>
-                </span>
-                <span class="about-org-name-zh">{org.zh}</span>
-                <span class="about-org-name-en">{org.en}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
 
     <section class="about-cv-section">
       <h2>政府與公共治理經歷</h2>
@@ -268,6 +234,32 @@ const affiliations = [
         </ul>
       </div>
     </section>
+
+    <section class="about-orgs" aria-labelledby="about-orgs-zh">
+      <div class="about-orgs-head">
+        <h2 id="about-orgs-zh">曾參與組織</h2>
+        <p>以下標誌使用各機構官方版本，並統一轉為本站單色系。</p>
+      </div>
+      <ul class="about-org-grid">
+        {
+          affiliations.map((org) => (
+            <li class="about-org-card">
+              <a href={org.href} target="_blank" rel="noopener noreferrer">
+                <span class="about-org-logo-wrap">
+                  <span
+                    class="about-org-logo"
+                    style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
+                    aria-hidden="true"
+                  ></span>
+                </span>
+                <span class="about-org-name-zh">{org.zh}</span>
+                <span class="about-org-name-en">{org.en}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
   </article>
 
   <article class="about-cv" data-lang-content="en" hidden>
@@ -292,32 +284,6 @@ const affiliations = [
         {contactLinks.map((item) => <li><a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a></li>)}
       </ul>
     </header>
-
-    <section class="about-orgs" aria-labelledby="about-orgs-en">
-      <div class="about-orgs-head">
-        <h2 id="about-orgs-en">Affiliations</h2>
-        <p>Official organizational logos, normalized into the same monochrome palette as this blog.</p>
-      </div>
-      <ul class="about-org-grid">
-        {
-          affiliations.map((org) => (
-            <li class="about-org-card">
-              <a href={org.href} target="_blank" rel="noopener noreferrer">
-                <span class="about-org-logo-wrap">
-                  <span
-                    class="about-org-logo"
-                    style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
-                    aria-hidden="true"
-                  ></span>
-                </span>
-                <span class="about-org-name-en">{org.en}</span>
-                <span class="about-org-name-zh">{org.zh}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
 
     <section class="about-cv-section">
       <h2>Governmental Experience</h2>
@@ -448,6 +414,32 @@ const affiliations = [
           <li>Grand Prize, Smart City Hackathon, Taiwan Industrial Development Bureau (2016)</li>
         </ul>
       </div>
+    </section>
+
+    <section class="about-orgs" aria-labelledby="about-orgs-en">
+      <div class="about-orgs-head">
+        <h2 id="about-orgs-en">Organizations I've Worked With</h2>
+        <p>Official organizational logos, normalized into the same monochrome palette as this blog.</p>
+      </div>
+      <ul class="about-org-grid">
+        {
+          affiliations.map((org) => (
+            <li class="about-org-card">
+              <a href={org.href} target="_blank" rel="noopener noreferrer">
+                <span class="about-org-logo-wrap">
+                  <span
+                    class="about-org-logo"
+                    style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
+                    aria-hidden="true"
+                  ></span>
+                </span>
+                <span class="about-org-name-en">{org.en}</span>
+                <span class="about-org-name-zh">{org.zh}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </section>
   </article>
 </BaseLayout>
