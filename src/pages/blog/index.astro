@@ -55,12 +55,19 @@ const yearSections = Array.from(yearMap.entries())
                 <span class="tag-chip-icon" aria-hidden="true">🗓️</span>
                 {section.year} 年 ({section.count})
               </h2>
-              <ul class="post-list-compact">
+              <ul class="archive-list">
                 {
                   section.posts.map((post) => (
-                    <li class="post-list-compact-item">
-                      <a class="post-list-compact-link" href={buildPostUrl(post)}>{post.data.title}</a>
-                      <small class="post-list-compact-date">({formatDate(post.data.pubDate)})</small>
+                    <li class="archive-item">
+                      <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                        {formatDate(post.data.pubDate)}
+                      </time>
+                      <div class="archive-main">
+                        <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                        <p class="archive-meta">
+                          {post.data.tags.length > 0 ? `標籤：${post.data.tags.slice(0, 3).join("・")}` : "無標籤"}
+                        </p>
+                      </div>
                     </li>
                   ))
                 }
