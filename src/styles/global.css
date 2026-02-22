@@ -1273,6 +1273,7 @@
     gap: 0.45rem;
     color: #183645;
     font-weight: 600;
+    order: 1;
   }
 
   .archive-accordion-summary::after {
@@ -1297,9 +1298,12 @@
     padding: 0.2rem 0.5rem;
     white-space: nowrap;
     margin-left: auto;
+    order: 2;
   }
 
   .archive-accordion-note {
+    order: 3;
+    flex-basis: 100%;
     color: #6a7f88;
     font-size: 0.86rem;
     line-height: 1.45;
