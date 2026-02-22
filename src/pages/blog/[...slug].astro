@@ -213,6 +213,7 @@ const articleStructuredData = {
             {post.data.draft && !import.meta.env.PROD && " · 草稿"}
           </p>
         </div>
+        {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
         {(classifiedCurrent.topics.length > 0 || classifiedCurrent.keywords.length > 0) && (
           <ul class="tag-list" aria-label="文章標籤">

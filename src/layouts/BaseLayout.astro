@@ -140,6 +140,11 @@ const siteStructuredData = {
         聚焦閱讀
       </button>
     )}
+    {isArticle && (
+      <p id="reading-focus-hint" class="reading-focus-hint" hidden>
+        已進入聚焦閱讀。可用右下角按鈕切換。
+      </p>
+    )}
     <Footer />
     <script is:inline define:vars={{ isArticle, searchPath: withBase("search/") }}>
       const isEditableElement = (el) => {
@@ -162,6 +167,7 @@ const siteStructuredData = {
         const fontDecButton = document.querySelector("#reading-font-dec");
         const fontIncButton = document.querySelector("#reading-font-inc");
         const focusButton = document.querySelector("#reading-focus-toggle");
+        const focusHint = document.querySelector("#reading-focus-hint");
 
         let fontScale = Number(localStorage.getItem(`${storagePrefix}.fontScale`) ?? "1");
         if (!Number.isFinite(fontScale)) fontScale = 1;
@@ -179,6 +185,21 @@ const siteStructuredData = {
 
         // Always start article pages in focus mode for distraction-free reading.
         setFocusMode(true);
+
+        const hintKey = `${storagePrefix}.focusHintSeen`;
+        if (focusHint instanceof HTMLElement && !localStorage.getItem(hintKey)) {
+          focusHint.hidden = false;
+          window.setTimeout(() => {
+            focusHint.classList.add("is-visible");
+          }, 60);
+          window.setTimeout(() => {
+            focusHint.classList.remove("is-visible");
+            window.setTimeout(() => {
+              focusHint.hidden = true;
+            }, 220);
+          }, 3400);
+          localStorage.setItem(hintKey, "1");
+        }
 
         const updateFontScale = (delta) => {
           fontScale = Math.min(1.2, Math.max(0.92, Number((fontScale + delta).toFixed(2))));
@@ -230,6 +251,12 @@ const siteStructuredData = {
             });
           };
 
+          const rootMargin = window.matchMedia("(max-width: 760px)").matches
+            ? "-18% 0px -72% 0px"
+            : window.matchMedia("(max-width: 1120px)").matches
+              ? "-14% 0px -70% 0px"
+              : "-12% 0px -68% 0px";
+
           const observer = new IntersectionObserver(
             (entries) => {
               const visible = entries
@@ -237,7 +264,7 @@ const siteStructuredData = {
                 .sort((a, b) => a.target.getBoundingClientRect().top - b.target.getBoundingClientRect().top);
               if (visible[0]?.target?.id) setActiveToc(visible[0].target.id);
             },
-            { rootMargin: "-20% 0px -70% 0px", threshold: [0, 1] }
+            { rootMargin, threshold: [0, 1] }
           );
 
           observedHeadings.forEach((heading) => observer.observe(heading));
