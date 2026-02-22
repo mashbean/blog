@@ -32,28 +32,30 @@ const tagSections = tagCatalog.map((item) => {
             <span class="archive-accordion-count">{item.count} 篇</span>
           </summary>
           <div class="archive-accordion-body">
-            <p class="archive-accordion-description">{item.description}</p>
-            {
-              item.posts.length === 0 ? (
-                <p class="empty-state">目前沒有文章。</p>
-              ) : (
-                <ul class="archive-list">
-                  {item.posts.map((post) => (
-                    <li class="archive-item">
-                      <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                        {formatDate(post.data.pubDate)}
-                      </time>
-                      <div class="archive-main">
-                        <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
-                        <p class="archive-meta">
-                          {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )
-            }
+            <div class="archive-accordion-body-inner">
+              <p class="archive-accordion-description">{item.description}</p>
+              {
+                item.posts.length === 0 ? (
+                  <p class="empty-state">目前沒有文章。</p>
+                ) : (
+                  <ul class="archive-list">
+                    {item.posts.map((post) => (
+                      <li class="archive-item">
+                        <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                          {formatDate(post.data.pubDate)}
+                        </time>
+                        <div class="archive-main">
+                          <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                          <p class="archive-meta">
+                            {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
+                          </p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                )
+              }
+            </div>
           </div>
         </details>
       ))

@@ -46,23 +46,25 @@ const yearSections = Array.from(yearMap.entries())
                   <span class="archive-accordion-count">{section.count} 篇</span>
                 </summary>
                 <div class="archive-accordion-body">
-                  <ul class="archive-list">
-                    {
-                      section.posts.map((post) => (
-                        <li class="archive-item">
-                          <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                            {formatDate(post.data.pubDate)}
-                          </time>
-                          <div class="archive-main">
-                            <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
-                            <p class="archive-meta">
-                              {post.data.tags.length > 0 ? `標籤：${post.data.tags.slice(0, 3).join("・")}` : "無標籤"}
-                            </p>
-                          </div>
-                        </li>
-                      ))
-                    }
-                  </ul>
+                  <div class="archive-accordion-body-inner">
+                    <ul class="archive-list">
+                      {
+                        section.posts.map((post) => (
+                          <li class="archive-item">
+                            <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                              {formatDate(post.data.pubDate)}
+                            </time>
+                            <div class="archive-main">
+                              <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                              <p class="archive-meta">
+                                {post.data.tags.length > 0 ? `標籤：${post.data.tags.slice(0, 3).join("・")}` : "無標籤"}
+                              </p>
+                            </div>
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
                 </div>
               </details>
             ))
