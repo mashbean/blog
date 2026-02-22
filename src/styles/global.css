@@ -318,7 +318,7 @@
     flex: 0 0 auto;
     border-radius: 999px;
     border: 0;
-    background: var(--brand-bg, #0f766e);
+    background: var(--color-accent);
     color: #ffffff;
     display: inline-flex;
     align-items: center;
