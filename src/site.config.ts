@@ -3,4 +3,4 @@ export const SITE_DESCRIPTION = "站在單向鏡後方觀看世界應對加速�
 export const SITE_LANG = "zh-TW";
 export const SITE_TIMEZONE = "Asia/Taipei";
 export const DEFAULT_AUTHOR = "Mashbean";
-export const DEFAULT_OG_IMAGE = "images/og-image.png";
+export const DEFAULT_OG_IMAGE = "images/og-default.svg";
