@@ -6,13 +6,10 @@ import { withBase } from "@/utils/paths";
 
 const posts = await getBlogPosts();
 const latestPosts = posts.slice(0, 12);
-const featuredPost = latestPosts[0];
-const recentPosts = latestPosts.slice(1);
-const heroArt = withBase("images/hero/dawn-paper-collage.png");
 ---
 
 <BaseLayout title="首頁" description="最新文章與內容更新。">
-  <section class="hero hero-with-art" style={`--hero-art: url('${heroArt}')`}>
+  <section class="hero">
     <figure style="margin:0;">
       <blockquote class="hero-text" style="margin:0;">
         <p style="margin:0 0 .5rem;">能身處黎明時分，簡直是天賜之福；</p>
@@ -30,20 +27,11 @@ const heroArt = withBase("images/hero/dawn-paper-collage.png");
     latestPosts.length === 0 ? (
       <p class="empty-state">目前還沒有文章。</p>
     ) : (
-      <>
-        {featuredPost && (
-          <section aria-label="精選最新文章">
-            <PostCard post={featuredPost} variant="feature" />
-          </section>
-        )}
-        {recentPosts.length > 0 && (
-          <section class="home-post-grid" aria-label="近期更新">
-            <ul class="post-list post-list-compact-grid">
-              {recentPosts.map((post) => <li><PostCard post={post} variant="compact" /></li>)}
-            </ul>
-          </section>
-        )}
-      </>
+      <section class="home-post-grid" aria-label="近期更新">
+        <ul class="post-list post-list-compact-grid">
+          {latestPosts.map((post) => <li><PostCard post={post} variant="compact" /></li>)}
+        </ul>
+      </section>
     )
   }
 
