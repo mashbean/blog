@@ -818,46 +818,29 @@
     font-size: 1.12rem;
   }
 
-  .article-share {
-    margin-top: 1.45rem;
-    padding-top: 0.2rem;
-  }
-
-  .article-share-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.55rem;
-    min-height: 1.85rem;
-  }
-
-  .article-share-actions .reading-tool-btn {
-    margin-left: 0.05rem;
-  }
-
-  .article-share-actions .reading-tool-btn:hover {
-    background: #ebf6f2;
-  }
-
-  .article-share-actions .reading-tool-btn:focus-visible {
-    outline: 2px solid #98d8cb;
-    outline-offset: 1px;
-  }
-
-  .article-share-actions a {
-    align-items: center;
-    text-decoration: none;
-  }
-
-  .article-share-status {
-    margin: 0.42rem 0 0;
-    color: #4b626d;
-    font-size: 0.84rem;
-    min-height: 1.2em;
-  }
-
   .article-back-link {
-    margin: 0;
+    margin: 1.15rem 0 0;
+  }
+
+  .article-share-fab {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 66;
+    border: 1px solid #0b7d6d;
+    border-radius: 999px;
+    background: #0b7d6d;
+    color: #ffffff;
+    min-height: 2.15rem;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.86rem;
+    line-height: 1;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .article-share-fab:hover {
+    background: #0a6f61;
   }
 
   .reading-tools {
@@ -1887,6 +1870,12 @@
   }
 
   .reading-focus-fab {
+    min-height: 2rem;
+    padding: 0.34rem 0.78rem;
+    font-size: 0.82rem;
+  }
+
+  .article-share-fab {
     min-height: 2rem;
     padding: 0.34rem 0.78rem;
     font-size: 0.82rem;

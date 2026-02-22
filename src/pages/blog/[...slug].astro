@@ -254,15 +254,9 @@ const articleStructuredData = {
         </section>
       )}
 
-      <section class="article-share" aria-label="分享本文">
-        <div class="article-share-actions">
-          <p class="article-back-link">
-            <a href={withBase("blog/")}>← 回文章列表</a>
-          </p>
-          <button id="article-copy-link" type="button" class="reading-tool-btn">分享本文</button>
-        </div>
-        <p id="article-share-status" class="article-share-status" aria-live="polite"></p>
-      </section>
+      <p class="article-back-link">
+        <a href={withBase("blog/")}>← 回文章列表</a>
+      </p>
     </div>
 
     {tocHeadings.length > 0 && (
@@ -280,6 +274,7 @@ const articleStructuredData = {
       </aside>
     )}
   </article>
+  <button id="article-copy-link" type="button" class="article-share-fab">分享本文</button>
     )
   }
 </BaseLayout>
@@ -298,19 +293,19 @@ const articleStructuredData = {
   !isLegacyPath && (
     <script is:inline define:vars={{ pageURL }}>
       const copyButton = document.querySelector("#article-copy-link");
-      const status = document.querySelector("#article-share-status");
-
-      const setStatus = (message) => {
-        if (status instanceof HTMLElement) status.textContent = message;
-      };
 
       copyButton?.addEventListener("click", async () => {
+        if (!(copyButton instanceof HTMLButtonElement)) return;
+        const originalLabel = copyButton.textContent;
         try {
           await navigator.clipboard.writeText(pageURL);
-          setStatus("連結已複製");
+          copyButton.textContent = "已複製";
         } catch {
-          setStatus("複製失敗，請手動複製網址列");
+          copyButton.textContent = "複製失敗";
         }
+        window.setTimeout(() => {
+          copyButton.textContent = originalLabel ?? "分享本文";
+        }, 1200);
       });
     </script>
   )
