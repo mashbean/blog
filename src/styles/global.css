@@ -20,6 +20,13 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5.6rem;
+    scrollbar-gutter: stable;
+  }
+
+  @supports not (scrollbar-gutter: stable) {
+    html {
+      overflow-y: scroll;
+    }
   }
 
   body {
