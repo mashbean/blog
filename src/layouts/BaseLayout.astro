@@ -27,7 +27,8 @@ const {
   isArticle = false
 } = Astro.props as Props;
 
-const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const tabTitle = "mashbean blog";
+const seoTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 
 const canonical =
   canonicalURL ??
@@ -45,6 +46,38 @@ const ogImageURL =
     : Astro.site
       ? new URL(ogPath, Astro.site).toString()
       : new URL(ogPath, Astro.url).toString();
+
+const logoPath = withBase("images/favicon-512.png");
+const logoURL =
+  Astro.site
+    ? new URL(logoPath, Astro.site).toString()
+    : new URL(logoPath, Astro.url).toString();
+
+const siteURL = Astro.site?.toString() ?? new URL(withBase(""), Astro.url).toString();
+const siteStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteURL}#organization`,
+      name: "mashbean blog",
+      url: siteURL,
+      logo: {
+        "@type": "ImageObject",
+        url: logoURL
+      }
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteURL}#website`,
+      url: siteURL,
+      name: "mashbean blog",
+      publisher: {
+        "@id": `${siteURL}#organization`
+      }
+    }
+  ]
+};
 ---
 
 <!doctype html>
@@ -52,7 +85,7 @@ const ogImageURL =
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{pageTitle}</title>
+    <title>{tabTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <meta name="generator" content={Astro.generator} />
@@ -60,19 +93,21 @@ const ogImageURL =
 
     <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={SITE_TITLE} />
-    <meta property="og:title" content={pageTitle} />
+    <meta property="og:title" content={seoTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageURL} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:title" content={seoTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(siteStructuredData)} />
     {structuredData && (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
     )}
 
+    <link rel="shortcut icon" href={withBase("images/favicon-32.png")} />
     <link rel="icon" type="image/png" sizes="16x16" href={withBase("images/favicon-16.png")} />
     <link rel="icon" type="image/png" sizes="32x32" href={withBase("images/favicon-32.png")} />
     <link rel="icon" type="image/png" sizes="512x512" href={withBase("images/favicon-512.png")} />
