@@ -95,6 +95,16 @@ const ogImageURL =
     <main id="main-content" class="container page-shell">
       <slot />
     </main>
+    {isArticle && (
+      <button
+        id="reading-focus-toggle"
+        type="button"
+        class="reading-focus-fab"
+        aria-pressed="false"
+      >
+        聚焦閱讀
+      </button>
+    )}
     <Footer />
     <script is:inline define:vars={{ isArticle, searchPath: withBase("search/") }}>
       const isEditableElement = (el) => {
