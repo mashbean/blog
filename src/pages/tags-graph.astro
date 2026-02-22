@@ -7,6 +7,12 @@ import { cleanPostTitle } from "@/utils/title";
 
 const posts = (await getBlogPosts()).slice(0, 160);
 const topics = getTopicCatalog();
+const GRAPH_GENERIC_KEYWORD_PENALTY: Record<string, number> = {
+  nft: 0.46,
+  web3: 0.62,
+  "區塊鏈": 0.7,
+  "加密": 0.7
+};
 
 const items = posts.map((post) => {
   const classified = classifyPostTags({
@@ -20,27 +26,49 @@ const items = posts.map((post) => {
     title: cleanPostTitle(post.data.title),
     url: buildPostUrl(post),
     topics: classified.topics,
-    keywords: classified.keywords.slice(0, 6)
+    keywords: classified.keywords.slice(0, 6),
+    secondaryKeywords: classified.secondaryKeywords.slice(0, 10),
+    keywordScores: classified.keywordScores.slice(0, 20)
   };
 });
 
-const keywordCounter = new Map<string, number>();
+const keywordCounter = new Map<string, { label: string; score: number; df: number }>();
 for (const item of items) {
-  for (const keyword of item.keywords) {
-    keywordCounter.set(keyword, (keywordCounter.get(keyword) ?? 0) + 1);
+  const seenKeywords = new Set<string>();
+  for (const keyword of item.keywordScores) {
+    const key = keyword.keyword.trim().toLocaleLowerCase("zh-TW");
+    if (!key) continue;
+    const bucket = keywordCounter.get(key) ?? { label: keyword.keyword, score: 0, df: 0 };
+    const tierBonus = keyword.tier === "primary" ? 1.12 : 0.9;
+    bucket.score += keyword.score * tierBonus;
+    if (keyword.keyword.length > bucket.label.length) bucket.label = keyword.keyword;
+    if (!seenKeywords.has(key)) {
+      bucket.df += 1;
+      seenKeywords.add(key);
+    }
+    keywordCounter.set(key, bucket);
   }
 }
 
 const topKeywords = Array.from(keywordCounter.entries())
+  .filter(([, stat]) => stat.df >= 3)
+  .map(([norm, stat]) => {
+    const idf = Math.log(1 + items.length / (1 + stat.df));
+    const overlyCommonPenalty = stat.df / items.length > 0.36 ? 0.42 : 1;
+    const genericPenalty = GRAPH_GENERIC_KEYWORD_PENALTY[norm] ?? 1;
+    const raritySmoothing = Math.sqrt(stat.df);
+    const weighted = stat.score * idf * raritySmoothing * overlyCommonPenalty * genericPenalty;
+    return [stat.label, weighted] as const;
+  })
   .sort((a, b) => b[1] - a[1])
-  .slice(0, 42)
+  .slice(0, 56)
   .map(([keyword]) => keyword);
 
 const keywordSet = new Set(topKeywords);
 const searchIndexUrl = withBase("search-index.json");
 
 const nodes: Array<{ id: string; type: "topic" | "keyword" | "post"; label: string; url?: string; topic?: string }> = [];
-const links: Array<{ source: string; target: string; kind: "topic" | "keyword" }> = [];
+const links: Array<{ source: string; target: string; kind: "topic" | "keyword"; weight: number }> = [];
 
 for (const topic of topics) {
   nodes.push({ id: `topic:${topic.key}`, type: "topic", label: topic.title, topic: topic.key });
@@ -53,11 +81,19 @@ for (const keyword of topKeywords) {
 for (const item of items) {
   nodes.push({ id: item.id, type: "post", label: item.title, url: item.url, topic: item.topics[0] });
   for (const topic of item.topics) {
-    links.push({ source: item.id, target: `topic:${topic}`, kind: "topic" });
+    links.push({ source: item.id, target: `topic:${topic}`, kind: "topic", weight: 1 });
   }
-  for (const keyword of item.keywords) {
-    if (keywordSet.has(keyword)) {
-      links.push({ source: item.id, target: `keyword:${keyword}`, kind: "keyword" });
+  for (const keywordEntry of item.keywordScores) {
+    if (keywordSet.has(keywordEntry.keyword)) {
+      const linkWeight = keywordEntry.tier === "primary"
+        ? Math.min(1.8, Math.max(0.55, keywordEntry.score / 2.2))
+        : Math.min(1.3, Math.max(0.35, keywordEntry.score / 2.8));
+      links.push({
+        source: item.id,
+        target: `keyword:${keywordEntry.keyword}`,
+        kind: "keyword",
+        weight: Number(linkWeight.toFixed(3))
+      });
     }
   }
 }
@@ -65,10 +101,10 @@ for (const item of items) {
 const graph = { nodes, links };
 ---
 
-<BaseLayout title="標籤互動圖 MVP" description="文章、主題與關鍵字的互動式關聯圖。">
-  <h1 class="section-title">標籤互動圖（MVP）</h1>
-  <p>先用這版測試互動感：拖曳可旋轉視角、滑鼠滾輪可縮放；文章節點點一次看資訊、再點一次進文。</p>
-  <p><a href={withBase("tags/")}>← 回標籤列表</a></p>
+<BaseLayout title="與豆泥的大腦互動" description="歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。">
+  <h1 class="section-title">與豆泥的大腦互動</h1>
+  <p>歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。</p>
+  <p><a href={withBase("search/")}>回一般搜尋</a></p>
 
   <section class="graph-panel" aria-label="關聯圖">
     <div class="graph-toolbar">
@@ -162,7 +198,9 @@ const graph = { nodes, links };
 
   const topicToPosts = new Map();
   const keywordToPosts = new Map();
+  const postToTopics = new Map();
   const postToKeywords = new Map();
+  const postToKeywordWeights = new Map();
   const postSearchCorpus = new Map();
 
   function pushMapSet(map, key, value) {
@@ -174,13 +212,24 @@ const graph = { nodes, links };
     map.set(key, new Set([value]));
   }
 
+  function pushKeywordWeight(postId, keywordId, weight) {
+    const bucket = postToKeywordWeights.get(postId);
+    if (bucket) {
+      bucket.set(keywordId, Math.max(weight, bucket.get(keywordId) ?? 0));
+      return;
+    }
+    postToKeywordWeights.set(postId, new Map([[keywordId, weight]]));
+  }
+
   for (const link of links) {
     if (link.kind === "topic" && link.s.type === "post" && link.t.type === "topic") {
       pushMapSet(topicToPosts, link.t.id, link.s);
+      pushMapSet(postToTopics, link.s.id, link.t.id);
     }
     if (link.kind === "keyword" && link.s.type === "post" && link.t.type === "keyword") {
       pushMapSet(postToKeywords, link.s.id, link.t.id);
       pushMapSet(keywordToPosts, link.t.id, link.s);
+      pushKeywordWeight(link.s.id, link.t.id, Number(link.weight ?? 1));
     }
   }
 
@@ -221,6 +270,13 @@ const graph = { nodes, links };
   const linkEls = links.map((link) => {
     const el = document.createElementNS(svgNS, "line");
     el.setAttribute("class", `graph-link graph-link-${link.kind}`);
+    const weight = Number(link.weight ?? 1);
+    if (link.kind === "keyword") {
+      el.style.strokeWidth = `${(0.8 + weight * 0.9).toFixed(2)}`;
+      el.style.strokeOpacity = `${Math.min(0.82, 0.28 + weight * 0.28)}`;
+    } else {
+      el.style.strokeWidth = "1.35";
+    }
     svg.appendChild(el);
     return el;
   });
@@ -286,7 +342,39 @@ const graph = { nodes, links };
     }
 
     if (node.type === "post") {
-      inspectorContent.innerHTML = `<h3>${escapeHtml(node.label)}</h3><p>類型：文章</p><p><a href="${node.url}">前往文章</a></p><p>提示：再點一次該節點會直接開啟文章。</p>`;
+      const topicLabels = Array.from(postToTopics.get(node.id) ?? [])
+        .map((topicId) => byId.get(topicId))
+        .filter((topicNode) => topicNode && topicNode.type === "topic")
+        .map((topicNode) => topicNode.label);
+      const keywordLabels = Array.from(postToKeywords.get(node.id) ?? [])
+        .map((keywordId) => {
+          const keywordNode = byId.get(keywordId);
+          const weight = postToKeywordWeights.get(node.id)?.get(keywordId) ?? 0;
+          return keywordNode && keywordNode.type === "keyword"
+            ? { label: keywordNode.label, weight }
+            : null;
+        })
+        .filter((item) => item !== null)
+        .sort((a, b) => b.weight - a.weight || a.label.localeCompare(b.label, "zh-Hant"))
+        .map((item) => item.label);
+
+      const topicText = topicLabels.length > 0 ? topicLabels.join("・") : "未分類";
+      const keywordHtml = keywordLabels.length > 0
+        ? `<ul class="graph-tag-chip-list">${keywordLabels
+            .slice(0, 16)
+            .map((label) => `<li class="graph-tag-chip">${escapeHtml(label)}</li>`)
+            .join("")}</ul>`
+        : "<p class=\"graph-post-card-empty\">目前沒有關鍵字。</p>";
+
+      inspectorContent.innerHTML = `
+        <article class="graph-post-card">
+          <a class="graph-post-card-link" href="${node.url}">${escapeHtml(node.label)}</a>
+          <p class="graph-post-card-meta">主題：${escapeHtml(topicText)}</p>
+          <p class="graph-post-card-meta">關鍵字：</p>
+          ${keywordHtml}
+        </article>
+        <p class="graph-post-card-tip">提示：再點一次同一個文章節點會直接開啟文章。</p>
+      `;
       return;
     }
 
@@ -438,13 +526,19 @@ const graph = { nodes, links };
         return;
       }
       el.style.display = "block";
+      const weight = Number(link.weight ?? 1);
+      const baseOpacity = link.kind === "keyword"
+        ? Math.min(0.82, 0.28 + weight * 0.28)
+        : 0.72;
       if (!q) {
-        el.style.strokeOpacity = "";
+        el.style.strokeOpacity = String(baseOpacity);
         return;
       }
       const srcMatched = nodeMatchesQuery(link.s, q, terms);
       const tarMatched = nodeMatchesQuery(link.t, q, terms);
-      el.style.strokeOpacity = srcMatched || tarMatched ? "0.72" : "0.12";
+      el.style.strokeOpacity = srcMatched || tarMatched
+        ? String(baseOpacity)
+        : "0.1";
     });
 
     if (selectedNodeId) {
@@ -564,8 +658,13 @@ const graph = { nodes, links };
       const dy = b.y - a.y;
       const dz = b.z - a.z;
       const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
-      const target = link.kind === "topic" ? 140 : 210;
-      const k = link.kind === "topic" ? 0.03 : 0.015;
+      const weight = Number(link.weight ?? 1);
+      const target = link.kind === "topic"
+        ? 140
+        : Math.max(128, 230 - weight * 52);
+      const k = link.kind === "topic"
+        ? 0.03
+        : 0.01 + weight * 0.013;
       const f = (d - target) * k;
       const fx = (dx / d) * f;
       const fy = (dy / d) * f;
@@ -818,6 +917,7 @@ const graph = { nodes, links };
   .graph-stage {
     position: relative; height: min(72vh, 740px); border: 1px solid #d8e6e1; border-radius: 0.85rem;
     background: radial-gradient(circle at 20% 10%, #f0faf6, #ffffff 60%); overflow: hidden; touch-action: none;
+    z-index: 0;
   }
   .graph-list-view {
     border: 1px solid #d8e6e1;
@@ -901,8 +1001,7 @@ const graph = { nodes, links };
     overflow: auto;
     border: 1px solid #d8e6e1;
     border-radius: 0.82rem;
-    background: rgba(248, 252, 250, 0.92);
-    backdrop-filter: blur(2px);
+    background: #f8fcfa;
     padding: 0.65rem 0.72rem;
     min-height: 12rem;
     z-index: 20;
@@ -940,6 +1039,55 @@ const graph = { nodes, links };
   }
   .graph-inspector :global(.graph-inspector-list li) { margin: 0.22rem 0; }
   .graph-inspector :global(.graph-inspector-list a) { color: #1f5f86; text-decoration: underline; }
+  .graph-inspector :global(.graph-post-card) {
+    border: 1px solid #d8e6e1;
+    border-radius: 0.72rem;
+    background: #ffffff;
+    padding: 0.58rem 0.64rem;
+  }
+  .graph-inspector :global(.graph-post-card-link) {
+    display: inline-block;
+    color: #1f3f4d;
+    text-decoration: none;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    font-weight: 600;
+  }
+  .graph-inspector :global(.graph-post-card-link:hover) { color: #0b7d6d; }
+  .graph-inspector :global(.graph-post-card-meta) {
+    margin: 0.28rem 0 0;
+    color: #47616b;
+    font-size: 0.82rem;
+  }
+  .graph-inspector :global(.graph-post-card-empty) {
+    margin: 0.3rem 0 0;
+    color: #5b737c;
+    font-size: 0.8rem;
+  }
+  .graph-inspector :global(.graph-post-card-tip) {
+    margin: 0.46rem 0 0;
+    color: #526c76;
+    font-size: 0.8rem;
+  }
+  .graph-inspector :global(.graph-tag-chip-list) {
+    list-style: none;
+    margin: 0.34rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.34rem;
+  }
+  .graph-inspector :global(.graph-tag-chip) {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #f3faf7;
+    color: #2f5963;
+    font-size: 0.74rem;
+    line-height: 1;
+    padding: 0.2rem 0.44rem;
+  }
   @media (max-width: 760px) {
     .graph-view-toggle {
       display: flex;

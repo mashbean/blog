@@ -10,6 +10,8 @@ export interface PostTagInput {
 export interface ClassifiedTags {
   topics: string[];
   keywords: string[];
+  secondaryKeywords: string[];
+  keywordScores: Array<{ keyword: string; score: number; tier: "primary" | "secondary" }>;
   metaTags: string[];
 }
 
@@ -71,6 +73,104 @@ const TOPIC_HINTS: Array<{ topic: string; regex: RegExp }> = [
   { topic: "數位藝術", regex: /數位藝術|生成藝術|藝術|展覽|策展|linz|林茲/i }
 ];
 
+const TOKEN_STOPWORDS = new Set([
+  "以及",
+  "或者",
+  "如果",
+  "因為",
+  "所以",
+  "這個",
+  "那個",
+  "我們",
+  "你們",
+  "他們",
+  "自己",
+  "目前",
+  "可能",
+  "沒有",
+  "可以",
+  "需要",
+  "如何",
+  "不是",
+  "一些",
+  "什麼",
+  "就是",
+  "正在",
+  "這篇",
+  "文章",
+  "內容",
+  "世界",
+  "台灣",
+  "and",
+  "the",
+  "with",
+  "from",
+  "that",
+  "this",
+  "have",
+  "will",
+  "into",
+  "about",
+  "your",
+  "their",
+  "more",
+  "than",
+  "what",
+  "when",
+  "where",
+  "which",
+  "because",
+  "https",
+  "http",
+  "www",
+  "com",
+  "來源",
+  "內文",
+  "原文",
+  "連結",
+  "原文連結",
+  "前往閱讀",
+  "本文為外部文章索引",
+  "原文發表於",
+  "原文標題",
+  "本文為外部文",
+  "章索引",
+  "豆泥",
+  "此外",
+  "因此",
+  "例如",
+  "然而",
+  "最後",
+  "一個",
+  "一樣",
+  "作者",
+  "名為",
+  "服務",
+  "工具"
+]);
+
+const GENERIC_KEYWORD_PENALTY: Record<string, number> = {
+  nft: 0.32,
+  web3: 0.5,
+  "區塊鏈": 0.62,
+  "加密": 0.62,
+  "以太坊": 0.7,
+  ethereum: 0.7,
+  dao: 0.7,
+  ai: 0.65,
+  "人工智慧": 0.65
+};
+
+const TOPIC_ALIAS_KEYS = new Set(Object.keys(TOPIC_ALIASES));
+const TOKEN_BLOCK_PATTERNS: RegExp[] = [
+  /^https?:\/\//i,
+  /^www\./i,
+  /^[\d./:-]+$/,
+  /^(來源|原文|連結|內文)/,
+  /(本文為外部文章索引|前往閱讀|原文發表於|原文標題)/,
+  /^(for|from|with|that|this|what|when|where)$/i
+];
+
 function normalizeTag(raw: string): string {
   return raw
     .trim()
@@ -87,6 +187,62 @@ function uniqueStrings(values: string[]): string[] {
   return [...new Set(values.filter(Boolean))];
 }
 
+function stripForTokenize(raw: string): string {
+  return raw
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/[>#_*~|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function compactToken(raw: string): string {
+  return raw.trim().replace(/[。、「」『』（）()【】\[\]《》〈〉：:；;,.!?！？"']/g, "");
+}
+
+function scoreToken(
+  store: Map<string, { label: string; score: number }>,
+  rawToken: string,
+  weight: number
+): void {
+  const cleaned = compactToken(rawToken);
+  if (!cleaned) return;
+  const norm = normalizeTag(cleaned);
+  if (!norm || norm.length < 2) return;
+  if (TOKEN_BLOCK_PATTERNS.some((pattern) => pattern.test(cleaned) || pattern.test(norm))) return;
+  if (/^[a-z0-9./:+-]+$/i.test(norm) && norm.length <= 3) return;
+  if (/^\d+$/.test(norm)) return;
+  if (/[\u4e00-\u9fff]/.test(cleaned) && cleaned.length > 8) return;
+  if (TOKEN_STOPWORDS.has(norm)) return;
+  if (IGNORE_TAGS.has(norm)) return;
+  if (TOPIC_KEYS.has(cleaned) || TOPIC_KEYS.has(norm)) return;
+  if (TOPIC_ALIAS_KEYS.has(norm)) return;
+
+  const value = store.get(norm);
+  if (value) {
+    value.score += weight;
+    if (cleaned.length > value.label.length) value.label = cleaned;
+    return;
+  }
+  store.set(norm, { label: cleaned, score: weight });
+}
+
+function collectTerms(text: string, baseWeight: number, store: Map<string, { label: string; score: number }>): void {
+  if (!text) return;
+
+  const cjkTerms = text.match(/[\u4e00-\u9fff]{2,6}/g) ?? [];
+  for (const token of cjkTerms) {
+    scoreToken(store, token, baseWeight);
+  }
+
+  const latinTerms = text.match(/[a-zA-Z][a-zA-Z0-9#+./-]{2,}/g) ?? [];
+  for (const token of latinTerms) {
+    scoreToken(store, token, baseWeight);
+  }
+}
+
 export function getTopicCatalog(): TagCatalogItem[] {
   return tagCatalog;
 }
@@ -96,7 +252,7 @@ export function classifyPostTags(input: PostTagInput): ClassifiedTags {
   const normalizedTags = rawTags.map((tag) => normalizeTag(tag));
 
   const topics: string[] = [];
-  const keywords: string[] = [];
+  const keywordStore = new Map<string, { label: string; score: number }>();
   const metaTags: string[] = [];
 
   for (let i = 0; i < rawTags.length; i += 1) {
@@ -118,10 +274,17 @@ export function classifyPostTags(input: PostTagInput): ClassifiedTags {
       topics.push(aliasTopic);
     }
 
-    keywords.push(raw);
+    scoreToken(keywordStore, raw, 6);
   }
 
-  const text = `${input.title} ${input.description ?? ""} ${input.body ?? ""}`;
+  const titleText = stripForTokenize(input.title ?? "");
+  const descriptionText = stripForTokenize(input.description ?? "");
+  const bodyText = stripForTokenize(input.body ?? "");
+  const text = `${titleText} ${descriptionText} ${bodyText}`;
+
+  collectTerms(titleText, 4.2, keywordStore);
+  collectTerms(descriptionText, 2.8, keywordStore);
+  collectTerms(bodyText, 1.1, keywordStore);
 
   if (topics.length === 0) {
     for (const hint of TOPIC_HINTS) {
@@ -135,14 +298,39 @@ export function classifyPostTags(input: PostTagInput): ClassifiedTags {
 
   const uniqueTopics = uniqueStrings(topics).filter((topic) => TOPIC_KEYS.has(topic));
 
-  const keywordFiltered = uniqueStrings(keywords)
-    .filter((tag) => !TOPIC_KEYS.has(tag))
-    .filter((tag) => !IGNORE_TAGS.has(normalizeTag(tag)))
-    .slice(0, 12);
+  const scoredKeywords = Array.from(keywordStore.entries())
+    .map(([norm, value]) => {
+      const penalty = GENERIC_KEYWORD_PENALTY[norm] ?? 1;
+      const score = Number((value.score * penalty).toFixed(4));
+      return { keyword: value.label, score };
+    })
+    .filter((item) => item.score >= 1.4)
+    .sort((a, b) => b.score - a.score || a.keyword.localeCompare(b.keyword, "zh-Hant"));
+
+  const dedupedKeywords: Array<{ keyword: string; score: number }> = [];
+  const seenNorm = new Set<string>();
+  for (const item of scoredKeywords) {
+    const norm = normalizeTag(item.keyword);
+    if (seenNorm.has(norm)) continue;
+    seenNorm.add(norm);
+    dedupedKeywords.push(item);
+  }
+
+  const keywordScores = dedupedKeywords.slice(0, 28).map((item, idx) => ({
+    keyword: item.keyword,
+    score: item.score,
+    tier: idx < 8 ? ("primary" as const) : ("secondary" as const)
+  }));
+  const keywords = keywordScores.filter((item) => item.tier === "primary").map((item) => item.keyword);
+  const secondaryKeywords = keywordScores
+    .filter((item) => item.tier === "secondary")
+    .map((item) => item.keyword);
 
   return {
     topics: uniqueTopics,
-    keywords: keywordFiltered,
+    keywords,
+    secondaryKeywords,
+    keywordScores,
     metaTags: uniqueStrings(metaTags)
   };
 }

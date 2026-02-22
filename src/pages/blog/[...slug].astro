@@ -35,7 +35,11 @@ const classifiedCurrent = classifyPostTags({
   body: post.body,
   tags: post.data.tags
 });
-const semanticTagsCurrent = [...classifiedCurrent.topics, ...classifiedCurrent.keywords];
+const semanticTagsCurrent = [
+  ...classifiedCurrent.topics,
+  ...classifiedCurrent.keywords,
+  ...classifiedCurrent.secondaryKeywords
+];
 
 const coverSrc =
   post.data.cover && /^https?:\/\//.test(post.data.cover)
@@ -116,7 +120,11 @@ const relatedCandidates = allPosts
       body: item.body,
       tags: item.data.tags
     });
-    const semanticItemTags = [...classifiedItem.topics, ...classifiedItem.keywords];
+    const semanticItemTags = [
+      ...classifiedItem.topics,
+      ...classifiedItem.keywords,
+      ...classifiedItem.secondaryKeywords
+    ];
     const sharedTags = semanticItemTags.filter((tag) => semanticTagsCurrent.includes(tag));
     const sameCategory =
       post.data.category && item.data.category && post.data.category === item.data.category;
@@ -135,7 +143,12 @@ const usedYears = new Set<number>();
 const usedPrimaryTags = new Set<string>();
 for (const entry of relatedCandidates) {
   if (relatedPosts.length >= 4) break;
-  const primaryTag = entry.sharedTags[0] ?? entry.classifiedItem.topics[0] ?? entry.classifiedItem.keywords[0] ?? "";
+  const primaryTag =
+    entry.sharedTags[0] ??
+    entry.classifiedItem.topics[0] ??
+    entry.classifiedItem.keywords[0] ??
+    entry.classifiedItem.secondaryKeywords[0] ??
+    "";
   const yearUsed = usedYears.has(entry.year);
   const tagUsed = primaryTag !== "" && usedPrimaryTags.has(primaryTag);
   if (relatedPosts.length < 2 || !(yearUsed && tagUsed)) {

@@ -35,6 +35,8 @@ export const GET: APIRoute = async () => {
       category: post.data.category ?? null,
       topics: classified.topics,
       keywords: classified.keywords,
+      secondaryKeywords: classified.secondaryKeywords,
+      keywordScores: classified.keywordScores,
       content: normalizeForIndex(post.body ?? "").slice(0, 3000)
     };
   });

@@ -94,7 +94,7 @@ export const GET: APIRoute = async () => {
       body: post.body,
       tags: post.data.tags
     });
-    const tags = [...classified.topics, ...classified.keywords];
+    const tags = [...classified.topics, ...classified.keywords, ...classified.secondaryKeywords];
     const aliasTerms = classified.topics.flatMap((topic) => getTopicAliasKeywords(topic));
     const searchableBody = normalizeForIndex(post.body ?? "").slice(0, 2800);
     const searchableText = [
@@ -102,6 +102,7 @@ export const GET: APIRoute = async () => {
       post.data.category ?? "",
       classified.topics.join(" "),
       classified.keywords.join(" "),
+      classified.secondaryKeywords.join(" "),
       aliasTerms.join(" "),
       searchableBody
     ]
