@@ -9,8 +9,10 @@ const allPosts = await getBlogPosts();
 const topicCatalog = getTopicCatalog();
 const RECENT_UPDATED_DAYS = 90;
 const recentThreshold = Date.now() - RECENT_UPDATED_DAYS * 24 * 60 * 60 * 1000;
-const isRecentlyUpdated = (updatedDate?: Date) =>
-  Boolean(updatedDate && updatedDate.getTime() >= recentThreshold);
+const isRecentlyUpdated = (pubDate: Date, updatedDate?: Date) => {
+  const reference = updatedDate ?? pubDate;
+  return reference.getTime() >= recentThreshold;
+};
 
 const yearOptions = Array.from(new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))).sort(
   (a, b) => b - a
@@ -87,7 +89,7 @@ const tagSections = topicCatalog.map((item) => {
                           <a class="archive-link" href={buildPostUrl(post)}>{cleanPostTitle(post.data.title)}</a>
                           <p class="archive-meta">
                             {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
-                            {isRecentlyUpdated(post.data.updatedDate) && (
+                            {isRecentlyUpdated(post.data.pubDate, post.data.updatedDate) && (
                               <span class="archive-update-badge" title={`近 ${RECENT_UPDATED_DAYS} 天內更新`}>
                                 最近更新
                               </span>
