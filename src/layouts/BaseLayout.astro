@@ -132,9 +132,8 @@ const ogImageURL =
           localStorage.setItem(`${storagePrefix}.focusMode`, enabled ? "1" : "0");
         };
 
-        const storedFocus = localStorage.getItem(`${storagePrefix}.focusMode`);
-        const initialFocus = storedFocus === null ? true : storedFocus === "1";
-        setFocusMode(initialFocus);
+        // Always start article pages in focus mode for distraction-free reading.
+        setFocusMode(true);
 
         const updateFontScale = (delta) => {
           fontScale = Math.min(1.2, Math.max(0.92, Number((fontScale + delta).toFixed(2))));
