@@ -1117,18 +1117,18 @@
   #pagefind-search .pagefind-ui__result {
     border: 1px solid #d8e6e1;
     border-radius: 0.85rem;
-    padding: 0.72rem 1rem 0.72rem 1.05rem;
+    padding: 0.74rem 1rem 0.74rem 1.24rem;
     background: #fbfefc;
     margin-bottom: 0.56rem;
   }
 
   #pagefind-search .pagefind-ui__result-inner {
-    padding-left: 0.18rem;
+    padding-left: 0.24rem;
   }
 
   #pagefind-search .pagefind-ui__result-title,
   #pagefind-search .pagefind-ui__result-excerpt {
-    padding-left: 0.1rem;
+    padding-left: 0.16rem;
   }
 
   #pagefind-search .pagefind-ui__result-link {
@@ -1205,14 +1205,14 @@
     border: 1px solid #d8e6e1;
     border-radius: 0.85rem;
     background: #fbfefc;
-    padding: 0.74rem 1rem 0.74rem 1.05rem;
+    padding: 0.76rem 1rem 0.76rem 1.24rem;
     margin-bottom: 0.55rem;
   }
 
   .search-result-top,
   .search-result-snippet,
   .search-result-tags {
-    padding-left: 0.1rem;
+    padding-left: 0.16rem;
   }
 
   .search-result-link {
@@ -1373,7 +1373,7 @@
   }
 
   .about-orgs {
-    margin: 0 0 1.2rem;
+    margin: 1.8rem 0 1.2rem;
     border: 1px solid #d8e6e1;
     border-radius: 0.95rem;
     background: linear-gradient(180deg, #fcfffe 0%, #f5fbf9 100%);
@@ -1865,6 +1865,7 @@
   }
 
   .about-orgs {
+    margin-top: 1.25rem;
     padding: 0.72rem;
   }
 
