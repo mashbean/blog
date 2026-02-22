@@ -11,8 +11,7 @@ const tagSections = tagCatalog.map((item) => {
   return {
     ...item,
     posts,
-    count: posts.length,
-    id: item.key.replace(/\s+/g, "-")
+    count: posts.length
   };
 });
 ---
@@ -21,48 +20,43 @@ const tagSections = tagCatalog.map((item) => {
   <h1 class="section-title">標籤</h1>
   <p>本站採用六大核心標籤，讓主題分類更集中、也更容易探索。</p>
 
-  <div class="tag-filter-grid">
+  <div class="archive-accordion-list" aria-label="標籤文章收合列表">
     {
-      tagSections.map((item) => (
-        <a class="tag-filter-chip" href={`#${item.id}`} aria-label={`${item.title} 共 ${item.count} 篇`}>
-          <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
-          <span>{item.title}</span>
-          <strong>{item.count}</strong>
-        </a>
+      tagSections.map((item, index) => (
+        <details class="archive-accordion" open={index === 0}>
+          <summary class="archive-accordion-summary">
+            <span class="archive-accordion-title">
+              <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
+              {item.title}
+            </span>
+            <span class="archive-accordion-count">{item.count} 篇</span>
+          </summary>
+          <div class="archive-accordion-body">
+            <p class="archive-accordion-description">{item.description}</p>
+            {
+              item.posts.length === 0 ? (
+                <p class="empty-state">目前沒有文章。</p>
+              ) : (
+                <ul class="archive-list">
+                  {item.posts.map((post) => (
+                    <li class="archive-item">
+                      <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                        {formatDate(post.data.pubDate)}
+                      </time>
+                      <div class="archive-main">
+                        <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
+                        <p class="archive-meta">
+                          {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )
+            }
+          </div>
+        </details>
       ))
     }
   </div>
-
-  {
-    tagSections.map((item) => (
-      <section id={item.id} class="tag-section">
-        <h2>
-          <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
-          {item.title} ({item.count})
-        </h2>
-        <p>{item.description}</p>
-        {
-          item.posts.length === 0 ? (
-            <p class="empty-state">目前沒有文章。</p>
-          ) : (
-            <ul class="archive-list">
-              {item.posts.map((post) => (
-                <li class="archive-item">
-                  <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                    {formatDate(post.data.pubDate)}
-                  </time>
-                  <div class="archive-main">
-                    <a class="archive-link" href={buildPostUrl(post)}>{post.data.title}</a>
-                    <p class="archive-meta">
-                      {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )
-        }
-      </section>
-    ))
-  }
 </BaseLayout>

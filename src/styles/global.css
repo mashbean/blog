@@ -19,6 +19,7 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 5.6rem;
   }
 
   body {
@@ -1208,6 +1209,67 @@
 
   .year-filter-grid + .tag-section {
     margin-top: 1.2rem;
+  }
+
+  .archive-accordion-list {
+    display: grid;
+    gap: 0.78rem;
+    margin-top: 1rem;
+  }
+
+  .archive-accordion {
+    border: 1px solid #d8e6e1;
+    border-radius: 1rem;
+    background: #fbfefc;
+    overflow: clip;
+  }
+
+  .archive-accordion-summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.82rem 0.95rem;
+    min-height: 2.75rem;
+  }
+
+  .archive-accordion-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .archive-accordion-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #183645;
+    font-weight: 600;
+  }
+
+  .archive-accordion-count {
+    color: #14574f;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #eff9f5;
+    font-size: 0.76rem;
+    line-height: 1;
+    padding: 0.2rem 0.5rem;
+    white-space: nowrap;
+  }
+
+  .archive-accordion[open] .archive-accordion-summary {
+    border-bottom: 1px solid #deebe6;
+    background: #f7fcfa;
+  }
+
+  .archive-accordion-body {
+    padding: 0.85rem 0.95rem 0.95rem;
+  }
+
+  .archive-accordion-description {
+    margin: 0;
+    color: #44606a;
   }
 
   .search-result-top {
