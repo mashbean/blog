@@ -20,6 +20,8 @@ jobs:
     env:
       SITE_URL: "https://mashbean.net"
       BASE_PATH: "/"
+      PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.PUBLIC_PLAUSIBLE_DOMAIN }}
+      PUBLIC_PLAUSIBLE_SCRIPT_SRC: ${{ vars.PUBLIC_PLAUSIBLE_SCRIPT_SRC }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4

@@ -48,6 +48,10 @@ const fallbackIndexUrl = withBase("search-index.json");
 </BaseLayout>
 
 <script is:inline define:vars={{ pagefindScriptUrl, pagefindStyleUrl, fallbackIndexUrl }}>
+  const track = (name, props = {}) => {
+    if (typeof window.mbTrack === "function") window.mbTrack(name, props);
+  };
+
   const status = document.querySelector("#pagefind-status");
   const searchRoot = document.querySelector("#pagefind-search");
   const query = new URLSearchParams(window.location.search).get("q") ?? "";
@@ -222,6 +226,11 @@ const fallbackIndexUrl = withBase("search-index.json");
     fallbackForm?.addEventListener("submit", (event) => {
       event.preventDefault();
       const q = fallbackInput?.value.trim() ?? "";
+      track("Search Query Submitted", {
+        mode: "fallback",
+        query_length: String(q.length),
+        filter: activeType
+      });
       search(q);
     });
 
@@ -244,6 +253,14 @@ const fallbackIndexUrl = withBase("search-index.json");
       fallbackInput.value = query;
       fallbackInput.focus();
     }
+
+    fallbackResults?.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      const link = target.closest(".search-result-link");
+      if (!(link instanceof HTMLAnchorElement)) return;
+      track("Search Result Click", { mode: "fallback" });
+    });
     search(query);
   };
 
@@ -282,6 +299,16 @@ const fallbackIndexUrl = withBase("search-index.json");
         if (input instanceof HTMLInputElement) {
           if (query) input.value = query;
           input.focus();
+          input.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter") return;
+            const q = input.value.trim();
+            if (!q) return;
+            track("Search Query Submitted", {
+              mode: "pagefind",
+              query_length: String(q.length),
+              filter: "all"
+            });
+          });
           input.addEventListener("input", () => {
             if (currentSearchMode !== "pagefind") return;
             if (!input.value.trim()) setSearchState("idle");
@@ -312,6 +339,13 @@ const fallbackIndexUrl = withBase("search-index.json");
 
       const observer = new MutationObserver(() => syncPagefindState());
       observer.observe(searchRoot, { childList: true, subtree: true });
+      searchRoot.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        const link = target.closest(".pagefind-ui__result-link");
+        if (!(link instanceof HTMLAnchorElement)) return;
+        track("Search Result Click", { mode: "pagefind" });
+      });
       syncPagefindState();
     } catch (error) {
       console.warn("[pagefind] init failed, falling back to JSON search:", error);

@@ -158,6 +158,10 @@ const topicFilterOptions = topicCatalog
 </BaseLayout>
 
 <script is:inline>
+  const track = (name, props = {}) => {
+    if (typeof window.mbTrack === "function") window.mbTrack(name, props);
+  };
+
   const filterButtons = Array.from(document.querySelectorAll(".archive-filter-btn"));
   const filterableAccordions = Array.from(
     document.querySelectorAll("details[data-filterable-accordion]")
@@ -199,8 +203,18 @@ const topicFilterOptions = topicCatalog
 
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      applyFilter(button.dataset.topic ?? "all");
+      const topic = button.dataset.topic ?? "all";
+      applyFilter(topic);
+      track("Archive Filter Used", { topic });
     });
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const link = target.closest(".archive-link");
+    if (!(link instanceof HTMLAnchorElement)) return;
+    track("Archive Post Click", { source: "blog_archive" });
   });
 
   applyFilter(activeTopic);

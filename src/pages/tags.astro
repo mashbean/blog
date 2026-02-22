@@ -110,6 +110,10 @@ const tagSections = topicCatalog.map((item) => {
 </BaseLayout>
 
 <script is:inline>
+  const track = (name, props = {}) => {
+    if (typeof window.mbTrack === "function") window.mbTrack(name, props);
+  };
+
   const yearButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-year]"));
   const accordions = Array.from(document.querySelectorAll("details[data-filterable-accordion]"));
   const status = document.querySelector("#tags-filter-status");
@@ -147,8 +151,18 @@ const tagSections = topicCatalog.map((item) => {
 
   yearButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      applyYearFilter(button.dataset.year ?? "all");
+      const year = button.dataset.year ?? "all";
+      applyYearFilter(year);
+      track("Tags Filter Used", { year });
     });
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const link = target.closest(".archive-link");
+    if (!(link instanceof HTMLAnchorElement)) return;
+    track("Archive Post Click", { source: "tags" });
   });
 
   applyYearFilter(activeYear);

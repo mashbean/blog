@@ -54,6 +54,8 @@ const logoURL =
     : new URL(logoPath, Astro.url).toString();
 
 const siteURL = Astro.site?.toString() ?? new URL(withBase(""), Astro.url).toString();
+const plausibleDomain = (import.meta.env.PUBLIC_PLAUSIBLE_DOMAIN ?? "").trim();
+const plausibleScriptSrc = (import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT_SRC ?? "https://plausible.io/js/script.js").trim();
 const siteStructuredData = {
   "@context": "https://schema.org",
   "@graph": [
@@ -102,6 +104,9 @@ const siteStructuredData = {
     <meta name="twitter:title" content={seoTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
+    {plausibleDomain && (
+      <script is:inline defer data-domain={plausibleDomain} src={plausibleScriptSrc}></script>
+    )}
     <script is:inline type="application/ld+json" set:html={JSON.stringify(siteStructuredData)} />
     {structuredData && (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
@@ -147,6 +152,15 @@ const siteStructuredData = {
     )}
     <Footer />
     <script is:inline define:vars={{ isArticle, searchPath: withBase("search/") }}>
+      window.mbTrack = (name, props = {}) => {
+        if (typeof window.plausible !== "function") return;
+        window.plausible(name, { props });
+      };
+
+      const track = (name, props = {}) => {
+        if (typeof window.mbTrack === "function") window.mbTrack(name, props);
+      };
+
       const isEditableElement = (el) => {
         if (!el) return false;
         const tag = el.tagName?.toLowerCase?.() ?? "";
@@ -158,6 +172,7 @@ const siteStructuredData = {
         const mod = isMac ? event.metaKey : event.ctrlKey;
         if (!mod || event.key.toLowerCase() !== "k" || isEditableElement(event.target)) return;
         event.preventDefault();
+        track("Search Shortcut Used", { source: "global_hotkey" });
         window.location.href = searchPath;
       });
 
@@ -185,6 +200,7 @@ const siteStructuredData = {
 
         // Always start article pages in focus mode for distraction-free reading.
         setFocusMode(true);
+        track("Article Focus Mode", { state: "enabled_default" });
 
         const hintKey = `${storagePrefix}.focusHintSeen`;
         if (focusHint instanceof HTMLElement && !localStorage.getItem(hintKey)) {
@@ -209,13 +225,16 @@ const siteStructuredData = {
 
         fontDecButton?.addEventListener("click", () => updateFontScale(-0.05));
         fontIncButton?.addEventListener("click", () => updateFontScale(0.05));
-        focusButton?.addEventListener("click", () =>
-          setFocusMode(!body.classList.contains("focus-reading"))
-        );
+        focusButton?.addEventListener("click", () => {
+          const nextEnabled = !body.classList.contains("focus-reading");
+          setFocusMode(nextEnabled);
+          track("Article Focus Mode", { state: nextEnabled ? "enabled" : "disabled" });
+        });
 
         const bar = document.querySelector("#reading-progress-bar");
         const article = document.querySelector("article");
         if (bar && article) {
+          let read50Tracked = false;
           const update = () => {
             const articleTop = article.getBoundingClientRect().top + window.scrollY;
             const articleHeight = article.offsetHeight;
@@ -226,11 +245,18 @@ const siteStructuredData = {
               Math.max(0, (window.scrollY - articleTop + viewport * 0.25) / max)
             );
             bar.style.width = `${(progress * 100).toFixed(2)}%`;
+            if (!read50Tracked && progress >= 0.5) {
+              read50Tracked = true;
+              track("Article Engaged", { signal: "scroll_50" });
+            }
           };
           update();
           window.addEventListener("scroll", update, { passive: true });
           window.addEventListener("resize", update);
         }
+        window.setTimeout(() => {
+          track("Article Engaged", { signal: "time_45s" });
+        }, 45000);
 
         const tocLinks = Array.from(document.querySelectorAll(".toc-list a"))
           .filter((el) => el instanceof HTMLAnchorElement);
