@@ -9,7 +9,7 @@ category: "matters"
 ---
 來源：[https://matters.town/a/a4vy3dd9f6j6](https://matters.town/a/a4vy3dd9f6j6)
 
-流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝術
+## 流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝術
 
 流明獎 NFT 類首獎公布，得獎類型為音像藝術。
 
@@ -43,12 +43,12 @@ Carla：「NFT 作為一種新技術，竟然是先降臨於藝術世界。電�
 
 以上都是 Right Click Sacved 針對流明獎 NFT 獎項產出的系列文章，我想對於台灣有至於 NFT Art 領域的各路生態系角色或許會有一點幫助，有興趣的朋友歡迎看原文囉。或者也可以點開《儀式—威尼斯》，釋放你腦中的 Alpha 波，祝你一夜好眠。
 
-延伸閱讀
+## 延伸閱讀
 
 2022 NFT Award with the work "Rituals - Venice"
 
-"Rituals - Venice” 的 Artblocks 頁面
+## "Rituals - Venice” 的 Artblocks 頁面
 
 HOW DO YOU JUDGE THE LUMEN PRIZE?
 
-HOW NFTS CHANGED DIGITAL ART FOREVER
+## HOW NFTS CHANGED DIGITAL ART FOREVER

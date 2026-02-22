@@ -7,6 +7,8 @@ cover: "images/covers/home/hello-astro.png"
 coverAlt: "Hello Astro cover illustration (hello, 可以被, hello astro, 最小文章範例)"
 ---
 
+## 內文
+
 這是一篇最小內容測試文。
 
 - 可以被 `/blog/` 列表讀到

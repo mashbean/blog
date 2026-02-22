@@ -11,7 +11,7 @@ coverAlt: "d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matt
 ---
 來源：[https://matters.town/a/pl3rg4n8wk29](https://matters.town/a/pl3rg4n8wk29)
 
-d/acc day Argentina 演講：維持現狀加速主義
+## d/acc day Argentina 演講：維持現狀加速主義
 
 Slow Resistance, Fast Networks: 
 A Fabian Approach to d/acc –– Lessons from Taiwan

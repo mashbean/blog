@@ -11,7 +11,7 @@ coverAlt: "zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Ma
 ---
 來源：[https://matters.town/a/ehku76i9wdoc](https://matters.town/a/ehku76i9wdoc)
 
-zkID Day：在政府推動密碼龐克ID政策的困境
+## zkID Day：在政府推動密碼龐克ID政策的困境
 
 在政府推動密碼龐克ID政策的困境
 The Hard Road to a Cypherpunk ID: What Governments Haven’t Achieved, and How We Support It
@@ -28,7 +28,7 @@ The Hard Road to a Cypherpunk ID: What Governments Haven’t Achieved, and How W
 
 以下會分成三個主題依序進行討論，公民隱私、數位信任、以及各國趨勢，最後還會分享我自己離職後以公民科技社群成員身分進行的相關專案。
 
-一、公民隱私
+## 一、公民隱私
 
 以太坊基金會（Ethereum Foundation）PSE 團隊（PSE Team）設有 ZKID 小組，推動將零知識證明（Zero-Knowledge Proof, ZKP）技術導入數位身分（Digital Identity）領域。這確實是一項國際趨勢，但目前真正落地採用的國家仍然不多。其原因可能包括：技術尚未成熟、尚未完成標準化；或更直接地說，我們也應當自問——公務體系是否能理解什麼是零知識證明（Zero-Knowledge Proof, ZKP）？一般民眾是否能理解？
 
@@ -90,7 +90,7 @@ Tea 是一個讓女性得以匿名分享「哪些男性在交友軟體上可能�
 
 因此，目前的核心問題在於：多數國家的數位錢包（digital wallets）因零知識證明（Zero-Knowledge Proof, ZKP）採用有限，尚難確保不可連結性（unlinkability）。這既是技術問題，也反映公眾與公務體系（civic servants）對相關概念的認知不足。第二個問題則是：各國身分（IDs）在很大程度上仍缺乏互通性（non-interoperable）。
 
-二、數位信任是數位經濟的基石，不可輕忽
+## 二、數位信任是數位經濟的基石，不可輕忽
 
 更直白地說：若我們仍以紙本證件作為媒介，反而可能比數位身分更容易互通，因為紙本可被直接持有、可被直接閱讀。然而，針對可信名單（trusted list）的互通，目前並不存在一致的通訊協定（protocol），而其成因同時涉及政治與標準問題。
 
@@ -110,7 +110,7 @@ Tea 是一個讓女性得以匿名分享「哪些男性在交友軟體上可能�
 
 在此脈絡下，無需許可、可公開參與的公共區塊鏈（trustless, permissionless public blockchain）是否可能成為解方？這是一個值得持續討論的議題。
 
-三、以國家為單位的國際趨勢
+## 三、以國家為單位的國際趨勢
 
 接著談自我主權身分（self-sovereign identity, SSI）的最新趨勢。今年有多個國家案例值得參考。第一個案例是不丹。2025 年 10 月，不丹將全國國家數位身分（National Digital Identity, NDI）系統正式錨定到以太坊公鏈（Ethereum public blockchain）上，成為全球第一個將國民數位身分直接掛載於公開、去中心化區塊鏈（permissionless decentralized blockchain）的國家。這已非區塊鏈行銷口號，而是由國王立法與國家技術團隊共同決策，目的在確保「國民身分憑證」能在國界之外被驗證，且是無需許可（permissionless）的。換言之，未來不丹公民持其可驗證憑證（Verifiable Credential, VC）即可直接對接境外服務，不必仰賴層層國際備忘錄。另據數位信任協會成員於上月與不丹推動者直接交流，不丹並未將任何個人資料上鏈，而是將發行者資訊上鏈，讓全球驗證者得以透過區塊鏈確認發行者非詐騙，因而建立數位信任（digital trust）。這凸顯一個重要轉型：主體是公民本人，國家扮演的是「背書其真實性」的角色，而非「集中保管所有資料、人民只能透過國家」；國家所提供的數位服務正在轉型。
 
@@ -128,11 +128,11 @@ Tea 是一個讓女性得以匿名分享「哪些男性在交友軟體上可能�
 
 澳洲多個州（例如新南威爾士州 NSW（New South Wales, NSW））已允許以官方 App 出示數位駕照，用於酒吧、警察臨檢或年齡檢查，並朝向與國家數位身分、甚至去中心化憑證服務整合，同步比照 ISO/IEC 18013-5（ISO/IEC 18013-5）。日本則將「駕照功能」整合進全國 My Number 卡（My Number Card），自 2025 年 3 月起，公民可選擇以該卡作為駕照身分證明，並透過手機讀取卡片晶片內容後放入 Apple 錢包（Apple Wallet），但仍保留不強迫全面數位化的選項。紐西蘭與紐澳政府亦同步建構數位身分信任框架，要求數位駕照在法律上保障「自願參與」與「不得拒收實體證件」，以避免數位化對未持有智慧型手機者形成變相歧視。
 
-四、數位身分社群與區塊鏈社群彼此的距離
+## 四、數位身分社群與區塊鏈社群彼此的距離
 
 雖然去中心化識別碼（Decentralized Identifier, DID）標準最早確實源自區塊鏈身分（Blockchain Identity）概念，但在標準制定組織與相關社群中，幾乎看不到區塊鏈開發者；以我自身參與經驗而言，許多傳統標準社群參與者對區塊鏈生態系多採敬而遠之的態度。然而，從我的觀點來看，以太坊（Ethereum）與這些組織在意識形態與方向上其實高度接近；我認為弭平兩者誤解已是當務之急。
 
-五、結論
+## 五、結論
 
 離開數位發展部（Ministry of Digital Affairs, MODA）後，在以太坊基金會（Ethereum Foundation）Next Billion Fellowship 專案的支持下，我進行了「有備而來」（Bonds）的計畫，可於 bonds.tw 查看相關內容，這是一個非營利專案。
 
@@ -146,15 +146,15 @@ Tea 是一個讓女性得以匿名分享「哪些男性在交友軟體上可能�
 
 當然，內容亦涵蓋台灣與國外案例。國際間與數位身分資料外洩相關的案例非常多，皆值得整體性討論；但在台灣，目前仍較少見到完整的系統性討論。
 
-本日的演講總結共有三點：
+## 本日的演講總結共有三點：
 
-信任清單（trust list）（國際合作議題）
+## 信任清單（trust list）（國際合作議題）
 
-信任清單（trust list）（國際合作議題）
+## 信任清單（trust list）（國際合作議題）
 
-零知識證明（Zero-Knowledge Proof, ZKP）（技術變革）
+## 零知識證明（Zero-Knowledge Proof, ZKP）（技術變革）
 
-零知識證明（Zero-Knowledge Proof, ZKP）（技術變革）
+## 零知識證明（Zero-Knowledge Proof, ZKP）（技術變革）
 
 數位公共建設（digital public infrastructure）（各國政策改革）
 

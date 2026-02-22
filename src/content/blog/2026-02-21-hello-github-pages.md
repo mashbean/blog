@@ -8,5 +8,7 @@ category: "blog"
 cover: "images/covers/home/2026-02-21-hello-github-pages.png"
 coverAlt: "Hello GitHub Pages cover illustration (公共網路, blog, hello github pages, 把你的文章放到)"
 ---
+## 內文
+
 這是第一篇文章。  
 把你的文章放到 `_posts/` 後，首頁會自動列出文章清單。

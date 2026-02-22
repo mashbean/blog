@@ -11,7 +11,7 @@ coverAlt: "Ethereum Privacy Stack 演講：抗審查真的不可或缺嗎 - 豆�
 ---
 來源：[https://matters.town/a/10jxa0qu0ca5](https://matters.town/a/10jxa0qu0ca5)
 
-Ethereum Privacy Stack 演講：抗審查真的不可或缺嗎
+## Ethereum Privacy Stack 演講：抗審查真的不可或缺嗎
 
 抗審查真的不可或缺嗎
 Is censorship resilience truly necessary?
@@ -24,7 +24,7 @@ Is censorship resilience truly necessary?
 
 今天我想談一個簡單但令人不舒服的問題：如果抗審查如此重要，為什麼要圍繞它建立一個可長可久的產品或組織，卻如此困難？
 
-我會談三件事：
+## 我會談三件事：
 
 第一，是否存在真正的「市場需求」，以及投入者如何維持生計；
 
@@ -52,7 +52,7 @@ Is censorship resilience truly necessary?
 
 這正是華語社群正在發生的情況。之所以不易被看見，是因為多數行動者不會公開發聲，或早已被壓制、被消音。
 
-因此出現一個奇特的局面：
+## 因此出現一個奇特的局面：
 
 「邊緣社群」在道德與生存層面對抗審查有巨大需求，但在市場上可見的需求卻很小、很分散，而且往往沒有支付能力。
 
@@ -144,7 +144,7 @@ Is censorship resilience truly necessary?
 
 我們的規模太小，無法依賴 Facebook 或 Instagram 那種大量廣告的典型 Web2 模式存活；同時我們的基礎設施成本相對較高。若純以商業角度來看，甚至會有人問：既然大多內容都很「正常」，為什麼還要投入抗審查？
 
-這就是蜜罐悖論的經濟面：
+## 這就是蜜罐悖論的經濟面：
 
 你若保持小而堅持，財務上難以維持；
 
@@ -174,7 +174,7 @@ Is censorship resilience truly necessary?
 
 投入抗審查工作的創業者承擔極大的下行風險，卻只有非常有限的上行空間。許多本可受益於隱私工具的行動者與記者，沒有時間、技能或金錢去支持這些工具。許多捐助者與政府期待「影響力」，但同時也期待低風險與完美合規。
 
-我們需要新的資金與協作機制：
+## 我們需要新的資金與協作機制：
 
 能同時保護捐助者與受助者的捐款與補助通道，
 

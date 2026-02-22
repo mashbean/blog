@@ -9,6 +9,8 @@ category: "matters"
 ---
 來源：[https://matters.town/a/pkexlymdb17l](https://matters.town/a/pkexlymdb17l)
 
+## 內文
+
 綠藥丸網絡1：在地組織發行NFT有什麼是值得注意的事？
 
 這是我加入綠藥丸網絡（GreenPill.Network）的第一篇文章，英文版本同步發表於 Mirror（mashbean）。綠藥丸網絡寫作計畫，一週一篇文，一篇文一千字，連續三週，人人都可以參與，書寫各地的 web3 公共行動。Gitcoin 創辦人 Kevin Owocki 發起的綠藥丸運動，號召大家從Degens（炒作者）成為Regens（耕作者），目前進入第二章節—全球在地串連，廣邀各地 web3 公共行動者書寫與交流。
