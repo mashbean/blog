@@ -1,0 +1,351 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
+import { withBase } from "@/utils/paths";
+
+const posts = (await getBlogPosts()).slice(0, 160);
+const topics = getTopicCatalog();
+
+const items = posts.map((post) => {
+  const classified = classifyPostTags({
+    title: post.data.title,
+    description: post.data.description,
+    body: post.body,
+    tags: post.data.tags
+  });
+  return {
+    id: `post:${post.id}`,
+    title: post.data.title,
+    url: buildPostUrl(post),
+    topics: classified.topics,
+    keywords: classified.keywords.slice(0, 6)
+  };
+});
+
+const keywordCounter = new Map<string, number>();
+for (const item of items) {
+  for (const keyword of item.keywords) {
+    keywordCounter.set(keyword, (keywordCounter.get(keyword) ?? 0) + 1);
+  }
+}
+
+const topKeywords = Array.from(keywordCounter.entries())
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 42)
+  .map(([keyword]) => keyword);
+
+const keywordSet = new Set(topKeywords);
+
+const nodes: Array<{ id: string; type: "topic" | "keyword" | "post"; label: string; url?: string; topic?: string }> = [];
+const links: Array<{ source: string; target: string; kind: "topic" | "keyword" }> = [];
+
+for (const topic of topics) {
+  nodes.push({ id: `topic:${topic.key}`, type: "topic", label: topic.title, topic: topic.key });
+}
+
+for (const keyword of topKeywords) {
+  nodes.push({ id: `keyword:${keyword}`, type: "keyword", label: keyword });
+}
+
+for (const item of items) {
+  nodes.push({ id: item.id, type: "post", label: item.title, url: item.url, topic: item.topics[0] });
+  for (const topic of item.topics) {
+    links.push({ source: item.id, target: `topic:${topic}`, kind: "topic" });
+  }
+  for (const keyword of item.keywords) {
+    if (keywordSet.has(keyword)) {
+      links.push({ source: item.id, target: `keyword:${keyword}`, kind: "keyword" });
+    }
+  }
+}
+
+const graph = { nodes, links };
+---
+
+<BaseLayout title="標籤互動圖 MVP" description="文章、主題與關鍵字的互動式關聯圖。">
+  <h1 class="section-title">標籤互動圖（MVP）</h1>
+  <p>先用這版測試互動感：拖曳可旋轉視角、滑鼠滾輪可縮放、點文章節點可直接進文。</p>
+  <p><a href={withBase("tags/")}>← 回標籤列表</a></p>
+
+  <section class="graph-panel" aria-label="關聯圖">
+    <div class="graph-toolbar">
+      <label>
+        篩選主題
+        <select id="graph-topic-filter">
+          <option value="all">全部主題</option>
+          {topics.map((t) => <option value={t.key}>{t.title}</option>)}
+        </select>
+      </label>
+      <label>
+        查找節點
+        <input id="graph-search" type="search" placeholder="輸入文章或關鍵字" />
+      </label>
+      <button id="graph-reset" type="button">重置視角</button>
+    </div>
+
+    <div id="graph-stage" class="graph-stage" role="application" aria-label="互動圖譜"></div>
+    <aside id="graph-inspector" class="graph-inspector" aria-live="polite">
+      <h2>節點資訊</h2>
+      <p>點擊任一節點查看詳細資訊。</p>
+    </aside>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ graph }}>
+  const stage = document.querySelector("#graph-stage");
+  const inspector = document.querySelector("#graph-inspector");
+  const topicFilter = document.querySelector("#graph-topic-filter");
+  const searchInput = document.querySelector("#graph-search");
+  const resetButton = document.querySelector("#graph-reset");
+
+  if (!(stage instanceof HTMLElement)) throw new Error("graph stage missing");
+
+  const nodes = graph.nodes.map((n, idx) => ({
+    ...n,
+    i: idx,
+    x: (Math.random() - 0.5) * 640,
+    y: (Math.random() - 0.5) * 420,
+    z: (Math.random() - 0.5) * 340,
+    vx: 0,
+    vy: 0,
+    vz: 0
+  }));
+
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const links = graph.links
+    .map((link) => ({ ...link, s: byId.get(link.source), t: byId.get(link.target) }))
+    .filter((link) => link.s && link.t);
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.classList.add("graph-links");
+  stage.appendChild(svg);
+
+  const nodesLayer = document.createElement("div");
+  nodesLayer.className = "graph-nodes";
+  stage.appendChild(nodesLayer);
+
+  const linkEls = links.map((link) => {
+    const el = document.createElementNS(svgNS, "line");
+    el.setAttribute("class", `graph-link graph-link-${link.kind}`);
+    svg.appendChild(el);
+    return el;
+  });
+
+  const nodeEls = nodes.map((node) => {
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = `graph-node graph-node-${node.type}`;
+    el.textContent = node.type === "post" ? "" : node.label;
+    el.title = node.label;
+
+    el.addEventListener("click", () => {
+      if (inspector instanceof HTMLElement) {
+        inspector.innerHTML = `<h2>${node.label}</h2><p>類型：${node.type}</p>${node.url ? `<p><a href="${node.url}">前往文章</a></p>` : ""}`;
+      }
+      if (node.url) window.location.href = node.url;
+    });
+
+    nodesLayer.appendChild(el);
+    return el;
+  });
+
+  let yaw = 0;
+  let pitch = 0;
+  let zoom = 1;
+  let dragging = false;
+  let lx = 0;
+  let ly = 0;
+
+  function project(n, w, h) {
+    const cy = Math.cos(yaw);
+    const sy = Math.sin(yaw);
+    const cp = Math.cos(pitch);
+    const sp = Math.sin(pitch);
+
+    const x1 = n.x * cy - n.z * sy;
+    const z1 = n.x * sy + n.z * cy;
+    const y1 = n.y * cp - z1 * sp;
+    const z2 = n.y * sp + z1 * cp;
+
+    const p = (760 / (760 + z2)) * zoom;
+    return {
+      x: w / 2 + x1 * p,
+      y: h / 2 + y1 * p,
+      s: Math.max(0.3, p),
+      z: z2
+    };
+  }
+
+  function step() {
+    for (const n of nodes) {
+      n.vx *= 0.88;
+      n.vy *= 0.88;
+      n.vz *= 0.88;
+    }
+
+    for (let i = 0; i < nodes.length; i += 1) {
+      for (let j = i + 1; j < nodes.length; j += 1) {
+        const a = nodes[i];
+        const b = nodes[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dz = a.z - b.z;
+        const d2 = dx * dx + dy * dy + dz * dz + 0.1;
+        const f = 2200 / d2;
+        const inv = 1 / Math.sqrt(d2);
+        const fx = dx * inv * f;
+        const fy = dy * inv * f;
+        const fz = dz * inv * f;
+        a.vx += fx; a.vy += fy; a.vz += fz;
+        b.vx -= fx; b.vy -= fy; b.vz -= fz;
+      }
+    }
+
+    for (const link of links) {
+      const a = link.s;
+      const b = link.t;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const dz = b.z - a.z;
+      const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+      const target = link.kind === "topic" ? 140 : 210;
+      const k = link.kind === "topic" ? 0.03 : 0.015;
+      const f = (d - target) * k;
+      const fx = (dx / d) * f;
+      const fy = (dy / d) * f;
+      const fz = (dz / d) * f;
+      a.vx += fx; a.vy += fy; a.vz += fz;
+      b.vx -= fx; b.vy -= fy; b.vz -= fz;
+    }
+
+    for (const n of nodes) {
+      n.x += n.vx;
+      n.y += n.vy;
+      n.z += n.vz;
+    }
+  }
+
+  function draw() {
+    const rect = stage.getBoundingClientRect();
+    svg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+    const p = nodes.map((n) => project(n, rect.width, rect.height));
+
+    links.forEach((link, i) => {
+      const el = linkEls[i];
+      const a = p[link.s.i];
+      const b = p[link.t.i];
+      el.setAttribute("x1", String(a.x));
+      el.setAttribute("y1", String(a.y));
+      el.setAttribute("x2", String(b.x));
+      el.setAttribute("y2", String(b.y));
+    });
+
+    nodes.forEach((_, i) => {
+      const el = nodeEls[i];
+      const pp = p[i];
+      el.style.left = `${pp.x}px`;
+      el.style.top = `${pp.y}px`;
+      el.style.transform = `translate(-50%, -50%) scale(${pp.s})`;
+      el.style.zIndex = String(Math.round(pp.z + 1000));
+    });
+  }
+
+  function frame() {
+    step();
+    draw();
+    requestAnimationFrame(frame);
+  }
+
+  stage.addEventListener("pointerdown", (e) => {
+    dragging = true;
+    lx = e.clientX;
+    ly = e.clientY;
+    stage.setPointerCapture(e.pointerId);
+  });
+
+  stage.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lx;
+    const dy = e.clientY - ly;
+    yaw += dx * 0.004;
+    pitch += dy * 0.003;
+    lx = e.clientX;
+    ly = e.clientY;
+  });
+
+  stage.addEventListener("pointerup", (e) => {
+    dragging = false;
+    stage.releasePointerCapture(e.pointerId);
+  });
+
+  stage.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    zoom = Math.min(2.2, Math.max(0.55, zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
+  }, { passive: false });
+
+  topicFilter?.addEventListener("change", () => {
+    const t = topicFilter.value;
+    nodeEls.forEach((el, i) => {
+      const n = nodes[i];
+      const visible = t === "all" || n.type !== "post" || n.topic === t;
+      el.style.opacity = visible ? "1" : "0.18";
+    });
+  });
+
+  searchInput?.addEventListener("input", () => {
+    const q = searchInput.value.trim().toLocaleLowerCase("zh-TW");
+    nodeEls.forEach((el, i) => {
+      const n = nodes[i];
+      if (!q) {
+        el.classList.remove("graph-node-match");
+        return;
+      }
+      el.classList.toggle("graph-node-match", n.label.toLocaleLowerCase("zh-TW").includes(q));
+    });
+  });
+
+  resetButton?.addEventListener("click", () => {
+    yaw = 0; pitch = 0; zoom = 1;
+  });
+
+  frame();
+</script>
+
+<style>
+  .graph-panel { border: 1px solid #d8e6e1; border-radius: 1rem; background: #fff; padding: 0.9rem; }
+  .graph-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 0.6rem; margin-bottom: 0.72rem; }
+  .graph-toolbar label { display: grid; gap: 0.24rem; font-size: 0.84rem; color: #39525d; }
+  .graph-toolbar input, .graph-toolbar select, .graph-toolbar button {
+    border: 1px solid #c8ddd7; border-radius: 0.72rem; background: #f8fcfa; color: #1f3c49;
+    min-height: 2rem; padding: 0.24rem 0.58rem; font-size: 0.88rem;
+  }
+  .graph-stage {
+    position: relative; height: min(72vh, 740px); border: 1px solid #d8e6e1; border-radius: 0.85rem;
+    background: radial-gradient(circle at 20% 10%, #f0faf6, #ffffff 60%); overflow: hidden; touch-action: none;
+  }
+  .graph-links { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .graph-link { stroke: #c9ddd8; stroke-opacity: 0.72; stroke-width: 1.2; }
+  .graph-link-topic { stroke: #95c8bb; }
+  .graph-nodes { position: absolute; inset: 0; }
+  .graph-node {
+    position: absolute; border: 1px solid #c8ddd7; border-radius: 999px; background: #fff; color: #20404d;
+    padding: 0.15rem 0.44rem; font-size: 0.74rem; line-height: 1; white-space: nowrap; cursor: pointer;
+    box-shadow: 0 3px 10px rgba(25, 56, 52, 0.08);
+  }
+  .graph-node-post {
+    width: 0.56rem; height: 0.56rem; min-width: 0; min-height: 0; padding: 0; text-indent: -9999px;
+    border-radius: 999px; border-color: #92ccc0; background: #28a18c;
+  }
+  .graph-node-topic { background: #eef9f5; border-color: #9fcec3; font-weight: 600; }
+  .graph-node-keyword { background: #f9fcfb; border-color: #d2e4de; color: #40606a; }
+  .graph-node-match { outline: 2px solid #ffc766; outline-offset: 1px; }
+  .graph-inspector {
+    margin-top: 0.72rem; border: 1px solid #d8e6e1; border-radius: 0.82rem; background: #f8fcfa;
+    padding: 0.65rem 0.72rem;
+  }
+  .graph-inspector h2 { margin: 0; font-size: 0.96rem; }
+  .graph-inspector p { margin: 0.34rem 0 0; color: #40606a; font-size: 0.86rem; }
+  @media (max-width: 760px) { .graph-stage { height: min(66vh, 560px); } }
+</style>
