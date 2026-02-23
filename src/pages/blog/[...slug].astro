@@ -228,12 +228,9 @@ const articleStructuredData = {
         </div>
         {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
-        {(classifiedCurrent.topics.length > 0 || classifiedCurrent.keywords.length > 0) && (
+        {classifiedCurrent.topics.length > 0 && (
           <ul class="tag-list" aria-label="文章標籤">
             {classifiedCurrent.topics.map((topic) => <li class="tag-list-item">{topic}</li>)}
-            {classifiedCurrent.keywords.slice(0, 8).map((keyword) => (
-              <li class="tag-list-item tag-list-item-keyword">{keyword}</li>
-            ))}
           </ul>
         )}
 
