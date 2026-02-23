@@ -239,6 +239,7 @@ const graph = { nodes, links };
   const postToTopics = new Map();
   const postToKeywords = new Map();
   const postToKeywordWeights = new Map();
+  const adjacency = new Map();
   const postSearchCorpus = new Map();
 
   function pushMapSet(map, key, value) {
@@ -259,7 +260,17 @@ const graph = { nodes, links };
     postToKeywordWeights.set(postId, new Map([[keywordId, weight]]));
   }
 
+  function pushAdjacency(a, b) {
+    const setA = adjacency.get(a);
+    if (setA) setA.add(b);
+    else adjacency.set(a, new Set([b]));
+    const setB = adjacency.get(b);
+    if (setB) setB.add(a);
+    else adjacency.set(b, new Set([a]));
+  }
+
   for (const link of links) {
+    pushAdjacency(link.s.id, link.t.id);
     if (link.kind === "topic" && link.s.type === "post" && link.t.type === "topic") {
       pushMapSet(topicToPosts, link.t.id, link.s);
       pushMapSet(postToTopics, link.s.id, link.t.id);
@@ -349,6 +360,7 @@ const graph = { nodes, links };
   const visibleTypes = new Set(["topic", "keyword", "post"]);
   let visibleNodeIds = new Set(nodes.map((n) => n.id));
   let visibleLinkFlags = links.map(() => true);
+  let focusNodeIds = new Set();
   let visiblePostRows = [];
   const defaultInspectorHtml = "<p>點擊任一節點查看詳細資訊。</p>";
 
@@ -461,6 +473,7 @@ const graph = { nodes, links };
 
   function clearSelection() {
     setSelectedNode("");
+    focusNodeIds = new Set();
     if (inspectorContent instanceof HTMLElement) inspectorContent.innerHTML = defaultInspectorHtml;
   }
 
@@ -539,6 +552,9 @@ const graph = { nodes, links };
     }
 
     visibleNodeIds = new Set();
+    focusNodeIds = selectedNodeId
+      ? new Set([selectedNodeId, ...(adjacency.get(selectedNodeId) ?? [])])
+      : new Set();
     visiblePostRows = [];
     let matchCount = 0;
 
@@ -556,14 +572,19 @@ const graph = { nodes, links };
         el.style.opacity = "0";
         el.style.pointerEvents = "none";
         el.classList.remove("graph-node-match");
+        el.classList.remove("graph-node-focus");
         return;
       }
 
       visibleNodeIds.add(n.id);
       const matched = nodeMatchesQuery(n, q, terms);
       el.classList.toggle("graph-node-match", Boolean(q) && matched);
+      const inFocus = focusNodeIds.size > 0 && focusNodeIds.has(n.id);
+      el.classList.toggle("graph-node-focus", inFocus);
       if (matched) matchCount += 1;
-      el.style.opacity = q && !matched ? "0.22" : "1";
+      let opacity = q && !matched ? 0.22 : 1;
+      if (focusNodeIds.size > 0 && !inFocus) opacity = Math.min(opacity, 0.12);
+      el.style.opacity = String(opacity);
       el.style.pointerEvents = "auto";
 
       if (n.type === "post" && matched) {
@@ -595,17 +616,22 @@ const graph = { nodes, links };
       el.style.display = "block";
       const weight = Number(link.weight ?? 1);
       const baseOpacity = link.kind === "keyword" ? Math.min(0.82, 0.28 + weight * 0.28) : 0.72;
+      const inFocusLink =
+        focusNodeIds.size === 0 || (focusNodeIds.has(link.s.id) && focusNodeIds.has(link.t.id));
       if (!q) {
-        el.style.strokeOpacity = String(baseOpacity);
+        el.style.strokeOpacity = String(inFocusLink ? baseOpacity : 0.08);
         return;
       }
       const srcMatched = nodeMatchesQuery(link.s, q, terms);
       const tarMatched = nodeMatchesQuery(link.t, q, terms);
-      el.style.strokeOpacity = srcMatched || tarMatched ? String(baseOpacity) : "0.1";
+      const searchOpacity = srcMatched || tarMatched ? baseOpacity : 0.1;
+      el.style.strokeOpacity = String(inFocusLink ? searchOpacity : Math.min(searchOpacity, 0.08));
     });
 
-    if (selectedNodeId) {
-      if (!visibleNodeIds.has(selectedNodeId)) clearSelection();
+    if (selectedNodeId && !visibleNodeIds.has(selectedNodeId)) {
+      clearSelection();
+      applyFilters();
+      return;
     }
 
     if (searchStatus instanceof HTMLElement) {
@@ -649,6 +675,7 @@ const graph = { nodes, links };
         wasSelected && lastSelectedNodeId === node.id && performance.now() - lastSelectedAt < 950;
       setSelectedNode(node.id);
       renderInspector(node);
+      applyFilters();
       lastSelectedNodeId = node.id;
       lastSelectedAt = performance.now();
       if (node.url && rapidSecondTap) window.location.href = node.url;
@@ -657,6 +684,7 @@ const graph = { nodes, links };
 
   inspectorClose?.addEventListener("click", () => {
     clearSelection();
+    applyFilters();
     stage.focus();
   });
 
@@ -832,6 +860,7 @@ const graph = { nodes, links };
   stage.addEventListener("click", (e) => {
     if (e.target instanceof HTMLElement && e.target.closest(".graph-node")) return;
     clearSelection();
+    applyFilters();
   });
 
   topicFilter?.addEventListener("change", applyFilters);
@@ -861,6 +890,7 @@ const graph = { nodes, links };
   stage.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       clearSelection();
+      applyFilters();
       return;
     }
     if (e.key === "+" || e.key === "=") {
@@ -1149,6 +1179,10 @@ const graph = { nodes, links };
   }
   :global(.graph-node-selected) {
     outline: 2px solid #5ab6a4;
+    outline-offset: 1px;
+  }
+  :global(.graph-node-focus) {
+    outline: 2px solid #ffc766;
     outline-offset: 1px;
   }
   .graph-inspector {
