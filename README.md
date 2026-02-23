@@ -1,325 +1,256 @@
-# Mashbean Blog（Astro）
+# Mashbean Blog (Astro)
 
-此專案目前以 Astro 為正式站點架構，唯一文章來源為 `src/content/blog/`。
+內容型部落格範本（Astro + TypeScript + Tailwind + Markdown + GitHub Pages）。
 
-重構與交接請先閱讀：`docs/blog-handover.md`
+這份 README 的目標是讓兩種讀者都能快速上手：
+- 想 fork 後直接使用的人
+- 會用 AI/Codex 協作維護的人
 
-> [!IMPORTANT]
-> 下方大量 `Jekyll` 內容為歷史遷移紀錄，已非現行流程。若要維護目前站點，請以 `docs/blog-handover.md` 與 `package.json` scripts 為準。
+---
 
-## Astro 站點補充（現行）
+## 1. Tech Stack
 
-### OpenAI Images API 批次生圖
+- Astro 5
+- TypeScript
+- Tailwind CSS（v4 via `@tailwindcss/vite`）
+- Content Collections（`src/content/blog/`）
+- Pagefind（建置後搜尋索引）+ JSON fallback
+- GitHub Actions 部署到 GitHub Pages
+- Plausible（可選）
 
-1. 設定 API Key：
+---
 
-```bash
-export OPENAI_API_KEY="你的 key"
+## 2. 專案結構（Source of Truth）
+
+```text
+src/
+  content/blog/          # 唯一文章來源（Markdown/MDX）
+  pages/                 # 路由頁面
+  layouts/               # 版型
+  components/            # 元件
+  utils/                 # URL、標籤、日期等邏輯
+public/                  # 靜態資源（圖片、favicon、og）
+.github/workflows/       # GitHub Pages 部署流程
+scripts/                 # 遷移、建置輔助、批次任務
 ```
 
-2. 先預覽任務（不呼叫 API）：
+重要原則：
+- 文章只放 `src/content/blog/`
+- 不要把 `dist/` 當內容來源
+- `docs/blog-handover.md` 為交接補充文件
+
+---
+
+## 3. 快速開始（Fork 後 5 分鐘）
+
+### 3.1 Fork + Clone
 
 ```bash
-npm run images:batch:openai:dry
-```
-
-3. 正式生成：
-
-```bash
-npm run images:batch:openai
-```
-
-常用參數：
-
-```bash
-node scripts/batch-generate-images-openai.mjs \
-  --input scripts/home-cover-prompts.json \
-  --out-dir public/images/covers/home \
-  --concurrency 4 \
-  --retries 3 \
-  --overwrite
-```
-
-執行後會輸出報告：`scripts/openai-image-batch-report.json`
-
-### 啟用 Pagefind
-
-1. 安裝依賴（本專案已含）：
-
-```bash
+git clone https://github.com/<your-account>/<your-repo>.git
+cd <your-repo>
 npm install
 ```
 
-2. 本機建置時會自動產生索引：
+### 3.2 本機開發
 
 ```bash
+npm run dev
+```
+
+- 預設開 `http://localhost:4321`
+
+### 3.3 驗證
+
+```bash
+npm run check
 npm run build
 ```
 
-3. 檢查是否成功：
-   - 有 `dist/pagefind/` 目錄即代表索引已生成。
-   - 若缺少 Pagefind binary，會自動回退到 JSON fallback 搜尋。
+---
 
-4. GitHub Actions 啟用重點：
-   - workflow 必須跑 `npm ci` + `npm run build`
-   - 不要跳過 `postbuild`（Pagefind 在 postbuild 執行）
+## 4. 發文方式
 
-### 文章網址規則（SEO）
+新文章：新增到 `src/content/blog/`，例如：
 
-- Canonical URL：`/blog/{year}/{monthday}-{code}/`
-- 例如：`/blog/2025/0821-a1b2c3/`
-- `code` 由文章 ID 產生短碼，固定且可重建（適合中文標題，不會出現過長 slug）
-- 舊網址 `/blog/{legacy-id}/` 與前一版長網址仍可讀（頁面標記 noindex，canonical 指向新網址）
-
-### 縮圖策略
-
-- 有 `cover`：直接顯示文章縮圖（卡片與 Open Graph 優先使用）
-- 無 `cover`：卡片改為「精簡橫幅 fallback」，避免首篇卡片出現突兀大空塊
-- 全站社群預覽圖 fallback：`/images/og-image.png`
-
-## 1) 建立 GitHub Repo
-
-1. 到 GitHub 右上角 `+` -> `New repository`
-2. Repository name 輸入（例如：`my-blog`）
-3. `Public` 或 `Private` 都可以（GitHub Pages 兩者都支援）
-4. 先不要勾 `Add a README file`（避免和本地衝突）
-5. 按 `Create repository`
-6. 建立後會看到 repo URL，像是：
-   - HTTPS: `https://github.com/<username>/<repo>.git`
-   - SSH: `git@github.com:<username>/<repo>.git`
-
-## 1.1) 把本地專案 push 上去
-
-在專案根目錄執行：
-
-```bash
-git init
-git add .
-git commit -m "init blog with jekyll blog skeleton"
-git branch -M main
-git remote add origin <你的-repo-url>
-git push -u origin main
+```text
+src/content/blog/2026-02-23-my-new-post.md
 ```
 
-如果 `git commit` 提示沒有 user 設定，先執行：
-
-```bash
-git config --global user.name "你的名字"
-git config --global user.email "你的 GitHub 信箱"
-```
-
-如果 HTTPS push 要密碼，請改用 GitHub Personal Access Token 當密碼，或改用 SSH。
-
-## 2) 開啟 GitHub Pages
-
-1. 進入 GitHub repo 的 `Settings` -> `Pages`
-2. `Build and deployment` 選 `Deploy from a branch`
-3. Branch 選 `main`，資料夾選 `/ (root)`，按 Save
-4. 等 1~3 分鐘後會得到網址：
-   - 專案頁面：`https://<username>.github.io/<repo>/`
-   - 如果 repo 名稱是 `<username>.github.io`，網址就是：`https://<username>.github.io/`
-
-## 3) 發文規則（最重要）
-
-- 文章放在 `_posts/`
-- 檔名格式：`YYYY-MM-DD-文章-slug.md`
-- 每篇檔案前面要有 Front Matter：
+Frontmatter 範例：
 
 ```md
 ---
-title: "文章標題"
-date: 2026-02-21 10:00:00 +0800
-categories: [分類]
-tags: [tag1, tag2]
+title: "你的文章標題"
+description: "一句話摘要"
+pubDate: "2026-02-23T09:00:00+08:00"
+updatedDate: "2026-02-23T10:30:00+08:00"
+draft: false
+tags: ["公共網路"]
+category: "blog"
+cover: "/images/covers/example.png"
+coverAlt: "封面說明"
+lang: "zh-TW"
+author: "Mashbean"
 ---
 
-這裡是內文
+文章內文...
 ```
 
-## 4) 你現有很多 Markdown，要怎麼搬？
+Schema 定義在：`src/content.config.ts`
 
-本專案已提供批次轉換腳本：`scripts/convert_markdown_to_jekyll.py`
+---
 
-### 4.1 準備來源文章資料夾
+## 5. 文章網址規則（SEO）
 
-假設你把舊文章放在 `raw_posts/`：
+本站 canonical 文章路徑為短網址：
+
+- `/blog/{year}/{monthday}-{code}/`
+- 例：`/blog/2026/0222-14jmg4/`
+
+相關邏輯：`src/utils/blog.ts`
+
+備註：
+- 舊網址可讀（legacy path）
+- 但會標記 `noindex` 並導向 canonical
+
+---
+
+## 6. 搜尋系統
+
+- 正常情況：Pagefind（建置後索引）
+- 備援：JSON fallback（`/search-index.json`）
+
+建置流程：
+- `npm run build` 會觸發 `postbuild`，產生 Pagefind 索引
+
+若 Pagefind 無法啟用，搜尋頁仍可用 fallback。
+
+---
+
+## 7. GitHub Pages 部署
+
+部署檔案：`.github/workflows/deploy.yml`
+
+目前策略：
+- push 到 `main` 會自動部署
+- GitHub Pages 來源應設為 **GitHub Actions**（不是 branch build）
+
+### 7.1 User/Org 網站
+
+- 網址型態：`https://<username>.github.io/`
+- workflow env：
+  - `SITE_URL=https://<username>.github.io`
+  - `BASE_PATH=/`
+
+### 7.2 Project 網站
+
+- 網址型態：`https://<username>.github.io/<repo>/`
+- workflow env：
+  - `SITE_URL=https://<username>.github.io`
+  - `BASE_PATH=/<repo>`
+
+> `astro.config.ts` 會讀 `SITE_URL` 與 `BASE_PATH` 來設定 `site/base`。
+
+### 7.3 Custom Domain
+
+有自訂網域時：
+- 保留 repo 根目錄 `CNAME`（例如 `mashbean.net`）
+- `SITE_URL` 設成正式網域
+
+---
+
+## 8. Plausible（可選）
+
+GitHub Variables（Repository -> Settings -> Secrets and variables -> Actions -> Variables）：
+
+- `PUBLIC_PLAUSIBLE_DOMAIN`：例如 `mashbean.net`
+- `PUBLIC_PLAUSIBLE_SCRIPT_SRC`：`https://plausible.io/js/script.js`
+
+如果 script src 空值，瀏覽器會出現 `<script ... src></script>`，Plausible 會偵測失敗。
+
+---
+
+## 9. 常用指令
 
 ```bash
-mkdir -p raw_posts
-# 把你原本的 md 檔都放進 raw_posts/
+npm run dev            # 本機開發
+npm run check          # Astro 型別/內容檢查
+npm run build          # 正式建置（含 postbuild）
+npm run preview        # 預覽 build 結果
+npm run format         # 代碼格式化
+npm run format:check   # 檢查格式
+npm run lint           # check + format check
 ```
 
-### 4.2 先預覽（不寫入）
+---
+
+## 10. Jekyll 遷移
+
+若你有舊 Jekyll `_posts`，可用：
 
 ```bash
-python3 scripts/convert_markdown_to_jekyll.py raw_posts --recursive --dry-run
+npm run migrate:posts -- --source <jekyll_posts_dir> --dest src/content/blog
 ```
 
-### 4.3 正式轉換
+腳本：`scripts/migrate-jekyll-posts.mjs`
+
+功能包含：
+- frontmatter 欄位映射（date -> pubDate 等）
+- `published: false` 轉 `draft: true`
+- Liquid 語法偵測警告
+- 轉換報告（成功/警告/失敗）
+
+---
+
+## 11. 給 AI/Codex 的協作規則
+
+建議 AI 先讀這些檔案再動手：
+
+1. `README.md`
+2. `docs/blog-handover.md`
+3. `src/content.config.ts`
+4. `astro.config.ts`
+5. `.github/workflows/deploy.yml`
+
+協作約束（重要）：
+- 只改有關需求的檔案，不要順手大改全站
+- 不要把 `dist/`、暫存報告、個人憑證檔提交上版控
+- 優先用 `npm run check` 驗證，再 push
+- 若工作樹有 unrelated 變更，commit 時要精準 `git add <file>`
+
+---
+
+## 12. Troubleshooting
+
+### Q1. 為什麼很多 Actions 是 cancelled？
+
+通常是新版 commit 取代舊 run（正常）。
+看「最新 commit 那一筆」是否 success 即可。
+
+### Q2. 為什麼線上沒更新？
+
+GitHub Pages + Actions 架構下，需等 workflow `deploy` 成功才會更新。
+
+### Q3. 為什麼分享縮圖不對？
+
+檢查：
+- `src/site.config.ts` 的 `DEFAULT_OG_IMAGE`
+- `public/images/` 圖檔是否存在
+- 分享平台快取（可用 debugger 重新抓取）
+
+### Q4. `npm run check` 找不到 `@astrojs/check`？
+
+刪掉 `node_modules` 與 lock 後重裝：
 
 ```bash
-python3 scripts/convert_markdown_to_jekyll.py raw_posts --recursive
+rm -rf node_modules
+npm install
 ```
 
-### 4.4 轉換規則
+---
 
-- 來源副檔名：`.md`
-- 目的地：`_posts/`
-- 檔名：`YYYY-MM-DD-slug.md`
-- `title` 優先順序：
-  1. 原文 front matter 的 `title`
-  2. 第一個 Markdown `# 標題`
-  3. 原始檔名
-- `date` 優先順序：
-  1. 原文 front matter 的 `date`
-  2. 檔名中的日期（例如 `2024-01-10-note.md`）
-  3. 檔案最後修改日
+## 13. 授權
 
-### 4.5 常用選項
+- 程式碼：依本 repo 授權設定
+- 文章內容：本站文章採 CC BY-NC 4.0（姓名標示-非商業性）
 
-```bash
-# 指定輸出資料夾
-python3 scripts/convert_markdown_to_jekyll.py raw_posts --dest _posts
-
-# 預設分類與標籤
-python3 scripts/convert_markdown_to_jekyll.py raw_posts --category notes --tag tech
-
-# 允許覆蓋同名檔案
-python3 scripts/convert_markdown_to_jekyll.py raw_posts --overwrite
-```
-
-## 5) 一鍵部署（add + commit + pull --rebase + push）
-
-已提供腳本：`scripts/deploy.sh`
-
-```bash
-# 使用預設 commit 訊息
-./scripts/deploy.sh
-
-# 自訂 commit 訊息
-./scripts/deploy.sh "update posts and pages"
-```
-
-這個腳本會依序做：
-1. `git add -A`
-2. 如果有變更就 `git commit`
-3. `git pull --rebase origin <目前分支>`
-4. `git push origin <目前分支>`
-
-## 6) 重建五大標籤系統
-
-已提供腳本：`scripts/rebuild_tags.py`
-
-```bash
-# 只分析，不寫入
-python3 scripts/rebuild_tags.py
-
-# 套用到所有文章 front matter 的 tags
-python3 scripts/rebuild_tags.py --apply
-```
-
-目前固定五大標籤：
-- `NFT`
-- `數位藝術`
-- `治理與民主`
-- `公共網路`
-- `AI與科技`
-
-標籤頁設定檔：
-- `/tags.md`
-- `/_data/tag_catalog.yml`
-
-## 7) 批次產生一句話摘要（首頁 excerpt）
-
-已提供腳本：`scripts/rebuild_summaries.py`
-
-```bash
-# 只分析，不寫入
-python3 scripts/rebuild_summaries.py
-
-# 套用到所有文章（寫入 summary 欄位）
-python3 scripts/rebuild_summaries.py --apply
-```
-
-## 8) 從 Snapshot IPNS 匯出文章（Markdown + 純文字）
-
-已提供腳本：`scripts/export_snapshot_articles.py`
-
-```bash
-# 使用你的 IPNS 網址，輸出到 snapshot_export/
-python3 scripts/export_snapshot_articles.py \
-  --ipns "ipns://storage.snapshot.page/registry/0xab51AD23d222fD0afB4e29F3244402af9aa3C420/mashbean.eth" \
-  --out "snapshot_export"
-```
-
-若遇到憑證錯誤（`CERTIFICATE_VERIFY_FAILED`），可加上：
-
-```bash
-python3 scripts/export_snapshot_articles.py \
-  --ipns "ipns://storage.snapshot.page/registry/0xab51AD23d222fD0afB4e29F3244402af9aa3C420/mashbean.eth" \
-  --out "snapshot_export" \
-  --insecure
-```
-
-若你的網路無法解析 `storage.snapshot.page`，可先取得入口 `index.json` 後用本機檔案跑：
-
-```bash
-python3 scripts/export_snapshot_articles.py \
-  --ipns "ipns://storage.snapshot.page/registry/0xab51AD23d222fD0afB4e29F3244402af9aa3C420/mashbean.eth" \
-  --index-file "/path/to/index.json" \
-  --out "snapshot_export" \
-  --insecure
-```
-
-輸出內容：
-- `snapshot_export/markdown/`：可讀 Markdown 文章
-- `snapshot_export/text/`：純文字版本
-- `snapshot_export/raw/`：原始 IPFS 載荷（保留）
-- `snapshot_export/index.json`：IPNS 入口資料
-- `snapshot_export/cids.txt`：發現到的 CID 清單
-- `snapshot_export/manifest.json`：抓取與解析摘要
-
-## 9) 從 Matters 個人頁爬文章（Markdown + 純文字）
-
-已提供腳本：`scripts/crawl_matters_articles.py`
-
-先安裝依賴：
-
-```bash
-pip3 install playwright
-playwright install chromium
-```
-
-執行（以你的帳號為例）：
-
-```bash
-python3 scripts/crawl_matters_articles.py \
-  --profile-url "https://matters.town/@mashbean" \
-  --out "matters_export"
-```
-
-若遇到部分文章只抓到 `matters.town` 驗證頁，可只補抓失敗項目：
-
-```bash
-python3 scripts/crawl_matters_articles.py \
-  --profile-url "https://matters.town/@mashbean" \
-  --out "matters_export" \
-  --retry-from-manifest "matters_export/manifest.json" \
-  --retry-attempts 8 \
-  --challenge-wait 8 \
-  --delay 0.8 \
-  --headful
-```
-
-輸出內容：
-- `matters_export/markdown/`：可讀 Markdown
-- `matters_export/text/`：純文字版本
-- `matters_export/manifest.json`：文章 URL 與檔案對照（含錯誤紀錄）
-
-## 10) RSS 訂閱
-
-已啟用 `jekyll-feed` 外掛，站上會產生：
-- `/feed.xml`
-
-你可以直接用以下網址訂閱：
-- `https://mashbean.net/feed.xml`
