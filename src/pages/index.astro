@@ -19,6 +19,14 @@ const latestPosts = posts.slice(0, 12);
     </figure>
   </section>
 
+  <section id="continue-reading" class="continue-reading" hidden aria-label="繼續閱讀">
+    <h2 class="section-title">繼續閱讀</h2>
+    <a id="continue-reading-link" class="continue-reading-link" href="/blog/">
+      <strong id="continue-reading-title">最近閱讀文章</strong>
+      <span id="continue-reading-meta">進度 0%</span>
+    </a>
+  </section>
+
   <div class="home-section-head">
     <h2 class="section-title">最新文章</h2>
     <p class="home-section-meta">最近更新 {latestPosts.length} 篇</p>
@@ -39,3 +47,36 @@ const latestPosts = posts.slice(0, 12);
     <a href={withBase("blog/")}>查看全部文章 -></a>
   </p>
 </BaseLayout>
+
+<script is:inline>
+  const section = document.querySelector("#continue-reading");
+  const link = document.querySelector("#continue-reading-link");
+  const title = document.querySelector("#continue-reading-title");
+  const meta = document.querySelector("#continue-reading-meta");
+  const key = "mashbean.blog.lastReading";
+
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) throw new Error("empty");
+    const data = JSON.parse(raw);
+    if (!data || typeof data.url !== "string" || typeof data.title !== "string") {
+      throw new Error("invalid");
+    }
+
+    if (link instanceof HTMLAnchorElement) {
+      link.href = data.url;
+    }
+    if (title instanceof HTMLElement) {
+      title.textContent = data.title;
+    }
+    if (meta instanceof HTMLElement) {
+      const progress = typeof data.progress === "number" ? Math.max(0, Math.min(100, data.progress)) : 0;
+      meta.textContent = `進度 ${progress}%`;
+    }
+    if (section instanceof HTMLElement) {
+      section.hidden = false;
+    }
+  } catch {
+    if (section instanceof HTMLElement) section.hidden = true;
+  }
+</script>

@@ -64,6 +64,16 @@
     text-decoration: none;
   }
 
+  ::selection {
+    background: color-mix(in oklab, var(--color-accent-soft) 82%, #ffffff 18%);
+    color: #0f2c39;
+  }
+
+  ::-moz-selection {
+    background: color-mix(in oklab, var(--color-accent-soft) 82%, #ffffff 18%);
+    color: #0f2c39;
+  }
+
   img {
     max-width: 100%;
     height: auto;
@@ -530,6 +540,40 @@
     margin-top: 0.95rem;
   }
 
+  .continue-reading {
+    margin-top: 1rem;
+    border: 1px solid #d8e6e1;
+    border-radius: 0.92rem;
+    background: #fbfefc;
+    padding: 0.82rem 0.9rem;
+  }
+
+  .continue-reading .section-title {
+    margin: 0 0 0.48rem;
+    font-size: 1.05rem;
+  }
+
+  .continue-reading-link {
+    display: grid;
+    gap: 0.18rem;
+    color: #1f3d4b;
+    text-decoration: none;
+  }
+
+  .continue-reading-link:hover {
+    color: #0b7d6d;
+  }
+
+  .continue-reading-link strong {
+    font-size: 0.98rem;
+    line-height: 1.45;
+  }
+
+  .continue-reading-link span {
+    color: #567079;
+    font-size: 0.82rem;
+  }
+
   .home-all-link {
     margin-top: 1rem;
   }
@@ -986,6 +1030,26 @@
     scroll-margin-top: 5.1rem;
   }
 
+  .article-prose h2 {
+    margin-bottom: 0.62rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.32rem, 2.15vw, 1.72rem);
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: 0.015em;
+  }
+
+  .article-prose h3 {
+    margin-bottom: 0.56rem;
+    font-family: var(--font-sans);
+    font-size: clamp(1.18rem, 1.85vw, 1.42rem);
+    line-height: 1.34;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    border-left: 4px solid #9fcfc4;
+    padding-left: 0.58rem;
+  }
+
   .article-prose ul,
   .article-prose ol {
     margin: 0 0 1rem 1.3rem;
@@ -1220,6 +1284,13 @@
   .search-filter-btn.is-active {
     background: #0b7d6d;
     color: #fff;
+  }
+
+  :is(.archive-filter-btn, .search-filter-btn, .reading-tool-btn, .toc-share-btn) {
+    transition:
+      background-color 0.16s ease,
+      color 0.16s ease,
+      border-color 0.16s ease;
   }
 
   .search-graph-cta {
@@ -2315,6 +2386,16 @@
   .article-prose h2,
   .article-prose h3 {
     scroll-margin-top: 4.25rem;
+  }
+
+  .article-prose h2 {
+    font-size: clamp(1.2rem, 5.6vw, 1.38rem);
+  }
+
+  .article-prose h3 {
+    font-size: clamp(1.08rem, 5vw, 1.24rem);
+    padding-left: 0.5rem;
+    border-left-width: 3px;
   }
 
   .article-pagination {
