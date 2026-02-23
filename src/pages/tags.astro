@@ -62,6 +62,11 @@ const topicOptions = topicCatalog
     <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">
       目前顯示全部主題、全部年份
     </p>
+    <div class="archive-filter-actions">
+      <button id="tags-copy-link" type="button" class="archive-filter-btn">
+        複製此篩選連結
+      </button>
+    </div>
 
     <ul id="tags-dual-list" class="archive-list">
       {
@@ -106,9 +111,28 @@ const topicOptions = topicCatalog
   const rows = Array.from(document.querySelectorAll("#tags-dual-list .archive-item"));
   const status = document.querySelector("#tags-dual-status");
   const empty = document.querySelector("#tags-dual-empty");
+  const copyButton = document.querySelector("#tags-copy-link");
 
   let activeTopic = "all";
   let activeYear = "all";
+  const validTopics = new Set(topicButtons.map((button) => button.dataset.topic ?? "all"));
+  const validYears = new Set(yearButtons.map((button) => button.dataset.year ?? "all"));
+
+  const getShareURL = () => {
+    const url = new URL(window.location.href);
+    const params = new URLSearchParams();
+    if (activeTopic !== "all") params.set("topic", activeTopic);
+    if (activeYear !== "all") params.set("year", activeYear);
+    url.search = params.toString();
+    return url.toString();
+  };
+
+  const syncURL = () => {
+    const next = getShareURL();
+    if (next !== window.location.href) {
+      window.history.replaceState({}, "", next);
+    }
+  };
 
   const updateStatus = (count) => {
     if (!(status instanceof HTMLElement)) return;
@@ -143,6 +167,7 @@ const topicOptions = topicCatalog
 
     if (empty instanceof HTMLElement) empty.hidden = visibleCount !== 0;
     updateStatus(visibleCount);
+    syncURL();
   };
 
   topicButtons.forEach((button) => {
@@ -168,6 +193,28 @@ const topicOptions = topicCatalog
     if (!(link instanceof HTMLAnchorElement)) return;
     track("Archive Post Click", { source: "tags_dual_nav" });
   });
+
+  copyButton?.addEventListener("click", async () => {
+    if (!(copyButton instanceof HTMLButtonElement)) return;
+    const originalText = copyButton.textContent;
+    try {
+      await navigator.clipboard.writeText(getShareURL());
+      copyButton.textContent = "已複製連結";
+      track("Tags Filter Link Copied", { topic: activeTopic, year: activeYear });
+    } catch {
+      copyButton.textContent = "複製失敗";
+    }
+    window.setTimeout(() => {
+      copyButton.textContent = originalText ?? "複製此篩選連結";
+    }, 1300);
+  });
+
+  const params = new URLSearchParams(window.location.search);
+  const initialTopic = params.get("topic") ?? params.get("tag") ?? "all";
+  const initialYear = params.get("year") ?? "all";
+
+  if (validTopics.has(initialTopic)) activeTopic = initialTopic;
+  if (validYears.has(initialYear)) activeYear = initialYear;
 
   applyFilters();
 </script>
