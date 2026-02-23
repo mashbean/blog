@@ -62,11 +62,6 @@ const topicOptions = topicCatalog
     <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">
       目前顯示全部主題、全部年份
     </p>
-    <div class="archive-filter-actions">
-      <button id="tags-copy-link" type="button" class="archive-filter-btn">
-        複製此篩選連結
-      </button>
-    </div>
 
     <ul id="tags-dual-list" class="archive-list">
       {
@@ -111,7 +106,6 @@ const topicOptions = topicCatalog
   const rows = Array.from(document.querySelectorAll("#tags-dual-list .archive-item"));
   const status = document.querySelector("#tags-dual-status");
   const empty = document.querySelector("#tags-dual-empty");
-  const copyButton = document.querySelector("#tags-copy-link");
 
   let activeTopic = "all";
   let activeYear = "all";
@@ -192,21 +186,6 @@ const topicOptions = topicCatalog
     const link = target.closest(".archive-link");
     if (!(link instanceof HTMLAnchorElement)) return;
     track("Archive Post Click", { source: "tags_dual_nav" });
-  });
-
-  copyButton?.addEventListener("click", async () => {
-    if (!(copyButton instanceof HTMLButtonElement)) return;
-    const originalText = copyButton.textContent;
-    try {
-      await navigator.clipboard.writeText(getShareURL());
-      copyButton.textContent = "已複製連結";
-      track("Tags Filter Link Copied", { topic: activeTopic, year: activeYear });
-    } catch {
-      copyButton.textContent = "複製失敗";
-    }
-    window.setTimeout(() => {
-      copyButton.textContent = originalText ?? "複製此篩選連結";
-    }, 1300);
   });
 
   const params = new URLSearchParams(window.location.search);
