@@ -77,7 +77,7 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "isf",
         href: "https://internationalstrategyforum.io/fellow/yen-lin-huang/",
-        logo: "images/about/org-logos/scsp.png",
+        logo: "https://www.scsp.ai/wp-content/uploads/2022/01/SCSP__logo.png",
         logoKind: "image",
         logoWidth: "6.2rem",
         zh: "International Strategy Forum（SCSP）",
@@ -358,10 +358,7 @@ const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? l
                             org.logo ? (
                               org.logoKind === "image" ? (
                                 <img
-                                  class:list={{
-                                    "about-org-logo-image": true,
-                                    "about-org-logo-image-original": org.logoMonochrome === false
-                                  }}
+                                  class="about-org-logo-image"
                                   style={`--org-logo-w:${org.logoWidth};--org-logo-filter:${org.logoFilter ?? (org.logoMonochrome === false ? "none" : "brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%)")};`}
                                   src={resolveLogoUrl(org.logo)}
                                   alt=""
@@ -577,10 +574,7 @@ const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? l
                             org.logo ? (
                               org.logoKind === "image" ? (
                                 <img
-                                  class:list={{
-                                    "about-org-logo-image": true,
-                                    "about-org-logo-image-original": org.logoMonochrome === false
-                                  }}
+                                  class="about-org-logo-image"
                                   style={`--org-logo-w:${org.logoWidth};--org-logo-filter:${org.logoFilter ?? (org.logoMonochrome === false ? "none" : "brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%)")};`}
                                   src={resolveLogoUrl(org.logo)}
                                   alt=""
