@@ -371,7 +371,7 @@ const graph = { nodes, links };
       .map(
         (post) => `
           <li class="graph-inspector-card-item">
-            <a href="${post.url}" class="graph-inspector-card-link">${escapeHtml(post.label)}</a>
+            <button type="button" class="graph-inspector-card-link" data-focus-node-id="${escapeHtml(post.id)}">${escapeHtml(post.label)}</button>
           </li>
         `,
       )
@@ -1204,10 +1204,15 @@ const graph = { nodes, links };
   }
   .graph-inspector :global(.graph-inspector-card-link) {
     display: inline-block;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    text-align: left;
     color: #1f5f86;
     text-decoration: underline;
     line-height: 1.72;
     font-size: 0.87rem;
+    cursor: pointer;
   }
   .graph-inspector :global(.graph-post-card) {
     border: 1px solid #d8e6e1;
