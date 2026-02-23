@@ -652,7 +652,7 @@
     border-radius: 999px;
     background: #ffffff;
     color: #3f5f6b;
-    min-height: 1.5rem;
+    min-height: 2.5rem;
     padding: 0.08rem 0.5rem;
     font-size: 0.72rem;
     line-height: 1;
@@ -1011,7 +1011,7 @@
     border-radius: 999px;
     background: #ffffff;
     color: #2f5664;
-    min-height: 1.92rem;
+    min-height: 2.5rem;
     padding: 0.24rem 0.72rem;
     font-size: 0.82rem;
     line-height: 1;
@@ -1125,7 +1125,7 @@
     background: #f8fcfa;
     color: #1f3b48;
     font-size: 0.85rem;
-    min-height: 1.85rem;
+    min-height: 2.5rem;
     padding: 0.25rem 0.68rem;
     cursor: pointer;
   }
@@ -1369,7 +1369,7 @@
 
   .search-form-row input[type="search"] {
     width: 100%;
-    min-height: 2.3rem;
+    min-height: 2.5rem;
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-md);
     padding: 0.52rem 0.72rem;
@@ -1572,7 +1572,7 @@
     border-radius: 999px;
     background: #f8fcfa;
     color: #274652;
-    min-height: 1.9rem;
+    min-height: 2.5rem;
     padding: 0.22rem 0.72rem;
     font-size: 0.83rem;
     cursor: pointer;
@@ -2343,7 +2343,7 @@
     border-radius: 999px;
     background: #0b7d6d;
     color: #ffffff;
-    min-height: 2.15rem;
+    min-height: 2.5rem;
     padding: 0.4rem 0.9rem;
     font-size: 0.86rem;
     line-height: 1;
@@ -2538,7 +2538,7 @@
   }
 
   .nav-social-link {
-    min-height: 1.9rem;
+    min-height: 2.5rem;
     padding: 0.36rem 0.48rem;
   }
 
@@ -2671,6 +2671,10 @@
   .archive-accordion-note {
     grid-column: 1 / -1;
     grid-row: 2;
+  }
+
+  .heading-anchor-btn {
+    display: none;
   }
 
   .archive-accordion-count {
