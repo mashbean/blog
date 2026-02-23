@@ -163,22 +163,6 @@ const graph = { nodes, links };
         </label>
       </div>
     </div>
-    <section class="graph-results" aria-label="結果抽屜">
-      <button
-        id="graph-results-toggle"
-        type="button"
-        class="graph-results-toggle"
-        aria-expanded="false"
-        aria-controls="graph-results-body"
-      >
-        結果抽屜
-      </button>
-      <div id="graph-results-body" class="graph-results-body" hidden>
-        <p id="graph-results-caption" class="graph-results-caption">目前顯示 0 筆</p>
-        <ul id="graph-post-list" class="graph-post-list"></ul>
-      </div>
-    </section>
-
     <div class="graph-main">
       <div
         id="graph-stage"
@@ -220,10 +204,6 @@ const graph = { nodes, links };
   const searchInput = document.querySelector("#graph-search");
   const searchStatus = document.querySelector("#graph-search-status");
   const resetButton = document.querySelector("#graph-reset");
-  const resultsToggle = document.querySelector("#graph-results-toggle");
-  const resultsBody = document.querySelector("#graph-results-body");
-  const resultsCaption = document.querySelector("#graph-results-caption");
-  const postList = document.querySelector("#graph-post-list");
   const typeCheckboxes = Array.from(
     document.querySelectorAll(".graph-type-toggle input[data-node-type]"),
   );
@@ -368,12 +348,10 @@ const graph = { nodes, links };
   let selectedNodeId = "";
   let lastSelectedNodeId = "";
   let lastSelectedAt = 0;
-  let resultsOpen = false;
   const visibleTypes = new Set(["topic", "keyword", "post"]);
   let visibleNodeIds = new Set(nodes.map((n) => n.id));
   let visibleLinkFlags = links.map(() => true);
   let focusNodeIds = new Set();
-  let visiblePostRows = [];
   const defaultInspectorHtml = "<p>點擊任一節點查看詳細資訊。</p>";
 
   function setSelectedNode(nodeId) {
@@ -386,6 +364,20 @@ const graph = { nodes, links };
     inspector?.classList.toggle("graph-inspector-open", Boolean(nodeId));
   }
 
+  function renderRelatedPostCards(posts) {
+    if (posts.length === 0) return '<p class="graph-info-empty">目前沒有對應文章。</p>';
+    return `<ul class="graph-inspector-card-list">${posts
+      .slice(0, 80)
+      .map(
+        (post) => `
+          <li class="graph-inspector-card-item">
+            <a href="${post.url}" class="graph-inspector-card-link">${escapeHtml(post.label)}</a>
+          </li>
+        `,
+      )
+      .join("")}</ul>`;
+  }
+
   function renderInspector(node) {
     if (!(inspectorContent instanceof HTMLElement)) return;
 
@@ -393,13 +385,7 @@ const graph = { nodes, links };
       const posts = Array.from(topicToPosts.get(node.id) ?? []).sort((a, b) =>
         a.label.localeCompare(b.label, "zh-Hant"),
       );
-      const listHtml =
-        posts.length > 0
-          ? `<ul class="graph-inspector-list">${posts
-              .slice(0, 80)
-              .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
-              .join("")}</ul>`
-          : '<p class="graph-info-empty">這個主題目前沒有對應文章。</p>';
+      const listHtml = renderRelatedPostCards(posts);
       inspectorContent.innerHTML = `
         <article class="graph-info-card">
           <div class="graph-info-head">
@@ -465,13 +451,7 @@ const graph = { nodes, links };
     const posts = Array.from(keywordToPosts.get(node.id) ?? []).sort((a, b) =>
       a.label.localeCompare(b.label, "zh-Hant"),
     );
-    const listHtml =
-      posts.length > 0
-        ? `<ul class="graph-inspector-list">${posts
-            .slice(0, 80)
-            .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
-            .join("")}</ul>`
-        : '<p class="graph-info-empty">這個關鍵字目前沒有對應文章。</p>';
+    const listHtml = renderRelatedPostCards(posts);
     inspectorContent.innerHTML = `
       <article class="graph-info-card">
         <div class="graph-info-head">
@@ -503,38 +483,6 @@ const graph = { nodes, links };
     setSelectedNode("");
     focusNodeIds = new Set();
     if (inspectorContent instanceof HTMLElement) inspectorContent.innerHTML = defaultInspectorHtml;
-  }
-
-  function setResultsOpen(nextOpen) {
-    resultsOpen = nextOpen;
-    if (resultsBody instanceof HTMLElement) resultsBody.hidden = !nextOpen;
-    if (resultsToggle instanceof HTMLButtonElement) {
-      resultsToggle.setAttribute("aria-expanded", nextOpen ? "true" : "false");
-      resultsToggle.textContent = nextOpen ? "收起結果抽屜" : "展開結果抽屜";
-    }
-  }
-
-  function renderResultsDrawer() {
-    if (!(postList instanceof HTMLElement)) return;
-    const shown = visiblePostRows.slice(0, 15);
-    if (shown.length === 0) {
-      postList.innerHTML = '<li class="graph-post-list-empty">目前沒有符合篩選條件的文章。</li>';
-    } else {
-      postList.innerHTML = shown
-        .map(
-          (item) => `
-            <li>
-              <button type="button" class="graph-result-focus" data-focus-node-id="${escapeHtml(item.id)}">${escapeHtml(item.label)}</button>
-              <small>${escapeHtml(item.topicLabel)}</small>
-            </li>
-          `,
-        )
-        .join("");
-    }
-
-    if (resultsCaption instanceof HTMLElement) {
-      resultsCaption.textContent = `目前顯示 ${shown.length} / ${visiblePostRows.length} 筆`;
-    }
   }
 
   function nodeMatchesQuery(node, q, terms) {
@@ -578,7 +526,6 @@ const graph = { nodes, links };
     focusNodeIds = selectedNodeId
       ? new Set([selectedNodeId, ...(adjacency.get(selectedNodeId) ?? [])])
       : new Set();
-    visiblePostRows = [];
     let matchCount = 0;
 
     nodeEls.forEach((el, i) => {
@@ -609,14 +556,6 @@ const graph = { nodes, links };
       if (focusNodeIds.size > 0 && !inFocus) opacity = Math.min(opacity, 0.12);
       el.style.opacity = String(opacity);
       el.style.pointerEvents = "auto";
-
-      if (n.type === "post" && matched) {
-        const topicLabel = (() => {
-          const topicLink = links.find((link) => link.kind === "topic" && link.s.id === n.id);
-          return topicLink?.t?.label ?? "未分類";
-        })();
-        visiblePostRows.push({ id: n.id, label: n.label, url: n.url ?? "#", topicLabel });
-      }
     });
 
     visibleLinkFlags = links.map(() => true);
@@ -665,10 +604,6 @@ const graph = { nodes, links };
       }
     }
 
-    renderResultsDrawer();
-    const hasActiveFilter = Boolean(q) || selectedTopicId !== "all" || Boolean(selectedNodeId);
-    if (hasActiveFilter && !resultsOpen) setResultsOpen(true);
-    if (!hasActiveFilter && resultsOpen) setResultsOpen(false);
   }
 
   let suppressClickUntil = 0;
@@ -910,24 +845,6 @@ const graph = { nodes, links };
     });
   });
 
-  resultsToggle?.addEventListener("click", () => {
-    setResultsOpen(!resultsOpen);
-  });
-
-  postList?.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
-    const button = target.closest("[data-focus-node-id]");
-    if (!(button instanceof HTMLElement)) return;
-    const nodeId = button.getAttribute("data-focus-node-id");
-    if (!nodeId) return;
-    const node = byId.get(nodeId);
-    if (!node) return;
-    setSelectedNode(node.id);
-    renderInspector(node);
-    applyFilters();
-  });
-
   stage.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       clearSelection();
@@ -964,7 +881,6 @@ const graph = { nodes, links };
     applyFilters();
   });
 
-  setResultsOpen(false);
   applyFilters();
   loadSearchCorpus();
   frame();
@@ -1027,33 +943,6 @@ const graph = { nodes, links };
     border-color: #8fcab9;
     color: #0b7d6d;
     background: #f2fbf7;
-  }
-  .graph-results {
-    margin: 0 0 0.72rem;
-    border: 1px solid #d4e7e0;
-    border-radius: 0.78rem;
-    background: #f8fcfa;
-    overflow: clip;
-  }
-  .graph-results-toggle {
-    width: 100%;
-    border: 0;
-    border-bottom: 1px solid #d4e7e0;
-    background: #f1faf7;
-    color: #2e5361;
-    text-align: left;
-    min-height: 2rem;
-    padding: 0.34rem 0.62rem;
-    font-size: 0.84rem;
-    cursor: pointer;
-  }
-  .graph-results-body {
-    padding: 0.5rem 0.62rem 0.62rem;
-  }
-  .graph-results-caption {
-    margin: 0 0 0.38rem;
-    font-size: 0.78rem;
-    color: #4b6570;
   }
   .graph-guide {
     display: grid;
@@ -1140,48 +1029,6 @@ const graph = { nodes, links };
     touch-action: none;
     z-index: 0;
   }
-  .graph-post-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.45rem;
-  }
-  .graph-post-list li {
-    border: 1px solid #d8e6e1;
-    border-radius: 0.72rem;
-    background: #fff;
-    padding: 0.5rem 0.62rem;
-  }
-  .graph-post-list .graph-result-focus {
-    width: 100%;
-    border: 0;
-    padding: 0;
-    background: transparent;
-    text-align: left;
-    color: #1f3f4d;
-    text-decoration: none;
-    font-size: 0.9rem;
-    line-height: 1.45;
-    cursor: pointer;
-  }
-  .graph-post-list .graph-result-focus:hover {
-    color: #0b7d6d;
-  }
-  .graph-post-list small {
-    display: block;
-    margin-top: 0.2rem;
-    color: #59727a;
-    font-size: 0.76rem;
-  }
-  .graph-post-list-empty {
-    color: #556b74;
-    font-size: 0.86rem;
-    border: 1px dashed #d4e4de;
-    border-radius: 0.72rem;
-    padding: 0.55rem 0.62rem;
-    background: #fff;
-  }
   :global(.graph-links) {
     position: absolute;
     inset: 0;
@@ -1264,6 +1111,7 @@ const graph = { nodes, links };
     min-height: 0;
     z-index: 20;
     box-shadow: 0 8px 24px rgba(16, 48, 55, 0.14);
+    overscroll-behavior: contain;
   }
   .graph-inspector-head {
     display: flex;
@@ -1330,25 +1178,36 @@ const graph = { nodes, links };
     margin: 0.36rem 0 0;
     color: #47616b;
     font-size: 0.8rem;
+    line-height: 1.65;
   }
   .graph-inspector :global(.graph-info-empty) {
     margin: 0.34rem 0 0;
     color: #5b737c;
     font-size: 0.8rem;
+    line-height: 1.65;
   }
-  .graph-inspector :global(.graph-inspector-list) {
+  .graph-inspector :global(.graph-inspector-card-list) {
     margin: 0.46rem 0 0;
-    padding-left: 1rem;
+    padding: 0;
+    list-style: none;
     max-height: min(42vh, 18rem);
     overflow: auto;
+    display: grid;
+    gap: 0.46rem;
   }
-  .graph-inspector :global(.graph-inspector-list li) {
-    margin: 0.36rem 0;
+  .graph-inspector :global(.graph-inspector-card-item) {
+    margin: 0;
+    border: 1px solid #d8e6e1;
+    border-radius: 0.68rem;
+    background: #fff;
+    padding: 0.42rem 0.56rem;
   }
-  .graph-inspector :global(.graph-inspector-list a) {
+  .graph-inspector :global(.graph-inspector-card-link) {
+    display: inline-block;
     color: #1f5f86;
     text-decoration: underline;
-    line-height: 1.56;
+    line-height: 1.72;
+    font-size: 0.87rem;
   }
   .graph-inspector :global(.graph-post-card) {
     border: 1px solid #d8e6e1;
@@ -1463,7 +1322,7 @@ const graph = { nodes, links };
       top: auto;
       bottom: 0.5rem;
       width: auto;
-      max-height: min(46vh, 22rem);
+      max-height: min(74vh, 36rem);
       border-radius: 0.9rem;
       box-shadow: 0 10px 32px rgba(10, 27, 35, 0.24);
       transform: translateY(calc(100% + 1rem));
@@ -1473,7 +1332,10 @@ const graph = { nodes, links };
       transition:
         transform 0.2s ease,
         opacity 0.2s ease;
-      overflow: auto;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      touch-action: pan-y;
     }
     .graph-inspector.graph-inspector-open {
       transform: translateY(0);
@@ -1482,11 +1344,22 @@ const graph = { nodes, links };
     }
     .graph-inspector-content {
       min-height: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
     .graph-inspector-close {
       display: inline-flex;
       align-items: center;
       justify-content: center;
+    }
+    .graph-inspector-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f8fcfa;
+      padding-bottom: 0.34rem;
+      border-bottom: 1px solid #e0ede8;
     }
   }
 </style>
