@@ -1,11 +1,16 @@
 ---
-title: "光與甘露水 1｜NFT 如何成為美術館群眾參與的新… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/2kr3osv57zu8 光與甘露水 1｜NFT 如何成為美術館群眾參與的新媒介？"
-pubDate: "2022-04-18T02:00:00.000Z"
+title: 光與甘露水 1｜NFT 如何成為美術館群眾參與的新… - 豆泥 - Matters
+description: '來源：https://matters.town/a/2kr3osv57zu8 光與甘露水 1｜NFT 如何成為美術館群眾參與的新媒介？'
+pubDate: '2022-04-18T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xaff5463926a7296b96a964b6f17e3895cf8b97bf17af5d82aa57124e9160419d'
+signature: >-
+  0x27908112e73ef87591599ec802aa4c4649f3b620d2d570eb36aafe5884593e2672b93dd8fd545ec765dbcc560e6e2171f757ab157ba91012e4f5e580042a543e1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/2kr3osv57zu8](https://matters.town/a/2kr3osv57zu8)
 

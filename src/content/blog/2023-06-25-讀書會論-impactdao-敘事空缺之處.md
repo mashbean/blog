@@ -1,11 +1,16 @@
 ---
-title: "讀書會：論 ImpactDAO 敘事空缺之處"
-description: ">邁向數位團結，需有足夠的心靈彈性，找到標準化的次文化脈絡。"
-pubDate: "2023-06-25T02:00:00.000Z"
+title: 讀書會：論 ImpactDAO 敘事空缺之處
+description: '>邁向數位團結，需有足夠的心靈彈性，找到標準化的次文化脈絡。'
+pubDate: '2023-06-25T02:00:00.000Z'
 tags:
-  - "AI與科技"
-  - "公共網路"
-category: "blog"
+  - AI與科技
+  - 公共網路
+category: blog
+contentHash: '0x26dc0a01c0c87265122ab8ff4d4376a3d6e3771c6e965509e52e3314d9a2fa18'
+signature: >-
+  0x757159fd74ccf8e5b44f0df0c8f450ef5f776df2c5edd1b1578d768c1863e8cb417fc2a27027a9c2dd6a46800d4ba0037f9fc67457f01ae69720546cb2fc31371c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# DAO](https://matters.town/tags/4981-DAO)
 +   [# 多元宇宙](https://matters.town/tags/134289-%E5%A4%9A%E5%85%83%E5%AE%87%E5%AE%99)

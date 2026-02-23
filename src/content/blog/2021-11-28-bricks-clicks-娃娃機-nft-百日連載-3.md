@@ -1,10 +1,15 @@
 ---
-title: "Bricks & Clicks - 娃娃機 NFT 百日連載 (3)"
-description: "「大學生靠娃娃機 NFT 月入三十萬？"
-pubDate: "2021-11-28T02:00:00.000Z"
+title: Bricks & Clicks - 娃娃機 NFT 百日連載 (3)
+description: 「大學生靠娃娃機 NFT 月入三十萬？
+pubDate: '2021-11-28T02:00:00.000Z'
 tags:
-  - "數位藝術"
-category: "blog"
+  - 數位藝術
+category: blog
+contentHash: '0xba7ee156ea2b682b52ad04c15625fb76ca4dd756495b60feb2924f937af18f5b'
+signature: >-
+  0x292bbdcd36810b7d0522cb53b57b2315570e0f44731533d4c88f46cc100be23e0894cdad30cff8f0a5390cd7b206a28ba17cb2431e1de8b87f9d0cf0a94dc94f1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# 藝術](https://matters.town/tags/1841-%E8%97%9D%E8%A1%93)
 +   [# 西門町](https://matters.town/tags/19659-%E8%A5%BF%E9%96%80%E7%94%BA)

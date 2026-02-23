@@ -1,11 +1,18 @@
 ---
-title: "資助「ArchiveHK」，以點對點的方式掌握過去 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/iq3xsqvzcvv9 資助「ArchiveHK」，以點對點的方式掌握過去 這是最糟的時代，香港的言論自由正在被抹滅，意識形…"
-pubDate: "2024-09-11T02:00:00.000Z"
+title: 資助「ArchiveHK」，以點對點的方式掌握過去 - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/iq3xsqvzcvv9 資助「ArchiveHK」，以點對點的方式掌握過去
+  這是最糟的時代，香港的言論自由正在被抹滅，意識形…
+pubDate: '2024-09-11T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xf399bf85cb9a96de8fa53305f88de8df6a72409acd917d1067967a76daf14922'
+signature: >-
+  0x2ecdc18202ae8440908ddb8891f5066b3a7719821b1f99d9f0e3fa2b5d92737c6b21bc793976735b2adface6daec491092913582d2e9f19cea214826fa9e53991c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/iq3xsqvzcvv9](https://matters.town/a/iq3xsqvzcvv9)
 

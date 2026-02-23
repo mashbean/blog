@@ -1,11 +1,18 @@
 ---
-title: "Here and Now (Hic Et Nunc)"
-description: "夾娃娃機百日 NFT 連載之一 最近的嗜好是探索適合鑄造成NFT的台灣元素，其趣味彷彿當年臉書粉絲專頁剛出現的時候一樣，當時還沒有注意力戰爭、演算法觸及率，生活就是做喜歡的作品，…"
-pubDate: "2021-10-22T02:00:00.000Z"
+title: Here and Now (Hic Et Nunc)
+description: >-
+  夾娃娃機百日 NFT 連載之一
+  最近的嗜好是探索適合鑄造成NFT的台灣元素，其趣味彷彿當年臉書粉絲專頁剛出現的時候一樣，當時還沒有注意力戰爭、演算法觸及率，生活就是做喜歡的作品，…
+pubDate: '2021-10-22T02:00:00.000Z'
 tags:
-  - "數位藝術"
-  - "NFT"
-category: "blog"
+  - 數位藝術
+  - NFT
+category: blog
+contentHash: '0x3c0e91c33cea0b6dbe7e2cec12e3e8a67aca96c507743c9f7ae401048e2cb6c7'
+signature: >-
+  0xb3f9ee0679e54cc4e83885a166f1d56e5d6bbf3c9d04b0e808713e6faeeb099655bca2a9ccd87f994bf4d06966e60195d27cd9c99129b84e74f4217bfdc8626e1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# 夾娃娃機](https://matters.town/tags/1514-%E5%A4%BE%E5%A8%83%E5%A8%83%E6%A9%9F)
 +   [# Tezos](https://matters.town/tags/8394-Tezos)

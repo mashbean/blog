@@ -1,11 +1,18 @@
 ---
-title: "翻譯：秘密結社、網路國家、火人祭、ZUZALU—對新政治社群… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/tovt6cabc5an 翻譯：秘密結社、網路國家、火人祭、ZUZALU—對新政治社群的思考 秘密結社 、網路國家、火人祭、Z…"
-pubDate: "2023-09-02T02:00:00.000Z"
+title: 翻譯：秘密結社、網路國家、火人祭、ZUZALU—對新政治社群… - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/tovt6cabc5an 翻譯：秘密結社、網路國家、火人祭、ZUZALU—對新政治社群的思考 秘密結社
+  、網路國家、火人祭、Z…
+pubDate: '2023-09-02T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x46cab6b99f104f03e64dd1e1a6ab00def8fedbeb3e3b52b512788312a56f6814'
+signature: >-
+  0xe691c9660bda193741680f1bd207956b5e64b46651fa063d6715cceb796ebb2e428ecd86530147ae2b2b1ec389d1e8c865c8bc542206560584b47b403fe492ef1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/tovt6cabc5an](https://matters.town/a/tovt6cabc5an)
 

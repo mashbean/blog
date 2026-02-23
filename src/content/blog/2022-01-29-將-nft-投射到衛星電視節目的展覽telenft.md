@@ -1,11 +1,16 @@
 ---
-title: "將 NFT 投射到衛星電視節目的展覽「TeleNFT」"
-description: "媒介即內容，當古老的電傳文訊技術與新媒材 NFT 交會，會迸出什麼火花？"
-pubDate: "2022-01-29T02:00:00.000Z"
+title: 將 NFT 投射到衛星電視節目的展覽「TeleNFT」
+description: 媒介即內容，當古老的電傳文訊技術與新媒材 NFT 交會，會迸出什麼火花？
+pubDate: '2022-01-29T02:00:00.000Z'
 tags:
-  - "NFT"
-  - "數位藝術"
-category: "blog"
+  - NFT
+  - 數位藝術
+category: blog
+contentHash: '0xa29d502a6c1ea098cd35bbe72bd1c621d8564c1838c645ccff17ceb25759f0f1'
+signature: >-
+  0xd62f70f22eca2b4e89a77b19acdf593ec9102fb0dd958eb41d72d918802cb2a723448937fbb17b9ec7a3ec60660e5c0c93803d203bbaea7e2f8d1ada8e7d45cd1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# 電視](https://matters.town/tags/1442-%E9%9B%BB%E8%A6%96)
 +   [# 展覽](https://matters.town/tags/2796-%E5%B1%95%E8%A6%BD)

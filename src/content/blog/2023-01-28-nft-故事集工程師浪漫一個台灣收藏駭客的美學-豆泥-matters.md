@@ -1,11 +1,18 @@
 ---
-title: "NFT 故事集：工程師浪漫，一個台灣收藏駭客的美學… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/jtsje5kofoo7 NFT 故事集：工程師浪漫，一個台灣收藏駭客的美學旅程 本文於 2022/12/24 寫於臉書 台灣…"
-pubDate: "2023-01-28T02:00:00.000Z"
+title: NFT 故事集：工程師浪漫，一個台灣收藏駭客的美學… - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/jtsje5kofoo7 NFT 故事集：工程師浪漫，一個台灣收藏駭客的美學旅程 本文於
+  2022/12/24 寫於臉書 台灣…
+pubDate: '2023-01-28T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x31826e6baf4ef3865837d3b56cf4a0bce82a388361abc249733054b3128fa720'
+signature: >-
+  0x748c6cfcaed094beefa600275234f0b97101b2d13d55a24fe84c0f1f63da031112cee3f93f8c9ea03895625596a8f0c190217c5fbe01cdc0672ba9120a8063541b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/jtsje5kofoo7](https://matters.town/a/jtsje5kofoo7)
 

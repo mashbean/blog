@@ -1,11 +1,16 @@
 ---
-title: "參與 ICANN82 隨筆：網路與治理 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/aryv5higybp5 參與 ICANN82 隨筆：網路與治理 黃豆泥，最近在做什麼呢？"
-pubDate: "2025-03-17T02:00:00.000Z"
+title: 參與 ICANN82 隨筆：網路與治理 - 豆泥 - Matters
+description: '來源：https://matters.town/a/aryv5higybp5 參與 ICANN82 隨筆：網路與治理 黃豆泥，最近在做什麼呢？'
+pubDate: '2025-03-17T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x505b13275e70ce24f2de18708299b26a142d9426349e421c6707a83af78534a0'
+signature: >-
+  0x5fb1f50453c5c73cd1e9e2acd57617820fdc1cc1521b701e54067640fc0fe0613c6db1d742a89ec083544e48d742695a4f942efef8108489634010ec40f59ad11b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/aryv5higybp5](https://matters.town/a/aryv5higybp5)
 

@@ -1,11 +1,16 @@
 ---
-title: "木可的保險箱，是web3的保險箱嗎？ - 豆泥 - Matters"
-description: "來源：https://matters.town/a/n1fupdwjxq25 木可的保險箱，是web3的保險箱嗎？"
-pubDate: "2024-09-17T02:00:00.000Z"
+title: 木可的保險箱，是web3的保險箱嗎？ - 豆泥 - Matters
+description: '來源：https://matters.town/a/n1fupdwjxq25 木可的保險箱，是web3的保險箱嗎？'
+pubDate: '2024-09-17T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x3e6638a4cd8ae7b8f6e4a526fc16a584241916961489f4e7d058847141b61adb'
+signature: >-
+  0xf4c306fe1fc4fae955fe7c721d77d73b378ce00e65493012e82436ef980f33da77dd1eb0039448df7d432625393c81c5cd119ebc67d1ac48d34cdb52fafb8f871c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/n1fupdwjxq25](https://matters.town/a/n1fupdwjxq25)
 

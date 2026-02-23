@@ -1,11 +1,16 @@
 ---
-title: "NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/zi9mweui1m1r NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？"
-pubDate: "2022-06-25T02:00:00.000Z"
+title: NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪… - 豆泥 - Matters
+description: '來源：https://matters.town/a/zi9mweui1m1r NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？'
+pubDate: '2022-06-25T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xc13a19b21beebd54cac1c30387aefdc407d73bffa14f0bb89d8c0bb538355275'
+signature: >-
+  0x3a90c75d3a86bde10d1f6b0cce63025210808295538eeabaef81c6f37988954471e45b44ec6befdfc1e9856bbe74463bc6402d1050f21dd3d904284c463e98ee1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/zi9mweui1m1r](https://matters.town/a/zi9mweui1m1r)
 

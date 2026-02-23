@@ -1,10 +1,15 @@
 ---
-title: "NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？"
-description: "當號稱永遠不可篡改的區塊鏈損毀時，NFT 還有價值嗎？"
-pubDate: "2022-06-19T02:00:00.000Z"
+title: NFT 故事集：地球毀滅時，Terra NFT 創作者是逃逸還是陪葬？
+description: 當號稱永遠不可篡改的區塊鏈損毀時，NFT 還有價值嗎？
+pubDate: '2022-06-19T02:00:00.000Z'
 tags:
-  - "NFT"
-category: "blog"
+  - NFT
+category: blog
+contentHash: '0xb89dd63c072a7527f4697ffa1fffe98db4f5831c9431813ab423559cadaf7048'
+signature: >-
+  0x4f3bff014642ea23865f42c896badfa227880a50b00378ac7abbe293a3a3c96874cf2e169289eb7ab8e1d547f3ff97aea2eff96b3766df41a93943a749cfd2941b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# NFT](https://matters.town/tags/7990-NFT)
 +   [# Tezos](https://matters.town/tags/8394-Tezos)

@@ -1,11 +1,18 @@
 ---
-title: "[譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/nbf6mvnyq7j8 [譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 給日本以外的讀者前情提要…"
-pubDate: "2024-07-04T02:00:00.000Z"
+title: '[譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧 - 豆泥 - Matters'
+description: >-
+  來源：https://matters.town/a/nbf6mvnyq7j8 [譯文] 廣聽（Broad-listening）：靠這門藝術成為聖德太子吧
+  給日本以外的讀者前情提要…
+pubDate: '2024-07-04T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x3b40bc2ccc9f0dd2d1f83fd1b5294d79716a52c0dbece4dba6abffe9a69466c3'
+signature: >-
+  0x44b42522d843d3d180d42fb4114ab4370af35f79a4dc34aa85e7cc9f9bbb8b054b279b9c388232d2d1e9b5cd598bf4f879f6d7509b4f1d1a1f954f53c9ce6f961c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/nbf6mvnyq7j8](https://matters.town/a/nbf6mvnyq7j8)
 

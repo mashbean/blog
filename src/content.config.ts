@@ -19,7 +19,11 @@ const blog = defineCollection({
     author: z.string().optional(),
     series: z.string().optional(),
     seriesOrder: z.number().int().positive().optional(),
-    slug: z.string().optional()
+    slug: z.string().optional(),
+    contentHash: z.string().optional(),
+    signature: z.string().optional(),
+    signer: z.string().optional(),
+    signatureVersion: z.string().optional()
   })
 });
 

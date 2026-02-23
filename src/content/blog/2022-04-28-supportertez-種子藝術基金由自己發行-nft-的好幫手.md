@@ -1,11 +1,16 @@
 ---
-title: "Supporter.tez 種子藝術基金，由自己發行 NFT 的好幫手"
-description: "Supporter 用最 web3 的原則，幫助你用最簡單的方式，鑄造 NFT。"
-pubDate: "2022-04-28T02:00:00.000Z"
+title: Supporter.tez 種子藝術基金，由自己發行 NFT 的好幫手
+description: Supporter 用最 web3 的原則，幫助你用最簡單的方式，鑄造 NFT。
+pubDate: '2022-04-28T02:00:00.000Z'
 tags:
-  - "數位藝術"
-  - "NFT"
-category: "blog"
+  - 數位藝術
+  - NFT
+category: blog
+contentHash: '0x5801b9d06fdb528a64fbf3bc6e2877588009eb2f724e7b1ed00ec9464c0ab826'
+signature: >-
+  0xa45007fb3878b94373c3ea97276ef298d69ad6c556912dcf08f669d31e68ddaa2af5fd53edb796ad46b8ba8e3ec8ba53bac7a5cd2aa44e70868ad0b6670c21ab1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# Tezos](https://matters.town/tags/8394-Tezos)
 +   [# NFT Art](https://matters.town/tags/44032-NFT-Art)

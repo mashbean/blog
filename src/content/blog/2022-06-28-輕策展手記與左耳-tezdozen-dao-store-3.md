@@ -1,10 +1,15 @@
 ---
-title: "輕策展手記與左耳 TezDozen DAO Store 3"
-description: ">喜歡的創作者，創作出喜歡的作品，然後被喜歡的收藏者收藏。"
-pubDate: "2022-06-28T02:00:00.000Z"
+title: 輕策展手記與左耳 TezDozen DAO Store 3
+description: '>喜歡的創作者，創作出喜歡的作品，然後被喜歡的收藏者收藏。'
+pubDate: '2022-06-28T02:00:00.000Z'
 tags:
-  - "數位藝術"
-category: "blog"
+  - 數位藝術
+category: blog
+contentHash: '0x3e6ba6a804b72009c75b3c32f4beeae9da35a0aad39fe2438543c042f606302d'
+signature: >-
+  0xfcbbe75d9dac9cdc670a9e71a13278ede8556805fcd6fb55d15517f13cb974d4447db697ee146513928ca5a4746af933cc3c39c20e377dc2a210871eaf3449b31c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# akaSwap](https://matters.town/tags/74842-akaSwap)
 +   [# Tezos](https://matters.town/tags/8394-Tezos)

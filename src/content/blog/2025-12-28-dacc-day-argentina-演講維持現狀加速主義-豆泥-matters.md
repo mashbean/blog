@@ -1,13 +1,22 @@
 ---
-title: "d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/pl3rg4n8wk29 d/acc day Argentina 演講：維持現狀加速主義 Slow Resistance, F…"
-pubDate: "2025-12-28T02:00:00.000Z"
+title: d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/pl3rg4n8wk29 d/acc day Argentina 演講：維持現狀加速主義 Slow
+  Resistance, F…
+pubDate: '2025-12-28T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
-cover: "images/covers/home/2025-12-28-dacc-day-argentina-演講維持現狀加速主義-豆泥-matters.jpg"
-coverAlt: "d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters cover illustration (d/acc, matters, 維持現狀加速主義, imported)"
+  - matters
+  - imported
+category: matters
+cover: images/covers/home/2025-12-28-dacc-day-argentina-演講維持現狀加速主義-豆泥-matters.jpg
+coverAlt: >-
+  d/acc day Argentina 演講：維持現狀加速主義 - 豆泥 - Matters cover illustration (d/acc,
+  matters, 維持現狀加速主義, imported)
+contentHash: '0xd401f6232fd65a4e329df885b5d3920088bbff94f195dfa5c89ef80a6ca83e1b'
+signature: >-
+  0x546f8ef4143a0ff7a4209ba5a386129622bb0bd5863d8f202c9126cacdd92a972341be12b73cd6a3cbcbe1034a9faa2cfe94eb23a47398eaeb96a99a90bf06021b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/pl3rg4n8wk29](https://matters.town/a/pl3rg4n8wk29)
 

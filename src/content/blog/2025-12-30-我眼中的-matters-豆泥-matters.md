@@ -1,13 +1,22 @@
 ---
-title: "我眼中的 Matters - 豆泥 - Matters"
-description: "來源：https://matters.town/a/vhzitynih7lr 我眼中的 Matters 最近在台灣，Privilege（翻為特權，但我更喜歡翻為福氣）在河道上被大…"
-pubDate: "2025-12-30T02:00:00.000Z"
+title: 我眼中的 Matters - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/vhzitynih7lr 我眼中的 Matters
+  最近在台灣，Privilege（翻為特權，但我更喜歡翻為福氣）在河道上被大…
+pubDate: '2025-12-30T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
-cover: "images/covers/home/2025-12-30-我眼中的-matters-豆泥-matters.jpg"
-coverAlt: "我眼中的 Matters - 豆泥 - Matters cover illustration (matters, privilege, imported, 我眼中的)"
+  - matters
+  - imported
+category: matters
+cover: images/covers/home/2025-12-30-我眼中的-matters-豆泥-matters.jpg
+coverAlt: >-
+  我眼中的 Matters - 豆泥 - Matters cover illustration (matters, privilege, imported,
+  我眼中的)
+contentHash: '0x6f91449236ba8c609c8687f866590e3865a075bca00e106293296c25e4fd2a86'
+signature: >-
+  0x542e9584748d18a9aa30105b7467e73c0ada8f25bd0a057407fe19cbb32d950511af428fd2b8b8cbf1e4ee9834d8b43fe941ada719e419c4c9bf31c132da39211c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/vhzitynih7lr](https://matters.town/a/vhzitynih7lr)
 

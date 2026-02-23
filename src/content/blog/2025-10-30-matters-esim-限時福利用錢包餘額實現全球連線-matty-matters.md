@@ -1,13 +1,22 @@
 ---
-title: "Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters"
-description: "來源：https://matters.town/a/pd5qrqglkb4u Matters eSIM 限時福利｜用錢包餘額實現全球連線 對於習慣跨境移動的你，網路連線早已不只是…"
-pubDate: "2025-10-30T02:00:00.000Z"
+title: Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters
+description: >-
+  來源：https://matters.town/a/pd5qrqglkb4u Matters eSIM 限時福利｜用錢包餘額實現全球連線
+  對於習慣跨境移動的你，網路連線早已不只是…
+pubDate: '2025-10-30T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
-cover: "images/covers/home/2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.jpg"
-coverAlt: "Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters cover illustration (esim, matters, customer, 使用你的)"
+  - matters
+  - imported
+category: matters
+cover: images/covers/home/2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.jpg
+coverAlt: >-
+  Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters cover illustration (esim,
+  matters, customer, 使用你的)
+contentHash: '0xdd41bf9f0ac714c929d9fd0351abf5a0d1f497da6f412e5f8fa12caa650bbe27'
+signature: >-
+  0xf82b7a24cf5e7af928260bdb731ef35236b1a44e4766f95a8ae672114f17d04414e3c3ade7f812a100be24583c3fe7a73411a0e0ed2f1c70f66608d570ac0ef41c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/pd5qrqglkb4u](https://matters.town/a/pd5qrqglkb4u)
 

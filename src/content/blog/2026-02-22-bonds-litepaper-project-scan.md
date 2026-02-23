@@ -1,14 +1,19 @@
 ---
-title: "有備而來（Bond）專案掃描：互動網站與 Litepaper 重點整理"
-description: "針對 bonds.tw 與 blog.bonds.tw/litepaper 的內容做快速掃描，整理專案定位、研究脈絡、技術方向與目前進度。"
-pubDate: "2026-02-22T11:50:00+08:00"
+title: 有備而來（Bond）專案掃描：互動網站與 Litepaper 重點整理
+description: 針對 bonds.tw 與 blog.bonds.tw/litepaper 的內容做快速掃描，整理專案定位、研究脈絡、技術方向與目前進度。
+pubDate: '2026-02-22T11:50:00+08:00'
 tags:
-  - "公共網路"
-  - "治理與民主"
-  - "AI與科技"
-category: "blog"
-cover: "images/covers/home/2026-02-22-bonds-litepaper-og-image.jpg"
-coverAlt: "Bond 有備而來專案主視覺"
+  - 公共網路
+  - 治理與民主
+  - AI與科技
+category: blog
+cover: images/covers/home/2026-02-22-bonds-litepaper-og-image.jpg
+coverAlt: Bond 有備而來專案主視覺
+contentHash: '0x76d8dd5ee452d25963f4c4f19bf97b395bd751f1d62af7786e0ca2e270e10a2d'
+signature: >-
+  0xe8ee4c0ba9fc6548991e7d056c7789da28291afb6497e06a43a123706c25cbc50bae076ebc6b1508802be290e915b580bf81756f77780305464b011f071887b81b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 來源網站：

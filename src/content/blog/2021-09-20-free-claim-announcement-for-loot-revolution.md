@@ -1,11 +1,18 @@
 ---
-title: "Free Claim announcement for Loot Revolution"
-description: "A declaration of the NFT project for free will, social movement and memento. ***Final ann…"
-pubDate: "2021-09-20T02:00:00.000Z"
+title: Free Claim announcement for Loot Revolution
+description: >-
+  A declaration of the NFT project for free will, social movement and memento.
+  ***Final ann…
+pubDate: '2021-09-20T02:00:00.000Z'
 tags:
-  - "NFT"
-  - "AI與科技"
-category: "blog"
+  - NFT
+  - AI與科技
+category: blog
+contentHash: '0x1c13b8e60f4101a97d3a81b468349a15972bf4c078c40689d0ee3b10a0cde66e'
+signature: >-
+  0x1b96c1e3476627f13d30d501ed73b1ef74eed95442046842b255e28d7e9a38894df3845288f9d39e5ced3021d78c310250f88979bee21cac91dbd920451dff3d1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# protest](https://matters.town/tags/1325-protest)
 +   [# hongkong](https://matters.town/tags/46931-hongkong)

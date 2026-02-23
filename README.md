@@ -184,7 +184,49 @@ npm run lint           # check + format check
 
 ---
 
-## 10. Jekyll 遷移
+## 10. Web3（Sprint 1）
+
+### 10.1 必要環境變數
+
+```bash
+PUBLIC_TIP_ENS_NAME=mashbean.eth
+PUBLIC_SIGNER_ENS_NAME=signer.mashbean.eth
+PUBLIC_WEB3_RPC_URL=https://mainnet.infura.io/v3/<your-key>
+PUBLIC_WEB3_CHAIN_ID=1
+```
+
+說明：
+- 缺少上述變數時，建置會在文章頁階段直接失敗並給出明確錯誤。
+- `PUBLIC_WEB3_RPC_URL` 建議使用穩定的主網 RPC provider。
+- `PUBLIC_SIGNER_ENS_NAME` 可省略；省略時會回退為 `PUBLIC_TIP_ENS_NAME`（主網域親簽模式）。
+- 建議使用 `signer.mashbean.eth` 這類子網域作為授權簽名地址，避免主資產地址私鑰直接暴露。
+
+### 10.2 文章簽名（離線）
+
+簽名前請先設定：
+
+```bash
+WEB3_SIGNER_PRIVATE_KEY=0x...
+```
+
+指令：
+
+```bash
+npm run sign:posts -- --dry-run          # 試跑，不寫檔
+npm run sign:posts -- --file \"2026-02-22-bonds-litepaper-project-scan.md\"  # 簽單篇
+npm run sign:posts                        # 全部簽名並回填 frontmatter
+npm run sign:posts:check                  # 檢查哪些文章尚未簽名
+```
+
+Frontmatter 簽名欄位：
+- `contentHash`
+- `signature`
+- `signer`
+- `signatureVersion`
+
+---
+
+## 11. Jekyll 遷移
 
 若你有舊 Jekyll `_posts`，可用：
 
@@ -202,7 +244,7 @@ npm run migrate:posts -- --source <jekyll_posts_dir> --dest src/content/blog
 
 ---
 
-## 11. 給 AI/Codex 的協作規則
+## 12. 給 AI/Codex 的協作規則
 
 建議 AI 先讀這些檔案再動手：
 
@@ -220,7 +262,7 @@ npm run migrate:posts -- --source <jekyll_posts_dir> --dest src/content/blog
 
 ---
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 
 ### Q1. 為什麼很多 Actions 是 cancelled？
 
@@ -249,8 +291,7 @@ npm install
 
 ---
 
-## 13. 授權
+## 14. 授權
 
 - 程式碼：依本 repo 授權設定
 - 文章內容：本站文章採 CC BY-NC 4.0（姓名標示-非商業性）
-

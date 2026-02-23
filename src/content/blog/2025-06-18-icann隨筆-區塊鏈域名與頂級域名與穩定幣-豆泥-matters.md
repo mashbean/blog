@@ -1,11 +1,16 @@
 ---
-title: "ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？ - 豆泥 - Matters"
-description: "來源：https://matters.town/a/gnw9mvy3x88o ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？"
-pubDate: "2025-06-18T02:00:00.000Z"
+title: ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？ - 豆泥 - Matters
+description: '來源：https://matters.town/a/gnw9mvy3x88o ICANN隨筆 — 區塊鏈域名與頂級域名...與穩定幣？'
+pubDate: '2025-06-18T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x7bf1cff1fbe80ac9ae77ab95c8a97b8702c97df274b64a6a186e442b44529249'
+signature: >-
+  0xef7168bb3286b2efae3eed42248427262d50fa54bb2bf61103520f41f50ca4b56d379ae3281e81c7f1fb1cd8a8d605546f755c2c4372256922d44a695c6fda441c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/gnw9mvy3x88o](https://matters.town/a/gnw9mvy3x88o)
 

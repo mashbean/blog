@@ -1,11 +1,16 @@
 ---
-title: "光明燈 NFT｜Treasury DAO"
-description: "參展寶藏巖光節，邀請你一起來場信任遊戲。"
-pubDate: "2022-03-17T02:00:00.000Z"
+title: 光明燈 NFT｜Treasury DAO
+description: 參展寶藏巖光節，邀請你一起來場信任遊戲。
+pubDate: '2022-03-17T02:00:00.000Z'
 tags:
-  - "NFT"
-  - "數位藝術"
-category: "blog"
+  - NFT
+  - 數位藝術
+category: blog
+contentHash: '0xa91489307f4217e7fe4210f96e8985fe2b6cd290f9a3035c79866ec7d530b52b'
+signature: >-
+  0x6a664e3da7068eea15d4189a4ea17e02d24e29f884f3dda5f430b02939d81b315fe0cd047732895a55b1c7385973a90ccde2100b2ab3455bba270c9237c288aa1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# 藝術](https://matters.town/tags/1841-%E8%97%9D%E8%A1%93)
 +   [# 信任](https://matters.town/tags/760-%E4%BF%A1%E4%BB%BB)

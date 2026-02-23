@@ -1,11 +1,18 @@
 ---
-title: "Loot Revolution"
-description: "An NFT proposal for free, for freedom, to demo, to democracy. *by Yu-Ren Wang, Mashbean*…"
-pubDate: "2021-09-12T02:00:00.000Z"
+title: Loot Revolution
+description: >-
+  An NFT proposal for free, for freedom, to demo, to democracy. *by Yu-Ren Wang,
+  Mashbean*…
+pubDate: '2021-09-12T02:00:00.000Z'
 tags:
-  - "NFT"
-  - "AI與科技"
-category: "blog"
+  - NFT
+  - AI與科技
+category: blog
+contentHash: '0xcc1e89858965033af6e9551267db6c2e3c3b427c6c42df122a398b5225fa8fed'
+signature: >-
+  0x6fb5dfe9c4fb0b1c0ab401bec8f575364aec7699789a8c871bd35f5e36dcf88a41ded1056d8ea2ca046b95df2934c0ae750e10f1c0c06eb3e649a0e89347f0251c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# #Blockchain](https://matters.town/tags/64609-Blockchain)
 +   [# 區塊鏈](https://matters.town/tags/2277-%E5%8D%80%E5%A1%8A%E9%8F%88)

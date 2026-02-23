@@ -1,11 +1,18 @@
 ---
-title: "去中心身分（DID）標準制定組織（SDO）總覽 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/re2j91fedsrz 去中心身分（DID）標準制定組織（SDO）總覽 這半年掉進了去中心身分（Decetralised I…"
-pubDate: "2024-05-21T02:00:00.000Z"
+title: 去中心身分（DID）標準制定組織（SDO）總覽 - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/re2j91fedsrz 去中心身分（DID）標準制定組織（SDO）總覽
+  這半年掉進了去中心身分（Decetralised I…
+pubDate: '2024-05-21T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xe16922acb00ef67cefb35690ef2e10b10f4d8d97a9d0244549eaa0d605774dae'
+signature: >-
+  0x2a5c4a340d2d28ac09b43521ed69288973ba6ac20743d7b7e10fdd73224c8cac0351a2beb23c9b757f42fd2a15f7bb5604fe707ca8548fe2d777c739df37b9ef1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/re2j91fedsrz](https://matters.town/a/re2j91fedsrz)
 

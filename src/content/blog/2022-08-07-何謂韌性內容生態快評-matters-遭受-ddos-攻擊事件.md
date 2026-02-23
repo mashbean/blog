@@ -1,11 +1,16 @@
 ---
-title: "何謂韌性內容生態？快評 Matters 遭受 DDOS 攻擊事件"
-description: ">Matters 的韌性內容生態，成功抵禦裴洛西訪台期間的駭客攻擊。"
-pubDate: "2022-08-07T02:00:00.000Z"
+title: 何謂韌性內容生態？快評 Matters 遭受 DDOS 攻擊事件
+description: '>Matters 的韌性內容生態，成功抵禦裴洛西訪台期間的駭客攻擊。'
+pubDate: '2022-08-07T02:00:00.000Z'
 tags:
-  - "公共網路"
-  - "AI與科技"
-category: "blog"
+  - 公共網路
+  - AI與科技
+category: blog
+contentHash: '0x8e0c4c72c1fdb7191fcf90da1d4de3130775d1c2279f6135b6b0920e8ec099ea'
+signature: >-
+  0xc1d58b122695ca1035bd9d0ac4a638c84b710af329cc6d1c4e75447fe46dfdb222f574ef5a6b321ace3b1e8f5fd6cc2227f8f383ef0d339474270d230568291c1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# 韌性](https://matters.town/tags/25753-%E9%9F%8C%E6%80%A7)
 +   [# ddos](https://matters.town/tags/31623-ddos)

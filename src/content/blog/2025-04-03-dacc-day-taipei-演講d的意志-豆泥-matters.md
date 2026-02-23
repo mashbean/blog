@@ -1,11 +1,18 @@
 ---
-title: "d/acc day Taipei 演講：D的意志 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/5cy949h9w8on d/acc day Taipei 演講：D的意志 大家好，我是 mashbean。"
-pubDate: "2025-04-03T02:00:00.000Z"
+title: d/acc day Taipei 演講：D的意志 - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/5cy949h9w8on d/acc day Taipei 演講：D的意志 大家好，我是
+  mashbean。
+pubDate: '2025-04-03T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xc13a4951c7ee6ba3fb59b99f9c7877f00e26cb417013731e56f794776fcf5c27'
+signature: >-
+  0xac3af248e3943f772216b44f86ab723e413953c837e7087c43a4aee0e79b7216110cdf875acd9d545cf20429a6364a17d75c2a0365430a486f15a901e29d02581b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/5cy949h9w8on](https://matters.town/a/5cy949h9w8on)
 

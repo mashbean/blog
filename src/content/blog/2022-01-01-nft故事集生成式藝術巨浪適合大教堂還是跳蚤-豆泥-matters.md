@@ -1,11 +1,16 @@
 ---
-title: "NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/2sa4j4xh0oos NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤市集？"
-pubDate: "2022-01-01T02:00:00.000Z"
+title: NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤… - 豆泥 - Matters
+description: '來源：https://matters.town/a/2sa4j4xh0oos NFT故事集：生成式藝術巨浪，適合大教堂還是跳蚤市集？'
+pubDate: '2022-01-01T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xc15a237ecd15fc3b71f3f52497ca4b4291d0071401d56431652ae87bce591ec5'
+signature: >-
+  0xb0054dd6e2ef04c8b514a30f5531bfe86f33f79efd70cf57f2bfcc29763e15ea4469b4d73cf5dae9f0b8bb494336476b00d8a0f86ed9fb468d2c5bac664ff2881b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/2sa4j4xh0oos](https://matters.town/a/2sa4j4xh0oos)
 

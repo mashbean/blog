@@ -1,11 +1,16 @@
 ---
-title: "我們如何鑄造光？＿NFT 如何成為美術群眾參與的新… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/mdkyaniiloh3 我們如何鑄造光？"
-pubDate: "2022-06-07T02:00:00.000Z"
+title: 我們如何鑄造光？＿NFT 如何成為美術群眾參與的新… - 豆泥 - Matters
+description: '來源：https://matters.town/a/mdkyaniiloh3 我們如何鑄造光？'
+pubDate: '2022-06-07T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xea490942311b9bbec30eaee4b8ca39f832481ceb87493b9ee978f41db01eb2eb'
+signature: >-
+  0x2d24def68ab7b198e674e2e3a9dcd1c0d6ee2ab44f6f3fcc48f18a97cde302965e146228d505fb5336e11ab5d963368a0e1438f9c7ba67f771be487d5079d4501c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/mdkyaniiloh3](https://matters.town/a/mdkyaniiloh3)
 

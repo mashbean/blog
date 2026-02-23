@@ -1,11 +1,18 @@
 ---
-title: "[譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin - 豆泥 - Matters"
-description: "來源：https://matters.town/a/hv0vnqm5vkq7 [譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin 作者：Vitali…"
-pubDate: "2025-01-07T02:00:00.000Z"
+title: '[譯文] 一年後再論D加速主義（d/acc）by Vitalik Buterin - 豆泥 - Matters'
+description: >-
+  來源：https://matters.town/a/hv0vnqm5vkq7 [譯文] 一年後再論D加速主義（d/acc）by Vitalik
+  Buterin 作者：Vitali…
+pubDate: '2025-01-07T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x94b87b5b4738b36553cb5410b2da67d95de20482adddeafbb7482f4e11837212'
+signature: >-
+  0xfb89c76c4f1ca5bd1bcdaa0248ba2f10deb904f3ee09ef4b40b066aed513af8952f04c58d8fac4f18b29f3ef02abe50f176b0bc452c5dceabeec1d3e8fec4f251c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/hv0vnqm5vkq7](https://matters.town/a/hv0vnqm5vkq7)
 

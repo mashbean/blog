@@ -1,0 +1,161 @@
+---
+import { ethers } from "ethers";
+import type { EnsResolution } from "@/utils/ens";
+
+interface Props {
+  ensName: string;
+  chainId: number;
+  ens: EnsResolution;
+}
+
+const { ensName, chainId, ens } = Astro.props;
+
+const tipAddress = ens.resolvedAddress ?? ensName;
+const tipAmounts = ["0.001", "0.01"];
+
+const toEip681 = (valueEth: string): string => {
+  const valueWei = ethers.utils.parseEther(valueEth).toString();
+  return `ethereum:${tipAddress}@${chainId}?value=${valueWei}`;
+};
+
+const primaryPaymentURI = toEip681(tipAmounts[1]);
+const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPaymentURI)}&size=240`;
+---
+
+<section class="tip-jar" aria-label="打賞">
+  <h2>請我喝咖啡</h2>
+  <p class="tip-jar-line">
+    ENS：<code>{ensName}</code>
+    {ens.isVerified ? <span class="tip-verified">Verified ENS</span> : <span class="tip-warning">Unverified ENS</span>}
+  </p>
+  <p class="tip-jar-line">
+    地址：<code class="tip-address" id="tip-resolved-address">{tipAddress}</code>
+  </p>
+  {
+    ens.reverseName && (
+      <p class="tip-jar-line tip-subtle">reverse: {ens.reverseName}</p>
+    )
+  }
+  {
+    ens.error && (
+      <p class="tip-jar-line tip-warning">ENS 解析異常：{ens.error}</p>
+    )
+  }
+
+  <div class="tip-actions">
+    {tipAmounts.map((amount) => (
+      <a class="tip-pay-link" href={toEip681(amount)}>
+        打賞 {amount} ETH
+      </a>
+    ))}
+    <button type="button" class="tip-copy-btn" data-copy-target="#tip-resolved-address">複製地址</button>
+  </div>
+
+  <a class="tip-qr-link" href={primaryPaymentURI} aria-label="打開錢包付款請求">
+    <img src={qrUrl} alt="打賞付款 QR code" width="180" height="180" loading="lazy" decoding="async" />
+  </a>
+</section>
+
+<script is:inline>
+  const copyBtn = document.querySelector(".tip-copy-btn");
+  copyBtn?.addEventListener("click", async () => {
+    if (!(copyBtn instanceof HTMLButtonElement)) return;
+    const target = document.querySelector(copyBtn.dataset.copyTarget || "");
+    if (!(target instanceof HTMLElement)) return;
+
+    const before = copyBtn.textContent;
+    try {
+      await navigator.clipboard.writeText(target.innerText.trim());
+      copyBtn.textContent = "已複製";
+    } catch {
+      copyBtn.textContent = "複製失敗";
+    }
+
+    window.setTimeout(() => {
+      copyBtn.textContent = before || "複製地址";
+    }, 1200);
+  });
+</script>
+
+<style>
+  .tip-jar {
+    margin-top: 2rem;
+    border: 1px solid #c8d9d3;
+    border-radius: 0.95rem;
+    background: #f5fbf9;
+    padding: 1rem;
+  }
+
+  .tip-jar h2 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+
+  .tip-jar-line {
+    margin: 0.55rem 0 0;
+    font-size: 0.92rem;
+    color: #2b3f48;
+  }
+
+  .tip-subtle {
+    color: #5c6e78;
+  }
+
+  .tip-verified,
+  .tip-warning {
+    margin-left: 0.45rem;
+    font-size: 0.74rem;
+    padding: 0.08rem 0.42rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+  }
+
+  .tip-verified {
+    color: #0d5d51;
+    background: #d7f2ec;
+    border-color: #9fddd1;
+  }
+
+  .tip-warning {
+    color: #9a5600;
+    background: #fff3de;
+    border-color: #e9c78f;
+  }
+
+  .tip-address {
+    word-break: break-all;
+  }
+
+  .tip-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 0.9rem;
+  }
+
+  .tip-pay-link,
+  .tip-copy-btn {
+    border: 1px solid #0b7d6d;
+    border-radius: 999px;
+    padding: 0.4rem 0.78rem;
+    background: #0b7d6d;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.86rem;
+    cursor: pointer;
+  }
+
+  .tip-copy-btn {
+    background: #f5fbf9;
+    color: #0b7d6d;
+  }
+
+  .tip-qr-link {
+    margin-top: 0.85rem;
+    display: inline-block;
+    border: 1px solid #d1dfdb;
+    border-radius: 0.8rem;
+    padding: 0.45rem;
+    background: #fff;
+  }
+</style>

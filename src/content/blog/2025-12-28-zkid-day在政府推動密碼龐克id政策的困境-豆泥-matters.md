@@ -1,13 +1,22 @@
 ---
-title: "zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/ehku76i9wdoc zkID Day：在政府推動密碼龐克ID政策的困境 在政府推動密碼龐克ID政策的困境 The Har…"
-pubDate: "2025-12-28T02:00:00.000Z"
+title: zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/ehku76i9wdoc zkID Day：在政府推動密碼龐克ID政策的困境
+  在政府推動密碼龐克ID政策的困境 The Har…
+pubDate: '2025-12-28T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
-cover: "images/covers/home/2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.jpg"
-coverAlt: "zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters cover illustration (digital, identity, 因此, 然而)"
+  - matters
+  - imported
+category: matters
+cover: images/covers/home/2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.jpg
+coverAlt: >-
+  zkID Day：在政府推動密碼龐克ID政策的困境 - 豆泥 - Matters cover illustration (digital,
+  identity, 因此, 然而)
+contentHash: '0x9af8c3400c712e0e92fc73e94885d8f0ef361d856c868860cdc9d1c80f1ee2e3'
+signature: >-
+  0xd10b96fdd59428786f6abd542c1b9c8dffe9218049be8fc6a12810c7583dcd5b521dfb89d2b1d727759e32c04d5bdb2edee92f679ca08208239221ff90ffa50a1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/ehku76i9wdoc](https://matters.town/a/ehku76i9wdoc)
 

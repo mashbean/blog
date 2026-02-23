@@ -1,11 +1,16 @@
 ---
-title: "為何 NFT 這麼多 Pixel Art？"
-description: "像素藝術除了已成為 NFT 世界的文化迷因，也先天適合成為 web3 原生的互動媒介。"
-pubDate: "2022-03-31T02:00:00.000Z"
+title: 為何 NFT 這麼多 Pixel Art？
+description: 像素藝術除了已成為 NFT 世界的文化迷因，也先天適合成為 web3 原生的互動媒介。
+pubDate: '2022-03-31T02:00:00.000Z'
 tags:
-  - "數位藝術"
-  - "NFT"
-category: "blog"
+  - 數位藝術
+  - NFT
+category: blog
+contentHash: '0xf4304404f10f643dd56f84cb17cad0eb1e01dc0f2391145a68ef47e6fb5bd1f2'
+signature: >-
+  0x54e2a140e5621b7ce624607f139dadc76f342ef1e52d8685a89061571b4843c72aa78d882ed220d45d302979f9a1c0e4aa8bd6d375f037e3b172ca83215a71141c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 +   [# pop](https://matters.town/tags/102023-pop)
 +   [# NFT](https://matters.town/tags/7990-NFT)

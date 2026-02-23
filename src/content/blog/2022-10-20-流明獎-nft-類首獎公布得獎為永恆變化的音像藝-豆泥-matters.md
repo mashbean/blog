@@ -1,11 +1,18 @@
 ---
-title: "流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝… - 豆泥 - Matters"
-description: "來源：https://matters.town/a/a4vy3dd9f6j6 流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝術 流明獎 NFT 類首獎公布，得獎類型為音像藝術。"
-pubDate: "2022-10-20T02:00:00.000Z"
+title: 流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝… - 豆泥 - Matters
+description: >-
+  來源：https://matters.town/a/a4vy3dd9f6j6 流明獎 NFT 類首獎公布，得獎為永恆變化的音像藝術 流明獎 NFT
+  類首獎公布，得獎類型為音像藝術。
+pubDate: '2022-10-20T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0x9417fe2bbc0be71d69069f41192173523b804101f13b6ed7d06698e1a8af1faa'
+signature: >-
+  0x3b9b10b191b32f2c37591600ceab8ea853a2833d9a52c5f79bb22e23f40c9b3d32221f4a2511a923e37b8182a4aa17d74e0f49e372591cfc62cd3e1a2a59972f1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/a4vy3dd9f6j6](https://matters.town/a/a4vy3dd9f6j6)
 

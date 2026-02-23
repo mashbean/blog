@@ -1,11 +1,18 @@
 ---
-title: "[譯文] 日本平方資助實驗啟動 by 高木俊輔 - 豆泥 - Matters"
-description: "來源：https://matters.town/a/5r6bjckrexyx [譯文] 日本平方資助實驗啟動 by 高木俊輔 原文在 Substack 於 2024 年 7 月…"
-pubDate: "2024-07-20T02:00:00.000Z"
+title: '[譯文] 日本平方資助實驗啟動 by 高木俊輔 - 豆泥 - Matters'
+description: >-
+  來源：https://matters.town/a/5r6bjckrexyx [譯文] 日本平方資助實驗啟動 by 高木俊輔 原文在 Substack 於
+  2024 年 7 月…
+pubDate: '2024-07-20T02:00:00.000Z'
 tags:
-  - "matters"
-  - "imported"
-category: "matters"
+  - matters
+  - imported
+category: matters
+contentHash: '0xa48534e7172ec24cfb9d3b56e67caec6780849f936df4e6d605ac2901985c4ed'
+signature: >-
+  0x6773b9ec30dc528ea2a13e9d8b8086a160213ede27a7b79b7ccc4ec69b916a810e8352b915efaf201df00521eede40d1e710b60f0ddb23276b237b616b3f31691b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 來源：[https://matters.town/a/5r6bjckrexyx](https://matters.town/a/5r6bjckrexyx)
 
