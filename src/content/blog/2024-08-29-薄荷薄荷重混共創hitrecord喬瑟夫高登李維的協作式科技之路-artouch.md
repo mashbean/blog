@@ -6,9 +6,88 @@ tags:
   - "薄荷薄荷專欄"
 category: "blog"
 ---
+
 ## 內文
 
-本文為外部文章索引，原文發表於 ARTouch 薄荷薄荷專欄。
+> 本文同步自 ARTouch 薄荷薄荷專欄，已保留原始段落與圖片。
+> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-153243.html](https://artouch.com/artouch-column/mintmint-column/content-153243.html)
 
-- 原文標題：【薄荷薄荷】重混、共創、HITRECORD——喬瑟夫高登李維的協作式科技之路
-- 原文連結：[前往閱讀](https://artouch.com/artouch-column/mintmint-column/content-153243.html)
+<blockquote><p><em><strong>如果你甚至不知道你的合作者是誰，那該怎麼辦？你還能為他們創作藝術嗎？這正是我們多年來在HITREC●RD上進行的實驗。這或許是並非正道，但想像一下，你正在創作藝術。你問自己，這件藝術作品是為誰而做的？通常你會想像一名被動的觀眾，他們唯一的反應是喜歡或不喜歡這個作品。但這次你可以想像成另一位藝術家，你可能認識他，也可能不認識他，他是一位尋找靈感的人，他可能會接受你創作的內容，並在此基礎上進一步發展，或者將其融入他自己的其他作品中。</strong></em></p><cite><em>——《你的藝術是為你而做，還是為他們而做？》（Is your art for YOU or THEM?，喬瑟夫．高登．李維，2023）</em></cite></blockquote>
+
+<h3>穿著「最後書店」字樣T恤的男人造訪西門町獨立書店</h3>
+
+<p>月初平常日晚上，探究科技民主網絡的讀書會<a href="https://www.facebook.com/groups/573558949800911">「web3 for all」</a>於西門町獨立書店<a href="https://nowherebookstore.io">飛地書店</a>（Nowhere Bookstore）舉辦，這一次由經濟學者衛谷倫（Glen Weyl）現身討論他與唐鳳共同著作的書籍<a href="https://www.plurality.net/chapters/">《多元宇宙》</a>（Plurality）。整本書除了討論協作式技術與民主的未來，其成書方式也是以全球志願者協作書寫而成，頗有自身實踐的意味。</p>
+
+<p>由於這是第二次討論這本書，所以氣氛格外輕鬆。衛谷倫在鵝黃色的燈光下一邊吃著鹹酥雞，一邊分享他眼中的台灣。此時他邀請一名朋友分享他最近做的專案。這位朋友穿著洛杉磯獨立書店<a href="https://www.lastbookstorela.com">「最後書店」</a>（The Last Bookstore）的紀念T恤，戴著丹寧色鑲有LA字樣的棒球帽，舒舒服服地坐在書店角落的沙發。他說他叫做Joe，在洛杉磯開了一間人人都能參與的協作式製作公司，名為<a href="https://hitrecord.org/posts/6736429">HITREC</a><a href="https://hitrecord.org/posts/6736429">●</a><a href="https://hitrecord.org/posts/6736429">RD</a>。</p>
+
+<p>過了好一會兒我才意會過來，原來這位Joe，就是好萊塢演員喬瑟夫．高登．李維（Joseph Gordon-Levitt），曾經主演「戀夏五百日」（2009）、「全面啟動」（2010），執導《超急情聖》（2013）。不過今天喬瑟夫跟我們分享的不是演員的那一面，而是HITREC●RD成立20年來的故事。</p>
+
+<p><strong>延伸閱讀｜</strong><a href="https://artouch.com/artouch-column/yszhang-column/content-126877.html">【張寶成專欄】Web3本來就是for all的：我的社群經歷（之一）</a></p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/08/153243-1.jpeg" alt="" /><figcaption>web3 for all讀書會於飛地書店舉行。（攝影／Liying Wang）</figcaption></figure>
+
+<h3>群眾撐群眾，《失落在臺灣》、《民主，你在嗎？我是網路》與《香港不沈睡》</h3>
+
+<p>或許臺灣人（與香港人）對HITREC●RD並不陌生。四年前在疫情期間，喬瑟夫曾經在臉書上<a href="https://www.facebook.com/JoeGordonLevitt/posts/3596001717090133">發文</a>募集臺灣的影像，說要來剪成一齣集體共創的短片，以宣傳臺灣，被譽為暖男。當時這篇貼文獲得3.4萬個讚與五千多分享，許多臺灣政要名人也紛紛於文下留言。這篇貼文後來剪成了150秒鐘的<a href="https://hitrecord.org/records/4880341">《迷失在台灣》</a>（Lost In Taiwan），由114項「資源」（Resources）匯集而成。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/08/153243-2.jpeg" alt="" /><figcaption>四年前在疫情期間，喬瑟夫曾經在臉書上發文募集臺灣的影像，說要來剪成一齣集體共創的短片，以宣傳臺灣。（圖片截自喬瑟夫的<a href="https://www.facebook.com/JoeGordonLevitt/posts/3596001717090133">臉書文章</a>）</figcaption></figure>
+
+<p>「資源」是HITREC●RD對所有多媒體素材的名稱，所有人都能於平台上傳文字、影像、影片、音樂、朗讀等，而所上傳的內容，都必須要可以被其他人拿來「重混」（Remixes）。「資源」加上「重混」，構成了HITREC●RD的主要架構。而所有使用「資源」的過程，都以「讚許」（Credits）串連，構成了一連串清晰明白的產銷履歷。你可以從每一段完成的內容中，藉由「讚許」回溯每一段零件，甚至包含配音、劇本與剪紙動畫的初始設定集。</p>
+
+<p>在這個平台裡，所有人都被鼓勵使用別人的貢獻，並且重混出更具有創意的內容。這裡只有「引用」，沒有「抄襲」，這是因為HITREC●RD將分潤機制有效落實。如果一部影片因為販售而產生利潤（畢竟這個平台同時也是製作公司），相關收益就會回到所有參與的貢獻者身上（詳細機制可參考此影片<a href="https://hitrecord.org/records/3565193">HITRECORD and Money</a>，目前已支付給創作者超過300萬美元的酬勞）。</p>
+
+<p>譬如於2014年開播的美國電視綜藝節目<a href="https://hitrecord.org/season1boxset">《HitRecord on TV》</a>，喬瑟夫將每一集約150萬新台幣的片酬，回饋於參與共創的貢獻者上面，第一季第一集共有426名貢獻者。這個節目共兩季，是一個具有商業模式的大規模群眾共創節目。此外，喬瑟夫使用了這個協作模式，與美國公民自由聯盟（American Civil Liberties Union, ACLU）共創了短片集<a href="https://hitrecord.org/season1boxset">《民主，你在嗎？我是網路》</a>（Are You There, Democracy? It’s Me, the Internet.），獲得了艾美獎2017年傑出<a href="https://www.emmys.com/shows/hitrecord-x-aclu-are-you-there-democracy-its-me-internet">原創類互動企劃獎</a>（Outstanding Original Interactive Program）提名。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/08/153243-3.jpeg" alt="" /><figcaption>《民主，你在嗎？我是網路》於HITRECORD頁面，可以看到「資源」與「重混」的使用狀態。當然，你可以在平台上面看完整部短片；當然，你也可以再拿它來Remix！目前就有21個使用者再拿它來Remix。（圖片截自<a href="https://hitrecord.org/season1boxset">HITRECORD頁面</a>）</figcaption></figure>
+
+<p>而喬瑟夫也在2020年<a href="https://www.facebook.com/JoeGordonLevitt/posts/3779924335364536">發文</a>，號召全球人士朗誦或提供素材，集體創作<a href="https://hitrecord.org/records/5120862">《香港不沈睡》</a>（Hong Kong Never Sleeps，<a href="https://www.facebook.com/watch/?v=1695334970636472">喬瑟夫臉書影片</a>）。誠然在HITREC●RD平台上，你可以看到許多城市朗誦的專案正在進行，香港只是其中一座。但由於這是一個集體創作專案，時間點又在2019香港反修例運動後一年，共創的動能由香港在地人、海外聲援者與觀光人士之刻板印象揉雜而成，形成一段奇妙的100秒影片。這相當於一種集體意志的展現。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/08/153243-4.jpeg" alt="" /><figcaption>《香港不沈睡》的片尾畫面，可以看到完整的Credits。（圖片截自<a href="https://hitrecord.org/records/5120862">HITRECORD頁面</a>）</figcaption></figure>
+
+<h3>二十年共創演化史，從網路佈告欄到集體創作</h3>
+
+<p>迷因是人類的固有超能力，而隨著影音媒介成為日常生活的一部分，迷因自然橫流於影音平台之中。在Instagram短影音，你可以很簡單的使用爆紅的迷因音樂，搭配自己的舞步；在Youtube網紅世界，你可以看到許多業餘樂手將自己的演奏套在別人的表演上面，稱為一個非同步演奏大會；而在抖音，甚至流行交叉使用矩陣號播送內容，以提升影響力的做法。</p>
+
+<p>重混、再創作與二次剪輯如今已是網紅常見的創作形式，一方面是剪輯軟體技術的成熟，二是完美扣合了社群平台的注意力經濟需求。在社群平台上生存，創作者必須追求演算法紅利，演算法的設定目標是為了最大化的留下閱聽人。這是一種「人人為我」（All for one）的特徵，在博眼球為第一要務的世界，世界便走向表演、極化與成癮的方向。</p>
+
+<p>相形之下，HITREC●RD的介面反而略顯老派，彷彿是Web1.0時代的產物。但是別忘了，HITREC●RD在2010年代初期便進行各種大規模共創的平台，當時尚未有抖音，Instagram才剛起步而已。事實上HITREC●RD早在2004年便已經成立，這是真正的Web1.0網路佈告欄時期的產物。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/08/153243-5.jpeg" alt="" /><figcaption>web1時期，第一個版本的HITRECORD頁面。（圖片截自HITRECORD官網）</figcaption></figure>
+
+<p>當時喬瑟夫尚未成為全球明星，更像是日本動畫《我推的孩子》中的過氣童星有馬佳奈。在長大成人、從童星演出轉型的過程中，喬瑟夫與哥哥索性成立了自己的網路佈告欄hitrecord.org，將自己想演的內容自己上傳，讓其他人可以看到。</p>
+
+<blockquote><p><strong><em>那時候「按下錄影」（HITRECORD）只是我一遍遍講的口號。鼓勵自己不要再等待貴人，讓我出演他們的電影。我應該為自己發表新點子的管道負責。我喜歡圓形紅色</em>●<em>REC的按鈕符號，按下它就是開始、冒險、克服自我懷疑、表達自我、創作藝術。</em></strong></p></blockquote>
+
+<p>後來喬瑟夫就成為了好萊塢電影裡的形象，而HITREC●RD持續發展。成立三年後，2007年HITREC●RD才有了留言板的功能。留言板誕生了友善且跨國的協作雛形，在2010年HITREC●RD登記成為了協作式的製作公司，出品了書籍、唱片、DVD作品、於影展放映的實驗短片，甚至是賣座的大眾電影。</p>
+
+<p>所有的人都可以於其上創作，這是一個自製內容（User Generated Content）平台的基進版。喬瑟夫認為，社群平台不應該是讓你有滑不完的影片，而要有讓你願意參與充滿趣味的創作專案，繼而從中取得滿足感。這便是一種協作式的科技，是反向於演算法的，而是讓使用者成為創作者，並成為一種「我為人人」（One for all）的集體創作。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/08/153243-6.jpeg" alt="" /><figcaption>喬瑟夫認為，社群平台不應該是讓你有滑不完的影片，而要有讓你願意參與充滿趣味的創作專案，繼而從中取得滿足感。這便是一種協作式的科技，是反向於演算法的，而是讓使用者成為創作者，並成為一種「我為人人」（One for all）的集體創作。（圖片截自HITRECORD介紹影片）</figcaption></figure>
+
+<p>這不是一場競賽，而是一場合作（#3），並且鼓勵重混（#2）。</p>
+
+<p>上述是HITREC●RD於2020年推出的社群<a href="https://hitrecord.org/records/4560401">九個核心價值</a>之二，這甚至也是由參與者共筆、共治而成，它沒有使用任何先進的治理工具，如區塊鏈、電子投票、多重簽署等等，卻讓共創成為可能。這一方面有賴演員喬瑟夫的長期貢獻，一方面也有賴平台經營者喬瑟夫退入二線的經營。</p>
+
+<h3>多元宇宙精神，有效利他主義者的社群賦權行動</h3>
+
+<blockquote><p><em><strong>我相信並且希望，新技術將使媒體不再只是幾家壟斷的製作公司，賣產品給躺平的沙發馬鈴薯觀眾，而是讓媒體更在意從下而上的參與式生態系，讓人人都可以參與。</strong></em></p></blockquote>
+
+<p>與喬瑟夫一起打造HITREC●RD的哥哥於2010年過世了，不過喬瑟夫認為他哥哥應該會為目前這個平台的模樣——整個社群由下而上的共創模式，感到開心。創立了20年，HITREC●RD從web1過渡到了web2的巨型平台時代，又再到了web3的使用者自主時代，時代沒有遠離HITREC●RD，而是更湊近了喬瑟夫一點。</p>
+
+<p>多元宇宙精神強調透過科技工具，啟發人與人之間的創造力與協調性，社會為了可乘載這種創造力而逐漸演化成包容且協商的模樣。自詡為有效利他主義者（Effective Altruism，註）的喬瑟夫，穿梭於大眾市場與實驗作品之間，於巨型製作與自製內容取得平衡，並在全球明星與平台實驗者之間有效換位，這讓更多普通人，也就是我們，更有機會可以理解共創協作的精神，應該如何實踐。</p>
+
+<p>本次喬瑟夫訪台，除了出席大型論壇、在棒球場開球，筆者認為不妨注意這種具有賽博龐克精神的小型分享，讓協作型的科技能夠扎根於媒體世界。本專欄曾經書寫使用不同科技工具，試圖重塑影音產業的生產方式，本篇討論HITREC●RD，以復古卻又新潮的方式，再論閱聽人如何團結。</p>
+
+<p><strong>延伸閱讀｜</strong><a href="https://artouch.com/artouch-column/mintmint-column/content-122454.html">荒原中能否遇見一千名伯樂？淺談Giloo Fest 2023的制度設計</a></p>
+
+<p><strong>延伸閱讀</strong><a href="https://artouch.com/artouch-column/mintmint-column/content-90620.html">｜代幣經濟是否有望成為二十世紀文化基礎建設？以Shibuya為例</a></p>
+
+<p>此文獻給web3 for all讀書會</p>
+
+<hr/>
+
+<p><strong>註</strong>　有效利他主義者為矽谷流行的一種企業家慈善理念，在講求成效的前提下，藉由特定的公益手段，達成利他目的。</p>
+
+---
+
+原文連結：[https://artouch.com/artouch-column/mintmint-column/content-153243.html](https://artouch.com/artouch-column/mintmint-column/content-153243.html)

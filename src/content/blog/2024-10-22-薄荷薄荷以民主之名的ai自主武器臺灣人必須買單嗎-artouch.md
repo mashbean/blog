@@ -6,9 +6,82 @@ tags:
   - "薄荷薄荷專欄"
 category: "blog"
 ---
+
 ## 內文
 
-本文為外部文章索引，原文發表於 ARTouch 薄荷薄荷專欄。
+> 本文同步自 ARTouch 薄荷薄荷專欄，已保留原始段落與圖片。
+> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-158524.html](https://artouch.com/artouch-column/mintmint-column/content-158524.html)
 
-- 原文標題：【薄荷薄荷】以民主之名的AI自主武器，臺灣人必須買單嗎？
-- 原文連結：[前往閱讀](https://artouch.com/artouch-column/mintmint-column/content-158524.html)
+<p><em>無人機可以投入戰爭嗎？如果可以，那以AI建構出來的反無人機系統是正義之師嗎？對於臺灣人而言，基於科技的威懾策略有什麼意義？在這種意義下，AI是一種集中式科技，還是分散式科技？如此推測式的設計討論可能比想像中的還要更接近現實。</em></p>
+
+<h3>AI之於維繫和平？</h3>
+
+<p>本月上旬，美國國防部宣布將以約新臺幣80億元合約，採購軍火工業（以下簡稱軍工）獨角獸新創公司安杜里爾（Anduril Industries）的無人機攔截系統<a href="https://www.youtube.com/watch?v=al9ITeP4fUA">「走鵑」</a>（Roadrunner）。此消息特殊之處在於「走鵑」是一種AI自主武器，透過自動化的投放與回收，可以低成本的攔阻無人機進犯，再一次證明AI技術可以用於「以和平之名」的戰場。</p>
+
+<figure><div>
+<div><iframe title="Anduril Unveils Roadrunner &amp; Roadrunner-M" width="1170" height="658" src="https://www.youtube.com/embed/al9ITeP4fUA?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+</div></figure>
+
+<p>無獨有偶，美國連線雜誌（WIRED）於上個月專訪了該企業的共同創辦人特雷．斯蒂芬斯（Trae Stephens），文章標題名為<a href="https://www.wired.com/story/big-interview-trae-stephens-has-built-ai-weapons-and-worked-for-donald-trump-as-he-sees-it-jesus-would-approve/">〈特雷．斯蒂芬斯製造了人工智慧武器，並為川普工作。在他看來，耶穌也會贊成〉</a>（Trae Stephens Has Built AI Weapons and Worked for Donald Trump. As He Sees It, Jesus Would Approve）。作為少見的矽谷保守派，斯蒂芬斯同時是虔誠的基督徒，他曾經替川普管理美國國防部轉型任務，也因此創辦了軍工新創安杜里爾，並使其快速地成長為估值超過10億美元的獨角獸。</p>
+
+<p>這是一篇火花四射的專訪，編輯針對AI是否可以用於戰爭、保守派基督徒對於科技進步的看法、政治圈與科技圈之間對於新型態的軍工複合體如何合作展開討論，斯蒂芬斯巧妙地帶出一個充滿矛盾但符合現實主義者的方法論。</p>
+
+<p>這篇人物專訪，理所當然地提到因地緣政治關係而成為「潛在買家」的臺灣。</p>
+
+<p>斯蒂芬斯於文中表示，安杜里爾最近在興建超級工廠，這是因為其生產鏈已經跟不上烏克蘭軍方需求，俄烏戰爭快速消耗了庫存。斯蒂芬斯所發展的「科技產品」具有不對稱作戰（Asymmetric warfare）的特色，亦即可以以低成本、快速反應的方式，遏阻規模更大的交戰方。</p>
+
+<p>加州矽谷的網路新創偉業，始於40年前美國國防部的阿帕網（ARPANET，高等研究計劃署網路），其分散式網路架構衍生出我們每天都在使用的網際網路。而如今矽谷新創企業回頭加入了五角大廈，成為以先進科技為主軸的AI軍事工業複合體。但是在編輯的質問下，斯蒂芬斯認為在有效運作的資本體系框架下，AI自主武器反而可以瓦解軍事將領、工業部門之間的裙帶關係，讓武器商人「自由化」。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/10/158524-2.jpeg" alt="" /><figcaption>斯蒂芬斯認為在有效運作的資本體系框架下，AI自主武器反而可以瓦解軍事將領、工業部門之間的裙帶關係，讓武器商人「自由化」。（圖片取自<a href="https://blog.anduril.com/anduril-unveils-lattice-for-mission-autonomy-8e0c5fa0e94b">Anduril Blog</a>）</figcaption></figure>
+
+<h3>AI之於社會維穩？（註1）</h3>
+
+<p>對於是否接納分散式自主武器，這是一個適合放置於未來情境討論的未來推測題目。其中摻雜了理想的道德倫理、現實的防衛意識與科技擾動社會等議題。但排除緊急狀態的AI使用，現況也讓我們不得不面對自動化科技產生的新社會樣貌——維穩。</p>
+
+<blockquote><p><em>「讓守信者處處受益，失信者寸步難行。」</em></p><cite>——取自《和諧社會：中國，大數據監控下的美麗新世界》</cite></blockquote>
+
+<p>《和諧社會：中國，大數據監控下的美麗新世界》一書很完整的闡述中國政府如何透過巨大綿密的監控工具，創造為一個政府所用的集中式大數據資料庫，並迅速演化出符合國家利益的AI工具，再根據其意識形態打造出社會信用體系，用以維繫穩定規範化的社會。監控、規訓、自動化的社會契約，是為一種數位極權主義（Digital Totalitarianism）。臺灣剛好夾在數位極權主義與西方雲端封建主義（Digital Feudalism）的邊陲之地。</p>
+
+<p>但這並非只發生在極權國家，<a href="https://www.amnesty.org/en/latest/news/2024/10/france-discriminatory-algorithm-used-by-the-social-security-agency-must-be-stopped/">數位人權組織La Quadrature du Net、國際特赦組織和法國組織Collectif Changer de Cap於這個月控告法國政府（CNAF）</a>運用演算法分配社會福利資源，卻針對單親媽媽與身心障礙人士產生歧視與不公平分配，在民主社會中產生一種無形的維穩，這是法國政府第一起因為演算法而被控告的案件。此外許多西方國家也都有類似的事件發生，如美國、德國、荷蘭、比利時等。</p>
+
+<p>無論是布建自主武器，還是將自動化科技套用至社會系統，以創造符合大眾福祉的社會，其背後都是將資源集中後大規模投資的行為，我們可以稱之為「有效利他主義」（Effective Altruism，註2）。</p>
+
+<p>有效利他主義者認為高效率的慈善行為以及有影響力的職涯選擇將成為技術用於社會的最佳展現，但是很容易忽略冗長的民主共識階段，便執意實行具有風險的科技工具，繼而負面地影響社會系統。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/10/158524-1-1.jpeg" alt="" /><figcaption>對於是否接納分散式自主武器，這是一個適合放置於未來情境討論的未來推測題目。其中摻雜了理想的道德倫理、現實的防衛意識與科技擾動社會等議題。但排除緊急狀態的AI使用，現況也讓我們不得不面對自動化科技產生的新社會樣貌——維穩。（圖片取自Anduril官方網站）</figcaption></figure>
+
+<h3>AI反射權力</h3>
+
+<p>甫獲得2024年諾貝爾經濟學獎的戴倫．艾塞默魯（Daron Acemoglu）與賽門．強森（Simon Johnson）於其近作《權力與進步》中提到，科技的進步方向被權力者的意向大幅影響，作者特別為AI的發展提出警訊，他們認為目前AI的發展方向並不能為勞工獲得有效的分配結果，而是如同小說《時間機器》一般，出現雙層社會——自認透過功績主義爬到頂點的科技富豪，與愚笨的廣大群眾。</p>
+
+<blockquote><p><em>現代AI使科技精英手中的工具功能增強，創造更多的方法讓工作自動化，並且（號稱）能夠做到像是提高生產力、解決人類各種主要問題等等好事，讓人類邊緣化。在AI的協助之下，這些科技領袖更加覺得沒有諮詢社會大眾意見的必要，甚至認為大多數民眾的才智平庸，連什麼東西對自己比較好都不清楚。&#8230;&#8230;我們才會用「AI幻覺」來稱呼現在這個願景的新階段。這場幻覺在接下來十年間還會更為強大。</em></p><cite>——戴倫．艾塞默魯、賽門．強森，《權力與進步》，2023。</cite></blockquote>
+
+<p>集中式科技加速了權力者的極權程度，透過資料、資金與人才的集中，許多足以改變社會狀態的AI工具誕生，如管理社會的信用演算法、自動化無人武器。斯蒂芬斯認為如果自主武器勢不可擋，那正義之師值得最高效先進的工具；社會體系演算法的布建者可能也會認為先進科技可以自動化地降低人工審核、不平等對待的可能性。</p>
+
+<p><strong>延伸閱讀</strong>｜<a href="https://www.icrc.org/zh/document/icrc-position-autonomous-weapon-systems">紅十字國際委員會關於自主武器系統的立場</a></p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/10/158524-3.jpg.jpeg" alt="" /><figcaption>集中式科技加速了權力者的極權程度，透過資料、資金與人才的集中，許多足以改變社會狀態的AI工具誕生，如管理社會的信用演算法、自動化無人武器。（圖片取自國際紅十字會）</figcaption></figure>
+
+<h3>AI之於自保的正義？</h3>
+
+<p>AI自主武器及其產業將帶出許多值得討論的辯證，我們以「集中——分散」為對立概念進行討論。</p>
+
+<p>對於技術發展而言，AI可以說是典型的「集中」式科技代表，這是因為無論是哪一種自動化產品，AI皆需要大量資料庫、運算資源與人力進行建置；然而，在建置完成後，許多AI工具產生了「分散」的特性，只要模型、演算法足夠小，可以塞進個人裝置，它甚至不用聯網，就可以達成自主化（Autonomy）。這兩年被諸多討論的AI PC、可以客製化的分散式AI（Decentralised AI），乃至於自主武器，都具有分散的特質。</p>
+
+<p>對於反對稱作戰而言，應用AI是一種混合了資訊戰與現代化戰爭的手法，具有「分散」的特徵。其大幅度地降低了單一作戰部隊的建置成本，卻也產生了「代理」（Agency）的道德討論。當我們在一般社會討論AI能否取代人類時，通常以AI是否可以「負責」為最終判準，包含醫療、訴訟、契約等需要蓋章的工作。在戰爭中，是否為錯誤的行為負責，比如對於非戰人員的附帶傷害（Collateral Damage），就要回歸第一線操作者、AI承包商之間的關係。在這個情境中，AI很有可能分散了「責任意識」，也就是弱化了人類參與決策（Human-in-the-loop）的戒律。</p>
+
+<p>對於戰爭而言，可以將自主武器納入正義戰爭理論（Just War Theory）範疇討論。在正義戰爭理論中，分為開戰的正當理由（Jus ad Bellum）和戰爭中的正當行為（Jus in Bello）。自主武器的開發者認為自主武器可以讓正當行為的品質大幅提高，比如可以更有效率的判別敵方與平民，進一步強化區分原則（Distinction），並且可以更符合比例性原則（Proportionality），不帶來更多傷害，而且還可以降低人類傷亡。此外，藉由自主武器難纏、難以攻破的特性，還可以延伸產生否定性威懾（Deterrence by Denial）的特色，讓對手認為攻擊不可能成功，或需要付出更高的代價。這意外的符合<a href="https://vitalik.eth.limo/general/2023/11/27/techno_optimism.html">以太坊共同創辦人Vitalik Buterin所提出的「防禦加速主義」（Defense Accelerationism, d/acc）</a>，藉由加速發展用於自衛的科技，強化自我的正當性與行為，因此也是某種程度上的「分散」特徵。</p>
+
+<p>因此可以說自主武器是某種分散式自主科技（Decentralized Autonomous Technology）。</p>
+
+<p>被科技發展推著走的我們，在沒有辦法讓科技停止發展的當口，應如何藉由民主權力「微調」科技走向？AI是加速主義者眼中的集體昇華，還是還權於民的自保工具，此道命題對於台灣而言可能意外的更貼近現實。</p>
+
+<figure><img src="https://d1qlj1o6gdgqqt.cloudfront.net/wp-content/uploads/2024/10/158524-4.jpeg" alt="" /><figcaption>對於反對稱作戰而言，應用AI是一種混合了資訊戰與現代化戰爭的手法，具有「分散」的特徵。其大幅度地降低了單一作戰部隊的建置成本，卻也產生了「代理」（Agency）的道德討論。（圖片取自Anduril官方網站）</figcaption></figure>
+
+<p><strong>註1</strong>　「維穩」意即維護國家局勢和社會的整體穩定，是中華人民共和國政治術語之一。<a href="https://zh.wikipedia.org/zh-tw/%E7%BB%B4%E7%A8%B3">（引用自維基百科）</a></p>
+
+<p><strong>註2</strong>　有效利他主義（Effective Altruism）者為矽谷流行的一種企業家慈善理念，在講求成效的前提下，藉由特定的公益手段，達成利他目的。</p>
+
+---
+
+原文連結：[https://artouch.com/artouch-column/mintmint-column/content-158524.html](https://artouch.com/artouch-column/mintmint-column/content-158524.html)
