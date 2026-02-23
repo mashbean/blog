@@ -338,6 +338,9 @@ const articleStructuredData = {
         try {
           await navigator.clipboard.writeText(pageURL);
           copyButton.textContent = "已複製";
+          if (typeof window.mbTrack === "function") {
+            window.mbTrack("Share Link Copied", { location: "toc_share" });
+          }
         } catch {
           copyButton.textContent = "複製失敗";
         }

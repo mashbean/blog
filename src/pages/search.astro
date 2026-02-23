@@ -257,7 +257,7 @@ const fallbackIndexUrl = withBase("search-index.json");
     fallbackForm?.addEventListener("submit", (event) => {
       event.preventDefault();
       const q = fallbackInput?.value.trim() ?? "";
-      track("Search Query Submitted", {
+      track("Search Used", {
         mode: "fallback",
         query_length: String(q.length),
         filter: activeType,
@@ -334,7 +334,7 @@ const fallbackIndexUrl = withBase("search-index.json");
             if (event.key !== "Enter") return;
             const q = input.value.trim();
             if (!q) return;
-            track("Search Query Submitted", {
+            track("Search Used", {
               mode: "pagefind",
               query_length: String(q.length),
               filter: "all",

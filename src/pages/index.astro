@@ -34,7 +34,7 @@ const latestPosts = posts.slice(0, 12);
       關閉
     </button>
     <a id="continue-reading-link" class="continue-reading-link" href="/blog/">
-      <strong id="continue-reading-title">最近閱讀文章</strong>
+      <strong id="continue-reading-title">繼續閱讀</strong>
       <span id="continue-reading-meta">進度 0%</span>
     </a>
   </aside>
@@ -85,7 +85,7 @@ const latestPosts = posts.slice(0, 12);
       link.href = data.url;
     }
     if (title instanceof HTMLElement) {
-      title.textContent = data.title;
+      title.textContent = `繼續閱讀｜${data.title}`;
     }
     if (meta instanceof HTMLElement) {
       const progress =

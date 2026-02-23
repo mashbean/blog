@@ -35,7 +35,6 @@ const topicOptions = topicCatalog
 
 <BaseLayout title="標籤" description="依主題與年份雙層導覽探索文章。">
   <h1 class="section-title">標籤</h1>
-  <p>先選主題，再選年份，結果會即時更新。</p>
 
   <section class="tag-dual-nav" aria-label="標籤雙層導覽">
     <div class="archive-quick-filter" role="group" aria-label="主題篩選">
@@ -150,7 +149,7 @@ const topicOptions = topicCatalog
     button.addEventListener("click", () => {
       activeTopic = button.dataset.topic ?? "all";
       applyFilters();
-      track("Tags Filter Used", { topic: activeTopic, year: activeYear });
+      track("Tag Filter Click", { topic: activeTopic, year: activeYear, source: "topic" });
     });
   });
 
@@ -158,7 +157,7 @@ const topicOptions = topicCatalog
     button.addEventListener("click", () => {
       activeYear = button.dataset.year ?? "all";
       applyFilters();
-      track("Tags Filter Used", { topic: activeTopic, year: activeYear });
+      track("Tag Filter Click", { topic: activeTopic, year: activeYear, source: "year" });
     });
   });
 
