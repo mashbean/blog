@@ -10,70 +10,105 @@ const contactLinks = [
   { label: "X (Twitter)", href: "https://x.com/mashbean" }
 ];
 
-const affiliations = [
+interface AffiliationItem {
+  key: string;
+  href: string;
+  zh: string;
+  en: string;
+  logo?: string;
+  logoWidth?: string;
+}
+
+interface AffiliationGroup {
+  key: string;
+  titleZh: string;
+  titleEn: string;
+  items: AffiliationItem[];
+}
+
+const affiliationGroups: AffiliationGroup[] = [
   {
-    key: "moda",
-    href: "https://moda.gov.tw/",
-    logo: "images/about/org-logos/moda.svg",
-    logoWidth: "7.8rem",
-    zh: "數位發展部",
-    en: "Ministry of Digital Affairs"
+    key: "employment",
+    titleZh: "入職",
+    titleEn: "Employment",
+    items: [
+      {
+        key: "moda",
+        href: "https://moda.gov.tw/major-policies/wallet/1695",
+        logo: "images/about/org-logos/moda.svg",
+        logoWidth: "7.8rem",
+        zh: "數位發展部",
+        en: "Ministry of Digital Affairs"
+      },
+      {
+        key: "matters",
+        href: "https://matters.town/",
+        logo: "images/about/org-logos/matters.svg",
+        logoWidth: "7rem",
+        zh: "Matters",
+        en: "Matters"
+      },
+      {
+        key: "fabdao",
+        href: "https://fabdao.world/",
+        logo: "images/about/org-logos/fabdao-wordmark.png",
+        logoWidth: "8.6rem",
+        zh: "FAB DAO",
+        en: "Formosa Art Bank DAO"
+      }
+    ]
   },
   {
-    key: "dset",
-    href: "https://dset.tw/",
-    logo: "images/about/org-logos/dset.png",
-    logoWidth: "7.2rem",
-    zh: "民主、社會與新興科技研究院",
-    en: "DSET"
+    key: "fellow",
+    titleZh: "Fellow",
+    titleEn: "Fellowships",
+    items: [
+      {
+        key: "hks",
+        href: "https://ash.harvard.edu/people/yen-lin-huang/",
+        logo: "images/about/org-logos/hks.svg",
+        logoWidth: "8rem",
+        zh: "哈佛甘迺迪學院",
+        en: "Harvard Kennedy School"
+      },
+      {
+        key: "isf",
+        href: "https://internationalstrategyforum.io/fellow/yen-lin-huang/",
+        zh: "International Strategy Forum",
+        en: "International Strategy Forum"
+      },
+      {
+        key: "twnic",
+        href: "https://www.twnic.tw/community/twnic-academy/",
+        zh: "台灣網路治理學院（TWNIC Academy）",
+        en: "TWNIC Academy"
+      }
+    ]
   },
   {
-    key: "hks",
-    href: "https://www.hks.harvard.edu/",
-    logo: "images/about/org-logos/hks.svg",
-    logoWidth: "8rem",
-    zh: "哈佛甘迺迪學院",
-    en: "Harvard Kennedy School"
-  },
-  {
-    key: "ethereum",
-    href: "https://ethereum.org/",
-    logo: "images/about/org-logos/ethereum.svg",
-    logoWidth: "3.1rem",
-    zh: "以太坊生態系",
-    en: "Ethereum Ecosystem"
-  },
-  {
-    key: "matters",
-    href: "https://matters.town/",
-    logo: "images/about/org-logos/matters.svg",
-    logoWidth: "7rem",
-    zh: "Matters",
-    en: "Matters"
-  },
-  {
-    key: "fabdao",
-    href: "https://fabdao.world/",
-    logo: "images/about/org-logos/fabdao-wordmark.png",
-    logoWidth: "8.6rem",
-    zh: "FAB DAO",
-    en: "Formosa Art Bank DAO"
-  },
-  {
-    key: "dtatw",
-    href: "https://dtatw.org/",
-    logo: "images/about/org-logos/dtatw.png",
-    logoWidth: "7.6rem",
-    zh: "台灣數位信任協會",
-    en: "Digital Trust Association in Taiwan"
-  },
-  {
-    key: "g0v",
-    href: "https://g0v.tw/",
-    logo: "images/about/org-logos/g0v.svg",
-    logoWidth: "4.9rem",
-    zh: "g0v 零時政府",
-    en: "g0v Civic Tech Community"
+    key: "member",
+    titleZh: "成員",
+    titleEn: "Membership",
+    items: [
+      {
+        key: "advisory",
+        href: "https://advisory.yda.gov.tw/",
+        zh: "行政院青年諮詢委員會",
+        en: "Executive Yuan Youth Advisory Committee"
+      },
+      {
+        key: "opencontemporary",
+        href: "https://www.facebook.com/opencontemporary/?locale=zh_TW",
+        zh: "打開當代藝術工作站",
+        en: "Open Contemporary Art Hub"
+      },
+      {
+        key: "volume",
+        href: "https://volumedao.xyz/zh/home-zh/",
+        zh: "眾聲道 Volume DAO",
+        en: "Volume DAO"
+      }
+    ]
   }
 ];
 ---
@@ -108,7 +143,7 @@ const affiliations = [
       <h2>政府與公共治理經歷</h2>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>數位發展部（Taiwan MODA）｜Decentralized Architect</h3>
+          <h3><a href="https://moda.gov.tw/major-policies/wallet/1695" target="_blank" rel="noopener noreferrer">數位發展部（Taiwan MODA）</a>｜Decentralized Architect</h3>
           <p>台灣 · 2023.02 - 2025.04</p>
         </div>
         <ul>
@@ -128,7 +163,7 @@ const affiliations = [
       </div>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>DSET 民主、社會與新興科技研究院｜Correspondent</h3>
+          <h3>DSET 科技、民主與社會研究中心｜Correspondent</h3>
           <p>台灣 · 2025.06 - 至今</p>
         </div>
         <ul>
@@ -141,7 +176,7 @@ const affiliations = [
       <h2>社會技術與國際角色</h2>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>Harvard Kennedy School｜Allen Lab Policy Fellow</h3>
+          <h3><a href="https://ash.harvard.edu/people/yen-lin-huang/" target="_blank" rel="noopener noreferrer">Harvard Kennedy School</a>｜Allen Lab Policy Fellow</h3>
           <p>Non-resident · 2025.08 - 2026.07</p>
         </div>
         <ul>
@@ -150,7 +185,16 @@ const affiliations = [
       </div>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>Ethereum Foundation｜The Next Billion Fellowship</h3>
+          <h3><a href="https://internationalstrategyforum.io/fellow/yen-lin-huang/" target="_blank" rel="noopener noreferrer">International Strategy Forum（ISF）</a>｜Fellow</h3>
+          <p>Global · 2026</p>
+        </div>
+        <ul>
+          <li>參與跨國戰略社群，聚焦民主韌性、科技治理與地緣政策對話。</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3><a href="https://nxbn.ethereum.foundation/fellowship/Mashbean" target="_blank" rel="noopener noreferrer">Ethereum Foundation</a>｜The Next Billion Fellowship</h3>
           <p>Remote · 2025.06 - 2025.11</p>
         </div>
         <ul>
@@ -238,27 +282,41 @@ const affiliations = [
     <section class="about-orgs" aria-labelledby="about-orgs-zh">
       <div class="about-orgs-head">
         <h2 id="about-orgs-zh">曾參與組織</h2>
-        <p>以下標誌使用各機構官方版本，並統一轉為本站單色系。</p>
       </div>
-      <ul class="about-org-grid">
+      <div class="about-org-groups">
         {
-          affiliations.map((org) => (
-            <li class="about-org-card">
-              <a href={org.href} target="_blank" rel="noopener noreferrer">
-                <span class="about-org-logo-wrap">
-                  <span
-                    class="about-org-logo"
-                    style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
-                    aria-hidden="true"
-                  ></span>
-                </span>
-                <span class="about-org-name-zh">{org.zh}</span>
-                <span class="about-org-name-en">{org.en}</span>
-              </a>
-            </li>
+          affiliationGroups.map((group) => (
+            <section class="about-org-group" aria-label={group.titleZh}>
+              <h3>{group.titleZh}</h3>
+              <ul class="about-org-grid">
+                {
+                  group.items.map((org) => (
+                    <li class="about-org-card">
+                      <a href={org.href} target="_blank" rel="noopener noreferrer">
+                        <span class="about-org-logo-wrap">
+                          {
+                            org.logo ? (
+                              <span
+                                class="about-org-logo"
+                                style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
+                                aria-hidden="true"
+                              ></span>
+                            ) : (
+                              <span class="about-org-logo-fallback" aria-hidden="true">{org.key.toUpperCase()}</span>
+                            )
+                          }
+                        </span>
+                        <span class="about-org-name-zh">{org.zh}</span>
+                        <span class="about-org-name-en">{org.en}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </section>
           ))
         }
-      </ul>
+      </div>
     </section>
   </article>
 
@@ -289,7 +347,7 @@ const affiliations = [
       <h2>Governmental Experience</h2>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>Ministry of Digital Affairs, Taiwan · Decentralized Architect</h3>
+          <h3><a href="https://moda.gov.tw/major-policies/wallet/1695" target="_blank" rel="noopener noreferrer">Ministry of Digital Affairs, Taiwan</a> · Decentralized Architect</h3>
           <p>Taiwan · Feb 2023 - Apr 2025</p>
         </div>
         <ul>
@@ -309,7 +367,7 @@ const affiliations = [
       </div>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>Research Institute for Democracy, Society and Emerging Technology (DSET) · Correspondent</h3>
+          <h3>Center for Technology, Democracy and Society (DSET) · Correspondent</h3>
           <p>Taiwan · Jun 2025 - Present</p>
         </div>
         <ul>
@@ -322,7 +380,7 @@ const affiliations = [
       <h2>Socio-technical Systems Experience</h2>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>Harvard Kennedy School · Allen Lab for Democracy Renovation Policy Fellow</h3>
+          <h3><a href="https://ash.harvard.edu/people/yen-lin-huang/" target="_blank" rel="noopener noreferrer">Harvard Kennedy School</a> · Allen Lab for Democracy Renovation Policy Fellow</h3>
           <p>Non-resident · Aug 2025 - Jul 2026</p>
         </div>
         <ul>
@@ -331,7 +389,16 @@ const affiliations = [
       </div>
       <div class="about-cv-entry">
         <div class="about-cv-entry-head">
-          <h3>Ethereum Foundation · The Next Billion Fellowship</h3>
+          <h3><a href="https://internationalstrategyforum.io/fellow/yen-lin-huang/" target="_blank" rel="noopener noreferrer">International Strategy Forum (ISF)</a> · Fellow</h3>
+          <p>Global · 2026</p>
+        </div>
+        <ul>
+          <li>Contributes to cross-border strategy dialogue on democratic resilience, technology governance, and geopolitics.</li>
+        </ul>
+      </div>
+      <div class="about-cv-entry">
+        <div class="about-cv-entry-head">
+          <h3><a href="https://nxbn.ethereum.foundation/fellowship/Mashbean" target="_blank" rel="noopener noreferrer">Ethereum Foundation</a> · The Next Billion Fellowship</h3>
           <p>Remote · Jun 2025 - Nov 2025</p>
         </div>
         <ul>
@@ -419,27 +486,41 @@ const affiliations = [
     <section class="about-orgs" aria-labelledby="about-orgs-en">
       <div class="about-orgs-head">
         <h2 id="about-orgs-en">Organizations I've Worked With</h2>
-        <p>Official organizational logos, normalized into the same monochrome palette as this blog.</p>
       </div>
-      <ul class="about-org-grid">
+      <div class="about-org-groups">
         {
-          affiliations.map((org) => (
-            <li class="about-org-card">
-              <a href={org.href} target="_blank" rel="noopener noreferrer">
-                <span class="about-org-logo-wrap">
-                  <span
-                    class="about-org-logo"
-                    style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
-                    aria-hidden="true"
-                  ></span>
-                </span>
-                <span class="about-org-name-en">{org.en}</span>
-                <span class="about-org-name-zh">{org.zh}</span>
-              </a>
-            </li>
+          affiliationGroups.map((group) => (
+            <section class="about-org-group" aria-label={group.titleEn}>
+              <h3>{group.titleEn}</h3>
+              <ul class="about-org-grid">
+                {
+                  group.items.map((org) => (
+                    <li class="about-org-card">
+                      <a href={org.href} target="_blank" rel="noopener noreferrer">
+                        <span class="about-org-logo-wrap">
+                          {
+                            org.logo ? (
+                              <span
+                                class="about-org-logo"
+                                style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
+                                aria-hidden="true"
+                              ></span>
+                            ) : (
+                              <span class="about-org-logo-fallback" aria-hidden="true">{org.key.toUpperCase()}</span>
+                            )
+                          }
+                        </span>
+                        <span class="about-org-name-en">{org.en}</span>
+                        <span class="about-org-name-zh">{org.zh}</span>
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </section>
           ))
         }
-      </ul>
+      </div>
     </section>
   </article>
 </BaseLayout>

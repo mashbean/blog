@@ -1826,12 +1826,33 @@
     line-height: 1.65;
   }
 
+  .about-org-groups {
+    margin-top: 0.78rem;
+    display: grid;
+    gap: 0.84rem;
+  }
+
+  .about-org-group {
+    border: 1px solid #d5e5df;
+    border-radius: 0.8rem;
+    background: #ffffff;
+    padding: 0.66rem 0.68rem 0.72rem;
+  }
+
+  .about-org-group h3 {
+    margin: 0;
+    color: #29505f;
+    font-size: 0.84rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
   .about-org-grid {
     list-style: none;
-    margin: 0.75rem 0 0;
+    margin: 0.56rem 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 0.58rem;
   }
 
@@ -1882,6 +1903,22 @@
     mask-size: contain;
   }
 
+  .about-org-logo-fallback {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3.6rem;
+    min-height: 1.8rem;
+    border: 1px solid #cde0da;
+    border-radius: 999px;
+    padding: 0 0.52rem;
+    color: #2f5563;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    background: #f8fcfb;
+  }
+
   .about-org-name-zh {
     color: #12313f;
     font-size: 0.87rem;
@@ -1928,6 +1965,17 @@
     font-family: var(--font-sans);
     font-weight: 700;
     line-height: 1.45;
+  }
+
+  .about-cv-entry-head h3 a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+
+  .about-cv-entry-head h3 a:hover {
+    color: #0b7d6d;
+    border-bottom-color: #9cd8ce;
   }
 
   .about-cv-entry-head p {
