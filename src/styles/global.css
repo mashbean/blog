@@ -1903,6 +1903,15 @@
     mask-size: contain;
   }
 
+  .about-org-logo-image {
+    display: block;
+    width: var(--org-logo-w, 6rem);
+    max-height: 2.1rem;
+    object-fit: contain;
+    object-position: center;
+    filter: brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%);
+  }
+
   .about-org-logo-fallback {
     display: inline-flex;
     align-items: center;

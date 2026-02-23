@@ -16,6 +16,7 @@ interface AffiliationItem {
   zh: string;
   en: string;
   logo?: string;
+  logoKind?: "mask" | "image";
   logoWidth?: string;
 }
 
@@ -74,7 +75,8 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "isf",
         href: "https://internationalstrategyforum.io/fellow/yen-lin-huang/",
-        logo: "images/about/org-logos/isf.svg",
+        logo: "https://internationalstrategyforum.io/favicon.ico",
+        logoKind: "image",
         logoWidth: "4.8rem",
         zh: "International Strategy Forum",
         en: "International Strategy Forum"
@@ -82,7 +84,8 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "twnic",
         href: "https://www.twnic.tw/community/twnic-academy/",
-        logo: "images/about/org-logos/twnic.svg",
+        logo: "https://www.twnic.tw/images/logo.svg",
+        logoKind: "image",
         logoWidth: "6rem",
         zh: "台灣網路治理學院（TWNIC Academy）",
         en: "TWNIC Academy"
@@ -105,7 +108,8 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "advisory",
         href: "https://advisory.yda.gov.tw/",
-        logo: "images/about/org-logos/advisory.svg",
+        logo: "https://advisory.yda.gov.tw/img/logo.jpg",
+        logoKind: "image",
         logoWidth: "5rem",
         zh: "行政院青年諮詢委員會",
         en: "Executive Yuan Youth Advisory Committee"
@@ -113,7 +117,8 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "opencontemporary",
         href: "https://www.facebook.com/opencontemporary/?locale=zh_TW",
-        logo: "images/about/org-logos/opencontemporary.svg",
+        logo: "https://volumedao.xyz/wp-content/uploads/2023/12/%E6%89%93%E9%96%8B-1.png",
+        logoKind: "image",
         logoWidth: "8rem",
         zh: "打開當代藝術工作站",
         en: "Open Contemporary Art Hub"
@@ -121,7 +126,8 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "volume",
         href: "https://volumedao.xyz/zh/home-zh/",
-        logo: "images/about/org-logos/volume.svg",
+        logo: "https://volumedao.xyz/wp-content/uploads/2023/11/vol-b.png",
+        logoKind: "image",
         logoWidth: "6.6rem",
         zh: "眾聲道 Volume DAO",
         en: "Volume DAO"
@@ -160,6 +166,8 @@ const affiliationGroups: AffiliationGroup[] = [
     ]
   }
 ];
+
+const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? logo : withBase(logo));
 ---
 
 <BaseLayout title="關於我 / About" description="Yen-Lin (mashbean) Huang 的履歷與工作重點（中英切換）。">
@@ -345,11 +353,23 @@ const affiliationGroups: AffiliationGroup[] = [
                         <span class="about-org-logo-wrap">
                           {
                             org.logo ? (
-                              <span
-                                class="about-org-logo"
-                                style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
-                                aria-hidden="true"
-                              ></span>
+                              org.logoKind === "image" ? (
+                                <img
+                                  class="about-org-logo-image"
+                                  style={`--org-logo-w:${org.logoWidth};`}
+                                  src={resolveLogoUrl(org.logo)}
+                                  alt=""
+                                  loading="lazy"
+                                  decoding="async"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <span
+                                  class="about-org-logo"
+                                  style={`--org-logo:url('${resolveLogoUrl(org.logo)}');--org-logo-w:${org.logoWidth};`}
+                                  aria-hidden="true"
+                                ></span>
+                              )
                             ) : (
                               <span class="about-org-logo-fallback" aria-hidden="true">{org.key.toUpperCase()}</span>
                             )
@@ -549,11 +569,23 @@ const affiliationGroups: AffiliationGroup[] = [
                         <span class="about-org-logo-wrap">
                           {
                             org.logo ? (
-                              <span
-                                class="about-org-logo"
-                                style={`--org-logo:url('${withBase(org.logo)}');--org-logo-w:${org.logoWidth};`}
-                                aria-hidden="true"
-                              ></span>
+                              org.logoKind === "image" ? (
+                                <img
+                                  class="about-org-logo-image"
+                                  style={`--org-logo-w:${org.logoWidth};`}
+                                  src={resolveLogoUrl(org.logo)}
+                                  alt=""
+                                  loading="lazy"
+                                  decoding="async"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <span
+                                  class="about-org-logo"
+                                  style={`--org-logo:url('${resolveLogoUrl(org.logo)}');--org-logo-w:${org.logoWidth};`}
+                                  aria-hidden="true"
+                                ></span>
+                              )
                             ) : (
                               <span class="about-org-logo-fallback" aria-hidden="true">{org.key.toUpperCase()}</span>
                             )
