@@ -137,6 +137,20 @@ const fallbackIndexUrl = withBase("search-index.json");
     return score;
   };
 
+  const detectHitZones = (doc, tokens) => {
+    const zones = [];
+    const titleText = normalize(doc.title ?? "");
+    const descText = normalize(doc.description ?? "");
+    const bodyText = normalize(doc.content ?? "");
+    const tagText = normalize((doc.tags ?? []).join(" "));
+
+    if (tokens.some((token) => titleText.includes(token))) zones.push("標題");
+    if (tokens.some((token) => descText.includes(token))) zones.push("摘要");
+    if (tokens.some((token) => bodyText.includes(token))) zones.push("內文");
+    if (tokens.some((token) => tagText.includes(token))) zones.push("標籤");
+    return zones;
+  };
+
   const formatDate = (raw) => {
     if (!raw) return "";
     const date = new Date(raw);
@@ -187,7 +201,11 @@ const fallbackIndexUrl = withBase("search-index.json");
       for (const item of items) {
         const typeLabel = item.type === "post" ? "文章" : "頁面";
         const dateLabel = item.type === "post" ? formatDate(item.pubDate) : "";
-        const tags = Array.isArray(item.tags) ? item.tags.slice(0, 4) : [];
+        const topics = Array.isArray(item.topics) ? item.topics.slice(0, 3) : [];
+        const tags = Array.isArray(item.tags)
+          ? item.tags.filter((tag) => !topics.includes(tag)).slice(0, 4)
+          : [];
+        const hitZones = detectHitZones(item, tokens);
         const metaParts = [typeLabel, dateLabel].filter(Boolean);
         const li = document.createElement("li");
         li.className = "search-result-item";
@@ -196,10 +214,18 @@ const fallbackIndexUrl = withBase("search-index.json");
             <a class="search-result-link" href="${item.url}">${highlight(item.title, tokens)}</a>
             <span class="search-result-meta">${metaParts.join(" · ")}</span>
           </div>
+          ${
+            hitZones.length > 0
+              ? `<p class="search-hit-zone">命中：${hitZones.map((zone) => `<span>${zone}</span>`).join("")}</p>`
+              : ""
+          }
           <p class="search-result-snippet">${highlight(item.description ?? "", tokens)}</p>
           ${
-            tags.length > 0
-              ? `<ul class="search-result-tags">${tags.map((tag) => `<li>${highlight(tag, tokens)}</li>`).join("")}</ul>`
+            topics.length > 0 || tags.length > 0
+              ? `<ul class="search-result-tags">
+                  ${topics.map((tag) => `<li class="search-result-tag-topic">${highlight(tag, tokens)}</li>`).join("")}
+                  ${tags.map((tag) => `<li class="search-result-tag-keyword">${highlight(tag, tokens)}</li>`).join("")}
+                </ul>`
               : ""
           }
         `;

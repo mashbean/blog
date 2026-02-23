@@ -682,6 +682,21 @@
     margin-top: 0.5rem;
   }
 
+  .post-card-minimal .tag-list {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 0;
+    transition: opacity 0.16s ease, max-height 0.16s ease, margin-top 0.16s ease;
+  }
+
+  .post-card-minimal:hover .tag-list,
+  .post-card-minimal:focus-within .tag-list {
+    opacity: 1;
+    max-height: 4rem;
+    margin-top: 0.48rem;
+  }
+
   .tag-list {
     margin: 0.6rem 0 0;
     display: flex;
@@ -918,21 +933,36 @@
   }
 
   .heading-anchor-btn {
-    margin-left: 0.5rem;
+    margin-left: 0.42rem;
     border: 1px solid #c7d8d2;
     border-radius: 999px;
-    min-width: 1.75rem;
-    min-height: 1.52rem;
-    padding: 0.08rem 0.45rem;
+    min-width: 1.52rem;
+    min-height: 1.35rem;
+    padding: 0.04rem 0.36rem;
     background: #f8fcfa;
     color: #31505e;
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     vertical-align: middle;
     cursor: pointer;
+    opacity: 0.42;
+    transition: opacity 0.16s ease, background-color 0.16s ease;
   }
 
   .heading-anchor-btn:hover {
     background: #ebf6f2;
+    opacity: 1;
+  }
+
+  .article-prose h2:hover .heading-anchor-btn,
+  .article-prose h3:hover .heading-anchor-btn,
+  .article-prose h2:focus-within .heading-anchor-btn,
+  .article-prose h3:focus-within .heading-anchor-btn {
+    opacity: 0.95;
+  }
+
+  .article-prose h2.section-active,
+  .article-prose h3.section-active {
+    color: #0a665a;
   }
 
   .article-prose p {
@@ -1498,6 +1528,27 @@
     line-height: 1.55;
   }
 
+  .search-hit-zone {
+    margin: 0.32rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.28rem;
+    color: #47616b;
+    font-size: 0.76rem;
+  }
+
+  .search-hit-zone span {
+    display: inline-flex;
+    align-items: center;
+    border: 1px dashed #c8ddd7;
+    border-radius: 999px;
+    background: #f4faf8;
+    color: #335c64;
+    line-height: 1;
+    padding: 0.14rem 0.42rem;
+  }
+
   .search-result-snippet mark,
   .search-result-link mark,
   .search-result-tags mark {
@@ -1523,6 +1574,18 @@
     color: #14574f;
     font-size: 0.76rem;
     padding: 0.14rem 0.5rem;
+  }
+
+  .search-result-tag-topic {
+    border-color: #9fcec3;
+    background: #eaf8f3;
+    color: #0d6f61;
+  }
+
+  .search-result-tag-keyword {
+    border-color: #d2e4de;
+    background: #f8fcfb;
+    color: #3a5b65;
   }
 
   .about-lang-switch {
@@ -1939,8 +2002,7 @@
   body.focus-reading .article-header .tag-list,
   body.focus-reading .article-pagination,
   body.focus-reading .related-posts,
-  body.focus-reading .article-back-link,
-  body.focus-reading .heading-anchor-btn {
+  body.focus-reading .article-back-link {
     display: none;
   }
 

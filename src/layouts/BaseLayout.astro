@@ -275,6 +275,9 @@ const siteStructuredData = {
               if (active) link.setAttribute("aria-current", "true");
               else link.removeAttribute("aria-current");
             });
+            observedHeadings.forEach((heading) => {
+              heading.classList.toggle("section-active", heading.id === id);
+            });
           };
 
           const rootMargin = window.matchMedia("(max-width: 760px)").matches
@@ -316,15 +319,15 @@ const siteStructuredData = {
             anchorBtn.type = "button";
             anchorBtn.className = "heading-anchor-btn";
             anchorBtn.setAttribute("aria-label", "複製段落連結");
-            anchorBtn.textContent = "🔗";
+            anchorBtn.textContent = "#";
             anchorBtn.addEventListener("click", async () => {
               const permalink = `${window.location.origin}${window.location.pathname}#${id}`;
               const copied = await copyText(permalink);
               const old = anchorBtn.textContent;
-              anchorBtn.textContent = copied ? "已複製" : "失敗";
+              anchorBtn.textContent = copied ? "OK" : "X";
               if (!copied) window.prompt("請手動複製此段落連結", permalink);
               setTimeout(() => {
-                anchorBtn.textContent = old ?? "🔗";
+                anchorBtn.textContent = old ?? "#";
               }, 1200);
             });
             heading.appendChild(anchorBtn);

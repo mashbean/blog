@@ -29,7 +29,7 @@ const latestPosts = posts.slice(0, 12);
     ) : (
       <section class="home-post-grid" aria-label="近期更新">
         <ul class="post-list post-list-compact-grid">
-          {latestPosts.map((post) => <li><PostCard post={post} variant="compact" /></li>)}
+          {latestPosts.map((post) => <li><PostCard post={post} variant="compact" minimal={true} /></li>)}
         </ul>
       </section>
     )
