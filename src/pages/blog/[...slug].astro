@@ -6,10 +6,6 @@ import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
 import { classifyPostTags } from "@/utils/blogTags";
-import Web3TipJar from "@/components/Web3TipJar.astro";
-import { getWeb3PublicConfig } from "@/utils/web3Config";
-import { resolveEnsProfile } from "@/utils/ens";
-import { verifyArticleSignature } from "@/utils/articleSignature";
 
 export async function getStaticPaths() {
   const posts = await getBlogPosts({
@@ -33,25 +29,6 @@ const { post, isLegacyPath = false } = Astro.props as {
 const { Content, headings } = await render(post);
 const postTitle = cleanPostTitle(post.data.title);
 const allPosts = await getBlogPosts();
-const web3Config = getWeb3PublicConfig();
-const ensProfile = await resolveEnsProfile(web3Config.tipEnsName);
-const articleSignatureCheck = verifyArticleSignature(
-  {
-    slug: post.id,
-    title: post.data.title,
-    description: post.data.description,
-    pubDateISO: post.data.pubDate.toISOString(),
-    updatedDateISO: post.data.updatedDate?.toISOString(),
-    body: post.body ?? ""
-  },
-  {
-    contentHash: post.data.contentHash,
-    signature: post.data.signature,
-    signer: post.data.signer,
-    signatureVersion: post.data.signatureVersion
-  },
-  ensProfile.resolvedAddress
-);
 const classifiedCurrent = classifyPostTags({
   title: postTitle,
   description: post.data.description,
@@ -249,19 +226,6 @@ const articleStructuredData = {
             {post.data.draft && !import.meta.env.PROD && " · 草稿"}
           </p>
         </div>
-        <p class:list={{
-          "article-signature-status": true,
-          "article-signature-status-verified": articleSignatureCheck.status === "verified",
-          "article-signature-status-invalid": articleSignatureCheck.status === "invalid" || articleSignatureCheck.status === "error"
-        }}>
-          {
-            articleSignatureCheck.status === "verified"
-              ? `Verified by ${web3Config.tipEnsName}`
-              : articleSignatureCheck.status === "unsigned"
-                ? "Unsigned article"
-                : `Signature check failed (${articleSignatureCheck.reason})`
-          }
-        </p>
         {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
         {classifiedCurrent.topics.length > 0 && (
@@ -296,8 +260,6 @@ const articleStructuredData = {
       <div class="article-prose">
         <Content />
       </div>
-
-      <Web3TipJar ensName={web3Config.tipEnsName} chainId={web3Config.chainId} ens={ensProfile} />
 
       <nav class="article-pagination" aria-label="文章導覽">
         <div>
