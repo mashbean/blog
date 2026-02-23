@@ -1,10 +1,16 @@
 ---
-title: "【薄荷薄荷】代幣經濟是否有望成為二十一世紀文化基礎建設？以Shibuya為例"
-description: "Shibuya從動畫的「擁有權」出發，並結合「互動式電影」，讓觀眾成為擁有者，並且可以參與決策劇情的發展方向。劇情發展對..."
-pubDate: "2022-12-13T02:00:00.000Z"
+title: 【薄荷薄荷】代幣經濟是否有望成為二十一世紀文化基礎建設？以Shibuya為例
+description: Shibuya從動畫的「擁有權」出發，並結合「互動式電影」，讓觀眾成為擁有者，並且可以參與決策劇情的發展方向。劇情發展對...
+pubDate: '2022-12-13T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0x098f328d759c507b0b5111c3976934fca8adeadf68068bd9cb1487a23706b730'
+signature: >-
+  0x4c112d8b4df9b19741ea09798b29625decbb4307d027032f1e14fc6de3608c665393fbde4b4fb899ce7e5f3f404ee8aab77513ee5cf8b8a37ca94013acbb66331b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
+author: 張寶成、黃豆泥
 ---
 
 ## 內文

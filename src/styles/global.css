@@ -920,28 +920,115 @@
     font-size: 0.95rem;
   }
 
-  .article-signature-status {
-    margin: 0.55rem 0 0;
+  .article-author {
+    margin: 0.38rem 0 0;
+    color: #355560;
+    font-size: 0.9rem;
+  }
+
+  .signature-badge {
     display: inline-flex;
     align-items: center;
+    gap: 0.25rem;
     border-radius: 999px;
     border: 1px solid #dccca9;
     background: #fff7e8;
     color: #7d5c1f;
-    font-size: 0.78rem;
-    padding: 0.16rem 0.58rem;
+    font-size: 0.74rem;
+    padding: 0.12rem 0.52rem;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    list-style: none;
   }
 
-  .article-signature-status-verified {
-    border-color: #9ad8cd;
-    background: #e1f7f2;
-    color: #115f53;
+  .signature-badge::-webkit-details-marker {
+    display: none;
   }
 
-  .article-signature-status-invalid {
+  .signature-badge svg {
+    width: 0.9rem;
+    height: 0.9rem;
+    fill: currentColor;
+    flex: 0 0 auto;
+  }
+
+  .signature-badge-verified {
+    border-color: #9ccfff;
+    background: #eaf4ff;
+    color: #0f4c81;
+  }
+
+  .signature-badge-unsigned {
+    border-color: #dccca9;
+    background: #fff7e8;
+    color: #7d5c1f;
+  }
+
+  .signature-badge-invalid {
     border-color: #e2b2b2;
     background: #fff0f0;
     color: #882d2d;
+  }
+
+  .signature-badge-caret {
+    opacity: 0.72;
+    font-size: 0.65rem;
+    transform: translateY(-0.02rem);
+    transition: transform 0.18s ease;
+  }
+
+  .signature-disclosure {
+    position: relative;
+  }
+
+  .signature-disclosure .signature-panel {
+    display: none;
+  }
+
+  .signature-disclosure[open] .signature-badge-caret {
+    transform: rotate(180deg);
+  }
+
+  .signature-disclosure[open] .signature-panel {
+    display: grid;
+    gap: 0.26rem;
+    position: absolute;
+    top: calc(100% + 0.34rem);
+    right: 0;
+    z-index: 8;
+    min-width: min(92vw, 34rem);
+    border: 1px solid #c8d9e8;
+    border-radius: 0.72rem;
+    padding: 0.6rem 0.68rem;
+    background: #ffffff;
+    box-shadow: 0 14px 28px -22px rgba(16, 50, 96, 0.48);
+  }
+
+  .signature-panel p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #2d4258;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .signature-panel code {
+    font-size: 0.68rem;
+  }
+
+  .article-signature-note {
+    margin: 0.45rem 0 0;
+    color: #882d2d;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 880px) {
+    .signature-disclosure[open] .signature-panel {
+      right: auto;
+      left: 0;
+      min-width: min(90vw, 30rem);
+    }
   }
 
   .article-lead {

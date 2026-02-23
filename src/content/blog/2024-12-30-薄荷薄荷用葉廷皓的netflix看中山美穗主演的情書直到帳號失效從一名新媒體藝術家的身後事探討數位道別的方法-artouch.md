@@ -1,10 +1,16 @@
 ---
-title: "【薄荷薄荷】用葉廷皓的Netflix看中山美穗主演的情書，直到帳號失效——從一名新媒體藝術家的身後事探討數位道別的方法"
-description: "長期而言，人都會死，記錄文明的電磁紀錄也會消失。嚴格來說，藝術家的腦子也只不過是比較特殊的電磁活動而已。網際網路30歲，..."
-pubDate: "2024-12-30T02:00:00.000Z"
+title: 【薄荷薄荷】用葉廷皓的Netflix看中山美穗主演的情書，直到帳號失效——從一名新媒體藝術家的身後事探討數位道別的方法
+description: 長期而言，人都會死，記錄文明的電磁紀錄也會消失。嚴格來說，藝術家的腦子也只不過是比較特殊的電磁活動而已。網際網路30歲，...
+pubDate: '2024-12-30T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0xec36a34be26cae6219d5131ac4ffb14c3a3c74eed6e0587d0489413a971bb54d'
+signature: >-
+  0xd56e6a88d4f4b19706ccad8957a4e11d41b961120cb2b84c0d2157c5b2bfd7ee1a8eeadd24a1589c47ec53c0390716ef507eb0ac36e947c793d5ac2c41fdf6df1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
+author: 張寶成、黃豆泥
 ---
 
 ## 內文

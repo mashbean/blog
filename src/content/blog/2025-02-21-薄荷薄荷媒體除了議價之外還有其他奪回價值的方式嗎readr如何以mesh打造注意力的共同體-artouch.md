@@ -1,10 +1,16 @@
 ---
-title: "【薄荷薄荷】媒體除了議價之外，還有其他奪回價值的方式嗎？READr如何以Mesh打造注意力的共同體"
-description: "在社交網路平台（SNS）興起的時代，「內容產製」與「入口平台」的定義範疇漸漸被打破。在過去，新聞媒體主要扮演入口平台的角..."
-pubDate: "2025-02-21T02:00:00.000Z"
+title: 【薄荷薄荷】媒體除了議價之外，還有其他奪回價值的方式嗎？READr如何以Mesh打造注意力的共同體
+description: 在社交網路平台（SNS）興起的時代，「內容產製」與「入口平台」的定義範疇漸漸被打破。在過去，新聞媒體主要扮演入口平台的角...
+pubDate: '2025-02-21T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0x5f889960211bb0093a0770cd51ab29d345aecbf5babbb34e7a68365f9a5e4506'
+signature: >-
+  0x65c72db0b6897cb9c6dbfd7b6f9a242fadb1a2dd414de567d8e82d17da41b2d35b8b7ceccdfb38e164f376a5c38f3bff25623199ac03d33321cc9fbd941ded001c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
+author: 張寶成、黃豆泥
 ---
 
 ## 內文

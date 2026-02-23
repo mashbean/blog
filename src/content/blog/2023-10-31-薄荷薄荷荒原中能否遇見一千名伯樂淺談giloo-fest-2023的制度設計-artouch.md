@@ -1,10 +1,16 @@
 ---
-title: "【薄荷薄荷】荒原中能否遇見一千名伯樂？淺談Giloo Fest 2023的制度設計"
-description: "結合了「國際華語短片影展」和「眾籌提案大會」的「Giloo Fest 2023」，不只是放映短片或紀錄片，還同時將過去只..."
-pubDate: "2023-10-31T02:00:00.000Z"
+title: 【薄荷薄荷】荒原中能否遇見一千名伯樂？淺談Giloo Fest 2023的制度設計
+description: 結合了「國際華語短片影展」和「眾籌提案大會」的「Giloo Fest 2023」，不只是放映短片或紀錄片，還同時將過去只...
+pubDate: '2023-10-31T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0x3cfb5f8d6ec00a1437d16795cf5255f871ceebdcbf6ee815257aa752f18b7dda'
+signature: >-
+  0x0080b97b499355c4e893778185a05aaf8e2599947f123dbbe5da33b6d7c9c01a78dd2e94dbacab56f6fd2c8d65f2eafad7a0ce1171a6f058c8ff0a856268fcbb1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
+author: 張寶成、黃豆泥
 ---
 
 ## 內文
