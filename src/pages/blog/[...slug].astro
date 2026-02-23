@@ -232,7 +232,7 @@ const articleStructuredData = {
           <ul class="tag-list" aria-label="文章標籤">
             {classifiedCurrent.topics.map((topic) => (
               <li class="tag-list-item">
-                <a class="tag-list-link" href={withBase(`tags/?topic=${encodeURIComponent(topic)}`)}>
+                <a class="tag-list-link" href={withBase(`tags/${encodeURIComponent(topic)}/`)}>
                   {topic}
                 </a>
               </li>
