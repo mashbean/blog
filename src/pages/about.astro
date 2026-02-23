@@ -18,6 +18,7 @@ interface AffiliationItem {
   logo?: string;
   logoKind?: "mask" | "image";
   logoWidth?: string;
+  logoMonochrome?: boolean;
 }
 
 interface AffiliationGroup {
@@ -108,9 +109,10 @@ const affiliationGroups: AffiliationGroup[] = [
       {
         key: "advisory",
         href: "https://advisory.yda.gov.tw/",
-        logo: "https://advisory.yda.gov.tw/img/logo.jpg",
+        logo: "images/about/org-logos/advisory-yda.jpg",
         logoKind: "image",
-        logoWidth: "5.2rem",
+        logoWidth: "5.8rem",
+        logoMonochrome: false,
         zh: "行政院青年諮詢委員會",
         en: "Executive Yuan Youth Advisory Committee"
       },
@@ -355,7 +357,10 @@ const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? l
                             org.logo ? (
                               org.logoKind === "image" ? (
                                 <img
-                                  class="about-org-logo-image"
+                                  class:list={{
+                                    "about-org-logo-image": true,
+                                    "about-org-logo-image-original": org.logoMonochrome === false
+                                  }}
                                   style={`--org-logo-w:${org.logoWidth};`}
                                   src={resolveLogoUrl(org.logo)}
                                   alt=""
@@ -571,7 +576,10 @@ const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? l
                             org.logo ? (
                               org.logoKind === "image" ? (
                                 <img
-                                  class="about-org-logo-image"
+                                  class:list={{
+                                    "about-org-logo-image": true,
+                                    "about-org-logo-image-original": org.logoMonochrome === false
+                                  }}
                                   style={`--org-logo-w:${org.logoWidth};`}
                                   src={resolveLogoUrl(org.logo)}
                                   alt=""
