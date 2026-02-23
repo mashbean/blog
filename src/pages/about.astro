@@ -19,6 +19,7 @@ interface AffiliationItem {
   logoKind?: "mask" | "image";
   logoWidth?: string;
   logoMonochrome?: boolean;
+  logoFilter?: string;
 }
 
 interface AffiliationGroup {
@@ -111,8 +112,8 @@ const affiliationGroups: AffiliationGroup[] = [
         href: "https://advisory.yda.gov.tw/",
         logo: "https://advisory.yda.gov.tw/img/logo.jpg?v=20260224",
         logoKind: "image",
-        logoWidth: "5.8rem",
-        logoMonochrome: false,
+        logoWidth: "5.1rem",
+        logoFilter: "brightness(0) saturate(100%) invert(23%) sepia(33%) saturate(1220%) hue-rotate(138deg) brightness(92%) contrast(92%)",
         zh: "行政院青年諮詢委員會",
         en: "Executive Yuan Youth Advisory Committee"
       },
@@ -361,7 +362,7 @@ const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? l
                                     "about-org-logo-image": true,
                                     "about-org-logo-image-original": org.logoMonochrome === false
                                   }}
-                                  style={`--org-logo-w:${org.logoWidth};--org-logo-filter:${org.logoMonochrome === false ? "none" : "brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%)"};`}
+                                  style={`--org-logo-w:${org.logoWidth};--org-logo-filter:${org.logoFilter ?? (org.logoMonochrome === false ? "none" : "brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%)")};`}
                                   src={resolveLogoUrl(org.logo)}
                                   alt=""
                                   loading="lazy"
@@ -580,7 +581,7 @@ const resolveLogoUrl = (logo: string): string => (/^https?:\/\//i.test(logo) ? l
                                     "about-org-logo-image": true,
                                     "about-org-logo-image-original": org.logoMonochrome === false
                                   }}
-                                  style={`--org-logo-w:${org.logoWidth};--org-logo-filter:${org.logoMonochrome === false ? "none" : "brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%)"};`}
+                                  style={`--org-logo-w:${org.logoWidth};--org-logo-filter:${org.logoFilter ?? (org.logoMonochrome === false ? "none" : "brightness(0) saturate(100%) invert(31%) sepia(44%) saturate(915%) hue-rotate(130deg) brightness(95%) contrast(93%)")};`}
                                   src={resolveLogoUrl(org.logo)}
                                   alt=""
                                   loading="lazy"
