@@ -23,7 +23,7 @@ const yearSections = Array.from(yearMap.entries())
   .map(([year, yearPosts]) => ({
     year,
     posts: yearPosts,
-    count: yearPosts.length
+    count: yearPosts.length,
   }))
   .sort((a, b) => b.year - a.year);
 
@@ -33,7 +33,7 @@ const yearNotes: Record<number, string> = {
   2024: "在數位發展部推動數位皮夾，研究各國數位身分政策",
   2023: "加入數位發展部多元宇宙科，研究 web3 政策與國際標準組織（W3C），開始典藏Artouch 薄荷薄荷專欄",
   2022: "創辦了 FAB DAO（#非營利 web3 行動），參與 Volume DAO（#數位藝術），參展林茲電子藝術節",
-  2021: "自醫師工作離職，開始探索 web3 與 NFT，畫了新時代國旗"
+  2021: "自醫師工作離職，開始探索 web3 與 NFT，畫了新時代國旗",
 };
 
 const RECENT_UPDATED_DAYS = 90;
@@ -49,7 +49,7 @@ for (const post of posts) {
     title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
-    tags: post.data.tags
+    tags: post.data.tags,
   });
   topicByPostId.set(post.id, classified.topics);
 }
@@ -59,7 +59,7 @@ const topicFilterOptions = topicCatalog
     key: item.key,
     icon: item.icon,
     title: item.title,
-    count: posts.filter((post) => (topicByPostId.get(post.id) ?? []).includes(item.key)).length
+    count: posts.filter((post) => (topicByPostId.get(post.id) ?? []).includes(item.key)).length,
   }))
   .filter((item) => item.count > 0);
 ---
@@ -77,69 +77,77 @@ const topicFilterOptions = topicCatalog
           <button type="button" class="archive-filter-btn is-active" data-topic="all">
             全部
           </button>
-          {
-            topicFilterOptions.map((item) => (
-              <button type="button" class="archive-filter-btn" data-topic={item.key}>
-                {item.icon} {item.title}
-              </button>
-            ))
-          }
+          {topicFilterOptions.map((item) => (
+            <button type="button" class="archive-filter-btn" data-topic={item.key}>
+              {item.icon} {item.title}
+            </button>
+          ))}
         </div>
         <p id="archive-filter-status" class="archive-filter-status" aria-live="polite">
           目前顯示全部主題
         </p>
         <div class="archive-accordion-list" aria-label="年份文章收合列表">
-          {
-            yearSections.map((section, index) => (
-              <details class="archive-accordion" open={index === 0} data-filterable-accordion>
-                <summary class="archive-accordion-summary">
-                  <span class="archive-accordion-title">
-                    <span class="tag-chip-icon" aria-hidden="true">🗓️</span>
-                    {section.year} 年
+          {yearSections.map((section, index) => (
+            <details class="archive-accordion" open={index === 0} data-filterable-accordion>
+              <summary class="archive-accordion-summary">
+                <span class="archive-accordion-title">
+                  <span class="tag-chip-icon" aria-hidden="true">
+                    🗓️
                   </span>
-                  {yearNotes[section.year] && (
-                    <span class="archive-accordion-note">{yearNotes[section.year]}</span>
-                  )}
-                  <span class="archive-accordion-count" data-count data-total={section.count}>{section.count} 篇</span>
-                </summary>
-                <div class="archive-accordion-body">
-                  <div class="archive-accordion-body-inner">
-                    <ul class="archive-list">
-                      {
-                        section.posts.map((post) => {
-                          const topics = topicByPostId.get(post.id) ?? ["公共網路"];
-                          return (
-                          <li class="archive-item" data-topics={topics.join("|")}>
-                            <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                              {formatDate(post.data.pubDate)}
-                            </time>
+                  {section.year} 年
+                </span>
+                {yearNotes[section.year] && (
+                  <span class="archive-accordion-note">{yearNotes[section.year]}</span>
+                )}
+                <span class="archive-accordion-count" data-count data-total={section.count}>
+                  {section.count} 篇
+                </span>
+              </summary>
+              <div class="archive-accordion-body">
+                <div class="archive-accordion-body-inner">
+                  <ul class="archive-list">
+                    {section.posts.map((post) => {
+                      const topics = topicByPostId.get(post.id) ?? ["公共網路"];
+                      return (
+                        <li class="archive-item" data-topics={topics.join("|")}>
+                          <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                            {formatDate(post.data.pubDate)}
+                          </time>
                           <div class="archive-main">
-                            <a class="archive-link" href={buildPostUrl(post)}>{cleanPostTitle(post.data.title)}</a>
+                            <a class="archive-link" href={buildPostUrl(post)}>
+                              {cleanPostTitle(post.data.title)}
+                            </a>
                             <p class="archive-meta">
-                              主題：{topics.join("・")}
+                              <span class="archive-meta-topics">主題：{topics.join("・")}</span>
                               {isRecentlyUpdated(post.data.pubDate, post.data.updatedDate) && (
-                                <span class="archive-update-badge" title={`近 ${RECENT_UPDATED_DAYS} 天內更新`}>
+                                <span
+                                  class="archive-update-badge"
+                                  title={`近 ${RECENT_UPDATED_DAYS} 天內更新`}
+                                >
                                   最近更新
                                 </span>
                               )}
                             </p>
                           </div>
-                          </li>
-                        )})
-                      }
-                    </ul>
-                  </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
-              </details>
-            ))
-          }
+              </div>
+            </details>
+          ))}
           <details class="archive-accordion">
             <summary class="archive-accordion-summary">
               <span class="archive-accordion-title">
-                <span class="tag-chip-icon" aria-hidden="true">🗓️</span>
+                <span class="tag-chip-icon" aria-hidden="true">
+                  🗓️
+                </span>
                 2020 年
               </span>
-              <span class="archive-accordion-note">2020 年以前我在醫院見習、實習、一般住院醫師訓練，文章大多放在 Medium，可以點過去閱讀</span>
+              <span class="archive-accordion-note">
+                2020 年以前我在醫院見習、實習、一般住院醫師訓練，文章大多放在 Medium，可以點過去閱讀
+              </span>
             </summary>
             <div class="archive-accordion-body">
               <div class="archive-accordion-body-inner">
@@ -164,7 +172,7 @@ const topicFilterOptions = topicCatalog
 
   const filterButtons = Array.from(document.querySelectorAll(".archive-filter-btn"));
   const filterableAccordions = Array.from(
-    document.querySelectorAll("details[data-filterable-accordion]")
+    document.querySelectorAll("details[data-filterable-accordion]"),
   );
   const status = document.querySelector("#archive-filter-status");
   let activeTopic = "all";

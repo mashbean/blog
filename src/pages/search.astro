@@ -17,7 +17,9 @@ const fallbackIndexUrl = withBase("search-index.json");
       <p class="search-state" data-state="loading" hidden>搜尋索引載入中...</p>
       <p class="search-state" data-state="idle" hidden>請輸入關鍵字開始搜尋。</p>
       <p class="search-state" data-state="empty" hidden>找不到符合的結果，請換個關鍵字。</p>
-      <p class="search-state search-state-error" data-state="error" hidden>搜尋暫時不可用，請稍後再試。</p>
+      <p class="search-state search-state-error" data-state="error" hidden>
+        搜尋暫時不可用，請稍後再試。
+      </p>
     </div>
     <div id="pagefind-search"></div>
     <div id="search-fallback" class="search-fallback" hidden>
@@ -46,7 +48,7 @@ const fallbackIndexUrl = withBase("search-index.json");
     </div>
   </section>
   <p class="search-graph-cta">
-    <a class="nav-link nav-link-active search-graph-cta-link" href={withBase("tags-graph/")}>與豆泥的大腦互動（實驗版）</a>
+    <a class="search-graph-cta-link" href={withBase("tags-graph/")}>與豆泥的大腦互動（實驗版）</a>
   </p>
 </BaseLayout>
 
@@ -107,7 +109,7 @@ const fallbackIndexUrl = withBase("search-index.json");
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
-      .replaceAll("\"", "&quot;")
+      .replaceAll('"', "&quot;")
       .replaceAll("'", "&#39;");
   const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -158,7 +160,7 @@ const fallbackIndexUrl = withBase("search-index.json");
     return new Intl.DateTimeFormat("zh-TW", {
       year: "numeric",
       month: "2-digit",
-      day: "2-digit"
+      day: "2-digit",
     }).format(date);
   };
 
@@ -258,7 +260,7 @@ const fallbackIndexUrl = withBase("search-index.json");
       track("Search Query Submitted", {
         mode: "fallback",
         query_length: String(q.length),
-        filter: activeType
+        filter: activeType,
       });
       search(q);
     });
@@ -314,8 +316,8 @@ const fallbackIndexUrl = withBase("search-index.json");
           zero_results: "找不到符合的結果",
           many_results: "[COUNT] 筆結果",
           one_result: "[COUNT] 筆結果",
-          searching: "搜尋中..."
-        }
+          searching: "搜尋中...",
+        },
       });
       setStatus("");
 
@@ -335,7 +337,7 @@ const fallbackIndexUrl = withBase("search-index.json");
             track("Search Query Submitted", {
               mode: "pagefind",
               query_length: String(q.length),
-              filter: "all"
+              filter: "all",
             });
           });
           input.addEventListener("input", () => {
@@ -358,7 +360,8 @@ const fallbackIndexUrl = withBase("search-index.json");
         if (resultCount > 0) {
           setSearchState("ready");
         } else if (isSearching) {
-          const message = document.querySelector(".pagefind-ui__message")?.textContent?.trim() ?? "";
+          const message =
+            document.querySelector(".pagefind-ui__message")?.textContent?.trim() ?? "";
           if (message.includes("找不到")) setSearchState("empty");
           else setSearchState("loading");
         } else {

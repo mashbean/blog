@@ -35,8 +35,7 @@
     color: var(--color-ink);
     background:
       radial-gradient(circle at 20% -10%, #d9f4ee 0%, transparent 35%),
-      radial-gradient(circle at 90% 10%, #fff0cc 0%, transparent 30%),
-      var(--color-paper);
+      radial-gradient(circle at 90% 10%, #fff0cc 0%, transparent 30%), var(--color-paper);
     font-family: var(--font-sans);
     line-height: 1.7;
     --article-font-scale: 1;
@@ -333,7 +332,10 @@
     color: #224153;
     text-decoration: none;
     padding: 0.42rem 0.54rem;
-    transition: transform 0.16s ease, background-color 0.16s ease, border-color 0.16s ease;
+    transition:
+      transform 0.16s ease,
+      background-color 0.16s ease,
+      border-color 0.16s ease;
   }
 
   .nav-social-link:hover {
@@ -459,15 +461,14 @@
     position: absolute;
     inset: 0;
     z-index: 0;
-    background:
-      linear-gradient(
-        90deg,
-        #f5fcf9 0%,
-        rgba(245, 252, 249, 0.94) 34%,
-        rgba(245, 252, 249, 0.7) 56%,
-        rgba(245, 252, 249, 0.28) 78%,
-        rgba(245, 252, 249, 0) 100%
-      );
+    background: linear-gradient(
+      90deg,
+      #f5fcf9 0%,
+      rgba(245, 252, 249, 0.94) 34%,
+      rgba(245, 252, 249, 0.7) 56%,
+      rgba(245, 252, 249, 0.28) 78%,
+      rgba(245, 252, 249, 0) 100%
+    );
   }
 
   .hero-with-art::after {
@@ -572,8 +573,7 @@
     color: #1f3b48;
     background:
       radial-gradient(circle at 16% 12%, #dcf4ef 0%, transparent 34%),
-      radial-gradient(circle at 84% 82%, #fef0ce 0%, transparent 35%),
-      #f7fcfa;
+      radial-gradient(circle at 84% 82%, #fef0ce 0%, transparent 35%), #f7fcfa;
   }
 
   .post-card-thumb-badge {
@@ -691,7 +691,10 @@
     max-height: 0;
     overflow: hidden;
     margin-top: 0;
-    transition: opacity 0.16s ease, max-height 0.16s ease, margin-top 0.16s ease;
+    transition:
+      opacity 0.16s ease,
+      max-height 0.16s ease,
+      margin-top 0.16s ease;
   }
 
   .post-card-minimal:hover .tag-list,
@@ -842,7 +845,9 @@
     text-decoration: none;
     font-size: 0.9rem;
     line-height: 1.48;
-    transition: background-color 0.16s ease, color 0.16s ease;
+    transition:
+      background-color 0.16s ease,
+      color 0.16s ease;
   }
 
   .toc-item a.toc-link-active {
@@ -949,7 +954,9 @@
     vertical-align: middle;
     cursor: pointer;
     opacity: 0.42;
-    transition: opacity 0.16s ease, background-color 0.16s ease;
+    transition:
+      opacity 0.16s ease,
+      background-color 0.16s ease;
   }
 
   .heading-anchor-btn:hover {
@@ -1220,16 +1227,18 @@
   }
 
   .search-graph-cta-link {
-    min-height: 2.15rem;
-    padding: 0.42rem 0.92rem;
-    font-weight: 600;
-    box-shadow: 0 8px 18px rgba(11, 125, 109, 0.12);
+    display: inline-flex;
+    align-items: center;
+    color: #2f5664;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+    font-weight: 400;
   }
 
   .search-graph-cta-link:hover {
-    color: #fff;
-    background: #0a6f61;
-    border-color: #0a6f61;
+    color: #0b7d6d;
+    text-decoration: none;
   }
 
   #pagefind-search .pagefind-ui__search-input {
@@ -1458,7 +1467,10 @@
     padding: 0 0.95rem;
     opacity: 0;
     transform: translateY(-2px);
-    transition: opacity 0.2s ease, transform 0.2s ease, padding 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      padding 0.2s ease;
   }
 
   .archive-accordion[open] .archive-accordion-body-inner {
@@ -1741,7 +1753,10 @@
     background: #fff;
     text-decoration: none;
     padding: 0.7rem 0.72rem;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    transition:
+      border-color 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.18s ease;
   }
 
   .about-org-card a:hover {
@@ -2064,7 +2079,9 @@
     max-width: min(21rem, calc(100vw - 2.4rem));
     opacity: 0;
     transform: translateY(4px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
     pointer-events: none;
   }
 
@@ -2370,14 +2387,13 @@
   }
 
   .hero-with-art::before {
-    background:
-      linear-gradient(
-        90deg,
-        #f5fcf9 0%,
-        rgba(245, 252, 249, 0.96) 46%,
-        rgba(245, 252, 249, 0.72) 74%,
-        rgba(245, 252, 249, 0.1) 100%
-      );
+    background: linear-gradient(
+      90deg,
+      #f5fcf9 0%,
+      rgba(245, 252, 249, 0.96) 46%,
+      rgba(245, 252, 249, 0.72) 74%,
+      rgba(245, 252, 249, 0.1) 100%
+    );
   }
 
   .post-list-compact-grid {

@@ -10,8 +10,8 @@ const topics = getTopicCatalog();
 const GRAPH_GENERIC_KEYWORD_PENALTY: Record<string, number> = {
   nft: 0.46,
   web3: 0.62,
-  "區塊鏈": 0.7,
-  "加密": 0.7
+  區塊鏈: 0.7,
+  加密: 0.7,
 };
 
 const items = posts.map((post) => {
@@ -19,7 +19,7 @@ const items = posts.map((post) => {
     title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
-    tags: post.data.tags
+    tags: post.data.tags,
   });
   return {
     id: `post:${post.id}`,
@@ -28,7 +28,7 @@ const items = posts.map((post) => {
     topics: classified.topics,
     keywords: classified.keywords.slice(0, 6),
     secondaryKeywords: classified.secondaryKeywords.slice(0, 10),
-    keywordScores: classified.keywordScores.slice(0, 20)
+    keywordScores: classified.keywordScores.slice(0, 20),
   };
 });
 
@@ -67,8 +67,15 @@ const topKeywords = Array.from(keywordCounter.entries())
 const keywordSet = new Set(topKeywords);
 const searchIndexUrl = withBase("search-index.json");
 
-const nodes: Array<{ id: string; type: "topic" | "keyword" | "post"; label: string; url?: string; topic?: string }> = [];
-const links: Array<{ source: string; target: string; kind: "topic" | "keyword"; weight: number }> = [];
+const nodes: Array<{
+  id: string;
+  type: "topic" | "keyword" | "post";
+  label: string;
+  url?: string;
+  topic?: string;
+}> = [];
+const links: Array<{ source: string; target: string; kind: "topic" | "keyword"; weight: number }> =
+  [];
 
 for (const topic of topics) {
   nodes.push({ id: `topic:${topic.key}`, type: "topic", label: topic.title, topic: topic.key });
@@ -79,20 +86,27 @@ for (const keyword of topKeywords) {
 }
 
 for (const item of items) {
-  nodes.push({ id: item.id, type: "post", label: item.title, url: item.url, topic: item.topics[0] });
+  nodes.push({
+    id: item.id,
+    type: "post",
+    label: item.title,
+    url: item.url,
+    topic: item.topics[0],
+  });
   for (const topic of item.topics) {
     links.push({ source: item.id, target: `topic:${topic}`, kind: "topic", weight: 1 });
   }
   for (const keywordEntry of item.keywordScores) {
     if (keywordSet.has(keywordEntry.keyword)) {
-      const linkWeight = keywordEntry.tier === "primary"
-        ? Math.min(1.8, Math.max(0.55, keywordEntry.score / 2.2))
-        : Math.min(1.3, Math.max(0.35, keywordEntry.score / 2.8));
+      const linkWeight =
+        keywordEntry.tier === "primary"
+          ? Math.min(1.8, Math.max(0.55, keywordEntry.score / 2.2))
+          : Math.min(1.3, Math.max(0.35, keywordEntry.score / 2.8));
       links.push({
         source: item.id,
         target: `keyword:${keywordEntry.keyword}`,
         kind: "keyword",
-        weight: Number(linkWeight.toFixed(3))
+        weight: Number(linkWeight.toFixed(3)),
       });
     }
   }
@@ -101,8 +115,11 @@ for (const item of items) {
 const graph = { nodes, links };
 ---
 
-<BaseLayout title="與豆泥的大腦互動" description="歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。">
-  <h1 class="section-title">與豆泥的大腦互動</h1>
+<BaseLayout
+  title="與豆泥的大腦互動"
+  description="歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。"
+>
+  <h1 class="section-title graph-page-title">與豆泥的大腦互動</h1>
   <p>歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。</p>
   <p><a href={withBase("search/")}>回一般搜尋</a></p>
 
@@ -131,7 +148,9 @@ const graph = { nodes, links };
     </div>
     <div class="graph-guide" aria-label="使用說明">
       <p class="graph-guide-text">拖曳旋轉、滾輪縮放；文章節點點一次看資訊、再點一次開啟文章。</p>
-      <p id="graph-search-status" class="graph-search-status" aria-live="polite">搜尋結果：全部節點</p>
+      <p id="graph-search-status" class="graph-search-status" aria-live="polite">
+        搜尋結果：全部節點
+      </p>
       <div class="graph-type-toggle" role="group" aria-label="節點類型顯示">
         <label><input type="checkbox" data-node-type="topic" checked />主題</label>
         <label><input type="checkbox" data-node-type="keyword" checked />關鍵字</label>
@@ -145,15 +164,32 @@ const graph = { nodes, links };
     </div>
 
     <div class="graph-main">
-      <div id="graph-stage" class="graph-stage" role="application" aria-label="互動圖譜" tabindex="0"></div>
+      <div
+        id="graph-stage"
+        class="graph-stage"
+        role="application"
+        aria-label="互動圖譜"
+        tabindex="0"
+      >
+      </div>
       <div id="graph-list-view" class="graph-list-view" hidden>
         <p class="graph-list-note">列表模式可在手機快速瀏覽，點擊可直接進文章。</p>
         <ul id="graph-post-list" class="graph-post-list"></ul>
       </div>
-      <aside id="graph-inspector" class="graph-inspector" aria-live="polite" aria-label="節點資訊面板">
+      <aside
+        id="graph-inspector"
+        class="graph-inspector"
+        aria-live="polite"
+        aria-label="節點資訊面板"
+      >
         <div class="graph-inspector-head">
           <h2>節點資訊</h2>
-          <button id="graph-inspector-close" type="button" class="graph-inspector-close" aria-label="關閉資訊面板">關閉</button>
+          <button
+            id="graph-inspector-close"
+            type="button"
+            class="graph-inspector-close"
+            aria-label="關閉資訊面板">關閉</button
+          >
         </div>
         <div id="graph-inspector-content" class="graph-inspector-content">
           <p>點擊任一節點查看詳細資訊。</p>
@@ -176,7 +212,9 @@ const graph = { nodes, links };
   const viewListButton = document.querySelector("#graph-view-list");
   const listView = document.querySelector("#graph-list-view");
   const postList = document.querySelector("#graph-post-list");
-  const typeCheckboxes = Array.from(document.querySelectorAll(".graph-type-toggle input[data-node-type]"));
+  const typeCheckboxes = Array.from(
+    document.querySelectorAll(".graph-type-toggle input[data-node-type]"),
+  );
 
   if (!(stage instanceof HTMLElement)) throw new Error("graph stage missing");
 
@@ -188,7 +226,7 @@ const graph = { nodes, links };
     z: (Math.random() - 0.5) * 340,
     vx: 0,
     vy: 0,
-    vz: 0
+    vz: 0,
   }));
 
   const byId = new Map(nodes.map((n) => [n.id, n]));
@@ -246,7 +284,7 @@ const graph = { nodes, links };
           typeof doc.description === "string" ? doc.description : "",
           typeof doc.content === "string" ? doc.content : "",
           Array.isArray(doc.tags) ? doc.tags.join(" ") : "",
-          Array.isArray(doc.topics) ? doc.topics.join(" ") : ""
+          Array.isArray(doc.topics) ? doc.topics.join(" ") : "",
         ]
           .join(" ")
           .toLocaleLowerCase("zh-TW");
@@ -300,7 +338,7 @@ const graph = { nodes, links };
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;")
-      .replaceAll("\"", "&quot;")
+      .replaceAll('"', "&quot;")
       .replaceAll("'", "&#39;");
   }
 
@@ -329,15 +367,25 @@ const graph = { nodes, links };
 
     if (node.type === "topic") {
       const posts = Array.from(topicToPosts.get(node.id) ?? []).sort((a, b) =>
-        a.label.localeCompare(b.label, "zh-Hant")
+        a.label.localeCompare(b.label, "zh-Hant"),
       );
-      const listHtml = posts.length > 0
-        ? `<ul class="graph-inspector-list">${posts
-            .slice(0, 80)
-            .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
-            .join("")}</ul>`
-        : "<p>這個主題目前沒有對應文章。</p>";
-      inspectorContent.innerHTML = `<h3>${escapeHtml(node.label)}</h3><p>類型：主題</p><p>文章數：${posts.length}</p>${listHtml}`;
+      const listHtml =
+        posts.length > 0
+          ? `<ul class="graph-inspector-list">${posts
+              .slice(0, 80)
+              .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
+              .join("")}</ul>`
+          : '<p class="graph-info-empty">這個主題目前沒有對應文章。</p>';
+      inspectorContent.innerHTML = `
+        <article class="graph-info-card">
+          <div class="graph-info-head">
+            <h3>${escapeHtml(node.label)}</h3>
+            <span class="graph-info-type">主題</span>
+          </div>
+          <p class="graph-info-count">關聯文章 ${posts.length} 篇</p>
+          ${listHtml}
+        </article>
+      `;
       return;
     }
 
@@ -359,19 +407,30 @@ const graph = { nodes, links };
         .map((item) => item.label);
 
       const topicText = topicLabels.length > 0 ? topicLabels.join("・") : "未分類";
-      const keywordHtml = keywordLabels.length > 0
-        ? `<ul class="graph-tag-chip-list">${keywordLabels
-            .slice(0, 16)
-            .map((label) => `<li class="graph-tag-chip">${escapeHtml(label)}</li>`)
-            .join("")}</ul>`
-        : "<p class=\"graph-post-card-empty\">目前沒有關鍵字。</p>";
+      const keywordHtml =
+        keywordLabels.length > 0
+          ? `<ul class="graph-tag-chip-list">${keywordLabels
+              .slice(0, 16)
+              .map((label) => `<li class="graph-tag-chip">${escapeHtml(label)}</li>`)
+              .join("")}</ul>`
+          : '<p class="graph-post-card-empty">目前沒有關鍵字。</p>';
 
       inspectorContent.innerHTML = `
         <article class="graph-post-card">
+          <div class="graph-post-card-head">
+            <span class="graph-post-card-type">文章資訊</span>
+          </div>
           <a class="graph-post-card-link" href="${node.url}">${escapeHtml(node.label)}</a>
-          <p class="graph-post-card-meta">主題：${escapeHtml(topicText)}</p>
-          <p class="graph-post-card-meta">關鍵字：</p>
-          ${keywordHtml}
+          <dl class="graph-post-meta-grid">
+            <div>
+              <dt>主題</dt>
+              <dd>${escapeHtml(topicText)}</dd>
+            </div>
+            <div>
+              <dt>關鍵字</dt>
+              <dd>${keywordHtml}</dd>
+            </div>
+          </dl>
         </article>
         <p class="graph-post-card-tip">提示：再點一次同一個文章節點會直接開啟文章。</p>
       `;
@@ -379,15 +438,25 @@ const graph = { nodes, links };
     }
 
     const posts = Array.from(keywordToPosts.get(node.id) ?? []).sort((a, b) =>
-      a.label.localeCompare(b.label, "zh-Hant")
+      a.label.localeCompare(b.label, "zh-Hant"),
     );
-    const listHtml = posts.length > 0
-      ? `<ul class="graph-inspector-list">${posts
-          .slice(0, 80)
-          .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
-          .join("")}</ul>`
-      : "<p>這個關鍵字目前沒有對應文章。</p>";
-    inspectorContent.innerHTML = `<h3>${escapeHtml(node.label)}</h3><p>類型：關鍵字</p><p>文章數：${posts.length}</p>${listHtml}`;
+    const listHtml =
+      posts.length > 0
+        ? `<ul class="graph-inspector-list">${posts
+            .slice(0, 80)
+            .map((post) => `<li><a href="${post.url}">${escapeHtml(post.label)}</a></li>`)
+            .join("")}</ul>`
+        : '<p class="graph-info-empty">這個關鍵字目前沒有對應文章。</p>';
+    inspectorContent.innerHTML = `
+      <article class="graph-info-card">
+        <div class="graph-info-head">
+          <h3>${escapeHtml(node.label)}</h3>
+          <span class="graph-info-type">關鍵字</span>
+        </div>
+        <p class="graph-info-count">關聯文章 ${posts.length} 篇</p>
+        ${listHtml}
+      </article>
+    `;
   }
 
   function clearSelection() {
@@ -398,7 +467,7 @@ const graph = { nodes, links };
   function renderListView() {
     if (!(postList instanceof HTMLElement)) return;
     if (visiblePostRows.length === 0) {
-      postList.innerHTML = "<li class=\"graph-post-list-empty\">目前沒有符合篩選條件的文章。</li>";
+      postList.innerHTML = '<li class="graph-post-list-empty">目前沒有符合篩選條件的文章。</li>';
       return;
     }
     postList.innerHTML = visiblePostRows
@@ -409,7 +478,7 @@ const graph = { nodes, links };
             <a href="${item.url}">${escapeHtml(item.label)}</a>
             <small>${escapeHtml(item.topicLabel)}</small>
           </li>
-        `
+        `,
       )
       .join("");
   }
@@ -436,15 +505,13 @@ const graph = { nodes, links };
     if (!q) return true;
     const base = node.label.toLocaleLowerCase("zh-TW");
     if (node.type !== "post") return terms.every((term) => base.includes(term));
-    const corpus = `${base} ${(postSearchCorpus.get(node.id) ?? "")}`;
+    const corpus = `${base} ${postSearchCorpus.get(node.id) ?? ""}`;
     return terms.every((term) => corpus.includes(term));
   }
 
   function applyFilters() {
     const selectedTopicValue = topicFilter instanceof HTMLSelectElement ? topicFilter.value : "all";
-    const selectedTopicId = selectedTopicValue !== "all"
-      ? `topic:${selectedTopicValue}`
-      : "all";
+    const selectedTopicId = selectedTopicValue !== "all" ? `topic:${selectedTopicValue}` : "all";
     const q = (searchInput instanceof HTMLInputElement ? searchInput.value : "")
       .trim()
       .toLocaleLowerCase("zh-TW");
@@ -527,18 +594,14 @@ const graph = { nodes, links };
       }
       el.style.display = "block";
       const weight = Number(link.weight ?? 1);
-      const baseOpacity = link.kind === "keyword"
-        ? Math.min(0.82, 0.28 + weight * 0.28)
-        : 0.72;
+      const baseOpacity = link.kind === "keyword" ? Math.min(0.82, 0.28 + weight * 0.28) : 0.72;
       if (!q) {
         el.style.strokeOpacity = String(baseOpacity);
         return;
       }
       const srcMatched = nodeMatchesQuery(link.s, q, terms);
       const tarMatched = nodeMatchesQuery(link.t, q, terms);
-      el.style.strokeOpacity = srcMatched || tarMatched
-        ? String(baseOpacity)
-        : "0.1";
+      el.style.strokeOpacity = srcMatched || tarMatched ? String(baseOpacity) : "0.1";
     });
 
     if (selectedNodeId) {
@@ -582,7 +645,8 @@ const graph = { nodes, links };
     el.addEventListener("click", () => {
       if (performance.now() < suppressClickUntil) return;
       const wasSelected = selectedNodeId === node.id;
-      const rapidSecondTap = wasSelected && lastSelectedNodeId === node.id && performance.now() - lastSelectedAt < 950;
+      const rapidSecondTap =
+        wasSelected && lastSelectedNodeId === node.id && performance.now() - lastSelectedAt < 950;
       setSelectedNode(node.id);
       renderInspector(node);
       lastSelectedNodeId = node.id;
@@ -622,7 +686,7 @@ const graph = { nodes, links };
       x: w / 2 + x1 * p,
       y: h / 2 + y1 * p,
       s: Math.max(0.3, p),
-      z: z2
+      z: z2,
     };
   }
 
@@ -646,8 +710,12 @@ const graph = { nodes, links };
         const fx = dx * inv * f;
         const fy = dy * inv * f;
         const fz = dz * inv * f;
-        a.vx += fx; a.vy += fy; a.vz += fz;
-        b.vx -= fx; b.vy -= fy; b.vz -= fz;
+        a.vx += fx;
+        a.vy += fy;
+        a.vz += fz;
+        b.vx -= fx;
+        b.vy -= fy;
+        b.vz -= fz;
       }
     }
 
@@ -659,18 +727,18 @@ const graph = { nodes, links };
       const dz = b.z - a.z;
       const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
       const weight = Number(link.weight ?? 1);
-      const target = link.kind === "topic"
-        ? 140
-        : Math.max(128, 230 - weight * 52);
-      const k = link.kind === "topic"
-        ? 0.03
-        : 0.01 + weight * 0.013;
+      const target = link.kind === "topic" ? 140 : Math.max(128, 230 - weight * 52);
+      const k = link.kind === "topic" ? 0.03 : 0.01 + weight * 0.013;
       const f = (d - target) * k;
       const fx = (dx / d) * f;
       const fy = (dy / d) * f;
       const fz = (dz / d) * f;
-      a.vx += fx; a.vy += fy; a.vz += fz;
-      b.vx -= fx; b.vy -= fy; b.vz -= fz;
+      a.vx += fx;
+      a.vy += fy;
+      a.vz += fz;
+      b.vx -= fx;
+      b.vy -= fy;
+      b.vz -= fz;
     }
 
     for (const n of nodes) {
@@ -752,10 +820,14 @@ const graph = { nodes, links };
     dragPointerId = -1;
   });
 
-  stage.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    zoom = Math.min(2.2, Math.max(0.55, zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
-  }, { passive: false });
+  stage.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      zoom = Math.min(2.2, Math.max(0.55, zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
+    },
+    { passive: false },
+  );
 
   stage.addEventListener("click", (e) => {
     if (e.target instanceof HTMLElement && e.target.closest(".graph-node")) return;
@@ -803,7 +875,9 @@ const graph = { nodes, links };
   });
 
   resetButton?.addEventListener("click", () => {
-    yaw = 0; pitch = 0; zoom = 1;
+    yaw = 0;
+    pitch = 0;
+    zoom = 1;
     if (topicFilter instanceof HTMLSelectElement) {
       topicFilter.value = "all";
     }
@@ -826,12 +900,39 @@ const graph = { nodes, links };
 </script>
 
 <style>
-  .graph-panel { border: 1px solid #d8e6e1; border-radius: 1rem; background: #fff; padding: 0.9rem; }
-  .graph-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 0.6rem; margin-bottom: 0.72rem; }
-  .graph-toolbar label { display: grid; gap: 0.24rem; font-size: 0.84rem; color: #39525d; }
-  .graph-toolbar input, .graph-toolbar select, .graph-toolbar button {
-    border: 1px solid #c8ddd7; border-radius: 0.72rem; background: #f8fcfa; color: #1f3c49;
-    min-height: 2rem; padding: 0.24rem 0.58rem; font-size: 0.88rem;
+  .graph-panel {
+    border: 1px solid #d8e6e1;
+    border-radius: 1rem;
+    background: #fff;
+    padding: 0.9rem;
+  }
+  .graph-page-title {
+    font-family: var(--font-sans);
+    font-weight: 500;
+  }
+  .graph-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.6rem;
+    margin-bottom: 0.72rem;
+  }
+  .graph-toolbar label {
+    display: grid;
+    gap: 0.24rem;
+    font-size: 0.84rem;
+    color: #39525d;
+  }
+  .graph-toolbar input,
+  .graph-toolbar select,
+  .graph-toolbar button {
+    border: 1px solid #c8ddd7;
+    border-radius: 0.72rem;
+    background: #f8fcfa;
+    color: #1f3c49;
+    min-height: 2rem;
+    padding: 0.24rem 0.58rem;
+    font-size: 0.88rem;
   }
   .graph-view-toggle {
     display: inline-flex;
@@ -865,12 +966,16 @@ const graph = { nodes, links };
     background: #f3faf7;
     border: 1px solid #d6ebe3;
   }
-  .graph-guide-text, .graph-search-status {
+  .graph-guide-text,
+  .graph-search-status {
     margin: 0;
     font-size: 0.82rem;
     color: #345260;
   }
-  .graph-search-status { font-weight: 600; color: #1f4c62; }
+  .graph-search-status {
+    font-weight: 600;
+    color: #1f4c62;
+  }
   .graph-type-toggle {
     display: flex;
     flex-wrap: wrap;
@@ -908,15 +1013,29 @@ const graph = { nodes, links };
     border: 1px solid #accfc4;
     background: #f9fcfb;
   }
-  .graph-legend-dot-topic { background: #eef9f5; border-color: #9fcec3; }
-  .graph-legend-dot-keyword { background: #f9fcfb; border-color: #d2e4de; }
-  .graph-legend-dot-post { background: #28a18c; border-color: #92ccc0; }
+  .graph-legend-dot-topic {
+    background: #eef9f5;
+    border-color: #9fcec3;
+  }
+  .graph-legend-dot-keyword {
+    background: #f9fcfb;
+    border-color: #d2e4de;
+  }
+  .graph-legend-dot-post {
+    background: #28a18c;
+    border-color: #92ccc0;
+  }
   .graph-main {
     position: relative;
   }
   .graph-stage {
-    position: relative; height: min(72vh, 740px); border: 1px solid #d8e6e1; border-radius: 0.85rem;
-    background: radial-gradient(circle at 20% 10%, #f0faf6, #ffffff 60%); overflow: hidden; touch-action: none;
+    position: relative;
+    height: min(72vh, 740px);
+    border: 1px solid #d8e6e1;
+    border-radius: 0.85rem;
+    background: radial-gradient(circle at 20% 10%, #f0faf6, #ffffff 60%);
+    overflow: hidden;
+    touch-action: none;
     z-index: 0;
   }
   .graph-list-view {
@@ -968,13 +1087,35 @@ const graph = { nodes, links };
     padding: 0.55rem 0.62rem;
     background: #fff;
   }
-  :global(.graph-links) { position: absolute; inset: 0; width: 100%; height: 100%; }
-  :global(.graph-link) { stroke: #c9ddd8; stroke-opacity: 0.72; stroke-width: 1.2; }
-  :global(.graph-link-topic) { stroke: #95c8bb; }
-  :global(.graph-nodes) { position: absolute; inset: 0; }
+  :global(.graph-links) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  :global(.graph-link) {
+    stroke: #c9ddd8;
+    stroke-opacity: 0.72;
+    stroke-width: 1.2;
+  }
+  :global(.graph-link-topic) {
+    stroke: #95c8bb;
+  }
+  :global(.graph-nodes) {
+    position: absolute;
+    inset: 0;
+  }
   :global(.graph-node) {
-    position: absolute; border: 1px solid #c8ddd7; border-radius: 999px; background: #fff; color: #20404d;
-    padding: 0.15rem 0.44rem; font-size: 0.74rem; line-height: 1; white-space: nowrap; cursor: pointer;
+    position: absolute;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #fff;
+    color: #20404d;
+    padding: 0.15rem 0.44rem;
+    font-size: 0.74rem;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
     box-shadow: 0 3px 10px rgba(25, 56, 52, 0.08);
   }
   :global(.graph-node:focus-visible) {
@@ -982,12 +1123,30 @@ const graph = { nodes, links };
     outline-offset: 2px;
   }
   :global(.graph-node-post) {
-    width: 0.56rem; height: 0.56rem; min-width: 0; min-height: 0; padding: 0; text-indent: -9999px;
-    border-radius: 999px; border-color: #92ccc0; background: #28a18c;
+    width: 0.56rem;
+    height: 0.56rem;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    text-indent: -9999px;
+    border-radius: 999px;
+    border-color: #92ccc0;
+    background: #28a18c;
   }
-  :global(.graph-node-topic) { background: #eef9f5; border-color: #9fcec3; font-weight: 600; }
-  :global(.graph-node-keyword) { background: #f9fcfb; border-color: #d2e4de; color: #40606a; }
-  :global(.graph-node-match) { outline: 2px solid #ffc766; outline-offset: 1px; }
+  :global(.graph-node-topic) {
+    background: #eef9f5;
+    border-color: #9fcec3;
+    font-weight: 600;
+  }
+  :global(.graph-node-keyword) {
+    background: #f9fcfb;
+    border-color: #d2e4de;
+    color: #40606a;
+  }
+  :global(.graph-node-match) {
+    outline: 2px solid #ffc766;
+    outline-offset: 1px;
+  }
   :global(.graph-node-selected) {
     outline: 2px solid #5ab6a4;
     outline-offset: 1px;
@@ -1003,7 +1162,7 @@ const graph = { nodes, links };
     border-radius: 0.82rem;
     background: #f8fcfa;
     padding: 0.65rem 0.72rem;
-    min-height: 12rem;
+    min-height: 0;
     z-index: 20;
     box-shadow: 0 8px 24px rgba(16, 48, 55, 0.14);
   }
@@ -1014,9 +1173,20 @@ const graph = { nodes, links };
     gap: 0.6rem;
     margin: 0 0 0.4rem;
   }
-  .graph-inspector h2 { margin: 0; font-size: 0.96rem; }
-  .graph-inspector h3 { margin: 0; font-size: 0.92rem; color: #143645; }
-  .graph-inspector p { margin: 0.34rem 0 0; color: #40606a; font-size: 0.86rem; }
+  .graph-inspector h2 {
+    margin: 0;
+    font-size: 0.96rem;
+  }
+  .graph-inspector h3 {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #143645;
+  }
+  .graph-inspector p {
+    margin: 0.34rem 0 0;
+    color: #40606a;
+    font-size: 0.86rem;
+  }
   .graph-inspector-close {
     border: 1px solid #b8d6cd;
     border-radius: 0.6rem;
@@ -1029,21 +1199,76 @@ const graph = { nodes, links };
     cursor: pointer;
   }
   .graph-inspector-content {
-    min-height: 7rem;
+    min-height: 0;
+    display: grid;
+    gap: 0.52rem;
+  }
+  .graph-inspector :global(.graph-info-card) {
+    border: 1px solid #d8e6e1;
+    border-radius: 0.72rem;
+    background: #ffffff;
+    padding: 0.58rem 0.64rem;
+  }
+  .graph-inspector :global(.graph-info-head) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.52rem;
+  }
+  .graph-inspector :global(.graph-info-type) {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #f3faf7;
+    color: #2f5963;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.18rem 0.46rem;
+    white-space: nowrap;
+  }
+  .graph-inspector :global(.graph-info-count) {
+    margin: 0.36rem 0 0;
+    color: #47616b;
+    font-size: 0.8rem;
+  }
+  .graph-inspector :global(.graph-info-empty) {
+    margin: 0.34rem 0 0;
+    color: #5b737c;
+    font-size: 0.8rem;
   }
   .graph-inspector :global(.graph-inspector-list) {
-    margin: 0.52rem 0 0;
-    padding-left: 1.1rem;
-    max-height: min(55vh, 24rem);
+    margin: 0.46rem 0 0;
+    padding-left: 1rem;
+    max-height: min(42vh, 18rem);
     overflow: auto;
   }
-  .graph-inspector :global(.graph-inspector-list li) { margin: 0.22rem 0; }
-  .graph-inspector :global(.graph-inspector-list a) { color: #1f5f86; text-decoration: underline; }
+  .graph-inspector :global(.graph-inspector-list li) {
+    margin: 0.22rem 0;
+  }
+  .graph-inspector :global(.graph-inspector-list a) {
+    color: #1f5f86;
+    text-decoration: underline;
+  }
   .graph-inspector :global(.graph-post-card) {
     border: 1px solid #d8e6e1;
     border-radius: 0.72rem;
     background: #ffffff;
     padding: 0.58rem 0.64rem;
+  }
+  .graph-inspector :global(.graph-post-card-head) {
+    margin: 0 0 0.3rem;
+  }
+  .graph-inspector :global(.graph-post-card-type) {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #9fcec3;
+    border-radius: 999px;
+    background: #eef9f5;
+    color: #0d6f61;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.18rem 0.46rem;
   }
   .graph-inspector :global(.graph-post-card-link) {
     display: inline-block;
@@ -1053,11 +1278,33 @@ const graph = { nodes, links };
     line-height: 1.45;
     font-weight: 600;
   }
-  .graph-inspector :global(.graph-post-card-link:hover) { color: #0b7d6d; }
+  .graph-inspector :global(.graph-post-card-link:hover) {
+    color: #0b7d6d;
+  }
   .graph-inspector :global(.graph-post-card-meta) {
     margin: 0.28rem 0 0;
     color: #47616b;
     font-size: 0.82rem;
+  }
+  .graph-inspector :global(.graph-post-meta-grid) {
+    margin: 0.38rem 0 0;
+    display: grid;
+    gap: 0.32rem;
+  }
+  .graph-inspector :global(.graph-post-meta-grid div) {
+    margin: 0;
+  }
+  .graph-inspector :global(.graph-post-meta-grid dt) {
+    margin: 0;
+    color: #3f5e69;
+    font-size: 0.74rem;
+    line-height: 1.2;
+  }
+  .graph-inspector :global(.graph-post-meta-grid dd) {
+    margin: 0.14rem 0 0;
+    color: #1f3f4d;
+    font-size: 0.82rem;
+    line-height: 1.4;
   }
   .graph-inspector :global(.graph-post-card-empty) {
     margin: 0.3rem 0 0;
@@ -1071,7 +1318,7 @@ const graph = { nodes, links };
   }
   .graph-inspector :global(.graph-tag-chip-list) {
     list-style: none;
-    margin: 0.34rem 0 0;
+    margin: 0.14rem 0 0;
     padding: 0;
     display: flex;
     flex-wrap: wrap;
@@ -1102,24 +1349,35 @@ const graph = { nodes, links };
       display: block;
       position: relative;
     }
-    .graph-stage { height: min(66vh, 560px); }
-    .graph-list-view { max-height: min(66vh, 560px); }
-    .graph-guide { gap: 0.34rem; }
-    .graph-legend { gap: 0.4rem 0.7rem; }
+    .graph-stage {
+      height: min(66vh, 560px);
+    }
+    .graph-list-view {
+      max-height: min(66vh, 560px);
+    }
+    .graph-guide {
+      gap: 0.34rem;
+    }
+    .graph-legend {
+      gap: 0.4rem 0.7rem;
+    }
     .graph-inspector {
       position: fixed;
       left: 0.55rem;
       right: 0.55rem;
+      top: auto;
       bottom: 0.5rem;
       width: auto;
-      max-height: min(68vh, 34rem);
+      max-height: min(46vh, 22rem);
       border-radius: 0.9rem;
       box-shadow: 0 10px 32px rgba(10, 27, 35, 0.24);
       transform: translateY(calc(100% + 1rem));
       opacity: 0;
       pointer-events: none;
       z-index: 45;
-      transition: transform 0.2s ease, opacity 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
       overflow: auto;
     }
     .graph-inspector.graph-inspector-open {
