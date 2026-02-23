@@ -1852,7 +1852,8 @@
     margin: 0.56rem 0 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 180px));
+    justify-content: start;
     gap: 0.58rem;
   }
 
@@ -1860,8 +1861,10 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: flex-start;
     gap: 0.34rem;
-    min-height: 7.6rem;
+    min-height: 8.1rem;
+    height: 100%;
     border: 1px solid #d2e4dd;
     border-radius: 0.8rem;
     background: #fff;
@@ -1933,12 +1936,14 @@
     font-size: 0.87rem;
     font-weight: 600;
     line-height: 1.45;
+    min-height: calc(1.45em * 2);
   }
 
   .about-org-name-en {
     color: #4a616b;
     font-size: 0.76rem;
     line-height: 1.45;
+    min-height: calc(1.45em * 2);
   }
 
   .about-cv-section + .about-cv-section {
