@@ -13,22 +13,22 @@ const rows = allPosts.map((post) => {
     title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
-    tags: post.data.tags
+    tags: post.data.tags,
   });
   return {
     post,
-    topics: classified.topics
+    topics: classified.topics,
   };
 });
 
-const yearOptions = Array.from(new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))).sort(
-  (a, b) => b - a
-);
+const yearOptions = Array.from(
+  new Set(allPosts.map((post) => post.data.pubDate.getFullYear())),
+).sort((a, b) => b - a);
 
 const topicOptions = topicCatalog
   .map((item) => ({
     ...item,
-    count: rows.filter((row) => row.topics.includes(item.key)).length
+    count: rows.filter((row) => row.topics.includes(item.key)).length,
   }))
   .filter((item) => item.count > 0);
 ---
@@ -36,8 +36,6 @@ const topicOptions = topicCatalog
 <BaseLayout title="標籤" description="依主題與年份雙層導覽探索文章。">
   <h1 class="section-title">標籤</h1>
   <p>先選主題，再選年份，結果會即時更新。</p>
-
-  <p><a href="/tags-graph/">試看 3D 關聯圖 MVP →</a></p>
 
   <section class="tag-dual-nav" aria-label="標籤雙層導覽">
     <div class="archive-quick-filter" role="group" aria-label="主題篩選">
@@ -53,10 +51,18 @@ const topicOptions = topicCatalog
 
     <div class="archive-quick-filter" role="group" aria-label="年份篩選">
       <button type="button" class="archive-filter-btn is-active" data-year="all">全年份</button>
-      {yearOptions.map((year) => <button type="button" class="archive-filter-btn" data-year={String(year)}>{year} 年</button>)}
+      {
+        yearOptions.map((year) => (
+          <button type="button" class="archive-filter-btn" data-year={String(year)}>
+            {year} 年
+          </button>
+        ))
+      }
     </div>
 
-    <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">目前顯示全部主題、全部年份</p>
+    <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">
+      目前顯示全部主題、全部年份
+    </p>
 
     <ul id="tags-dual-list" class="archive-list">
       {
@@ -70,10 +76,17 @@ const topicOptions = topicCatalog
               {formatDate(row.post.data.pubDate)}
             </time>
             <div class="archive-main">
-              <a class="archive-link" href={buildPostUrl(row.post)}>{cleanPostTitle(row.post.data.title)}</a>
+              <a class="archive-link" href={buildPostUrl(row.post)}>
+                {cleanPostTitle(row.post.data.title)}
+              </a>
               <p class="archive-meta">
                 主題：{row.topics.join("・")}
-                {row.post.data.category && <>{" · 分類："}{row.post.data.category}</>}
+                {row.post.data.category && (
+                  <>
+                    {" · 分類："}
+                    {row.post.data.category}
+                  </>
+                )}
               </p>
             </div>
           </li>
@@ -103,7 +116,9 @@ const topicOptions = topicCatalog
     const topicText =
       activeTopic === "all"
         ? "全部主題"
-        : (topicButtons.find((button) => button.dataset.topic === activeTopic)?.textContent?.trim() ?? activeTopic);
+        : (topicButtons
+            .find((button) => button.dataset.topic === activeTopic)
+            ?.textContent?.trim() ?? activeTopic);
     const yearText = activeYear === "all" ? "全部年份" : `${activeYear} 年`;
     status.textContent = `目前顯示 ${topicText}、${yearText}（${count} 篇）`;
   };

@@ -2,11 +2,10 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
-import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
+import { classifyPostTags } from "@/utils/blogTags";
 import { cleanPostTitle } from "@/utils/title";
 
 const posts = await getBlogPosts();
-const topicCatalog = getTopicCatalog();
 const yearMap = new Map<number, typeof posts>();
 
 for (const post of posts) {
@@ -53,15 +52,6 @@ for (const post of posts) {
   });
   topicByPostId.set(post.id, classified.topics);
 }
-
-const topicFilterOptions = topicCatalog
-  .map((item) => ({
-    key: item.key,
-    icon: item.icon,
-    title: item.title,
-    count: posts.filter((post) => (topicByPostId.get(post.id) ?? []).includes(item.key)).length,
-  }))
-  .filter((item) => item.count > 0);
 ---
 
 <BaseLayout title="文章列表" description="依日期由新到舊的所有文章。">
@@ -73,22 +63,9 @@ const topicFilterOptions = topicCatalog
       <p class="empty-state">目前還沒有文章。</p>
     ) : (
       <>
-        <div class="archive-quick-filter" role="group" aria-label="文章主題篩選">
-          <button type="button" class="archive-filter-btn is-active" data-topic="all">
-            全部
-          </button>
-          {topicFilterOptions.map((item) => (
-            <button type="button" class="archive-filter-btn" data-topic={item.key}>
-              {item.icon} {item.title}
-            </button>
-          ))}
-        </div>
-        <p id="archive-filter-status" class="archive-filter-status" aria-live="polite">
-          目前顯示全部主題
-        </p>
         <div class="archive-accordion-list" aria-label="年份文章收合列表">
           {yearSections.map((section, index) => (
-            <details class="archive-accordion" open={index === 0} data-filterable-accordion>
+            <details class="archive-accordion" open={index === 0}>
               <summary class="archive-accordion-summary">
                 <span class="archive-accordion-title">
                   <span class="tag-chip-icon" aria-hidden="true">
@@ -109,7 +86,7 @@ const topicFilterOptions = topicCatalog
                     {section.posts.map((post) => {
                       const topics = topicByPostId.get(post.id) ?? ["公共網路"];
                       return (
-                        <li class="archive-item" data-topics={topics.join("|")}>
+                        <li class="archive-item">
                           <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
                             {formatDate(post.data.pubDate)}
                           </time>
@@ -170,53 +147,6 @@ const topicFilterOptions = topicCatalog
     if (typeof window.mbTrack === "function") window.mbTrack(name, props);
   };
 
-  const filterButtons = Array.from(document.querySelectorAll(".archive-filter-btn"));
-  const filterableAccordions = Array.from(
-    document.querySelectorAll("details[data-filterable-accordion]"),
-  );
-  const status = document.querySelector("#archive-filter-status");
-  let activeTopic = "all";
-
-  const updateStatus = (topic) => {
-    if (!(status instanceof HTMLElement)) return;
-    const button = filterButtons.find((item) => item.dataset.topic === topic);
-    const text = button?.textContent?.trim() ?? "全部";
-    status.textContent = topic === "all" ? "目前顯示全部主題" : `目前顯示：${text}`;
-  };
-
-  const applyFilter = (topic) => {
-    activeTopic = topic;
-    filterButtons.forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.topic === topic);
-    });
-
-    for (const accordion of filterableAccordions) {
-      const items = Array.from(accordion.querySelectorAll(".archive-item[data-topics]"));
-      let visibleCount = 0;
-      for (const item of items) {
-        const topics = (item.getAttribute("data-topics") ?? "").split("|").filter(Boolean);
-        const visible = topic === "all" || topics.includes(topic);
-        item.hidden = !visible;
-        if (visible) visibleCount += 1;
-      }
-
-      const count = accordion.querySelector("[data-count]");
-      if (count instanceof HTMLElement) {
-        count.textContent = `${visibleCount} 篇`;
-      }
-      accordion.hidden = visibleCount === 0;
-    }
-    updateStatus(topic);
-  };
-
-  filterButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const topic = button.dataset.topic ?? "all";
-      applyFilter(topic);
-      track("Archive Filter Used", { topic });
-    });
-  });
-
   document.addEventListener("click", (event) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
@@ -224,6 +154,4 @@ const topicFilterOptions = topicCatalog
     if (!(link instanceof HTMLAnchorElement)) return;
     track("Archive Post Click", { source: "blog_archive" });
   });
-
-  applyFilter(activeTopic);
 </script>

@@ -19,13 +19,25 @@ const latestPosts = posts.slice(0, 12);
     </figure>
   </section>
 
-  <section id="continue-reading" class="continue-reading" hidden aria-label="繼續閱讀">
-    <h2 class="section-title">繼續閱讀</h2>
+  <aside
+    id="continue-reading-toast"
+    class="continue-reading-toast"
+    hidden
+    aria-label="繼續閱讀通知"
+  >
+    <button
+      id="continue-reading-close"
+      class="continue-reading-close"
+      type="button"
+      aria-label="關閉繼續閱讀通知"
+    >
+      關閉
+    </button>
     <a id="continue-reading-link" class="continue-reading-link" href="/blog/">
       <strong id="continue-reading-title">最近閱讀文章</strong>
       <span id="continue-reading-meta">進度 0%</span>
     </a>
-  </section>
+  </aside>
 
   <div class="home-section-head">
     <h2 class="section-title">最新文章</h2>
@@ -37,7 +49,11 @@ const latestPosts = posts.slice(0, 12);
     ) : (
       <section class="home-post-grid" aria-label="近期更新">
         <ul class="post-list post-list-compact-grid">
-          {latestPosts.map((post) => <li><PostCard post={post} variant="compact" minimal={true} /></li>)}
+          {latestPosts.map((post) => (
+            <li>
+              <PostCard post={post} variant="compact" minimal={true} />
+            </li>
+          ))}
         </ul>
       </section>
     )
@@ -49,11 +65,13 @@ const latestPosts = posts.slice(0, 12);
 </BaseLayout>
 
 <script is:inline>
-  const section = document.querySelector("#continue-reading");
+  const section = document.querySelector("#continue-reading-toast");
+  const closeButton = document.querySelector("#continue-reading-close");
   const link = document.querySelector("#continue-reading-link");
   const title = document.querySelector("#continue-reading-title");
   const meta = document.querySelector("#continue-reading-meta");
   const key = "mashbean.blog.lastReading";
+  const dismissPrefix = "mashbean.blog.lastReading.dismissed.";
 
   try {
     const raw = localStorage.getItem(key);
@@ -70,13 +88,26 @@ const latestPosts = posts.slice(0, 12);
       title.textContent = data.title;
     }
     if (meta instanceof HTMLElement) {
-      const progress = typeof data.progress === "number" ? Math.max(0, Math.min(100, data.progress)) : 0;
+      const progress =
+        typeof data.progress === "number" ? Math.max(0, Math.min(100, data.progress)) : 0;
       meta.textContent = `進度 ${progress}%`;
     }
-    if (section instanceof HTMLElement) {
+    const dismissKey = `${dismissPrefix}${data.url}::${data.title}`;
+    const dismissed = localStorage.getItem(dismissKey) === "1";
+    if (section instanceof HTMLElement && !dismissed) {
       section.hidden = false;
+      section.dataset.dismissKey = dismissKey;
     }
   } catch {
     if (section instanceof HTMLElement) section.hidden = true;
   }
+
+  closeButton?.addEventListener("click", () => {
+    if (!(section instanceof HTMLElement)) return;
+    section.hidden = true;
+    const dismissKey = section.dataset.dismissKey;
+    if (dismissKey) {
+      localStorage.setItem(dismissKey, "1");
+    }
+  });
 </script>
