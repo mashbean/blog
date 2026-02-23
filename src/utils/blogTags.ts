@@ -60,6 +60,8 @@ const TOPIC_ALIASES: Record<string, string> = {
   "展覽": "數位藝術",
 
   artouch: "薄荷薄荷專欄",
+  mintmint: "薄荷薄荷專欄",
+  "薄菏薄菏": "薄荷薄荷專欄",
   "薄荷薄荷": "薄荷薄荷專欄",
   "薄荷薄荷專欄": "薄荷薄荷專欄"
 };
@@ -129,8 +131,21 @@ const TOKEN_STOPWORDS = new Set([
   "原文",
   "連結",
   "原文連結",
+  "延伸閱讀",
+  "圖片來源",
+  "圖片擷取",
   "前往閱讀",
   "本文為外部文章索引",
+  "本文同步自",
+  "本文同步",
+  "並已轉為本地可維護格式",
+  "並已轉為",
+  "本地可維",
+  "護格式",
+  "含圖片本地化",
+  "含圖片本",
+  "地化",
+  "已保留原始段落與圖片",
   "原文發表於",
   "原文標題",
   "本文為外部文",
@@ -146,7 +161,10 @@ const TOKEN_STOPWORDS = new Set([
   "作者",
   "名為",
   "服務",
-  "工具"
+  "工具",
+  "內文",
+  "專欄",
+  "黃豆泥提"
 ]);
 
 const GENERIC_KEYWORD_PENALTY: Record<string, number> = {
@@ -167,7 +185,7 @@ const TOKEN_BLOCK_PATTERNS: RegExp[] = [
   /^www\./i,
   /^[\d./:-]+$/,
   /^(來源|原文|連結|內文)/,
-  /(本文為外部文章索引|前往閱讀|原文發表於|原文標題)/,
+  /(本文為外部文章索引|前往閱讀|原文發表於|原文標題|本文同步自|本文同步|並已轉為|本地可維|護格式|圖片本地化|含圖片本|地化|原文連結|延伸閱讀|圖片來源|圖片擷取)/,
   /^(for|from|with|that|this|what|when|where)$/i
 ];
 
@@ -191,6 +209,7 @@ function stripForTokenize(raw: string): string {
   return raw
     .replace(/```[\s\S]*?```/g, " ")
     .replace(/`[^`]*`/g, " ")
+    .replace(/!\[(.*?)\]\((.*?)\)/g, " ")
     .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ")
     .replace(/<[^>]+>/g, " ")
     .replace(/[>#_*~|]/g, " ")
