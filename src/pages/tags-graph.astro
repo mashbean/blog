@@ -121,7 +121,6 @@ const graph = { nodes, links };
 >
   <h1 class="section-title graph-page-title">與豆泥的大腦互動</h1>
   <p>歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。</p>
-  <p><a href={withBase("search/")}>回一般搜尋</a></p>
 
   <section class="graph-panel" aria-label="關聯圖">
     <div class="graph-toolbar">
@@ -137,6 +136,9 @@ const graph = { nodes, links };
         <input id="graph-search" type="search" placeholder="輸入文章或關鍵字" />
       </label>
       <button id="graph-reset" type="button">重置視角</button>
+      <a href={withBase("search/")} class="graph-toolbar-link" aria-label="回一般搜尋頁面">
+        回一般搜尋
+      </a>
     </div>
     <div class="graph-view-toggle" role="group" aria-label="檢視模式">
       <button id="graph-view-3d" type="button" class="graph-view-btn is-active" aria-pressed="true">
@@ -963,6 +965,26 @@ const graph = { nodes, links };
     min-height: 2rem;
     padding: 0.24rem 0.58rem;
     font-size: 0.88rem;
+  }
+  .graph-toolbar .graph-toolbar-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #b9d9cf;
+    border-radius: 0.72rem;
+    background: #ffffff;
+    color: #2d5160;
+    min-height: 2rem;
+    padding: 0.24rem 0.62rem;
+    font-size: 0.86rem;
+    text-decoration: none;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .graph-toolbar .graph-toolbar-link:hover {
+    border-color: #8fcab9;
+    color: #0b7d6d;
+    background: #f2fbf7;
   }
   .graph-view-toggle {
     display: inline-flex;
