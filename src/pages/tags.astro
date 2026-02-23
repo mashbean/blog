@@ -7,104 +7,81 @@ import { cleanPostTitle } from "@/utils/title";
 
 const allPosts = await getBlogPosts();
 const topicCatalog = getTopicCatalog();
-const RECENT_UPDATED_DAYS = 90;
-const recentThreshold = Date.now() - RECENT_UPDATED_DAYS * 24 * 60 * 60 * 1000;
-const isRecentlyUpdated = (pubDate: Date, updatedDate?: Date) => {
-  const reference = updatedDate ?? pubDate;
-  return reference.getTime() >= recentThreshold;
-};
 
-const yearOptions = Array.from(new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))).sort(
-  (a, b) => b - a
-);
-const postClassified = allPosts.map((post) => ({
-  post,
-  classified: classifyPostTags({
+const rows = allPosts.map((post) => {
+  const classified = classifyPostTags({
     title: cleanPostTitle(post.data.title),
     description: post.data.description,
     body: post.body,
     tags: post.data.tags
-  })
-}));
-
-const tagSections = topicCatalog.map((item) => {
-  const scoped = postClassified.filter((entry) => entry.classified.topics.includes(item.key));
-  const posts = scoped.map((entry) => entry.post);
-
+  });
   return {
-    ...item,
-    posts,
-    count: posts.length
+    post,
+    topics: classified.topics
   };
 });
+
+const yearOptions = Array.from(new Set(allPosts.map((post) => post.data.pubDate.getFullYear()))).sort(
+  (a, b) => b - a
+);
+
+const topicOptions = topicCatalog
+  .map((item) => ({
+    ...item,
+    count: rows.filter((row) => row.topics.includes(item.key)).length
+  }))
+  .filter((item) => item.count > 0);
 ---
 
-<BaseLayout title="標籤" description="依核心標籤探索文章。">
+<BaseLayout title="標籤" description="依主題與年份雙層導覽探索文章。">
   <h1 class="section-title">標籤</h1>
-  <p>目前我的興趣包含這六種主題，選擇標籤讓您更容易找到好文章。</p>
+  <p>先選主題，再選年份，結果會即時更新。</p>
 
-  <div class="archive-quick-filter" role="group" aria-label="標籤頁年份篩選">
-    <button type="button" class="archive-filter-btn is-active" data-year="all">
-      全年份
-    </button>
-    {
-      yearOptions.map((year) => (
-        <button type="button" class="archive-filter-btn" data-year={String(year)}>
-          {year} 年
-        </button>
-      ))
-    }
-  </div>
-  <p id="tags-filter-status" class="archive-filter-status" aria-live="polite">
-    目前顯示全部年份
-  </p>
+  <p><a href="/tags-graph/">試看 3D 關聯圖 MVP →</a></p>
 
-  <div class="archive-accordion-list" aria-label="標籤文章收合列表">
-    {
-      tagSections.map((item, index) => (
-        <details class="archive-accordion" open={index === 0} data-filterable-accordion>
-          <summary class="archive-accordion-summary">
-            <span class="archive-accordion-title">
-              <span class="tag-chip-icon" aria-hidden="true">{item.icon}</span>
-              {item.title}
-            </span>
-            <span class="archive-accordion-count" data-count data-total={item.count}>{item.count} 篇</span>
-          </summary>
-          <div class="archive-accordion-body">
-            <div class="archive-accordion-body-inner">
-              <p class="archive-accordion-description">{item.description}</p>
-              {
-                item.posts.length === 0 ? (
-                  <p class="empty-state">目前沒有文章。</p>
-                ) : (
-                  <ul class="archive-list">
-                    {item.posts.map((post) => (
-                      <li class="archive-item" data-year={String(post.data.pubDate.getFullYear())}>
-                        <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                          {formatDate(post.data.pubDate)}
-                        </time>
-                        <div class="archive-main">
-                          <a class="archive-link" href={buildPostUrl(post)}>{cleanPostTitle(post.data.title)}</a>
-                          <p class="archive-meta">
-                            {post.data.category ? `分類：${post.data.category}` : "分類：未分類"}
-                            {isRecentlyUpdated(post.data.pubDate, post.data.updatedDate) && (
-                              <span class="archive-update-badge" title={`近 ${RECENT_UPDATED_DAYS} 天內更新`}>
-                                最近更新
-                              </span>
-                            )}
-                          </p>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                )
-              }
+  <section class="tag-dual-nav" aria-label="標籤雙層導覽">
+    <div class="archive-quick-filter" role="group" aria-label="主題篩選">
+      <button type="button" class="archive-filter-btn is-active" data-topic="all">全部主題</button>
+      {
+        topicOptions.map((topic) => (
+          <button type="button" class="archive-filter-btn" data-topic={topic.key}>
+            {topic.icon} {topic.title}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="archive-quick-filter" role="group" aria-label="年份篩選">
+      <button type="button" class="archive-filter-btn is-active" data-year="all">全年份</button>
+      {yearOptions.map((year) => <button type="button" class="archive-filter-btn" data-year={String(year)}>{year} 年</button>)}
+    </div>
+
+    <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">目前顯示全部主題、全部年份</p>
+
+    <ul id="tags-dual-list" class="archive-list">
+      {
+        rows.map((row) => (
+          <li
+            class="archive-item"
+            data-topics={row.topics.join("|")}
+            data-year={String(row.post.data.pubDate.getFullYear())}
+          >
+            <time class="archive-date" datetime={row.post.data.pubDate.toISOString()}>
+              {formatDate(row.post.data.pubDate)}
+            </time>
+            <div class="archive-main">
+              <a class="archive-link" href={buildPostUrl(row.post)}>{cleanPostTitle(row.post.data.title)}</a>
+              <p class="archive-meta">
+                主題：{row.topics.join("・")}
+                {row.post.data.category && <>{" · 分類："}{row.post.data.category}</>}
+              </p>
             </div>
-          </div>
-        </details>
-      ))
-    }
-  </div>
+          </li>
+        ))
+      }
+    </ul>
+    <p id="tags-dual-empty" class="empty-state" hidden>沒有符合目前主題與年份條件的文章。</p>
+  </section>
 </BaseLayout>
 
 <script is:inline>
@@ -112,46 +89,61 @@ const tagSections = topicCatalog.map((item) => {
     if (typeof window.mbTrack === "function") window.mbTrack(name, props);
   };
 
+  const topicButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-topic]"));
   const yearButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-year]"));
-  const accordions = Array.from(document.querySelectorAll("details[data-filterable-accordion]"));
-  const status = document.querySelector("#tags-filter-status");
+  const rows = Array.from(document.querySelectorAll("#tags-dual-list .archive-item"));
+  const status = document.querySelector("#tags-dual-status");
+  const empty = document.querySelector("#tags-dual-empty");
+
+  let activeTopic = "all";
   let activeYear = "all";
 
-  const updateStatus = (year) => {
+  const updateStatus = (count) => {
     if (!(status instanceof HTMLElement)) return;
-    status.textContent = year === "all" ? "目前顯示全部年份" : `目前顯示：${year} 年`;
+    const topicText =
+      activeTopic === "all"
+        ? "全部主題"
+        : (topicButtons.find((button) => button.dataset.topic === activeTopic)?.textContent?.trim() ?? activeTopic);
+    const yearText = activeYear === "all" ? "全部年份" : `${activeYear} 年`;
+    status.textContent = `目前顯示 ${topicText}、${yearText}（${count} 篇）`;
   };
 
-  const applyYearFilter = (year) => {
-    activeYear = year;
+  const applyFilters = () => {
+    topicButtons.forEach((button) => {
+      button.classList.toggle("is-active", button.dataset.topic === activeTopic);
+    });
     yearButtons.forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.year === year);
+      button.classList.toggle("is-active", button.dataset.year === activeYear);
     });
 
-    for (const accordion of accordions) {
-      const items = Array.from(accordion.querySelectorAll(".archive-item[data-year]"));
-      let visibleCount = 0;
-      for (const item of items) {
-        const itemYear = item.getAttribute("data-year");
-        const visible = year === "all" || itemYear === year;
-        item.hidden = !visible;
-        if (visible) visibleCount += 1;
-      }
-
-      const count = accordion.querySelector("[data-count]");
-      if (count instanceof HTMLElement) {
-        count.textContent = `${visibleCount} 篇`;
-      }
-      accordion.hidden = visibleCount === 0;
+    let visibleCount = 0;
+    for (const row of rows) {
+      const rowTopics = (row.getAttribute("data-topics") ?? "").split("|").filter(Boolean);
+      const rowYear = row.getAttribute("data-year") ?? "";
+      const matchTopic = activeTopic === "all" || rowTopics.includes(activeTopic);
+      const matchYear = activeYear === "all" || rowYear === activeYear;
+      const visible = matchTopic && matchYear;
+      row.hidden = !visible;
+      if (visible) visibleCount += 1;
     }
-    updateStatus(year);
+
+    if (empty instanceof HTMLElement) empty.hidden = visibleCount !== 0;
+    updateStatus(visibleCount);
   };
+
+  topicButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      activeTopic = button.dataset.topic ?? "all";
+      applyFilters();
+      track("Tags Filter Used", { topic: activeTopic, year: activeYear });
+    });
+  });
 
   yearButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      const year = button.dataset.year ?? "all";
-      applyYearFilter(year);
-      track("Tags Filter Used", { year });
+      activeYear = button.dataset.year ?? "all";
+      applyFilters();
+      track("Tags Filter Used", { topic: activeTopic, year: activeYear });
     });
   });
 
@@ -160,8 +152,8 @@ const tagSections = topicCatalog.map((item) => {
     if (!(target instanceof HTMLElement)) return;
     const link = target.closest(".archive-link");
     if (!(link instanceof HTMLAnchorElement)) return;
-    track("Archive Post Click", { source: "tags" });
+    track("Archive Post Click", { source: "tags_dual_nav" });
   });
 
-  applyYearFilter(activeYear);
+  applyFilters();
 </script>

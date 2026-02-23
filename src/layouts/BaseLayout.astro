@@ -176,6 +176,47 @@ const siteStructuredData = {
         window.location.href = searchPath;
       });
 
+      const header = document.querySelector(".site-header");
+      if (header instanceof HTMLElement) {
+        const mobileQuery = window.matchMedia("(max-width: 760px)");
+        let lastY = window.scrollY;
+        let ticking = false;
+
+        const updateHeaderVisibility = () => {
+          const y = window.scrollY;
+          if (!mobileQuery.matches) {
+            header.classList.remove("site-header-hidden");
+            lastY = y;
+            ticking = false;
+            return;
+          }
+          if (document.body.classList.contains("nav-drawer-open")) {
+            header.classList.remove("site-header-hidden");
+            lastY = y;
+            ticking = false;
+            return;
+          }
+          const delta = y - lastY;
+          if (y <= 28 || delta <= -7) header.classList.remove("site-header-hidden");
+          else if (delta >= 9) header.classList.add("site-header-hidden");
+          lastY = y;
+          ticking = false;
+        };
+
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (ticking) return;
+            ticking = true;
+            window.requestAnimationFrame(updateHeaderVisibility);
+          },
+          { passive: true }
+        );
+        window.addEventListener("resize", updateHeaderVisibility);
+        mobileQuery.addEventListener?.("change", updateHeaderVisibility);
+        updateHeaderVisibility();
+      }
+
       if (isArticle) {
         const storagePrefix = "mashbean.blog";
         const body = document.body;
