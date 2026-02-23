@@ -9,8 +9,8 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  group: "pages-project-site-${{ github.ref }}"
+  cancel-in-progress: false
 
 jobs:
   build:
