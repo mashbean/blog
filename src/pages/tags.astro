@@ -4,6 +4,7 @@ import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
 import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
 import { cleanPostTitle } from "@/utils/title";
+import { TOPIC_ROUTE_CODE_MAP } from "@/utils/topicRoutes";
 
 const allPosts = await getBlogPosts();
 const topicCatalog = getTopicCatalog();
@@ -31,6 +32,10 @@ const topicOptions = topicCatalog
     count: rows.filter((row) => row.topics.includes(item.key)).length,
   }))
   .filter((item) => item.count > 0);
+
+const routeCodeToTopic = Object.fromEntries(
+  Object.entries(TOPIC_ROUTE_CODE_MAP).map(([topic, code]) => [code, topic]),
+);
 ---
 
 <BaseLayout title="標籤" description="依主題與年份雙層導覽探索文章。">
@@ -96,10 +101,13 @@ const topicOptions = topicCatalog
   </section>
 </BaseLayout>
 
-<script is:inline>
+<script is:inline define:vars={{ topicRouteCodeMap: TOPIC_ROUTE_CODE_MAP, routeCodeToTopic }}>
   const track = (name, props = {}) => {
     if (typeof window.mbTrack === "function") window.mbTrack(name, props);
   };
+
+  const toShortTopic = (topic) => topicRouteCodeMap[topic] ?? topic;
+  const fromShortTopic = (segment) => routeCodeToTopic[segment] ?? decodeURIComponent(segment);
 
   const topicButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-topic]"));
   const yearButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-year]"));
@@ -115,7 +123,7 @@ const topicOptions = topicCatalog
   const getShareURL = () => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams();
-    if (activeTopic !== "all") params.set("topic", activeTopic);
+    if (activeTopic !== "all") params.set("topic", toShortTopic(activeTopic));
     if (activeYear !== "all") params.set("year", activeYear);
     url.search = params.toString();
     return url.toString();
@@ -189,7 +197,8 @@ const topicOptions = topicCatalog
   });
 
   const params = new URLSearchParams(window.location.search);
-  const initialTopic = params.get("topic") ?? params.get("tag") ?? "all";
+  const initialTopicRaw = params.get("topic") ?? params.get("tag") ?? "all";
+  const initialTopic = initialTopicRaw === "all" ? "all" : fromShortTopic(initialTopicRaw);
   const initialYear = params.get("year") ?? "all";
 
   if (validTopics.has(initialTopic)) activeTopic = initialTopic;

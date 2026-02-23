@@ -9,22 +9,23 @@ export async function getStaticPaths() {
     const paths = [
       {
         params: { topic: shortCode },
-        props: { topic: topic.key, title: topic.title }
+        props: { topicSegment: shortCode, title: topic.title }
       }
     ];
     if (shortCode !== topic.key) {
       paths.push({
         params: { topic: topic.key },
-        props: { topic: topic.key, title: topic.title }
+        props: { topicSegment: topic.key, title: topic.title }
       });
     }
     return paths;
   });
 }
 
-const { topic, title } = Astro.props as { topic: string; title: string };
-const resolvedTopic = routeSegmentToTopic(topic);
-const destination = withBase(`tags/?topic=${encodeURIComponent(resolvedTopic)}`);
+const { topicSegment, title } = Astro.props as { topicSegment: string; title: string };
+const resolvedTopic = routeSegmentToTopic(topicSegment);
+const shortTopic = topicToRouteSegment(resolvedTopic);
+const destination = withBase(`tags/?topic=${encodeURIComponent(shortTopic)}`);
 ---
 
 <!doctype html>
