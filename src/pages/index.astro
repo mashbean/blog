@@ -3,20 +3,74 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
 import { getBlogPosts } from "@/utils/blog";
 import { withBase } from "@/utils/paths";
+import latestFacebookPost from "@/data/facebook-latest.json";
 
 const posts = await getBlogPosts();
 const latestPosts = posts.slice(0, 12);
+
+const facebookPostUrl =
+  typeof latestFacebookPost?.postUrl === "string" && latestFacebookPost.postUrl.length > 0
+    ? latestFacebookPost.postUrl
+    : "https://www.facebook.com/mashbean";
+const facebookPostText =
+  typeof latestFacebookPost?.text === "string" && latestFacebookPost.text.length > 0
+    ? latestFacebookPost.text
+    : "尚未同步 Facebook 最新貼文，請先執行同步指令。";
+const facebookHasImage = Boolean(latestFacebookPost?.hasImage);
+const facebookLikeCount =
+  typeof latestFacebookPost?.likeCount === "number" ? latestFacebookPost.likeCount : null;
+const facebookCommentCount =
+  typeof latestFacebookPost?.commentCount === "number" ? latestFacebookPost.commentCount : null;
+const facebookShareCount =
+  typeof latestFacebookPost?.shareCount === "number" ? latestFacebookPost.shareCount : null;
+
+const formatCount = (count: number | null): string => (typeof count === "number" ? String(count) : "—");
 ---
 
 <BaseLayout description="站在單向鏡後方觀看世界應對加速科技的方式。">
-  <section class="hero">
-    <figure style="margin:0;">
-      <blockquote class="hero-text" style="margin:0;">
-        <p style="margin:0 0 .5rem;">能身處黎明時分，簡直是天賜之福；</p>
-        <p style="margin:0;">若還年輕，更如置身天堂！</p>
-      </blockquote>
-      <figcaption class="hero-kicker" style="margin-top:.75rem;">華茲華斯（Wordsworth）</figcaption>
-    </figure>
+  <section class="home-hero-grid" aria-label="首頁引言與 Facebook 最新貼文">
+    <section class="hero">
+      <figure style="margin:0;">
+        <blockquote class="hero-text" style="margin:0;">
+          <p style="margin:0 0 .5rem;">能身處黎明時分，簡直是天賜之福；</p>
+          <p style="margin:0;">若還年輕，更如置身天堂！</p>
+        </blockquote>
+        <figcaption class="hero-kicker" style="margin-top:.75rem;">華茲華斯（Wordsworth）</figcaption>
+      </figure>
+    </section>
+
+    <aside class="home-fb-card" aria-label="Facebook 最新貼文">
+      <p class="home-fb-kicker">Facebook 最新貼文</p>
+      <p class="home-fb-text">{facebookPostText}</p>
+      <dl class="home-fb-stats" aria-label="貼文互動數據">
+        <div>
+          <dt>讚數</dt>
+          <dd>{formatCount(facebookLikeCount)}</dd>
+        </div>
+        <div>
+          <dt>回覆數</dt>
+          <dd>{formatCount(facebookCommentCount)}</dd>
+        </div>
+        <div>
+          <dt>分享數</dt>
+          <dd>{formatCount(facebookShareCount)}</dd>
+        </div>
+        <div>
+          <dt>類型</dt>
+          <dd>{facebookHasImage ? "含圖片" : "純文字"}</dd>
+        </div>
+      </dl>
+      <p class="home-fb-link-wrap">
+        <a
+          class="home-fb-link"
+          href={facebookPostUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          查看原貼文 ->
+        </a>
+      </p>
+    </aside>
   </section>
 
   <aside

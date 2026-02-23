@@ -17,7 +17,10 @@
     "lint": "npm run check && npm run format:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "fb:sync": "python3 scripts/sync_fb_post_from_url.py",
     "migrate:posts": "node scripts/migrate-jekyll-posts.mjs",
+    "sign:posts": "node scripts/sign-blog-posts.mjs",
+    "sign:posts:check": "node scripts/sign-blog-posts.mjs --check",
     "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
     "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run"
   },
