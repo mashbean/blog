@@ -1,17 +1,21 @@
 ---
-title: "【薄荷薄荷】重混、共創、HITRECORD——喬瑟夫高登李維的協作式科技之路"
-description: "在博眼球為第一要務的世界，世界走向表演、極化與成癮的方向。好萊塢演員喬瑟夫．高登．李維（Joseph Gordon-Le..."
-pubDate: "2024-08-29T02:00:00.000Z"
+title: 【薄荷薄荷】重混、共創、HITRECORD——喬瑟夫高登李維的協作式科技之路
+description: 在博眼球為第一要務的世界，世界走向表演、極化與成癮的方向。好萊塢演員喬瑟夫．高登．李維（Joseph Gordon-Le...
+pubDate: '2024-08-29T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0xe1e22daf4c8d6b46164ef52735b10a48edf03355559be07da8b785b93fc477e0'
+signature: >-
+  0x6b6138a7e202e4ac8fb786ec35114c65a4516fd4ca79955464b2a67ebccca59343e98de5dfa41d8ad844a17654159523e435868728ca92a6114cd56a34843fef1b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-153243.html](https://artouch.com/artouch-column/mintmint-column/content-153243.html)
-
+> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-153243.html）
 > ***如果你甚至不知道你的合作者是誰，那該怎麼辦？你還能為他們創作藝術嗎？這正是我們多年來在HITREC●RD上進行的實驗。這或許是並非正道，但想像一下，你正在創作藝術。你問自己，這件藝術作品是為誰而做的？通常你會想像一名被動的觀眾，他們唯一的反應是喜歡或不喜歡這個作品。但這次你可以想像成另一位藝術家，你可能認識他，也可能不認識他，他是一位尋找靈感的人，他可能會接受你創作的內容，並在此基礎上進一步發展，或者將其融入他自己的其他作品中。***
 > — *——《你的藝術是為你而做，還是為他們而做？》（Is your art for YOU or THEM?，喬瑟夫．高登．李維，2023）*
 
@@ -103,4 +107,4 @@ category: "blog"
 
 ---
 
-原文連結：[https://artouch.com/artouch-column/mintmint-column/content-153243.html](https://artouch.com/artouch-column/mintmint-column/content-153243.html)
+原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-153243.html）

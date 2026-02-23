@@ -1,17 +1,21 @@
 ---
-title: "【薄荷薄荷】生成AI時代，藝術家手上有沒有黑魔法防禦術——抗抄襲技術是軍備競賽，還是螳臂當車？"
-description: "網路出現伊始，數十年來全球網路使用者所創造的資料讓圖像生成模型與大型語言模型得以「湧現」（Emergence）。使用AI..."
-pubDate: "2023-12-25T02:00:00.000Z"
+title: 【薄荷薄荷】生成AI時代，藝術家手上有沒有黑魔法防禦術——抗抄襲技術是軍備競賽，還是螳臂當車？
+description: 網路出現伊始，數十年來全球網路使用者所創造的資料讓圖像生成模型與大型語言模型得以「湧現」（Emergence）。使用AI...
+pubDate: '2023-12-25T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0xb42ea7cbdbdeb9252c1bc18d6073aa41b193ea50abba97dc8634aa71def99900'
+signature: >-
+  0xa0840a4c36991a3d2a67bc99ae0b4a0ea5683d65b1e9ecfbeb553ed86f73da4c5fa8302b6807eed69b77c8cf5773fb6b5a963f41037759860135339184725cb51c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-128449.html](https://artouch.com/artouch-column/mintmint-column/content-128449.html)
-
+> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-128449.html）
 ### 機械降神與科技拜物教徒
 
 2023年末，人類已經進入後湧現時代（Post-Emergence Era）。這是一個奢華的年代，也是分配不均的年代。對比2022年末，2023年的合成圖片套裝工具已經成熟，甚至進入一鍵完成合成時基（Time-based）影音（註1）的時代，無論是大型商用軟體還是放在免費空間的開源模型，都可以讓使用者輕易借助生成式AI工具來完成工作。這彷彿是駕駛人正在學習與配備自動駕駛功能的運輸工具相處，目的地當然還是需要人類來設定，而如何抵達，無需如同過去那般費神。但是，只要自動駕駛服務招搖過市，不只是駕駛人需要學習，整個用路人文化都勢必需要一起適應。生成式AI服務也是一樣，資訊社會必須一同適應。
@@ -104,4 +108,4 @@ C2PA由Adobe、微軟、英特爾、X（前為Twitter）、英國廣播公司（
 
 ---
 
-原文連結：[https://artouch.com/artouch-column/mintmint-column/content-128449.html](https://artouch.com/artouch-column/mintmint-column/content-128449.html)
+原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-128449.html）

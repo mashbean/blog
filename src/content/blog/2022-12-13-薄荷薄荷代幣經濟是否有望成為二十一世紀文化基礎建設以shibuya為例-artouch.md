@@ -16,7 +16,7 @@ author: 張寶成、黃豆泥
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-90620.html](https://artouch.com/artouch-column/mintmint-column/content-90620.html)
+> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-90620.html）
 > 本文由張寶成與黃豆泥合著
 
 #### 新澀谷，近未來
@@ -75,4 +75,4 @@ FAE3第三期[「藝術與分散式科技」](https://d37zoqglehb9o7.cloudfront.
 
 ---
 
-原文連結：[https://artouch.com/artouch-column/mintmint-column/content-90620.html](https://artouch.com/artouch-column/mintmint-column/content-90620.html)
+原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-90620.html）

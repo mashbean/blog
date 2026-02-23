@@ -1,17 +1,21 @@
 ---
-title: "【薄荷薄荷】20年後初探藝立協Elixus（上）誕生自網絡的部落美學"
-description: "1997年，世界正在認識網際網路為何物的時代，台灣誕生了「藝立協」（Elixus），一個去中心的組織，全名為「藝術家獨立..."
-pubDate: "2023-06-02T02:00:00.000Z"
+title: 【薄荷薄荷】20年後初探藝立協Elixus（上）誕生自網絡的部落美學
+description: 1997年，世界正在認識網際網路為何物的時代，台灣誕生了「藝立協」（Elixus），一個去中心的組織，全名為「藝術家獨立...
+pubDate: '2023-06-02T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0x4329cf4dc4cedbfe02991d42f15f3fc8a17ba7889584b5b78adf53af9c10db6e'
+signature: >-
+  0x9f978b22924e036726c895382956ef2468f4d997017ae1b3eb2f8b5ee66f287a190fcea7152c85458b83b8d4d00ab81f72e6052d638e57568801e4191b0bd26d1c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/web3-x-art/content-107738.html](https://artouch.com/web3-x-art/content-107738.html)
-
+> 原文連結（直接放超連結：https://artouch.com/web3-x-art/content-107738.html）
 網際網路剛出現的時代，世界各地的參與者如何把玩這樣一個新媒體，開發者、倡議者或藝術家看見了什麼？除了我們早已視為日常的網路服務商巨頭（如Meta, Apple, Google），開源、多元、叛逆的文化是否存在，不同地區是否演化出類似的思維？這些人如今在哪裏？或許我們可以回到90年代末期，重新關注網路的本質。
 
 > *網絡社群由一群互相聯繫的人組成，他們以討論、遊戲或其他形式雙向互動。人們投入時間和精力，透過技術與多元背景，讓社群演變成人與人之間的複雜集合，它成為了一種『場域』。這些社群受到底層技術影響，但其成果遠遠超出了技術本身。*
@@ -79,4 +83,4 @@ category: "blog"
 
 ---
 
-原文連結：[https://artouch.com/web3-x-art/content-107738.html](https://artouch.com/web3-x-art/content-107738.html)
+原文連結（直接放超連結：https://artouch.com/web3-x-art/content-107738.html）

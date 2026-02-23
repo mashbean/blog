@@ -1,17 +1,21 @@
 ---
-title: "【薄荷薄荷】文化機構在公共AI時代的定位——導讀《未來藝術生態系4：藝術與公共AI》"
-description: "新興科技在成熟的過程中必然引發社會變革，而社會型態也正影響著一地科技發展的模式。（註1）當人工智慧（AI）的發展路徑使資..."
-pubDate: "2024-04-29T02:00:00.000Z"
+title: 【薄荷薄荷】文化機構在公共AI時代的定位——導讀《未來藝術生態系4：藝術與公共AI》
+description: 新興科技在成熟的過程中必然引發社會變革，而社會型態也正影響著一地科技發展的模式。（註1）當人工智慧（AI）的發展路徑使資...
+pubDate: '2024-04-29T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0x6ddaa7e8b2ac5945996671ed5d8b636741a744431546d10204cf96f8f1472c24'
+signature: >-
+  0x6bab0f3a6e13194edcc1decb881c35584e955e1b47497f60405aed97c0dc34c15cfb051424a90bc8241c12f2e6b8e4e98c6f36927297a220701db1a25554cd251c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/artouch-column/content-140051.html](https://artouch.com/artouch-column/content-140051.html)
-
+> 原文連結（直接放超連結：https://artouch.com/artouch-column/content-140051.html）
 在AI為媒體所稱道的時代，AI儼然成為了博取眼球的工具，產官學研無不往AI靠齊，各式補助方案、施政口號、商業服務紛紛懼怕落伍（Fear of Becoming Obsolete, FOBO），深怕不添上這兩個字母就拿不到資源，急就章的分配制度配上湊合著用的新科技（so-so tech），無法使科技發展路徑鞏固民主，也無法抵銷社會上的既有權力結構。同一時間，極權國度的大模型（台譯為大型語言模型，此為中譯）一方面為了符合國家政策走向開源（Open-Source），另一方面其清理敏感資料所研製的過濾引擎簡直做得比模型本身還要精妙。當符合極權意識形態的免費AI流入民間，其過於乾淨、單一的意見恐成為多元社會的威脅。（註2）當地緣政治、企業競逐、數位經濟等議題牽一髮而動全身，文化機構如何看待AI，民主社會的公共AI（Public AI）又如何成為可能，以下導讀[《未來藝術生態系4：藝術與公共AI》](https://reader.futureartecosystems.org/briefing/fae4)（Future Art Ecosystems 4: Art x Public AI，以下簡稱FAE4），並新增相關之台灣案例，為國內讀者提供參考。
 
 **延伸閱讀｜**[未來藝術生態系：英國倫敦蛇形美術館50週年，重返地球與基礎建置](https://artouch.com/art-news/content-13106.html)
@@ -66,4 +70,4 @@ FAE4開頭便指出這不是一本描述現狀的公共讀本，而是一份總�
 
 ---
 
-原文連結：[https://artouch.com/artouch-column/content-140051.html](https://artouch.com/artouch-column/content-140051.html)
+原文連結（直接放超連結：https://artouch.com/artouch-column/content-140051.html）

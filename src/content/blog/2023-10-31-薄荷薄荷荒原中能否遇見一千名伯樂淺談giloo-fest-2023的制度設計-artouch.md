@@ -16,7 +16,7 @@ author: 張寶成、黃豆泥
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-122454.html](https://artouch.com/artouch-column/mintmint-column/content-122454.html)
+> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-122454.html）
 > 本文由張寶成與黃豆泥合著
 
 ### 小型影展可以進行什麼實驗？讓片花遍地開花
@@ -81,4 +81,4 @@ Giloo紀實影音本身是輕薄短小的華語串流平台，有紀錄片、實
 
 ---
 
-原文連結：[https://artouch.com/artouch-column/mintmint-column/content-122454.html](https://artouch.com/artouch-column/mintmint-column/content-122454.html)
+原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-122454.html）

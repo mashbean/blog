@@ -1,17 +1,21 @@
 ---
-title: "【薄荷薄荷】以民主之名的AI自主武器，臺灣人必須買單嗎？"
-description: "AI是否可以用於戰爭？對於反對稱作戰而言，應用AI是一種混合了資訊戰與現代化戰爭的手法，具有「分散」的特徵。其大幅度地降..."
-pubDate: "2024-10-22T02:00:00.000Z"
+title: 【薄荷薄荷】以民主之名的AI自主武器，臺灣人必須買單嗎？
+description: AI是否可以用於戰爭？對於反對稱作戰而言，應用AI是一種混合了資訊戰與現代化戰爭的手法，具有「分散」的特徵。其大幅度地降...
+pubDate: '2024-10-22T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0xe7a1e9f310e3543b4cca6d60e89ae6e13f228c93f6f186dd0353e450871ebba7'
+signature: >-
+  0x110d7b1bc1d3c3d4600a2c0445091dcf1d1da9be1cf0cb3f9fda15e23c4b15cb5705252fadce45b9cf8f2ff9cc8e9d5610f4f68bd7a3d7462e736ca3149a6a351c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/artouch-column/mintmint-column/content-158524.html](https://artouch.com/artouch-column/mintmint-column/content-158524.html)
-
+> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-158524.html）
 *無人機可以投入戰爭嗎？如果可以，那以AI建構出來的反無人機系統是正義之師嗎？對於臺灣人而言，基於科技的威懾策略有什麼意義？在這種意義下，AI是一種集中式科技，還是分散式科技？如此推測式的設計討論可能比想像中的還要更接近現實。*
 
 ### AI之於維繫和平？
@@ -90,4 +94,4 @@ AI自主武器及其產業將帶出許多值得討論的辯證，我們以「集
 
 ---
 
-原文連結：[https://artouch.com/artouch-column/mintmint-column/content-158524.html](https://artouch.com/artouch-column/mintmint-column/content-158524.html)
+原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-158524.html）

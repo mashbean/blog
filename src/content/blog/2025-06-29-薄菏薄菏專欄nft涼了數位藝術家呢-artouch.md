@@ -1,17 +1,21 @@
 ---
-title: "【薄菏薄菏專欄】NFT涼了，數位藝術家呢？"
-description: "曾出版小說《遊戲自黑暗》的台灣作者李奕樵於今年五月曾公開發文表示「挺喜歡區塊鏈 NFT 這整件事」，原因在於「能百分之百..."
-pubDate: "2025-06-29T02:00:00.000Z"
+title: 【薄菏薄菏專欄】NFT涼了，數位藝術家呢？
+description: 曾出版小說《遊戲自黑暗》的台灣作者李奕樵於今年五月曾公開發文表示「挺喜歡區塊鏈 NFT 這整件事」，原因在於「能百分之百...
+pubDate: '2025-06-29T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0xd3dfa838e78c8fdd779674a6361d161a209650a51629421e5e075ead56b2d21b'
+signature: >-
+  0xeb10d05fa2300070c93fe814e57491f85d478b6cf5b58bc0ec41f096d8105101303514ef88f5f15a16ea4df1c6531ce54fcb3e498c2e6b7d82472c316d7e14b41c
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/art-news/content-182346.html](https://artouch.com/art-news/content-182346.html)
-
+> 原文連結（直接放超連結：https://artouch.com/art-news/content-182346.html）
 *NFT 熱潮退燒後，留下的是泡沫破裂的市場，還是仍在邊陲實驗的數位藝術家？本文沿著區塊鏈的歷史本文，從 2022 年 NFT 投機市場崩盤，回溯至 2012 年龐畢度中心展覽作品《Fuckyea》作者再現，再回到 2025 年重新檢視 NFT 作為數位藝術媒介的可能性與侷限。*
 
 ## 盛世浮沫
@@ -104,4 +108,4 @@ Moxie Marlinspike 後來將整段嘗試與體悟寫成了一篇文章——《�
 
 ---
 
-原文連結：[https://artouch.com/art-news/content-182346.html](https://artouch.com/art-news/content-182346.html)
+原文連結（直接放超連結：https://artouch.com/art-news/content-182346.html）

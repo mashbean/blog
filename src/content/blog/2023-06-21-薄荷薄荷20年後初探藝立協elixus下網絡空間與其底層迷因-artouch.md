@@ -1,17 +1,21 @@
 ---
-title: "【薄荷薄荷】20年後初探藝立協Elixus（下）網絡空間與其底層迷因"
-description: "「藝立協」之所以名為藝立協，最早是希望Code as a Art。程式開發者或駭客能像文藝復興時期的藝術家一樣，如米開朗..."
-pubDate: "2023-06-21T02:00:00.000Z"
+title: 【薄荷薄荷】20年後初探藝立協Elixus（下）網絡空間與其底層迷因
+description: 「藝立協」之所以名為藝立協，最早是希望Code as a Art。程式開發者或駭客能像文藝復興時期的藝術家一樣，如米開朗...
+pubDate: '2023-06-21T02:00:00.000Z'
 tags:
-  - "薄荷薄荷專欄"
-category: "blog"
+  - 薄荷薄荷專欄
+category: blog
+contentHash: '0x937f85663e2bc4d7e7a2011f9b0d503eb4a649b1aa8b5ace7074fa8d8f5825d3'
+signature: >-
+  0x5d0865a09daa60df99c1c7012f12a325bcedee598c7d17fe5293c55bec46b2a60624c5b1c3566b02ce0adc328337ffd2696f58ffd933f89b94e27d425d3ea7221b
+signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
+signatureVersion: mashbean.article.v1
 ---
 
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結：[https://artouch.com/web3-x-art/content-109670.html](https://artouch.com/web3-x-art/content-109670.html)
-
+> 原文連結（直接放超連結：https://artouch.com/web3-x-art/content-109670.html）
 上文[《誕生自網絡的部落美學》](https://artouch.com/web3-x-art/content-107738.html)，我們自網路發軔的1990年代末介紹台灣的部落格文化與其背後推手「藝立協」（Elixus）的故事。在網路海盜文化與商業版權爭議中，台灣的網路法規與基礎建設漸漸成熟，此時藝立協與藝術家鄭淑麗合作推出派樂西王國（Kingdom of Piracy），藝立協提出掠奪身份的複照（Piraport）與集體共創的基因提案（Piragene），解構由版權高牆割裂的身份與文化。
 
 網絡先天上帶有易於複製與共享的文化基因，樂於協作與堆疊的自由軟體開發者社群，也因此演進開放原始碼授權規則，如BSD、GPL、MIT條款乃至於更寬廣的CC創用授權。創用授權（Creative Commons）於2004年獲得[林茲電子藝術大獎網路藝術類的最高殊榮金尼卡（Golden Nica）](https://archive.aec.at/prix/showmode/2796/)。「創用授權」影響網路世界深遠，但「創用授權」是藝術嗎？為何它可以獲得最高殊榮？
@@ -79,4 +83,4 @@ category: "blog"
 
 ---
 
-原文連結：[https://artouch.com/web3-x-art/content-109670.html](https://artouch.com/web3-x-art/content-109670.html)
+原文連結（直接放超連結：https://artouch.com/web3-x-art/content-109670.html）
