@@ -6,6 +6,7 @@ import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
 import { classifyPostTags } from "@/utils/blogTags";
+import { topicToRouteSegment } from "@/utils/topicRoutes";
 
 export async function getStaticPaths() {
   const posts = await getBlogPosts({
@@ -232,7 +233,7 @@ const articleStructuredData = {
           <ul class="tag-list" aria-label="文章標籤">
             {classifiedCurrent.topics.map((topic) => (
               <li class="tag-list-item">
-                <a class="tag-list-link" href={withBase(`tags/${encodeURIComponent(topic)}/`)}>
+                <a class="tag-list-link" href={withBase(`tags/${topicToRouteSegment(topic)}/`)}>
                   {topic}
                 </a>
               </li>

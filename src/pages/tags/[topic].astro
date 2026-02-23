@@ -1,16 +1,30 @@
 ---
 import { getTopicCatalog } from "@/utils/blogTags";
 import { withBase } from "@/utils/paths";
+import { routeSegmentToTopic, topicToRouteSegment } from "@/utils/topicRoutes";
 
 export async function getStaticPaths() {
-  return getTopicCatalog().map((topic) => ({
-    params: { topic: topic.key },
-    props: { topic: topic.key, title: topic.title }
-  }));
+  return getTopicCatalog().flatMap((topic) => {
+    const shortCode = topicToRouteSegment(topic.key);
+    const paths = [
+      {
+        params: { topic: shortCode },
+        props: { topic: topic.key, title: topic.title }
+      }
+    ];
+    if (shortCode !== topic.key) {
+      paths.push({
+        params: { topic: topic.key },
+        props: { topic: topic.key, title: topic.title }
+      });
+    }
+    return paths;
+  });
 }
 
 const { topic, title } = Astro.props as { topic: string; title: string };
-const destination = withBase(`tags/?topic=${encodeURIComponent(topic)}`);
+const resolvedTopic = routeSegmentToTopic(topic);
+const destination = withBase(`tags/?topic=${encodeURIComponent(resolvedTopic)}`);
 ---
 
 <!doctype html>
