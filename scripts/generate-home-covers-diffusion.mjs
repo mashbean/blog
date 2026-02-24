@@ -241,9 +241,9 @@ async function main() {
 
   for (const post of targets) {
     const baseName = post.fileName.replace(/\.md$/i, "");
-    const pngName = `${baseName}.png`;
-    const coverRelPng = `${PUBLIC_COVER_DIR_REL}/${pngName}`;
-    const coverAbsPng = path.join(PUBLIC_COVER_DIR_ABS, pngName);
+    const jpgName = `${baseName}.jpg`;
+    const coverRelJpg = `${PUBLIC_COVER_DIR_REL}/${jpgName}`;
+    const coverAbsJpg = path.join(PUBLIC_COVER_DIR_ABS, jpgName);
 
     const keywords = extractKeywords({
       title: post.data.title,
@@ -260,7 +260,7 @@ async function main() {
     items.push({
       file: post.fileName,
       title: post.data.title ?? "",
-      coverPng: coverRelPng,
+      coverPng: coverRelJpg,
       width: 1200,
       height: 630,
       seed,
@@ -274,14 +274,14 @@ async function main() {
 
     let exists = false;
     try {
-      await fs.access(coverAbsPng);
+      await fs.access(coverAbsJpg);
       exists = true;
     } catch {
       exists = false;
     }
 
     if (!exists) continue;
-    const nextRaw = upsertFrontmatter(post.raw, { cover: coverRelPng });
+    const nextRaw = upsertFrontmatter(post.raw, { cover: coverRelJpg });
     if (!dryRun) await fs.writeFile(post.filePath, nextRaw, "utf8");
   }
 

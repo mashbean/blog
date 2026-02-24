@@ -99,7 +99,14 @@ SEO/機器可讀入口：
 
 - Jekyll 遷移：`npm run migrate:posts`
 - 文章簽名：`npm run sign:posts`
+- 最新文章封面（動物系 prompt + 自動壓縮）：`npm run cover:latest`
 - 圖像批次（OpenAI）：`npm run images:batch:openai`
+
+發布新文章建議流程：
+1. 新增 `src/content/blog/*.md`
+2. 執行 `npm run cover:latest`（會自動套用目前封面 prompt、生成封面、裁切為 1200x630、壓縮為 JPG 並回寫 `cover`）
+3. 執行 `npm run sign:posts -- --file <你的檔名.md>`
+4. 執行 `npm run check`
 
 說明：`scripts/` 僅保留可重複執行、目前流程仍會用到的工具；一次性輸出報表與快取已排除追蹤。
 
