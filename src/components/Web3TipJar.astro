@@ -47,7 +47,6 @@ const tipAmountEth = formatEthAmount(tipAmountEthValue);
 const tipRateNote = ethTwdRate
   ? `依即時匯率估算（1 ETH ≈ NT$${Math.round(ethTwdRate).toLocaleString("zh-TW")}）`
   : "匯率服務暫時不可用，已使用預設金額";
-const ensStatusLabel = ens.isVerified ? "已驗證 ENS" : "待驗證 ENS";
 
 const toEip681 = (valueEth: string): string => {
   const valueWei = ethers.utils.parseEther(valueEth).toString();
@@ -58,76 +57,139 @@ const primaryPaymentURI = toEip681(tipAmountEth);
 const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPaymentURI)}&size=240`;
 ---
 
-<section class="tip-jar" aria-label="打賞">
-  <h2>抖內抖泥吧</h2>
-  <p class="tip-jar-line">
-    ENS：<code>{ensName}</code>
-    {ens.isVerified ? <span class="tip-verified">{ensStatusLabel}</span> : <span class="tip-warning">{ensStatusLabel}</span>}
-  </p>
-  <p class="tip-jar-line tip-subtle">{tipRateNote}</p>
-  {
-    ens.error && (
-      <p class="tip-jar-line tip-warning">ENS 解析異常：{ens.error}</p>
-    )
-  }
+<details class="tip-jar-disclosure">
+  <summary class="tip-jar-summary">
+    <span class="toc-share-btn tip-jar-toggle">抖內抖泥</span>
+  </summary>
+  <section class="tip-jar" aria-label="打賞">
+    <p class="tip-jar-line">
+      <span class="tip-ens-label">ENS</span>
+      <code class="tip-ens-name">{ensName}</code>
+      {
+        ens.isVerified ? (
+          <span class="tip-verified">已驗證</span>
+        ) : (
+          <span class="tip-warning">未驗證</span>
+        )
+      }
+    </p>
+    <p class="tip-jar-line tip-subtle">{tipRateNote}</p>
+    {
+      ens.error && (
+        <p class="tip-jar-line tip-warning">ENS 解析異常：{ens.error}</p>
+      )
+    }
 
-  <div class="tip-actions">
-    <a class="tip-pay-link" href={primaryPaymentURI}>
-      打賞 {tipAmountEth} ETH（約 NT${tipAmountNtd}）
-    </a>
-    <button type="button" class="tip-qr-btn" data-tip-qr-toggle aria-controls="tip-qr-panel" aria-expanded="false">
-      顯示 QR Code
-    </button>
-  </div>
+    <div class="tip-actions">
+      <a class="tip-pay-link" href={primaryPaymentURI}>
+        打賞 {tipAmountEth} ETH（約 NT${tipAmountNtd}）
+      </a>
+      <button
+        type="button"
+        class="tip-qr-btn"
+        data-tip-qr-toggle
+        aria-controls="tip-qr-panel"
+        aria-expanded="false"
+      >
+        掃碼抖內
+      </button>
+    </div>
 
-  <div class="tip-qr-panel" id="tip-qr-panel" hidden>
-    <a class="tip-qr-link" href={primaryPaymentURI} aria-label="打開錢包付款請求">
-      <img src={qrUrl} alt="打賞付款 QR code" width="180" height="180" loading="lazy" decoding="async" />
-    </a>
-  </div>
-</section>
+    <div class="tip-qr-panel" id="tip-qr-panel" hidden>
+      <a class="tip-qr-link" href={primaryPaymentURI} aria-label="打開錢包付款請求">
+        <img src={qrUrl} alt="打賞付款 QR code" width="180" height="180" loading="lazy" decoding="async" />
+      </a>
+    </div>
+  </section>
+</details>
 
 <script is:inline>
-  const qrToggleBtn = document.querySelector("[data-tip-qr-toggle]");
-  const qrPanel = document.querySelector("#tip-qr-panel");
+  const tipRoot = document.currentScript?.previousElementSibling;
+  const qrToggleBtn = tipRoot?.querySelector("[data-tip-qr-toggle]");
+  const qrPanel = tipRoot?.querySelector("#tip-qr-panel");
   qrToggleBtn?.addEventListener("click", () => {
     if (!(qrToggleBtn instanceof HTMLButtonElement) || !(qrPanel instanceof HTMLElement)) return;
     const isOpen = qrToggleBtn.getAttribute("aria-expanded") === "true";
     qrToggleBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
-    qrToggleBtn.textContent = isOpen ? "顯示 QR Code" : "隱藏 QR Code";
+    qrToggleBtn.textContent = isOpen ? "掃碼抖內" : "收起掃碼";
     qrPanel.hidden = isOpen;
   });
 </script>
 
 <style>
-  .tip-jar {
-    margin-top: 1rem;
-    border: 1px solid #c8d9d3;
-    border-radius: 0.95rem;
-    background: #f5fbf9;
-    padding: 1rem;
+  .tip-jar-disclosure {
+    margin-top: 0.72rem;
   }
 
-  .tip-jar h2 {
-    margin: 0;
-    font-size: 1.15rem;
+  .tip-jar-summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .tip-jar-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .tip-jar-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tip-jar-disclosure[open] .tip-jar-toggle {
+    background: #ebf6f2;
+    border-color: #a7cdc3;
+  }
+
+  .tip-jar {
+    margin-top: 0.6rem;
+    border: 1px solid #c8d9d3;
+    border-radius: 0.9rem;
+    background: #f5fbf9;
+    padding: 0.84rem;
   }
 
   .tip-jar-line {
-    margin: 0.55rem 0 0;
-    font-size: 0.92rem;
+    margin: 0;
+    font-size: 0.88rem;
     color: #2b3f48;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.38rem;
   }
 
   .tip-subtle {
+    margin-top: 0.5rem;
     color: #4b6470;
-    font-size: 0.84rem;
+    font-size: 0.8rem;
+  }
+
+  .tip-ens-label {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #eef9f5;
+    color: #2f5963;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.18rem 0.44rem;
+  }
+
+  .tip-ens-name {
+    border: 1px solid #d1e3de;
+    border-radius: 0.5rem;
+    background: #ffffff;
+    color: #173744;
+    font-size: 0.82rem;
+    line-height: 1;
+    padding: 0.22rem 0.42rem;
   }
 
   .tip-verified,
   .tip-warning {
-    margin-left: 0.45rem;
-    font-size: 0.74rem;
+    margin-left: 0;
+    font-size: 0.72rem;
     padding: 0.08rem 0.42rem;
     border-radius: 999px;
     border: 1px solid transparent;
@@ -149,29 +211,32 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     display: flex;
     flex-direction: column;
     gap: 0.55rem;
-    margin-top: 0.9rem;
+    margin-top: 0.72rem;
   }
 
   .tip-pay-link,
   .tip-qr-btn {
-    border: 1px solid #0b7d6d;
-    border-radius: 999px;
-    padding: 0.4rem 0.78rem;
-    background: #0b7d6d;
-    color: #fff;
+    border: 1px solid #c7d8d2;
+    border-radius: 0.62rem;
+    padding: 0.36rem 0.68rem;
+    background: #ffffff;
+    color: #2f5664;
     text-decoration: none;
-    font-size: 0.86rem;
+    font-size: 0.82rem;
     cursor: pointer;
     text-align: center;
+    min-height: 2.1rem;
   }
 
-  .tip-qr-btn {
-    background: #f5fbf9;
+  .tip-pay-link:hover,
+  .tip-qr-btn:hover {
     color: #0b7d6d;
+    border-color: #98d4c8;
+    background: #eef8f4;
   }
 
   .tip-qr-panel {
-    margin-top: 0.85rem;
+    margin-top: 0.72rem;
   }
 
   .tip-qr-link {
