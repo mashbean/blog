@@ -65,11 +65,11 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
       >
         用以太幣抖內（約 NT$100）
       </button>
-      <p class="tip-pay-feedback" data-tip-pay-feedback aria-live="polite"></p>
+      <p class="tip-pay-feedback" data-tip-pay-feedback aria-live="polite" hidden></p>
     </div>
 
     <div class="tip-fallback" data-tip-fallback hidden>
-      <a class="tip-fallback-link" data-tip-fallback-link href={defaultPaymentURI}>開啟錢包連結</a>
+      <p class="tip-qr-caption">掃碼抖內</p>
       <a class="tip-qr-link" data-tip-fallback-link href={defaultPaymentURI} aria-label="打開錢包付款請求">
         <img
           data-tip-fallback-qr
@@ -149,6 +149,12 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
 
   const setFeedback = (text) => {
     if (!(feedback instanceof HTMLElement)) return;
+    const message = String(text ?? "").trim();
+    feedback.hidden = message.length === 0;
+    if (!message) {
+      feedback.textContent = "";
+      return;
+    }
     feedback.textContent = text;
   };
 
@@ -178,6 +184,7 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
     const mode = payButton.dataset.mode || "wallet";
     const defaultLabel = payButton.dataset.defaultLabel || "用以太幣抖內（約 NT$100）";
     const fallbackLabel = payButton.dataset.fallbackLabel || "改用錢包連結抖內（約 NT$100）";
+    setFeedback("");
 
     if (mode === "fallback") {
       const link = tipRoot?.querySelector("[data-tip-fallback-link]");
@@ -330,8 +337,7 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
     margin-top: 0.72rem;
   }
 
-  .tip-pay-btn,
-  .tip-fallback-link {
+  .tip-pay-btn {
     border: 1px solid #c7d8d2;
     border-radius: 0.62rem;
     padding: 0.36rem 0.68rem;
@@ -344,8 +350,7 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
     min-height: 2.1rem;
   }
 
-  .tip-pay-btn:hover,
-  .tip-fallback-link:hover {
+  .tip-pay-btn:hover {
     color: #0b7d6d;
     border-color: #98d4c8;
     background: #eef8f4;
@@ -357,12 +362,11 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
   }
 
   .tip-pay-feedback {
-    margin: -0.08rem 0 0;
+    margin: 0;
     color: #46616b;
     font-size: 0.76rem;
     line-height: 1.4;
-    text-align: left;
-    min-height: 1.2rem;
+    text-align: center;
   }
 
   .tip-fallback {
@@ -370,8 +374,15 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
     border-top: 1px dashed #c8ddd7;
     padding-top: 0.62rem;
     display: grid;
-    justify-items: start;
-    gap: 0.52rem;
+    justify-items: center;
+    text-align: center;
+    gap: 0.46rem;
+  }
+
+  .tip-qr-caption {
+    margin: 0;
+    color: #335965;
+    font-size: 0.8rem;
   }
 
   .tip-qr-link {

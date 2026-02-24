@@ -984,6 +984,11 @@
     position: relative;
   }
 
+  .article-header > .signature-disclosure {
+    display: inline-block;
+    margin-top: 0.26rem;
+  }
+
   .signature-disclosure .signature-panel {
     display: none;
   }
@@ -999,7 +1004,7 @@
     top: clamp(5.8rem, 14vh, 8rem);
     left: 50%;
     transform: translateX(-50%);
-    z-index: 18;
+    z-index: 80;
     width: min(92vw, 38rem);
     border: 1px solid #d8e6e1;
     border-radius: 1rem;
@@ -2591,7 +2596,7 @@
   }
 
   body.focus-reading .page-shell {
-    padding-top: 0.62rem;
+    padding-top: 1.86rem;
   }
 
   .reading-progress {
@@ -2789,6 +2794,10 @@
 
   .article-layout {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .article-header > .signature-disclosure {
+    margin-top: 0.42rem;
   }
 
   .article-sidebar {

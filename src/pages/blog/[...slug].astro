@@ -278,79 +278,79 @@ const articleStructuredData = {
             }
             {post.data.draft && !import.meta.env.PROD && " · 草稿"}
           </p>
-          <details
-            class:list={{
-              "signature-disclosure": true,
-              "signature-disclosure-verified": signatureBadgeState === "verified",
-              "signature-disclosure-unsigned": signatureBadgeState === "unsigned",
-              "signature-disclosure-invalid": signatureBadgeState === "invalid"
-            }}
-          >
-            <summary
-              class:list={{
-                "signature-badge": true,
-                "signature-badge-verified": signatureBadgeState === "verified",
-                "signature-badge-unsigned": signatureBadgeState === "unsigned",
-                "signature-badge-invalid": signatureBadgeState === "invalid"
-              }}
-              title={signatureBadgeTitle}
-              aria-label={`${signatureBadgeTitle}（點擊查看簽名細節）`}
-            >
-              {
-                signatureBadgeState === "verified" ? (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z" />
-                  </svg>
-                ) : signatureBadgeState === "unsigned" ? (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm0 4.4a1.15 1.15 0 0 1 1.15 1.15v5.05a1.15 1.15 0 1 1-2.3 0V8.3A1.15 1.15 0 0 1 12 7.15Zm0 9.15a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Z" />
-                  </svg>
-                ) : (
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 3.25 2.5 20.75h19L12 3.25Zm0 4.1 6.14 11.3H5.86L12 7.35Zm-1.1 3.75v3.45h2.2V11.1h-2.2Zm0 4.65v1.95h2.2v-1.95h-2.2Z" />
-                  </svg>
-                )
-              }
-              <span>{signatureBadgeText}</span>
-              <span class="signature-badge-caret" aria-hidden="true">▾</span>
-            </summary>
-            <div class="signature-panel">
-              <div class="signature-panel-head">
-                <span class="signature-panel-title">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z" />
-                  </svg>
-                  已簽名資訊
-                </span>
-                <button type="button" class="signature-panel-close" aria-label="關閉已簽名資訊">
-                  關閉
-                </button>
-              </div>
-              <p>
-                <strong>豆泥的以太坊地址：</strong>
-                {signerEnsName}
-              </p>
-              <p>
-                <strong>狀態：</strong>
-                {signerEnsStatusText}
-              </p>
-              <div class="signature-explain-row">
-                <details class="signature-explain">
-                  <summary class="signature-explain-btn">文章的身分證字號</summary>
-                  <p>
-                    <code>{signatureHash}</code>
-                  </p>
-                </details>
-                <details class="signature-explain">
-                  <summary class="signature-explain-btn">這是什麼？</summary>
-                  <p>
-                    已簽名表示這篇文章已建立獨特的身分證字號（內容雜湊，contentHash）並且由豆泥簽署認證，簽署是採用以太坊區塊鏈的豆泥專用地址（signer.mashbean.eth）。只要內容一經修改，就會需要重新驗證換發新的身分證字號。但豆泥不是每天都在公所上班，所以偶爾會慢一點認證。
-                  </p>
-                </details>
-              </div>
-            </div>
-          </details>
         </div>
+        <details
+          class:list={{
+            "signature-disclosure": true,
+            "signature-disclosure-verified": signatureBadgeState === "verified",
+            "signature-disclosure-unsigned": signatureBadgeState === "unsigned",
+            "signature-disclosure-invalid": signatureBadgeState === "invalid"
+          }}
+        >
+          <summary
+            class:list={{
+              "signature-badge": true,
+              "signature-badge-verified": signatureBadgeState === "verified",
+              "signature-badge-unsigned": signatureBadgeState === "unsigned",
+              "signature-badge-invalid": signatureBadgeState === "invalid"
+            }}
+            title={signatureBadgeTitle}
+            aria-label={`${signatureBadgeTitle}（點擊查看簽名細節）`}
+          >
+            {
+              signatureBadgeState === "verified" ? (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z" />
+                </svg>
+              ) : signatureBadgeState === "unsigned" ? (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm0 4.4a1.15 1.15 0 0 1 1.15 1.15v5.05a1.15 1.15 0 1 1-2.3 0V8.3A1.15 1.15 0 0 1 12 7.15Zm0 9.15a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Z" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 3.25 2.5 20.75h19L12 3.25Zm0 4.1 6.14 11.3H5.86L12 7.35Zm-1.1 3.75v3.45h2.2V11.1h-2.2Zm0 4.65v1.95h2.2v-1.95h-2.2Z" />
+                </svg>
+              )
+            }
+            <span>{signatureBadgeText}</span>
+            <span class="signature-badge-caret" aria-hidden="true">▾</span>
+          </summary>
+          <div class="signature-panel">
+            <div class="signature-panel-head">
+              <span class="signature-panel-title">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z" />
+                </svg>
+                已簽名資訊
+              </span>
+              <button type="button" class="signature-panel-close" aria-label="關閉已簽名資訊">
+                關閉
+              </button>
+            </div>
+            <p>
+              <strong>豆泥的以太坊地址：</strong>
+              {signerEnsName}
+            </p>
+            <p>
+              <strong>狀態：</strong>
+              {signerEnsStatusText}
+            </p>
+            <div class="signature-explain-row">
+              <details class="signature-explain">
+                <summary class="signature-explain-btn">文章的身分證字號</summary>
+                <p>
+                  <code>{signatureHash}</code>
+                </p>
+              </details>
+              <details class="signature-explain">
+                <summary class="signature-explain-btn">這是什麼？</summary>
+                <p>
+                  已簽名表示這篇文章已建立獨特的身分證字號（內容雜湊，contentHash）並且由豆泥簽署認證，簽署是採用以太坊區塊鏈的豆泥專用地址（signer.mashbean.eth）。只要內容一經修改，就會需要重新驗證換發新的身分證字號。但豆泥不是每天都在公所上班，所以偶爾會慢一點認證。
+                </p>
+              </details>
+            </div>
+          </div>
+        </details>
         {post.data.author && <p class="article-author">作者：{post.data.author}</p>}
         {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
