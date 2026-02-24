@@ -44,9 +44,6 @@ const fetchEthTwdRate = async (): Promise<number | null> => {
 const ethTwdRate = await fetchEthTwdRate();
 const tipAmountEthValue = ethTwdRate ? tipAmountNtd / ethTwdRate : fallbackTipAmountEth;
 const tipAmountEth = formatEthAmount(tipAmountEthValue);
-const tipRateNote = ethTwdRate
-  ? `依即時匯率估算（1 ETH ≈ NT$${Math.round(ethTwdRate).toLocaleString("zh-TW")}）`
-  : "匯率服務暫時不可用，已使用預設金額";
 
 const toEip681 = (valueEth: string): string => {
   const valueWei = ethers.utils.parseEther(valueEth).toString();
@@ -57,23 +54,29 @@ const primaryPaymentURI = toEip681(tipAmountEth);
 const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPaymentURI)}&size=240`;
 ---
 
-<details class="tip-jar-disclosure">
+<details class="tip-jar-disclosure toc-share-card">
   <summary class="tip-jar-summary">
     <span class="toc-share-btn tip-jar-toggle">抖內抖泥</span>
   </summary>
   <section class="tip-jar" aria-label="打賞">
-    <p class="tip-jar-line">
-      <span class="tip-ens-label">ENS</span>
-      <code class="tip-ens-name">{ensName}</code>
+    <p class="tip-jar-title">抖內抖泥</p>
+    <p class="tip-jar-line tip-ens-row">
+      <span class="tip-ens-chip">
+        <span>ENS：</span>
+        <code class="tip-ens-name">{ensName}</code>
+      </span>
       {
         ens.isVerified ? (
-          <span class="tip-verified">已驗證</span>
+          <span class="tip-verified-badge" aria-label="已驗證" title="已驗證">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z"></path>
+            </svg>
+          </span>
         ) : (
-          <span class="tip-warning">未驗證</span>
+          <span class="tip-warning">待驗證</span>
         )
       }
     </p>
-    <p class="tip-jar-line tip-subtle">{tipRateNote}</p>
     {
       ens.error && (
         <p class="tip-jar-line tip-warning">ENS 解析異常：{ens.error}</p>
@@ -81,9 +84,13 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     }
 
     <div class="tip-actions">
-      <a class="tip-pay-link" href={primaryPaymentURI}>
-        打賞 {tipAmountEth} ETH（約 NT${tipAmountNtd}）
-      </a>
+      <button
+        type="button"
+        class="tip-pay-btn"
+        data-tip-pay
+        data-pay-uri={primaryPaymentURI}
+        data-pay-copy={`收款地址：${tipAddress}\n建議金額：約 NT$${tipAmountNtd}（${tipAmountEth} ETH）\n鏈別 ID：${chainId}`}
+      >抖內約 NT${tipAmountNtd} 的以太幣</button>
       <button
         type="button"
         class="tip-qr-btn"
@@ -93,6 +100,7 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
       >
         掃碼抖內
       </button>
+      <p class="tip-pay-feedback" data-tip-pay-feedback hidden>已複製收款資訊，可貼到 Rabby 送出轉帳。</p>
     </div>
 
     <div class="tip-qr-panel" id="tip-qr-panel" hidden>
@@ -105,8 +113,25 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
 
 <script is:inline>
   const tipRoot = document.currentScript?.previousElementSibling;
+  const payButton = tipRoot?.querySelector("[data-tip-pay]");
+  const payFeedback = tipRoot?.querySelector("[data-tip-pay-feedback]");
   const qrToggleBtn = tipRoot?.querySelector("[data-tip-qr-toggle]");
   const qrPanel = tipRoot?.querySelector("#tip-qr-panel");
+  payButton?.addEventListener("click", async () => {
+    if (!(payButton instanceof HTMLButtonElement)) return;
+    const payUri = payButton.dataset.payUri ?? "";
+    const payCopy = payButton.dataset.payCopy ?? "";
+    if (payFeedback instanceof HTMLElement) payFeedback.hidden = true;
+    if (payCopy) {
+      try {
+        await navigator.clipboard.writeText(payCopy);
+        if (payFeedback instanceof HTMLElement) payFeedback.hidden = false;
+      } catch {
+        // ignore clipboard failures
+      }
+    }
+    if (payUri) window.location.href = payUri;
+  });
   qrToggleBtn?.addEventListener("click", () => {
     if (!(qrToggleBtn instanceof HTMLButtonElement) || !(qrPanel instanceof HTMLElement)) return;
     const isOpen = qrToggleBtn.getAttribute("aria-expanded") === "true";
@@ -118,7 +143,7 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
 
 <style>
   .tip-jar-disclosure {
-    margin-top: 0.72rem;
+    margin-top: 0;
   }
 
   .tip-jar-summary {
@@ -158,47 +183,63 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     gap: 0.38rem;
   }
 
-  .tip-subtle {
-    margin-top: 0.5rem;
-    color: #4b6470;
-    font-size: 0.8rem;
+  .tip-jar-title {
+    margin: 0 0 0.55rem;
+    color: #244653;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1.2;
   }
 
-  .tip-ens-label {
+  .tip-ens-row {
+    justify-content: space-between;
+  }
+
+  .tip-ens-chip {
     display: inline-flex;
     align-items: center;
-    border: 1px solid #c8ddd7;
-    border-radius: 999px;
-    background: #eef9f5;
-    color: #2f5963;
-    font-size: 0.72rem;
+    gap: 0.3rem;
+    border: 1px solid #d1e3de;
+    border-radius: 0.58rem;
+    background: #ffffff;
+    color: #1f3f4d;
+    font-size: 0.8rem;
     line-height: 1;
-    padding: 0.18rem 0.44rem;
+    padding: 0.24rem 0.45rem;
   }
 
   .tip-ens-name {
-    border: 1px solid #d1e3de;
-    border-radius: 0.5rem;
-    background: #ffffff;
     color: #173744;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
     line-height: 1;
-    padding: 0.22rem 0.42rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
   }
 
-  .tip-verified,
+  .tip-verified-badge,
   .tip-warning {
     margin-left: 0;
     font-size: 0.72rem;
-    padding: 0.08rem 0.42rem;
+    padding: 0.08rem 0.38rem;
     border-radius: 999px;
     border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .tip-verified {
+  .tip-verified-badge {
     color: #0d5d51;
     background: #d7f2ec;
     border-color: #9fddd1;
+  }
+
+  .tip-verified-badge svg {
+    width: 0.92rem;
+    height: 0.92rem;
+    display: block;
+    fill: currentColor;
   }
 
   .tip-warning {
@@ -214,7 +255,7 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     margin-top: 0.72rem;
   }
 
-  .tip-pay-link,
+  .tip-pay-btn,
   .tip-qr-btn {
     border: 1px solid #c7d8d2;
     border-radius: 0.62rem;
@@ -228,11 +269,19 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     min-height: 2.1rem;
   }
 
-  .tip-pay-link:hover,
+  .tip-pay-btn:hover,
   .tip-qr-btn:hover {
     color: #0b7d6d;
     border-color: #98d4c8;
     background: #eef8f4;
+  }
+
+  .tip-pay-feedback {
+    margin: -0.08rem 0 0;
+    color: #46616b;
+    font-size: 0.76rem;
+    line-height: 1.4;
+    text-align: center;
   }
 
   .tip-qr-panel {
