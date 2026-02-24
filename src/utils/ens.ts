@@ -8,6 +8,14 @@ export interface EnsResolution {
   forwardMatchesInput: boolean;
   reverseMatchesInput: boolean;
   isVerified: boolean;
+  verificationCode:
+    | "verified"
+    | "unresolved"
+    | "missing_reverse"
+    | "reverse_mismatch"
+    | "reverse_forward_mismatch"
+    | "error";
+  verificationMessage: string;
   error?: string;
 }
 
@@ -44,7 +52,9 @@ export const resolveEnsProfile = async (name: string): Promise<EnsResolution> =>
           reverseName: null,
           forwardMatchesInput: false,
           reverseMatchesInput: false,
-          isVerified: false
+          isVerified: false,
+          verificationCode: "unresolved",
+          verificationMessage: "ENS 名稱目前沒有綁定地址"
         };
       }
 
@@ -59,13 +69,28 @@ export const resolveEnsProfile = async (name: string): Promise<EnsResolution> =>
         ? ethers.utils.getAddress(forwardAgain) === checksumAddress
         : false;
 
+      let verificationCode: EnsResolution["verificationCode"] = "verified";
+      let verificationMessage = "ENS 正反向解析一致";
+      if (!normalizedReverse) {
+        verificationCode = "missing_reverse";
+        verificationMessage = "尚未設定 reverse record";
+      } else if (!reverseMatchesInput) {
+        verificationCode = "reverse_mismatch";
+        verificationMessage = "reverse 記錄與 ENS 名稱不一致";
+      } else if (!reverseForwardMatches) {
+        verificationCode = "reverse_forward_mismatch";
+        verificationMessage = "reverse 名稱反查地址不一致";
+      }
+
       return {
         inputName: normalizedInput,
         resolvedAddress: checksumAddress,
         reverseName: normalizedReverse,
         forwardMatchesInput,
         reverseMatchesInput,
-        isVerified: forwardMatchesInput && reverseMatchesInput && reverseForwardMatches
+        isVerified: forwardMatchesInput && reverseMatchesInput && reverseForwardMatches,
+        verificationCode,
+        verificationMessage
       };
     } catch (error) {
       return {
@@ -75,6 +100,8 @@ export const resolveEnsProfile = async (name: string): Promise<EnsResolution> =>
         forwardMatchesInput: false,
         reverseMatchesInput: false,
         isVerified: false,
+        verificationCode: "error",
+        verificationMessage: "ENS 解析時發生錯誤",
         error: error instanceof Error ? error.message : "Unknown ENS resolution error"
       };
     }

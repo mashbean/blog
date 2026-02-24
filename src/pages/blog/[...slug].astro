@@ -76,12 +76,17 @@ const signerEnsName = web3Config.signerEnsName;
 const signerEnsVerified =
   Boolean(signatureCheck.expectedSigner) &&
   Boolean(signerEnsProfile?.resolvedAddress) &&
-  signatureCheck.expectedSigner === signerEnsProfile?.resolvedAddress;
+  signatureCheck.expectedSigner === signerEnsProfile?.resolvedAddress &&
+  Boolean(signerEnsProfile?.isVerified);
 const signerEnsStatusText = signerEnsName
   ? signerEnsVerified
     ? "已驗證"
     : "待驗證"
   : "未設定";
+const signerEnsStatusHint =
+  signerEnsStatusText === "待驗證"
+    ? signerEnsProfile?.verificationMessage ?? "請檢查 ENS 正反向設定"
+    : null;
 const classifiedCurrent = classifyPostTags({
   title: postTitle,
   description: post.data.description,
@@ -335,6 +340,7 @@ const articleStructuredData = {
               <strong>狀態：</strong>
               {signerEnsStatusText}
             </p>
+            {signerEnsStatusHint && <p class="signature-panel-note">提示：{signerEnsStatusHint}</p>}
             <div class="signature-explain-row">
               <details class="signature-explain">
                 <summary class="signature-explain-btn">文章的身分證字號</summary>

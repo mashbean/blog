@@ -49,6 +49,9 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
         <p class="tip-jar-line tip-warning">ENS 解析異常：{ens.error}</p>
       )
     }
+    {!ens.isVerified && !ens.error && (
+      <p class="tip-jar-line tip-warning">ENS 提示：{ens.verificationMessage}</p>
+    )}
 
     <div class="tip-actions">
       <button
