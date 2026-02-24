@@ -9,6 +9,12 @@ const SIGNATURE_VERSION = "mashbean.article.v1";
 const BLOG_DIR = path.resolve("src/content/blog");
 
 const normalizeBody = (body) => body.replace(/\r\n/g, "\n").trim();
+const normalizeDateISO = (value) => {
+  if (!value) return "";
+  const date = value instanceof Date ? value : new Date(String(value));
+  if (Number.isNaN(date.getTime())) return String(value ?? "").trim();
+  return date.toISOString();
+};
 
 const buildPayload = ({ slug, title, description, pubDateISO, updatedDateISO, body }) =>
   JSON.stringify({
@@ -16,8 +22,8 @@ const buildPayload = ({ slug, title, description, pubDateISO, updatedDateISO, bo
     slug: String(slug ?? "").trim(),
     title: String(title ?? "").trim(),
     description: String(description ?? "").trim(),
-    pubDateISO: String(pubDateISO ?? ""),
-    updatedDateISO: String(updatedDateISO ?? ""),
+    pubDateISO: normalizeDateISO(pubDateISO),
+    updatedDateISO: normalizeDateISO(updatedDateISO),
     body: normalizeBody(String(body ?? ""))
   });
 

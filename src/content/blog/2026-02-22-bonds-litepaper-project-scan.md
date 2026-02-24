@@ -9,9 +9,9 @@ tags:
 category: blog
 cover: images/covers/home/2026-02-22-bonds-litepaper-og-image.jpg
 coverAlt: Bond 有備而來專案主視覺
-contentHash: '0x76d8dd5ee452d25963f4c4f19bf97b395bd751f1d62af7786e0ca2e270e10a2d'
+contentHash: '0x4543c334bccd4a61c1c41da84e2c887c1915d33acef96ef9da8babe89bdb9451'
 signature: >-
-  0xe8ee4c0ba9fc6548991e7d056c7789da28291afb6497e06a43a123706c25cbc50bae076ebc6b1508802be290e915b580bf81756f77780305464b011f071887b81b
+  0xf6f201c2702f36afb09c5f3d196eb25463e5de968454a27c8015e7ec6b7207155355f72002ad9042c37950286f64cd1228f3a7e8c946f1ef3f0b5236a5bc2c771b
 signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
 signatureVersion: mashbean.article.v1
 ---
