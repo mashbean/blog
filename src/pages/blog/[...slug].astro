@@ -71,8 +71,12 @@ const signatureBadgeTitle =
 const signatureHash = post.data.contentHash ?? signatureCheck.computedHash;
 const web3Config = requireWeb3PublicConfig();
 const tipEnsProfile = await resolveEnsProfile(web3Config.tipEnsName);
+const signerEnsProfile = await resolveEnsProfile(web3Config.signerEnsName);
 const signerEnsName = web3Config.signerEnsName;
-const signerEnsVerified = signatureCheck.status === "verified";
+const signerEnsVerified =
+  Boolean(signatureCheck.expectedSigner) &&
+  Boolean(signerEnsProfile?.resolvedAddress) &&
+  signatureCheck.expectedSigner === signerEnsProfile?.resolvedAddress;
 const signerEnsStatusText = signerEnsName
   ? signerEnsVerified
     ? "已驗證"
@@ -331,20 +335,18 @@ const articleStructuredData = {
                 {signerEnsStatusText}
               </p>
               <div class="signature-explain-row">
-                <button type="button" class="signature-explain-btn signature-panel-toggle" data-signature-target="hash">
-                  文章的身分證字號
-                </button>
-                <button type="button" class="signature-explain-btn signature-panel-toggle" data-signature-target="about">
-                  這是什麼？
-                </button>
-              </div>
-              <div class="signature-explain-content">
-                <p data-signature-content="hash" hidden>
-                  <code>{signatureHash}</code>
-                </p>
-                <p data-signature-content="about" hidden>
-                  已簽名表示這篇文章已建立獨特的身分證字號（內容雜湊，contentHash）並且由豆泥簽署認證，簽署是採用以太坊區塊鏈的豆泥專用地址（signer.mashbean.eth）。只要內容一經修改，就會需要重新驗證換發新的身分證字號。但豆泥不是每天都在公所上班，所以偶爾會慢一點認證。
-                </p>
+                <details class="signature-explain">
+                  <summary class="signature-explain-btn">文章的身分證字號</summary>
+                  <p>
+                    <code>{signatureHash}</code>
+                  </p>
+                </details>
+                <details class="signature-explain">
+                  <summary class="signature-explain-btn">這是什麼？</summary>
+                  <p>
+                    已簽名表示這篇文章已建立獨特的身分證字號（內容雜湊，contentHash）並且由豆泥簽署認證，簽署是採用以太坊區塊鏈的豆泥專用地址（signer.mashbean.eth）。只要內容一經修改，就會需要重新驗證換發新的身分證字號。但豆泥不是每天都在公所上班，所以偶爾會慢一點認證。
+                  </p>
+                </details>
               </div>
             </div>
           </details>
@@ -490,50 +492,8 @@ const articleStructuredData = {
       signatureDisclosures.forEach((panel) => {
         if (!(panel instanceof HTMLDetailsElement)) return;
         const closeButton = panel.querySelector(".signature-panel-close");
-        if (closeButton instanceof HTMLButtonElement) {
-          closeButton.addEventListener("click", () => {
-            panel.open = false;
-          });
-        }
-
-        const toggleButtons = Array.from(panel.querySelectorAll(".signature-panel-toggle")).filter(
-          (button) => button instanceof HTMLButtonElement,
-        );
-        const contentBlocks = Array.from(panel.querySelectorAll("[data-signature-content]")).filter(
-          (node) => node instanceof HTMLElement,
-        );
-
-        const setActive = (target) => {
-          contentBlocks.forEach((block) => {
-            const key = block.getAttribute("data-signature-content");
-            block.hidden = key !== target;
-          });
-          toggleButtons.forEach((button) => {
-            const key = button.getAttribute("data-signature-target");
-            button.classList.toggle("is-active", key === target);
-          });
-        };
-
-        toggleButtons.forEach((button) => {
-          button.addEventListener("click", () => {
-            const target = button.getAttribute("data-signature-target") ?? "";
-            if (!target) return;
-            const block = panel.querySelector(`[data-signature-content="${target}"]`);
-            if (!(block instanceof HTMLElement)) return;
-            if (!block.hidden) {
-              setActive("");
-              return;
-            }
-            setActive(target);
-          });
-        });
-
-        panel.addEventListener("toggle", () => {
-          if (panel.open) return;
-          setActive("");
-        });
-
-        closeButton?.addEventListener("click", () => {
+        if (!(closeButton instanceof HTMLButtonElement)) return;
+        closeButton.addEventListener("click", () => {
           panel.open = false;
         });
       });
