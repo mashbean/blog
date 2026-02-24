@@ -5,9 +5,9 @@ pubDate: '2023-10-31T02:00:00.000Z'
 tags:
   - 薄荷薄荷專欄
 category: blog
-contentHash: '0x3cfb5f8d6ec00a1437d16795cf5255f871ceebdcbf6ee815257aa752f18b7dda'
+contentHash: '0x07dae68f64c4f4f1bddc4cf6ad52ea7de6527d6483cb6fc92f876e8d9f8ed148'
 signature: >-
-  0x0080b97b499355c4e893778185a05aaf8e2599947f123dbbe5da33b6d7c9c01a78dd2e94dbacab56f6fd2c8d65f2eafad7a0ce1171a6f058c8ff0a856268fcbb1c
+  0x3eb5cde8585e654b7811bba7d6d5b575438805a59134abc24efc9c8f468fba305084a5210b09de9a08e0c0571394a824faaa62f0eaa3449be31fd9400379f8031c
 signer: '0x024c8Cdea6b98Af3E999F1b0110643d4040aDc44'
 signatureVersion: mashbean.article.v1
 author: 張寶成、黃豆泥
