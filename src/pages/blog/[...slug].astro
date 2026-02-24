@@ -7,6 +7,10 @@ import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
 import { classifyPostTags } from "@/utils/blogTags";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
+import { verifyArticleSignature } from "@/utils/articleSignature";
+import { requireWeb3PublicConfig } from "@/utils/web3Config";
+import { resolveEnsProfile } from "@/utils/ens";
+import Web3TipJar from "@/components/Web3TipJar.astro";
 
 export async function getStaticPaths() {
   const posts = await getBlogPosts({
@@ -30,6 +34,57 @@ const { post, isLegacyPath = false } = Astro.props as {
 const { Content, headings } = await render(post);
 const postTitle = cleanPostTitle(post.data.title);
 const allPosts = await getBlogPosts();
+const signatureCheck = verifyArticleSignature(
+  {
+    slug: post.id,
+    title: post.data.title,
+    description: post.data.description,
+    pubDateISO: post.data.pubDate.toISOString(),
+    updatedDateISO: post.data.updatedDate?.toISOString(),
+    body: post.body ?? ""
+  },
+  {
+    contentHash: post.data.contentHash,
+    signature: post.data.signature,
+    signer: post.data.signer,
+    signatureVersion: post.data.signatureVersion
+  }
+);
+const signatureBadgeState =
+  signatureCheck.status === "verified"
+    ? "verified"
+    : signatureCheck.status === "unsigned"
+      ? "unsigned"
+      : "invalid";
+const signatureBadgeText =
+  signatureCheck.status === "verified"
+    ? "已簽名"
+    : signatureCheck.status === "unsigned"
+      ? "未簽名"
+      : "簽名異常";
+const signatureBadgeTitle =
+  signatureCheck.status === "verified"
+    ? `已驗證簽名${post.data.signer ? ` · ${post.data.signer}` : ""}`
+    : signatureCheck.status === "unsigned"
+      ? "此篇文章尚未簽名"
+      : `簽名驗證失敗：${signatureCheck.reason}`;
+const signatureSignerAddress = signatureCheck.expectedSigner ?? post.data.signer ?? null;
+const signatureRecoveredAddress = signatureCheck.recoveredAddress ?? null;
+const signatureHash = post.data.contentHash ?? signatureCheck.computedHash;
+const web3Config = requireWeb3PublicConfig();
+const tipEnsProfile = await resolveEnsProfile(web3Config.tipEnsName);
+const signerEnsProfile = await resolveEnsProfile(web3Config.signerEnsName);
+const signerEnsName = web3Config.signerEnsName;
+const signerEnsVerified =
+  Boolean(signatureSignerAddress) &&
+  Boolean(signerEnsProfile?.resolvedAddress) &&
+  signatureSignerAddress === signerEnsProfile?.resolvedAddress &&
+  Boolean(signerEnsProfile?.isVerified);
+const signerEnsStatusText = signerEnsName
+  ? signerEnsVerified
+    ? "Verified ENS"
+    : "Unverified ENS"
+  : "未設定";
 const classifiedCurrent = classifyPostTags({
   title: postTitle,
   description: post.data.description,
@@ -226,8 +281,56 @@ const articleStructuredData = {
             }
             {post.data.draft && !import.meta.env.PROD && " · 草稿"}
           </p>
+          <details
+            class:list={{
+              "signature-disclosure": true,
+              "signature-disclosure-verified": signatureBadgeState === "verified",
+              "signature-disclosure-unsigned": signatureBadgeState === "unsigned",
+              "signature-disclosure-invalid": signatureBadgeState === "invalid"
+            }}
+          >
+            <summary
+              class:list={{
+                "signature-badge": true,
+                "signature-badge-verified": signatureBadgeState === "verified",
+                "signature-badge-unsigned": signatureBadgeState === "unsigned",
+                "signature-badge-invalid": signatureBadgeState === "invalid"
+              }}
+              title={signatureBadgeTitle}
+              aria-label={`${signatureBadgeTitle}（點擊查看簽名細節）`}
+            >
+              {
+                signatureBadgeState === "verified" ? (
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 1.5 12.2 3l2.6-.2 1.5 2.1 2.5.9-.1 2.6 1.6 2-1 2.4.7 2.5-2 1.6-.4 2.6-2.6.4-1.8 1.9-2.4-.8-2.4.8-1.8-2-2.6-.4-.4-2.6-2-1.6.7-2.5-1-2.4 1.6-2-.1-2.6 2.5-.9L5.2 3l2.6.2L10 1.5Zm-1.1 11.6 5-5-1.1-1.1L8.9 11 7.2 9.3 6.1 10.4 8.9 13.1Z" />
+                  </svg>
+                ) : signatureBadgeState === "unsigned" ? (
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 2.3a7.7 7.7 0 1 1 0 15.4 7.7 7.7 0 0 1 0-15.4Zm0 3a1 1 0 0 0-1 1v4.8a1 1 0 1 0 2 0V6.3a1 1 0 0 0-1-1Zm0 8.3a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2Z" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 20 20" aria-hidden="true">
+                    <path d="M10 1.8 1.8 18.2h16.4L10 1.8Zm0 4.2 3.9 7.8H6.1L10 6Zm-.9 3.1v2.7h1.8V9.1H9.1Zm0 3.4v1.3h1.8v-1.3H9.1Z" />
+                  </svg>
+                )
+              }
+              <span>{signatureBadgeText}</span>
+              <span class="signature-badge-caret" aria-hidden="true">▾</span>
+            </summary>
+            <div class="signature-panel">
+              <p><strong>狀態：</strong>{signatureBadgeTitle}</p>
+              <p><strong>簽署地址：</strong>{signatureSignerAddress ?? "N/A"}</p>
+              <p><strong>恢復地址：</strong>{signatureRecoveredAddress ?? "N/A"}</p>
+              <p><strong>ENS：</strong>{signerEnsName}（{signerEnsStatusText}）</p>
+              <p><strong>contentHash：</strong><code>{signatureHash}</code></p>
+              <p><strong>signatureVersion：</strong>{post.data.signatureVersion ?? "N/A"}</p>
+            </div>
+          </details>
         </div>
         {post.data.author && <p class="article-author">作者：{post.data.author}</p>}
+        {signatureCheck.status === "invalid" || signatureCheck.status === "error" ? (
+          <p class="article-signature-note">簽名驗證失敗：{signatureCheck.reason}</p>
+        ) : null}
         {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
         {classifiedCurrent.topics.length > 0 && (
@@ -262,6 +365,8 @@ const articleStructuredData = {
       <div class="article-prose">
         <Content />
       </div>
+
+      <Web3TipJar ensName={web3Config.tipEnsName} chainId={web3Config.chainId} ens={tipEnsProfile} />
 
       <nav class="article-pagination" aria-label="文章導覽">
         <div>
