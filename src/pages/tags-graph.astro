@@ -348,6 +348,9 @@ const graph = { nodes, links };
   let selectedNodeId = "";
   let lastSelectedNodeId = "";
   let lastSelectedAt = 0;
+  let centerNodeId = "";
+  let viewOffsetX = 0;
+  let viewOffsetY = 0;
   const visibleTypes = new Set(["topic", "keyword", "post"]);
   let visibleNodeIds = new Set(nodes.map((n) => n.id));
   let visibleLinkFlags = links.map(() => true);
@@ -356,6 +359,7 @@ const graph = { nodes, links };
 
   function setSelectedNode(nodeId) {
     selectedNodeId = nodeId;
+    centerNodeId = nodeId;
     nodeEls.forEach((el, i) => {
       const selected = nodes[i].id === nodeId;
       el.classList.toggle("graph-node-selected", selected);
@@ -742,22 +746,39 @@ const graph = { nodes, links };
     svg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
     const p = nodes.map((n) => project(n, rect.width, rect.height));
 
+    if (centerNodeId && !dragging) {
+      const focusNode = byId.get(centerNodeId);
+      const projectedFocus = focusNode ? p[focusNode.i] : null;
+      if (projectedFocus) {
+        const targetOffsetX = rect.width / 2 - projectedFocus.x;
+        const targetOffsetY = rect.height / 2 - projectedFocus.y;
+        viewOffsetX += (targetOffsetX - viewOffsetX) * 0.18;
+        viewOffsetY += (targetOffsetY - viewOffsetY) * 0.18;
+      } else {
+        viewOffsetX += (0 - viewOffsetX) * 0.18;
+        viewOffsetY += (0 - viewOffsetY) * 0.18;
+      }
+    } else {
+      viewOffsetX += (0 - viewOffsetX) * 0.18;
+      viewOffsetY += (0 - viewOffsetY) * 0.18;
+    }
+
     links.forEach((link, i) => {
       const el = linkEls[i];
       if (!visibleLinkFlags[i]) return;
       const a = p[link.s.i];
       const b = p[link.t.i];
-      el.setAttribute("x1", String(a.x));
-      el.setAttribute("y1", String(a.y));
-      el.setAttribute("x2", String(b.x));
-      el.setAttribute("y2", String(b.y));
+      el.setAttribute("x1", String(a.x + viewOffsetX));
+      el.setAttribute("y1", String(a.y + viewOffsetY));
+      el.setAttribute("x2", String(b.x + viewOffsetX));
+      el.setAttribute("y2", String(b.y + viewOffsetY));
     });
 
     nodes.forEach((_, i) => {
       const el = nodeEls[i];
       const pp = p[i];
-      el.style.left = `${pp.x}px`;
-      el.style.top = `${pp.y}px`;
+      el.style.left = `${pp.x + viewOffsetX}px`;
+      el.style.top = `${pp.y + viewOffsetY}px`;
       el.style.transform = `translate(-50%, -50%) scale(${pp.s})`;
       el.style.zIndex = String(Math.round(pp.z + 1000));
     });

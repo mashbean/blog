@@ -649,11 +649,11 @@
     justify-content: center;
     margin: 0 0 0.4rem auto;
     border: 1px solid #bfd7d0;
-    border-radius: 999px;
+    border-radius: 0.62rem;
     background: #ffffff;
     color: #3f5f6b;
     min-height: 2.5rem;
-    padding: 0.08rem 0.5rem;
+    padding: 0.08rem 0.62rem;
     font-size: 0.72rem;
     line-height: 1;
     cursor: pointer;
@@ -2483,8 +2483,12 @@
     backdrop-filter: none;
   }
 
+  body.focus-reading .site-header {
+    display: none;
+  }
+
   body.focus-reading .page-shell {
-    padding-top: 0.22rem;
+    padding-top: 0.14rem;
   }
 
   .site-header-inner {
@@ -2766,8 +2770,8 @@
   }
 
   .archive-update-badge {
-    flex-basis: 100%;
-    width: fit-content;
+    flex-basis: auto;
+    width: auto;
   }
 
   .hero {
