@@ -77,7 +77,7 @@ const readingMinutes = (() => {
     <a href={url}>{postTitle}</a>
   </h2>
   <p class="post-card-desc">{post.data.description}</p>
-  {post.data.tags.length > 0 && (
+  {!minimal && post.data.tags.length > 0 && (
     <ul class="tag-list" aria-label="文章標籤">
       {post.data.tags.map((tag) => <li class="tag-list-item">{tag}</li>)}
     </ul>

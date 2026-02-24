@@ -1,297 +1,122 @@
-# Mashbean Blog (Astro)
+# Mashbean Blog
 
-內容型部落格範本（Astro + TypeScript + Tailwind + Markdown + GitHub Pages）。
+Astro 5 + TypeScript + Tailwind 的內容型部落格。
+目標是維持「內容優先、可維護、可逐步擴充互動」的架構，並持續部署到 GitHub Pages。
 
-這份 README 的目標是讓兩種讀者都能快速上手：
-- 想 fork 後直接使用的人
-- 會用 AI/Codex 協作維護的人
-
----
-
-## 1. Tech Stack
-
-- Astro 5
-- TypeScript
-- Tailwind CSS（v4 via `@tailwindcss/vite`）
-- Content Collections（`src/content/blog/`）
-- Pagefind（建置後搜尋索引）+ JSON fallback
-- GitHub Actions 部署到 GitHub Pages
-- Plausible（可選）
-
----
-
-## 2. 專案結構（Source of Truth）
-
-```text
-src/
-  content/blog/          # 唯一文章來源（Markdown/MDX）
-  pages/                 # 路由頁面
-  layouts/               # 版型
-  components/            # 元件
-  utils/                 # URL、標籤、日期等邏輯
-public/                  # 靜態資源（圖片、favicon、og）
-.github/workflows/       # GitHub Pages 部署流程
-scripts/                 # 遷移、建置輔助、批次任務
-```
-
-重要原則：
-- 文章只放 `src/content/blog/`
-- 不要把 `dist/` 當內容來源
-- `docs/blog-handover.md` 為交接補充文件
-
----
-
-## 3. 快速開始（Fork 後 5 分鐘）
-
-### 3.1 Fork + Clone
+## 1) 快速開始
 
 ```bash
-git clone https://github.com/<your-account>/<your-repo>.git
-cd <your-repo>
 npm install
-```
-
-### 3.2 本機開發
-
-```bash
 npm run dev
 ```
 
-- 預設開 `http://localhost:4321`
+- 開發網址：`http://localhost:4321`
 
-### 3.3 驗證
+常用指令：
 
 ```bash
-npm run check
-npm run build
+npm run dev          # 本機開發
+npm run check        # Astro 型別與內容檢查
+npm run build        # 產生正式站點 (含 postbuild 搜尋索引)
+npm run preview      # 預覽 build 結果
+npm run format       # 格式化
+npm run lint         # check + format:check
 ```
 
----
-
-## 4. 發文方式
-
-新文章：新增到 `src/content/blog/`，例如：
+## 2) 目前資料夾結構（整理後）
 
 ```text
-src/content/blog/2026-02-23-my-new-post.md
+.
+├─ .github/workflows/       # GitHub Pages CI/CD
+├─ docs/                    # 設計/營運文件（保留可執行的規格）
+├─ public/                  # 靜態資源（favicon、OG、文章圖片）
+├─ reports/                 # 遷移報告與對照表
+├─ scripts/                 # 可重複使用的維運腳本
+├─ src/
+│  ├─ components/           # UI 元件
+│  ├─ content/blog/         # 文章來源（唯一 source of truth）
+│  ├─ data/                 # 靜態資料（社群、年份敘述等）
+│  ├─ layouts/              # 版型
+│  ├─ pages/                # 路由頁面
+│  ├─ styles/               # 全域樣式與 token
+│  └─ utils/                # URL/SEO/標籤/時間等邏輯
+├─ astro.config.ts
+├─ tailwind.config.mjs
+├─ tsconfig.json
+└─ package.json
 ```
 
-Frontmatter 範例：
+整理原則：
+- `src/content/blog/` 是文章唯一來源。
+- `dist/`、`node_modules/`、暫存與產物都不納入版本控制。
+- 測試/實驗頁不放在 `public/` 根目錄，避免誤上線。
 
-```md
+## 3) 內容與發文
+
+新增文章：在 `src/content/blog/` 建立 `.md`。
+
+最小 frontmatter：
+
+```yaml
 ---
-title: "你的文章標題"
-description: "一句話摘要"
-pubDate: "2026-02-23T09:00:00+08:00"
-updatedDate: "2026-02-23T10:30:00+08:00"
-draft: false
+title: "文章標題"
+description: "摘要"
+pubDate: "2026-02-24T10:00:00+08:00"
 tags: ["公共網路"]
-category: "blog"
-cover: "/images/covers/example.png"
-coverAlt: "封面說明"
-lang: "zh-TW"
-author: "Mashbean"
 ---
-
-文章內文...
 ```
 
-Schema 定義在：`src/content.config.ts`
+可用欄位 schema 在 `src/content.config.ts`。
 
----
+## 4) 路由與 SEO
 
-## 5. 文章網址規則（SEO）
+- 首頁：`/`
+- 文章列表（年份收合）：`/blog/`
+- 標籤列表（主題收合）：`/tags/`
+- 搜尋：`/search/`
+- 文章：`/blog/{year}/{monthday}-{code}/`
 
-本站 canonical 文章路徑為短網址：
+SEO/機器可讀入口：
+- `sitemap-index.xml`
+- `rss.xml`
+- `llms.txt`
+- `content-index.json`
 
-- `/blog/{year}/{monthday}-{code}/`
-- 例：`/blog/2026/0222-14jmg4/`
+## 5) 部署（GitHub Pages）
 
-相關邏輯：`src/utils/blog.ts`
+部署 workflow：`/Users/mashbean/Codex/.github/workflows/deploy.yml`
 
-備註：
-- 舊網址可讀（legacy path）
-- 但會標記 `noindex` 並導向 canonical
+必要條件：
+- GitHub Pages Source 設定為 `GitHub Actions`
+- push 到 `main` 觸發部署
 
----
+環境變數（GitHub Actions Variables）：
+- `PUBLIC_PLAUSIBLE_DOMAIN`（例如 `mashbean.net`）
+- `PUBLIC_PLAUSIBLE_SCRIPT_SRC`（例如 `https://plausible.io/js/script.js`）
+- `PUBLIC_SIGNER_ENS_NAME`（若啟用文章簽名驗證）
 
-## 6. 搜尋系統
+## 6) 遷移與維運腳本
 
-- 正常情況：Pagefind（建置後索引）
-- 備援：JSON fallback（`/search-index.json`）
+- Jekyll 遷移：`npm run migrate:posts`
+- 文章簽名：`npm run sign:posts`
+- 圖像批次（OpenAI）：`npm run images:batch:openai`
 
-建置流程：
-- `npm run build` 會觸發 `postbuild`，產生 Pagefind 索引
+說明：`scripts/` 僅保留可重複執行、目前流程仍會用到的工具；一次性輸出報表與快取已排除追蹤。
 
-若 Pagefind 無法啟用，搜尋頁仍可用 fallback。
+## 7) 這次架構清理做了什麼
 
----
+- 移除舊版未使用 `assets/`（Jekyll 殘留）
+- 移除 `public/` 未使用實驗頁
+- 移除 Python 快取與圖片批次報表輸出
+- 更新 `.gitignore`，避免產物再次被追蹤
+- 重寫 README，聚焦「可 fork、可維護、可協作」
 
-## 7. GitHub Pages 部署
+## 8) 協作建議（你 + Codex）
 
-部署檔案：`.github/workflows/deploy.yml`
-
-目前策略：
-- push 到 `main` 會自動部署
-- GitHub Pages 來源應設為 **GitHub Actions**（不是 branch build）
-
-### 7.1 User/Org 網站
-
-- 網址型態：`https://<username>.github.io/`
-- workflow env：
-  - `SITE_URL=https://<username>.github.io`
-  - `BASE_PATH=/`
-
-### 7.2 Project 網站
-
-- 網址型態：`https://<username>.github.io/<repo>/`
-- workflow env：
-  - `SITE_URL=https://<username>.github.io`
-  - `BASE_PATH=/<repo>`
-
-> `astro.config.ts` 會讀 `SITE_URL` 與 `BASE_PATH` 來設定 `site/base`。
-
-### 7.3 Custom Domain
-
-有自訂網域時：
-- 保留 repo 根目錄 `CNAME`（例如 `mashbean.net`）
-- `SITE_URL` 設成正式網域
-
----
-
-## 8. Plausible（可選）
-
-GitHub Variables（Repository -> Settings -> Secrets and variables -> Actions -> Variables）：
-
-- `PUBLIC_PLAUSIBLE_DOMAIN`：例如 `mashbean.net`
-- `PUBLIC_PLAUSIBLE_SCRIPT_SRC`：`https://plausible.io/js/script.js`
-
-如果 script src 空值，瀏覽器會出現 `<script ... src></script>`，Plausible 會偵測失敗。
-
----
-
-## 9. 常用指令
-
-```bash
-npm run dev            # 本機開發
-npm run check          # Astro 型別/內容檢查
-npm run build          # 正式建置（含 postbuild）
-npm run preview        # 預覽 build 結果
-npm run format         # 代碼格式化
-npm run format:check   # 檢查格式
-npm run lint           # check + format check
-```
-
----
-
-## 10. Web3（Sprint 1）
-
-### 10.1 必要環境變數
-
-```bash
-PUBLIC_TIP_ENS_NAME=mashbean.eth
-PUBLIC_SIGNER_ENS_NAME=signer.mashbean.eth
-PUBLIC_WEB3_RPC_URL=https://mainnet.infura.io/v3/<your-key>
-PUBLIC_WEB3_CHAIN_ID=1
-```
-
-說明：
-- 缺少上述變數時，建置會在文章頁階段直接失敗並給出明確錯誤。
-- `PUBLIC_WEB3_RPC_URL` 建議使用穩定的主網 RPC provider。
-- `PUBLIC_SIGNER_ENS_NAME` 可省略；省略時會回退為 `PUBLIC_TIP_ENS_NAME`（主網域親簽模式）。
-- 建議使用 `signer.mashbean.eth` 這類子網域作為授權簽名地址，避免主資產地址私鑰直接暴露。
-
-### 10.2 文章簽名（離線）
-
-簽名前請先設定：
-
-```bash
-WEB3_SIGNER_PRIVATE_KEY=0x...
-```
-
-指令：
-
-```bash
-npm run sign:posts -- --dry-run          # 試跑，不寫檔
-npm run sign:posts -- --file \"2026-02-22-bonds-litepaper-project-scan.md\"  # 簽單篇
-npm run sign:posts                        # 全部簽名並回填 frontmatter
-npm run sign:posts:check                  # 檢查哪些文章尚未簽名
-```
-
-Frontmatter 簽名欄位：
-- `contentHash`
-- `signature`
-- `signer`
-- `signatureVersion`
-
----
-
-## 11. Jekyll 遷移
-
-若你有舊 Jekyll `_posts`，可用：
-
-```bash
-npm run migrate:posts -- --source <jekyll_posts_dir> --dest src/content/blog
-```
-
-腳本：`scripts/migrate-jekyll-posts.mjs`
-
-功能包含：
-- frontmatter 欄位映射（date -> pubDate 等）
-- `published: false` 轉 `draft: true`
-- Liquid 語法偵測警告
-- 轉換報告（成功/警告/失敗）
-
----
-
-## 12. 給 AI/Codex 的協作規則
-
-建議 AI 先讀這些檔案再動手：
-
-1. `README.md`
-2. `docs/blog-handover.md`
-3. `src/content.config.ts`
-4. `astro.config.ts`
-5. `.github/workflows/deploy.yml`
-
-協作約束（重要）：
-- 只改有關需求的檔案，不要順手大改全站
-- 不要把 `dist/`、暫存報告、個人憑證檔提交上版控
-- 優先用 `npm run check` 驗證，再 push
-- 若工作樹有 unrelated 變更，commit 時要精準 `git add <file>`
-
----
-
-## 13. Troubleshooting
-
-### Q1. 為什麼很多 Actions 是 cancelled？
-
-通常是新版 commit 取代舊 run（正常）。
-看「最新 commit 那一筆」是否 success 即可。
-
-### Q2. 為什麼線上沒更新？
-
-GitHub Pages + Actions 架構下，需等 workflow `deploy` 成功才會更新。
-
-### Q3. 為什麼分享縮圖不對？
-
-檢查：
-- `src/site.config.ts` 的 `DEFAULT_OG_IMAGE`
-- `public/images/` 圖檔是否存在
-- 分享平台快取（可用 debugger 重新抓取）
-
-### Q4. `npm run check` 找不到 `@astrojs/check`？
-
-刪掉 `node_modules` 與 lock 後重裝：
-
-```bash
-rm -rf node_modules
-npm install
-```
-
----
-
-## 14. 授權
-
-- 程式碼：依本 repo 授權設定
-- 文章內容：本站文章採 CC BY-NC 4.0（姓名標示-非商業性）
+- 先 `npm run check` 再 commit
+- 針對 UI 變更，附 `before/after` 截圖
+- PR 描述固定包含：
+  - 影響頁面
+  - 資料模型是否變更
+  - SEO/路由是否受影響
+  - 驗證步驟
