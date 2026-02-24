@@ -20,6 +20,10 @@
     "migrate:posts": "node scripts/migrate-jekyll-posts.mjs",
     "sign:posts": "node scripts/sign-blog-posts.mjs",
     "sign:posts:check": "node scripts/sign-blog-posts.mjs --check",
+    "web3:ipfs:publish": "node scripts/web3-publish-ipfs.mjs",
+    "web3:ipfs:publish:dry": "node scripts/web3-publish-ipfs.mjs --dry-run",
+    "web3:ipns:update": "node scripts/web3-update-ipns.mjs",
+    "web3:ipns:update:dry": "node scripts/web3-update-ipns.mjs --dry-run --cid bafybeigdyrztxci5jhj4s2fd3mhmrcoak6m6f6hke5u4smbmctf5bswdzu",
     "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
     "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run"
   },

@@ -91,27 +91,31 @@ npm run preview
 ## Sprint 2（7 天）：去中心化發布上線
 
 ### S2-01 IPFS 發布腳本
-- [ ] 新增部署腳本：build 後上傳 `dist/` 到 IPFS。
-- [ ] 實作 pin 流程與失敗重試策略。
-- [ ] 將 `release -> CID` 記錄到版本檔（例如 `reports/ipfs-releases.json`）。
+- [x] 新增部署腳本：build 後上傳 `dist/` 到 IPFS。
+- [x] 實作 pin 流程與失敗重試策略。
+- [x] 將 `release -> CID` 記錄到版本檔（`docs/web3-ipfs-releases.json`）。
 - Owner:
 - Estimate: 1.5 days
 - 驗收命令:
 ```bash
 npm run build
-# 執行 IPFS publish script（待腳本命名）
+npm run web3:ipfs:publish
+# 或先試跑
+npm run web3:ipfs:publish:dry
 ```
 - 完成定義：每次發布都有 CID，舊 CID 可回訪。
 
 ### S2-02 IPNS 更新流程
-- [ ] 新增 IPNS 發布步驟：把 IPNS 指到最新 CID。
-- [ ] 輸出 IPNS 名稱與對應 CID 到發布紀錄。
-- [ ] 增加更新失敗時的中止與告警。
+- [x] 新增 IPNS 發布步驟：把 IPNS 指到最新 CID。
+- [x] 輸出 IPNS 名稱與對應 CID 到發布紀錄。
+- [x] 增加更新失敗時的中止與告警。
 - Owner:
 - Estimate: 1.0 day
 - 驗收命令:
 ```bash
-# 執行 IPNS update script（待腳本命名）
+npm run web3:ipns:update -- --cid <cid> --key <ipns-key-name>
+# 或先試跑
+npm run web3:ipns:update:dry
 ```
 - 完成定義：IPNS 解析到最新內容，CID 歷史可回查。
 
