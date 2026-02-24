@@ -11,8 +11,43 @@ interface Props {
 const { ensName, chainId, ens } = Astro.props;
 
 const tipAddress = ens.resolvedAddress ?? ensName;
-const tipAmountEth = "0.001";
 const tipAmountNtd = 100;
+const fallbackTipAmountEth = 0.001;
+const rateApiUrl = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=twd";
+
+const formatEthAmount = (value: number): string => {
+  const fixed = value.toFixed(8);
+  return fixed.replace(/0+$/, "").replace(/\.$/, "");
+};
+
+const fetchEthTwdRate = async (): Promise<number | null> => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 3500);
+
+  try {
+    const response = await fetch(rateApiUrl, {
+      headers: { accept: "application/json" },
+      signal: controller.signal
+    });
+    if (!response.ok) return null;
+    const payload = await response.json();
+    const rate = Number(payload?.ethereum?.twd);
+    if (!Number.isFinite(rate) || rate <= 0) return null;
+    return rate;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+const ethTwdRate = await fetchEthTwdRate();
+const tipAmountEthValue = ethTwdRate ? tipAmountNtd / ethTwdRate : fallbackTipAmountEth;
+const tipAmountEth = formatEthAmount(tipAmountEthValue);
+const tipRateNote = ethTwdRate
+  ? `依即時匯率估算（1 ETH ≈ NT$${Math.round(ethTwdRate).toLocaleString("zh-TW")}）`
+  : "匯率服務暫時不可用，已使用預設金額";
+const ensStatusLabel = ens.isVerified ? "已驗證 ENS" : "待驗證 ENS";
 
 const toEip681 = (valueEth: string): string => {
   const valueWei = ethers.utils.parseEther(valueEth).toString();
@@ -27,8 +62,9 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
   <h2>抖內抖泥吧</h2>
   <p class="tip-jar-line">
     ENS：<code>{ensName}</code>
-    {ens.isVerified ? <span class="tip-verified">Verified ENS</span> : <span class="tip-warning">Unverified ENS</span>}
+    {ens.isVerified ? <span class="tip-verified">{ensStatusLabel}</span> : <span class="tip-warning">{ensStatusLabel}</span>}
   </p>
+  <p class="tip-jar-line tip-subtle">{tipRateNote}</p>
   {
     ens.error && (
       <p class="tip-jar-line tip-warning">ENS 解析異常：{ens.error}</p>
@@ -81,6 +117,11 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     margin: 0.55rem 0 0;
     font-size: 0.92rem;
     color: #2b3f48;
+  }
+
+  .tip-subtle {
+    color: #4b6470;
+    font-size: 0.84rem;
   }
 
   .tip-verified,

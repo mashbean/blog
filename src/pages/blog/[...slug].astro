@@ -64,32 +64,31 @@ const signatureBadgeText =
       : "簽名異常";
 const signatureBadgeTitle =
   signatureCheck.status === "verified"
-    ? `已驗證簽名${post.data.signer ? ` · ${post.data.signer}` : ""}`
+    ? "已驗證簽名"
     : signatureCheck.status === "unsigned"
       ? "此篇文章尚未簽名"
       : "簽名資料需更新";
 const signaturePanelStatus =
   signatureCheck.status === "verified"
-    ? `已驗證簽名${post.data.signer ? ` · ${post.data.signer}` : ""}`
+    ? "已驗證簽名"
     : signatureCheck.status === "unsigned"
       ? "此篇文章尚未簽名"
       : "簽名資料需更新";
-const signatureSignerAddress = signatureCheck.expectedSigner ?? post.data.signer ?? null;
-const signatureRecoveredAddress = signatureCheck.recoveredAddress ?? null;
+const signatureSignerIdentity = "signer.mashbean.eth";
 const signatureHash = post.data.contentHash ?? signatureCheck.computedHash;
 const web3Config = requireWeb3PublicConfig();
 const tipEnsProfile = await resolveEnsProfile(web3Config.tipEnsName);
 const signerEnsProfile = await resolveEnsProfile(web3Config.signerEnsName);
 const signerEnsName = web3Config.signerEnsName;
 const signerEnsVerified =
-  Boolean(signatureSignerAddress) &&
+  Boolean(signatureCheck.expectedSigner) &&
   Boolean(signerEnsProfile?.resolvedAddress) &&
-  signatureSignerAddress === signerEnsProfile?.resolvedAddress &&
+  signatureCheck.expectedSigner === signerEnsProfile?.resolvedAddress &&
   Boolean(signerEnsProfile?.isVerified);
 const signerEnsStatusText = signerEnsName
   ? signerEnsVerified
-    ? "Verified ENS"
-    : "Unverified ENS"
+    ? "已驗證"
+    : "待驗證"
   : "未設定";
 const classifiedCurrent = classifyPostTags({
   title: postTitle,
@@ -307,16 +306,16 @@ const articleStructuredData = {
             >
               {
                 signatureBadgeState === "verified" ? (
-                  <svg viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M10 1.5 12.2 3l2.6-.2 1.5 2.1 2.5.9-.1 2.6 1.6 2-1 2.4.7 2.5-2 1.6-.4 2.6-2.6.4-1.8 1.9-2.4-.8-2.4.8-1.8-2-2.6-.4-.4-2.6-2-1.6.7-2.5-1-2.4 1.6-2-.1-2.6 2.5-.9L5.2 3l2.6.2L10 1.5Zm-1.1 11.6 5-5-1.1-1.1L8.9 11 7.2 9.3 6.1 10.4 8.9 13.1Z" />
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z" />
                   </svg>
                 ) : signatureBadgeState === "unsigned" ? (
-                  <svg viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M10 2.3a7.7 7.7 0 1 1 0 15.4 7.7 7.7 0 0 1 0-15.4Zm0 3a1 1 0 0 0-1 1v4.8a1 1 0 1 0 2 0V6.3a1 1 0 0 0-1-1Zm0 8.3a1.1 1.1 0 1 0 0 2.2 1.1 1.1 0 0 0 0-2.2Z" />
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm0 4.4a1.15 1.15 0 0 1 1.15 1.15v5.05a1.15 1.15 0 1 1-2.3 0V8.3A1.15 1.15 0 0 1 12 7.15Zm0 9.15a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6Z" />
                   </svg>
                 ) : (
-                  <svg viewBox="0 0 20 20" aria-hidden="true">
-                    <path d="M10 1.8 1.8 18.2h16.4L10 1.8Zm0 4.2 3.9 7.8H6.1L10 6Zm-.9 3.1v2.7h1.8V9.1H9.1Zm0 3.4v1.3h1.8v-1.3H9.1Z" />
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3.25 2.5 20.75h19L12 3.25Zm0 4.1 6.14 11.3H5.86L12 7.35Zm-1.1 3.75v3.45h2.2V11.1h-2.2Zm0 4.65v1.95h2.2v-1.95h-2.2Z" />
                   </svg>
                 )
               }
@@ -325,11 +324,20 @@ const articleStructuredData = {
             </summary>
             <div class="signature-panel">
               <p><strong>狀態：</strong>{signaturePanelStatus}</p>
-              <p><strong>簽署地址：</strong>{signatureSignerAddress ?? "N/A"}</p>
-              <p><strong>恢復地址：</strong>{signatureRecoveredAddress ?? "N/A"}</p>
+              <p><strong>簽署者：</strong>{signatureSignerIdentity}</p>
               <p><strong>ENS：</strong>{signerEnsName}（{signerEnsStatusText}）</p>
+              {!signerEnsVerified ? (
+                <p class="signature-panel-note">
+                  提示：在錢包把 signer.mashbean.eth 設為此地址的 reverse record，可完成 ENS 驗證。
+                </p>
+              ) : null}
               <p><strong>contentHash：</strong><code>{signatureHash}</code></p>
-              <p><strong>signatureVersion：</strong>{post.data.signatureVersion ?? "N/A"}</p>
+              <details class="signature-explain">
+                <summary class="signature-explain-btn">這是什麼</summary>
+                <p>
+                  已簽名表示這篇文章的內容雜湊（contentHash）已由簽署者錢包簽章。只要內容被修改，驗證就會顯示需更新。
+                </p>
+              </details>
             </div>
           </details>
         </div>
