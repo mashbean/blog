@@ -67,7 +67,13 @@ const signatureBadgeTitle =
     ? `已驗證簽名${post.data.signer ? ` · ${post.data.signer}` : ""}`
     : signatureCheck.status === "unsigned"
       ? "此篇文章尚未簽名"
-      : `簽名驗證失敗：${signatureCheck.reason}`;
+      : "簽名資料需更新";
+const signaturePanelStatus =
+  signatureCheck.status === "verified"
+    ? `已驗證簽名${post.data.signer ? ` · ${post.data.signer}` : ""}`
+    : signatureCheck.status === "unsigned"
+      ? "此篇文章尚未簽名"
+      : "簽名資料需更新";
 const signatureSignerAddress = signatureCheck.expectedSigner ?? post.data.signer ?? null;
 const signatureRecoveredAddress = signatureCheck.recoveredAddress ?? null;
 const signatureHash = post.data.contentHash ?? signatureCheck.computedHash;
@@ -318,7 +324,7 @@ const articleStructuredData = {
               <span class="signature-badge-caret" aria-hidden="true">▾</span>
             </summary>
             <div class="signature-panel">
-              <p><strong>狀態：</strong>{signatureBadgeTitle}</p>
+              <p><strong>狀態：</strong>{signaturePanelStatus}</p>
               <p><strong>簽署地址：</strong>{signatureSignerAddress ?? "N/A"}</p>
               <p><strong>恢復地址：</strong>{signatureRecoveredAddress ?? "N/A"}</p>
               <p><strong>ENS：</strong>{signerEnsName}（{signerEnsStatusText}）</p>
@@ -328,9 +334,6 @@ const articleStructuredData = {
           </details>
         </div>
         {post.data.author && <p class="article-author">作者：{post.data.author}</p>}
-        {signatureCheck.status === "invalid" || signatureCheck.status === "error" ? (
-          <p class="article-signature-note">簽名驗證失敗：{signatureCheck.reason}</p>
-        ) : null}
         {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
         {classifiedCurrent.topics.length > 0 && (
@@ -365,8 +368,6 @@ const articleStructuredData = {
       <div class="article-prose">
         <Content />
       </div>
-
-      <Web3TipJar ensName={web3Config.tipEnsName} chainId={web3Config.chainId} ens={tipEnsProfile} />
 
       <nav class="article-pagination" aria-label="文章導覽">
         <div>
@@ -423,6 +424,7 @@ const articleStructuredData = {
         <div class="toc-share-card">
           <button id="article-copy-link" type="button" class="toc-share-btn">分享本文</button>
         </div>
+        <Web3TipJar ensName={web3Config.tipEnsName} chainId={web3Config.chainId} ens={tipEnsProfile} />
       </div>
     </aside>
   </article>
