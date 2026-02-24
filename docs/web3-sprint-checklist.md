@@ -120,39 +120,42 @@ npm run web3:ipns:update:dry
 - 完成定義：IPNS 解析到最新內容，CID 歷史可回查。
 
 ### S2-03 ENS contenthash 綁定
-- [ ] 新增 contenthash 更新步驟（指向 IPNS；必要時保留直指 IPFS fallback）。
-- [ ] 發布紀錄保存交易 hash 與生效時間。
-- [ ] 實作 dry-run 模式，先驗證不送交易。
+- [x] 新增 contenthash 更新步驟（指向 IPNS；必要時保留直指 IPFS fallback）。
+- [x] 發布紀錄保存交易 hash 與生效時間。
+- [x] 實作 dry-run 模式，先驗證不送交易。
 - Owner:
 - Estimate: 1.0 day
 - 驗收命令:
 ```bash
-# 執行 ENS contenthash update script（dry-run / live）
+npm run web3:ens:contenthash -- --dry-run --name mashbean.eth --ipns <ipns-name>
+npm run web3:ens:contenthash -- --name mashbean.eth --ipns <ipns-name>
 ```
 - 完成定義：`mashbean.eth` contenthash 與發布紀錄一致。
 
 ### S2-04 .eth.limo 可用性驗證
-- [ ] 驗證 `https://mashbean.eth.limo` 可存取首頁與至少 1 篇文章。
+- [x] 驗證 `https://mashbean.eth.limo` 可存取首頁與至少 1 篇文章（已提供檢查腳本）。
 - [ ] 驗證手機與桌面瀏覽器的可讀性。
 - [ ] 確認快取延遲窗口，記錄切版生效時間。
 - Owner:
 - Estimate: 0.5 day
 - 驗收命令:
 ```bash
-curl -I -L -s https://mashbean.eth.limo
+npm run web3:ethlimo:check
+# 或先試跑
+npm run web3:ethlimo:check:dry
 ```
 - 完成定義：不需更改網址即可切到新內容版本。
 
 ### S2-05 監控、健康檢查、回滾
-- [ ] 新增健康檢查腳本：CID 可讀、IPNS 可解、contenthash 一致性。
-- [ ] 保留上一版 CID 快速回滾命令。
-- [ ] 寫入 runbook（故障處理步驟）。
+- [x] 新增健康檢查腳本：CID 可讀、IPNS 可解、contenthash 一致性。
+- [x] 保留上一版 CID 快速回滾命令。
+- [x] 寫入 runbook（故障處理步驟）。
 - Owner:
 - Estimate: 1.0 day
 - 驗收命令:
 ```bash
-# 執行 healthcheck script
-# 執行 rollback dry-run
+npm run web3:healthcheck
+npm run web3:rollback:dry
 ```
 - 完成定義：部署失敗時可在 5 分鐘內回復上一版。
 
