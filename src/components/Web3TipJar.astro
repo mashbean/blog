@@ -55,25 +55,21 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
 ---
 
 <details class="tip-jar-disclosure toc-share-card">
-  <summary class="tip-jar-summary">
-    <span class="toc-share-btn tip-jar-toggle">抖內抖泥</span>
-  </summary>
+  <summary class="toc-share-btn tip-jar-summary">抖內抖泥</summary>
   <section class="tip-jar" aria-label="打賞">
-    <p class="tip-jar-title">抖內抖泥</p>
     <p class="tip-jar-line tip-ens-row">
-      <span class="tip-ens-chip">
-        <span>ENS：</span>
-        <code class="tip-ens-name">{ensName}</code>
+      <span class="tip-ens-text">
+        ENS：<code class="tip-ens-name">{ensName}</code>
       </span>
       {
         ens.isVerified ? (
-          <span class="tip-verified-badge" aria-label="已驗證" title="已驗證">
+          <span class="tip-verified-inline" aria-label="已驗證" title="已驗證">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2.75a9.25 9.25 0 1 0 0 18.5 9.25 9.25 0 0 0 0-18.5Zm-1.4 12.1-2.7-2.72 1.2-1.2 1.5 1.52 4.23-4.22 1.2 1.2-5.43 5.42Z"></path>
             </svg>
           </span>
         ) : (
-          <span class="tip-warning">待驗證</span>
+          <span class="tip-status-inline">待驗證</span>
         )
       }
     </p>
@@ -147,28 +143,31 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
   }
 
   .tip-jar-summary {
-    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    list-style: none;
   }
 
   .tip-jar-summary::-webkit-details-marker {
     display: none;
   }
 
-  .tip-jar-toggle {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .tip-jar-disclosure[open] .tip-jar-toggle {
+  .tip-jar-disclosure[open] .tip-jar-summary {
     background: #ebf6f2;
     border-color: #a7cdc3;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .tip-jar {
-    margin-top: 0.6rem;
+    margin-top: 0;
     border: 1px solid #c8d9d3;
+    border-top: 0;
     border-radius: 0.9rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     background: #f5fbf9;
     padding: 0.84rem;
   }
@@ -183,29 +182,15 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     gap: 0.38rem;
   }
 
-  .tip-jar-title {
-    margin: 0 0 0.55rem;
-    color: #244653;
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-
   .tip-ens-row {
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 0.42rem;
   }
 
-  .tip-ens-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    border: 1px solid #d1e3de;
-    border-radius: 0.58rem;
-    background: #ffffff;
+  .tip-ens-text {
     color: #1f3f4d;
     font-size: 0.8rem;
-    line-height: 1;
-    padding: 0.24rem 0.45rem;
+    line-height: 1.4;
   }
 
   .tip-ens-name {
@@ -217,35 +202,24 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
     background: transparent;
   }
 
-  .tip-verified-badge,
-  .tip-warning {
-    margin-left: 0;
-    font-size: 0.72rem;
-    padding: 0.08rem 0.38rem;
-    border-radius: 999px;
-    border: 1px solid transparent;
+  .tip-verified-inline {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    color: #0d6f61;
   }
 
-  .tip-verified-badge {
-    color: #0d5d51;
-    background: #d7f2ec;
-    border-color: #9fddd1;
-  }
-
-  .tip-verified-badge svg {
-    width: 0.92rem;
-    height: 0.92rem;
+  .tip-verified-inline svg {
+    width: 0.98rem;
+    height: 0.98rem;
     display: block;
     fill: currentColor;
   }
 
-  .tip-warning {
-    color: #9a5600;
-    background: #fff3de;
-    border-color: #e9c78f;
+  .tip-status-inline {
+    color: #7f5a1c;
+    font-size: 0.76rem;
+    line-height: 1.4;
   }
 
   .tip-actions {
@@ -286,6 +260,7 @@ const qrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(primaryPayment
 
   .tip-qr-panel {
     margin-top: 0.72rem;
+    text-align: center;
   }
 
   .tip-qr-link {
