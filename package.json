@@ -29,6 +29,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "@tailwindcss/vite": "^4.1.13",
     "astro": "^5.13.6",
+    "ethers": "^5.4.6",
     "fast-glob": "^3.3.3",
     "gray-matter": "^4.0.3",
     "tailwindcss": "^4.1.13",
