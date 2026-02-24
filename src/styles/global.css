@@ -1017,10 +1017,21 @@
   }
 
   .signature-panel-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.34rem;
     color: #284655;
     font-size: 0.86rem;
     font-weight: 700;
     letter-spacing: 0.02em;
+  }
+
+  .signature-panel-title svg {
+    width: 1rem;
+    height: 1rem;
+    fill: #1f5a75;
+    display: block;
+    flex: 0 0 auto;
   }
 
   .signature-panel-close {
@@ -1062,6 +1073,18 @@
     margin-top: 0.12rem;
     border-top: 1px solid #d7e7e1;
     padding-top: 0.44rem;
+  }
+
+  .signature-explain-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .signature-explain-row .signature-explain {
+    margin-top: 0;
+    border-top: 0;
+    padding-top: 0;
   }
 
   .signature-explain-btn {
@@ -2568,7 +2591,13 @@
   }
 
   body.focus-reading .page-shell {
-    padding-top: 0.34rem;
+    padding-top: 0.62rem;
+  }
+
+  .reading-progress {
+    top: env(safe-area-inset-top);
+    height: 4px;
+    background: rgba(11, 125, 109, 0.08);
   }
 
   .site-header-inner {
