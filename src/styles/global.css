@@ -1008,6 +1008,39 @@
     box-shadow: 0 20px 36px -28px rgba(21, 44, 64, 0.45);
   }
 
+  .signature-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin-bottom: 0.1rem;
+  }
+
+  .signature-panel-title {
+    color: #284655;
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .signature-panel-close {
+    border: 1px solid #bfd6cf;
+    border-radius: 0.62rem;
+    background: #ffffff;
+    color: #2f5664;
+    font-size: 0.78rem;
+    line-height: 1;
+    min-height: 2rem;
+    padding: 0.16rem 0.58rem;
+    cursor: pointer;
+  }
+
+  .signature-panel-close:hover {
+    border-color: #96cabc;
+    color: #0d6f61;
+    background: #eef8f4;
+  }
+
   .signature-panel p {
     margin: 0;
     font-size: 0.95rem;
@@ -1026,9 +1059,9 @@
   }
 
   .signature-explain {
-    margin-top: 0.2rem;
+    margin-top: 0.12rem;
     border-top: 1px solid #d7e7e1;
-    padding-top: 0.52rem;
+    padding-top: 0.44rem;
   }
 
   .signature-explain-btn {
