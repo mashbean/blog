@@ -92,6 +92,11 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
   const fallbackBox = tipRoot?.querySelector("[data-tip-fallback]");
   const fallbackLinks = tipRoot?.querySelectorAll("[data-tip-fallback-link]");
   const fallbackQr = tipRoot?.querySelector("[data-tip-fallback-qr]");
+  const track = (name, props = {}) => {
+    if (typeof window.mbTrack === "function") {
+      window.mbTrack(name, props);
+    }
+  };
 
   const formatEthAmount = (value) => {
     const fixed = Number(value).toFixed(8);
@@ -175,6 +180,11 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
       fallbackQr.src = plan.qrUrl;
     }
 
+    track("Tip Fallback Activated", {
+      reason,
+      ntd_amount: ntdAmount,
+      eth_amount: plan.ethText
+    });
     setFeedback(`已切換備援：${reason}。本次約 ${plan.ethText} ETH（約 NT$${ntdAmount}）。${plan.rateText}`);
   };
 
@@ -189,6 +199,7 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
     if (mode === "fallback") {
       const link = tipRoot?.querySelector("[data-tip-fallback-link]");
       if (link instanceof HTMLAnchorElement) {
+        track("Tip Fallback Opened", { source: "primary_button" });
         window.location.href = link.href;
       }
       return;
@@ -200,6 +211,7 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
     const chainIdHex = `0x${chainId.toString(16)}`;
     const ntdAmount = Number.parseInt(String(payButton.dataset.tipNtd || payButton.dataset.ntd || "100"), 10) || 100;
     const fallbackEth = Number.parseFloat(String(payButton.dataset.tipDefaultEth || payButton.dataset.defaultEth || "0.001")) || 0.001;
+    track("Tip Attempt", { source: "primary_button", ntd_amount: ntdAmount });
 
     payButton.disabled = true;
     payButton.textContent = "啟動錢包中...";
@@ -229,6 +241,11 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
         params: [{ to: tipAddress, value: plan.weiHex }]
       });
 
+      track("Tip Wallet Success", {
+        ntd_amount: ntdAmount,
+        eth_amount: plan.ethText,
+        chain_id: chainId
+      });
       setFeedback(`已送出 ${plan.ethText} ETH（約 NT$${ntdAmount}），請在 MetaMask 確認。`);
       payButton.textContent = "已送出，請到錢包確認";
       window.setTimeout(() => {
@@ -236,6 +253,11 @@ const defaultQrUrl = `https://quickchart.io/qr?text=${encodeURIComponent(default
       }, 2200);
     } catch (error) {
       const reason = error instanceof Error ? error.message : "MetaMask 啟動失敗";
+      track("Tip Wallet Failed", {
+        reason,
+        ntd_amount: ntdAmount,
+        eth_amount: plan.ethText
+      });
       activateFallback({ reason, plan, ntdAmount, fallbackLabel });
     } finally {
       payButton.disabled = false;
