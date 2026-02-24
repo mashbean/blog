@@ -15,7 +15,7 @@ signatureVersion: mashbean.article.v1
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結（直接放超連結：https://artouch.com/art-news/content-182346.html）
+> [原文連結](https://artouch.com/art-news/content-182346.html)
 *NFT 熱潮退燒後，留下的是泡沫破裂的市場，還是仍在邊陲實驗的數位藝術家？本文沿著區塊鏈的歷史本文，從 2022 年 NFT 投機市場崩盤，回溯至 2012 年龐畢度中心展覽作品《Fuckyea》作者再現，再回到 2025 年重新檢視 NFT 作為數位藝術媒介的可能性與侷限。*
 
 ## 盛世浮沫
@@ -108,4 +108,4 @@ Moxie Marlinspike 後來將整段嘗試與體悟寫成了一篇文章——《�
 
 ---
 
-原文連結（直接放超連結：https://artouch.com/art-news/content-182346.html）
+[原文連結](https://artouch.com/art-news/content-182346.html)

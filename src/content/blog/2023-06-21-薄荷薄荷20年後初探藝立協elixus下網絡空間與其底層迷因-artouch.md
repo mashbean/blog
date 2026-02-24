@@ -15,7 +15,7 @@ signatureVersion: mashbean.article.v1
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結（直接放超連結：https://artouch.com/web3-x-art/content-109670.html）
+> [原文連結](https://artouch.com/web3-x-art/content-109670.html)
 上文[《誕生自網絡的部落美學》](https://artouch.com/web3-x-art/content-107738.html)，我們自網路發軔的1990年代末介紹台灣的部落格文化與其背後推手「藝立協」（Elixus）的故事。在網路海盜文化與商業版權爭議中，台灣的網路法規與基礎建設漸漸成熟，此時藝立協與藝術家鄭淑麗合作推出派樂西王國（Kingdom of Piracy），藝立協提出掠奪身份的複照（Piraport）與集體共創的基因提案（Piragene），解構由版權高牆割裂的身份與文化。
 
 網絡先天上帶有易於複製與共享的文化基因，樂於協作與堆疊的自由軟體開發者社群，也因此演進開放原始碼授權規則，如BSD、GPL、MIT條款乃至於更寬廣的CC創用授權。創用授權（Creative Commons）於2004年獲得[林茲電子藝術大獎網路藝術類的最高殊榮金尼卡（Golden Nica）](https://archive.aec.at/prix/showmode/2796/)。「創用授權」影響網路世界深遠，但「創用授權」是藝術嗎？為何它可以獲得最高殊榮？
@@ -83,4 +83,4 @@ signatureVersion: mashbean.article.v1
 
 ---
 
-原文連結（直接放超連結：https://artouch.com/web3-x-art/content-109670.html）
+[原文連結](https://artouch.com/web3-x-art/content-109670.html)

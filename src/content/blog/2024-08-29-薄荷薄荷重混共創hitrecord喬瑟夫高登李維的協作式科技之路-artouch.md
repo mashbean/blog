@@ -15,7 +15,7 @@ signatureVersion: mashbean.article.v1
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-153243.html）
+> [原文連結](https://artouch.com/artouch-column/mintmint-column/content-153243.html)
 > ***如果你甚至不知道你的合作者是誰，那該怎麼辦？你還能為他們創作藝術嗎？這正是我們多年來在HITREC●RD上進行的實驗。這或許是並非正道，但想像一下，你正在創作藝術。你問自己，這件藝術作品是為誰而做的？通常你會想像一名被動的觀眾，他們唯一的反應是喜歡或不喜歡這個作品。但這次你可以想像成另一位藝術家，你可能認識他，也可能不認識他，他是一位尋找靈感的人，他可能會接受你創作的內容，並在此基礎上進一步發展，或者將其融入他自己的其他作品中。***
 > — *——《你的藝術是為你而做，還是為他們而做？》（Is your art for YOU or THEM?，喬瑟夫．高登．李維，2023）*
 
@@ -107,4 +107,4 @@ signatureVersion: mashbean.article.v1
 
 ---
 
-原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-153243.html）
+[原文連結](https://artouch.com/artouch-column/mintmint-column/content-153243.html)

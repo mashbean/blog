@@ -15,7 +15,7 @@ signatureVersion: mashbean.article.v1
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-158524.html）
+> [原文連結](https://artouch.com/artouch-column/mintmint-column/content-158524.html)
 *無人機可以投入戰爭嗎？如果可以，那以AI建構出來的反無人機系統是正義之師嗎？對於臺灣人而言，基於科技的威懾策略有什麼意義？在這種意義下，AI是一種集中式科技，還是分散式科技？如此推測式的設計討論可能比想像中的還要更接近現實。*
 
 ### AI之於維繫和平？
@@ -94,4 +94,4 @@ AI自主武器及其產業將帶出許多值得討論的辯證，我們以「集
 
 ---
 
-原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-158524.html）
+[原文連結](https://artouch.com/artouch-column/mintmint-column/content-158524.html)

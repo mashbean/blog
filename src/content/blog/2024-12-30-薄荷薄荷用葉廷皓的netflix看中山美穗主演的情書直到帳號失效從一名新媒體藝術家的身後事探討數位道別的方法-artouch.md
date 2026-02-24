@@ -16,7 +16,7 @@ author: 張寶成、黃豆泥
 ## 內文
 
 > 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。
-> 原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-165262.html）
+> [原文連結](https://artouch.com/artouch-column/mintmint-column/content-165262.html)
 > 本文由張寶成與黃豆泥合著
 
 ### Netflix
@@ -107,4 +107,4 @@ Google在2013年即已推出「閒置帳戶管理員」的功能：使用者自�
 
 ---
 
-原文連結（直接放超連結：https://artouch.com/artouch-column/mintmint-column/content-165262.html）
+[原文連結](https://artouch.com/artouch-column/mintmint-column/content-165262.html)

@@ -309,10 +309,10 @@ def render_new_body(url: str, article_md: str) -> str:
     return (
         "## 內文\n\n"
         "> 本文同步自 ARTouch 薄荷薄荷專欄，並已轉為本地可維護格式（含圖片本地化）。\n"
-        f"> 原文連結（直接放超連結：{url}）\n\n"
+        f"> [原文連結]({url})\n\n"
         f"{article_md}\n\n"
         "---\n\n"
-        f"原文連結（直接放超連結：{url}）\n"
+        f"[原文連結]({url})\n"
     )
 
 
