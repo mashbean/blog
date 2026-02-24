@@ -38,6 +38,9 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
+      - name: Verify post signatures
+        run: npm run sign:posts:check
+
       - name: Build Astro
         run: npm run build
 

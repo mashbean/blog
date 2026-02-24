@@ -55,6 +55,8 @@ if (files.length === 0) {
 let changed = 0;
 let verified = 0;
 let unsigned = 0;
+let invalid = 0;
+let errors = 0;
 
 for (const filePath of files) {
   const raw = await fs.readFile(filePath, "utf8");
@@ -73,13 +75,55 @@ for (const filePath of files) {
   const contentHash = computeHash(payload);
   const currentHash = String(parsed.data.contentHash ?? "").trim();
   const currentSig = String(parsed.data.signature ?? "").trim();
+  const currentSigner = String(parsed.data.signer ?? "").trim();
+  const currentVersion = String(parsed.data.signatureVersion ?? "").trim();
 
   if (checkOnly) {
-    if (currentHash && currentSig) {
-      verified += 1;
-    } else {
+    if (!currentHash || !currentSig || !currentSigner) {
       unsigned += 1;
+      console.error(`! ${path.relative(process.cwd(), filePath)} missing signature metadata`);
+      continue;
     }
+
+    if (!ethers.utils.isAddress(currentSigner)) {
+      errors += 1;
+      console.error(`! ${path.relative(process.cwd(), filePath)} invalid signer address`);
+      continue;
+    }
+
+    if (currentVersion && currentVersion !== SIGNATURE_VERSION) {
+      errors += 1;
+      console.error(
+        `! ${path.relative(process.cwd(), filePath)} unsupported signatureVersion=${currentVersion}`
+      );
+      continue;
+    }
+
+    if (currentHash !== contentHash) {
+      invalid += 1;
+      console.error(`~ ${path.relative(process.cwd(), filePath)} contentHash mismatch`);
+      continue;
+    }
+
+    try {
+      const recovered = ethers.utils.getAddress(ethers.utils.verifyMessage(signingMessage(contentHash), currentSig));
+      const expected = ethers.utils.getAddress(currentSigner);
+      if (recovered !== expected) {
+        invalid += 1;
+        console.error(`~ ${path.relative(process.cwd(), filePath)} recovered signer mismatch`);
+        continue;
+      }
+    } catch (error) {
+      errors += 1;
+      console.error(
+        `! ${path.relative(process.cwd(), filePath)} signature verify error: ${
+          error instanceof Error ? error.message : "unknown"
+        }`
+      );
+      continue;
+    }
+
+    verified += 1;
     continue;
   }
 
@@ -106,7 +150,10 @@ for (const filePath of files) {
 }
 
 if (checkOnly) {
-  console.log(`[sign-blog-posts] verified=${verified} unsigned=${unsigned}`);
+  console.log(`[sign-blog-posts] verified=${verified} invalid=${invalid} unsigned=${unsigned} errors=${errors}`);
+  if (invalid > 0 || unsigned > 0 || errors > 0) {
+    process.exit(1);
+  }
 } else {
   console.log(`[sign-blog-posts] changed=${changed} total=${files.length}${dryRun ? " (dry-run)" : ""}`);
 }
