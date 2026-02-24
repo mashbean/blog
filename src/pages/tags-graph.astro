@@ -683,13 +683,7 @@ const graph = { nodes, links };
     };
   }
 
-  function step() {
-    for (const n of nodes) {
-      n.vx *= 0.88;
-      n.vy *= 0.88;
-      n.vz *= 0.88;
-    }
-
+  function applyForces() {
     for (let i = 0; i < nodes.length; i += 1) {
       for (let j = i + 1; j < nodes.length; j += 1) {
         const a = nodes[i];
@@ -733,11 +727,29 @@ const graph = { nodes, links };
       b.vy -= fy;
       b.vz -= fz;
     }
+  }
 
+  function integrate() {
     for (const n of nodes) {
+      n.vx *= 0.88;
+      n.vy *= 0.88;
+      n.vz *= 0.88;
       n.x += n.vx;
       n.y += n.vy;
       n.z += n.vz;
+    }
+  }
+
+  function settleLayout() {
+    const rounds = Math.min(520, Math.max(180, Math.round(nodes.length * 1.25)));
+    for (let i = 0; i < rounds; i += 1) {
+      applyForces();
+      integrate();
+    }
+    for (const n of nodes) {
+      n.vx = 0;
+      n.vy = 0;
+      n.vz = 0;
     }
   }
 
@@ -785,9 +797,6 @@ const graph = { nodes, links };
   }
 
   function frame() {
-    frame.counter = (frame.counter ?? 0) + 1;
-    const stride = nodes.length > 180 ? 3 : 2;
-    if (frame.counter % stride === 0) step();
     draw();
     requestAnimationFrame(frame);
   }
@@ -902,6 +911,7 @@ const graph = { nodes, links };
     applyFilters();
   });
 
+  settleLayout();
   applyFilters();
   loadSearchCorpus();
   frame();
