@@ -8,7 +8,7 @@ tags:
   - 數位自主
   - 部落格
 category: blog
-cover: images/covers/home/2026-02-24-vibe-coding-blog-launch.png
+cover: images/covers/home/2026-02-24-vibe-coding-blog-launch.jpg
 coverAlt: 馬年過年當個隔壁家 Vibe Coding 叔叔，部落格開張大吉封面圖
 contentHash: '0xd36dfc154d9fb45accb4e225fd286dc5b2f9233315a6fdc1452eee16c3eb58ac'
 signature: >-

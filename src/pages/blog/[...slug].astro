@@ -109,6 +109,8 @@ const coverSrc =
 const canonicalURL = post.data.canonicalURL;
 const pageURL = canonicalURL ??
   (Astro.site ? new URL(buildPostUrl(post), Astro.site).toString() : buildPostUrl(post));
+const canonicalPostURL = Astro.site ? new URL(buildPostUrl(post), Astro.site).toString() : buildPostUrl(post);
+const effectiveCanonicalURL = isLegacyPath ? canonicalPostURL : canonicalURL;
 
 const coverURL = coverSrc
   ? /^https?:\/\//.test(coverSrc)
@@ -243,12 +245,12 @@ const articleStructuredData = {
 <BaseLayout
   title={postTitle}
   description={post.data.description}
-  canonicalURL={canonicalURL}
+  canonicalURL={effectiveCanonicalURL}
   ogImage={post.data.cover}
   ogType="article"
   structuredData={isLegacyPath ? null : articleStructuredData}
   isArticle={!isLegacyPath}
-  noindex={isLegacyPath}
+  noindex={false}
 >
   {
     isLegacyPath ? (
