@@ -1558,7 +1558,7 @@
 
   .search-form-row {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 0.55rem;
   }
 
@@ -1581,6 +1581,10 @@
 
   .search-form-row .nav-link {
     min-width: 4.25rem;
+    min-height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
   }
 
@@ -1600,7 +1604,7 @@
   }
 
   .search-result-count {
-    margin: 0;
+    margin: 0.62rem 0 0;
     color: #2f5961;
     font-size: 0.88rem;
   }

@@ -24,26 +24,19 @@ const fallbackIndexUrl = withBase("search-index.json");
     <div id="pagefind-search"></div>
     <div id="search-fallback" class="search-fallback" hidden>
       <form id="site-search-form" class="search-form" role="search">
-        <label for="site-search-input">關鍵字</label>
         <div class="search-form-row">
           <input
             id="site-search-input"
             type="search"
             inputmode="search"
             autocomplete="off"
+            aria-label="搜尋關鍵字"
             placeholder="例如：隱私、Matters、d/acc、2024"
           />
           <button type="submit" class="nav-link">搜尋</button>
         </div>
       </form>
-      <div class="search-fallback-toolbar" role="group" aria-label="搜尋篩選">
-        <p id="site-search-count" class="search-result-count">請輸入關鍵字開始搜尋。</p>
-        <div class="search-type-filter">
-          <button type="button" class="search-filter-btn is-active" data-type="all">全部</button>
-          <button type="button" class="search-filter-btn" data-type="post">文章</button>
-          <button type="button" class="search-filter-btn" data-type="page">頁面</button>
-        </div>
-      </div>
+      <p id="site-search-count" class="search-result-count" hidden></p>
       <ul id="site-search-results" class="search-results"></ul>
     </div>
   </section>
@@ -65,9 +58,7 @@ const fallbackIndexUrl = withBase("search-index.json");
   const fallbackInput = document.querySelector("#site-search-input");
   const fallbackResults = document.querySelector("#site-search-results");
   const fallbackCount = document.querySelector("#site-search-count");
-  const typeButtons = Array.from(document.querySelectorAll(".search-filter-btn"));
   const stateNodes = Array.from(document.querySelectorAll(".search-state"));
-  let activeType = "all";
   let currentSearchMode = "pagefind";
 
   const setSearchState = (nextState) => {
@@ -188,27 +179,36 @@ const fallbackIndexUrl = withBase("search-index.json");
 
       if (!q) {
         setSearchState("idle");
+        if (fallbackCount instanceof HTMLElement) {
+          fallbackCount.textContent = "";
+          fallbackCount.hidden = true;
+        }
         return;
       }
       if (items.length === 0) {
         setSearchState("empty");
         fallbackResults.innerHTML = `<li class="search-result-item">找不到符合的結果。</li>`;
-        if (fallbackCount) fallbackCount.textContent = "0 筆結果";
+        if (fallbackCount instanceof HTMLElement) {
+          fallbackCount.textContent = "0 筆結果";
+          fallbackCount.hidden = false;
+        }
         return;
       }
 
       setSearchState("ready");
-      if (fallbackCount) fallbackCount.textContent = `${items.length} 筆結果`;
+      if (fallbackCount instanceof HTMLElement) {
+        fallbackCount.textContent = `${items.length} 筆結果`;
+        fallbackCount.hidden = false;
+      }
 
       for (const item of items) {
-        const typeLabel = item.type === "post" ? "文章" : "頁面";
         const dateLabel = item.type === "post" ? formatDate(item.pubDate) : "";
         const topics = Array.isArray(item.topics) ? item.topics.slice(0, 3) : [];
         const tags = Array.isArray(item.tags)
           ? item.tags.filter((tag) => !topics.includes(tag)).slice(0, 4)
           : [];
         const hitZones = detectHitZones(item, tokens);
-        const metaParts = [typeLabel, dateLabel].filter(Boolean);
+        const metaParts = [dateLabel].filter(Boolean);
         const li = document.createElement("li");
         li.className = "search-result-item";
         li.innerHTML = `
@@ -244,9 +244,9 @@ const fallbackIndexUrl = withBase("search-index.json");
       }
 
       const ranked = docs
+        .filter((doc) => doc.type === "post")
         .map((doc) => ({ doc, score: scoreDoc(doc, tokens) }))
         .filter((item) => item.score > 0)
-        .filter((item) => activeType === "all" || item.doc.type === activeType)
         .sort((a, b) => b.score - a.score)
         .slice(0, 80)
         .map((item) => item.doc);
@@ -260,7 +260,7 @@ const fallbackIndexUrl = withBase("search-index.json");
       track("Search Used", {
         mode: "fallback",
         query_length: String(q.length),
-        filter: activeType,
+        scope: "post_only"
       });
       search(q);
     });
@@ -268,16 +268,6 @@ const fallbackIndexUrl = withBase("search-index.json");
     fallbackInput?.addEventListener("input", () => {
       const q = fallbackInput.value.trim();
       search(q);
-    });
-
-    typeButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const nextType = button.dataset.type ?? "all";
-        activeType = nextType;
-        typeButtons.forEach((item) => item.classList.toggle("is-active", item === button));
-        const q = fallbackInput?.value.trim() ?? "";
-        search(q);
-      });
     });
 
     if (fallbackInput) {
@@ -337,7 +327,7 @@ const fallbackIndexUrl = withBase("search-index.json");
             track("Search Used", {
               mode: "pagefind",
               query_length: String(q.length),
-              filter: "all",
+              scope: "post_only"
             });
           });
           input.addEventListener("input", () => {
