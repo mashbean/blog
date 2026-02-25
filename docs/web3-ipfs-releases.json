@@ -8,7 +8,59 @@
       "key": "self",
       "path": "/ipfs/QmeCrF2yfVGuQQCY7whWhvq7741wPwc7XecwVc1xinuNGf",
       "resolvedPath": "/ipfs/QmeCrF2yfVGuQQCY7whWhvq7741wPwc7XecwVc1xinuNGf",
-      "updatedAt": "2026-02-25T04:20:24.273Z"
+      "updatedAt": "2026-02-25T04:50:18.988Z"
+    }
+  },
+  {
+    "releaseId": "ens-contenthash-2026-02-25T04-31-21-608Z",
+    "releasedAt": "2026-02-25T04:31:21.608Z",
+    "cid": null,
+    "ensContenthash": {
+      "name": "mashbean.eth",
+      "targetType": "ipns",
+      "target": "k51qzi5uqu5dj88qpatq3fb4ns3rydcnho4j6jcqjpztyudroltdmlzes3ox2l",
+      "contenthashHex": "0xe5016b3531717a693575717535646a38387170617471336662346e7333727964636e686f346a366a63716a707a74797564726f6c74646d6c7a6573336f78326c",
+      "resolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+      "txHash": "0x40dc750e42c9fb91791c9929ffdf2ce2491df22b3c8946eb020a2f1e3126ee4d",
+      "blockNumber": 24531553,
+      "updatedAt": "2026-02-25T04:31:21.608Z"
+    }
+  },
+  {
+    "releaseId": "ipns-2026-02-25T05-38-53-327Z",
+    "releasedAt": "2026-02-25T05:38:53.327Z",
+    "cid": "Qmd2V5ADkMYTQ43ExNwZ9TeMKgunwW3Bm414juccRtMfdp",
+    "ipns": {
+      "name": "k51qzi5uqu5dj88qpatq3fb4ns3rydcnho4j6jcqjpztyudroltdmlzes3ox2l",
+      "key": "self",
+      "path": "/ipfs/Qmd2V5ADkMYTQ43ExNwZ9TeMKgunwW3Bm414juccRtMfdp",
+      "resolvedPath": "/ipfs/Qmd2V5ADkMYTQ43ExNwZ9TeMKgunwW3Bm414juccRtMfdp",
+      "updatedAt": "2026-02-25T05:38:53.327Z"
+    },
+    "ensContenthash": {
+      "name": "mashbean.eth",
+      "targetType": "ipfs",
+      "target": "Qmd2V5ADkMYTQ43ExNwZ9TeMKgunwW3Bm414juccRtMfdp",
+      "contenthashHex": "0xe30101701220da37f3e5c08bd46bc52c889e1da5d99037df3a1bc070843997abd9556ae4663f",
+      "resolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+      "txHash": "0x883d370addd108f9a78643f368578d47f30b3f04472faa8adfe5880af8bc3c39",
+      "blockNumber": 24531905,
+      "updatedAt": "2026-02-25T05:42:12.992Z"
+    }
+  },
+  {
+    "releaseId": "ens-contenthash-2026-02-25T05-40-17-953Z",
+    "releasedAt": "2026-02-25T05:40:17.953Z",
+    "cid": null,
+    "ensContenthash": {
+      "name": "mashbean.eth",
+      "targetType": "ipns",
+      "target": "k51qzi5uqu5dj88qpatq3fb4ns3rydcnho4j6jcqjpztyudroltdmlzes3ox2l",
+      "contenthashHex": "0xe5016b3531717a693575717535646a38387170617471336662346e7333727964636e686f346a366a63716a707a74797564726f6c74646d6c7a6573336f78326c",
+      "resolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+      "txHash": "0x9ebc5ff135f66199f10ff8a3b90dc62f8754ee632fac587bb6f61c47c27d5bdd",
+      "blockNumber": 24531895,
+      "updatedAt": "2026-02-25T05:40:17.953Z"
     }
   }
 ]
