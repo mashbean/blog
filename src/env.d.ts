@@ -1,6 +1,7 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
+  readonly PUBLIC_ENABLE_WEB3?: string;
   readonly PUBLIC_TIP_ENS_NAME: string;
   readonly PUBLIC_SIGNER_ENS_NAME?: string;
   readonly PUBLIC_WEB3_RPC_URL: string;

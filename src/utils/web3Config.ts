@@ -9,11 +9,20 @@ let cached: Web3PublicConfig | null = null;
 let resolved = false;
 
 const trimTrailingSlash = (value: string): string => value.replace(/\/+$/, "");
+const normalizeBoolean = (value: string): boolean => {
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return false;
+  return ["1", "true", "yes", "on"].includes(normalized);
+};
+
+export const isWeb3FeatureEnabled = (): boolean =>
+  normalizeBoolean(import.meta.env.PUBLIC_ENABLE_WEB3 ?? "1");
 
 const formatConfigError = (issues: string[]): string =>
   `Invalid Web3 public config: ${issues.join("; ")}. Required env: PUBLIC_TIP_ENS_NAME, PUBLIC_WEB3_RPC_URL, PUBLIC_WEB3_CHAIN_ID.`;
 
 export const getWeb3PublicConfig = (): Web3PublicConfig | null => {
+  if (!isWeb3FeatureEnabled()) return null;
   if (resolved) return cached;
   resolved = true;
 
@@ -58,6 +67,9 @@ export const getWeb3PublicConfig = (): Web3PublicConfig | null => {
 };
 
 export const requireWeb3PublicConfig = (): Web3PublicConfig => {
+  if (!isWeb3FeatureEnabled()) {
+    throw new Error("Web3 feature is disabled. Set PUBLIC_ENABLE_WEB3=true to enable.");
+  }
   const cfg = getWeb3PublicConfig();
   if (cfg) return cfg;
 

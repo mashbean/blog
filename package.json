@@ -37,7 +37,9 @@
     "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
     "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run",
     "cover:latest": "node scripts/generate-latest-cover-openai.mjs",
-    "publish:post": "node scripts/publish-post.mjs"
+    "publish:post": "node scripts/publish-post.mjs",
+    "publish:post:fast": "node scripts/publish-post.mjs --skip-cover --skip-sign",
+    "publish:post:full": "node scripts/publish-post.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
