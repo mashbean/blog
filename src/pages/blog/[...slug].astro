@@ -73,22 +73,14 @@ const signatureHash = post.data.contentHash ?? signatureCheck.computedHash;
 const web3Enabled = isWeb3FeatureEnabled();
 const web3Config = web3Enabled ? requireWeb3PublicConfig() : null;
 const tipEnsProfile = web3Config ? await resolveEnsProfile(web3Config.tipEnsName) : null;
-const signerEnsProfile = web3Config ? await resolveEnsProfile(web3Config.signerEnsName) : null;
 const signerEnsName = web3Config?.signerEnsName ?? "";
-const signerEnsVerified =
-  Boolean(signatureCheck.expectedSigner) &&
-  Boolean(signerEnsProfile?.resolvedAddress) &&
-  signatureCheck.expectedSigner === signerEnsProfile?.resolvedAddress &&
-  Boolean(signerEnsProfile?.isVerified);
 const signerEnsStatusText = signerEnsName
-  ? signerEnsVerified
+  ? signatureCheck.status === "verified"
     ? "已驗證"
-    : "待驗證"
+    : signatureCheck.status === "unsigned"
+      ? "未簽名"
+      : "簽名異常"
   : "未設定";
-const signerEnsStatusHint =
-  signerEnsStatusText === "待驗證"
-    ? signerEnsProfile?.verificationMessage ?? "請檢查 ENS 正反向設定"
-    : null;
 const classifiedCurrent = classifyPostTags({
   title: postTitle,
   description: post.data.description,
@@ -352,7 +344,6 @@ const articleStructuredData = {
                 <strong>狀態：</strong>
                 {signerEnsStatusText}
               </p>
-              {signerEnsStatusHint && <p class="signature-panel-note">提示：{signerEnsStatusHint}</p>}
               <div class="signature-explain-row">
                 <details class="signature-explain">
                   <summary class="signature-explain-btn">文章的身分證字號</summary>
