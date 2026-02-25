@@ -62,5 +62,42 @@
       "blockNumber": 24531895,
       "updatedAt": "2026-02-25T05:40:17.953Z"
     }
+  },
+  {
+    "releaseId": "ens-contenthash-2026-02-25T06-05-39-022Z",
+    "releasedAt": "2026-02-25T06:05:39.022Z",
+    "cid": "QmPy7jgpXEodnn1Rev15pZo5YoQCWqyT2okG9idqgkxUKL",
+    "ensContenthash": {
+      "name": "mashbean.eth",
+      "targetType": "ipfs",
+      "target": "QmPy7jgpXEodnn1Rev15pZo5YoQCWqyT2okG9idqgkxUKL",
+      "contenthashHex": "0xe30101701220183327e6da1eb95920a0b8c74f270d20ed1b049386e0c8b328c6938ddd2b759b",
+      "resolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+      "txHash": "0x195e156e7c58cf02490b401a6389489334ee814dd99f0c99a8f35e97c480b54a",
+      "blockNumber": 24532022,
+      "updatedAt": "2026-02-25T06:05:39.022Z"
+    }
+  },
+  {
+    "releaseId": "ipns-2026-02-25T07-17-52-513Z",
+    "releasedAt": "2026-02-25T07:17:52.513Z",
+    "cid": "QmQoH2xTRmqpW5zTN6rnwGfjY56zSN1U3Z7mLm6EfmepWT",
+    "ipns": {
+      "name": "k51qzi5uqu5dj88qpatq3fb4ns3rydcnho4j6jcqjpztyudroltdmlzes3ox2l",
+      "key": "self",
+      "path": "/ipfs/QmQoH2xTRmqpW5zTN6rnwGfjY56zSN1U3Z7mLm6EfmepWT",
+      "resolvedPath": "/ipfs/QmQoH2xTRmqpW5zTN6rnwGfjY56zSN1U3Z7mLm6EfmepWT",
+      "updatedAt": "2026-02-25T07:17:52.513Z"
+    },
+    "ensContenthash": {
+      "name": "mashbean.eth",
+      "targetType": "ipfs",
+      "target": "QmQoH2xTRmqpW5zTN6rnwGfjY56zSN1U3Z7mLm6EfmepWT",
+      "contenthashHex": "0xe3010170122024898c3645323eb06dbb2ef5135cf9d2c349952c413e836d26e6874683ac6c50",
+      "resolver": "0x4976fb03C32e5B8cfe2b6cCB31c09Ba78EBaBa41",
+      "txHash": "0x52d4e8fb4da593028a454506b10cca227428fd82088c4d25fbbfc63f34110f71",
+      "blockNumber": 24532385,
+      "updatedAt": "2026-02-25T07:18:21.525Z"
+    }
   }
 ]

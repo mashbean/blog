@@ -134,8 +134,8 @@ npm run web3:ens:contenthash -- --name mashbean.eth --ipns <ipns-name>
 
 ### S2-04 .eth.limo 可用性驗證
 - [x] 驗證 `https://mashbean.eth.limo` 可存取首頁與至少 1 篇文章（已提供檢查腳本）。
-- [ ] 驗證手機與桌面瀏覽器的可讀性。
-- [ ] 確認快取延遲窗口，記錄切版生效時間。
+- [x] 驗證手機與桌面瀏覽器的可讀性。
+- [x] 確認快取延遲窗口，記錄切版生效時間。
 - Owner:
 - Estimate: 0.5 day
 - 驗收命令:
@@ -160,9 +160,9 @@ npm run web3:rollback:dry
 - 完成定義：部署失敗時可在 5 分鐘內回復上一版。
 
 ### S2-06 Sprint 2 上線驗收
-- [ ] 全流程演練：build -> IPFS -> IPNS -> ENS contenthash -> .eth.limo 驗證。
-- [ ] 輸出最終上線報告（含 CID、IPNS、交易 hash、驗證結果）。
-- [ ] 清點待辦與後續優化項目。
+- [x] 全流程演練：build -> IPFS -> IPNS -> ENS contenthash -> .eth.limo 驗證。
+- [x] 輸出最終上線報告（含 CID、IPNS、交易 hash、驗證結果）。
+- [x] 清點待辦與後續優化項目。
 - Owner:
 - Estimate: 0.5 day
 - 驗收命令:
@@ -176,8 +176,8 @@ npm run build
 - [x] 文章頁固定顯示打賞區且可付款。
 - [x] ENS verified 僅在 forward/reverse 通過時顯示。
 - [x] 已簽名文章可驗證，篡改必失敗。
-- [ ] 每次部署都有 CID，且 IPNS 指向最新版本。
-- [ ] `mashbean.eth.limo` 可穩定訪問最新站點。
+- [x] 每次部署都有 CID，且 IPNS 指向最新版本。
+- [x] `mashbean.eth.limo` 可穩定訪問最新站點。
 
 ## 建議 issue labels
 - `web3`
