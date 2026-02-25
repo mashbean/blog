@@ -23,6 +23,21 @@ npm run web3:ipfs:publish:dry
 npm run web3:ipfs:publish
 ```
 
+## Pinata file limit 方案（推薦）
+- 若 Pinata 方案有 files 上限，可使用 compact 發布版：
+  - 移除 `pagefind/`
+  - 只保留 canonical 文章路由（`/blog/YYYY/MMDD-xxxxxx/`）
+
+```bash
+npm run web3:build:ipfs
+npm run web3:ipfs:publish -- --dist dist-ipfs
+```
+
+或一鍵執行：
+```bash
+npm run web3:ipfs:publish:compact
+```
+
 ## 輸出與紀錄
 - 正式發布後，會寫入 `/Users/mashbean/Codex/docs/web3-ipfs-releases.json`。
 - 每筆紀錄包含：

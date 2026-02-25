@@ -20,8 +20,11 @@
     "migrate:posts": "node scripts/migrate-jekyll-posts.mjs",
     "sign:posts": "node scripts/sign-blog-posts.mjs",
     "sign:posts:check": "node scripts/sign-blog-posts.mjs --check",
+    "web3:build:ipfs": "node scripts/web3-build-ipfs-dist.mjs",
     "web3:ipfs:publish": "node scripts/web3-publish-ipfs.mjs",
     "web3:ipfs:publish:dry": "node scripts/web3-publish-ipfs.mjs --dry-run",
+    "web3:ipfs:publish:compact": "npm run web3:build:ipfs && npm run web3:ipfs:publish -- --dist dist-ipfs",
+    "web3:ipfs:publish:compact:dry": "npm run web3:build:ipfs && npm run web3:ipfs:publish:dry -- --dist dist-ipfs",
     "web3:ipns:update": "node scripts/web3-update-ipns.mjs",
     "web3:ipns:update:dry": "node scripts/web3-update-ipns.mjs --dry-run --cid bafybeigdyrztxci5jhj4s2fd3mhmrcoak6m6f6hke5u4smbmctf5bswdzu",
     "web3:ens:contenthash": "node scripts/web3-update-ens-contenthash.mjs",
@@ -33,7 +36,8 @@
     "web3:rollback:dry": "node scripts/web3-rollback-release.mjs",
     "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
     "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run",
-    "cover:latest": "node scripts/generate-latest-cover-openai.mjs"
+    "cover:latest": "node scripts/generate-latest-cover-openai.mjs",
+    "publish:post": "node scripts/publish-post.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
