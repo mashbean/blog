@@ -4,7 +4,6 @@ import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from "@/site.config";
 import { withBase } from "@/utils/paths";
-import siteBehaviorsScript from "@/scripts/site-behaviors.ts?url";
 
 interface Props {
   title?: string;
@@ -152,6 +151,8 @@ const siteStructuredData = {
       </p>
     )}
     <Footer />
-    <script type="module" is:inline src={siteBehaviorsScript}></script>
+    <script>
+      import "@/scripts/site-behaviors";
+    </script>
   </body>
 </html>
