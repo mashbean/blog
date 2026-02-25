@@ -2,9 +2,14 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import fg from "fast-glob";
 
 const PINATA_ENDPOINT = "https://api.pinata.cloud/pinning/pinFileToIPFS";
+const PINATA_PIN_LIST_ENDPOINT = "https://api.pinata.cloud/data/pinList";
+const DEFAULT_PINATA_MAX_FILES = 500;
+const execFileAsync = promisify(execFile);
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -19,7 +24,10 @@ const parseArgs = () => {
     maxRetries: 3,
     retryBaseMs: 1200,
     pinName: "",
-    requestTimeoutMs: 180000
+    requestTimeoutMs: 180000,
+    pinataMaxFiles: Number(process.env.IPFS_PINATA_MAX_FILES || DEFAULT_PINATA_MAX_FILES),
+    skipPinataQuotaCheck: false,
+    skipIpfsProvide: false
   };
 
   for (let i = 0; i < args.length; i += 1) {
@@ -31,6 +39,9 @@ const parseArgs = () => {
     if (arg === "--retry-ms" && args[i + 1]) options.retryBaseMs = Number(args[++i]);
     if (arg === "--name" && args[i + 1]) options.pinName = String(args[++i]).trim();
     if (arg === "--timeout-ms" && args[i + 1]) options.requestTimeoutMs = Number(args[++i]);
+    if (arg === "--pinata-max-files" && args[i + 1]) options.pinataMaxFiles = Number(args[++i]);
+    if (arg === "--skip-pinata-quota-check") options.skipPinataQuotaCheck = true;
+    if (arg === "--skip-ipfs-provide") options.skipIpfsProvide = true;
   }
 
   if (!Number.isInteger(options.maxRetries) || options.maxRetries < 1) {
@@ -41,6 +52,9 @@ const parseArgs = () => {
   }
   if (!Number.isInteger(options.requestTimeoutMs) || options.requestTimeoutMs < 1000) {
     throw new Error("Invalid --timeout-ms value");
+  }
+  if (!Number.isInteger(options.pinataMaxFiles) || options.pinataMaxFiles < 1) {
+    throw new Error("Invalid --pinata-max-files value");
   }
 
   return options;
@@ -145,6 +159,78 @@ const uploadDirectoryToPinata = async ({
   throw lastError ?? new Error("Pinata upload failed");
 };
 
+const fetchPinataPinnedRows = async ({ jwt, requestTimeoutMs }) => {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), requestTimeoutMs);
+  try {
+    const response = await fetch(
+      `${PINATA_PIN_LIST_ENDPOINT}?status=pinned&pageLimit=1000`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        },
+        signal: controller.signal
+      }
+    );
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(`Pinata pinList failed (${response.status}): ${text.slice(0, 400)}`);
+    }
+    const payload = await response.json();
+    return Array.isArray(payload?.rows) ? payload.rows : [];
+  } finally {
+    clearTimeout(timeout);
+  }
+};
+
+const summarizePinnedFiles = (rows) =>
+  rows.reduce((total, row) => {
+    const n = Number(row?.number_of_files);
+    return Number.isFinite(n) && n > 0 ? total + n : total;
+  }, 0);
+
+const validatePinataQuota = async ({ jwt, requestTimeoutMs, nextFileCount, maxFiles }) => {
+  const rows = await fetchPinataPinnedRows({ jwt, requestTimeoutMs });
+  const currentPinnedFiles = summarizePinnedFiles(rows);
+  const projectedFiles = currentPinnedFiles + nextFileCount;
+  const ok = projectedFiles <= maxFiles;
+  return {
+    ok,
+    maxFiles,
+    currentPinnedFiles,
+    nextFileCount,
+    projectedFiles,
+    pinnedItems: rows.map((row) => ({
+      hash: row?.ipfs_pin_hash ?? null,
+      name: row?.metadata?.name ?? null,
+      numberOfFiles: Number(row?.number_of_files) || null,
+      size: Number(row?.size) || null
+    }))
+  };
+};
+
+const runIpfsProvide = async (cid) => {
+  try {
+    const { stdout, stderr } = await execFileAsync("ipfs", ["routing", "provide", "-r", cid], {
+      maxBuffer: 1024 * 1024
+    });
+    return {
+      attempted: true,
+      ok: true,
+      output: `${stdout}${stderr}`.trim() || null,
+      updatedAt: new Date().toISOString()
+    };
+  } catch (error) {
+    return {
+      attempted: true,
+      ok: false,
+      error: error instanceof Error ? error.message : String(error),
+      updatedAt: new Date().toISOString()
+    };
+  }
+};
+
 const ensureArrayFile = async (filePath) => {
   try {
     const raw = await fs.readFile(filePath, "utf8");
@@ -207,6 +293,29 @@ const main = async () => {
     throw new Error("Missing IPFS_PINATA_JWT env var");
   }
 
+  let quotaCheck = null;
+  if (!options.skipPinataQuotaCheck) {
+    quotaCheck = await validatePinataQuota({
+      jwt: pinataJwt,
+      requestTimeoutMs: options.requestTimeoutMs,
+      nextFileCount: entries.length,
+      maxFiles: options.pinataMaxFiles
+    });
+    if (!quotaCheck.ok) {
+      const pinnedHints = quotaCheck.pinnedItems
+        .slice(0, 5)
+        .map(
+          (item) =>
+            `- ${item.hash ?? "unknown-hash"} (${item.numberOfFiles ?? "?"} files, ${item.name ?? "no-name"})`
+        )
+        .join("\n");
+      throw new Error(
+        `Pinata file quota exceeded: current ${quotaCheck.currentPinnedFiles} + next ${quotaCheck.nextFileCount} = ${quotaCheck.projectedFiles} > limit ${quotaCheck.maxFiles}.\n` +
+          `Please unpin old CIDs first, then retry.\n${pinnedHints}`
+      );
+    }
+  }
+
   const result = await uploadDirectoryToPinata({
     entries,
     jwt: pinataJwt,
@@ -217,6 +326,7 @@ const main = async () => {
   });
 
   const cid = String(result.IpfsHash);
+  const ipfsProvide = options.skipIpfsProvide ? { attempted: false, skipped: true } : await runIpfsProvide(cid);
   const releaseRecord = {
     ...baseRecord,
     dryRun: false,
@@ -224,7 +334,9 @@ const main = async () => {
     pinSize: result.PinSize ?? null,
     pinTimestamp: result.Timestamp ?? null,
     gatewayUrl: `https://gateway.pinata.cloud/ipfs/${cid}/`,
-    ipfsUrl: `ipfs://${cid}/`
+    ipfsUrl: `ipfs://${cid}/`,
+    pinataQuotaCheck: quotaCheck,
+    ipfsProvide
   };
 
   await fs.mkdir(path.dirname(recordPathAbs), { recursive: true });
