@@ -124,7 +124,7 @@ if (isArticle) {
   });
 
   const bar = document.querySelector("#reading-progress-bar");
-  const article = document.querySelector("article.article-layout, article");
+  const article = document.querySelector("main#main-content article.article-layout");
   const articleTitle = document.querySelector(".article-title")?.textContent?.trim() ?? "";
   const readingStateKey = `${storagePrefix}.lastReading`;
   const persistReadingState = (progress: number) => {
@@ -302,4 +302,3 @@ if (isArticle) {
     });
   }
 }
-
