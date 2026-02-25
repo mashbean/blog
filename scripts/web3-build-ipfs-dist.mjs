@@ -50,6 +50,8 @@ const copyDirRecursive = async (fromDir, toDir) => {
 const isCanonicalBlogPath = (relPath) =>
   /^blog\/\d{4}\/\d{4}-[a-z0-9]{6}\/index\.html$/.test(relPath);
 
+const isRequiredBlogIndex = (relPath) => relPath === "blog/index.html";
+
 const pruneBlogNonCanonical = async (outDir) => {
   const blogHtml = await fg(["blog/**/index.html"], {
     cwd: outDir,
@@ -61,7 +63,7 @@ const pruneBlogNonCanonical = async (outDir) => {
   let kept = 0;
   for (const relPathRaw of blogHtml) {
     const relPath = toPosixPath(relPathRaw);
-    if (isCanonicalBlogPath(relPath)) {
+    if (isCanonicalBlogPath(relPath) || isRequiredBlogIndex(relPath)) {
       kept += 1;
       continue;
     }
