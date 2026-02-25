@@ -14,6 +14,8 @@
     "build:pagefind": "pagefind --site dist --glob \"**/*.html\"",
     "preview": "astro preview",
     "check": "astro check",
+    "check:covers": "node scripts/check-cover-sizes.mjs --max-kb 900",
+    "check:covers:warn": "node scripts/check-cover-sizes.mjs --max-kb 900 --warn-only",
     "lint": "npm run check && npm run format:check",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

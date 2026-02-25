@@ -45,6 +45,9 @@ jobs:
       - name: Verify post signatures
         run: npm run sign:posts:check
 
+      - name: Check cover image sizes
+        run: npm run check:covers
+
       - name: Build Astro
         run: npm run build
 
