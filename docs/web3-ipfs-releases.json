@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "releaseId": "ipns-2026-02-25T04-20-24-273Z",
+    "releasedAt": "2026-02-25T04:20:24.273Z",
+    "cid": "QmeCrF2yfVGuQQCY7whWhvq7741wPwc7XecwVc1xinuNGf",
+    "ipns": {
+      "name": "k51qzi5uqu5dj88qpatq3fb4ns3rydcnho4j6jcqjpztyudroltdmlzes3ox2l",
+      "key": "self",
+      "path": "/ipfs/QmeCrF2yfVGuQQCY7whWhvq7741wPwc7XecwVc1xinuNGf",
+      "resolvedPath": "/ipfs/QmeCrF2yfVGuQQCY7whWhvq7741wPwc7XecwVc1xinuNGf",
+      "updatedAt": "2026-02-25T04:20:24.273Z"
+    }
+  }
+]

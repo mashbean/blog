@@ -18,7 +18,8 @@ const parseArgs = () => {
     releaseId: "",
     ensName: process.env.PUBLIC_TIP_ENS_NAME?.trim() || "mashbean.eth",
     gatewayBase: "https://gateway.pinata.cloud/ipfs/",
-    checkEthLimo: true
+    checkEthLimo: true,
+    timeoutMs: 12000
   };
 
   for (let i = 0; i < args.length; i += 1) {
@@ -28,8 +29,19 @@ const parseArgs = () => {
     if (arg === "--name" && args[i + 1]) options.ensName = String(args[++i]).trim();
     if (arg === "--gateway" && args[i + 1]) options.gatewayBase = String(args[++i]).trim();
     if (arg === "--no-eth-limo") options.checkEthLimo = false;
+    if (arg === "--timeout-ms" && args[i + 1]) options.timeoutMs = Number(args[++i]);
   }
   return options;
+};
+
+const fetchWithTimeout = async (url, timeoutMs) => {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { method: "GET", redirect: "follow", signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
 };
 
 const readRecords = async (filePath) => {
@@ -47,15 +59,24 @@ const pickRecord = (records, releaseId) => {
   return null;
 };
 
-const checkGateway = async (cid, gatewayBase) => {
+const checkGateway = async (cid, gatewayBase, timeoutMs) => {
   const url = `${gatewayBase.replace(/\/+$/, "")}/${cid}/`;
-  const response = await fetch(url, { method: "GET", redirect: "follow" });
-  const text = await response.text();
-  return {
-    url,
-    ok: response.ok && /<html/i.test(text),
-    status: response.status
-  };
+  try {
+    const response = await fetchWithTimeout(url, timeoutMs);
+    const text = await response.text();
+    return {
+      url,
+      ok: response.ok && /<html/i.test(text),
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      url,
+      ok: false,
+      status: null,
+      error: error instanceof Error ? error.message : String(error)
+    };
+  }
 };
 
 const checkIpns = async (ipnsName, cid) => {
@@ -81,33 +102,50 @@ const checkEnsContenthash = async (ensName, expectedHex) => {
       reason: "PUBLIC_WEB3_RPC_URL is missing"
     };
   }
-  const provider = new ethers.providers.JsonRpcProvider(rpc, chainId);
-  const node = ethers.utils.namehash(ensName);
-  const registry = new ethers.Contract(ENS_REGISTRY_MAINNET, ENS_REGISTRY_ABI, provider);
-  const resolverAddress = await registry.resolver(node);
-  if (!resolverAddress || resolverAddress === ethers.constants.AddressZero) {
-    return { ok: false, skipped: false, reason: "resolver not set", resolver: resolverAddress };
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(rpc, chainId);
+    const node = ethers.utils.namehash(ensName);
+    const registry = new ethers.Contract(ENS_REGISTRY_MAINNET, ENS_REGISTRY_ABI, provider);
+    const resolverAddress = await registry.resolver(node);
+    if (!resolverAddress || resolverAddress === ethers.constants.AddressZero) {
+      return { ok: false, skipped: false, reason: "resolver not set", resolver: resolverAddress };
+    }
+    const resolver = new ethers.Contract(resolverAddress, PUBLIC_RESOLVER_ABI, provider);
+    const currentHex = ethers.utils.hexlify(await resolver.contenthash(node));
+    return {
+      ok: currentHex.toLowerCase() === String(expectedHex || "").toLowerCase(),
+      skipped: false,
+      resolver: resolverAddress,
+      currentHex,
+      expectedHex
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      skipped: false,
+      reason: error instanceof Error ? error.message : String(error)
+    };
   }
-  const resolver = new ethers.Contract(resolverAddress, PUBLIC_RESOLVER_ABI, provider);
-  const currentHex = ethers.utils.hexlify(await resolver.contenthash(node));
-  return {
-    ok: currentHex.toLowerCase() === String(expectedHex || "").toLowerCase(),
-    skipped: false,
-    resolver: resolverAddress,
-    currentHex,
-    expectedHex
-  };
 };
 
-const checkEthLimo = async (ensName) => {
+const checkEthLimo = async (ensName, timeoutMs) => {
   const url = `https://${ensName}.limo/`;
-  const response = await fetch(url, { method: "GET", redirect: "follow" });
-  const text = await response.text();
-  return {
-    url,
-    ok: response.ok && /<html/i.test(text),
-    status: response.status
-  };
+  try {
+    const response = await fetchWithTimeout(url, timeoutMs);
+    const text = await response.text();
+    return {
+      url,
+      ok: response.ok && /<html/i.test(text),
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      url,
+      ok: false,
+      status: null,
+      error: error instanceof Error ? error.message : String(error)
+    };
+  }
 };
 
 const main = async () => {
@@ -119,7 +157,7 @@ const main = async () => {
   if (!target.cid) throw new Error("Target release has no CID");
 
   const checks = {};
-  checks.gateway = await checkGateway(target.cid, options.gatewayBase);
+  checks.gateway = await checkGateway(target.cid, options.gatewayBase, options.timeoutMs);
 
   if (target?.ipns?.name) {
     checks.ipns = await checkIpns(target.ipns.name, target.cid);
@@ -134,7 +172,7 @@ const main = async () => {
   }
 
   if (options.checkEthLimo) {
-    checks.ethLimo = await checkEthLimo(options.ensName);
+    checks.ethLimo = await checkEthLimo(options.ensName, options.timeoutMs);
   }
 
   const pass = Object.values(checks)

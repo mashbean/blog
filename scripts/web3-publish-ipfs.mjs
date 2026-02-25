@@ -18,7 +18,8 @@ const parseArgs = () => {
     recordPath: "docs/web3-ipfs-releases.json",
     maxRetries: 3,
     retryBaseMs: 1200,
-    pinName: ""
+    pinName: "",
+    requestTimeoutMs: 180000
   };
 
   for (let i = 0; i < args.length; i += 1) {
@@ -29,6 +30,7 @@ const parseArgs = () => {
     if (arg === "--max-retries" && args[i + 1]) options.maxRetries = Number(args[++i]);
     if (arg === "--retry-ms" && args[i + 1]) options.retryBaseMs = Number(args[++i]);
     if (arg === "--name" && args[i + 1]) options.pinName = String(args[++i]).trim();
+    if (arg === "--timeout-ms" && args[i + 1]) options.requestTimeoutMs = Number(args[++i]);
   }
 
   if (!Number.isInteger(options.maxRetries) || options.maxRetries < 1) {
@@ -36,6 +38,9 @@ const parseArgs = () => {
   }
   if (!Number.isInteger(options.retryBaseMs) || options.retryBaseMs < 0) {
     throw new Error("Invalid --retry-ms value");
+  }
+  if (!Number.isInteger(options.requestTimeoutMs) || options.requestTimeoutMs < 1000) {
+    throw new Error("Invalid --timeout-ms value");
   }
 
   return options;
@@ -95,18 +100,29 @@ const buildPinataFormData = async (entries, pinName) => {
   return form;
 };
 
-const uploadDirectoryToPinata = async ({ entries, jwt, pinName, maxRetries, retryBaseMs }) => {
+const uploadDirectoryToPinata = async ({
+  entries,
+  jwt,
+  pinName,
+  maxRetries,
+  retryBaseMs,
+  requestTimeoutMs
+}) => {
   let lastError = null;
   for (let attempt = 1; attempt <= maxRetries; attempt += 1) {
     try {
       const form = await buildPinataFormData(entries, pinName);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), requestTimeoutMs);
       const response = await fetch(PINATA_ENDPOINT, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${jwt}`
         },
-        body: form
+        body: form,
+        signal: controller.signal
       });
+      clearTimeout(timeout);
 
       if (!response.ok) {
         const text = await response.text();
@@ -196,7 +212,8 @@ const main = async () => {
     jwt: pinataJwt,
     pinName,
     maxRetries: options.maxRetries,
-    retryBaseMs: options.retryBaseMs
+    retryBaseMs: options.retryBaseMs,
+    requestTimeoutMs: options.requestTimeoutMs
   });
 
   const cid = String(result.IpfsHash);

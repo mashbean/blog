@@ -13,7 +13,8 @@ const parseArgs = () => {
     key: "self",
     recordPath: "docs/web3-ipfs-releases.json",
     releaseId: "",
-    dryRun: false
+    dryRun: false,
+    allowOffline: false
   };
 
   for (let i = 0; i < args.length; i += 1) {
@@ -23,6 +24,7 @@ const parseArgs = () => {
     if (arg === "--record" && args[i + 1]) options.recordPath = String(args[++i]).trim();
     if (arg === "--release-id" && args[i + 1]) options.releaseId = String(args[++i]).trim();
     if (arg === "--dry-run") options.dryRun = true;
+    if (arg === "--allow-offline") options.allowOffline = true;
   }
 
   if (!options.cid) throw new Error("Missing --cid");
@@ -74,7 +76,10 @@ const main = async () => {
     return;
   }
 
-  const publishOutput = await runIpfs(["name", "publish", "--key", options.key, publishPath]);
+  const publishArgs = ["name", "publish", "--key", options.key];
+  if (options.allowOffline) publishArgs.push("--allow-offline");
+  publishArgs.push(publishPath);
+  const publishOutput = await runIpfs(publishArgs);
   const match = publishOutput.match(/Published to (\S+):\s*(\/ipfs\/\S+)/);
   if (!match) {
     throw new Error(`Failed to parse ipfs publish output: ${publishOutput}`);
