@@ -74,8 +74,17 @@ npm run web3:healthcheck
 - 觸發：`main` 分支有文章或封面相關變更
 - 流程：
   - build -> web3:build:ipfs -> `ipfs add -Qr dist-ipfs` -> `ipfs routing provide -r` -> `web3:ipns:update`
+  - 先將 ENS 設為 `IPFS CID`（穩定預設）
+  - 探測 `IPNS` 在多 gateway 的可讀性
+  - 只有探測通過才升級 ENS 到 `IPNS`
+  - 探測失敗則保留 `ENS -> CID`（不升級，避免 `.eth.limo` 500）
   - 若有 `IPFS_PINATA_JWT` secret，額外 `pinByHash`
 - 重要：runner 必須是 `self-hosted`，且該機器要有可用的 IPFS repo 與 `self` key
+
+## 穩定性策略（重要）
+- 生產預設：`ENS -> IPFS CID`
+- 升級條件：IPNS 探測通過才切換成 `ENS -> IPNS`
+- 回退原則：若出現 `.eth.limo` 500/504，立即切回 `ENS -> IPFS CID`
 
 ## 已踩坑與警示（重點）
 
@@ -104,10 +113,22 @@ npm run web3:healthcheck
 - 常見原因：
   - CID 雖上鏈，但 provider 可達性不足
   - gateway 快取與傳播延遲
+  - IPNS 解析在某些 gateway 短暫不可用
 - 排除：
   - `ipfs routing provide -r <cid>`
   - 確認 IPNS resolve 與 ENS contenthash 一致
   - 等待 propagation（觀察過約數分鐘）
+  - 必要時改回 `ENS -> IPFS CID` 先止血
+
+### 8) `.eth.limo` 出現 `HTTP 500`，但 IPNS 本機可解
+- 現象：
+  - `ipfs name resolve /ipns/<name>` 正常
+  - `.eth.limo` 仍回 500
+- 解讀：
+  - 多半是「外部 gateway 對 IPNS 可達性」問題，不是文章內容壞掉
+- 快速止血：
+  - `npm run web3:ens:contenthash -- --name mashbean.eth --cid <stable-cid>`
+  - 等站點恢復後再評估是否升回 IPNS
 
 ### 6) 文章列表頁消失
 - 曾發生原因：compact prune 把 `blog/index.html` 刪掉。

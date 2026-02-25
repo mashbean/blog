@@ -25,7 +25,9 @@ jobs:
       PUBLIC_TIP_ENS_NAME: "mashbean.eth"
       PUBLIC_WEB3_CHAIN_ID: "1"
       PUBLIC_WEB3_RPC_URL: "https://ethereum.publicnode.com"
+      WEB3_SIGNER_PRIVATE_KEY: ${{ secrets.WEB3_SIGNER_PRIVATE_KEY }}
       IPNS_KEY_NAME: "self"
+      IPNS_NAME: "k51qzi5uqu5dj88qpatq3fb4ns3rydcnho4j6jcqjpztyudroltdmlzes3ox2l"
       IPFS_PINATA_JWT: ${{ secrets.IPFS_PINATA_JWT }}
     steps:
       - name: Checkout
@@ -64,6 +66,55 @@ jobs:
           ipfs routing provide -r "$CID" || true
           npm run web3:ipns:update -- --cid "$CID" --key "$IPNS_KEY_NAME"
 
+      - name: Set ENS contenthash to CID (stable default)
+        if: ${{ env.WEB3_SIGNER_PRIVATE_KEY != '' }}
+        env:
+          CID: ${{ steps.publish.outputs.cid }}
+        run: |
+          npm run web3:ens:contenthash -- --name "$PUBLIC_TIP_ENS_NAME" --cid "$CID"
+
+      - name: Probe IPNS reachability across gateways
+        id: ipns_probe
+        shell: bash
+        run: |
+          set +e
+          GATEWAYS=(
+            "https://ipfs.io/ipns/$IPNS_NAME/"
+            "https://dweb.link/ipns/$IPNS_NAME/"
+          )
+          READY=1
+          for gw in "${GATEWAYS[@]}"; do
+            OK=0
+            for _ in 1 2 3 4; do
+              code="$(curl -sS -L -o /dev/null -w "%{http_code}" "$gw" || true)"
+              if [ "$code" = "200" ]; then
+                OK=1
+                break
+              fi
+              sleep 5
+            done
+            if [ "$OK" -ne 1 ]; then
+              READY=0
+              echo "IPNS probe failed for $gw"
+            fi
+          done
+          if [ "$READY" -eq 1 ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          fi
+          exit 0
+
+      - name: Promote ENS contenthash to IPNS (only when probe passes)
+        if: ${{ env.WEB3_SIGNER_PRIVATE_KEY != '' && steps.ipns_probe.outputs.ready == 'true' }}
+        run: |
+          npm run web3:ens:contenthash -- --name "$PUBLIC_TIP_ENS_NAME" --ipns "$IPNS_NAME"
+
+      - name: Keep ENS on CID when IPNS probe fails
+        if: ${{ env.WEB3_SIGNER_PRIVATE_KEY != '' && steps.ipns_probe.outputs.ready != 'true' }}
+        run: |
+          echo "IPNS probe failed; ENS remains pinned to CID for stability."
+
       - name: Pin CID to Pinata (optional)
         if: ${{ env.IPFS_PINATA_JWT != '' }}
         env:
@@ -98,3 +149,5 @@ jobs:
         run: |
           echo "Published CID: $CID"
           echo "IPNS key: $IPNS_KEY_NAME"
+          echo "IPNS name: $IPNS_NAME"
+          echo "IPNS probe ready: ${{ steps.ipns_probe.outputs.ready }}"
