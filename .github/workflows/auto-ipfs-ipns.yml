@@ -1,0 +1,100 @@
+name: Auto Publish IPFS + IPNS
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "src/content/blog/**"
+      - "public/images/covers/home/**"
+      - "src/content.config.ts"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "ipfs-ipns-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  publish-ipfs-ipns:
+    runs-on: self-hosted
+    env:
+      SITE_URL: "https://mashbean.net"
+      BASE_PATH: "/"
+      PUBLIC_TIP_ENS_NAME: "mashbean.eth"
+      PUBLIC_WEB3_CHAIN_ID: "1"
+      PUBLIC_WEB3_RPC_URL: "https://ethereum.publicnode.com"
+      IPNS_KEY_NAME: "self"
+      IPFS_PINATA_JWT: ${{ secrets.IPFS_PINATA_JWT }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Ensure IPFS daemon is available
+        shell: bash
+        run: |
+          if ! ipfs swarm peers >/dev/null 2>&1; then
+            nohup ipfs daemon > /tmp/ipfs-daemon.log 2>&1 &
+            sleep 10
+          fi
+          ipfs swarm peers >/dev/null 2>&1
+
+      - name: Build site
+        run: npm run build
+
+      - name: Build compact IPFS dist
+        run: npm run web3:build:ipfs
+
+      - name: Add dist-ipfs to local IPFS and update IPNS
+        id: publish
+        shell: bash
+        run: |
+          CID="$(ipfs add -Qr dist-ipfs)"
+          echo "cid=$CID" >> "$GITHUB_OUTPUT"
+          ipfs routing provide -r "$CID" || true
+          npm run web3:ipns:update -- --cid "$CID" --key "$IPNS_KEY_NAME"
+
+      - name: Pin CID to Pinata (optional)
+        if: ${{ env.IPFS_PINATA_JWT != '' }}
+        env:
+          CID: ${{ steps.publish.outputs.cid }}
+        run: |
+          node --input-type=module -e '
+            const jwt = process.env.IPFS_PINATA_JWT;
+            const cid = process.env.CID;
+            const body = {
+              hashToPin: cid,
+              pinataMetadata: { name: `mashbean-auto-${new Date().toISOString()}` }
+            };
+            const res = await fetch("https://api.pinata.cloud/pinning/pinByHash", {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${jwt}`,
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(body)
+            });
+            if (!res.ok) {
+              const txt = await res.text();
+              throw new Error(`Pinata pinByHash failed (${res.status}): ${txt.slice(0, 400)}`);
+            }
+            const data = await res.json();
+            console.log(JSON.stringify({ cid, pinata: data }, null, 2));
+          '
+
+      - name: Summary
+        env:
+          CID: ${{ steps.publish.outputs.cid }}
+        run: |
+          echo "Published CID: $CID"
+          echo "IPNS key: $IPNS_KEY_NAME"
