@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { buildPostUrl } from "@/utils/blog";
+import { resolveCoverPath } from "@/utils/cover";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
@@ -13,13 +14,21 @@ interface Props {
 
 const { post, variant = "default", minimal = false } = Astro.props as Props;
 const url = buildPostUrl(post);
-const coverSrc = post.data.cover
-  ? /^https?:\/\//.test(post.data.cover)
-    ? post.data.cover
-    : withBase(post.data.cover)
+const resolvedCover = resolveCoverPath(post.data.cover);
+const coverSrc = resolvedCover
+  ? /^https?:\/\//.test(resolvedCover.primary)
+    ? resolvedCover.primary
+    : withBase(resolvedCover.primary)
+  : undefined;
+const coverFallbackSrc = resolvedCover?.fallback
+  ? /^https?:\/\//.test(resolvedCover.fallback)
+    ? resolvedCover.fallback
+    : withBase(resolvedCover.fallback)
   : undefined;
 const fallbackLabel = post.data.category ?? "文章";
 const postTitle = cleanPostTitle(post.data.title);
+const imageFallbackHandler =
+  "if(this.dataset.fallback){this.src=this.dataset.fallback;this.removeAttribute('data-fallback');}";
 const readingMinutes = (() => {
   const plain = (post.body ?? "")
     .replace(/```[\s\S]*?```/g, " ")
@@ -39,6 +48,8 @@ const readingMinutes = (() => {
       <img
         class="post-card-thumb"
         src={coverSrc}
+        data-fallback={coverFallbackSrc}
+        onerror={imageFallbackHandler}
         alt={post.data.coverAlt ?? postTitle}
         loading="lazy"
         decoding="async"

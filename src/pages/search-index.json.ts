@@ -16,6 +16,8 @@ interface SearchDocument {
   topics?: string[];
 }
 
+const SEARCH_BODY_LIMIT = 900;
+
 const staticPages: SearchDocument[] = [
   {
     id: "page:home",
@@ -96,7 +98,7 @@ export const GET: APIRoute = async () => {
     });
     const tags = [...classified.topics, ...classified.keywords, ...classified.secondaryKeywords];
     const aliasTerms = classified.topics.flatMap((topic) => getTopicAliasKeywords(topic));
-    const searchableBody = normalizeForIndex(post.body ?? "").slice(0, 2800);
+    const searchableBody = normalizeForIndex(post.body ?? "").slice(0, SEARCH_BODY_LIMIT);
     const searchableText = [
       post.data.description,
       post.data.category ?? "",

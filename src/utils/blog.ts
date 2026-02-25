@@ -82,12 +82,16 @@ function getVerbosePathSegment(post: BlogEntry): string {
   return `${year}/${monthDay}-${shortened || "post"}`;
 }
 
-export function getPostPathCandidates(post: BlogEntry): string[] {
-  const candidates = [
-    getPostCanonicalPathSegment(post),
-    getVerbosePathSegment(post),
-    getLegacyPostPathSegment(post)
-  ];
+interface PostPathCandidateOptions {
+  includeVerboseLegacy?: boolean;
+}
+
+export function getPostPathCandidates(post: BlogEntry, options: PostPathCandidateOptions = {}): string[] {
+  const includeVerboseLegacy = options.includeVerboseLegacy ?? !import.meta.env.PROD;
+  const candidates = [getPostCanonicalPathSegment(post), getLegacyPostPathSegment(post)];
+  if (includeVerboseLegacy) {
+    candidates.splice(1, 0, getVerbosePathSegment(post));
+  }
   return [...new Set(candidates)];
 }
 

@@ -5,6 +5,7 @@ import { buildPostUrl, getBlogPosts, getPostCanonicalPathSegment, getPostPathCan
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
+import { resolveCoverPath } from "@/utils/cover";
 import { classifyPostTags } from "@/utils/blogTags";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
 import { verifyArticleSignature } from "@/utils/articleSignature";
@@ -81,7 +82,7 @@ const signerEnsVerified =
 const signerEnsStatusText = signerEnsName
   ? signerEnsVerified
     ? "已驗證"
-    : "已驗證"
+    : "待驗證"
   : "未設定";
 const signerEnsStatusHint =
   signerEnsStatusText === "待驗證"
@@ -99,12 +100,19 @@ const semanticTagsCurrent = [
   ...classifiedCurrent.secondaryKeywords
 ];
 
-const coverSrc =
-  post.data.cover && /^https?:\/\//.test(post.data.cover)
-    ? post.data.cover
-    : post.data.cover
-      ? withBase(post.data.cover)
-      : undefined;
+const resolvedCover = resolveCoverPath(post.data.cover);
+const coverSrc = resolvedCover
+  ? /^https?:\/\//.test(resolvedCover.primary)
+    ? resolvedCover.primary
+    : withBase(resolvedCover.primary)
+  : undefined;
+const coverFallbackSrc = resolvedCover?.fallback
+  ? /^https?:\/\//.test(resolvedCover.fallback)
+    ? resolvedCover.fallback
+    : withBase(resolvedCover.fallback)
+  : undefined;
+const imageFallbackHandler =
+  "if(this.dataset.fallback){this.src=this.dataset.fallback;this.removeAttribute('data-fallback');}";
 
 const canonicalURL = post.data.canonicalURL;
 const pageURL = canonicalURL ??
@@ -246,7 +254,7 @@ const articleStructuredData = {
   title={postTitle}
   description={post.data.description}
   canonicalURL={effectiveCanonicalURL}
-  ogImage={post.data.cover}
+  ogImage={resolvedCover?.primary ?? post.data.cover}
   ogType="article"
   structuredData={isLegacyPath ? null : articleStructuredData}
   isArticle={!isLegacyPath}
@@ -387,7 +395,13 @@ const articleStructuredData = {
 
       {coverSrc && (
         <figure class="article-cover">
-          <img src={coverSrc} alt={post.data.coverAlt ?? postTitle} loading="lazy" />
+          <img
+            src={coverSrc}
+            data-fallback={coverFallbackSrc}
+            onerror={imageFallbackHandler}
+            alt={post.data.coverAlt ?? postTitle}
+            loading="lazy"
+          />
         </figure>
       )}
 

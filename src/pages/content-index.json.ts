@@ -3,6 +3,8 @@ import { buildPostUrl, getBlogPosts } from "@/utils/blog";
 import { classifyPostTags } from "@/utils/blogTags";
 import { cleanPostTitle } from "@/utils/title";
 
+const CONTENT_INDEX_BODY_LIMIT = 1200;
+
 function normalizeForIndex(text: string): string {
   return text
     .replace(/```[\s\S]*?```/g, " ")
@@ -36,8 +38,7 @@ export const GET: APIRoute = async () => {
       topics: classified.topics,
       keywords: classified.keywords,
       secondaryKeywords: classified.secondaryKeywords,
-      keywordScores: classified.keywordScores,
-      content: normalizeForIndex(post.body ?? "").slice(0, 3000)
+      content: normalizeForIndex(post.body ?? "").slice(0, CONTENT_INDEX_BODY_LIMIT)
     };
   });
 
