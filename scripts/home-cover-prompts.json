@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T06:40:35.828Z",
+  "generatedAt": "2026-02-26T07:27:39.364Z",
   "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
   "items": [
@@ -21,6 +21,27 @@
         "一週重啟部落格編年記",
         "一週重啟部落格編",
         "年記"
+      ],
+      "motif": "network"
+    },
+    {
+      "file": "2026-02-26-10000-篇臉書文之後.md",
+      "title": "10,000 篇臉書文之後",
+      "coverPng": "images/covers/home/2026-02-26-10000-篇臉書文之後.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 2311021357,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: 公共網路, ai與科技, 數位自主, 部落格, blog, 10,000 篇臉書文之後",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "keywords": [
+        "公共網路",
+        "ai與科技",
+        "數位自主",
+        "部落格",
+        "blog",
+        "10,000 篇臉書文之後",
+        "懶惰的聰明人",
+        "篇臉書文之後"
       ],
       "motif": "network"
     },
@@ -233,27 +254,6 @@
         "來源"
       ],
       "motif": "identity"
-    },
-    {
-      "file": "2025-08-21-先進的數位身分法令是什麼模樣-豆泥-matters.md",
-      "title": "先進的數位身分法令是什麼模樣？ - 豆泥 - Matters",
-      "coverPng": "images/covers/home/2025-08-21-先進的數位身分法令是什麼模樣-豆泥-matters.jpg",
-      "width": 1200,
-      "height": 630,
-      "seed": 3333302858,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: 身分, 與第, 條定義相同, matters, 政府機構, 生物特徵資料",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
-      "keywords": [
-        "身分",
-        "與第",
-        "條定義相同",
-        "matters",
-        "政府機構",
-        "生物特徵資料",
-        "數位身分",
-        "首席隱私官"
-      ],
-      "motif": "privacy"
     }
   ]
 }
