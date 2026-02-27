@@ -16,6 +16,7 @@ export const GET: APIRoute = async ({ site, url }) => {
     "## Key URLs",
     `${base}${withBase("")}`,
     `${base}${withBase("blog/")}`,
+    `${base}${withBase("blog/facebook/")}`,
     `${base}${withBase("tags/")}`,
     `${base}${withBase("search/")}`,
     `${base}${withBase("rss.xml")}`,

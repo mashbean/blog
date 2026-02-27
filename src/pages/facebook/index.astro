@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/paths";
+
+const target = withBase("tags/?source=facebook");
+---
+
+<BaseLayout title="臉書文" description="臉書文已整合到標籤與搜尋。">
+  <section class="subscribe-panel">
+    <h1 class="section-title" style="margin-top: 0;">臉書文入口已整合</h1>
+    <p>臉書文已整合到標籤與搜尋。</p>
+    <p>
+      立即前往：<a href={target}>{target}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ target }}>
+  if (window.location.pathname.endsWith('/facebook/') || window.location.pathname.endsWith('/facebook')) {
+    window.location.replace(target);
+  }
+</script>

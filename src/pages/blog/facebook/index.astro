@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/paths";
+
+const target = withBase("tags/?source=facebook");
+---
+
+<BaseLayout title="臉書文" description="臉書文已整合到精選文章與標籤頁。">
+  <section class="subscribe-panel">
+    <h1 class="section-title" style="margin-top: 0;">臉書文已整合到精選文章</h1>
+    <p>臉書文精選已合併到「精選文章」，來源篩選請在標籤頁操作。</p>
+    <p>
+      前往：<a href={target}>{target}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ target }}>
+  window.location.replace(target);
+</script>

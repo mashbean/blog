@@ -1,11 +1,15 @@
 node_modules
+node_modules_root_residual
 dist
+dist-ipfs
 .astro
+.astro_root_residual
 .env
 .env*
 !.env.example
 tmp
 reports
 .DS_Store
+*.swp
 scripts/*-report.json
 scripts/__pycache__

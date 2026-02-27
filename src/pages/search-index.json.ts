@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { buildFacebookPostUrl, getFacebookPosts } from "@/utils/facebook";
 import { classifyPostTags, getTopicAliasKeywords } from "@/utils/blogTags";
 import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
@@ -9,7 +10,7 @@ interface SearchDocument {
   title: string;
   description: string;
   url: string;
-  type: "post" | "page";
+  type: "post" | "facebook_post" | "page";
   pubDate?: string;
   content: string;
   tags: string[];
@@ -30,12 +31,21 @@ const staticPages: SearchDocument[] = [
   },
   {
     id: "page:blog",
-    title: "文章列表",
-    description: "依日期瀏覽所有文章。",
+    title: "精選文章",
+    description: "依日期瀏覽精選文章。",
     url: withBase("blog/"),
     type: "page",
-    content: "文章列表 年份導覽 歷史文章",
-    tags: ["文章", "年份", "歸檔"]
+    content: "精選文章 年份導覽",
+    tags: ["精選文章", "文章", "年份"]
+  },
+  {
+    id: "page:blog-facebook",
+    title: "臉書文",
+    description: "瀏覽納入精選的臉書文。",
+    url: withBase("blog/facebook/"),
+    type: "page",
+    content: "臉書文 精選 臉書文章",
+    tags: ["臉書文", "Facebook", "精選"]
   },
   {
     id: "page:tags",
@@ -88,6 +98,7 @@ function normalizeForIndex(text: string): string {
 
 export const GET: APIRoute = async () => {
   const posts = await getBlogPosts();
+  const facebookPosts = await getFacebookPosts();
 
   const postDocs: SearchDocument[] = posts.map((post) => {
     const classified = classifyPostTags({
@@ -124,7 +135,48 @@ export const GET: APIRoute = async () => {
     };
   });
 
-  return new Response(JSON.stringify([...staticPages, ...postDocs]), {
+  const facebookDocs: SearchDocument[] = facebookPosts.map((post) => {
+    const classified = classifyPostTags({
+      title: cleanPostTitle(post.data.title),
+      description: post.data.description,
+      body: post.body,
+      tags: post.data.tags
+    });
+    const tags = [
+      "臉書文",
+      "Facebook",
+      ...classified.topics,
+      ...classified.keywords,
+      ...classified.secondaryKeywords
+    ];
+    const aliasTerms = classified.topics.flatMap((topic) => getTopicAliasKeywords(topic));
+    const searchableBody = normalizeForIndex(post.body ?? "").slice(0, SEARCH_BODY_LIMIT);
+    const searchableText = [
+      post.data.description,
+      post.data.category ?? "",
+      classified.topics.join(" "),
+      classified.keywords.join(" "),
+      classified.secondaryKeywords.join(" "),
+      aliasTerms.join(" "),
+      searchableBody
+    ]
+      .filter(Boolean)
+      .join(" ");
+
+    return {
+      id: `facebook:${post.id}`,
+      title: cleanPostTitle(post.data.title),
+      description: post.data.description,
+      url: buildFacebookPostUrl(post),
+      type: "facebook_post",
+      pubDate: post.data.pubDate.toISOString(),
+      content: searchableText,
+      tags,
+      topics: classified.topics
+    };
+  });
+
+  return new Response(JSON.stringify([...staticPages, ...postDocs, ...facebookDocs]), {
     headers: {
       "content-type": "application/json; charset=utf-8",
       "cache-control": "public, max-age=600"

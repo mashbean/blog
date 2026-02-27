@@ -2,8 +2,6 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { withBase } from "@/utils/paths";
 
-const pagefindScriptUrl = withBase("pagefind/pagefind-ui.js");
-const pagefindStyleUrl = withBase("pagefind/pagefind-ui.css");
 const fallbackIndexUrl = withBase("search-index.json");
 ---
 
@@ -12,7 +10,7 @@ const fallbackIndexUrl = withBase("search-index.json");
   <p class="search-intro">快速查找全站文章與頁面內容。</p>
 
   <section class="search-panel" aria-label="站內搜尋">
-    <p id="pagefind-status" class="search-status" aria-live="polite" hidden></p>
+    <p id="search-status" class="search-status" aria-live="polite" hidden></p>
     <div id="search-state-stack" class="search-state-stack" aria-live="polite">
       <p class="search-state" data-state="loading" hidden>搜尋索引載入中...</p>
       <p class="search-state" data-state="idle" hidden>請輸入關鍵字開始搜尋。</p>
@@ -21,8 +19,7 @@ const fallbackIndexUrl = withBase("search-index.json");
         搜尋暫時不可用，請稍後再試。
       </p>
     </div>
-    <div id="pagefind-search"></div>
-    <div id="search-fallback" class="search-fallback" hidden>
+    <div id="search-fallback" class="search-fallback">
       <form id="site-search-form" class="search-form" role="search">
         <div class="search-form-row">
           <input
@@ -41,25 +38,23 @@ const fallbackIndexUrl = withBase("search-index.json");
     </div>
   </section>
   <p class="search-graph-cta">
-    <a class="search-graph-cta-link" href={withBase("tags-graph/")}>與豆泥的大腦互動（實驗版）</a>
+    <span class="search-graph-cta-text">與豆泥的大腦互動</span>
+    <a class="search-graph-cta-btn" href={withBase("tags-graph/")}>3D 搜尋</a>
   </p>
 </BaseLayout>
 
-<script is:inline define:vars={{ pagefindScriptUrl, pagefindStyleUrl, fallbackIndexUrl }}>
+<script is:inline define:vars={{ fallbackIndexUrl }}>
   const track = (name, props = {}) => {
     if (typeof window.mbTrack === "function") window.mbTrack(name, props);
   };
 
-  const status = document.querySelector("#pagefind-status");
-  const searchRoot = document.querySelector("#pagefind-search");
   const query = new URLSearchParams(window.location.search).get("q") ?? "";
-  const fallbackRoot = document.querySelector("#search-fallback");
   const fallbackForm = document.querySelector("#site-search-form");
   const fallbackInput = document.querySelector("#site-search-input");
   const fallbackResults = document.querySelector("#site-search-results");
   const fallbackCount = document.querySelector("#site-search-count");
   const stateNodes = Array.from(document.querySelectorAll(".search-state"));
-  let currentSearchMode = "pagefind";
+  const status = document.querySelector("#search-status");
 
   const setSearchState = (nextState) => {
     stateNodes.forEach((node) => {
@@ -72,25 +67,6 @@ const fallbackIndexUrl = withBase("search-index.json");
     if (!(status instanceof HTMLElement)) return;
     status.textContent = message;
     status.hidden = message.length === 0;
-  };
-
-  const loadScript = (src) =>
-    new Promise((resolve, reject) => {
-      const tag = document.createElement("script");
-      tag.src = src;
-      tag.async = true;
-      tag.onload = () => resolve(true);
-      tag.onerror = () => reject(new Error(`Unable to load ${src}`));
-      document.head.appendChild(tag);
-    });
-
-  const loadStylesheet = (href) => {
-    if (document.querySelector(`link[data-pagefind=\"${href}\"]`)) return;
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = href;
-    link.dataset.pagefind = href;
-    document.head.appendChild(link);
   };
 
   const normalize = (value) => value.toLocaleLowerCase("zh-TW").normalize("NFKC").trim();
@@ -155,9 +131,89 @@ const fallbackIndexUrl = withBase("search-index.json");
     }).format(date);
   };
 
+  const typeLabel = (type) => {
+    if (type === "post") return "精選文章";
+    if (type === "facebook_post") return "臉書文";
+    return "頁面";
+  };
+
+  const typePriority = (type) => {
+    if (type === "page") return 0;
+    if (type === "post") return 1;
+    if (type === "facebook_post") return 2;
+    return 3;
+  };
+
+  const toTimestamp = (raw) => {
+    if (!raw) return 0;
+    const time = new Date(raw).getTime();
+    return Number.isFinite(time) ? time : 0;
+  };
+
+  const renderResults = (items, q) => {
+    fallbackResults.innerHTML = "";
+    const tokens = tokenize(q);
+
+    if (!q) {
+      setSearchState("idle");
+      if (fallbackCount instanceof HTMLElement) {
+        fallbackCount.textContent = "";
+        fallbackCount.hidden = true;
+      }
+      return;
+    }
+    if (items.length === 0) {
+      setSearchState("empty");
+      fallbackResults.innerHTML = `<li class="search-result-item">找不到符合的結果。</li>`;
+      if (fallbackCount instanceof HTMLElement) {
+        fallbackCount.textContent = "0 筆結果";
+        fallbackCount.hidden = false;
+      }
+      return;
+    }
+
+    setSearchState("ready");
+    if (fallbackCount instanceof HTMLElement) {
+      fallbackCount.textContent = `${items.length} 筆結果`;
+      fallbackCount.hidden = false;
+    }
+
+    for (const item of items) {
+      const isContentDoc = item.type === "post" || item.type === "facebook_post";
+      const dateLabel = isContentDoc ? formatDate(item.pubDate) : "";
+      const topics = Array.isArray(item.topics) ? item.topics.slice(0, 3) : [];
+      const tags = Array.isArray(item.tags)
+        ? item.tags.filter((tag) => !topics.includes(tag)).slice(0, 4)
+        : [];
+      const hitZones = detectHitZones(item, tokens);
+      const metaParts = [typeLabel(item.type), dateLabel].filter(Boolean);
+      const li = document.createElement("li");
+      li.className = "search-result-item";
+      li.innerHTML = `
+        <div class="search-result-top">
+          <a class="search-result-link" href="${item.url}">${highlight(item.title, tokens)}</a>
+          <span class="search-result-meta">${metaParts.join(" · ")}</span>
+        </div>
+        ${
+          hitZones.length > 0
+            ? `<p class="search-hit-zone">命中：${hitZones.map((zone) => `<span>${zone}</span>`).join("")}</p>`
+            : ""
+        }
+        <p class="search-result-snippet">${highlight(item.description ?? "", tokens)}</p>
+        ${
+          topics.length > 0 || tags.length > 0
+            ? `<ul class="search-result-tags">
+                ${topics.map((tag) => `<li class="search-result-tag-topic">${highlight(tag, tokens)}</li>`).join("")}
+                ${tags.map((tag) => `<li class="search-result-tag-keyword">${highlight(tag, tokens)}</li>`).join("")}
+              </ul>`
+            : ""
+        }
+      `;
+      fallbackResults.appendChild(li);
+    }
+  };
+
   const runFallbackSearch = async () => {
-    currentSearchMode = "fallback";
-    fallbackRoot.hidden = false;
     setSearchState("loading");
 
     let docs = [];
@@ -169,71 +225,9 @@ const fallbackIndexUrl = withBase("search-index.json");
     } catch (error) {
       setSearchState("error");
       setStatus("搜尋索引載入失敗，請稍後再試。");
-      console.error("[search-fallback] load index failed:", error);
+      console.error("[search] load index failed:", error);
       return;
     }
-
-    const renderResults = (items, q) => {
-      fallbackResults.innerHTML = "";
-      const tokens = tokenize(q);
-
-      if (!q) {
-        setSearchState("idle");
-        if (fallbackCount instanceof HTMLElement) {
-          fallbackCount.textContent = "";
-          fallbackCount.hidden = true;
-        }
-        return;
-      }
-      if (items.length === 0) {
-        setSearchState("empty");
-        fallbackResults.innerHTML = `<li class="search-result-item">找不到符合的結果。</li>`;
-        if (fallbackCount instanceof HTMLElement) {
-          fallbackCount.textContent = "0 筆結果";
-          fallbackCount.hidden = false;
-        }
-        return;
-      }
-
-      setSearchState("ready");
-      if (fallbackCount instanceof HTMLElement) {
-        fallbackCount.textContent = `${items.length} 筆結果`;
-        fallbackCount.hidden = false;
-      }
-
-      for (const item of items) {
-        const dateLabel = item.type === "post" ? formatDate(item.pubDate) : "";
-        const topics = Array.isArray(item.topics) ? item.topics.slice(0, 3) : [];
-        const tags = Array.isArray(item.tags)
-          ? item.tags.filter((tag) => !topics.includes(tag)).slice(0, 4)
-          : [];
-        const hitZones = detectHitZones(item, tokens);
-        const metaParts = [dateLabel].filter(Boolean);
-        const li = document.createElement("li");
-        li.className = "search-result-item";
-        li.innerHTML = `
-          <div class="search-result-top">
-            <a class="search-result-link" href="${item.url}">${highlight(item.title, tokens)}</a>
-            <span class="search-result-meta">${metaParts.join(" · ")}</span>
-          </div>
-          ${
-            hitZones.length > 0
-              ? `<p class="search-hit-zone">命中：${hitZones.map((zone) => `<span>${zone}</span>`).join("")}</p>`
-              : ""
-          }
-          <p class="search-result-snippet">${highlight(item.description ?? "", tokens)}</p>
-          ${
-            topics.length > 0 || tags.length > 0
-              ? `<ul class="search-result-tags">
-                  ${topics.map((tag) => `<li class="search-result-tag-topic">${highlight(tag, tokens)}</li>`).join("")}
-                  ${tags.map((tag) => `<li class="search-result-tag-keyword">${highlight(tag, tokens)}</li>`).join("")}
-                </ul>`
-              : ""
-          }
-        `;
-        fallbackResults.appendChild(li);
-      }
-    };
 
     const search = (q) => {
       const tokens = tokenize(q);
@@ -244,11 +238,15 @@ const fallbackIndexUrl = withBase("search-index.json");
       }
 
       const ranked = docs
-        .filter((doc) => doc.type === "post")
         .map((doc) => ({ doc, score: scoreDoc(doc, tokens) }))
         .filter((item) => item.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 80)
+        .sort((a, b) => {
+          const typeGap = typePriority(a.doc.type) - typePriority(b.doc.type);
+          if (typeGap !== 0) return typeGap;
+          if (b.score !== a.score) return b.score - a.score;
+          return toTimestamp(b.doc.pubDate) - toTimestamp(a.doc.pubDate);
+        })
+        .slice(0, 100)
         .map((item) => item.doc);
 
       renderResults(ranked, q);
@@ -258,9 +256,9 @@ const fallbackIndexUrl = withBase("search-index.json");
       event.preventDefault();
       const q = fallbackInput?.value.trim() ?? "";
       track("Search Used", {
-        mode: "fallback",
+        mode: "json",
         query_length: String(q.length),
-        scope: "post_only"
+        scope: "all_content"
       });
       search(q);
     });
@@ -280,99 +278,11 @@ const fallbackIndexUrl = withBase("search-index.json");
       if (!(target instanceof HTMLElement)) return;
       const link = target.closest(".search-result-link");
       if (!(link instanceof HTMLAnchorElement)) return;
-      track("Search Result Click", { mode: "fallback" });
+      track("Search Result Click", { mode: "json" });
     });
+
     search(query);
   };
 
-  (async () => {
-    setSearchState("loading");
-    try {
-      loadStylesheet(pagefindStyleUrl);
-      await loadScript(pagefindScriptUrl);
-      if (!window.PagefindUI || !searchRoot) throw new Error("PagefindUI unavailable");
-
-      const ui = new window.PagefindUI({
-        element: "#pagefind-search",
-        showSubResults: true,
-        showImages: false,
-        excerptLength: 16,
-        resetStyles: false,
-        translations: {
-          placeholder: "輸入關鍵字搜尋文章",
-          clear_search: "清除搜尋",
-          load_more: "載入更多結果",
-          search_label: "搜尋站內內容",
-          zero_results: "找不到符合的結果",
-          many_results: "[COUNT] 筆結果",
-          one_result: "[COUNT] 筆結果",
-          searching: "搜尋中...",
-        },
-      });
-      setStatus("");
-
-      if (query) {
-        await ui.triggerSearch(query);
-      }
-
-      setTimeout(() => {
-        const input = document.querySelector(".pagefind-ui__search-input");
-        if (input instanceof HTMLInputElement) {
-          if (query) input.value = query;
-          input.focus();
-          input.addEventListener("keydown", (event) => {
-            if (event.key !== "Enter") return;
-            const q = input.value.trim();
-            if (!q) return;
-            track("Search Used", {
-              mode: "pagefind",
-              query_length: String(q.length),
-              scope: "post_only"
-            });
-          });
-          input.addEventListener("input", () => {
-            if (currentSearchMode !== "pagefind") return;
-            if (!input.value.trim()) setSearchState("idle");
-          });
-        }
-      }, 0);
-
-      const syncPagefindState = () => {
-        if (currentSearchMode !== "pagefind") return;
-        const input = document.querySelector(".pagefind-ui__search-input");
-        const keyword = input instanceof HTMLInputElement ? input.value.trim() : query;
-        if (!keyword) {
-          setSearchState("idle");
-          return;
-        }
-        const resultCount = document.querySelectorAll(".pagefind-ui__result").length;
-        const isSearching = Boolean(document.querySelector(".pagefind-ui__message"));
-        if (resultCount > 0) {
-          setSearchState("ready");
-        } else if (isSearching) {
-          const message =
-            document.querySelector(".pagefind-ui__message")?.textContent?.trim() ?? "";
-          if (message.includes("找不到")) setSearchState("empty");
-          else setSearchState("loading");
-        } else {
-          setSearchState("empty");
-        }
-      };
-
-      const observer = new MutationObserver(() => syncPagefindState());
-      observer.observe(searchRoot, { childList: true, subtree: true });
-      searchRoot.addEventListener("click", (event) => {
-        const target = event.target;
-        if (!(target instanceof HTMLElement)) return;
-        const link = target.closest(".pagefind-ui__result-link");
-        if (!(link instanceof HTMLAnchorElement)) return;
-        track("Search Result Click", { mode: "pagefind" });
-      });
-      syncPagefindState();
-    } catch (error) {
-      console.warn("[pagefind] init failed, falling back to JSON search:", error);
-      await runFallbackSearch();
-      console.error("[pagefind] init failed:", error);
-    }
-  })();
+  runFallbackSearch();
 </script>
