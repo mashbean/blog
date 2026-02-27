@@ -1,15 +1,21 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { buildFacebookPostUrl, getFacebookPosts } from "@/utils/facebook";
 import { formatDate } from "@/utils/date";
 import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
 import { cleanPostTitle } from "@/utils/title";
 import { TOPIC_ROUTE_CODE_MAP } from "@/utils/topicRoutes";
 
-const allPosts = await getBlogPosts();
+const featuredPosts = await getBlogPosts();
+const facebookPosts = await getFacebookPosts();
 const topicCatalog = getTopicCatalog();
+const FACEBOOK_FILTER_EXCLUDE = new Set(["facebook", "imported", "fb-archive"]);
 
-const rows = allPosts.map((post) => {
+const toCharCount = (text: string | undefined) =>
+  (text ?? "").replace(/\s+/g, "").trim().length;
+
+const featuredRows = featuredPosts.map((post) => {
   const classified = classifyPostTags({
     title: cleanPostTitle(post.data.title),
     description: post.data.description,
@@ -18,86 +24,207 @@ const rows = allPosts.map((post) => {
   });
   return {
     post,
-    topics: classified.topics,
+    url: buildPostUrl(post),
+    featuredTopics: classified.topics,
+    facebookTopics: [] as string[],
+    source: "featured",
+    sourceLabel: "精選文章",
+    charCount: toCharCount(post.body),
   };
 });
 
-const yearOptions = Array.from(
-  new Set(allPosts.map((post) => post.data.pubDate.getFullYear())),
-).sort((a, b) => b - a);
+const facebookRows = facebookPosts.map((post) => {
+    const classified = classifyPostTags({
+      title: cleanPostTitle(post.data.title),
+      description: post.data.description,
+      body: post.body,
+      tags: post.data.tags,
+    });
+    const facebookTopics = (post.data.tags ?? []).filter((tag) => !FACEBOOK_FILTER_EXCLUDE.has(tag));
+    return {
+      post,
+      url: buildFacebookPostUrl(post),
+      featuredTopics: classified.topics,
+      facebookTopics,
+      source: "facebook",
+      sourceLabel: "臉書文",
+      charCount: toCharCount(post.body),
+    };
+  });
+
+const rows = [...featuredRows, ...facebookRows].sort((a, b) => b.post.data.pubDate.getTime() - a.post.data.pubDate.getTime());
+
+const toYearBucket = (year: number) => (year <= 2020 ? "pre2020" : String(year));
+const yearBucketOptions = Array.from(
+  new Set(rows.map((row) => toYearBucket(row.post.data.pubDate.getFullYear()))),
+).sort((a, b) => {
+  const yearA = a === "pre2020" ? 2020 : Number(a);
+  const yearB = b === "pre2020" ? 2020 : Number(b);
+  return yearB - yearA;
+});
+const toYearBucketLabel = (bucket: string) => (bucket === "pre2020" ? "2020 年以前" : `${bucket} 年`);
 
 const topicOptions = topicCatalog
   .map((item) => ({
     ...item,
-    count: rows.filter((row) => row.topics.includes(item.key)).length,
+    count: featuredRows.filter((row) => row.featuredTopics.includes(item.key)).length,
   }))
   .filter((item) => item.count > 0);
+
+const facebookTopicCount = new Map<string, number>();
+for (const row of facebookRows) {
+  for (const topic of row.facebookTopics) {
+    facebookTopicCount.set(topic, (facebookTopicCount.get(topic) ?? 0) + 1);
+  }
+}
+
+const toFacebookTopicName = (topic: string) =>
+  topic === "數位身份" ? "數位身分" : topic === "臨床現場" ? "臨床" : topic;
+
+const FACEBOOK_TOPIC_ORDER = ["啟蒙", "當兵", "臨床", "文化書寫", "公共治理", "數位身分"] as const;
+const FACEBOOK_TOPIC_ORDER_INDEX = new Map<string, number>(FACEBOOK_TOPIC_ORDER.map((topic, index) => [topic, index]));
+
+const facebookTopicOptions = Array.from(facebookTopicCount.entries())
+  .map(([topic, count]) => ({ topic, count }))
+  .sort((a, b) => {
+    const orderA = FACEBOOK_TOPIC_ORDER_INDEX.get(toFacebookTopicName(a.topic));
+    const orderB = FACEBOOK_TOPIC_ORDER_INDEX.get(toFacebookTopicName(b.topic));
+    const rankA = orderA ?? Number.MAX_SAFE_INTEGER;
+    const rankB = orderB ?? Number.MAX_SAFE_INTEGER;
+    if (rankA !== rankB) return rankA - rankB;
+    return a.topic.localeCompare(b.topic, "zh-Hant");
+  });
+
+const FACEBOOK_TOPIC_EMOJI: Record<string, string> = {
+  科技社會: "🧠",
+  文化書寫: "✍️",
+  公共治理: "🏛️",
+  臨床: "🩺",
+  臨床現場: "🩺",
+  當兵: "🪖",
+  啟蒙: "🌱",
+  數位身分: "🪪",
+  數位身份: "🪪",
+  其他: "🧩",
+};
+
+const toFacebookTopicLabel = (topic: string) => {
+  const normalized = toFacebookTopicName(topic);
+  return `${FACEBOOK_TOPIC_EMOJI[normalized] ?? FACEBOOK_TOPIC_EMOJI[topic] ?? "🏷️"} ${normalized}`;
+};
 
 const routeCodeToTopic = Object.fromEntries(
   Object.entries(TOPIC_ROUTE_CODE_MAP).map(([topic, code]) => [code, topic]),
 );
 ---
 
-<BaseLayout title="標籤" description="依主題與年份雙層導覽探索文章。">
+<BaseLayout title="標籤" description="依主題、來源與年份探索文章。">
   <h1 class="section-title">標籤</h1>
 
   <section class="tag-dual-nav" aria-label="標籤雙層導覽">
-    <div class="archive-quick-filter" role="group" aria-label="主題篩選">
-      <button type="button" class="archive-filter-btn is-active" data-topic="all">全部主題</button>
-      {
-        topicOptions.map((topic) => (
-          <button type="button" class="archive-filter-btn" data-topic={topic.key}>
-            {topic.icon} {topic.title}
-          </button>
-        ))
-      }
+    <div class="archive-filter-block" aria-label="全部主題與臉書標籤">
+      <h2 class="archive-filter-block-title">選擇主題</h2>
+      <div class="archive-quick-filter" role="group" aria-label="主題篩選">
+        <button id="toggle-featured" type="button" class="archive-filter-btn is-active" aria-pressed="true">精選</button>
+        {
+          topicOptions.map((topic) => (
+            <button type="button" class="archive-filter-btn" data-featured-topic={topic.key}>
+              {topic.icon} {topic.title}
+            </button>
+          ))
+        }
+      </div>
+      <div class="archive-quick-filter archive-source-row" role="group" aria-label="臉書來源切換">
+        <button
+          id="toggle-facebook"
+          type="button"
+          class="archive-filter-btn archive-filter-btn-facebook"
+          aria-pressed="false"
+        >
+          臉書
+        </button>
+        {
+          facebookTopicOptions.map((topic) => (
+            <button type="button" class="archive-filter-btn archive-filter-btn-fb-topic" data-fb-topic={topic.topic} hidden>
+              {toFacebookTopicLabel(topic.topic)}
+            </button>
+          ))
+        }
+      </div>
     </div>
 
-    <div class="archive-quick-filter" role="group" aria-label="年份篩選">
-      <button type="button" class="archive-filter-btn is-active" data-year="all">全年份</button>
-      {
-        yearOptions.map((year) => (
-          <button type="button" class="archive-filter-btn" data-year={String(year)}>
-            {year} 年
-          </button>
-        ))
-      }
+    <div class="archive-filter-block" aria-label="年份區塊">
+      <h2 class="archive-filter-block-title">選擇年份</h2>
+      <div class="archive-quick-filter" role="group" aria-label="年份篩選">
+        <button type="button" class="archive-filter-btn is-active" data-year="all">一輩子</button>
+        {
+          yearBucketOptions.map((yearBucket) => (
+            <button type="button" class="archive-filter-btn" data-year={yearBucket}>
+              {toYearBucketLabel(yearBucket)}
+            </button>
+          ))
+        }
+      </div>
     </div>
 
-    <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">
-      目前顯示全部主題、全部年份
-    </p>
+    <div class="archive-filter-toolbar" aria-label="排序與顯示設定">
+      <p id="tags-dual-status" class="archive-filter-status" aria-live="polite">
+        目前顯示一輩子（符合 0 篇）
+      </p>
+      <div class="archive-filter-actions archive-filter-actions-right" role="group" aria-label="排序方式">
+        <label class="archive-filter-select-wrap">
+          排序
+          <select id="archive-sort-select" class="archive-filter-select">
+            <option value="newest">最新到最舊</option>
+            <option value="oldest">最舊到最新</option>
+            <option value="long">字數多到少</option>
+            <option value="short">字數少到多</option>
+          </select>
+        </label>
+      </div>
+    </div>
 
     <ul id="tags-dual-list" class="archive-list">
       {
         rows.map((row) => (
           <li
             class="archive-item"
-            data-topics={row.topics.join("|")}
-            data-year={String(row.post.data.pubDate.getFullYear())}
+            data-featured-topics={row.featuredTopics.join("|")}
+            data-facebook-topics={row.facebookTopics.join("|")}
+            data-year={toYearBucket(row.post.data.pubDate.getFullYear())}
+            data-source={row.source}
+            data-date-ms={String(row.post.data.pubDate.getTime())}
+            data-char-count={String(row.charCount)}
           >
             <time class="archive-date" datetime={row.post.data.pubDate.toISOString()}>
               {formatDate(row.post.data.pubDate)}
             </time>
             <div class="archive-main">
-              <a class="archive-link" href={buildPostUrl(row.post)}>
+              <a class="archive-link" href={row.url}>
                 {cleanPostTitle(row.post.data.title)}
               </a>
               <p class="archive-meta">
-                主題：{row.topics.join("・")}
+                主題：
+                {row.source === "facebook" ? row.facebookTopics.map(toFacebookTopicName).join("・") : row.featuredTopics.join("・")}
                 {row.post.data.category && (
                   <>
                     {" · 分類："}
                     {row.post.data.category}
                   </>
                 )}
+                {" · 來源："}
+                {row.sourceLabel}
               </p>
             </div>
           </li>
         ))
       }
     </ul>
-    <p id="tags-dual-empty" class="empty-state" hidden>沒有符合目前主題與年份條件的文章。</p>
+    <p id="tags-dual-empty" class="empty-state" hidden>沒有符合目前篩選條件的文章。</p>
+    <div id="tags-dual-pager" class="archive-filter-actions archive-pager" hidden>
+      <span id="tags-load-status" class="archive-filter-status"></span>
+      <button id="tags-load-more" type="button" class="archive-filter-btn">載入更多</button>
+    </div>
   </section>
 </BaseLayout>
 
@@ -109,83 +236,198 @@ const routeCodeToTopic = Object.fromEntries(
   const toShortTopic = (topic) => topicRouteCodeMap[topic] ?? topic;
   const fromShortTopic = (segment) => routeCodeToTopic[segment] ?? decodeURIComponent(segment);
 
-  const topicButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-topic]"));
+  const featuredToggle = document.querySelector("#toggle-featured");
+  const featuredTopicButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-featured-topic]"));
+  const facebookTopicButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-fb-topic]"));
   const yearButtons = Array.from(document.querySelectorAll(".archive-filter-btn[data-year]"));
-  const rows = Array.from(document.querySelectorAll("#tags-dual-list .archive-item"));
+  const rowEls = Array.from(document.querySelectorAll("#tags-dual-list .archive-item"));
   const status = document.querySelector("#tags-dual-status");
   const empty = document.querySelector("#tags-dual-empty");
+  const facebookToggle = document.querySelector("#toggle-facebook");
+  const sortSelect = document.querySelector("#archive-sort-select");
+  const pager = document.querySelector("#tags-dual-pager");
+  const loadMoreBtn = document.querySelector("#tags-load-more");
+  const loadStatus = document.querySelector("#tags-load-status");
 
-  let activeTopic = "all";
+  const PAGE_SIZE = 50;
+  let includeFeatured = true;
+  let includeFacebook = false;
+  let activeFeaturedTopic = "all";
+  let activeFacebookTopic = "all";
   let activeYear = "all";
-  const validTopics = new Set(topicButtons.map((button) => button.dataset.topic ?? "all"));
+  let sortMode = "newest";
+  let page = 1;
+
+  const validFeaturedTopics = new Set(["all", ...featuredTopicButtons.map((button) => button.dataset.featuredTopic ?? "all")]);
+  const validFacebookTopics = new Set(["all", ...facebookTopicButtons.map((button) => button.dataset.fbTopic ?? "all")]);
   const validYears = new Set(yearButtons.map((button) => button.dataset.year ?? "all"));
+  const validSort = new Set(["newest", "oldest", "long", "short"]);
+
+  const rowData = rowEls.map((el) => ({
+    el,
+    featuredTopics: (el.getAttribute("data-featured-topics") ?? "").split("|").filter(Boolean),
+    facebookTopics: (el.getAttribute("data-facebook-topics") ?? "").split("|").filter(Boolean),
+    year: el.getAttribute("data-year") ?? "",
+    source: el.getAttribute("data-source") ?? "featured",
+    dateMs: Number(el.getAttribute("data-date-ms") ?? "0"),
+    charCount: Number(el.getAttribute("data-char-count") ?? "0"),
+  }));
 
   const getShareURL = () => {
     const url = new URL(window.location.href);
     const params = new URLSearchParams();
-    if (activeTopic !== "all") params.set("topic", toShortTopic(activeTopic));
+    if (activeFeaturedTopic !== "all") params.set("topic", toShortTopic(activeFeaturedTopic));
+    if (activeFacebookTopic !== "all") params.set("fbTopic", activeFacebookTopic);
     if (activeYear !== "all") params.set("year", activeYear);
+    const source = includeFeatured && includeFacebook ? "both" : includeFeatured ? "featured" : includeFacebook ? "facebook" : "none";
+    if (source !== "featured") params.set("source", source);
+    if (sortMode !== "newest") params.set("sort", sortMode);
+    if (page > 1) params.set("page", String(page));
     url.search = params.toString();
     return url.toString();
   };
 
   const syncURL = () => {
     const next = getShareURL();
-    if (next !== window.location.href) {
-      window.history.replaceState({}, "", next);
-    }
+    if (next !== window.location.href) window.history.replaceState({}, "", next);
   };
 
-  const updateStatus = (count) => {
+  const currentSourceLabel = () => {
+    if (includeFeatured && includeFacebook) return "精選文章＋臉書文";
+    if (includeFeatured) return "精選文章";
+    if (includeFacebook) return "臉書文";
+    return "未選擇來源";
+  };
+
+  const updateStatus = (_shownCount, matchedCount) => {
     if (!(status instanceof HTMLElement)) return;
-    const topicText =
-      activeTopic === "all"
-        ? "全部主題"
-        : (topicButtons
-            .find((button) => button.dataset.topic === activeTopic)
-            ?.textContent?.trim() ?? activeTopic);
-    const yearText = activeYear === "all" ? "全部年份" : `${activeYear} 年`;
-    status.textContent = `目前顯示 ${topicText}、${yearText}（${count} 篇）`;
+    const topicParts = [];
+    if (includeFeatured && activeFeaturedTopic !== "all") {
+      topicParts.push(featuredTopicButtons.find((button) => button.dataset.featuredTopic === activeFeaturedTopic)?.textContent?.trim() ?? activeFeaturedTopic);
+    }
+    if (includeFacebook && activeFacebookTopic !== "all") {
+      topicParts.push(`臉書：${facebookTopicButtons.find((button) => button.dataset.fbTopic === activeFacebookTopic)?.textContent?.trim() ?? activeFacebookTopic}`);
+    }
+    const yearText = activeYear === "all" ? "一輩子" : activeYear === "pre2020" ? "2020 年以前" : `${activeYear} 年`;
+    const topicText = topicParts.length > 0 ? `${topicParts.join("、")}、` : "";
+    status.textContent = `目前顯示 ${topicText}${yearText}（符合 ${matchedCount} 篇）`;
+  };
+
+  const sortRows = (arr) => {
+    const copy = [...arr];
+    if (sortMode === "oldest") return copy.sort((a, b) => a.dateMs - b.dateMs);
+    if (sortMode === "long") return copy.sort((a, b) => b.charCount - a.charCount || b.dateMs - a.dateMs);
+    if (sortMode === "short") return copy.sort((a, b) => a.charCount - b.charCount || b.dateMs - a.dateMs);
+    return copy.sort((a, b) => b.dateMs - a.dateMs);
   };
 
   const applyFilters = () => {
-    topicButtons.forEach((button) => {
-      button.classList.toggle("is-active", button.dataset.topic === activeTopic);
+    featuredTopicButtons.forEach((button) => {
+      button.classList.toggle("is-active", includeFeatured && button.dataset.featuredTopic === activeFeaturedTopic);
+      button.hidden = !includeFeatured;
+    });
+    facebookTopicButtons.forEach((button) => {
+      button.classList.toggle("is-active", includeFacebook && button.dataset.fbTopic === activeFacebookTopic);
+      button.hidden = !includeFacebook;
     });
     yearButtons.forEach((button) => {
       button.classList.toggle("is-active", button.dataset.year === activeYear);
     });
 
-    let visibleCount = 0;
-    for (const row of rows) {
-      const rowTopics = (row.getAttribute("data-topics") ?? "").split("|").filter(Boolean);
-      const rowYear = row.getAttribute("data-year") ?? "";
-      const matchTopic = activeTopic === "all" || rowTopics.includes(activeTopic);
-      const matchYear = activeYear === "all" || rowYear === activeYear;
-      const visible = matchTopic && matchYear;
-      row.hidden = !visible;
-      if (visible) visibleCount += 1;
+    if (featuredToggle instanceof HTMLButtonElement) {
+      featuredToggle.classList.toggle("is-active", includeFeatured);
+      featuredToggle.setAttribute("aria-pressed", includeFeatured ? "true" : "false");
+    }
+    if (facebookToggle instanceof HTMLButtonElement) {
+      facebookToggle.classList.toggle("is-active", includeFacebook);
+      facebookToggle.setAttribute("aria-pressed", includeFacebook ? "true" : "false");
     }
 
-    if (empty instanceof HTMLElement) empty.hidden = visibleCount !== 0;
-    updateStatus(visibleCount);
+    const matched = rowData.filter((row) => {
+      const matchSource = (row.source === "featured" && includeFeatured) || (row.source === "facebook" && includeFacebook);
+      if (!matchSource) return false;
+      const matchTopic = row.source === "featured"
+        ? activeFeaturedTopic === "all" || row.featuredTopics.includes(activeFeaturedTopic)
+        : activeFacebookTopic === "all" || row.facebookTopics.includes(activeFacebookTopic);
+      const matchYear = activeYear === "all" || row.year === activeYear;
+      return matchTopic && matchYear;
+    });
+
+    const sorted = sortRows(matched);
+    const limitCount = Math.min(sorted.length, PAGE_SIZE * page);
+    const visibleSet = new Set(sorted.slice(0, limitCount).map((item) => item.el));
+
+    let shownCount = 0;
+    for (const row of rowData) {
+      const visible = visibleSet.has(row.el);
+      row.el.hidden = !visible;
+      if (visible) shownCount += 1;
+    }
+
+    if (empty instanceof HTMLElement) empty.hidden = shownCount !== 0;
+    if (pager instanceof HTMLElement) pager.hidden = !(matched.length > shownCount);
+    if (loadMoreBtn instanceof HTMLButtonElement) loadMoreBtn.disabled = !(matched.length > shownCount);
+    if (loadStatus instanceof HTMLElement) loadStatus.textContent = shownCount > 0 ? `已顯示 ${shownCount} / ${matched.length} 篇` : "";
+    updateStatus(shownCount, matched.length);
     syncURL();
   };
 
-  topicButtons.forEach((button) => {
+  featuredTopicButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      activeTopic = button.dataset.topic ?? "all";
+      includeFeatured = true;
+      activeFeaturedTopic = button.dataset.featuredTopic ?? "all";
+      page = 1;
       applyFilters();
-      track("Tag Filter Click", { topic: activeTopic, year: activeYear, source: "topic" });
+      track("Tag Filter Click", { topic: activeFeaturedTopic, year: activeYear, source: currentSourceLabel() });
+    });
+  });
+
+  facebookTopicButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      includeFacebook = true;
+      const nextTopic = button.dataset.fbTopic ?? "all";
+      activeFacebookTopic = activeFacebookTopic === nextTopic ? "all" : nextTopic;
+      page = 1;
+      applyFilters();
+      track("Tag Filter Click", { topic: activeFacebookTopic, year: activeYear, source: currentSourceLabel() });
     });
   });
 
   yearButtons.forEach((button) => {
     button.addEventListener("click", () => {
       activeYear = button.dataset.year ?? "all";
+      page = 1;
       applyFilters();
-      track("Tag Filter Click", { topic: activeTopic, year: activeYear, source: "year" });
+      track("Tag Filter Click", { topic: includeFacebook ? activeFacebookTopic : activeFeaturedTopic, year: activeYear, source: currentSourceLabel() });
     });
+  });
+
+  featuredToggle?.addEventListener("click", () => {
+    const next = !includeFeatured;
+    includeFeatured = next;
+    if (next) activeFeaturedTopic = "all";
+    page = 1;
+    applyFilters();
+    track("Tag Filter Click", { topic: activeFeaturedTopic, year: activeYear, source: currentSourceLabel(), toggle: "featured" });
+  });
+
+  facebookToggle?.addEventListener("click", () => {
+    includeFacebook = !includeFacebook;
+    page = 1;
+    applyFilters();
+    track("Tag Filter Click", { topic: activeFacebookTopic, year: activeYear, source: currentSourceLabel(), toggle: "facebook" });
+  });
+
+  sortSelect?.addEventListener("change", () => {
+    sortMode = sortSelect instanceof HTMLSelectElement ? sortSelect.value : "newest";
+    page = 1;
+    applyFilters();
+  });
+
+  loadMoreBtn?.addEventListener("click", () => {
+    page += 1;
+    applyFilters();
+    track("Tag Load More Click", { topic: includeFacebook ? activeFacebookTopic : activeFeaturedTopic, year: activeYear, source: currentSourceLabel(), page });
   });
 
   document.addEventListener("click", (event) => {
@@ -199,10 +441,130 @@ const routeCodeToTopic = Object.fromEntries(
   const params = new URLSearchParams(window.location.search);
   const initialTopicRaw = params.get("topic") ?? params.get("tag") ?? "all";
   const initialTopic = initialTopicRaw === "all" ? "all" : fromShortTopic(initialTopicRaw);
-  const initialYear = params.get("year") ?? "all";
+  const initialFacebookTopic = params.get("fbTopic") ?? "all";
+  const initialYearRaw = params.get("year") ?? "all";
+  const initialYear =
+    initialYearRaw !== "all" && /^\d{4}$/.test(initialYearRaw) && Number(initialYearRaw) <= 2020 ? "pre2020" : initialYearRaw;
+  const initialSource = params.get("source") ?? "";
+  const initialSort = params.get("sort") ?? "newest";
+  const initialPage = Number(params.get("page") ?? "1");
 
-  if (validTopics.has(initialTopic)) activeTopic = initialTopic;
+  if (validFeaturedTopics.has(initialTopic)) activeFeaturedTopic = initialTopic;
+  if (validFacebookTopics.has(initialFacebookTopic)) activeFacebookTopic = initialFacebookTopic;
   if (validYears.has(initialYear)) activeYear = initialYear;
+  if (initialSource === "both") {
+    includeFeatured = true;
+    includeFacebook = true;
+  } else if (initialSource === "facebook") {
+    includeFeatured = false;
+    includeFacebook = true;
+  } else if (initialSource === "none") {
+    includeFeatured = false;
+    includeFacebook = false;
+  } else {
+    includeFeatured = true;
+    includeFacebook = false;
+  }
+  if (validSort.has(initialSort)) sortMode = initialSort;
+  if (Number.isFinite(initialPage) && initialPage >= 1) page = Math.floor(initialPage);
+  if (sortSelect instanceof HTMLSelectElement) sortSelect.value = sortMode;
 
   applyFilters();
 </script>
+
+<style>
+  .archive-filter-block {
+    margin-top: 0.8rem;
+    border: 1px solid #d8e6e1;
+    border-radius: 0.86rem;
+    padding: 0.56rem 0.64rem 0.66rem;
+    background: #fcfffd;
+  }
+
+  .archive-filter-block-title {
+    margin: 0;
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #36515d;
+  }
+
+  .archive-filter-block .archive-quick-filter {
+    margin-top: 0.52rem;
+  }
+
+  .archive-source-row {
+    align-items: center;
+  }
+
+  .archive-filter-btn-fb-topic[hidden] {
+    display: none !important;
+  }
+
+  .archive-filter-toolbar {
+    margin-top: 0.88rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .archive-filter-actions-right {
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: 0;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .archive-filter-toolbar .archive-filter-status {
+    margin: 0;
+  }
+
+  .archive-filter-toolbar .archive-filter-select-wrap {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    min-height: 0;
+    gap: 0.36rem;
+    line-height: 1;
+  }
+
+  .archive-filter-toolbar #archive-sort-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-left: 0.86rem;
+    padding-right: 2rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23526a73' d='M2.2 4.2a.75.75 0 0 1 1.06 0L6 6.94 8.74 4.2a.75.75 0 1 1 1.06 1.06L6.53 8.53a.75.75 0 0 1-1.06 0L2.2 5.26a.75.75 0 0 1 0-1.06z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 0.78rem 0.78rem;
+    background-position: right 0.64rem center;
+  }
+
+  .archive-pager {
+    margin-top: 0.75rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.52rem;
+  }
+
+  #tags-load-status {
+    display: block;
+    text-align: center;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .archive-filter-toolbar {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .archive-filter-actions-right {
+      margin-left: 0;
+    }
+  }
+</style>

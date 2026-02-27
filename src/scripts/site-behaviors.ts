@@ -2,6 +2,66 @@ const body = document.body;
 const isArticle = body.dataset.isArticle === "1";
 const searchPath = body.dataset.searchPath || "/search/";
 
+const initMermaid = async () => {
+  const preBlocks = Array.from(
+    document.querySelectorAll(
+      "pre[data-language='mermaid'], pre.language-mermaid, pre.mermaid"
+    )
+  ).filter((node): node is HTMLElement => node instanceof HTMLElement);
+  if (preBlocks.length === 0) return;
+
+  try {
+    const mermaidUrl = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+    const mod = (await import(/* @vite-ignore */ mermaidUrl)) as {
+      default?: {
+        initialize: (options: Record<string, unknown>) => void;
+        render: (id: string, code: string) => Promise<{ svg: string }>;
+      };
+    };
+    const mermaid = mod.default;
+    if (!mermaid) return;
+
+    mermaid.initialize({
+      startOnLoad: false,
+      securityLevel: "loose",
+      theme: "base",
+      fontFamily: "Noto Sans TC, sans-serif",
+      themeVariables: {
+        primaryColor: "#e4f3ef",
+        primaryTextColor: "#1b303a",
+        primaryBorderColor: "#7fa79f",
+        lineColor: "#6c8f88",
+        secondaryColor: "#f3f8f6",
+        tertiaryColor: "#fffdf6"
+      }
+    });
+
+    for (let index = 0; index < preBlocks.length; index += 1) {
+      const preNode = preBlocks[index];
+      const codeNode = preNode.querySelector("code");
+      const source = (codeNode?.textContent ?? preNode.textContent ?? "").trim();
+      if (!source) continue;
+
+      const mount = document.createElement("figure");
+      mount.className = "mermaid-diagram";
+      preNode.insertAdjacentElement("beforebegin", mount);
+
+      try {
+        const { svg } = await mermaid.render(`mb-mermaid-${Date.now()}-${index}`, source);
+        mount.innerHTML = svg;
+        preNode.classList.add("mermaid-source-hidden");
+      } catch {
+        mount.classList.add("mermaid-diagram-error");
+        mount.textContent = "Mermaid 圖表渲染失敗，已保留原始程式碼。";
+      }
+    }
+  } catch {
+    // Keep code blocks as-is when Mermaid module fails to load.
+  }
+};
+
+void initMermaid();
+
 const track = (name: string, props: Record<string, unknown> = {}) => {
   const fn = (window as { mbTrack?: (event: string, payload?: Record<string, unknown>) => void }).mbTrack;
   if (typeof fn === "function") fn(name, props);
@@ -77,7 +137,6 @@ if (isArticle) {
   const fontDecButton = document.querySelector("#reading-font-dec");
   const fontIncButton = document.querySelector("#reading-font-inc");
   const focusButton = document.querySelector("#reading-focus-toggle");
-  const focusHint = document.querySelector("#reading-focus-hint");
 
   let fontScale = Number(localStorage.getItem(`${storagePrefix}.fontScale`) ?? "1");
   if (!Number.isFinite(fontScale)) fontScale = 1;
@@ -96,19 +155,6 @@ if (isArticle) {
   setFocusMode(true);
   track("Article Focus Mode", { state: "enabled_default" });
 
-  const hintKey = `${storagePrefix}.focusHintSeen`;
-  if (focusHint instanceof HTMLElement && !localStorage.getItem(hintKey)) {
-    focusHint.hidden = false;
-    window.setTimeout(() => focusHint.classList.add("is-visible"), 60);
-    window.setTimeout(() => {
-      focusHint.classList.remove("is-visible");
-      window.setTimeout(() => {
-        focusHint.hidden = true;
-      }, 220);
-    }, 3400);
-    localStorage.setItem(hintKey, "1");
-  }
-
   const updateFontScale = (delta: number) => {
     fontScale = Math.min(1.2, Math.max(0.92, Number((fontScale + delta).toFixed(2))));
     body.style.setProperty("--article-font-scale", String(fontScale));
@@ -121,6 +167,15 @@ if (isArticle) {
     const nextEnabled = !body.classList.contains("focus-reading");
     setFocusMode(nextEnabled);
     track("Article Focus Mode", { state: nextEnabled ? "enabled" : "disabled" });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (isEditableElement(event.target)) return;
+    if (event.key.toLowerCase() !== "f") return;
+    event.preventDefault();
+    const nextEnabled = !body.classList.contains("focus-reading");
+    setFocusMode(nextEnabled);
+    track("Article Focus Mode", { state: nextEnabled ? "enabled_hotkey" : "disabled_hotkey" });
   });
 
   const bar = document.querySelector("#reading-progress-bar");
