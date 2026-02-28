@@ -17,6 +17,7 @@ function parseArgs(argv) {
     size: "1536x1024",
     quality: "high",
     outputQuality: 82,
+    refreshPrompts: false,
     dryRun: false
   };
 
@@ -28,6 +29,7 @@ function parseArgs(argv) {
     if (token === "--size") args.size = argv[++i] ?? args.size;
     if (token === "--quality") args.quality = argv[++i] ?? args.quality;
     if (token === "--output-quality") args.outputQuality = Number(argv[++i] ?? args.outputQuality);
+    if (token === "--refresh-prompts") args.refreshPrompts = true;
     if (token === "--dry-run") args.dryRun = true;
   }
   return args;
@@ -86,10 +88,7 @@ async function loadPromptItem(fileName) {
   const payload = JSON.parse(raw);
   const items = Array.isArray(payload.items) ? payload.items : [];
   const item = items.find((x) => x.file === fileName);
-  if (!item) {
-    throw new Error(`Prompt item not found for ${fileName}. Make sure this article is in homepage window.`);
-  }
-  return { payload, item };
+  return { payload, item: item ?? null };
 }
 
 async function generateImage({ apiBase, apiKey, model, size, quality, prompt }) {
@@ -154,10 +153,14 @@ async function run() {
   if (!args.dryRun && !apiKey) throw new Error("OPENAI_API_KEY is required");
 
   const post = await findLatestPublishedPost(args.file);
-  if (!args.dryRun) {
+  let { item } = await loadPromptItem(post.fileName);
+  if ((args.refreshPrompts || !item) && !args.dryRun) {
     await refreshPrompts();
+    ({ item } = await loadPromptItem(post.fileName));
   }
-  const { item } = await loadPromptItem(post.fileName);
+  if (!item) {
+    throw new Error(`Prompt item not found for ${post.fileName}. Make sure this article is in homepage window.`);
+  }
 
   const outRel = String(item.coverPng);
   const outAbs = path.join(ROOT, "public", ...outRel.split("/"));

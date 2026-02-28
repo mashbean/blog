@@ -50,7 +50,14 @@ const ZH_STOPWORDS = new Set([
   "第二",
   "第三",
   "因此",
-  "然而"
+  "然而",
+  "我們",
+  "你",
+  "我",
+  "他",
+  "她",
+  "它",
+  "自己"
 ]);
 
 const EN_STOPWORDS = new Set([
@@ -73,8 +80,44 @@ const EN_STOPWORDS = new Set([
   "were",
   "not",
   "more",
-  "than"
+  "than",
+  "blog",
+  "post",
+  "posts",
+  "imported",
+  "matters"
 ]);
+
+const GENERIC_KEYWORDS = new Set([
+  "公共網路",
+  "ai與科技",
+  "數位自主",
+  "部落格",
+  "blog",
+  "分類",
+  "文章",
+  "內容"
+]);
+
+const ZH_VERBISH = new Set([
+  "覺得",
+  "看到",
+  "可以",
+  "開始",
+  "完成",
+  "處理",
+  "使用",
+  "覺得",
+  "進行",
+  "更新",
+  "判斷",
+  "分享",
+  "希望",
+  "記錄"
+]);
+
+const ZH_CONNECTOR_CHARS = /[從到與和及或並而但在把讓將被]/;
+const ZH_BAD_SUFFIX = /(之後|之中|而已|流程|歷程|記錄|完成|判斷|這樣|這些)$/;
 
 function normalizeText(input = "") {
   return String(input)
@@ -119,6 +162,21 @@ function addKeyword(score, key, weight = 1) {
   score.set(norm, (score.get(norm) ?? 0) + weight);
 }
 
+function isLikelyNounKeyword(term) {
+  if (!term) return false;
+  const t = normalizeText(term).toLocaleLowerCase("zh-TW");
+  if (!t) return false;
+  if (GENERIC_KEYWORDS.has(t)) return false;
+  if (/^[\d\s./+-]+$/.test(t)) return false;
+  if (t.length < 2 || t.length > 18) return false;
+  if (t.includes(",")) return false;
+  if (ZH_CONNECTOR_CHARS.test(t)) return false;
+  if (ZH_BAD_SUFFIX.test(t)) return false;
+  if (ZH_STOPWORDS.has(t) || ZH_VERBISH.has(t) || EN_STOPWORDS.has(t)) return false;
+  if (/^(這|那|其|並|而|且|但|所以|因為)/.test(t)) return false;
+  return true;
+}
+
 function extractKeywords({ title, description, body, tags, category }) {
   const score = new Map();
   const source = [title, description, body].filter(Boolean).join("\n");
@@ -127,27 +185,55 @@ function extractKeywords({ title, description, body, tags, category }) {
     .replace(/^source[:：]?\s*/gim, "")
     .trim();
 
-  for (const tag of tags ?? []) addKeyword(score, tag, 8);
-  if (category) addKeyword(score, category, 7);
-  if (title) addKeyword(score, title, 5);
+  // Keep tags, but reduce dominance so article nouns can surface.
+  for (const tag of tags ?? []) addKeyword(score, tag, 4);
+  if (category) addKeyword(score, category, 2);
+
+  const titleParts = normalizeText(title ?? "")
+    .split(/[：:，、／/（）()「」『』·\-\s]+/g)
+    .map((x) => x.trim())
+    .filter(Boolean);
+  for (const part of titleParts) {
+    if (isLikelyNounKeyword(part)) addKeyword(score, part, 6);
+  }
+
+  const descParts = normalizeText(description ?? "")
+    .split(/[：:，、。；／/（）()「」『』·\-\s]+/g)
+    .map((x) => x.trim())
+    .filter(Boolean);
+  for (const part of descParts) {
+    if (isLikelyNounKeyword(part)) addKeyword(score, part, 4.5);
+  }
 
   const zhTokens = plain.match(/[\p{Script=Han}]{2,8}/gu) ?? [];
   for (const token of zhTokens) {
-    if (ZH_STOPWORDS.has(token)) continue;
-    addKeyword(score, token, 2);
+    if (!isLikelyNounKeyword(token)) continue;
+    addKeyword(score, token, 2.2);
   }
 
   const enTokens = plain.match(/[A-Za-z][A-Za-z0-9/+.-]{2,}/g) ?? [];
   for (const tokenRaw of enTokens) {
     const token = tokenRaw.toLocaleLowerCase("en-US");
-    if (EN_STOPWORDS.has(token)) continue;
+    if (!isLikelyNounKeyword(token)) continue;
     addKeyword(score, token, 1);
   }
 
-  return [...score.entries()]
+  const ranked = [...score.entries()]
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
-    .map(([key]) => key);
+    .map(([key]) => key)
+    .filter(isLikelyNounKeyword);
+
+  // Always keep up to 8 noun-like keywords; fallback to title parts if sparse.
+  const out = [...new Set(ranked)].slice(0, 8);
+  if (out.length < 4) {
+    for (const part of [...titleParts, ...descParts]) {
+      if (!isLikelyNounKeyword(part)) continue;
+      if (out.includes(part.toLocaleLowerCase("zh-TW"))) continue;
+      out.push(part.toLocaleLowerCase("zh-TW"));
+      if (out.length >= 8) break;
+    }
+  }
+  return out;
 }
 
 function pickMotif(keywords) {
@@ -174,7 +260,7 @@ function motifPrompt(motif) {
     case "globe":
       return "globe lines, travel map, routes, connection arcs";
     case "network":
-      return "nodes and links, community graph, connection lines, constellation";
+      return "community workshop scene, shared desk, cards and notes, collaborative civic mood";
     default:
       return "abstract shapes, calm geometry, editorial composition";
   }

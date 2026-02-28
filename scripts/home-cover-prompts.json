@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-02-26T07:27:39.364Z",
+  "generatedAt": "2026-02-26T09:39:08.735Z",
   "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
   "items": [
@@ -9,20 +9,20 @@
       "coverPng": "images/covers/home/2026-02-26-一週重啟部落格編年記.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 3967437892,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: 公共網路, ai與科技, 數位自主, 部落格, blog, 一週重啟部落格編年記",
+      "seed": 374832003,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 一週重啟部落格編年記, 一週重啟部落格編, 年記, 體驗重構, 七天內完成部落格, 使用口語進行騰打",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "公共網路",
-        "ai與科技",
-        "數位自主",
-        "部落格",
-        "blog",
         "一週重啟部落格編年記",
         "一週重啟部落格編",
-        "年記"
+        "年記",
+        "體驗重構",
+        "七天內完成部落格",
+        "使用口語進行騰打",
+        "再透過",
+        "修飾"
       ],
-      "motif": "network"
+      "motif": "abstract"
     },
     {
       "file": "2026-02-26-10000-篇臉書文之後.md",
@@ -30,20 +30,20 @@
       "coverPng": "images/covers/home/2026-02-26-10000-篇臉書文之後.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 2311021357,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: 公共網路, ai與科技, 數位自主, 部落格, blog, 10,000 篇臉書文之後",
+      "seed": 903527473,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 懶惰的聰明人, 半自動審稿, 記錄三層加速的人, 之巔, 達克效應中, 學會一點東西就嘰",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "公共網路",
-        "ai與科技",
-        "數位自主",
-        "部落格",
-        "blog",
-        "10,000 篇臉書文之後",
         "懶惰的聰明人",
-        "篇臉書文之後"
+        "半自動審稿",
+        "記錄三層加速的人",
+        "之巔",
+        "達克效應中",
+        "學會一點東西就嘰",
+        "嘰叫的狀態",
+        "輕鬆"
       ],
-      "motif": "network"
+      "motif": "abstract"
     },
     {
       "file": "2026-02-24-vibe-coding-blog-launch.md",
@@ -51,20 +51,20 @@
       "coverPng": "images/covers/home/2026-02-24-vibe-coding-blog-launch.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 3778864039,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: 公共網路, ai與科技, 數位自主, 部落格, blog, 馬年過年當個隔壁家 vibe coding 叔叔,部落格開張大吉",
+      "seed": 2551440357,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: vibe, coding, 馬年過年當個隔壁家, 馬年過年當個隔壁, 叔叔, 部落格開張大吉",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "公共網路",
-        "ai與科技",
-        "數位自主",
-        "部落格",
-        "blog",
-        "馬年過年當個隔壁家 vibe coding 叔叔,部落格開張大吉",
         "vibe",
-        "coding"
+        "coding",
+        "馬年過年當個隔壁家",
+        "馬年過年當個隔壁",
+        "叔叔",
+        "部落格開張大吉",
+        "衝刺",
+        "位自我主權的一週"
       ],
-      "motif": "network"
+      "motif": "abstract"
     },
     {
       "file": "2026-02-22-bonds-litepaper-project-scan.md",
@@ -72,20 +72,20 @@
       "coverPng": "images/covers/home/2026-02-22-bonds-litepaper-project-scan.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 2516343170,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, civic architecture, columns, assembly, structured grid, governance, keywords: 公共網路, 治理與民主, ai與科技, blog, 有備而來(bond)專案掃描:互動網站與 litepaper 重點整理, litepaper",
+      "seed": 1597373399,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: litepaper, 專案掃描, 重點整理, bond, 針對, 研究脈絡",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "公共網路",
-        "治理與民主",
-        "ai與科技",
-        "blog",
-        "有備而來(bond)專案掃描:互動網站與 litepaper 重點整理",
         "litepaper",
-        "有備而來",
-        "專案掃描"
+        "專案掃描",
+        "重點整理",
+        "bond",
+        "針對",
+        "研究脈絡",
+        "bonds.tw",
+        "blog.bonds.tw"
       ],
-      "motif": "governance"
+      "motif": "abstract"
     },
     {
       "file": "2026-01-23-風暴鈔隱の池與軌道炮-挑戰白話解析匿名加密-豆泥-matters.md",
@@ -93,18 +93,18 @@
       "coverPng": "images/covers/home/2026-01-23-風暴鈔隱の池與軌道炮-挑戰白話解析匿名加密-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 791454872,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: matters, 風暴鈔, imported, 匿名, 池與軌道炮, 挑戰白話解析",
+      "seed": 4075715080,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: 風暴鈔, 匿名, 挑戰白話解析, 來源, 豆泥, 加密...",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "matters",
         "風暴鈔",
-        "imported",
         "匿名",
-        "池與軌道炮",
         "挑戰白話解析",
-        "風暴鈔、隱の池與軌道炮 — 挑戰白話解析「匿名」加密... - 豆泥 - matters",
-        "來源"
+        "來源",
+        "豆泥",
+        "加密...",
+        "https",
+        "matters.town"
       ],
       "motif": "privacy"
     },
@@ -114,18 +114,18 @@
       "coverPng": "images/covers/home/2025-12-30-我眼中的-matters-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 2710558085,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: matters, imported, privilege, 我眼中的, 最近在台灣, 翻為特權",
+      "seed": 2648156861,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, community workshop scene, shared desk, cards and notes, collaborative civic mood, keywords: 我眼中的, 來源, 豆泥, privilege, 翻為特權, 模式",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "matters",
-        "imported",
-        "privilege",
         "我眼中的",
-        "最近在台灣",
+        "來源",
+        "豆泥",
+        "privilege",
         "翻為特權",
-        "但我更喜歡翻為福",
-        "模式"
+        "模式",
+        "https",
+        "matters.town"
       ],
       "motif": "network"
     },
@@ -135,20 +135,20 @@
       "coverPng": "images/covers/home/2025-12-28-dacc-day-argentina-演講維持現狀加速主義-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 3289302839,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: matters, d/acc, imported, 維持現狀加速主義, 演講, d/acc day argentina 演講:維持現狀加速主義 - 豆泥 - matters",
+      "seed": 1769770128,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 維持現狀加速主義, 演講, day, d/acc, argentina, acc",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "matters",
-        "d/acc",
-        "imported",
         "維持現狀加速主義",
         "演講",
-        "d/acc day argentina 演講:維持現狀加速主義 - 豆泥 - matters",
         "day",
-        "digital"
+        "d/acc",
+        "argentina",
+        "acc",
+        "來源",
+        "豆泥"
       ],
-      "motif": "network"
+      "motif": "abstract"
     },
     {
       "file": "2025-12-28-ethereum-privacy-stack-演講抗審查真的不可或缺嗎-豆泥-matters.md",
@@ -156,20 +156,20 @@
       "coverPng": "images/covers/home/2025-12-28-ethereum-privacy-stack-演講抗審查真的不可或缺嗎-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 96421592,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: matters, 抗審查真的不可或, 缺嗎, imported, 演講, 來源",
+      "seed": 3438522054,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: 演講, ethereum, privacy, stack, 來源, 缺嗎",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "matters",
-        "抗審查真的不可或",
-        "缺嗎",
-        "imported",
         "演講",
+        "ethereum",
+        "privacy",
+        "stack",
         "來源",
-        "市場需求",
-        "最後"
+        "缺嗎",
+        "豆泥",
+        "市場需求"
       ],
-      "motif": "network"
+      "motif": "privacy"
     },
     {
       "file": "2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.md",
@@ -177,18 +177,18 @@
       "coverPng": "images/covers/home/2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 992471129,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: digital, identity, matters, zero-knowledge, proof, 身分",
+      "seed": 4050061520,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: digital, identity, zkid, zero-knowledge, day, 身分",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
         "digital",
         "identity",
-        "matters",
+        "zkid",
         "zero-knowledge",
-        "proof",
+        "day",
         "身分",
         "錢包",
-        "zkp"
+        "proof"
       ],
       "motif": "privacy"
     },
@@ -198,18 +198,18 @@
       "coverPng": "images/covers/home/2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 3393001014,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, globe lines, travel map, routes, connection arcs, keywords: esim, matters, customer, imported, 使用你的, 綁定的錢包",
+      "seed": 4159998416,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, globe lines, travel map, routes, connection arcs, keywords: esim, matters.town, 限時福利|用錢包餘額實現全球連線, customer, 來源, 使用你的",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
         "esim",
-        "matters",
+        "matters.town",
+        "限時福利|用錢包餘額實現全球連線",
         "customer",
-        "imported",
+        "來源",
         "使用你的",
         "綁定的錢包",
-        "支持作者",
-        "的方式轉帳至本帳"
+        "支持作者"
       ],
       "motif": "globe"
     },
@@ -219,18 +219,18 @@
       "coverPng": "images/covers/home/2025-09-12-和平演變抑或風暴前夜淺談數位世代的廚房呢-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 3256509218,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, nodes and links, community graph, connection lines, constellation, keywords: matters, imported, 廚房, 和平演變抑或風暴, 前夜, 和平演變抑或風暴前夜?淺談數位世代的廚房呢... - 豆泥 - matters",
+      "seed": 1696801207,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, community workshop scene, shared desk, cards and notes, collaborative civic mood, keywords: 來源, 廚房, 豆泥, 前夜, https, matters.town",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "matters",
-        "imported",
+        "來源",
         "廚房",
-        "和平演變抑或風暴",
+        "豆泥",
         "前夜",
-        "和平演變抑或風暴前夜?淺談數位世代的廚房呢... - 豆泥 - matters",
-        "淺談數位世代的廚",
-        "來源"
+        "https",
+        "matters.town",
+        "swk8mbq3j7jw",
+        "淺談數位世代的廚"
       ],
       "motif": "network"
     },
@@ -240,18 +240,18 @@
       "coverPng": "images/covers/home/2025-08-27-從編戶齊民到避秦數位時代的亞洲身分自主權-豆泥-matters.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 670480035,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, identity card silhouette, wallet motif, credential layers, subtle geometric frames, keywords: matters, imported, 從編戶齊民到避秦, 數位時代的亞洲身, 分自主權發展, 編戶齊民",
+      "seed": 3057548509,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, identity card silhouette, wallet motif, credential layers, subtle geometric frames, keywords: 來源, 數位時代的亞洲身, 豆泥, 分自主權發展, 編戶齊民, cjd",
       "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
       "keywords": [
-        "matters",
-        "imported",
-        "從編戶齊民到避秦",
+        "來源",
         "數位時代的亞洲身",
+        "豆泥",
         "分自主權發展",
         "編戶齊民",
-        "從編戶齊民到避秦:數位時代的亞洲身分自主權... - 豆泥 - matters",
-        "來源"
+        "cjd",
+        "數位時代的亞洲身分自主權...",
+        "https"
       ],
       "motif": "identity"
     }
