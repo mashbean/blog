@@ -100,7 +100,9 @@ SEO/機器可讀入口：
 - Jekyll 遷移：`npm run migrate:posts`
 - 文章簽名：`npm run sign:posts`
 - 最新文章封面（動物系 prompt + 自動壓縮）：`npm run cover:latest`
+- 自動上稿快路徑（生圖 + 簽章 + check + commit + push）：`npm run publish:post -- --file <你的檔名.md> --message "feat: publish ..."`
 - 圖像批次（OpenAI）：`npm run images:batch:openai`
+- Mermaid 圖表轉 PNG 備援：`npm run diagrams:build`（只掃 blog 可用 `npm run diagrams:build:blog`）
 
 發布新文章建議流程：
 1. 新增 `src/content/blog/*.md`
@@ -109,6 +111,10 @@ SEO/機器可讀入口：
 4. 執行 `npm run check`
 
 說明：`scripts/` 僅保留可重複執行、目前流程仍會用到的工具；一次性輸出報表與快取已排除追蹤。
+
+Mermaid 備援輸出位置：
+- 圖檔：`public/images/diagrams/...`
+- 清單：`public/images/diagrams/manifest.json`
 
 ## 7) 這次架構清理做了什麼
 
