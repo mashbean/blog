@@ -1,8 +1,29 @@
 {
-  "generatedAt": "2026-02-26T09:39:08.735Z",
+  "generatedAt": "2026-03-15T11:51:43.823Z",
   "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
   "items": [
+    {
+      "file": "2026-03-15-數位整風運動.md",
+      "title": "數位整風運動",
+      "coverPng": "images/covers/home/2026-03-15-數位整風運動.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 2872953799,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 數位整風運動, 整風, ai, 團隊玩成立體世界的實驗, 也就是, 中制的角色扮演裡",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "keywords": [
+        "數位整風運動",
+        "整風",
+        "ai",
+        "團隊玩成立體世界的實驗",
+        "也就是",
+        "中制的角色扮演裡",
+        "團隊玩成立體世界",
+        "的實驗"
+      ],
+      "motif": "abstract"
+    },
     {
       "file": "2026-02-26-一週重啟部落格編年記.md",
       "title": "一週重啟部落格編年記",
@@ -191,27 +212,6 @@
         "proof"
       ],
       "motif": "privacy"
-    },
-    {
-      "file": "2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.md",
-      "title": "Matters eSIM 限時福利｜用錢包餘額實現全球連線 - Matty - Matters",
-      "coverPng": "images/covers/home/2025-10-30-matters-esim-限時福利用錢包餘額實現全球連線-matty-matters.jpg",
-      "width": 1200,
-      "height": 630,
-      "seed": 4159998416,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, globe lines, travel map, routes, connection arcs, keywords: esim, matters.town, 限時福利|用錢包餘額實現全球連線, customer, 來源, 使用你的",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
-      "keywords": [
-        "esim",
-        "matters.town",
-        "限時福利|用錢包餘額實現全球連線",
-        "customer",
-        "來源",
-        "使用你的",
-        "綁定的錢包",
-        "支持作者"
-      ],
-      "motif": "globe"
     },
     {
       "file": "2025-09-12-和平演變抑或風暴前夜淺談數位世代的廚房呢-豆泥-matters.md",
