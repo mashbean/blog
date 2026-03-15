@@ -1,8 +1,29 @@
 {
-  "generatedAt": "2026-03-15T11:51:43.823Z",
+  "generatedAt": "2026-03-15T14:35:00.007Z",
   "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
   "items": [
+    {
+      "file": "2026-03-15-錄取牛津記.md",
+      "title": "錄取牛津記",
+      "coverPng": "images/covers/home/2026-03-15-錄取牛津記.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 528740629,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 錄取牛津記, 轉彎, 一切都是最好的安, 年後錄取牛津公共, 政策研究所, 寫下焦慮",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "keywords": [
+        "錄取牛津記",
+        "轉彎",
+        "一切都是最好的安",
+        "年後錄取牛津公共",
+        "政策研究所",
+        "寫下焦慮",
+        "學術現場的心境整",
+        "年後"
+      ],
+      "motif": "abstract"
+    },
     {
       "file": "2026-03-15-數位整風運動.md",
       "title": "數位整風運動",
@@ -233,27 +254,6 @@
         "淺談數位世代的廚"
       ],
       "motif": "network"
-    },
-    {
-      "file": "2025-08-27-從編戶齊民到避秦數位時代的亞洲身分自主權-豆泥-matters.md",
-      "title": "從編戶齊民到避秦：數位時代的亞洲身分自主權… - 豆泥 - Matters",
-      "coverPng": "images/covers/home/2025-08-27-從編戶齊民到避秦數位時代的亞洲身分自主權-豆泥-matters.jpg",
-      "width": 1200,
-      "height": 630,
-      "seed": 3057548509,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, identity card silhouette, wallet motif, credential layers, subtle geometric frames, keywords: 來源, 數位時代的亞洲身, 豆泥, 分自主權發展, 編戶齊民, cjd",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
-      "keywords": [
-        "來源",
-        "數位時代的亞洲身",
-        "豆泥",
-        "分自主權發展",
-        "編戶齊民",
-        "cjd",
-        "數位時代的亞洲身分自主權...",
-        "https"
-      ],
-      "motif": "identity"
     }
   ]
 }
