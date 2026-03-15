@@ -11,6 +11,8 @@
     "start": "astro dev",
     "build": "astro build",
     "postbuild": "node scripts/postbuild-search.mjs",
+    "search:benchmark": "node scripts/benchmark-search-index.mjs",
+    "check:content-ids": "node scripts/check-content-ids.mjs",
     "build:pagefind": "pagefind --site dist --glob \"**/*.html\"",
     "preview": "astro preview",
     "check": "astro check",
@@ -39,9 +41,17 @@
     "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
     "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run",
     "cover:latest": "node scripts/generate-latest-cover-openai.mjs",
+    "diagrams:build": "node scripts/export-mermaid-diagrams.mjs",
+    "diagrams:build:blog": "node scripts/export-mermaid-diagrams.mjs --collection=blog",
     "publish:post": "node scripts/publish-post.mjs",
     "publish:post:fast": "node scripts/publish-post.mjs --skip-cover --skip-sign",
-    "publish:post:full": "node scripts/publish-post.mjs"
+    "publish:post:full": "node scripts/publish-post.mjs",
+    "meeting:summary:gdocs": "python3 scripts/meet_summary_to_gdocs.py",
+    "rag:build-corpus": "node scripts/build-rag-corpus.mjs",
+    "rag:build-workbench": "node scripts/build-rag-workbench.mjs",
+    "rag:build-gold-set": "node scripts/build-rag-gold-set.mjs",
+    "rag:build-gold-review": "node scripts/build-rag-gold-review.mjs",
+    "rag:serve": "node scripts/rag-lab-server.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -56,6 +66,7 @@
     "yaml": "^2.8.1"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^11.10.1",
     "@types/node": "^22.18.0",
     "pagefind": "^1.4.0",
     "prettier": "^3.6.2",

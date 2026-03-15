@@ -1,0 +1,324 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap");
+
+:root {
+  --bg-paper: #fffdf6;
+  --bg-wash-a: #d9f4ee;
+  --bg-wash-b: #fff0cc;
+  --ink: #13242f;
+  --muted: #4b5b66;
+  --accent: #0b7d6d;
+  --accent-soft: #d9f4ee;
+  --border-subtle: #d8e6e1;
+  --border-strong: #c7d8d2;
+  --surface-elevated: rgba(255, 255, 255, 0.84);
+  --surface-muted: #f8fcfa;
+  --quote-border: #8ecdc1;
+  --inline-code-bg: #eef2f7;
+  --code-bg: #0f1720;
+  --code-fg: #e8f0f2;
+  --selection-bg: rgba(217, 244, 238, 0.82);
+  --shadow-soft: 0 14px 36px rgba(15, 41, 36, 0.08);
+  --radius-sm: 0.72rem;
+  --radius-md: 0.9rem;
+  --content-width: 74ch;
+  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-serif: "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at 20% -10%, var(--bg-wash-a) 0%, transparent 35%),
+    radial-gradient(circle at 90% 10%, var(--bg-wash-b) 0%, transparent 30%),
+    var(--bg-paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  line-height: 1.78;
+}
+
+body {
+  font-size: 17px;
+}
+
+#write {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 2.8rem 2.4rem 4rem;
+  color: var(--ink);
+}
+
+@media (max-width: 900px) {
+  #write {
+    padding: 2rem 1.4rem 3rem;
+  }
+}
+
+#write::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 18%);
+}
+
+.typora-export,
+.typora-node,
+#write,
+#write p,
+#write li,
+#write blockquote,
+#write table {
+  font-family: var(--font-sans);
+}
+
+#write h1,
+#write h2,
+#write h3,
+#write h4,
+#write h5,
+#write h6 {
+  color: var(--ink);
+  letter-spacing: 0.01em;
+}
+
+#write h1,
+#write h2,
+#write h4 {
+  font-family: var(--font-serif);
+}
+
+#write h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(1.72rem, 3.5vw, 2.08rem);
+  line-height: 1.18;
+}
+
+#write h2 {
+  margin: 1.8rem 0 0.62rem;
+  font-size: clamp(1.2rem, 1.95vw, 1.52rem);
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+}
+
+#write h3 {
+  margin: 1.55rem 0 0.56rem;
+  padding-left: 0.58rem;
+  border-left: 4px solid #9fcfc4;
+  font-family: var(--font-sans);
+  font-size: clamp(1.18rem, 1.85vw, 1.42rem);
+  line-height: 1.34;
+  font-weight: 700;
+}
+
+#write h4 {
+  margin: 1.3rem 0 0.45rem;
+  font-size: 1.08rem;
+  line-height: 1.35;
+}
+
+#write p {
+  margin: 0 0 1rem;
+}
+
+#write a {
+  color: var(--accent);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+#write a:hover {
+  text-decoration: none;
+}
+
+#write strong {
+  color: #102a37;
+}
+
+#write em {
+  color: #294553;
+}
+
+#write ul,
+#write ol {
+  margin: 0 0 1rem 1.3rem;
+  padding: 0;
+}
+
+#write li {
+  margin-bottom: 0.32rem;
+}
+
+#write blockquote {
+  margin: 1.1rem 0;
+  padding: 0.6rem 0.95rem;
+  border-left: 4px solid var(--quote-border);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: #f4fbf9;
+  color: #2f5a58;
+}
+
+#write blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+#write hr {
+  border: 0;
+  border-top: 1px solid var(--border-subtle);
+  margin: 2rem 0 1.8rem;
+}
+
+#write img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto 0.35rem;
+  border: 1px solid #d7e7e1;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+#write .md-image > .md-meta,
+#write figcaption {
+  color: var(--muted);
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+#write code,
+.cm-s-inner,
+.md-fences,
+pre.md-fences {
+  font-family: var(--font-mono);
+}
+
+#write code {
+  font-size: 0.9em;
+}
+
+#write :not(pre) > code {
+  padding: 0.12rem 0.35rem;
+  border-radius: 0.35rem;
+  background: var(--inline-code-bg);
+  color: #21414d;
+}
+
+pre.md-fences,
+#write pre.md-fences {
+  margin: 1.15rem 0;
+  padding: 1rem 1.1rem;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: var(--code-bg);
+  color: var(--code-fg);
+  box-shadow: var(--shadow-soft);
+}
+
+.md-fences .code-tooltip {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.md-fences .code-tooltip-content {
+  color: #d6e7ea;
+}
+
+#write table {
+  width: 100%;
+  margin: 1.2rem 0;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-elevated);
+  box-shadow: 0 8px 22px rgba(15, 41, 36, 0.05);
+}
+
+#write thead th {
+  background: #eef8f5;
+  color: #1f4551;
+  font-weight: 700;
+}
+
+#write th,
+#write td {
+  padding: 0.72rem 0.78rem;
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+  vertical-align: top;
+}
+
+#write tr:last-child td {
+  border-bottom: 0;
+}
+
+#write th:last-child,
+#write td:last-child {
+  border-right: 0;
+}
+
+#write mark {
+  padding: 0.08rem 0.22rem;
+  border-radius: 0.28rem;
+  background: color-mix(in srgb, var(--accent-soft) 76%, #ffffff 24%);
+  color: #0f2c39;
+}
+
+#write .md-task-list-item {
+  list-style: none;
+}
+
+#write .md-task-list-item > input {
+  accent-color: var(--accent);
+}
+
+#write .md-footnote,
+#write .md-def-link {
+  color: var(--muted);
+}
+
+#write .md-toc {
+  margin: 1rem 0 1.4rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+}
+
+#write .md-toc-item {
+  color: #23404d;
+}
+
+#write .md-toc-h1 .md-toc-inner {
+  font-weight: 700;
+}
+
+.typora-export {
+  background: var(--bg-paper);
+}
+
+.sidebar-content,
+.file-list-board,
+.ty-sidebar,
+.outline-wrapper,
+.ty-side-sort-btn {
+  background: #f3f3ef;
+}
+
+.file-list-item,
+.outline-item {
+  border-color: rgba(19, 36, 47, 0.06);
+}
+
+.typora-export * {
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: #0f2c39;
+}
