@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-15T14:35:00.007Z",
+  "generatedAt": "2026-03-15T14:49:07.365Z",
   "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
   "items": [
@@ -9,9 +9,9 @@
       "coverPng": "images/covers/home/2026-03-15-錄取牛津記.jpg",
       "width": 1200,
       "height": 630,
-      "seed": 528740629,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 錄取牛津記, 轉彎, 一切都是最好的安, 年後錄取牛津公共, 政策研究所, 寫下焦慮",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "seed": 2853351175,
+      "prompt": "a distinctive editorial storybook illustration of a single anthropomorphic fox wearing an Oxford-style academic gown in a honey-stone university quadrangle, recognizable Oxford atmosphere, gothic arches and old college buildings in the background, carrying a few policy papers and a satchel, poised between relief and ambition, celebratory but thoughtful, strong focal subject, clean silhouette, medium shot, no crowd, no classroom desk scene, visually specific, memorable composition",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, crowd, multiple animals, classroom desk, generic office, plain pastel background, blurry architecture, low contrast",
       "keywords": [
         "錄取牛津記",
         "轉彎",
@@ -22,7 +22,7 @@
         "學術現場的心境整",
         "年後"
       ],
-      "motif": "abstract"
+      "motif": "academy"
     },
     {
       "file": "2026-03-15-數位整風運動.md",

@@ -241,6 +241,7 @@ function pickMotif(keywords) {
   if (/隱私|匿名|privacy|cipher|zk|crypt|加密/.test(joined)) return "privacy";
   if (/身分|identity|wallet|did|憑證/.test(joined)) return "identity";
   if (/民主|治理|policy|law|政府|公民/.test(joined)) return "governance";
+  if (/牛津|大學|學院|研究所|學術|校園|留學|公共政策|政策/.test(joined)) return "academy";
   if (/nft|藝術|art|gallery|創作/.test(joined)) return "art";
   if (/esim|旅遊|travel|國際|global/.test(joined)) return "globe";
   if (/網路|社群|platform|network|matters/.test(joined)) return "network";
@@ -257,6 +258,8 @@ function motifPrompt(motif) {
       return "civic architecture, columns, assembly, structured grid, governance";
     case "art":
       return "gallery frame, brush strokes, abstract sculpture, creative tools";
+    case "academy":
+      return "honey-stone university quadrangle, gothic arches, academic gown, bicycle, books, scholarly celebration";
     case "globe":
       return "globe lines, travel map, routes, connection arcs";
     case "network":
@@ -341,7 +344,12 @@ async function main() {
     const motif = pickMotif(keywords);
     const seed = hashText(`${post.fileName}|${keywords.join("|")}|${motif}`);
 
-    const prompt = `${BASE_PROMPT}, ${motifPrompt(motif)}, keywords: ${keywords.slice(0, 6).join(", ")}`;
+    const prompt = post.data.coverPrompt?.trim()
+      ? post.data.coverPrompt.trim()
+      : `${BASE_PROMPT}, ${motifPrompt(motif)}, keywords: ${keywords.slice(0, 6).join(", ")}`;
+    const negativePrompt = post.data.coverNegativePrompt?.trim()
+      ? post.data.coverNegativePrompt.trim()
+      : NEGATIVE_PROMPT;
 
     items.push({
       file: post.fileName,
@@ -351,7 +359,7 @@ async function main() {
       height: 630,
       seed,
       prompt,
-      negativePrompt: NEGATIVE_PROMPT,
+      negativePrompt,
       keywords: keywords.slice(0, 8),
       motif
     });

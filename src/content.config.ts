@@ -13,6 +13,8 @@ const postSchema = z.object({
   category: z.string().optional(),
   cover: z.string().optional(),
   coverAlt: z.string().optional(),
+  coverPrompt: z.string().optional(),
+  coverNegativePrompt: z.string().optional(),
   lang: z.string().optional(),
   canonicalURL: z.string().url().optional(),
   author: z.string().optional(),
