@@ -46,7 +46,12 @@
     "publish:post": "node scripts/publish-post.mjs",
     "publish:post:fast": "node scripts/publish-post.mjs --skip-cover --skip-sign",
     "publish:post:full": "node scripts/publish-post.mjs",
-    "meeting:summary:gdocs": "python3 scripts/meet_summary_to_gdocs.py"
+    "meeting:summary:gdocs": "python3 scripts/meet_summary_to_gdocs.py",
+    "rag:build-corpus": "node scripts/build-rag-corpus.mjs",
+    "rag:build-workbench": "node scripts/build-rag-workbench.mjs",
+    "rag:build-gold-set": "node scripts/build-rag-gold-set.mjs",
+    "rag:build-gold-review": "node scripts/build-rag-gold-review.mjs",
+    "rag:serve": "node scripts/rag-lab-server.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
