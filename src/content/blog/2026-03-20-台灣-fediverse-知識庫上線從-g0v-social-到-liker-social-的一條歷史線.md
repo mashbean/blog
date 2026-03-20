@@ -26,19 +26,21 @@ coverPrompt: >-
   editorial gouache illustration, overhead view, centered on a clearly
   recognizable map of Taiwan pinned to a research board, five bright node
   markers on the island connected by curved relay arcs and dotted federation
-  lines, small paper cards around the map showing different fediverse formats
-  such as short posts, forum threads, video windows, and blog pages, one corner
-  includes cables and a compact home server, another corner shows faded archived
-  social cards and a dim coin-like emblem disappearing into dust to represent
-  the lost history of liker.social and LikeCoin, visual mood of reconstructing
-  internet history from scattered evidence, calm but investigative, precise
-  composition, no characters, no animals, no mascots, no text
+  lines, only blank unlabeled cards around the map, abstract UI blocks only, no
+  readable text anywhere, no letters anywhere, no words anywhere, no labels, no
+  captions, no symbols that resemble readable writing, one corner includes
+  cables and a compact home server, another corner shows faded archived social
+  cards and a dim coin-like emblem disappearing into dust to represent the lost
+  history of liker.social and LikeCoin, visual mood of reconstructing internet
+  history from scattered evidence, calm but investigative, precise composition,
+  no characters, no animals, no mascots, no text
 coverNegativePrompt: >-
   text, typography, letters, watermark, logo, signature, caption, people, faces,
   hands, animals, birds, foxes, pigs, cats, mascots, character illustration,
   generic abstract geometry, empty pastel background, space scene, globe,
   photorealistic, 3d render, UI screenshot, low contrast, cluttered composition,
-  random social media icons
+  random social media icons, readable words, readable labels, printed text on
+  cards, interface text, fake handwriting, poster text
 contentHash: '0xbda820d398ef85b845e270f0026aa3b0acf5e36291c868e481f20e1147930342'
 signature: >-
   0x6ba3b3d8064201613ee333133427dc2cdfed9e78960ba9b71f3a8ce88557ce054b146c5068776049eff4c723c62365b409969e14d349854e7639fbfaa46c394b1c
