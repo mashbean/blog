@@ -1,8 +1,29 @@
 {
-  "generatedAt": "2026-03-15T14:49:07.365Z",
+  "generatedAt": "2026-03-20T08:47:16.496Z",
   "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
   "items": [
+    {
+      "file": "2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.md",
+      "title": "台灣 fediverse 知識庫上線：補上一條從 g0v.social 到 liker.social 的歷史線",
+      "coverPng": "images/covers/home/2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 99549095,
+      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: fediverse, liker.social, 台灣, 網站, relay, activitypub",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "keywords": [
+        "fediverse",
+        "liker.social",
+        "台灣",
+        "網站",
+        "relay",
+        "activitypub",
+        "知識庫上線",
+        "的歷史線"
+      ],
+      "motif": "abstract"
+    },
     {
       "file": "2026-03-15-錄取牛津記.md",
       "title": "錄取牛津記",
@@ -233,27 +254,6 @@
         "proof"
       ],
       "motif": "privacy"
-    },
-    {
-      "file": "2025-09-12-和平演變抑或風暴前夜淺談數位世代的廚房呢-豆泥-matters.md",
-      "title": "和平演變抑或風暴前夜？淺談數位世代的廚房呢… - 豆泥 - Matters",
-      "coverPng": "images/covers/home/2025-09-12-和平演變抑或風暴前夜淺談數位世代的廚房呢-豆泥-matters.jpg",
-      "width": 1200,
-      "height": 630,
-      "seed": 1696801207,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, community workshop scene, shared desk, cards and notes, collaborative civic mood, keywords: 來源, 廚房, 豆泥, 前夜, https, matters.town",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
-      "keywords": [
-        "來源",
-        "廚房",
-        "豆泥",
-        "前夜",
-        "https",
-        "matters.town",
-        "swk8mbq3j7jw",
-        "淺談數位世代的廚"
-      ],
-      "motif": "network"
     }
   ]
 }
