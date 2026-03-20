@@ -22,6 +22,25 @@ draft: false
 coverAlt: 台灣 fediverse 知識庫與 liker.social 歷史線封面圖
 cover: >-
   images/covers/home/2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.jpg
+coverPrompt: >-
+  overhead editorial collage illustration, no characters, no animals, no
+  mascots, a clearly recognizable paper map of Taiwan pinned on a warm research
+  desk, five distinct node markers on the island connected by relay arcs and
+  dotted federation lines, surrounding paper scraps suggest different fediverse
+  services and publishing formats such as short posts, video, forum threads, and
+  blog pages without any logos or text, one corner has a notebook, cables, and a
+  small home server to imply civic-tech infrastructure, another corner has faded
+  archived cards and a dim coin-like seal dissolving into the background to
+  represent the vanished history of liker.social and LikeCoin, visual feeling of
+  reconstructing internet history from scattered evidence, precise composition,
+  calm but investigative mood, warm paper texture, mint, apricot, cream, and
+  teal palette
+coverNegativePrompt: >-
+  text, typography, letters, watermark, logo, signature, caption, people, faces,
+  animals, birds, foxes, pigs, mascots, character illustration, generic abstract
+  geometry, empty pastel background, space scene, globe, photorealistic, 3d
+  render, UI screenshot, low contrast, cluttered composition, random social
+  media icons
 contentHash: '0xbda820d398ef85b845e270f0026aa3b0acf5e36291c868e481f20e1147930342'
 signature: >-
   0x6ba3b3d8064201613ee333133427dc2cdfed9e78960ba9b71f3a8ce88557ce054b146c5068776049eff4c723c62365b409969e14d349854e7639fbfaa46c394b1c
