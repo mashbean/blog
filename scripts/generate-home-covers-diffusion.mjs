@@ -12,10 +12,33 @@ const PROMPTS_PATH = path.join(ROOT, "scripts", "home-cover-prompts.json");
 const REPORT_PATH = path.join(ROOT, "scripts", "home-cover-report.json");
 const HOMEPAGE_LIMIT = 12;
 
-const BASE_PROMPT =
-  "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo";
-const NEGATIVE_PROMPT =
-  "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy";
+const COVER_PRESETS = {
+  editorialResearch: {
+    basePrompt:
+      "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots",
+    negativePrompt:
+      "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition"
+  },
+  bolognaAnimals: {
+    basePrompt:
+      "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
+    negativePrompt:
+      "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy"
+  }
+};
+
+const DEFAULT_COVER_PRESET = "editorialResearch";
+const COVER_PRESET_ALIASES = {
+  editorial: "editorialResearch",
+  research: "editorialResearch",
+  archive: "editorialResearch",
+  map: "editorialResearch",
+  diagram: "editorialResearch",
+  bologna: "bolognaAnimals",
+  animal: "bolognaAnimals",
+  animals: "bolognaAnimals",
+  storybook: "bolognaAnimals"
+};
 
 const ZH_STOPWORDS = new Set([
   "我們",
@@ -118,6 +141,24 @@ const ZH_VERBISH = new Set([
 
 const ZH_CONNECTOR_CHARS = /[從到與和及或並而但在把讓將被]/;
 const ZH_BAD_SUFFIX = /(之後|之中|而已|流程|歷程|記錄|完成|判斷|這樣|這些)$/;
+
+function parseArgs(argv) {
+  const args = {
+    apply: false,
+    dryRun: false,
+    file: ""
+  };
+
+  for (let i = 0; i < argv.length; i += 1) {
+    const token = argv[i];
+    if (token === "--apply") args.apply = true;
+    if (token === "--dry-run") args.dryRun = true;
+    if (token === "--file") args.file = argv[i + 1] ?? "";
+    if (token === "--file") i += 1;
+  }
+
+  return args;
+}
 
 function normalizeText(input = "") {
   return String(input)
@@ -236,6 +277,38 @@ function extractKeywords({ title, description, body, tags, category }) {
   return out;
 }
 
+function resolveCoverPreset(value) {
+  const raw = normalizeText(value).toLocaleLowerCase("en-US");
+  if (!raw) return null;
+  return COVER_PRESETS[raw] ? raw : COVER_PRESET_ALIASES[raw] ?? null;
+}
+
+function inferCoverPreset({ data, keywords, motif }) {
+  const explicit = resolveCoverPreset(data.coverPreset);
+  if (explicit) return explicit;
+
+  const haystack = [
+    data.title,
+    data.description,
+    ...(Array.isArray(data.tags) ? data.tags : []),
+    keywords.join(" "),
+    motif
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .toLocaleLowerCase("zh-TW");
+
+  if (/編年記|小記|日記|錄取|vibe|叔叔|旅遊|travel|life|memo/.test(haystack)) {
+    return "bolognaAnimals";
+  }
+
+  return DEFAULT_COVER_PRESET;
+}
+
+function getPresetConfig(name) {
+  return COVER_PRESETS[name] ?? COVER_PRESETS[DEFAULT_COVER_PRESET];
+}
+
 function pickMotif(keywords) {
   const joined = keywords.join(" ");
   if (/隱私|匿名|privacy|cipher|zk|crypt|加密/.test(joined)) return "privacy";
@@ -248,24 +321,45 @@ function pickMotif(keywords) {
   return "abstract";
 }
 
-function motifPrompt(motif) {
+function motifPrompt(preset, motif) {
+  if (preset === "bolognaAnimals") {
+    switch (motif) {
+      case "privacy":
+        return "symbolic lock, shield, hidden patterns, privacy by design";
+      case "identity":
+        return "identity card silhouette, wallet motif, credential layers, subtle geometric frames";
+      case "governance":
+        return "civic architecture, columns, assembly, structured grid, governance";
+      case "art":
+        return "gallery frame, brush strokes, abstract sculpture, creative tools";
+      case "academy":
+        return "honey-stone university quadrangle, gothic arches, academic gown, bicycle, books, scholarly celebration";
+      case "globe":
+        return "globe lines, travel map, routes, connection arcs";
+      case "network":
+        return "community workshop scene, shared desk, cards and notes, collaborative civic mood";
+      default:
+        return "abstract shapes, calm geometry, editorial composition";
+    }
+  }
+
   switch (motif) {
     case "privacy":
-      return "symbolic lock, shield, hidden patterns, privacy by design";
+      return "research board with hidden routes, layered note cards, shield motif, privacy by design";
     case "identity":
-      return "identity card silhouette, wallet motif, credential layers, subtle geometric frames";
+      return "credential cards, wallet token, structured forms, identity verification diagram";
     case "governance":
-      return "civic architecture, columns, assembly, structured grid, governance";
+      return "civic archive board, assembly notes, policy documents, public decision map";
     case "art":
-      return "gallery frame, brush strokes, abstract sculpture, creative tools";
+      return "gallery labels, sketch cards, creative tools, archival curation board";
     case "academy":
-      return "honey-stone university quadrangle, gothic arches, academic gown, bicycle, books, scholarly celebration";
+      return "scholarly desk, books, campus map, notes and diagrams";
     case "globe":
-      return "globe lines, travel map, routes, connection arcs";
+      return "map routes, checkpoints, signal towers, international connection diagram";
     case "network":
-      return "community workshop scene, shared desk, cards and notes, collaborative civic mood";
+      return "node map, relay arcs, linked cards, community infrastructure diagram";
     default:
-      return "abstract shapes, calm geometry, editorial composition";
+      return "structured archival collage, note cards, map fragments, investigative editorial composition";
   }
 }
 
@@ -280,32 +374,29 @@ function hasExplicitNoPublish(data) {
 }
 
 function upsertFrontmatter(raw, updates) {
-  if (!raw.startsWith("---\n")) throw new Error("File has no YAML frontmatter block.");
-  const end = raw.indexOf("\n---", 4);
-  if (end < 0) throw new Error("Frontmatter closing marker not found.");
-
-  const head = raw.slice(4, end);
-  const tail = raw.slice(end + 4);
-  let nextHead = head;
-
+  const doc = matter(raw);
   for (const [key, value] of Object.entries(updates)) {
-    const encoded = String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
-    const lineRegex = new RegExp(`^${key}:\\s*.*$`, "m");
-    if (lineRegex.test(nextHead)) {
-      nextHead = nextHead.replace(lineRegex, `${key}: "${encoded}"`);
-    } else {
-      nextHead = `${nextHead.replace(/\n+$/g, "")}\n${key}: "${encoded}"\n`;
-    }
+    doc.data[key] = value;
   }
+  return matter.stringify(doc.content, doc.data);
+}
 
-  const normalizedHead = `${nextHead.replace(/^\n+/, "").replace(/\n*$/g, "")}\n`;
-  return `---\n${normalizedHead}---${tail}`;
+async function loadPostByFileName(fileName) {
+  const filePath = path.join(BLOG_DIR, fileName);
+  const raw = await fs.readFile(filePath, "utf8");
+  const doc = matter(raw);
+  return {
+    filePath,
+    fileName: path.basename(filePath),
+    raw,
+    data: doc.data,
+    body: doc.content,
+    pubDate: toDate(doc.data.pubDate ?? doc.data.date)
+  };
 }
 
 async function main() {
-  const args = new Set(process.argv.slice(2));
-  const apply = args.has("--apply");
-  const dryRun = args.has("--dry-run");
+  const args = parseArgs(process.argv.slice(2));
 
   const files = await fg("*.md", { cwd: BLOG_DIR, absolute: true });
   const now = Date.now();
@@ -323,6 +414,16 @@ async function main() {
 
   posts.sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
   const targets = posts.slice(0, HOMEPAGE_LIMIT);
+
+  if (args.file) {
+    const explicitPost = await loadPostByFileName(args.file);
+    const existingIndex = targets.findIndex((item) => item.fileName === explicitPost.fileName);
+    if (existingIndex >= 0) {
+      targets[existingIndex] = explicitPost;
+    } else {
+      targets.unshift(explicitPost);
+    }
+  }
 
   await fs.mkdir(PUBLIC_COVER_DIR_ABS, { recursive: true });
 
@@ -342,14 +443,16 @@ async function main() {
       category: post.data.category
     });
     const motif = pickMotif(keywords);
+    const presetName = inferCoverPreset({ data: post.data, keywords, motif });
+    const preset = getPresetConfig(presetName);
     const seed = hashText(`${post.fileName}|${keywords.join("|")}|${motif}`);
 
     const prompt = post.data.coverPrompt?.trim()
       ? post.data.coverPrompt.trim()
-      : `${BASE_PROMPT}, ${motifPrompt(motif)}, keywords: ${keywords.slice(0, 6).join(", ")}`;
+      : `${preset.basePrompt}, ${motifPrompt(presetName, motif)}, keywords: ${keywords.slice(0, 6).join(", ")}`;
     const negativePrompt = post.data.coverNegativePrompt?.trim()
       ? post.data.coverNegativePrompt.trim()
-      : NEGATIVE_PROMPT;
+      : preset.negativePrompt;
 
     items.push({
       file: post.fileName,
@@ -361,10 +464,11 @@ async function main() {
       prompt,
       negativePrompt,
       keywords: keywords.slice(0, 8),
-      motif
+      motif,
+      preset: presetName
     });
 
-    if (!apply) continue;
+    if (!args.apply) continue;
 
     let exists = false;
     try {
@@ -376,11 +480,18 @@ async function main() {
 
     if (!exists) continue;
     const nextRaw = upsertFrontmatter(post.raw, { cover: coverRelJpg });
-    if (!dryRun) await fs.writeFile(post.filePath, nextRaw, "utf8");
+    if (!args.dryRun) await fs.writeFile(post.filePath, nextRaw, "utf8");
   }
 
-  const payload = { generatedAt: new Date().toISOString(), basePrompt: BASE_PROMPT, negativePrompt: NEGATIVE_PROMPT, items };
-  if (!dryRun) {
+  const payload = {
+    generatedAt: new Date().toISOString(),
+    defaultPreset: DEFAULT_COVER_PRESET,
+    basePrompt: COVER_PRESETS[DEFAULT_COVER_PRESET].basePrompt,
+    negativePrompt: COVER_PRESETS[DEFAULT_COVER_PRESET].negativePrompt,
+    presets: Object.keys(COVER_PRESETS),
+    items
+  };
+  if (!args.dryRun) {
     await fs.writeFile(PROMPTS_PATH, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
     await fs.writeFile(REPORT_PATH, `${JSON.stringify({ generatedAt: payload.generatedAt, items: items.map((x) => ({ file: x.file, coverPng: x.coverPng, keywords: x.keywords, motif: x.motif })) }, null, 2)}\n`, "utf8");
   }
@@ -389,7 +500,8 @@ async function main() {
   console.log(`Targets: ${items.length}`);
   console.log(`Prompts: ${path.relative(ROOT, PROMPTS_PATH)}`);
   console.log(`Report: ${path.relative(ROOT, REPORT_PATH)}`);
-  if (apply) console.log("Applied: cover updated where PNG exists.");
+  if (args.file) console.log(`Pinned file: ${args.file}`);
+  if (args.apply) console.log("Applied: cover updated where PNG exists.");
 }
 
 main().catch((error) => {

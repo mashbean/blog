@@ -79,8 +79,10 @@ async function findLatestPublishedPost(fileArg) {
   return posts[0];
 }
 
-async function refreshPrompts() {
-  execFileSync("node", ["scripts/generate-home-covers-diffusion.mjs"], { stdio: "inherit", cwd: ROOT });
+async function refreshPrompts(fileName = "") {
+  const cmdArgs = ["scripts/generate-home-covers-diffusion.mjs"];
+  if (fileName) cmdArgs.push("--file", fileName);
+  execFileSync("node", cmdArgs, { stdio: "inherit", cwd: ROOT });
 }
 
 async function loadPromptItem(fileName) {
@@ -128,23 +130,9 @@ function postProcessToSocialCover(tempPath, outPath, outputQuality) {
 }
 
 function replaceCoverPathInFrontmatter(raw, nextCoverPath) {
-  if (!raw.startsWith("---\n")) throw new Error("File has no YAML frontmatter block.");
-  const end = raw.indexOf("\n---", 4);
-  if (end < 0) throw new Error("Frontmatter closing marker not found.");
-
-  const head = raw.slice(4, end);
-  const tail = raw.slice(end + 4);
-  let nextHead = head;
-
-  const lineRegex = /^cover:\s*.*$/m;
-  if (lineRegex.test(nextHead)) {
-    nextHead = nextHead.replace(lineRegex, `cover: ${nextCoverPath}`);
-  } else {
-    nextHead = `${nextHead.replace(/\n+$/g, "")}\ncover: ${nextCoverPath}\n`;
-  }
-
-  const normalizedHead = `${nextHead.replace(/^\n+/, "").replace(/\n*$/g, "")}\n`;
-  return `---\n${normalizedHead}---${tail}`;
+  const doc = matter(raw);
+  doc.data.cover = nextCoverPath;
+  return matter.stringify(doc.content, doc.data);
 }
 
 async function run() {
@@ -153,9 +141,12 @@ async function run() {
   if (!args.dryRun && !apiKey) throw new Error("OPENAI_API_KEY is required");
 
   const post = await findLatestPublishedPost(args.file);
+  if (args.file && !args.dryRun) {
+    await refreshPrompts(post.fileName);
+  }
   let { item } = await loadPromptItem(post.fileName);
   if ((args.refreshPrompts || !item) && !args.dryRun) {
-    await refreshPrompts();
+    await refreshPrompts(post.fileName);
     ({ item } = await loadPromptItem(post.fileName));
   }
   if (!item) {

@@ -34,6 +34,14 @@ async function ensureDir(filePath) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
 }
 
+function buildPrompt(prompt, negativePrompt) {
+  if (!negativePrompt) {
+    return `${prompt}. Strictly no text, letters, words, logos, signatures, watermark.`;
+  }
+
+  return `${prompt}. Avoid: ${negativePrompt}. Strictly no text, letters, words, logos, signatures, watermark.`;
+}
+
 async function generateImage(apiBase, apiKey, body) {
   const res = await fetch(`${apiBase.replace(/\/+$/, "")}/images/generations`, {
     method: "POST",
@@ -84,7 +92,7 @@ async function run() {
       continue;
     }
 
-    const prompt = `${item.prompt}. Strictly no text, letters, words, logos, signatures, watermark.`;
+    const prompt = buildPrompt(String(item.prompt ?? ""), String(item.negativePrompt ?? ""));
     const payload = {
       model: args.model,
       prompt,
@@ -106,4 +114,3 @@ run().catch((error) => {
   console.error("[openai-render] failed:", error);
   process.exitCode = 1;
 });
-

@@ -1,7 +1,12 @@
 {
-  "generatedAt": "2026-03-20T08:47:16.496Z",
-  "basePrompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo",
-  "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+  "generatedAt": "2026-03-20T09:25:55.074Z",
+  "defaultPreset": "editorialResearch",
+  "basePrompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots",
+  "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
+  "presets": [
+    "editorialResearch",
+    "bolognaAnimals"
+  ],
   "items": [
     {
       "file": "2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.md",
@@ -10,8 +15,8 @@
       "width": 1200,
       "height": 630,
       "seed": 99549095,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: fediverse, liker.social, 台灣, 網站, relay, activitypub",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, overhead view, centered on a clearly recognizable map of Taiwan pinned to a research board, five bright node markers on the island connected by curved relay arcs and dotted federation lines, small paper cards around the map showing different fediverse formats such as short posts, forum threads, video windows, and blog pages, one corner includes cables and a compact home server, another corner shows faded archived social cards and a dim coin-like emblem disappearing into dust to represent the lost history of liker.social and LikeCoin, visual mood of reconstructing internet history from scattered evidence, calm but investigative, precise composition, no characters, no animals, no mascots, no text",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, generic abstract geometry, empty pastel background, space scene, globe, photorealistic, 3d render, UI screenshot, low contrast, cluttered composition, random social media icons",
       "keywords": [
         "fediverse",
         "liker.social",
@@ -22,7 +27,8 @@
         "知識庫上線",
         "的歷史線"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "editorialResearch"
     },
     {
       "file": "2026-03-15-錄取牛津記.md",
@@ -43,7 +49,8 @@
         "學術現場的心境整",
         "年後"
       ],
-      "motif": "academy"
+      "motif": "academy",
+      "preset": "bolognaAnimals"
     },
     {
       "file": "2026-03-15-數位整風運動.md",
@@ -52,8 +59,8 @@
       "width": 1200,
       "height": 630,
       "seed": 2872953799,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 數位整風運動, 整風, ai, 團隊玩成立體世界的實驗, 也就是, 中制的角色扮演裡",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, structured archival collage, note cards, map fragments, investigative editorial composition, keywords: 數位整風運動, 整風, ai, 團隊玩成立體世界的實驗, 也就是, 中制的角色扮演裡",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "數位整風運動",
         "整風",
@@ -64,7 +71,8 @@
         "團隊玩成立體世界",
         "的實驗"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "editorialResearch"
     },
     {
       "file": "2026-02-26-一週重啟部落格編年記.md",
@@ -85,7 +93,8 @@
         "再透過",
         "修飾"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "bolognaAnimals"
     },
     {
       "file": "2026-02-26-10000-篇臉書文之後.md",
@@ -94,8 +103,8 @@
       "width": 1200,
       "height": 630,
       "seed": 903527473,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 懶惰的聰明人, 半自動審稿, 記錄三層加速的人, 之巔, 達克效應中, 學會一點東西就嘰",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, structured archival collage, note cards, map fragments, investigative editorial composition, keywords: 懶惰的聰明人, 半自動審稿, 記錄三層加速的人, 之巔, 達克效應中, 學會一點東西就嘰",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "懶惰的聰明人",
         "半自動審稿",
@@ -106,7 +115,8 @@
         "嘰叫的狀態",
         "輕鬆"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "editorialResearch"
     },
     {
       "file": "2026-02-24-vibe-coding-blog-launch.md",
@@ -127,7 +137,8 @@
         "衝刺",
         "位自我主權的一週"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "bolognaAnimals"
     },
     {
       "file": "2026-02-22-bonds-litepaper-project-scan.md",
@@ -136,8 +147,8 @@
       "width": 1200,
       "height": 630,
       "seed": 1597373399,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: litepaper, 專案掃描, 重點整理, bond, 針對, 研究脈絡",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, structured archival collage, note cards, map fragments, investigative editorial composition, keywords: litepaper, 專案掃描, 重點整理, bond, 針對, 研究脈絡",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "litepaper",
         "專案掃描",
@@ -148,7 +159,8 @@
         "bonds.tw",
         "blog.bonds.tw"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "editorialResearch"
     },
     {
       "file": "2026-01-23-風暴鈔隱の池與軌道炮-挑戰白話解析匿名加密-豆泥-matters.md",
@@ -157,8 +169,8 @@
       "width": 1200,
       "height": 630,
       "seed": 4075715080,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: 風暴鈔, 匿名, 挑戰白話解析, 來源, 豆泥, 加密...",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, research board with hidden routes, layered note cards, shield motif, privacy by design, keywords: 風暴鈔, 匿名, 挑戰白話解析, 來源, 豆泥, 加密...",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "風暴鈔",
         "匿名",
@@ -169,7 +181,8 @@
         "https",
         "matters.town"
       ],
-      "motif": "privacy"
+      "motif": "privacy",
+      "preset": "editorialResearch"
     },
     {
       "file": "2025-12-30-我眼中的-matters-豆泥-matters.md",
@@ -178,8 +191,8 @@
       "width": 1200,
       "height": 630,
       "seed": 2648156861,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, community workshop scene, shared desk, cards and notes, collaborative civic mood, keywords: 我眼中的, 來源, 豆泥, privilege, 翻為特權, 模式",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, node map, relay arcs, linked cards, community infrastructure diagram, keywords: 我眼中的, 來源, 豆泥, privilege, 翻為特權, 模式",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "我眼中的",
         "來源",
@@ -190,7 +203,8 @@
         "https",
         "matters.town"
       ],
-      "motif": "network"
+      "motif": "network",
+      "preset": "editorialResearch"
     },
     {
       "file": "2025-12-28-dacc-day-argentina-演講維持現狀加速主義-豆泥-matters.md",
@@ -199,8 +213,8 @@
       "width": 1200,
       "height": 630,
       "seed": 1769770128,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, abstract shapes, calm geometry, editorial composition, keywords: 維持現狀加速主義, 演講, day, d/acc, argentina, acc",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, structured archival collage, note cards, map fragments, investigative editorial composition, keywords: 維持現狀加速主義, 演講, day, d/acc, argentina, acc",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "維持現狀加速主義",
         "演講",
@@ -211,7 +225,8 @@
         "來源",
         "豆泥"
       ],
-      "motif": "abstract"
+      "motif": "abstract",
+      "preset": "editorialResearch"
     },
     {
       "file": "2025-12-28-ethereum-privacy-stack-演講抗審查真的不可或缺嗎-豆泥-matters.md",
@@ -220,8 +235,8 @@
       "width": 1200,
       "height": 630,
       "seed": 3438522054,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: 演講, ethereum, privacy, stack, 來源, 缺嗎",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, research board with hidden routes, layered note cards, shield motif, privacy by design, keywords: 演講, ethereum, privacy, stack, 來源, 缺嗎",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "演講",
         "ethereum",
@@ -232,7 +247,8 @@
         "豆泥",
         "市場需求"
       ],
-      "motif": "privacy"
+      "motif": "privacy",
+      "preset": "editorialResearch"
     },
     {
       "file": "2025-12-28-zkid-day在政府推動密碼龐克id政策的困境-豆泥-matters.md",
@@ -241,8 +257,8 @@
       "width": 1200,
       "height": 630,
       "seed": 4050061520,
-      "prompt": "playful naive storybook illustration, hand-cut paper collage, visible torn paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink outlines, childlike animal characters, airy editorial composition, mint + apricot + cream + sky blue palette, cozy creative studio mood, no text, no typography, no letters, no watermark, no logo, symbolic lock, shield, hidden patterns, privacy by design, keywords: digital, identity, zkid, zero-knowledge, day, 身分",
-      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, dark red, maroon, burgundy",
+      "prompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots, research board with hidden routes, layered note cards, shield motif, privacy by design, keywords: digital, identity, zkid, zero-knowledge, day, 身分",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
       "keywords": [
         "digital",
         "identity",
@@ -253,7 +269,8 @@
         "錢包",
         "proof"
       ],
-      "motif": "privacy"
+      "motif": "privacy",
+      "preset": "editorialResearch"
     }
   ]
 }

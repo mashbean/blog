@@ -99,7 +99,7 @@ SEO/機器可讀入口：
 
 - Jekyll 遷移：`npm run migrate:posts`
 - 文章簽名：`npm run sign:posts`
-- 最新文章封面（動物系 prompt + 自動壓縮）：`npm run cover:latest`
+- 最新文章封面（preset prompt + 自動壓縮）：`npm run cover:latest`
 - 自動上稿快路徑（生圖 + 簽章 + check + commit + push）：`npm run publish:post -- --file <你的檔名.md> --message "feat: publish ..."`
 - 圖像批次（OpenAI）：`npm run images:batch:openai`
 - Mermaid 圖表轉 PNG 備援：`npm run diagrams:build`（只掃 blog 可用 `npm run diagrams:build:blog`）
@@ -109,6 +109,12 @@ SEO/機器可讀入口：
 2. 執行 `npm run cover:latest`（會自動套用目前封面 prompt、生成封面、裁切為 1200x630、壓縮為 JPG 並回寫 `cover`）
 3. 執行 `npm run sign:posts -- --file <你的檔名.md>`
 4. 執行 `npm run check`
+
+封面相關欄位：
+- `coverPrompt` 會直接覆蓋自動推導的 prompt
+- `coverNegativePrompt` 可補強避開元素
+- `coverPreset` 可指定 `editorialResearch` 或 `bolognaAnimals`
+- `npm run cover:latest -- --file <你的檔名.md>` 現在會自動刷新該篇 prompt，不再依賴舊的 `home-cover-prompts.json` 快取
 
 說明：`scripts/` 僅保留可重複執行、目前流程仍會用到的工具；一次性輸出報表與快取已排除追蹤。
 
