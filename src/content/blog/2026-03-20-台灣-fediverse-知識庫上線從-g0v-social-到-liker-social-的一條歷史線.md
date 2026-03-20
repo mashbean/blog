@@ -22,7 +22,6 @@ draft: false
 coverAlt: 台灣 fediverse 知識庫與 liker.social 歷史線封面圖
 cover: >-
   images/covers/home/2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.jpg
-  images/covers/home/2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.jpg
 coverPrompt: >-
   editorial gouache illustration, overhead view, centered on a clearly
   recognizable map of Taiwan pinned to a research board, five bright node
