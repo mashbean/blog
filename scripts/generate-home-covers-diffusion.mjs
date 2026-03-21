@@ -395,66 +395,43 @@ async function loadPostByFileName(fileName) {
   };
 }
 
-async function main() {
-  const args = parseArgs(process.argv.slice(2));
-
-  const files = await fg("*.md", { cwd: BLOG_DIR, absolute: true });
-  const now = Date.now();
-  const posts = [];
-
-  for (const filePath of files) {
-    const raw = await fs.readFile(filePath, "utf8");
-    const doc = matter(raw);
-    const pubDate = toDate(doc.data.pubDate ?? doc.data.date);
-    if (!pubDate) continue;
-    if (hasExplicitNoPublish(doc.data)) continue;
-    if (pubDate.getTime() > now) continue;
-    posts.push({ filePath, fileName: path.basename(filePath), raw, data: doc.data, body: doc.content, pubDate });
+async function loadExistingPromptItems() {
+  try {
+    const raw = await fs.readFile(PROMPTS_PATH, "utf8");
+    const payload = JSON.parse(raw);
+    return Array.isArray(payload.items) ? payload.items : [];
+  } catch {
+    return [];
   }
+}
 
-  posts.sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
-  const targets = posts.slice(0, HOMEPAGE_LIMIT);
+function buildPromptItem(post) {
+  const baseName = post.fileName.replace(/\.md$/i, "");
+  const jpgName = `${baseName}.jpg`;
+  const coverRelJpg = `${PUBLIC_COVER_DIR_REL}/${jpgName}`;
+  const coverAbsJpg = path.join(PUBLIC_COVER_DIR_ABS, jpgName);
 
-  if (args.file) {
-    const explicitPost = await loadPostByFileName(args.file);
-    const existingIndex = targets.findIndex((item) => item.fileName === explicitPost.fileName);
-    if (existingIndex >= 0) {
-      targets[existingIndex] = explicitPost;
-    } else {
-      targets.unshift(explicitPost);
-    }
-  }
+  const keywords = extractKeywords({
+    title: post.data.title,
+    description: post.data.description,
+    body: post.body,
+    tags: post.data.tags,
+    category: post.data.category
+  });
+  const motif = pickMotif(keywords);
+  const presetName = inferCoverPreset({ data: post.data, keywords, motif });
+  const preset = getPresetConfig(presetName);
+  const seed = hashText(`${post.fileName}|${keywords.join("|")}|${motif}`);
 
-  await fs.mkdir(PUBLIC_COVER_DIR_ABS, { recursive: true });
+  const prompt = post.data.coverPrompt?.trim()
+    ? post.data.coverPrompt.trim()
+    : `${preset.basePrompt}, ${motifPrompt(presetName, motif)}, keywords: ${keywords.slice(0, 6).join(", ")}`;
+  const negativePrompt = post.data.coverNegativePrompt?.trim()
+    ? post.data.coverNegativePrompt.trim()
+    : preset.negativePrompt;
 
-  const items = [];
-
-  for (const post of targets) {
-    const baseName = post.fileName.replace(/\.md$/i, "");
-    const jpgName = `${baseName}.jpg`;
-    const coverRelJpg = `${PUBLIC_COVER_DIR_REL}/${jpgName}`;
-    const coverAbsJpg = path.join(PUBLIC_COVER_DIR_ABS, jpgName);
-
-    const keywords = extractKeywords({
-      title: post.data.title,
-      description: post.data.description,
-      body: post.body,
-      tags: post.data.tags,
-      category: post.data.category
-    });
-    const motif = pickMotif(keywords);
-    const presetName = inferCoverPreset({ data: post.data, keywords, motif });
-    const preset = getPresetConfig(presetName);
-    const seed = hashText(`${post.fileName}|${keywords.join("|")}|${motif}`);
-
-    const prompt = post.data.coverPrompt?.trim()
-      ? post.data.coverPrompt.trim()
-      : `${preset.basePrompt}, ${motifPrompt(presetName, motif)}, keywords: ${keywords.slice(0, 6).join(", ")}`;
-    const negativePrompt = post.data.coverNegativePrompt?.trim()
-      ? post.data.coverNegativePrompt.trim()
-      : preset.negativePrompt;
-
-    items.push({
+  return {
+    item: {
       file: post.fileName,
       title: post.data.title ?? "",
       coverPng: coverRelJpg,
@@ -466,21 +443,80 @@ async function main() {
       keywords: keywords.slice(0, 8),
       motif,
       preset: presetName
-    });
+    },
+    coverAbsJpg,
+    coverRelJpg
+  };
+}
 
-    if (!args.apply) continue;
+async function main() {
+  const args = parseArgs(process.argv.slice(2));
 
-    let exists = false;
-    try {
-      await fs.access(coverAbsJpg);
-      exists = true;
-    } catch {
-      exists = false;
+  await fs.mkdir(PUBLIC_COVER_DIR_ABS, { recursive: true });
+
+  let items = [];
+  let targetCount = 0;
+
+  if (args.file) {
+    const explicitPost = await loadPostByFileName(args.file);
+    const { item, coverAbsJpg, coverRelJpg } = buildPromptItem(explicitPost);
+    const existingItems = await loadExistingPromptItems();
+    const nextItems = existingItems.filter((entry) => entry.file !== explicitPost.fileName);
+    nextItems.unshift(item);
+    items = nextItems;
+    targetCount = 1;
+
+    if (args.apply) {
+      let exists = false;
+      try {
+        await fs.access(coverAbsJpg);
+        exists = true;
+      } catch {
+        exists = false;
+      }
+
+      if (exists) {
+        const nextRaw = upsertFrontmatter(explicitPost.raw, { cover: coverRelJpg });
+        if (!args.dryRun) await fs.writeFile(explicitPost.filePath, nextRaw, "utf8");
+      }
+    }
+  } else {
+    const files = await fg("*.md", { cwd: BLOG_DIR, absolute: true });
+    const now = Date.now();
+    const posts = [];
+
+    for (const filePath of files) {
+      const raw = await fs.readFile(filePath, "utf8");
+      const doc = matter(raw);
+      const pubDate = toDate(doc.data.pubDate ?? doc.data.date);
+      if (!pubDate) continue;
+      if (hasExplicitNoPublish(doc.data)) continue;
+      if (pubDate.getTime() > now) continue;
+      posts.push({ filePath, fileName: path.basename(filePath), raw, data: doc.data, body: doc.content, pubDate });
     }
 
-    if (!exists) continue;
-    const nextRaw = upsertFrontmatter(post.raw, { cover: coverRelJpg });
-    if (!args.dryRun) await fs.writeFile(post.filePath, nextRaw, "utf8");
+    posts.sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
+    const targets = posts.slice(0, HOMEPAGE_LIMIT);
+    targetCount = targets.length;
+
+    for (const post of targets) {
+      const { item, coverAbsJpg, coverRelJpg } = buildPromptItem(post);
+      items.push(item);
+
+      if (!args.apply) continue;
+
+      let exists = false;
+      try {
+        await fs.access(coverAbsJpg);
+        exists = true;
+      } catch {
+        exists = false;
+      }
+
+      if (!exists) continue;
+      const nextRaw = upsertFrontmatter(post.raw, { cover: coverRelJpg });
+      if (!args.dryRun) await fs.writeFile(post.filePath, nextRaw, "utf8");
+    }
   }
 
   const payload = {
@@ -497,7 +533,7 @@ async function main() {
   }
 
   console.log("[home-cover-diffusion] prompts ready");
-  console.log(`Targets: ${items.length}`);
+  console.log(`Targets: ${targetCount}`);
   console.log(`Prompts: ${path.relative(ROOT, PROMPTS_PATH)}`);
   console.log(`Report: ${path.relative(ROOT, REPORT_PATH)}`);
   if (args.file) console.log(`Pinned file: ${args.file}`);

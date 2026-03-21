@@ -9,23 +9,34 @@ interface GetFacebookPostsOptions {
   featuredOnly?: boolean;
 }
 
+const facebookPostsCache = new Map<string, Promise<FacebookEntry[]>>();
+
 export async function getFacebookPosts(
   options: GetFacebookPostsOptions = {},
 ): Promise<FacebookEntry[]> {
   const includeDrafts = options.includeDrafts ?? !import.meta.env.PROD;
   const includeFuture = options.includeFuture ?? !import.meta.env.PROD;
   const featuredOnly = options.featuredOnly ?? false;
-  const now = Date.now();
-  const posts = await getCollection("facebook");
+  const cacheKey = `${includeDrafts ? "1" : "0"}:${includeFuture ? "1" : "0"}:${featuredOnly ? "1" : "0"}`;
+  const cached = facebookPostsCache.get(cacheKey);
+  if (cached) return cached;
 
-  return posts
-    .filter((post) => {
-      if (!includeDrafts && post.data.draft) return false;
-      if (!includeFuture && post.data.pubDate.getTime() > now) return false;
-      if (featuredOnly && !post.data.isFeatured) return false;
-      return true;
-    })
-    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  const task = (async () => {
+    const now = Date.now();
+    const posts = await getCollection("facebook");
+
+    return posts
+      .filter((post) => {
+        if (!includeDrafts && post.data.draft) return false;
+        if (!includeFuture && post.data.pubDate.getTime() > now) return false;
+        if (featuredOnly && !post.data.isFeatured) return false;
+        return true;
+      })
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  })();
+
+  facebookPostsCache.set(cacheKey, task);
+  return task;
 }
 
 function normalizeSlug(input: string): string {
@@ -86,7 +97,7 @@ export function getFacebookPathCandidates(
   post: FacebookEntry,
   options: FacebookPathCandidateOptions = {},
 ): string[] {
-  const includeVerboseLegacy = options.includeVerboseLegacy ?? !import.meta.env.PROD;
+  const includeVerboseLegacy = options.includeVerboseLegacy ?? false;
   const canonical = getFacebookCanonicalPathSegment(post);
   const candidates = [canonical, getFacebookLegacyPathSegment(post)];
   if (includeVerboseLegacy) {

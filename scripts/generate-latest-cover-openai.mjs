@@ -4,6 +4,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import fg from "fast-glob";
 import matter from "gray-matter";
+import { buildOpenAICoverPrompt, resolveOutputFormat } from "./openai-cover-utils.mjs";
 
 const ROOT = process.cwd();
 const BLOG_DIR = path.join(ROOT, "src", "content", "blog");
@@ -93,21 +94,25 @@ async function loadPromptItem(fileName) {
   return { payload, item: item ?? null };
 }
 
-async function generateImage({ apiBase, apiKey, model, size, quality, prompt }) {
+async function generateImage({ apiBase, apiKey, model, size, quality, prompt, outputFormat }) {
+  const body = {
+    model,
+    prompt,
+    size,
+    quality,
+    output_format: outputFormat
+  };
+  if (outputFormat === "jpeg") {
+    body.output_compression = 85;
+  }
+
   const res = await fetch(`${apiBase.replace(/\/+$/, "")}/images/generations`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
       authorization: `Bearer ${apiKey}`
     },
-    body: JSON.stringify({
-      model,
-      prompt,
-      size,
-      quality,
-      output_format: "jpeg",
-      output_compression: 85
-    })
+    body: JSON.stringify(body)
   });
 
   if (!res.ok) {
@@ -121,12 +126,20 @@ async function generateImage({ apiBase, apiKey, model, size, quality, prompt }) 
   return Buffer.from(image, "base64");
 }
 
-function postProcessToSocialCover(tempPath, outPath, outputQuality) {
+function postProcessToSocialCover(tempPath, outPath, outputQuality, outputFormat) {
   execFileSync("sips", ["-c", "630", "1200", tempPath], { stdio: "ignore" });
   execFileSync("sips", ["-z", "630", "1200", tempPath], { stdio: "ignore" });
-  execFileSync("sips", ["-s", "format", "jpeg", "-s", "formatOptions", String(outputQuality), tempPath, "--out", outPath], {
-    stdio: "ignore"
-  });
+  if (outputFormat === "jpeg") {
+    execFileSync(
+      "sips",
+      ["-s", "format", "jpeg", "-s", "formatOptions", String(outputQuality), tempPath, "--out", outPath],
+      {
+        stdio: "ignore"
+      }
+    );
+    return;
+  }
+  execFileSync("sips", ["-s", "format", "png", tempPath, "--out", outPath], { stdio: "ignore" });
 }
 
 function replaceCoverPathInFrontmatter(raw, nextCoverPath) {
@@ -154,12 +167,14 @@ async function run() {
   }
 
   const outRel = String(item.coverPng);
+  const outputFormat = resolveOutputFormat(outRel);
   const outAbs = path.join(ROOT, "public", ...outRel.split("/"));
-  const tempAbs = path.join(ROOT, "tmp", `${post.fileName.replace(/\.md$/i, "")}.cover.raw.jpg`);
+  const tempExt = outputFormat === "jpeg" ? "jpg" : "png";
+  const tempAbs = path.join(ROOT, "tmp", `${post.fileName.replace(/\.md$/i, "")}.cover.raw.${tempExt}`);
   await fs.mkdir(path.dirname(outAbs), { recursive: true });
   await fs.mkdir(path.dirname(tempAbs), { recursive: true });
 
-  const prompt = item.negativePrompt ? `${item.prompt}. Avoid: ${item.negativePrompt}` : item.prompt;
+  const prompt = buildOpenAICoverPrompt(item.prompt, item.negativePrompt);
 
   console.log(`[cover-latest] target=${post.fileName}`);
   console.log(`[cover-latest] output=${outRel}`);
@@ -175,11 +190,12 @@ async function run() {
     model: args.model,
     size: args.size,
     quality: args.quality,
-    prompt
+    prompt,
+    outputFormat
   });
 
   await fs.writeFile(tempAbs, image);
-  postProcessToSocialCover(tempAbs, outAbs, args.outputQuality);
+  postProcessToSocialCover(tempAbs, outAbs, args.outputQuality, outputFormat);
   await fs.unlink(tempAbs).catch(() => {});
 
   const nextRaw = replaceCoverPathInFrontmatter(post.raw, outRel);

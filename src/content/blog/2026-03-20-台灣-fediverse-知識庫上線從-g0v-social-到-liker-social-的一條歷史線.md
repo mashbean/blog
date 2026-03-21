@@ -22,29 +22,24 @@ draft: false
 coverAlt: 台灣 fediverse 知識庫與 liker.social 歷史線封面圖
 cover: >-
   images/covers/home/2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.jpg
-coverPreset: bolognaAnimals
+coverPreset: editorialResearch
 coverPrompt: >-
-  playful naive storybook illustration, hand-cut paper collage, visible torn
-  paper edges, wax crayon and dry gouache texture, imperfect hand-drawn ink
-  outlines, bologna children's book illustration mood, childlike animal
-  characters gathered around a clearly recognizable map of Taiwan pinned to a
-  research board, five bright node markers on the island connected by curved
-  relay arcs and dotted federation lines, curious animals helping examine the
-  map and cards, only blank unlabeled cards around the map, abstract UI blocks
-  only, no readable text anywhere, no letters anywhere, no words anywhere, no
-  labels, no captions, no symbols that resemble readable writing, one corner
-  includes cables and a compact home server, another corner shows faded archived
-  social cards and a dim coin-like emblem disappearing into dust to represent
-  the lost history of liker.social and LikeCoin, visual mood of reconstructing
-  internet history from scattered evidence, warm mint, apricot, cream, and sky
-  blue palette, calm but investigative, precise composition, no humans, no
-  typography
+  editorial gouache illustration, layered paper collage, overhead research-board
+  composition centered on a clearly recognizable map of Taiwan, five bright node
+  markers on the island connected by curved relay arcs and dotted federation
+  lines, a few blank archival cards near the map, one compact home server with
+  simple cables in a corner, one fading coin-like emblem and a partially
+  vanished social card tucked at the edge to hint at the disappeared history of
+  liker.social and LikeCoin, investigative but calm mood, warm paper texture,
+  mint, apricot, cream, and slate blue palette, precise composition, no
+  characters, no animals, no mascots, no readable text, no typography
 coverNegativePrompt: >-
-  text, typography, letters, watermark, logo, signature, caption, people, human
-  faces, human hands, generic abstract geometry, empty pastel background, space
-  scene, globe, photorealistic, 3d render, UI screenshot, low contrast,
-  cluttered composition, random social media icons, readable words, readable
-  labels, printed text on cards, interface text, fake handwriting, poster text
+  text, typography, letters, watermark, logo, signature, caption, people, faces,
+  hands, animals, birds, foxes, pigs, cats, mascots, generic abstract geometry,
+  empty pastel background, space scene, globe, photorealistic, 3d render, UI
+  screenshot, low contrast, cluttered composition, random social media icons,
+  readable words, readable labels, printed text on cards, interface text, fake
+  handwriting, poster text
 contentHash: '0xbda820d398ef85b845e270f0026aa3b0acf5e36291c868e481f20e1147930342'
 signature: >-
   0x6ba3b3d8064201613ee333133427dc2cdfed9e78960ba9b71f3a8ce88557ce054b146c5068776049eff4c723c62365b409969e14d349854e7639fbfaa46c394b1c

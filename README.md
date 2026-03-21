@@ -94,6 +94,7 @@ SEO/機器可讀入口：
 - `PUBLIC_PLAUSIBLE_DOMAIN`（例如 `mashbean.net`）
 - `PUBLIC_PLAUSIBLE_SCRIPT_SRC`（例如 `https://plausible.io/js/script.js`）
 - `PUBLIC_SIGNER_ENS_NAME`（若啟用文章簽名驗證）
+- `ENABLE_IPFS_PUBLISH=true` 才會啟用 `Auto Publish IPFS + IPNS`
 
 ## 6) 遷移與維運腳本
 

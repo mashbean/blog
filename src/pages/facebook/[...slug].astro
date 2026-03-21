@@ -10,32 +10,98 @@ import {
 import { cleanPostTitle } from "@/utils/title";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
-import { classifyPostTags } from "@/utils/blogTags";
+import { classifyPostTags, type ClassifiedTags } from "@/utils/blogTags";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
 import { verifyArticleSignature } from "@/utils/articleSignature";
 import { isWeb3FeatureEnabled, requireWeb3PublicConfig } from "@/utils/web3Config";
 import { resolveEnsProfile } from "@/utils/ens";
 import Web3TipJar from "@/components/Web3TipJar.astro";
 
-export async function getStaticPaths() {
+type FacebookPageContext = {
+  newerPostId: string | null;
+  olderPostId: string | null;
+  relatedPostIds: string[];
+  classifiedCurrent: ClassifiedTags;
+};
+
+const facebookPageDataPromise = (async () => {
   const posts = await getFacebookPosts({
     includeDrafts: !import.meta.env.PROD,
     includeFuture: !import.meta.env.PROD,
   });
+  const postsById = new Map(posts.map((item) => [item.id, item]));
+  const classifiedById = new Map(
+    posts.map((item) => [
+      item.id,
+      classifyPostTags({
+        title: cleanPostTitle(item.data.title),
+        description: item.data.description,
+        body: item.body,
+        tags: item.data.tags,
+      }),
+    ]),
+  );
+  const contextById = new Map<string, FacebookPageContext>();
+
+  for (let index = 0; index < posts.length; index += 1) {
+    const post = posts[index];
+    const classifiedCurrent = classifiedById.get(post.id)!;
+    const currentTopics = new Set(classifiedCurrent.topics);
+    const relatedPostIds = posts
+      .filter((item) => item.id !== post.id)
+      .map((item) => {
+        const classified = classifiedById.get(item.id)!;
+        const overlap = classified.topics.filter((topic) => currentTopics.has(topic)).length;
+        return { item, score: overlap };
+      })
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return b.item.data.pubDate.getTime() - a.item.data.pubDate.getTime();
+      })
+      .slice(0, 4)
+      .map((entry) => entry.item.id);
+
+    contextById.set(post.id, {
+      newerPostId: index > 0 ? posts[index - 1].id : null,
+      olderPostId: index < posts.length - 1 ? posts[index + 1].id : null,
+      relatedPostIds,
+      classifiedCurrent,
+    });
+  }
+
+  return { posts, postsById, contextById };
+})();
+
+export async function getStaticPaths() {
+  const { posts, contextById } = await facebookPageDataPromise;
 
   return posts.flatMap((post) => {
     const canonical = getFacebookCanonicalPathSegment(post);
+    const context = contextById.get(post.id)!;
     return getFacebookPathCandidates(post).map((segment) => ({
       params: { slug: segment },
-      props: { post, isLegacyPath: segment !== canonical },
+      props: {
+        post,
+        isLegacyPath: segment !== canonical,
+        newerPostId: context.newerPostId,
+        olderPostId: context.olderPostId,
+        relatedPostIds: context.relatedPostIds,
+        classifiedCurrent: context.classifiedCurrent,
+      },
     }));
   });
 }
 
-const { post, isLegacyPath = false } = Astro.props as {
+const { post, isLegacyPath = false, newerPostId = null, olderPostId = null, relatedPostIds = [], classifiedCurrent } = Astro.props as {
   post: CollectionEntry<"facebook">;
   isLegacyPath?: boolean;
+  newerPostId?: string | null;
+  olderPostId?: string | null;
+  relatedPostIds?: string[];
+  classifiedCurrent: ClassifiedTags;
 };
+const { postsById } = await facebookPageDataPromise;
 const { Content, headings } = await render(post);
 const postTitle = cleanPostTitle(post.data.title);
 const signatureCheck = verifyArticleSignature(
@@ -85,11 +151,6 @@ const signerEnsStatusText = signerEnsName
       : "簽名異常"
   : "未設定";
 
-const allPosts = await getFacebookPosts({
-  includeDrafts: !import.meta.env.PROD,
-  includeFuture: !import.meta.env.PROD,
-});
-
 const readingMinutes = (() => {
   const plain = (post.body ?? "")
     .replace(/```[\s\S]*?```/g, " ")
@@ -104,36 +165,11 @@ const readingMinutes = (() => {
 
 const tocHeadings = headings.filter((item) => item.depth === 2 || item.depth === 3);
 
-const currentIndex = allPosts.findIndex((item) => item.id === post.id);
-const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-const olderPost = currentIndex >= 0 && currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
-
-const classifiedCurrent = classifyPostTags({
-  title: postTitle,
-  description: post.data.description,
-  body: post.body,
-  tags: post.data.tags,
-});
-
-const relatedPosts = allPosts
-  .filter((item) => item.id !== post.id)
-  .map((item) => {
-    const classified = classifyPostTags({
-      title: cleanPostTitle(item.data.title),
-      description: item.data.description,
-      body: item.body,
-      tags: item.data.tags,
-    });
-    const overlap = classified.topics.filter((topic) => classifiedCurrent.topics.includes(topic)).length;
-    return { item, score: overlap };
-  })
-  .filter((entry) => entry.score > 0)
-  .sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
-    return b.item.data.pubDate.getTime() - a.item.data.pubDate.getTime();
-  })
-  .slice(0, 4)
-  .map((entry) => entry.item);
+const newerPost = newerPostId ? postsById.get(newerPostId) ?? null : null;
+const olderPost = olderPostId ? postsById.get(olderPostId) ?? null : null;
+const relatedPosts = relatedPostIds
+  .map((itemId) => postsById.get(itemId))
+  .filter((item): item is CollectionEntry<"facebook"> => Boolean(item));
 
 const pageURL = Astro.site ? new URL(buildFacebookPostUrl(post), Astro.site).toString() : buildFacebookPostUrl(post);
 ---

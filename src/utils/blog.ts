@@ -8,20 +8,30 @@ interface GetBlogPostsOptions {
   includeFuture?: boolean;
 }
 
+const blogPostsCache = new Map<string, Promise<BlogEntry[]>>();
+
 export async function getBlogPosts(options: GetBlogPostsOptions = {}): Promise<BlogEntry[]> {
   const includeDrafts = options.includeDrafts ?? !import.meta.env.PROD;
   const includeFuture = options.includeFuture ?? !import.meta.env.PROD;
-  const now = Date.now();
+  const cacheKey = `${includeDrafts ? "1" : "0"}:${includeFuture ? "1" : "0"}`;
+  const cached = blogPostsCache.get(cacheKey);
+  if (cached) return cached;
 
-  const posts = await getCollection("blog");
+  const task = (async () => {
+    const now = Date.now();
+    const posts = await getCollection("blog");
 
-  return posts
-    .filter((post) => {
-      if (!includeDrafts && post.data.draft) return false;
-      if (!includeFuture && post.data.pubDate.getTime() > now) return false;
-      return true;
-    })
-    .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+    return posts
+      .filter((post) => {
+        if (!includeDrafts && post.data.draft) return false;
+        if (!includeFuture && post.data.pubDate.getTime() > now) return false;
+        return true;
+      })
+      .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+  })();
+
+  blogPostsCache.set(cacheKey, task);
+  return task;
 }
 
 function normalizeSlug(input: string): string {
@@ -87,7 +97,7 @@ interface PostPathCandidateOptions {
 }
 
 export function getPostPathCandidates(post: BlogEntry, options: PostPathCandidateOptions = {}): string[] {
-  const includeVerboseLegacy = options.includeVerboseLegacy ?? !import.meta.env.PROD;
+  const includeVerboseLegacy = options.includeVerboseLegacy ?? false;
   const candidates = [getPostCanonicalPathSegment(post), getLegacyPostPathSegment(post)];
   if (includeVerboseLegacy) {
     candidates.splice(1, 0, getVerbosePathSegment(post));

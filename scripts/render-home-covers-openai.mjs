@@ -2,6 +2,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import { buildOpenAICoverPrompt, resolveOutputFormat } from "./openai-cover-utils.mjs";
 
 const ROOT = process.cwd();
 const PROMPTS_PATH = path.join(ROOT, "scripts", "home-cover-prompts.json");
@@ -34,14 +35,6 @@ async function ensureDir(filePath) {
   await fs.mkdir(path.dirname(filePath), { recursive: true });
 }
 
-function buildPrompt(prompt, negativePrompt) {
-  if (!negativePrompt) {
-    return `${prompt}. Strictly no text, letters, words, logos, signatures, watermark.`;
-  }
-
-  return `${prompt}. Avoid: ${negativePrompt}. Strictly no text, letters, words, logos, signatures, watermark.`;
-}
-
 async function generateImage(apiBase, apiKey, body) {
   const res = await fetch(`${apiBase.replace(/\/+$/, "")}/images/generations`, {
     method: "POST",
@@ -63,10 +56,16 @@ async function generateImage(apiBase, apiKey, body) {
   return Buffer.from(image, "base64");
 }
 
-function postProcessToCover(filePath) {
-  execFileSync("sips", ["-s", "format", "png", filePath], { stdio: "ignore" });
-  execFileSync("sips", ["-c", "630", "1200", filePath], { stdio: "ignore" });
-  execFileSync("sips", ["-z", "630", "1200", filePath], { stdio: "ignore" });
+function postProcessToCover(tempPath, outPath, outputFormat) {
+  execFileSync("sips", ["-c", "630", "1200", tempPath], { stdio: "ignore" });
+  execFileSync("sips", ["-z", "630", "1200", tempPath], { stdio: "ignore" });
+  if (outputFormat === "jpeg") {
+    execFileSync("sips", ["-s", "format", "jpeg", "-s", "formatOptions", "85", tempPath, "--out", outPath], {
+      stdio: "ignore"
+    });
+    return;
+  }
+  execFileSync("sips", ["-s", "format", "png", tempPath, "--out", outPath], { stdio: "ignore" });
 }
 
 async function run() {
@@ -92,18 +91,26 @@ async function run() {
       continue;
     }
 
-    const prompt = buildPrompt(String(item.prompt ?? ""), String(item.negativePrompt ?? ""));
+    const outputFormat = resolveOutputFormat(item.coverPng);
+    const prompt = buildOpenAICoverPrompt(String(item.prompt ?? ""), String(item.negativePrompt ?? ""));
     const payload = {
       model: args.model,
       prompt,
       size: args.size,
-      quality: args.quality
+      quality: args.quality,
+      output_format: outputFormat
     };
+    if (outputFormat === "jpeg") {
+      payload.output_compression = 85;
+    }
 
     const imageBuffer = await generateImage(args.apiBase, apiKey, payload);
+    const tempPath = path.join(ROOT, "tmp", `${path.basename(String(item.coverPng)).replace(/\.[^.]+$/i, "")}.batch.raw.${outputFormat === "jpeg" ? "jpg" : "png"}`);
     await ensureDir(outPath);
-    await fs.writeFile(outPath, imageBuffer);
-    postProcessToCover(outPath);
+    await ensureDir(tempPath);
+    await fs.writeFile(tempPath, imageBuffer);
+    postProcessToCover(tempPath, outPath, outputFormat);
+    await fs.unlink(tempPath).catch(() => {});
     console.log(`[ok] ${index + 1}/${items.length} ${item.coverPng}`);
   }
 

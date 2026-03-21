@@ -15,6 +15,8 @@ export interface ClassifiedTags {
   metaTags: string[];
 }
 
+const classifiedTagsCache = new Map<string, ClassifiedTags>();
+
 const TOPIC_KEYS = new Set(tagCatalog.map((item) => item.key));
 
 const IGNORE_TAGS = new Set([
@@ -267,6 +269,15 @@ export function getTopicCatalog(): TagCatalogItem[] {
 }
 
 export function classifyPostTags(input: PostTagInput): ClassifiedTags {
+  const cacheKey = JSON.stringify({
+    title: input.title ?? "",
+    description: input.description ?? "",
+    body: input.body ?? "",
+    tags: input.tags ?? []
+  });
+  const cached = classifiedTagsCache.get(cacheKey);
+  if (cached) return cached;
+
   const rawTags = uniqueStrings((input.tags ?? []).map(denormalizeTag));
   const normalizedTags = rawTags.map((tag) => normalizeTag(tag));
 
@@ -345,13 +356,15 @@ export function classifyPostTags(input: PostTagInput): ClassifiedTags {
     .filter((item) => item.tier === "secondary")
     .map((item) => item.keyword);
 
-  return {
+  const result = {
     topics: uniqueTopics,
     keywords,
     secondaryKeywords,
     keywordScores,
     metaTags: uniqueStrings(metaTags)
   };
+  classifiedTagsCache.set(cacheKey, result);
+  return result;
 }
 
 export function getTopicAliasKeywords(topicKey: string): string[] {
