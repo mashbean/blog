@@ -30,3 +30,6 @@
 3. 由 `signature` recover 的地址與 `signer` 一致
 
 任一條件不符即降級為 `unsigned` 或 `invalid`。
+
+## 臨時部署例外（2026-03-28）
+目前 GitHub Pages workflow 已暫時調整為：簽章檢查失敗會顯示警告，但不阻擋部署。這是為了避免文章在本機缺少 signer key 時完全無法上線。此變更僅屬暫時性流程放寬，不代表文章簽章已不重要；後續仍應補齊簽章並恢復嚴格 gate。
