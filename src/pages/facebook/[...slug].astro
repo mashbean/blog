@@ -5,76 +5,28 @@ import {
   buildFacebookPostUrl,
   getFacebookCanonicalPathSegment,
   getFacebookPathCandidates,
-  getFacebookPosts,
 } from "@/utils/facebook";
 import { cleanPostTitle } from "@/utils/title";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
-import { classifyPostTags, type ClassifiedTags } from "@/utils/blogTags";
+import { type ClassifiedTags } from "@/utils/blogTags";
+import { buildFacebookPageData } from "@/utils/facebookPageData";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
 import { verifyArticleSignature } from "@/utils/articleSignature";
 import { isWeb3FeatureEnabled, requireWeb3PublicConfig } from "@/utils/web3Config";
 import { resolveEnsProfile } from "@/utils/ens";
 import Web3TipJar from "@/components/Web3TipJar.astro";
 
-type FacebookPageContext = {
-  newerPostId: string | null;
-  olderPostId: string | null;
-  relatedPostIds: string[];
-  classifiedCurrent: ClassifiedTags;
-};
-
-const facebookPageDataPromise = (async () => {
-  const posts = await getFacebookPosts({
-    includeDrafts: !import.meta.env.PROD,
-    includeFuture: !import.meta.env.PROD,
-  });
-  const postsById = new Map(posts.map((item) => [item.id, item]));
-  const classifiedById = new Map(
-    posts.map((item) => [
-      item.id,
-      classifyPostTags({
-        title: cleanPostTitle(item.data.title),
-        description: item.data.description,
-        body: item.body,
-        tags: item.data.tags,
-      }),
-    ]),
-  );
-  const contextById = new Map<string, FacebookPageContext>();
-
-  for (let index = 0; index < posts.length; index += 1) {
-    const post = posts[index];
-    const classifiedCurrent = classifiedById.get(post.id)!;
-    const currentTopics = new Set(classifiedCurrent.topics);
-    const relatedPostIds = posts
-      .filter((item) => item.id !== post.id)
-      .map((item) => {
-        const classified = classifiedById.get(item.id)!;
-        const overlap = classified.topics.filter((topic) => currentTopics.has(topic)).length;
-        return { item, score: overlap };
-      })
-      .filter((entry) => entry.score > 0)
-      .sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score;
-        return b.item.data.pubDate.getTime() - a.item.data.pubDate.getTime();
-      })
-      .slice(0, 4)
-      .map((entry) => entry.item.id);
-
-    contextById.set(post.id, {
-      newerPostId: index > 0 ? posts[index - 1].id : null,
-      olderPostId: index < posts.length - 1 ? posts[index + 1].id : null,
-      relatedPostIds,
-      classifiedCurrent,
-    });
-  }
-
-  return { posts, postsById, contextById };
-})();
+const facebookPageDataPromise = buildFacebookPageData({
+  includeDrafts: !import.meta.env.PROD,
+  includeFuture: !import.meta.env.PROD
+});
 
 export async function getStaticPaths() {
-  const { posts, contextById } = await facebookPageDataPromise;
+  const { posts, contextById } = await buildFacebookPageData({
+    includeDrafts: !import.meta.env.PROD,
+    includeFuture: !import.meta.env.PROD
+  });
 
   return posts.flatMap((post) => {
     const canonical = getFacebookCanonicalPathSegment(post);
