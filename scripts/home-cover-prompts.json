@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-21T09:03:50.167Z",
+  "generatedAt": "2026-03-28T03:15:31.315Z",
   "defaultPreset": "editorialResearch",
   "basePrompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
@@ -8,6 +8,28 @@
     "bolognaAnimals"
   ],
   "items": [
+    {
+      "file": "2026-03-28-誰在資助公共行動倡議工作者的職涯如何受資金風向影響.md",
+      "title": "誰在資助公共行動：倡議工作者的職涯如何受資金風向影響",
+      "coverPng": "images/covers/home/2026-03-28-誰在資助公共行動倡議工作者的職涯如何受資金風向影響.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 4291979878,
+      "prompt": "editorial gouache illustration, serious research essay cover about advocacy careers and funding structures, layered paper collage showing a civic organization desk, grant forms, donation receipts, a public budget document, arrows flowing into and around a small group office, one figure implied only through chair and notes but no visible face, tension between ideals and funding constraints, calm but weighty mood, warm paper texture, muted teal, ink blue, cream, and rust palette, highly legible composition, no readable text, no typography, no logos",
+      "negativePrompt": "readable text, typography, letters, logo, watermark, signature, poster layout, photorealistic people, visible faces, mascots, cute animals, cheerful advertising mood, corporate stock photo style, UI screenshot, cluttered infographic, neon colors, 3d render",
+      "keywords": [
+        "nonprofit",
+        "資源動員理論",
+        "公共行動",
+        "倡議工作者的職涯如何受資金風向影響",
+        "倡議工作者的職涯",
+        "補助制度",
+        "組織策略",
+        "換句話說"
+      ],
+      "motif": "abstract",
+      "preset": "editorialResearch"
+    },
     {
       "file": "2026-03-20-台灣-fediverse-知識庫上線從-g0v-social-到-liker-social-的一條歷史線.md",
       "title": "台灣 fediverse 知識庫上線：補上一條從 g0v.social 到 liker.social 的歷史線",
