@@ -28,7 +28,7 @@ export async function getStaticPaths() {
   return posts.flatMap((post) => {
     const canonical = getPostCanonicalPathSegment(post);
     const context = contextById.get(post.id)!;
-    return getPostPathCandidates(post).map((segment) => ({
+    return getPostPathCandidates(post, { includeVerboseLegacy: true }).map((segment) => ({
       params: { slug: segment },
       props: {
         post,
