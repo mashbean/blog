@@ -22,7 +22,6 @@ const postSchema = z.object({
   series: z.string().optional(),
   seriesOrder: z.number().int().positive().optional(),
   slug: z.string().optional(),
-  legacyPaths: z.array(z.string()).optional(),
   contentHash: z.string().optional(),
   signature: z.string().optional(),
   signer: z.string().optional(),

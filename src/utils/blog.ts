@@ -98,11 +98,7 @@ interface PostPathCandidateOptions {
 
 export function getPostPathCandidates(post: BlogEntry, options: PostPathCandidateOptions = {}): string[] {
   const includeVerboseLegacy = options.includeVerboseLegacy ?? false;
-  const candidates = [
-    getPostCanonicalPathSegment(post),
-    getLegacyPostPathSegment(post),
-    ...(post.data.legacyPaths ?? [])
-  ];
+  const candidates = [getPostCanonicalPathSegment(post), getLegacyPostPathSegment(post)];
   if (includeVerboseLegacy) {
     candidates.splice(1, 0, getVerbosePathSegment(post));
   }
