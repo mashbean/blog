@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-28T03:15:31.315Z",
+  "generatedAt": "2026-03-30T03:05:00.000Z",
   "defaultPreset": "editorialResearch",
   "basePrompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
@@ -8,6 +8,28 @@
     "bolognaAnimals"
   ],
   "items": [
+    {
+      "file": "2026-03-29-與-ai-agent-生活後的三個啊哈.md",
+      "title": "與 AI Agent 生活後的三個啊哈！",
+      "coverPng": "images/covers/home/2026-03-29-與-ai-agent-生活後的三個啊哈.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 3080819451,
+      "prompt": "playful naive storybook illustration, torn paper collage, expressive crayon strokes, dry gouache smudges, rough hand-drawn outlines, childlike animal characters (bear, rabbit, cat, crow), chaotic table-top composition viewed slightly from above, mint blue + apricot + warm cream palette with a few tomato red accents, a crowded home studio where one bear excitedly points at neatly stacked folder cards, one rabbit walks and talks through headphones, one cat calmly reviews notes beside a laptop, scattered paper slips with abstract aha symbols, a glowing window, cables, teacup steam, slightly messy but cozy room, lively collaborative energy, anxious yet funny mood, editorial illustration, no text",
+      "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, UI, screenshot, photo, photorealistic, 3d render, ugly, low quality, extra limbs, distorted faces, empty room, realistic humans",
+      "keywords": [
+        "agent",
+        "ai",
+        "生活後的三個啊哈!",
+        "codex",
+        "claude",
+        "啊哈",
+        "美金",
+        "玩了"
+      ],
+      "motif": "abstract",
+      "preset": "bolognaAnimals"
+    },
     {
       "file": "2026-03-28-誰在資助公共行動倡議工作者的職涯如何受資金風向影響.md",
       "title": "誰在資助公共行動：倡議工作者的職涯如何受資金風向影響",

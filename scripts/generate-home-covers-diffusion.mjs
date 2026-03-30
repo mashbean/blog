@@ -35,6 +35,7 @@ const COVER_PRESET_ALIASES = {
   map: "editorialResearch",
   diagram: "editorialResearch",
   bologna: "bolognaAnimals",
+  bolognianimals: "bolognaAnimals",
   animal: "bolognaAnimals",
   animals: "bolognaAnimals",
   storybook: "bolognaAnimals"
@@ -278,9 +279,15 @@ function extractKeywords({ title, description, body, tags, category }) {
 }
 
 function resolveCoverPreset(value) {
-  const raw = normalizeText(value).toLocaleLowerCase("en-US");
+  const raw = normalizeText(value);
   if (!raw) return null;
-  return COVER_PRESETS[raw] ? raw : COVER_PRESET_ALIASES[raw] ?? null;
+  if (COVER_PRESETS[raw]) return raw;
+
+  const lowered = raw.toLocaleLowerCase("en-US");
+  const canonical = Object.keys(COVER_PRESETS).find((key) => key.toLocaleLowerCase("en-US") === lowered);
+  if (canonical) return canonical;
+
+  return COVER_PRESET_ALIASES[lowered] ?? null;
 }
 
 function inferCoverPreset({ data, keywords, motif }) {
@@ -419,7 +426,8 @@ function buildPromptItem(post) {
     category: post.data.category
   });
   const motif = pickMotif(keywords);
-  const presetName = inferCoverPreset({ data: post.data, keywords, motif });
+  const presetName =
+    resolveCoverPreset(post.data.coverPreset) ?? inferCoverPreset({ data: post.data, keywords, motif });
   const preset = getPresetConfig(presetName);
   const seed = hashText(`${post.fileName}|${keywords.join("|")}|${motif}`);
 
