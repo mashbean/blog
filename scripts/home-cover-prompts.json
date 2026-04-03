@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-04-03T07:23:48.988Z",
+  "generatedAt": "2026-04-03T17:32:03.877Z",
   "defaultPreset": "editorialResearch",
   "basePrompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
@@ -8,6 +8,28 @@
     "bolognaAnimals"
   ],
   "items": [
+    {
+      "file": "2026-04-04-回應-弱國青年國際參與如何不再大內宣.md",
+      "title": "回應「弱國青年國際參與如何不再大內宣」",
+      "coverPng": "images/covers/home/2026-04-04-回應-弱國青年國際參與如何不再大內宣.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 3593057705,
+      "prompt": "editorial gouache illustration, layered paper collage, serious research essay cover about youth international participation from a politically constrained small state, conference badges, workgroup papers, speaking queue cards, one narrow bridge from local desk to global meeting room, scattered notes about career paths and retention, a spotlight on practical contribution rather than stage performance, tense but hopeful mood, warm paper texture, muted navy, rust, cream, and teal palette, highly legible composition, no readable text, no typography, no logos",
+      "negativePrompt": "readable text, typography, letters, logo, watermark, signature, poster layout, photorealistic people, visible faces, mascots, cute animals, cheerful advertising mood, corporate stock photo style, UI screenshot, cluttered infographic, neon colors, 3d render",
+      "keywords": [
+        "agent",
+        "回應",
+        "回應一篇由",
+        "生成",
+        "長期留存",
+        "pipeline",
+        "如何不再大內宣",
+        "不只是國際組織"
+      ],
+      "motif": "globe",
+      "preset": "editorialResearch"
+    },
     {
       "file": "2026-04-03-slack-刪除-workspace-給我的啟示.md",
       "title": "Slack 刪除 Workspace 給我的啟示",
