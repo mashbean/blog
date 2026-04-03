@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-03-30T03:05:00.000Z",
+  "generatedAt": "2026-04-03T07:23:48.988Z",
   "defaultPreset": "editorialResearch",
   "basePrompt": "editorial gouache illustration, layered paper collage, visible paper fibers and cut edges, dry gouache and wax crayon texture, clean diagrammatic composition, warm research desk mood, restrained but vivid palette, no text, no typography, no letters, no watermark, no logo, no characters, no animals, no mascots",
   "negativePrompt": "text, typography, letters, watermark, logo, signature, caption, people, faces, hands, animals, birds, foxes, pigs, cats, mascots, character illustration, photorealistic, 3d render, UI screenshot, low contrast, empty abstract background, cluttered composition",
@@ -8,6 +8,28 @@
     "bolognaAnimals"
   ],
   "items": [
+    {
+      "file": "2026-04-03-slack-刪除-workspace-給我的啟示.md",
+      "title": "Slack 刪除 Workspace 給我的啟示",
+      "coverPng": "images/covers/home/2026-04-03-slack-刪除-workspace-給我的啟示.jpg",
+      "width": 1200,
+      "height": 630,
+      "seed": 2290739272,
+      "prompt": "editorial gouache illustration, layered paper collage, serious research essay cover about a deleted team communication workspace, broken chat windows, missing folders, disconnected member nodes, refund receipt, compliance notice cards, cloud infrastructure map with one region abruptly crossed out, tense but controlled mood, warm paper texture, muted teal, rust, cream, and smoke gray palette, highly legible composition, no readable text, no typography, no logos",
+      "negativePrompt": "readable text, typography, letters, logo, watermark, signature, poster layout, photorealistic people, visible faces, mascots, cute animals, cheerful advertising mood, corporate stock photo style, UI screenshot, cluttered infographic, neon colors, 3d render",
+      "keywords": [
+        "slack",
+        "saas",
+        "workspace",
+        "刪除",
+        "給我的啟示",
+        "salesforce",
+        "近日無預警刪除多個",
+        "服務仍深受地緣政治"
+      ],
+      "motif": "abstract",
+      "preset": "editorialResearch"
+    },
     {
       "file": "2026-03-29-與-ai-agent-生活後的三個啊哈.md",
       "title": "與 AI Agent 生活後的三個啊哈！",
