@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From State Credentials to Civic Proofs — mashbean</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+    :root {
+      --r-main-font-size: 28px;
+      --r-heading-font: "Inter", system-ui, sans-serif;
+      --r-main-font: "Inter", system-ui, sans-serif;
+      --accent: #3b82f6;
+      --accent-dark: #1d4ed8;
+      --accent-light: #eff6ff;
+      --accent-border: #bfdbfe;
+      --slate: #0f172a;
+      --slate-700: #334155;
+      --muted: #64748b;
+      --surface: #f8fafc;
+      --border: #e2e8f0;
+    }
+
+    /* ---- Global ---- */
+    .reveal { font-weight: 400; line-height: 1.6; }
+    .reveal .slides section { text-align: left; }
+
+    /* ---- Headings ---- */
+    .reveal h2 {
+      font-family: var(--r-heading-font);
+      font-size: 1.35em;
+      font-weight: 700;
+      color: var(--slate);
+      border-bottom: none;
+      margin-bottom: 0.5em;
+      letter-spacing: -0.01em;
+      text-align: left;
+    }
+    .reveal h2::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 0.85em;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-right: 0.4em;
+      vertical-align: -0.05em;
+    }
+    .reveal h3 { font-size: 0.85em; color: var(--muted); font-weight: 500; margin-bottom: 0.3em; }
+    .reveal h4 { font-size: 0.75em; color: var(--slate-700); margin: 0.3em 0; font-weight: 600; }
+
+    /* ---- Tables ---- */
+    .reveal table {
+      font-size: 0.5em;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.5em 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .reveal table th {
+      background: var(--slate);
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.95em;
+      letter-spacing: 0.02em;
+    }
+    .reveal table td {
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+      line-height: 1.5;
+    }
+    .reveal table tbody tr:last-child td { border-bottom: none; }
+    .reveal table tr:nth-child(even) td { background: var(--surface); }
+    .reveal table tr:hover td { background: var(--accent-light); }
+
+    /* ---- Key message ---- */
+    .key-msg {
+      font-size: 0.95em;
+      font-weight: 600;
+      color: var(--accent-dark);
+      margin: 0.6em 0;
+      line-height: 1.6;
+      padding: 0.4em 0.6em;
+      background: var(--accent-light);
+      border-radius: 6px;
+      border-left: 4px solid var(--accent);
+      text-align: left;
+    }
+
+    /* ---- Reference links ---- */
+    .ref {
+      font-size: 0.38em;
+      color: #94a3b8;
+      margin-top: 0.8em;
+      line-height: 1.6;
+      text-align: left;
+    }
+    .ref a { color: #64748b; text-decoration: underline; text-underline-offset: 2px; }
+
+    /* ---- mashbean.net prominent link ---- */
+    .ref-mashbean {
+      display: inline-block;
+      margin-top: 0.5em;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+      border: 1px solid var(--accent-border);
+      border-radius: 6px;
+      font-size: 0.42em;
+      font-weight: 600;
+    }
+    .ref-mashbean a {
+      color: var(--accent-dark);
+      text-decoration: none;
+    }
+    .ref-mashbean a::before {
+      content: "\2197\00a0";
+    }
+
+    /* ---- Flag images ---- */
+    .flag { height: 20px; vertical-align: middle; margin: 0 4px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+    .flag-sm { height: 16px; }
+
+    /* ---- Org logo ---- */
+    .org-logo { height: 22px; vertical-align: middle; margin: 0 4px; opacity: 0.85; }
+    .org-logo-lg { height: 32px; }
+
+    /* ---- Badge / pill ---- */
+    .badge {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 14px;
+      font-size: 0.62em;
+      font-weight: 600;
+      margin: 0 3px;
+      letter-spacing: 0.01em;
+    }
+    .b-blue { background: #dbeafe; color: #1d4ed8; }
+    .b-green { background: #dcfce7; color: #166534; }
+    .b-amber { background: #fef3c7; color: #92400e; }
+    .b-red { background: #fee2e2; color: #991b1b; }
+    .b-purple { background: #f3e8ff; color: #6b21a8; }
+
+    /* ---- Two-column ---- */
+    .cols { display: flex; gap: 2em; align-items: flex-start; text-align: left; }
+    .cols .col { flex: 1; }
+
+    /* ---- Mermaid ---- */
+    .mermaid { margin: 0.4em auto; }
+    .mermaid svg { max-width: 100%; height: auto; }
+
+    /* ---- Utilities ---- */
+    .small { font-size: 0.75em; }
+    .xsmall { font-size: 0.6em; }
+    .text-left { text-align: left; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--muted); }
+    .mt-0 { margin-top: 0; }
+    .mb-0 { margin-bottom: 0; }
+
+    /* ---- Title slide ---- */
+    .title-slide { text-align: left; }
+    .title-slide h1 {
+      font-family: var(--r-heading-font);
+      font-size: 1.8em;
+      font-weight: 700;
+      color: var(--slate);
+      margin-bottom: 0.05em;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+    .title-slide h1::before { display: none; }
+    .title-slide h3 {
+      font-size: 0.7em;
+      color: var(--muted);
+      font-weight: 400;
+      letter-spacing: 0.03em;
+    }
+    .title-slide .meta {
+      font-size: 0.55em;
+      color: var(--slate-700);
+      margin-top: 0.6em;
+      font-weight: 500;
+    }
+    .title-slide .meta span { margin: 0 0.5em; }
+
+    /* ---- Conclusion slide ---- */
+    .conclusion-slide { color: #fff; text-align: left; }
+    .conclusion-slide h2 { color: #fff; }
+    .conclusion-slide h2::before { background: #60a5fa; }
+
+    /* ---- Condition pills ---- */
+    .conditions {
+      display: flex;
+      gap: 0.6em;
+      justify-content: flex-start;
+      margin: 0.6em 0;
+      flex-wrap: wrap;
+    }
+    .conditions .cond {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 0.65em;
+      font-weight: 600;
+      border: 1px solid var(--accent-border);
+    }
+
+    /* ---- Case card ---- */
+    .case-card {
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      padding: 0.5em 1em;
+      margin: 0.4em 0;
+      text-align: left;
+      font-size: 0.58em;
+      border-radius: 0 8px 8px 0;
+      line-height: 1.6;
+    }
+    .case-card h4 { margin: 0 0 0.3em 0; font-size: 1.15em; color: var(--accent-dark); }
+
+    /* ---- Outline list ---- */
+    .outline-list {
+      text-align: left;
+      font-size: 0.5em;
+      columns: 1;
+      margin: 0;
+      line-height: 1.8;
+    }
+    .outline-list li {
+      margin-bottom: 0.25em;
+      padding-left: 0.3em;
+    }
+
+    /* ---- Discussion questions ---- */
+    .discussion ol {
+      text-align: left;
+      font-size: 0.56em;
+      margin: 0;
+    }
+    .discussion ol li { margin-bottom: 0.6em; line-height: 1.65; }
+
+    /* ---- Slide number ---- */
+    .reveal .slide-number { font-size: 14px; color: var(--muted); }
+
+    /* ---- Notes toggle panel ---- */
+    #notes-toggle {
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      z-index: 100;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: var(--slate);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    #notes-toggle:hover { background: var(--accent-dark); }
+    #notes-toggle.active { background: var(--accent); }
+
+    #notes-panel {
+      position: fixed;
+      bottom: 64px;
+      left: 16px;
+      z-index: 99;
+      width: min(420px, calc(100vw - 32px));
+      max-height: 45vh;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      overflow-y: auto;
+      padding: 1em 1.2em;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--slate-700);
+      display: none;
+    }
+    #notes-panel.open { display: block; }
+    #notes-panel h4 {
+      margin: 0 0 0.5em;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+    #notes-panel .notes-content { white-space: pre-wrap; }
+    #notes-panel .notes-empty { color: var(--muted); font-style: italic; }
+
+    /* ---- Print / PDF fixes ---- */
+    @media print {
+      .reveal .slides { text-align: left; }
+      #notes-toggle, #notes-panel { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <p class="small text-muted" style="margin-bottom:0.2em;">Allen Lab Fellowship Meeting &middot; 2026.04.17</p>
+    <h2>From State Credentials<br>to Civic Proofs</h2>
+    <h3>Digital Identity in Digital Civic Infrastructure (DCI)</h3>
+    <p style="margin-top:1.2em;">
+      <span style="font-size:0.65em; color:var(--slate);">mashbean (Taipei)</span>
+    </p>
+    <ol class="outline-list" style="margin-top:0.8em;">
+      <li>Why identity matters in DCI</li>
+      <li>From digital identity to civic proof</li>
+      <li>2-layer trust model &amp; 4 types of civic proof</li>
+      <li>Global comparison</li>
+      <li>Taiwan deep dive</li>
+      <li>Age assurance as a stress test</li>
+      <li>Full identity vs. minimal proof</li>
+      <li>Civic and subnational experiments</li>
+      <li>Public blockchain as trust layer</li>
+      <li>Policy agenda &amp; next questions</li>
+    </ol>
+    <p class="ref" style="margin-top:1em;">
+      <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" style="color:var(--muted);">CC BY-NC 4.0</a> &middot; mashbean 2026
+    </p>
+    <p class="ref" style="margin-top:0.3em;"><a href="../allen-lab-share-0417/" style="color:var(--muted);">&#x4E2D;&#x6587;&#x7248; Chinese version</a></p>
+    <aside class="notes">
+In our last meeting, Jeremy introduced DPI from the perspective of Payment. Today I would like to fill in another piece of the puzzle: Identity. Following the common three-part framework for DPI, the discussion usually falls across Data, Payment, and Identity. Allen Lab has already accumulated substantial material on Data, so today I want to address this final piece -- digital identity.
+
+Over the past year, I have spent roughly half my time on this topic. For the two and a half years before that, I was at Taiwan's Ministry of Digital Affairs, working on the planning and rollout of a digital identity wallet. After leaving government last year, I have continued doing policy research on digital identity and participating in civic-layer experiments -- for example, demonstrating ZKP adoption, helping open community platforms think about identity integration, and exploring how to establish verifiable credentials without revealing full identity. At the same time, because of a parallel line of work, I have been paying close attention to how diaspora and exile communities adopt emerging technologies. I initially thought this was a digital democracy topic, but I kept running into the same underlying problem: digital identity. Eastern Europe, Catalonia, city-level democratic experiments -- many of them are grappling with the same question: how can people prove "sufficient qualification" in digital spaces without handing themselves over to the state, to a platform, or to any single intermediary.
+
+What truly allowed me to tie all these materials together was encountering the concept of Digital Civic Infrastructure after arriving at Allen Lab. I began to realize that what I truly care about is not only whether large-scale national projects can be institutionalized, nor whether commercial services can achieve stable integration. The more fundamental question is whether digital identity can become infrastructure that supports civic action -- whether it can help people connect, understand, and act, while avoiding excessive disclosure, excessive tracking, and excessive exclusion. The Ash Center understands DCI as a set of institutional and technical conditions that support citizens' ability to Connect, Learn, and Act. What I am concerned with today is how digital identity determines whether a person can move from connection to action.
+
+I have long believed that digital tools already have many successful cases in the stage of "digital assembly" -- indeed, digital assembly has played an important role in regime changes in several countries. However, "digital association" has never had very good examples. I believe an important reason is that the foundation of "association" -- that is, "digital identity" -- lacks adequate infrastructure. This is my hypothesis, not yet empirically proven, but my reasoning is that because "digital identity is not private enough," "secret association derived from digital identity" has never been effectively practiced, let alone effective digital activism.
+
+Therefore, my focus today is on a narrower and more political question: what kind of digital identity architecture can allow citizens to act in digital spaces with low friction, low exposure, and access to redress. Simply moving credentials onto a phone is, to me, only surface-level product language. The deeper questions involve state power, platform responsibility, civil liberties, cross-border interoperability, and the conditions of entry into public spaces. This is also why I want to bring identity back into the DCI context. I believe this is the value I can bring to Allen Lab.
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 2: Why DCI needs digital identity -->
+<!-- ============================================================ -->
+<section>
+  <h2>Why DCI Needs Digital Identity</h2>
+  <div class="mermaid">
+flowchart LR
+    A["<b>Connect</b><br/>Community, persistence"] --> B["<b>Learn</b><br/>Understanding, information, discussion"]
+    B --> C["<b>Act</b><br/>Petition, vote, join, collaborate"]
+    C --> D{"Does the system<br/>require qualification?"}
+    D -->|No| E["Low identity<br/>requirement"]
+    D -->|Yes| F["Digital identity enters<br/>core governance questions"]
+  </div>
+  <p class="key-msg">Identity matters most when systems gate action.</p>
+  <p class="small text-muted">Digital identity matters most in DCI when systems begin to require qualification, uniqueness, accountability, and procedural legitimacy.</p>
+  <aside class="notes">
+If we view DCI as an institutional stack that enables citizens to connect, understand, and act, then the most sensitive position for digital identity appears at the moment a system begins to gate action. At the Connect layer, identity primarily deals with persistence, community governance, role differentiation, and basic trust -- for example, who is who in a community, who can serve as an administrator, who can maintain a long-term contribution record. My experience in g0v (Taiwan's largest civic tech community) is that open-source collaborative communities do not have the problem of gating action, because trust between people is built through sustained contribution. The relevant terms are "do-ocracy," "trust through contribution," or, borrowing from IETF terminology, "rough consensus and running code." In such civic-action communities, even powerful contributors can be anonymous, so digital identity serves only as a symbolic trust anchor without involving any digital service. There have also been past projects attempting to record open-source contributions (such as web3's Hypercerts), but most have failed -- likely because no quantitative metric can replace the social capital naturally accumulated by a community.
+
+At the Learn layer, much information access and discussion does not require strong identity. Anonymous reading, low-barrier discussion, and weak-identity participation often still hold.
+
+The real political pressure falls on Act. As soon as a system starts asking whether you are qualified, whether you are a duplicate, whether you belong to a certain jurisdiction, whether you meet the age threshold, whether you satisfy procedural requirements, or whether you are accountable for a certain outcome, digital identity enters the core of public decision-making. From that moment on, identity is no longer just a login detail -- it directly participates in public resource allocation, the conditions of entry into public spaces, and the legitimacy structure of digital public life. The Ash Center's DCI framework treats Connect, Learn, and Act as interconnected entry points for civic participation; my observation is that identity intervenes most strongly in Act. Because Act may border on public services, including whistleblowing, voting, co-sponsorship, running for office, long-term associational governance, and so on.
+
+Therefore, today I want to propose three working theses. First, mainstream digital identity systems are actually quite successful -- especially in service delivery, authentication, digital signatures, compliance, and fraud reduction. Second, when identity infrastructure begins to enter age assurance, platform governance, and public-space entry, it starts determining who can enter which spaces and under what conditions. Third, the maturation of wallets, selective disclosure, unlinkability, ZK, and browser APIs has brought more democratic digital identity designs into the feasible zone of policy and product for the first time -- but institutional governance clearly lags behind technical possibility. The following slides unfold along these three theses.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Definition — two-layer model -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>Two-Layer Trust Model</h2>
+    <div class="mermaid">
+flowchart TD
+    A1["State / legal authorization"] --> A["<b>Upper layer: Issuance Legitimacy</b>"]
+    A2["Trusted institution / community rules"] --> A
+    A --> C["<b>Civic Proof</b>"]
+    B1["Credential / Wallet"] --> B["<b>Lower layer: Exchange Architecture</b>"]
+    B2["Browser / OS / App"] --> B
+    B3["Trust List / Registry / Verifier"] --> B
+    B --> C
+    C --> D["Public action<br/>Vote &middot; Petition &middot; Credential verification &middot; Membership governance &middot; Whistleblowing"]
+    </div>
+    <p class="key-msg" style="font-size:0.8em;">Accountability does not require real names.</p>
+    <div class="ref">
+      <img class="org-logo" src="assets/logo-w3c.png" alt="W3C"> VC 2.0 Recommendation (2025) &middot;
+      Chrome Digital Credentials API &middot;
+      NIST SP 800-63 Rev. 4 subscriber-controlled wallets &middot;
+      <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank">w3.org</a>
+    </div>
+    <aside class="notes">
+I suggest we first separate digital identity into two layers before discussing it. The first layer is issuance legitimacy -- that is, who has the authority to issue credentials that produce civic consequences. This layer deals with legal effect, sovereignty, institutional accountability, revocation authority, and why a credential deserves to be trusted. The second layer is the exchange architecture -- that is, how credentials are held, how they are presented, who verifies them, how they are revoked, how they are reused across systems, and whether the entire process leaves trackable traces. Once we separate these two layers, many debates that seem tangled together become much clearer. PKI, VC, wallet, browser, trust list, trust registry -- each operates at a different layer.
+
+I want to add one more term here: civic proof. The purpose of this term is to shift focus from "the credential itself" to "forms of proof that can support public action." In many cases, civic action does not require full legal identity. What it may need is only an attribute proof -- for example, proving you are at least 18 years old, or that you reside in a certain jurisdiction. It may also need only a uniqueness proof -- for example, one person one vote, one person one account -- without needing to know your real name. Moving further into politically sensitive scenarios, you encounter pseudonymous participation, where you must be able to participate, speak, contribute, and be subject to post-hoc audit, but you do not need to expose your real identity under normal conditions. If these four types of needs are not first disentangled, all subsequent discussions about "whether digital identity really needs strong identity" become blurred.
+
+In terms of norms, I use four conditions to evaluate institutional design, and depending on different needs, institutional design, and architectural design, I verify whether the four conditions are met. First, anonymity. Second, unlinkability. Third, verifiability. Fourth, accountability. These four conditions must hold simultaneously and cannot substitute for one another. In my participation in various emerging digital identity projects, I have discovered a counterintuitive yet cryptographically (or perhaps philosophically?) consistent state: "Accountability does not require real names." This statement will run through all the subsequent sections. Because once we accept this, many problems that were previously thought solvable only through full disclosure (full-quantity identification) open up new institutional design space.
+    </aside>
+  </section>
+
+  <!-- SLIDE 3b: Four proof types -->
+  <section>
+    <h2>Four Types of Civic Proof</h2>
+    <table>
+      <thead>
+        <tr><th>Requirement Type</th><th>Typical Scenario</th><th>Upper Layer: What Legitimacy Is Needed</th><th>Lower Layer: What Exchange Architecture Is Needed</th><th>Minimum Freedom &amp; Privacy Requirement</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>&#x1F3DB;&#xFE0F; Legal Identity</strong></td>
+          <td>Tax filing, legally binding signatures, statutory benefits</td>
+          <td>State or legally authorized root identity</td>
+          <td>High assurance, revocable, prosecutable</td>
+          <td>Verifiable, with redress</td>
+        </tr>
+        <tr>
+          <td><strong>&#x1F3AF; Attribute Proof</strong></td>
+          <td>Age, residency, student status, membership</td>
+          <td>Verifiable attribute source</td>
+          <td>Selective disclosure, minimal disclosure</td>
+          <td>Unlinkable, no-phone-home</td>
+        </tr>
+        <tr>
+          <td><strong>&#x1F9EC; Uniqueness Proof</strong></td>
+          <td>One person one account, one person one vote, forum blue checkmark</td>
+          <td>Uniqueness source can be trusted</td>
+          <td>Deduplication, Sybil-resistant, low disclosure</td>
+          <td>Pseudonymous, unlinkable</td>
+        </tr>
+        <tr>
+          <td><strong>&#x1F3AD; Pseudonymous Participation</strong></td>
+          <td>Whistleblowing, sensitive consultation, political discussion</td>
+          <td>Procedural legitimacy and post-hoc accountability mechanisms</td>
+          <td>Preserve anonymity, preserve audit possibility</td>
+          <td>Anonymous, accountable, supervised</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ref">Taxonomy based on mashbean's synthesis</div>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: International comparison -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>
+      Global Comparison: Main Cases
+    </h2>
+    <table>
+      <thead>
+        <tr><th></th><th>Upper: Issuance Legitimacy</th><th>Lower: Exchange Architecture</th><th>Current Strengths</th><th>DCI Gap</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW"> <strong>Taiwan</strong></td>
+          <td>MOICA has legal effect; TW DIW multi-issuer ecosystem</td>
+          <td>PKI + wallet / VC dual track</td>
+          <td>Clear legal effect, rising policy experimentation flexibility</td>
+          <td>Ecosystem integration friction and civic burden coexist</td>
+        </tr>
+        <tr>
+          <td><img class="flag" src="https://flagcdn.com/w40/eu.png" alt="EU"> <strong>EU</strong></td>
+          <td>eIDAS trust services, national trusted lists</td>
+          <td>EUDI Wallet, attestation, selective disclosure</td>
+          <td>Complete legal framework, formal cross-border interoperability</td>
+          <td>Complex rules; wallet / browser = new gatekeeper</td>
+        </tr>
+        <tr>
+          <td><img class="flag" src="https://flagcdn.com/w40/se.png" alt="SE"> <strong>Sweden</strong></td>
+          <td>Commercial BankID as de facto infrastructure; government supplementing</td>
+          <td>High daily adoption, mature platformization</td>
+          <td>High usage frequency, deep social penetration</td>
+          <td>Single commercial operator dependency, inclusion risk</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="key-msg" style="font-size:0.7em; margin-top:0.6em;">
+      State-granted root identity remains the mainstream. The real divergence lies in the lower-layer exchange architecture and ecosystem governance.
+    </p>
+    <div class="ref">
+      <a href="https://moica.nat.gov.tw/" target="_blank">MOICA</a> &middot;
+      eIDAS = electronic IDentification, Authentication and trust Services &middot;
+      EUDI = European Union Digital Identity &middot;
+      TW DIW = Taiwan Digital Identity Wallet
+    </div>
+    <aside class="notes">
+Looking at the upper layer of issuance legitimacy, high-assurance digital identities produced by credible trust roots are, to this day, mostly provided by the state or by state-recognized institutions. This has not really changed. Self-issued individual identities (such as Ethereum addresses), identities self-issued by civic organizations (such as union membership, clubs, associations, etc.), or enterprise-issued identities (such as Gmail) basically cannot genuinely satisfy the needs of legal proof or attribute proof. In the areas of uniqueness proof or pseudonymous participation, many experimental projects have appeared (such as Gitcoin Passport in the web3 space, though that project has since been sold and transferred), but most ultimately rely on state-issued credentials as the primary foundation (such as zkPassport). I believe the main reason is that "people -- even citizens of other countries -- trust the sovereign state's authority to issue identity."
+
+What has truly begun to diverge over the past decade is the lower-layer exchange architecture -- that is, how credentials are held, how they are presented, who can verify them, who can join the ecosystem, who controls the trust list, and who bears the onboarding costs. Differences at this layer directly affect whether digital identity can enter the Act layer of DCI. The historical context that truly triggered this change was COVID-19, because vaccine passports contained a great deal of sensitive personal data. Different standard-setting organizations began proposing the concept of "decentralized identity" to counter the "centralized identity databases" previously stored and used by governments, in order to mitigate the risk of government surveillance. This field later gave rise to Verifiable Credentials, Decentralized Identifiers, and even applications of zero-knowledge proofs, among others. However, today we will not focus on technological developments, but rather on cross-country differences at these two layers.
+
+Let me highlight three main comparison groups. The first is Taiwan. Taiwan simultaneously has the MOICA path -- high assurance, strong legal effect, issuer-centric -- and the TW DIW path, which moves toward multiple issuers, scenario-based presentation, and selective disclosure via a wallet. The second is the EU. The EU's upper layer remains eIDAS trust services and national trusted lists, while the lower layer integrates attestation, wallet holding, user consent, and cross-border presentation through the EUDI Wallet. The third is Sweden. What is most interesting about Sweden is that society is highly dependent on the commercial BankID, creating a risk of corporate monopoly. The central bank has therefore publicly argued that government e-identification should serve as an important complement. This demonstrates that commercial identity systems can penetrate very deeply into social life, but public governance issues do not disappear as a result.
+
+Looking further outward at a few supplementary cases: the United States is not a single path but rather a cluster of state-level and market-platform intersections. California's OpenCred and wallet ecosystem, and Utah's digital identity rights language, are both worth observing. MOSIP offers a modular, open-source infrastructure vision that countries can own themselves. Aadhaar reminds us that large-scale verification and high coverage do not equal civic-freedom-first. As for Bhutan, its value lies in the fact that a sovereignty-backed NDI path has already placed trusted wallets and VCs within a national-level direction -- a high-signal direction case worth continued observation.
+
+What this slide really aims to clarify is: the competitive focus around the world has expanded from "who issues identity" to "who controls the trust list, who controls the presentation interface, who bears verifier onboarding and ecosystem costs." The key to digital identity entering DCI is not whether a root identity exists -- the point is what kind of exchange architecture that root identity is placed within.
+    </aside>
+  </section>
+
+  <!-- SLIDE 4b: Supplementary comparison -->
+  <section>
+    <h2>Global Comparison: Supplementary Cases</h2>
+    <table>
+      <thead>
+        <tr><th></th><th>Upper: Issuance Legitimacy</th><th>Lower: Exchange Architecture</th><th>Current Strengths</th><th>DCI Gap</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/us.png" alt="US"> <strong>United States</strong></td>
+          <td>State-level mDL, state law, state-level wallets</td>
+          <td>Mature standards, fragmented deployment</td>
+          <td>Strong OS and market influence</td>
+          <td>Nationally fragmented system, large interstate variation</td>
+        </tr>
+        <tr>
+          <td><img class="org-logo" src="assets/logo-mosip.png" alt="MOSIP" style="height:16px;"> <strong>MOSIP</strong></td>
+          <td>Modular identity infrastructure self-built by each country</td>
+          <td>Open source, modular, locally deployable</td>
+          <td>Cost and sovereignty appeal for multiple countries</td>
+          <td>Whether it supports civic rights depends on each country's governance</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/in.png" alt="IN"> <strong>Aadhaar</strong></td>
+          <td>National-scale root identity</td>
+          <td>Authentication / eKYC oriented</td>
+          <td>Extremely high scale and coverage</td>
+          <td>High scale ≠ high freedom guarantees</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/bt.png" alt="BT"> <strong>Bhutan NDI</strong></td>
+          <td>Sovereignty-backed National Digital Identity</td>
+          <td>Trusted wallet, VC oriented</td>
+          <td>National-level innovation direction</td>
+          <td>International interoperability and governance maturity still forming</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ref">
+      mDL = Mobile Driver's License &middot;
+      MOSIP = Modular Open Source Identity Platform &middot;
+      NDI = National Digital Identity &middot;
+      <a href="https://www.mosip.io/" target="_blank">mosip.io</a> &middot;
+      <a href="https://www.dmv.ca.gov/portal/ca-dmv-wallet/" target="_blank">California DMV Wallet</a>
+    </div>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: Taiwan deep dive -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW"> Taiwan: MOICA vs TW DIW</h2>
+    <table>
+      <thead>
+        <tr><th>Dimension</th><th>MOICA (Citizen Digital Certificate)</th><th>TW DIW (Digital Identity Wallet)</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Design center</strong></td><td>Issuer-centric, legal effect, identification, digital signature</td><td>Holder-centric, credential reuse across scenarios</td></tr>
+        <tr><td><strong>Typical tasks</strong></td><td>Identification, digital signature, encryption/decryption</td><td>Attribute presentation, cross-scenario credentials, selective disclosure</td></tr>
+        <tr><td><strong>Third-party integration</strong></td><td>Requires formal application, review, and approval to access</td><td>More open sandbox; wider entry for issuers / verifiers</td></tr>
+        <tr><td><strong>Disclosure logic</strong></td><td>Tends toward high-assurance confirmation, even full identity verification</td><td>Scenario-based authorization and minimal disclosure</td></tr>
+        <tr><td><strong>Main friction</strong></td><td>In-person counter service, eligibility, API review, integration cost</td><td>User comprehension, verifier integration, trust list governance</td></tr>
+        <tr><td><strong>DCI implication</strong></td><td>Strong credentials sufficiently support government processes, but not necessarily civic action</td><td>Application space expands, but civic burden also distributes to citizens and verifiers</td></tr>
+      </tbody>
+    </table>
+    <div class="ref">
+      MOICA = Ministry of the Interior Certification Authority &middot;
+      <a href="https://moica.nat.gov.tw/" target="_blank">moica.nat.gov.tw</a> &middot;
+      <a href="https://github.com/moda-gov-tw/TWDIW-official-app" target="_blank">TW DIW GitHub</a>
+    </div>
+    <aside class="notes">
+Taiwan deserves its own deep dive because it simultaneously contains a warning case and a testbed.
+
+MOICA is Taiwan's citizen digital certificate -- a traditional PKI smart card that later also launched a mobile app service. It provides high assurance, strong legal effect, and relatively clear government-process integration capability. For many government scenarios, this is extremely important.
+
+In 2020, the Taiwanese government even attempted to merge MOICA with the paper national ID card under the name "New e-ID," but it encountered massive public backlash. The prevailing view was that the New eID lacked legal authorization and posed information security risks, so it was ultimately suspended. The New e-ID still will not be launched and has become a frozen proposal within government.
+
+The core problem with MOICA is not the three letters "PKI," nor is it strong credentials per se. The real issue is the integration friction of the open ecosystem -- the application requirements, in-person counter processes, third-party integration costs, and the overall highly issuer-centric institutional design. MOICA's official identity verification service even explicitly requires that application systems first apply and receive approval before they can access relevant capabilities. This design is very well suited for high-control, high-legal-effect, high-accountability scenarios, but for third-party civic services, the friction is quite high.
+
+TW DIW takes a different path. Its official approach is not to issue another centralized national digital identity, but rather to convert existing government and private-sector credentials into digital credential cards that can be managed by the holder. TW DIW open-sourced its mobile app code today, which is an important milestone. Currently, it supports telecom carrier cards and enables convenience-store pickup for online purchases. In the future, it should support business certificates and driver's licenses.
+
+The policy design of TW DIW emphasizes selective disclosure, interoperability, open ecosystem, and the possibility of multiple issuers and multiple verifiers. This makes it very promising from a DCI perspective, because civic action often needs not a stronger centralized login, but rather more portable, more composable, and lower-disclosure proofs.
+
+However, the democratic implications of TW DIW cannot simply be described as adoption friction. A more precise framing is the redistribution of civic burden. Because DIW can accommodate "digital identities" issued by multiple institutions, having multiple trust roots, multiple trust lists, and multiple issuers -- while expanding the ecosystem space -- also shifts the thresholds for comprehension, authorization, verification, complaints, and liability determination onto citizens and verifiers.
+
+MOICA's friction is concentrated before entry -- that is, in the application, review, and integration stages. TW DIW's friction is concentrated during ecosystem operation -- that is, how you understand the credential in your hand, whether you trust this issuer, how the verifier should verify it, and who is responsible when disputes arise. This matters greatly for DCI, because civic infrastructure is not only about whether the technology can run -- it also involves the entire allocation of usage and accountability costs.
+    </aside>
+  </section>
+
+  <!-- SLIDE 5b: Civic cases -->
+  <section>
+    <h2><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW"> Taiwan Civic Cases</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="case-card">
+          <h4>Case A: PTT &times; MOICA &times; ZK Blue Checkmark</h4>
+          <p>PTT, Taiwan's largest BBS system, uses <strong>citizen digital certificates to generate ZK proofs</strong>, allowing users to obtain a "blue checkmark" without revealing their real identity, reducing coordinated information attacks during elections.</p>
+          <p><strong>Proof:</strong> State root credential serves as the trust root, but full identity need not be handed to the platform.</p>
+          <p>Path: <span class="badge b-blue">State credential &rarr; civic proof</span></p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="case-card">
+          <h4><img class="org-logo" src="assets/logo-g0v.svg" alt="g0v"> Case B: g0v Summit &times; TW DIW</h4>
+          <p>g0v Summit 2026, the biennial conference of Taiwan's largest civic tech community, uses the <strong>digital identity wallet to issue entry credentials</strong>, with non-governmental third parties serving as issuer and verifier.</p>
+          <p><strong>Proof:</strong> A holder-centric ecosystem can be operated not only by government, but also by civic communities.</p>
+          <p>Path: <span class="badge b-green">Wallet &rarr; civic ecosystem</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="ref">
+      <a href="https://summit.g0v.tw/2026/" target="_blank">g0v Summit 2026</a> &middot;
+      <a href="https://gitlab.com/g0v-summit/2026/board/-/work_items?sort=created_date&state=all&search=%E6%95%B8%E4%BD%8D%E7%9A%AE%E5%A4%BE&first_page_size=20&show=eyJpaWQiOiIyNjQiLCJmdWxsX3BhdGgiOiJnMHYtc3VtbWl0LzIwMjYvYm9hcmQiLCJpZCI6MTgxODY2MDQyfQ%3D%3D" target="_blank">g0v Summit 2026 Digital Wallet Work Items</a> &middot;
+      ZK = Zero-Knowledge Proof
+    </div>
+    <div class="ref-mashbean">
+      <a href="https://blog.bonds.tw/litepaper/" target="_blank">mashbean et al. — Bond for the Future: Interoperable Yet Unlinkable Digital Identity</a>
+    </div>
+    <aside class="notes">
+Case A: PTT x Citizen Digital Certificate x ZK Blue Checkmark
+
+PTT, Taiwan's largest BBS system, still has hundreds of thousands of users, but the platform has long been troubled by coordinated behavior and astroturfing operations before elections. The volunteer team has found it very difficult to address this through traditional moderation. This year is a mid-term election year in Taiwan. The engineering team uses citizen digital certificates to generate ZK proofs, allowing users to obtain a "blue checkmark" without revealing their real identity, thereby reducing the frequency of astroturfing attacks. The proof significance of this is very strong -- it effectively demonstrates that state root credentials can provide the trust root, but full identity need not be handed to the platform, nor does the platform need to know specifically who the person is. This is precisely a concrete path from state credential to civic proof.
+
+Case B: g0v Summit x TW DIW x Non-governmental Issuer / Verifier
+
+An equally important direction is g0v Summit 2026. g0v is Taiwan's largest civic tech community, which holds a conference every two years. This year, the g0v volunteer team will use the digital identity wallet to issue credentials and entry passes, with non-governmental third parties serving as issuer and verifier. This directly demonstrates that a holder-centric ecosystem is not something only the government can operate -- civic communities, event organizers, and non-official verifiers can also function within the trust framework. It forms an instructive contrast with the PTT case: the former takes a strong state credential and produces a low-disclosure proof, while the latter uses the wallet architecture to expand the practical space for non-governmental issuance and verification.
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Age verification -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>Age Assurance: The Best Stress Test</h2>
+    <p class="small text-muted mt-0">Child safety policy &times; identity infrastructure &times; public-space entry</p>
+    <table>
+      <thead>
+        <tr><th></th><th>Regulatory Development</th><th>Key Timeline</th><th>Core Tension</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/gb.png" alt="UK"> UK</td>
+          <td>Ofcom requires highly effective age assurance; allows multiple technology paths</td>
+          <td>From 2025-07, adult content sites must implement strong age checks</td>
+          <td>High regulatory intensity; privacy standards not necessarily consistent</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/au.png" alt="AU"> Australia</td>
+          <td>Social media minimum age restriction; platforms required to take reasonable steps</td>
+          <td>Effective 2025-12; compliance update 2026-03</td>
+          <td>Platform responsibility, effectiveness, false blocks</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/eu.png" alt="EU"> EU</td>
+          <td>Age verification app / blueprint aligned with EUDI roadmap</td>
+          <td>2025 blueprint; deployable 2026-04</td>
+          <td>Whether minimal disclosure can be institutionalized</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/us.png" alt="US"> United States</td>
+          <td>From state-level content gates toward device / OS / app-store age signals</td>
+          <td>2025-06 Paxton case; 2025-10 CA AB1043</td>
+          <td>Sliding from "adult content gate" toward "infrastructure-layer age signal"</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ref">
+      <a href="https://www.ofcom.org.uk/online-safety/protecting-children/age-checks-to-protect-children-online" target="_blank">Ofcom</a> &middot;
+      CA AB1043 = California Assembly Bill 1043 (Digital Age Assurance Act)
+    </div>
+    <div class="ref-mashbean">
+      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean — Prove You're Old Enough (research report)</a>
+    </div>
+    <aside class="notes">
+I treat age assurance as the clearest stress test in this entire presentation. Because it pushes identity infrastructure, which normally sits in the backend, directly to the public-space entry point: the user does not first access content and then be governed -- rather, they first prove themselves before they can enter.
+
+This wave of legislation is actually moving faster than technical standards and human rights assessment. Before ISO/IEC 27566-1 was published at the end of 2025, the UK had already required strong age checks, Australian law had already taken effect, and the EU had already announced that its age verification app was deployable.
+
+These four jurisdictions represent four different paths. The UK takes a high-regulatory-intensity and technology-neutral approach. Australia uses a platform-responsibility model. The EU is attempting to institutionalize "proving only that you are over 18." The United States is the most noteworthy because the shift is most clear: the Supreme Court in the Paxton case accepted adult-content age verification, and California's AB1043 goes a step further, requiring operating systems to generate an age-bracket signal at account setup and provide it to apps via API. This means age verification is sinking from content websites down to the infrastructure layer of devices, operating systems, and app distribution.
+    </aside>
+  </section>
+
+  <!-- SLIDE 6b: Rights impact -->
+  <section>
+    <h2>Age Assurance: Four Rights at Stake</h2>
+    <div class="cols">
+      <div class="col">
+        <table>
+          <thead><tr><th>Rights Dimension</th><th>Risk Type</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Privacy</strong></td><td>ID documents, age, biometrics centrally processed</td></tr>
+            <tr><td><strong>Anonymity</strong></td><td>Conflict with lawful browsing and the right to anonymity</td></tr>
+            <tr><td><strong>Free speech</strong></td><td>Adults forced into self-censorship (chilling effect)</td></tr>
+            <tr><td><strong>Digital divide</strong></td><td>Those without ID / bank accounts are excluded</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <div class="mermaid">
+flowchart TD
+    A["Child safety pressure"] --> B["Rapid legislative push"]
+    B --> C{"Proof flow?"}
+    C --> D["Per-site verification"]
+    C --> E["OS / App Store<br/>age signal"]
+    C --> F["Privacy-preserving<br/>proof"]
+    D --> G["Tracking &middot; Leaks<br/>Chilling effect &middot; Exclusion"]
+    E --> G
+    F --> H["Risk reduced<br/>but not eliminated"]
+    G --> I["Expand into<br/>general-purpose<br/>identity gate?"]
+    H --> I
+        </div>
+      </div>
+    </div>
+    <p class="key-msg" style="font-size:0.65em;">Will age assurance expand from specific content controls into a general-purpose digital identity gate?</p>
+    <div class="ref">
+      Discord 2025-10: third-party vendor 5CA incident; government ID photos of approximately 70,000 users potentially exposed
+    </div>
+    <div class="ref-mashbean">
+      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean — Prove You're Old Enough: How Age-Verification Laws Are Quietly Building a Global Identity Infrastructure</a>
+    </div>
+    <aside class="notes">
+So what this slide really asks is not just who protects children, but what proof flow is used to protect them. If poorly designed, the costs fall simultaneously on privacy, anonymity, free speech, and digital inclusion. If well designed, age assurance does not have to mean full identity upload. This is also why the next slide discusses minimal proof.
+
+The Discord 2025 incident: third-party vendor 5CA potentially exposed government ID photos of approximately 70,000 users. This demonstrates that centralized verification service providers become high-value attack targets.
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Minimal proof -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>From Full Identity to Minimal Proof</h2>
+    <div class="conditions" style="margin-bottom:0.5em;">
+      <span class="cond">Selective Disclosure</span>
+      <span class="cond">Unlinkability</span>
+      <span class="cond">No-Phone-Home</span>
+      <span class="cond">Browser Politics</span>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <table>
+          <thead><tr><th>Question</th><th>Full Identity</th><th>Minimal Proof</th></tr></thead>
+          <tbody>
+            <tr><td>Are you over 18?</td><td>Present date of birth, full ID</td><td>Prove only "over 18"</td></tr>
+            <tr><td>Do you live here?</td><td>Present full address or household registration</td><td>Prove only residency eligibility</td></tr>
+            <tr><td>Are you the same person?</td><td>Hand over real name, ID number</td><td>Uniqueness proof or pseudonymous credential</td></tr>
+            <tr><td>Do you have a certain qualification?</td><td>Hand over entire credential</td><td>Present only specific attribute</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <div class="mermaid">
+flowchart TD
+    A["Use case"] --> B{"Single-service<br/>login?"}
+    B -->|Yes| C["Federation /<br/>passkey is sufficient"]
+    B -->|No| D{"Multi-issuer /<br/>cross-scenario /<br/>minimal disclosure?"}
+    D -->|Yes| E["Wallet system<br/>value is clear"]
+    D -->|No| F["Simple proof flow"]
+        </div>
+      </div>
+    </div>
+    <div class="ref">
+      <img class="org-logo" src="assets/logo-w3c.png" alt="W3C"> VC 2.0 = Verifiable Credentials &middot;
+      Chrome Digital Credentials API: over 18 without revealing DOB &middot;
+      Google Wallet 2025 open-sourced ZKP libraries &middot;
+      <img class="org-logo" src="assets/logo-eth-diamond.png" alt="ETH" style="height:14px;"> PSE client-side proving &middot;
+      EUDI ARF restricts browser/OS from using presentation requests for market analysis &middot;
+      <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank">W3C</a>
+    </div>
+    <aside class="notes">
+Age assurance is a very good case illustrating what happens when "policy" precedes "technology."
+
+Age assurance is a textbook attribute proof. There are two approaches to digital identity verification: full identity and minimal proof. Today's level of technical maturity is no longer about whether the technology is capable -- it is about which scenarios should adopt minimal proof as the default. In many situations, all we need is whether a certain condition holds -- for example, over 18, residing in a certain jurisdiction, holding student status, belonging to a certain membership. If the system demands full identity every time, it effectively institutionalizes excessive disclosure. Conversely, if the system can design the proof flow with selective disclosure, unlinkability, and no-phone-home, digital identity has a chance of supporting more democratic governance of public spaces.
+
+This slide also aims to answer a question more explicitly: is a wallet necessary? My answer is conditional. If the need is only single-service login, federation (like sign in with Google), passkeys, or existing high-assurance login tools are often sufficient. When the need becomes multi-issuer, cross-scenario reuse, minimal disclosure, user consent, and cross-border interoperability, the institutional value of a wallet rises significantly. Because at that point, the wallet is not just a container -- it also handles presentation, consent, credential management, and the composition logic across different issuers. NIST's inclusion of subscriber-controlled wallets in its model is, in effect, an acknowledgment of this.
+
+I also want to emphasize that "the presentation layer is rapidly becoming platformized." When wallets, operating systems, and browsers begin to serve as the default entry and exit points for digital credentials, the real competition expands from "who issues identity" to "who controls the presentation and consent interface of identity." Google Wallet, Chrome, Apple Wallet, and the EUDI's browser-mediated presentation are all moving in this direction. This means the platform layer is no longer neutral. It may become a new gatekeeper, or it may become a new site for rights protection. The EUDI's restriction clauses on browsers and operating systems, and Google's statements about no server tracking, both indicate that this layer is being institutionalized.
+
+Finally, I want to bring in the Ethereum Foundation's PSE. Because minimal proof and ZKP are closely related -- if minimal proof is to enter truly usable civic scenarios, standards alone are not enough. What is also needed is performance breakthroughs in client-side proving, usable designs for revocation, and engineering efforts to make ordinary consumer devices like smartphones capable of bearing the proving workload. PSE has placed client-side proving and zkID on its roadmap, and throughout 2026 has continued to discuss GPU acceleration and revocation. This moves ZK from being merely a research language to becoming a technological foundation that products and civic experiments can rely upon.
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Civic experiments -->
+<!-- ============================================================ -->
+<section>
+  <h2>Civic &amp; Subnational Experiments</h2>
+  <p class="key-msg" style="font-size:0.7em;">The more likely future: a combination of state-rooted credentials and civic-layer participation tools, rather than wholesale replacement.</p>
+  <table>
+    <thead>
+      <tr><th>Case</th><th>Trust Root</th><th>What Need It Reveals</th><th>Where It Remains Weak</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><img class="org-logo" src="assets/logo-vocdoni.png" alt="Vocdoni"> <strong>Vocdoni</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/es.png" alt="ES"> Catalonia</td>
+        <td>Local government, organizational membership boundaries, passport</td>
+        <td>Need for verifiable, auditable, privacy-first digital voting</td>
+        <td>Legal effect, adoption rate, cross-jurisdictional scalability</td>
+      </tr>
+      <tr>
+        <td><img class="org-logo" src="assets/logo-rarimo.png" alt="Rarimo"> <strong>Rarimo Freedom Tool</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/ro.png" alt="RO"><img class="flag flag-sm" src="https://flagcdn.com/w40/ru.png" alt="RU"><img class="flag flag-sm" src="https://flagcdn.com/w40/ir.png" alt="IR"></td>
+        <td>Passport-rooted, ZK proof</td>
+        <td>Need for anonymous credential proof in exile communities and authoritarian contexts</td>
+        <td>High dependency on passports and specific technology stacks</td>
+      </tr>
+      <tr>
+        <td><strong>QuarkID</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/ar.png" alt="AR"> Buenos Aires</td>
+        <td>City-level government, public-sector trust framework</td>
+        <td>Need for city-level public digital trust frameworks</td>
+        <td>Extrapolation from city-level to national level requires caution</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="ref">
+    <a href="https://vocdoni.io/" target="_blank">vocdoni.io</a> &middot;
+    Rarimo Freedom Tool: decentralized privacy-preserving online voting &middot;
+    QuarkID: Buenos Aires digital trust framework
+  </div>
+  <div class="ref-mashbean">
+    <a href="https://mashbean.net/facebook/2026/0417-1p1i5r/" target="_blank">mashbean.net &mdash; Extended reading on civic and subnational experiments</a>
+  </div>
+  <aside class="notes">
+When mainstream institutions fail to sufficiently support low-exposure, portable, and verifiable civic proofs, civic and subnational experiments emerge. The most important value of these projects is not that they have proven an alternative identity regime is mature, but that they directly expose needs that are not adequately served by mainstream institutions.
+
+Vocdoni is a nonprofit technology organization based in Catalonia. Since the failed 2017 Catalan independence referendum, political activity in Catalonia has faced severe restrictions, and many emerging organizations have tried to move toward new forms of civic participation. The Vocdoni project uses Spanish passports to verify that holders are "Catalan" in order to conduct simulated votes. The Vocdoni case tells us that local governments and civic organizations genuinely need verifiable, auditable, privacy-first digital voting tools.
+
+Rarimo similarly uses passports from various countries, converting them into anonymous digital identities for simulated voting. Rarimo has conducted small-scale simulated votes in Romania, Russia, and Iran. In exile communities and authoritarian contexts, passport-rooted, ZK-based anonymous credential proofs serve a real need.
+
+QuarkID demonstrates that city-level governments are also experimenting with placing digital trust frameworks and citizen-controlled credentials into public governance.
+
+But I want to take a very restrained position. These cases are more suitable as evidence of demand rather than evidence of complete replacement. Most still rely on existing passports, membership boundaries, local government documents, or other institutional trust roots. In other words, root identity still requires public legitimacy and democratic accountability. It is just that after branching outward, flexibility increases -- and the trust foundation also becomes weaker. From this perspective, the more likely future is not that state-rooted credentials are entirely replaced, but rather a combination of state-rooted credentials with civic-layer participation tools.
+
+This slide also carries a deeper political question: how to make citizens trust that government-issued credentials will not become tools for government surveillance of citizens. This is actually the most important implicit question behind many civic experiments. If citizens believe that the credential is only a trust root, and that the verification process itself will not relay transactions back to the state, acceptance will be entirely different. This is also why no-phone-home and unlinkability from the previous slide are so important.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Public blockchain -->
+<!-- ============================================================ -->
+<section>
+  <h2>Public Blockchain: Trust Layer &amp; Status Anchoring</h2>
+  <div class="cols">
+    <div class="col">
+      <table>
+        <thead><tr><th>Component</th><th>Recommended Position</th><th>Reason</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Personal data</strong></td><td>Off-chain, local wallet</td><td>Protect privacy, avoid irreversible linkage</td></tr>
+          <tr><td><strong>Issuer DID / public key</strong></td><td>Public registry or on-chain anchoring</td><td>Enable cross-organization independent verification</td></tr>
+          <tr><td><strong>Trust list anchor</strong></td><td>Publicly verifiable infrastructure</td><td>Auditable, commonly visible, resistant to single-point failure</td></tr>
+          <tr><td><strong>Individual verification event</strong></td><td>Avoid per-transaction callback to issuer</td><td>Reduce phone-home risk</td></tr>
+        </tbody>
+      </table>
+      <p class="small text-muted" style="margin-top:0.3em;">
+        <strong>Federated trust-list alliance</strong>:<br>Trust lists from different jurisdictions, cities, and communities bridged to one another
+      </p>
+    </div>
+    <div class="col">
+      <div class="mermaid">
+flowchart LR
+    A["Issuer"] --> B["Trust List /<br/>Registry"]
+    B --> C["Public Chain<br/>Anchoring"]
+    C --> D["Verifier"]
+    A --> E["Credential<br/>&rarr; Holder"]
+    E --> D
+    D -. "Avoid per-transaction<br/>callback to issuer" .-> A
+      </div>
+    </div>
+  </div>
+  <p class="key-msg" style="font-size:0.6em;">Currently, only Bhutan and Taiwan have actually deployed public blockchain at the national digital identity level.</p>
+  <div class="ref">
+    DID = Decentralized Identifier &middot;
+    EBSI = European Blockchain Services Infrastructure
+  </div>
+  <aside class="notes">
+Among emerging digital identity services, one approach that has long been present in standards planning but almost no country has adopted is the public blockchain. I consider this the most important -- and also the one requiring the most restrained framing. Because public blockchain carries high institutional imagination for digital identity services, but the number of countries with genuinely large-scale deployment is small. Currently, only Bhutan and Taiwan have actually implemented it.
+
+My view is that the institutional value of public blockchain here lies not in legitimacy itself, nor in putting personal data on-chain. Its most appropriate position is as a trust layer, for status anchoring, cross-organizational common visibility, and auditable state publication.
+
+We are not talking about putting personal data on-chain. Whether from the perspective of GDPR, privacy, unlinkability, or practical data governance, putting personal data itself on-chain is not a good direction. What makes more sense to anchor on-chain includes the issuer's DID, public key, trust list anchors, status list commitment values, or other data that is publicly verifiable but does not directly expose personal information. This way, holders or verifiers can confirm whether a given issuer is trustworthy without contacting the issuer for each individual transaction. This is critical for civic proof, because it helps reduce centralized queries -- that is, reduce the possibility of phone-home.
+
+Why do I specifically emphasize public blockchain rather than the broader term DLT? Because among existing mature infrastructure, public blockchain is one of the few tools that can simultaneously provide permissionless publication, cross-organizational common visibility, independent verification, and relatively strong resistance to single-point failure. This is especially attractive in cross-jurisdictional, civic-community, subnational governance, and city-level trust framework contexts. Conversely, the value of permissioned consortium infrastructure typically lies in coordination efficiency within a specific jurisdiction or alliance, but its node governance and global verifiability logic are entirely different. In the case of the EU's trusted lists, their core value derives from legal frameworks and regulation. If public chain were placed in this position, the most reasonable role would be closer to a trust layer and registry interface, rather than replacing legal legitimacy itself.
+
+This is also why I suggest understanding interoperability through the lens of a federated trust-list alliance. The truly viable direction in the future is very likely not a single global trust root, but rather different jurisdictions, cities, institutions, and communities bridging their trust lists to one another, forming a network that is interoperable, auditable, and governable in layers. For this purpose, I participated in a full year of ICANN-related fellowships, trying to understand how the DNS trust root was established. But the conclusion is that DNS carved out a path entirely different from state power -- to this day, the 12 trust roots are still largely not managed by states. Given the vastly different historical contexts, I believe this is very difficult to replicate in the digital identity domain.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: Policy agenda -->
+<!-- ============================================================ -->
+<section>
+  <h2>Policy Agenda: From Rights to Deployment</h2>
+  <table>
+    <thead>
+      <tr><th>Layer</th><th>Specific Policy Action</th><th>Corresponding Cases</th><th>Why It Matters</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge b-red">Rights baseline</span></td>
+        <td>Minimal disclosure, unlinkability, no-phone-home, voluntariness, alternative paths, redress</td>
+        <td>ACLU, EFF, CDT No Phone Home, EU browser restrictions</td>
+        <td>Without a baseline, new use cases all start from maximum visibility</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-blue">Platforms &amp; standards</span></td>
+        <td>Open wallets, standardized provisioning, avoid single-platform lock-in</td>
+        <td>Chrome DC API, TW DIW OID4VC/OID4VP, CA OpenCred</td>
+        <td>The presentation layer will become the new gatekeeper</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-green">Procurement &amp; rollout</span></td>
+        <td>Procurement sandbox, third-party testing, exit clauses, incident response</td>
+        <td>Verifier onboarding, module replacement testing</td>
+        <td>If rights are not translated into procurement language, they vanish at rollout</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-amber">Public-interest pilots</span></td>
+        <td>Small-scale trials with specific civic use cases</td>
+        <td>Forum blue checkmark, event credentials, local consultation</td>
+        <td>First prove civic proof is useful, then discuss full rollout</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-purple">AI delegation</span></td>
+        <td>Scope limitation, revocable, auditable, human override</td>
+        <td>OpenID agent identity, NIST AI agent concept</td>
+        <td>The identity question shifts from "who logs in" to "who can act on whose behalf"</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="key-msg" style="font-size:0.6em;">
+    A system can be excellent at digital government yet still inadequate for digital civic action.<br>
+    The difference lies in whether rights baselines, open ecosystems, and procurement governance are affirmatively addressed.
+  </p>
+  <div class="ref">
+    <img class="org-logo" src="assets/logo-aclu.png" alt="ACLU"> ACLU = American Civil Liberties Union &middot;
+    <img class="org-logo" src="assets/logo-eff.svg" alt="EFF"> EFF = Electronic Frontier Foundation &middot;
+    CDT = Center for Democracy &amp; Technology &middot;
+    <img class="org-logo" src="assets/logo-openid.png" alt="OpenID" style="height:16px;"> OID4VC/VP = OpenID for Verifiable Credentials / Presentations &middot;
+    <a href="https://www.aclu.org/news/privacy-technology/utah-digital-id-law" target="_blank">ACLU</a>
+  </div>
+  <div class="ref-mashbean">
+    <a href="https://pro.mashbean.net/reports/2026-04-01-agentic-id-governance-en/" target="_blank">mashbean — Who Gets to Govern the Identity of AI Agents?</a>
+  </div>
+  <aside class="notes">
+In my working experience, I have found that advancing DCI from the government side is extremely difficult. Although a few years ago I did not know the term "DCI," the practical path was similar. I found that the hardest part is not technology adoption, but rather translating "technical architecture" and "the ideals of political philosophy" into action language that civil servants and civic organizations can understand -- procurement requirements, milestone checkpoints, and even policy language that "the current government" can adopt. Moreover, I have found that this is an extremely specialized area, but one where professionals from different fields rarely have any intersection. Political practitioners, technocrats, technologists, and system integrators all use very different languages. Even though everyone speaks the same language, I felt as if I were living in worlds of different cultures.
+
+Therefore, I have tried to list the most important principles to ensure that in the digital identity domain, DPI can be successfully transformed into DCI. I have rewritten the policy agenda into five actionable items.
+
+First, fix a privacy-first baseline. This should include at minimum: minimal disclosure, unlinkability, no-phone-home, voluntariness, paper or non-smartphone alternative paths, and explicit complaint and redress mechanisms. This set of principles resonates with the directions advocated by digital rights organizations such as ACLU, EFF, Access Now, and No Phone Home. The reason is simple: if these baselines are not fixed first, new use cases will almost invariably start from the direction of maximum visibility, easiest management, and most convenient data collection.
+
+Second, require open wallets and standardized provisioning. Because the presentation layer will become the new gatekeeper. If the wallet, OS, and browser layers are dominated by a single platform, digital identity will merely shift from state monopoly to platform monopoly. TW DIW's official app using OID4VC/OID4VP as its core, Chrome bringing the Digital Credentials API into implementation, and California using OpenCred to manage the verifier ecosystem all provide observable material. What policy needs to do is make provisioning, presentation, and verifier onboarding as standardized as possible, avoiding the formation of new closed ecosystems.
+
+Third, establish a procurement sandbox. This point is easily overlooked, but I consider it extremely important. Many rights claims look wonderful in policy white papers but vanish once they enter rollout. The reason is that they were never translated into procurement language. What truly needs to be tested includes full lifecycle costs, third-party testing, incident response, module replacement capability, exit clauses, and the real-world friction of verifier onboarding. In other words, rollout is not the last step -- it is itself part of institutional design. And because procurement is so process-oriented, it is very easily overlooked.
+
+Fourth, establish a testbed network. I do not recommend pursuing a universal digital identity from the start. A more robust approach is to select a few civic use cases for small-scale, comparable trials. Uniqueness proof in forums or public discussion spaces is one type. Minimal disclosure proof for age or residency qualifications is another. Community self-governance or civic organization membership proof is yet another. If these pilots can produce a set of comparable, evaluable, and disseminable materials, it would be a significant contribution to environments like Allen Lab that care about DCI.
+
+Fifth, AI delegated authority must be formally incorporated into the main agenda. Because AI agents are rapidly encroaching on human work and life domains. The biggest question in the next phase will shift from "who logs in" to "who can act on whose behalf." Whether an AI agent can query, purchase, sign, vote, submit data, or operate some civic workflow on my behalf -- all of these require scope limitation, revocation, auditability, and human override. The OpenID Foundation and NIST have both written this issue into formal documents, so I recommend that this slide at least include a section connecting agentic identity and delegated authority back to the main theme.
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Conclusion -->
+<!-- ============================================================ -->
+<section data-background-color="#1e293b">
+  <div class="conclusion-slide">
+    <h2 style="border-bottom-color:rgba(255,255,255,0.3);">Conclusion</h2>
+    <blockquote style="background:rgba(255,255,255,0.08); border-left:4px solid #60a5fa; padding:0.6em 1em; font-size:0.72em; color:#e2e8f0; border-radius:0 8px 8px 0; text-align:left; margin-left:0;">
+      A democratic digital identity system should determine<br>
+      <strong style="color:#93c5fd;">when I can act without exposing more than necessary.</strong>
+    </blockquote>
+    <div class="discussion" style="margin-top:0.8em;">
+      <ol style="color:#cbd5e1;">
+        <li>Which civic acts require legal identity, and which need only an attribute proof or uniqueness proof?</li>
+        <li>Have browsers, operating systems, and wallets already become new public infrastructure? How will they shape civic life?</li>
+        <li>If state-rooted credentials remain the mainstream, what exchange architecture is sufficient to support privacy, portability, redress, and inclusion?</li>
+        <li>How should this research converge to avoid becoming overly dispersed?</li>
+        <li>What are the next steps for practitioners, policy advocates, and researchers respectively?</li>
+      </ol>
+    </div>
+    <p style="font-size:0.5em; color:#64748b; margin-top:1em;">mashbean &middot; mashbean.net &middot; Allen Lab Policy Fellow</p>
+  </div>
+  <aside class="notes">
+The sentence I want to leave you with is this: what a democratic society needs from a digital identity system is not just the ability to prove who I am, but also the ability to determine when I can refrain from exposing more than necessary and still lawfully participate in public life.
+
+From a DCI perspective, the core question of digital identity is not only how to make everyone more easily identifiable. More importantly, it is how to convert legitimately grounded qualification sources into civic proofs that are low-friction, low-exposure, and come with access to redress. This conversion process encounters the two-layer trust model. The upper layer is issuance legitimacy; the lower layer is the exchange architecture. Today's world has shown that mainstream national identity systems are very good at supporting government services, signatures, compliance, and platform integration. The weaker parts are typically pseudonymous participation, unlinkability, complaint and redress mechanisms, and low-barrier civic reuse. The DCI framework's Connect, Learn, Act has shown me that identity truly enters the core at the moment systems begin to gate action.
+
+I also want to leave the questions openly for everyone. First, which civic acts truly require legal identity, and which actually only need an attribute proof, uniqueness proof, or pseudonymous participation? Second, if wallets, operating systems, and browsers gradually become the default presentation layer, have they already become new public infrastructure? Third, if state-rooted credentials remain the mainstream for the foreseeable future, what exchange architecture is sufficient to support the privacy, portability, redress, and inclusion that a democratic society requires?
+
+Finally, this is also my own research question. I currently face two major challenges. First, this research direction involves digital policy, standards, cryptography, civic participation, platform governance, and cross-jurisdictional institutions -- a very broad scope. I would very much like to know along which axis it would be best to converge going forward: by use case, by actor, by trust layer, or by specific jurisdiction. Second, from the perspectives of practitioners, policy advocates, and academic researchers, what are the respective next steps? Because there are so many things that could be done right now, what is needed most is a clear research and action prioritization.
+  </aside>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'neutral',
+    securityLevel: 'loose',
+    flowchart: { curve: 'basis', useMaxWidth: true },
+    themeVariables: { fontSize: '14px' }
+  });
+
+  async function renderMermaid() {
+    const elements = document.querySelectorAll('.mermaid');
+    for (let i = 0; i < elements.length; i++) {
+      const el = elements[i];
+      const graphDef = el.textContent.trim();
+      const id = 'mermaid-' + i;
+      try {
+        const { svg } = await mermaid.render(id, graphDef);
+        el.innerHTML = svg;
+      } catch (e) {
+        console.warn('Mermaid render error for #' + id + ':', e);
+      }
+    }
+  }
+
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    width: 1280,
+    height: 720,
+    margin: 0.06,
+    transition: 'slide',
+    plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+  }).then(() => {
+    renderMermaid();
+  });
+</script>
+
+<!-- Notes toggle UI -->
+<button id="notes-toggle" title="Toggle speaker notes">&#x1F4DD;</button>
+<div id="notes-panel">
+  <h4>Speaker Notes</h4>
+  <div id="notes-content" class="notes-content"></div>
+</div>
+
+<script>
+(function() {
+  const btn = document.getElementById('notes-toggle');
+  const panel = document.getElementById('notes-panel');
+  const content = document.getElementById('notes-content');
+
+  btn.addEventListener('click', function() {
+    panel.classList.toggle('open');
+    btn.classList.toggle('active');
+  });
+
+  function updateNotes() {
+    const indices = Reveal.getIndices();
+    const slide = Reveal.getCurrentSlide();
+    const notes = slide ? slide.querySelector('aside.notes') : null;
+    if (notes && notes.textContent.trim()) {
+      content.innerHTML = '';
+      content.className = 'notes-content';
+      content.textContent = notes.textContent.trim();
+    } else {
+      content.innerHTML = '<span class="notes-empty">This slide has no notes.</span>';
+    }
+  }
+
+  Reveal.on('slidechanged', updateNotes);
+  Reveal.on('ready', updateNotes);
+})();
+</script>
+
+</body>
+</html>
