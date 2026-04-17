@@ -365,13 +365,29 @@ So today I want to focus on a narrower and more political question: what kind of
 <!-- ============================================================ -->
 <section>
   <h2>Why DCI Needs Digital Identity</h2>
-  <div class="mermaid">
-flowchart LR
-    A["<b>Connect</b><br/>Community, persistence"] --> B["<b>Learn</b><br/>Understanding, information, discussion"]
-    B --> C["<b>Act</b><br/>Petition, vote, join, collaborate"]
-    C --> D{"Does the system<br/>require qualification?"}
-    D -->|No| E["Low identity<br/>requirement"]
-    D -->|Yes| F["Digital identity enters<br/>core governance questions"]
+  <div style="display:flex; gap:1em; align-items:stretch; margin:0.5em 0;">
+    <div style="flex:1; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.85em; font-weight:700; color:var(--accent-dark);">Connect</div>
+      <div style="font-size:0.5em; color:var(--slate-700); margin-top:0.2em;">Community, persistence</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:1.2em; color:var(--muted);">&rarr;</div>
+    <div style="flex:1; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.85em; font-weight:700; color:var(--accent-dark);">Learn</div>
+      <div style="font-size:0.5em; color:var(--slate-700); margin-top:0.2em;">Understanding, information, discussion</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:1.2em; color:var(--muted);">&rarr;</div>
+    <div style="flex:1; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.85em; font-weight:700; color:var(--accent-dark);">Act</div>
+      <div style="font-size:0.5em; color:var(--slate-700); margin-top:0.2em;">Petition, vote, join, collaborate</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:1.2em; color:var(--muted);">&rarr;</div>
+    <div style="flex:1.2; background:var(--surface); border:2px solid var(--accent); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.7em; font-weight:600; color:var(--slate);">Does the system<br>require qualification?</div>
+      <div style="font-size:0.45em; color:var(--muted); margin-top:0.3em;">
+        <span style="color:#166534;">No &rarr; Low identity need</span><br>
+        <span style="color:var(--accent-dark);">Yes &rarr; Identity enters core governance</span>
+      </div>
+    </div>
   </div>
   <p class="key-msg">Identity matters most when systems gate action.</p>
   <p class="small text-muted">Digital identity matters most in DCI when systems begin to require qualification, uniqueness, accountability, and procedural legitimacy.</p>

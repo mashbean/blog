@@ -365,13 +365,29 @@
 <!-- ============================================================ -->
 <section>
   <h2>Why DCI Needs Digital Identity</h2>
-  <div class="mermaid">
-flowchart LR
-    A["<b>Connect</b><br/>連結、社群、持續性"] --> B["<b>Learn</b><br/>理解、資訊、討論"]
-    B --> C["<b>Act</b><br/>連署、投票、加入、協作"]
-    C --> D{"系統要求資格?"}
-    D -->|否| E["身分需求較低"]
-    D -->|是| F["數位身分進入<br/>核心治理問題"]
+  <div style="display:flex; gap:1em; align-items:stretch; margin:0.5em 0;">
+    <div style="flex:1; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.85em; font-weight:700; color:var(--accent-dark);">Connect</div>
+      <div style="font-size:0.5em; color:var(--slate-700); margin-top:0.2em;">連結、社群、持續性</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:1.2em; color:var(--muted);">&rarr;</div>
+    <div style="flex:1; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.85em; font-weight:700; color:var(--accent-dark);">Learn</div>
+      <div style="font-size:0.5em; color:var(--slate-700); margin-top:0.2em;">理解、資訊、討論</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:1.2em; color:var(--muted);">&rarr;</div>
+    <div style="flex:1; background:var(--accent-light); border:1px solid var(--accent-border); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.85em; font-weight:700; color:var(--accent-dark);">Act</div>
+      <div style="font-size:0.5em; color:var(--slate-700); margin-top:0.2em;">連署、投票、加入、協作</div>
+    </div>
+    <div style="display:flex; align-items:center; font-size:1.2em; color:var(--muted);">&rarr;</div>
+    <div style="flex:1.2; background:var(--surface); border:2px solid var(--accent); border-radius:10px; padding:0.6em 0.8em; text-align:center;">
+      <div style="font-size:0.7em; font-weight:600; color:var(--slate);">系統要求資格?</div>
+      <div style="font-size:0.45em; color:var(--muted); margin-top:0.3em;">
+        <span style="color:#166534;">否 &rarr; 身分需求較低</span><br>
+        <span style="color:var(--accent-dark);">是 &rarr; 數位身分進入核心治理問題</span>
+      </div>
+    </div>
   </div>
   <p class="key-msg">Identity matters most when systems gate action.</p>
   <p class="small text-muted">數位身分在 DCI 裡最重要的地方，發生在系統開始要求資格、唯一性、責任與程序正當性的時候。</p>
