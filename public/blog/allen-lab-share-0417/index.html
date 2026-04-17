@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Presentation Template</title>
+
+  <!-- Reveal.js core CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <!-- Theme: white / black / league / beige / night / moon / serif / simple / sky / solarized -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme">
+  <!-- Syntax highlight for code blocks -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
+
+  <style>
+    /* ---- Custom overrides ---- */
+    :root {
+      --r-main-font-size: 36px;
+      --r-heading-font: "Noto Sans TC", "PingFang TC", sans-serif;
+      --r-main-font:    "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+
+    /* Title slide styling */
+    .title-slide h1 { font-size: 2.2em; margin-bottom: 0.3em; }
+    .title-slide h3 { font-size: 1em; color: #666; font-weight: 400; }
+
+    /* Utility: image sizing */
+    .slide-logo { height: 60px; vertical-align: middle; margin: 0 12px; }
+    .slide-flag { height: 40px; vertical-align: middle; margin: 0 6px; }
+    .img-half   { max-width: 50%; }
+    .img-full   { max-width: 90%; }
+
+    /* Two-column layout */
+    .columns { display: flex; gap: 2em; align-items: flex-start; }
+    .columns .col { flex: 1; }
+
+    /* Mermaid diagram container */
+    .mermaid svg { max-width: 100%; height: auto; }
+
+    /* Footer bar (optional) */
+    .reveal .slide-footer {
+      position: absolute; bottom: 12px; left: 24px; right: 24px;
+      font-size: 0.45em; color: #999; display: flex; justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ============================================ -->
+    <!-- SECTION 1: Title -->
+    <!-- ============================================ -->
+    <section class="title-slide" data-background-color="#f8f8f8">
+      <h1>簡報標題</h1>
+      <h3>副標題 / 日期</h3>
+      <p>
+        <img class="slide-logo" src="assets/logo-placeholder.svg" alt="Logo">
+      </p>
+      <p style="font-size:0.6em; color:#888;">作者名稱 &middot; mashbean.net</p>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 2: Markdown slide (external file) -->
+    <!-- ============================================ -->
+    <section data-markdown="slides.md"
+             data-separator="^---$"
+             data-separator-vertical="^--$"
+             data-separator-notes="^Note:">
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 3: Inline Markdown demo -->
+    <!-- ============================================ -->
+    <section data-markdown>
+      <textarea data-template>
+## Inline Markdown 範例
+
+- 第一點：支援 **粗體**、*斜體*、`code`
+- 第二點：清單自動排版
+- 第三點：可嵌入圖片與連結
+
+![placeholder](https://placehold.co/600x300/e8e8e8/999?text=Image+Placeholder)
+
+Note:
+這裡是講者備註，觀眾看不到。
+      </textarea>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 4: Two-column layout -->
+    <!-- ============================================ -->
+    <section>
+      <h2>雙欄排版</h2>
+      <div class="columns">
+        <div class="col">
+          <h4>左欄</h4>
+          <ul>
+            <li>重點 A</li>
+            <li>重點 B</li>
+            <li>重點 C</li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>右欄</h4>
+          <img class="img-full" src="https://placehold.co/400x300/e0e7ff/4338ca?text=Chart" alt="chart">
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 5: Mermaid diagram -->
+    <!-- ============================================ -->
+    <section>
+      <h2>Mermaid 流程圖</h2>
+      <div class="mermaid">
+        graph LR
+          A[開始] --> B{判斷}
+          B -->|是| C[執行]
+          B -->|否| D[結束]
+          C --> D
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 6: Mermaid timeline -->
+    <!-- ============================================ -->
+    <section>
+      <h2>Mermaid 時間線</h2>
+      <div class="mermaid">
+        timeline
+          title 專案里程碑
+          2026-Q1 : 研究階段
+          2026-Q2 : 原型開發
+          2026-Q3 : 測試與修正
+          2026-Q4 : 正式發布
+      </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 7: Image & flag demo -->
+    <!-- ============================================ -->
+    <section data-markdown>
+      <textarea data-template>
+## 圖片與國旗範例
+
+各國參與：
+<img class="slide-flag" src="https://flagcdn.com/w80/tw.png" alt="Taiwan">
+<img class="slide-flag" src="https://flagcdn.com/w80/jp.png" alt="Japan">
+<img class="slide-flag" src="https://flagcdn.com/w80/us.png" alt="USA">
+<img class="slide-flag" src="https://flagcdn.com/w80/de.png" alt="Germany">
+
+Logo 嵌入：
+<img class="slide-logo" src="assets/logo-placeholder.svg" alt="Logo">
+      </textarea>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SECTION 8: Thank you -->
+    <!-- ============================================ -->
+    <section data-background-color="#1a1a2e">
+      <h2 style="color:#fff;">Thank You</h2>
+      <p style="color:#ccc; font-size:0.7em;">聯絡方式 / 連結</p>
+    </section>
+
+  </div><!-- /.slides -->
+
+  <!-- Optional persistent footer -->
+  <!--
+  <div class="slide-footer">
+    <span>mashbean.net</span>
+    <span>2026</span>
+  </div>
+  -->
+</div>
+
+<!-- ============================================ -->
+<!-- Scripts -->
+<!-- ============================================ -->
+<!-- Reveal.js core -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<!-- Plugins -->
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<!-- Mermaid -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+
+<script>
+  // Initialize Mermaid before Reveal so diagrams render
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: 'default',
+    // Use 'dark' theme if your slide background is dark
+    // theme: 'dark',
+    securityLevel: 'loose',
+  });
+
+  // Render all mermaid blocks
+  async function renderMermaid() {
+    const elements = document.querySelectorAll('.mermaid');
+    for (let i = 0; i < elements.length; i++) {
+      const el = elements[i];
+      const graphDef = el.textContent.trim();
+      const id = `mermaid-${i}`;
+      try {
+        const { svg } = await mermaid.render(id, graphDef);
+        el.innerHTML = svg;
+      } catch (e) {
+        console.warn('Mermaid render error:', e);
+      }
+    }
+  }
+
+  // Initialize Reveal.js
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    width: 1280,
+    height: 720,
+    margin: 0.08,
+    transition: 'slide', // none / fade / slide / convex / concave / zoom
+    plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+  }).then(() => {
+    renderMermaid();
+  });
+</script>
+
+</body>
+</html>
