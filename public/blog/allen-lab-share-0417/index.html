@@ -10,86 +10,143 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
     :root {
-      --r-main-font-size: 30px;
-      --r-heading-font: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
-      --r-main-font: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
-      --accent: #2563eb;
-      --accent-dark: #1e40af;
-      --accent-light: #dbeafe;
-      --slate: #1e293b;
+      --r-main-font-size: 28px;
+      --r-heading-font: "Inter", "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+      --r-main-font: "Noto Sans TC", "Inter", "PingFang TC", system-ui, sans-serif;
+      --accent: #3b82f6;
+      --accent-dark: #1d4ed8;
+      --accent-light: #eff6ff;
+      --accent-border: #bfdbfe;
+      --slate: #0f172a;
+      --slate-700: #334155;
       --muted: #64748b;
+      --surface: #f8fafc;
+      --border: #e2e8f0;
     }
 
+    /* ---- Global ---- */
+    .reveal { font-weight: 400; line-height: 1.6; }
+    .reveal .slides { text-align: left; }
+    .reveal .slides > section,
+    .reveal .slides > section > section { padding: 30px 50px; }
+
+    /* ---- Headings ---- */
     .reveal h2 {
-      font-size: 1.3em;
+      font-family: var(--r-heading-font);
+      font-size: 1.35em;
+      font-weight: 700;
       color: var(--slate);
-      border-bottom: 3px solid var(--accent);
-      padding-bottom: 0.15em;
+      border-bottom: none;
       margin-bottom: 0.5em;
+      letter-spacing: -0.01em;
+      text-align: left;
     }
-    .reveal h3 { font-size: 0.95em; color: var(--muted); font-weight: 500; }
-    .reveal h4 { font-size: 0.8em; color: var(--slate); margin: 0.3em 0; }
+    .reveal h2::before {
+      content: "";
+      display: inline-block;
+      width: 4px;
+      height: 0.85em;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-right: 0.4em;
+      vertical-align: -0.05em;
+    }
+    .reveal h3 { font-size: 0.85em; color: var(--muted); font-weight: 500; margin-bottom: 0.3em; }
+    .reveal h4 { font-size: 0.75em; color: var(--slate-700); margin: 0.3em 0; font-weight: 600; }
 
-    /* Tables */
+    /* ---- Tables ---- */
     .reveal table {
-      font-size: 0.48em;
+      font-size: 0.5em;
       width: 100%;
       border-collapse: collapse;
-      margin: 0.4em 0;
+      margin: 0.5em 0;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
     .reveal table th {
-      background: var(--accent);
+      background: var(--slate);
       color: #fff;
-      padding: 6px 10px;
+      padding: 8px 12px;
       text-align: left;
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 0.95em;
+      letter-spacing: 0.02em;
     }
     .reveal table td {
-      padding: 5px 10px;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 7px 12px;
+      border-bottom: 1px solid var(--border);
       text-align: left;
       vertical-align: top;
+      line-height: 1.5;
     }
-    .reveal table tr:nth-child(even) td { background: #f8fafc; }
+    .reveal table tbody tr:last-child td { border-bottom: none; }
+    .reveal table tr:nth-child(even) td { background: var(--surface); }
+    .reveal table tr:hover td { background: var(--accent-light); }
 
-    /* Key message highlight */
+    /* ---- Key message ---- */
     .key-msg {
-      font-size: 1.05em;
+      font-size: 0.95em;
       font-weight: 600;
       color: var(--accent-dark);
       margin: 0.6em 0;
-      line-height: 1.5;
-    }
-    .key-msg-lg {
-      font-size: 1.15em;
-      font-weight: 700;
-      color: var(--accent-dark);
-      margin: 0.8em 0;
+      line-height: 1.6;
+      padding: 0.4em 0.6em;
+      background: var(--accent-light);
+      border-radius: 6px;
+      border-left: 4px solid var(--accent);
+      text-align: left;
     }
 
-    /* Reference links at bottom */
+    /* ---- Reference links ---- */
     .ref {
-      font-size: 0.36em;
+      font-size: 0.38em;
       color: #94a3b8;
-      margin-top: 1em;
+      margin-top: 0.8em;
+      line-height: 1.6;
+      text-align: left;
     }
-    .ref a { color: #64748b; text-decoration: underline; }
+    .ref a { color: #64748b; text-decoration: underline; text-underline-offset: 2px; }
 
-    /* Flag images */
-    .flag { height: 22px; vertical-align: middle; margin: 0 3px; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
-    .flag-sm { height: 18px; }
+    /* ---- mashbean.net prominent link ---- */
+    .ref-mashbean {
+      display: inline-block;
+      margin-top: 0.5em;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #eff6ff, #e0f2fe);
+      border: 1px solid var(--accent-border);
+      border-radius: 6px;
+      font-size: 0.42em;
+      font-weight: 600;
+    }
+    .ref-mashbean a {
+      color: var(--accent-dark);
+      text-decoration: none;
+    }
+    .ref-mashbean a::before {
+      content: "\2197\00a0";
+    }
 
-    /* Badge / pill */
+    /* ---- Flag images ---- */
+    .flag { height: 20px; vertical-align: middle; margin: 0 4px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); }
+    .flag-sm { height: 16px; }
+
+    /* ---- Org logo ---- */
+    .org-logo { height: 22px; vertical-align: middle; margin: 0 4px; opacity: 0.85; }
+    .org-logo-lg { height: 32px; }
+
+    /* ---- Badge / pill ---- */
     .badge {
       display: inline-block;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 0.65em;
-      font-weight: 500;
+      padding: 3px 12px;
+      border-radius: 14px;
+      font-size: 0.62em;
+      font-weight: 600;
       margin: 0 3px;
+      letter-spacing: 0.01em;
     }
     .b-blue { background: #dbeafe; color: #1d4ed8; }
     .b-green { background: #dcfce7; color: #166534; }
@@ -97,48 +154,58 @@
     .b-red { background: #fee2e2; color: #991b1b; }
     .b-purple { background: #f3e8ff; color: #6b21a8; }
 
-    /* Two-column */
-    .cols { display: flex; gap: 1.5em; align-items: flex-start; text-align: left; }
+    /* ---- Two-column ---- */
+    .cols { display: flex; gap: 2em; align-items: flex-start; text-align: left; }
     .cols .col { flex: 1; }
 
-    /* Mermaid sizing */
-    .mermaid { margin: 0.3em auto; }
+    /* ---- Mermaid ---- */
+    .mermaid { margin: 0.4em auto; }
     .mermaid svg { max-width: 100%; height: auto; }
 
-    /* Small helpers */
+    /* ---- Utilities ---- */
     .small { font-size: 0.75em; }
     .xsmall { font-size: 0.6em; }
     .text-left { text-align: left; }
+    .text-center { text-align: center; }
     .text-muted { color: var(--muted); }
     .mt-0 { margin-top: 0; }
     .mb-0 { margin-bottom: 0; }
 
-    /* Title slide */
+    /* ---- Title slide ---- */
+    .title-slide { text-align: center; }
     .title-slide h1 {
-      font-size: 1.6em;
+      font-family: var(--r-heading-font);
+      font-size: 1.8em;
+      font-weight: 700;
       color: var(--slate);
-      margin-bottom: 0.1em;
-      border: none;
+      margin-bottom: 0.05em;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
     }
+    .title-slide h1::before { display: none; }
     .title-slide h3 {
-      font-size: 0.75em;
+      font-size: 0.7em;
       color: var(--muted);
       font-weight: 400;
+      letter-spacing: 0.03em;
     }
+    .title-slide .meta {
+      font-size: 0.55em;
+      color: var(--slate-700);
+      margin-top: 0.6em;
+      font-weight: 500;
+    }
+    .title-slide .meta span { margin: 0 0.5em; }
 
-    /* Conclusion slide */
-    .conclusion-slide {
-      color: #fff;
-    }
-    .conclusion-slide h2 {
-      color: #fff;
-      border-bottom-color: rgba(255,255,255,0.3);
-    }
+    /* ---- Conclusion slide ---- */
+    .conclusion-slide { color: #fff; text-align: left; }
+    .conclusion-slide h2 { color: #fff; }
+    .conclusion-slide h2::before { background: #60a5fa; }
 
-    /* Condition pills row */
+    /* ---- Condition pills ---- */
     .conditions {
       display: flex;
-      gap: 0.8em;
+      gap: 0.6em;
       justify-content: center;
       margin: 0.6em 0;
       flex-wrap: wrap;
@@ -146,43 +213,55 @@
     .conditions .cond {
       background: var(--accent-light);
       color: var(--accent-dark);
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-size: 0.7em;
+      padding: 8px 20px;
+      border-radius: 24px;
+      font-size: 0.65em;
       font-weight: 600;
+      border: 1px solid var(--accent-border);
     }
 
-    /* Case card */
+    /* ---- Case card ---- */
     .case-card {
-      background: #f8fafc;
+      background: var(--surface);
       border-left: 4px solid var(--accent);
-      padding: 0.4em 0.8em;
+      padding: 0.5em 1em;
       margin: 0.4em 0;
       text-align: left;
-      font-size: 0.6em;
+      font-size: 0.58em;
       border-radius: 0 8px 8px 0;
+      line-height: 1.6;
     }
-    .case-card h4 { margin: 0 0 0.2em 0; font-size: 1.1em; color: var(--accent-dark); }
+    .case-card h4 { margin: 0 0 0.3em 0; font-size: 1.15em; color: var(--accent-dark); }
 
-    /* Outline list */
+    /* ---- Outline list ---- */
     .outline-list {
       text-align: left;
-      font-size: 0.55em;
+      font-size: 0.52em;
       columns: 2;
-      column-gap: 2em;
+      column-gap: 2.5em;
       margin: 0 auto;
-      max-width: 85%;
+      max-width: 80%;
+      line-height: 1.7;
     }
-    .outline-list li { margin-bottom: 0.3em; }
+    .outline-list li {
+      margin-bottom: 0.4em;
+      padding-left: 0.3em;
+    }
 
-    /* Discussion questions */
+    /* ---- Discussion questions ---- */
     .discussion ol {
       text-align: left;
-      font-size: 0.58em;
-      max-width: 90%;
+      font-size: 0.56em;
+      max-width: 92%;
       margin: 0 auto;
     }
-    .discussion ol li { margin-bottom: 0.5em; line-height: 1.5; }
+    .discussion ol li { margin-bottom: 0.6em; line-height: 1.65; }
+
+    /* ---- Slide number ---- */
+    .reveal .slide-number { font-size: 14px; color: var(--muted); }
+
+    /* ---- Print / PDF fixes ---- */
+    @media print { .reveal .slides { text-align: left; } }
   </style>
 </head>
 <body>
@@ -286,7 +365,7 @@ flowchart TD
     </div>
     <p class="key-msg" style="font-size:0.8em;">可問責並不需要以實名為前提。<br>Accountability does not require real names.</p>
     <div class="ref">
-      W3C VC 2.0 Recommendation (2025) &middot;
+      <img class="org-logo" src="assets/logo-w3c.png" alt="W3C"> VC 2.0 Recommendation (2025) &middot;
       Chrome Digital Credentials API &middot;
       NIST SP 800-63 Rev. 4 subscriber-controlled wallets &middot;
       <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank">w3.org</a>
@@ -412,7 +491,7 @@ flowchart TD
           <td>全國制度碎片化、州際差異大</td>
         </tr>
         <tr>
-          <td><strong>MOSIP</strong></td>
+          <td><img class="org-logo" src="assets/logo-mosip.png" alt="MOSIP" style="height:16px;"> <strong>MOSIP</strong></td>
           <td>各國自建的模組化身分基礎設施</td>
           <td>開源、模組化、可在地部署</td>
           <td>對多國具成本與主權吸引力</td>
@@ -493,7 +572,7 @@ TW DIW 走另一條路，把既有憑證轉成可由持有者管理的數位憑�
       </div>
       <div class="col">
         <div class="case-card">
-          <h4>Case B: g0v Summit &times; TW DIW</h4>
+          <h4><img class="org-logo" src="assets/logo-g0v.svg" alt="g0v"> Case B: g0v Summit &times; TW DIW</h4>
           <p>g0v Summit 2026，台灣最大公民科技社群年會，使用<strong>數位皮夾發放入場憑證</strong>，由非政府第三方擔任 issuer 與 verifier。</p>
           <p><strong>證明：</strong>holder-centric 生態不只能由政府操作，公民社群也可運作。</p>
           <p>路徑：<span class="badge b-green">Wallet → civic ecosystem</span></p>
@@ -501,9 +580,11 @@ TW DIW 走另一條路，把既有憑證轉成可由持有者管理的數位憑�
       </div>
     </div>
     <div class="ref">
-      <a href="https://blog.bonds.tw/litepaper/" target="_blank">Bond for the Future — Interoperable Yet Unlinkable Digital Identity (mashbean et al.)</a> &middot;
       <a href="https://summit.g0v.tw/2026/" target="_blank">g0v Summit 2026</a> &middot;
       ZK = Zero-Knowledge Proof
+    </div>
+    <div class="ref-mashbean">
+      <a href="https://blog.bonds.tw/litepaper/" target="_blank">mashbean et al. — Bond for the Future: Interoperable Yet Unlinkable Digital Identity</a>
     </div>
     <aside class="notes">
 案例 A：PTT 工程團隊以自然人憑證產生 ZK proof，讓使用者拿到藍勾勾。等於示範了國家根憑證可以提供 trust root，但不必讓平台知道具體是誰。
@@ -555,8 +636,10 @@ TW DIW 走另一條路，把既有憑證轉成可由持有者管理的數位憑�
     </table>
     <div class="ref">
       <a href="https://www.ofcom.org.uk/online-safety/protecting-children/age-checks-to-protect-children-online" target="_blank">Ofcom</a> &middot;
-      CA AB1043 = California Assembly Bill 1043 (Digital Age Assurance Act) &middot;
-      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean: Prove You're Old Enough (research report)</a>
+      CA AB1043 = California Assembly Bill 1043 (Digital Age Assurance Act)
+    </div>
+    <div class="ref-mashbean">
+      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean — Prove You're Old Enough (research report)</a>
     </div>
     <aside class="notes">
 我把年齡驗證當成整場最清楚的壓力測試。它把身分基礎設施直接推到公共空間入口：使用者不是先接觸內容再被治理，而是先證明自己才能進入。
@@ -600,8 +683,10 @@ flowchart TD
     </div>
     <p class="key-msg" style="font-size:0.65em;">隱性第五題：會不會從特定內容控管，擴張成泛用數位身分閘門？</p>
     <div class="ref">
-      Discord 2025-10：第三方供應商 5CA 事件，約 70,000 名使用者政府 ID 照片可能曝露 &middot;
-      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights/" target="_blank">mashbean 研究報告（中文版）</a>
+      Discord 2025-10：第三方供應商 5CA 事件，約 70,000 名使用者政府 ID 照片可能曝露
+    </div>
+    <div class="ref-mashbean">
+      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights/" target="_blank">mashbean — 年齡驗證研究報告（中文版）</a>
     </div>
     <aside class="notes">
 這一頁真正要問的，不只是誰來保護兒少，而是用什麼 proof flow 來保護。若設計不好，代價會同時落在隱私、匿名、言論自由與數位落差上。若設計得好，年齡驗證不必等於 full identity upload。
@@ -647,9 +732,10 @@ flowchart TD
       </div>
     </div>
     <div class="ref">
-      W3C VC 2.0 = Verifiable Credentials &middot;
+      <img class="org-logo" src="assets/logo-w3c.png" alt="W3C"> VC 2.0 = Verifiable Credentials &middot;
       Chrome Digital Credentials API: over 18 不揭露 DOB &middot;
       Google Wallet 2025 開源 ZKP libraries &middot;
+      <img class="org-logo" src="assets/logo-eth-diamond.png" alt="ETH" style="height:14px;"> PSE client-side proving &middot;
       EUDI ARF 限制 browser/OS 不得用 presentation request 做 market analysis &middot;
       <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank">W3C</a>
     </div>
@@ -677,13 +763,13 @@ Ethereum Foundation PSE (Privacy and Scaling Explorations) 把 client-side provi
     </thead>
     <tbody>
       <tr>
-        <td><strong>Vocdoni</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/es.png" alt="ES"> 加泰隆尼亞</td>
+        <td><img class="org-logo" src="assets/logo-vocdoni.png" alt="Vocdoni"> <strong>Vocdoni</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/es.png" alt="ES"> 加泰隆尼亞</td>
         <td>地方政府、組織會員邊界、passport</td>
         <td>可驗證、可稽核、privacy-first 的數位投票需求</td>
         <td>法效、普及度、跨法域規模化</td>
       </tr>
       <tr>
-        <td><strong>Rarimo Freedom Tool</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/ro.png" alt="RO"><img class="flag flag-sm" src="https://flagcdn.com/w40/ru.png" alt="RU"><img class="flag flag-sm" src="https://flagcdn.com/w40/ir.png" alt="IR"></td>
+        <td><img class="org-logo" src="assets/logo-rarimo.png" alt="Rarimo"> <strong>Rarimo Freedom Tool</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/ro.png" alt="RO"><img class="flag flag-sm" src="https://flagcdn.com/w40/ru.png" alt="RU"><img class="flag flag-sm" src="https://flagcdn.com/w40/ir.png" alt="IR"></td>
         <td>Passport-rooted、ZK proof</td>
         <td>流亡社群、威權脈絡下的匿名資格證明需求</td>
         <td>對護照與特定技術堆疊依賴高</td>
@@ -703,6 +789,9 @@ Ethereum Foundation PSE (Privacy and Scaling Explorations) 把 client-side provi
     <a href="https://vocdoni.io/" target="_blank">vocdoni.io</a> &middot;
     Rarimo Freedom Tool: decentralized privacy-preserving online voting &middot;
     QuarkID: Buenos Aires digital trust framework
+  </div>
+  <div class="ref-mashbean">
+    <a href="https://mashbean.net/facebook/2026/0417-1p1i5r/" target="_blank">mashbean.net &mdash; 公民與次國家實驗延伸閱讀</a>
   </div>
   <aside class="notes">
 當主流制度未充分支援低暴露、可攜、可驗證的 civic proof，公民與次國家實驗就會出現。
@@ -816,12 +905,14 @@ Public blockchain 在數位身分中有高制度想像，但真正大規模部�
     差別在於權利底線、開放生態、採購治理是否被正面處理。
   </p>
   <div class="ref">
-    ACLU = American Civil Liberties Union &middot;
-    EFF = Electronic Frontier Foundation &middot;
+    <img class="org-logo" src="assets/logo-aclu.png" alt="ACLU"> ACLU = American Civil Liberties Union &middot;
+    <img class="org-logo" src="assets/logo-eff.svg" alt="EFF"> EFF = Electronic Frontier Foundation &middot;
     CDT = Center for Democracy &amp; Technology &middot;
-    OID4VC/VP = OpenID for Verifiable Credentials / Presentations &middot;
-    <a href="https://www.aclu.org/news/privacy-technology/utah-digital-id-law" target="_blank">ACLU</a> &middot;
-    <a href="https://pro.mashbean.net/reports/2026-04-01-agentic-id-governance-en/" target="_blank">mashbean: Who Gets to Govern the Identity of AI Agents?</a>
+    <img class="org-logo" src="assets/logo-openid.png" alt="OpenID" style="height:16px;"> OID4VC/VP = OpenID for Verifiable Credentials / Presentations &middot;
+    <a href="https://www.aclu.org/news/privacy-technology/utah-digital-id-law" target="_blank">ACLU</a>
+  </div>
+  <div class="ref-mashbean">
+    <a href="https://pro.mashbean.net/reports/2026-04-01-agentic-id-governance-en/" target="_blank">mashbean — Who Gets to Govern the Identity of AI Agents?</a>
   </div>
   <aside class="notes">
 在我的工作經驗裡，從政府方推動 DCI 極為困難。最困難的不是技術應用，而是用公務員、民間團體可以理解的語言，將技術架構與政治哲學轉化為採購需求、milestone 檢核點。
