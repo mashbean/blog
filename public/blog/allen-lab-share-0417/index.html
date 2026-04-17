@@ -323,9 +323,9 @@
 <!-- SLIDE 1: Title -->
 <!-- ============================================================ -->
 <section>
-  <section class="title-slide">
+  <section>
     <p class="small text-muted" style="margin-bottom:0.2em;">Allen Lab Fellowship Meeting &middot; 2026.04.17</p>
-    <h1>From State Credentials<br>to Civic Proofs</h1>
+    <h2>From State Credentials<br>to Civic Proofs</h2>
     <h3>Digital Identity in Digital Civic Infrastructure (DCI)</h3>
     <p style="margin-top:1.2em;">
       <span style="font-size:0.65em; color:var(--slate);">mashbean (Taipei)</span>
@@ -356,22 +356,6 @@
 
 因此我今天的焦點放在一個更窄、也更政治的問題：什麼樣的數位身分架構，能讓公民在數位空間中低摩擦、低暴露、可救濟地行動。只把證件搬到手機上，對我來說只是表層的產品語言。更深的問題牽涉國家權力、平台責任、公民自由、跨境互通，以及公共空間的進入條件。這也是我想把身分重新放回 DCI 脈絡來談的原因。我認為這是我可以為 Allen Lab 帶來的價值。
     </aside>
-  </section>
-
-  <!-- SLIDE 1b: Reasoning chain overview -->
-  <section>
-    <h2>Reasoning Chain Overview</h2>
-    <div class="mermaid">
-flowchart TD
-    A["DCI: Connect / Learn / Act"] --> B["系統開始 gate action<br/>身分進入政治核心"]
-    B --> C["兩層模型<br/>發證正當性 / 交換架構"]
-    C --> D["國際比較<br/>台灣、歐盟、瑞典 + 美、MOSIP、Aadhaar、不丹"]
-    D --> E["年齡驗證 = 壓力測試"]
-    E --> F["Minimal proof 成熟<br/>wallet · browser · OS"]
-    F --> G["公民與次國家實驗"]
-    G --> H["Public blockchain 定位"]
-    H --> I["政策議程 &amp; AI delegation"]
-    </div>
   </section>
 </section>
 
@@ -417,12 +401,6 @@ flowchart TD
     B3["Trust List / Registry / Verifier"] --> B
     B --> C
     C --> D["公共行動<br/>投票 · 連署 · 資格驗證 · 成員治理 · 吹哨"]
-    </div>
-    <div class="conditions">
-      <span class="cond">匿名 Anonymous</span>
-      <span class="cond">不可連結 Unlinkable</span>
-      <span class="cond">可驗證 Verifiable</span>
-      <span class="cond">可問責 Accountable</span>
     </div>
     <p class="key-msg" style="font-size:0.8em;">可問責並不需要以實名為前提。<br>Accountability does not require real names.</p>
     <div class="ref">
@@ -654,6 +632,7 @@ MOICA 的摩擦，比較集中在進場前，也就是申請、審查、接入�
     </div>
     <div class="ref">
       <a href="https://summit.g0v.tw/2026/" target="_blank">g0v Summit 2026</a> &middot;
+      <a href="https://gitlab.com/g0v-summit/2026/board/-/work_items?sort=created_date&state=all&search=%E6%95%B8%E4%BD%8D%E7%9A%AE%E5%A4%BE&first_page_size=20&show=eyJpaWQiOiIyNjQiLCJmdWxsX3BhdGgiOiJnMHYtc3VtbWl0LzIwMjYvYm9hcmQiLCJpZCI6MTgxODY2MDQyfQ%3D%3D" target="_blank">g0v Summit 2026 數位皮夾 Work Items</a> &middot;
       ZK = Zero-Knowledge Proof
     </div>
     <div class="ref-mashbean">
@@ -833,7 +812,7 @@ flowchart TD
 <!-- ============================================================ -->
 <section>
   <h2>Civic &amp; Subnational Experiments</h2>
-  <p class="key-msg" style="font-size:0.7em;">需求證據，還不是替代證據。</p>
+  <p class="key-msg" style="font-size:0.7em;">更可能的未來：state-rooted credentials 與 civic-layer participation tools 的結合，而非全面替代。</p>
   <table>
     <thead>
       <tr><th>案例</th><th>Trust Root</th><th>揭露了什麼需求</th><th>目前仍弱的地方</th></tr>
@@ -859,9 +838,6 @@ flowchart TD
       </tr>
     </tbody>
   </table>
-  <p class="small text-muted" style="margin-top:0.4em;">
-    更可能的未來：state-rooted credentials 與 civic-layer participation tools 的<strong>結合</strong>，而非全面替代。
-  </p>
   <div class="ref">
     <a href="https://vocdoni.io/" target="_blank">vocdoni.io</a> &middot;
     Rarimo Freedom Tool: decentralized privacy-preserving online voting &middot;
@@ -914,12 +890,6 @@ flowchart LR
     A --> E["Credential<br/>→ Holder"]
     E --> D
     D -. "避免逐筆<br/>回連 issuer" .-> A
-      </div>
-      <div style="margin-top:0.5em;">
-        <span class="badge b-blue">公開可驗</span>
-        <span class="badge b-green">狀態錨定</span>
-        <span class="badge b-amber">跨組織共見</span>
-        <span class="badge b-purple">抗單點失效</span>
       </div>
     </div>
   </div>
@@ -1020,7 +990,7 @@ flowchart LR
 <section data-background-color="#1e293b">
   <div class="conclusion-slide">
     <h2 style="border-bottom-color:rgba(255,255,255,0.3);">Conclusion</h2>
-    <blockquote style="background:rgba(255,255,255,0.08); border-left:4px solid #60a5fa; padding:0.6em 1em; font-size:0.72em; color:#e2e8f0; border-radius:0 8px 8px 0; text-align:left;">
+    <blockquote style="background:rgba(255,255,255,0.08); border-left:4px solid #60a5fa; padding:0.6em 1em; font-size:0.72em; color:#e2e8f0; border-radius:0 8px 8px 0; text-align:left; margin-left:0;">
       A democratic digital identity system should determine<br>
       <strong style="color:#93c5fd;">when I can act without exposing more than necessary.</strong>
     </blockquote>
