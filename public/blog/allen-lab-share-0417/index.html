@@ -3,224 +3,914 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Presentation Template</title>
+  <title>From State Credentials to Civic Proofs — mashbean</title>
 
-  <!-- Reveal.js core CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
-  <!-- Theme: white / black / league / beige / night / moon / serif / simple / sky / solarized -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme">
-  <!-- Syntax highlight for code blocks -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/monokai.css">
 
   <style>
-    /* ---- Custom overrides ---- */
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
+
     :root {
-      --r-main-font-size: 36px;
-      --r-heading-font: "Noto Sans TC", "PingFang TC", sans-serif;
-      --r-main-font:    "Noto Sans TC", "PingFang TC", sans-serif;
+      --r-main-font-size: 30px;
+      --r-heading-font: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+      --r-main-font: "Noto Sans TC", "PingFang TC", system-ui, sans-serif;
+      --accent: #2563eb;
+      --accent-dark: #1e40af;
+      --accent-light: #dbeafe;
+      --slate: #1e293b;
+      --muted: #64748b;
     }
 
-    /* Title slide styling */
-    .title-slide h1 { font-size: 2.2em; margin-bottom: 0.3em; }
-    .title-slide h3 { font-size: 1em; color: #666; font-weight: 400; }
+    .reveal h2 {
+      font-size: 1.3em;
+      color: var(--slate);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 0.15em;
+      margin-bottom: 0.5em;
+    }
+    .reveal h3 { font-size: 0.95em; color: var(--muted); font-weight: 500; }
+    .reveal h4 { font-size: 0.8em; color: var(--slate); margin: 0.3em 0; }
 
-    /* Utility: image sizing */
-    .slide-logo { height: 60px; vertical-align: middle; margin: 0 12px; }
-    .slide-flag { height: 40px; vertical-align: middle; margin: 0 6px; }
-    .img-half   { max-width: 50%; }
-    .img-full   { max-width: 90%; }
+    /* Tables */
+    .reveal table {
+      font-size: 0.48em;
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.4em 0;
+    }
+    .reveal table th {
+      background: var(--accent);
+      color: #fff;
+      padding: 6px 10px;
+      text-align: left;
+      font-weight: 500;
+    }
+    .reveal table td {
+      padding: 5px 10px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: left;
+      vertical-align: top;
+    }
+    .reveal table tr:nth-child(even) td { background: #f8fafc; }
 
-    /* Two-column layout */
-    .columns { display: flex; gap: 2em; align-items: flex-start; }
-    .columns .col { flex: 1; }
+    /* Key message highlight */
+    .key-msg {
+      font-size: 1.05em;
+      font-weight: 600;
+      color: var(--accent-dark);
+      margin: 0.6em 0;
+      line-height: 1.5;
+    }
+    .key-msg-lg {
+      font-size: 1.15em;
+      font-weight: 700;
+      color: var(--accent-dark);
+      margin: 0.8em 0;
+    }
 
-    /* Mermaid diagram container */
+    /* Reference links at bottom */
+    .ref {
+      font-size: 0.36em;
+      color: #94a3b8;
+      margin-top: 1em;
+    }
+    .ref a { color: #64748b; text-decoration: underline; }
+
+    /* Flag images */
+    .flag { height: 22px; vertical-align: middle; margin: 0 3px; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .flag-sm { height: 18px; }
+
+    /* Badge / pill */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.65em;
+      font-weight: 500;
+      margin: 0 3px;
+    }
+    .b-blue { background: #dbeafe; color: #1d4ed8; }
+    .b-green { background: #dcfce7; color: #166534; }
+    .b-amber { background: #fef3c7; color: #92400e; }
+    .b-red { background: #fee2e2; color: #991b1b; }
+    .b-purple { background: #f3e8ff; color: #6b21a8; }
+
+    /* Two-column */
+    .cols { display: flex; gap: 1.5em; align-items: flex-start; text-align: left; }
+    .cols .col { flex: 1; }
+
+    /* Mermaid sizing */
+    .mermaid { margin: 0.3em auto; }
     .mermaid svg { max-width: 100%; height: auto; }
 
-    /* Footer bar (optional) */
-    .reveal .slide-footer {
-      position: absolute; bottom: 12px; left: 24px; right: 24px;
-      font-size: 0.45em; color: #999; display: flex; justify-content: space-between;
+    /* Small helpers */
+    .small { font-size: 0.75em; }
+    .xsmall { font-size: 0.6em; }
+    .text-left { text-align: left; }
+    .text-muted { color: var(--muted); }
+    .mt-0 { margin-top: 0; }
+    .mb-0 { margin-bottom: 0; }
+
+    /* Title slide */
+    .title-slide h1 {
+      font-size: 1.6em;
+      color: var(--slate);
+      margin-bottom: 0.1em;
+      border: none;
     }
+    .title-slide h3 {
+      font-size: 0.75em;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    /* Conclusion slide */
+    .conclusion-slide {
+      color: #fff;
+    }
+    .conclusion-slide h2 {
+      color: #fff;
+      border-bottom-color: rgba(255,255,255,0.3);
+    }
+
+    /* Condition pills row */
+    .conditions {
+      display: flex;
+      gap: 0.8em;
+      justify-content: center;
+      margin: 0.6em 0;
+      flex-wrap: wrap;
+    }
+    .conditions .cond {
+      background: var(--accent-light);
+      color: var(--accent-dark);
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-size: 0.7em;
+      font-weight: 600;
+    }
+
+    /* Case card */
+    .case-card {
+      background: #f8fafc;
+      border-left: 4px solid var(--accent);
+      padding: 0.4em 0.8em;
+      margin: 0.4em 0;
+      text-align: left;
+      font-size: 0.6em;
+      border-radius: 0 8px 8px 0;
+    }
+    .case-card h4 { margin: 0 0 0.2em 0; font-size: 1.1em; color: var(--accent-dark); }
+
+    /* Outline list */
+    .outline-list {
+      text-align: left;
+      font-size: 0.55em;
+      columns: 2;
+      column-gap: 2em;
+      margin: 0 auto;
+      max-width: 85%;
+    }
+    .outline-list li { margin-bottom: 0.3em; }
+
+    /* Discussion questions */
+    .discussion ol {
+      text-align: left;
+      font-size: 0.58em;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+    .discussion ol li { margin-bottom: 0.5em; line-height: 1.5; }
   </style>
 </head>
 <body>
 
 <div class="reveal">
-  <div class="slides">
+<div class="slides">
 
-    <!-- ============================================ -->
-    <!-- SECTION 1: Title -->
-    <!-- ============================================ -->
-    <section class="title-slide" data-background-color="#f8f8f8">
-      <h1>簡報標題</h1>
-      <h3>副標題 / 日期</h3>
-      <p>
-        <img class="slide-logo" src="assets/logo-placeholder.svg" alt="Logo">
-      </p>
-      <p style="font-size:0.6em; color:#888;">作者名稱 &middot; mashbean.net</p>
-    </section>
+<!-- ============================================================ -->
+<!-- SLIDE 1: Title -->
+<!-- ============================================================ -->
+<section>
+  <section class="title-slide">
+    <p class="small text-muted" style="margin-bottom:0.2em;">Allen Lab Fellowship Meeting &middot; 2026.04.17</p>
+    <h1>From State Credentials<br>to Civic Proofs</h1>
+    <h3>Digital Identity in Digital Civic Infrastructure (DCI)</h3>
+    <p style="margin-top:1.2em;">
+      <span style="font-size:0.65em; color:var(--slate);">mashbean (Taipei)</span>
+    </p>
+    <ol class="outline-list" style="margin-top:0.8em;">
+      <li>Why identity matters in DCI</li>
+      <li>From digital identity to civic proof</li>
+      <li>Two-layer trust model &amp; global comparison</li>
+      <li>Taiwan deep dive</li>
+      <li>Age assurance as a stress test</li>
+      <li>Minimal proof, wallets &amp; browser politics</li>
+      <li>Civic and subnational experiments</li>
+      <li>Public blockchain as trust layer</li>
+      <li>Policy agenda &amp; next questions</li>
+    </ol>
+    <aside class="notes">
+上一次會議，Jeremy 幫大家從 Payment 的角度切進 DPI。今天我想接著補上另一塊拼圖，也就是 Identity。我自己過去一年大約有一半的時間都在這個題目裡面。過去兩年半我在台灣的數位發展部進行數位皮夾的推動與規劃。去年中離開政府之後，我持續做數位身分的政策研究，也參與一些公民場景的實驗。
+    </aside>
+  </section>
 
-    <!-- ============================================ -->
-    <!-- SECTION 2: Markdown slide (external file) -->
-    <!-- ============================================ -->
-    <section data-markdown="slides.md"
-             data-separator="^---$"
-             data-separator-vertical="^--$"
-             data-separator-notes="^Note:">
-    </section>
+  <!-- SLIDE 1b: Reasoning chain overview -->
+  <section>
+    <h2>Reasoning Chain Overview</h2>
+    <div class="mermaid">
+flowchart TD
+    A["DCI: Connect / Learn / Act"] --> B["系統開始 gate action<br/>身分進入政治核心"]
+    B --> C["兩層模型<br/>發證正當性 / 交換架構"]
+    C --> D["國際比較<br/>台灣、歐盟、瑞典 + 美、MOSIP、Aadhaar、不丹"]
+    D --> E["年齡驗證 = 壓力測試"]
+    E --> F["Minimal proof 成熟<br/>wallet · browser · OS"]
+    F --> G["公民與次國家實驗"]
+    G --> H["Public blockchain 定位"]
+    H --> I["政策議程 &amp; AI delegation"]
+    </div>
+  </section>
+</section>
 
-    <!-- ============================================ -->
-    <!-- SECTION 3: Inline Markdown demo -->
-    <!-- ============================================ -->
-    <section data-markdown>
-      <textarea data-template>
-## Inline Markdown 範例
-
-- 第一點：支援 **粗體**、*斜體*、`code`
-- 第二點：清單自動排版
-- 第三點：可嵌入圖片與連結
-
-![placeholder](https://placehold.co/600x300/e8e8e8/999?text=Image+Placeholder)
-
-Note:
-這裡是講者備註，觀眾看不到。
-      </textarea>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- SECTION 4: Two-column layout -->
-    <!-- ============================================ -->
-    <section>
-      <h2>雙欄排版</h2>
-      <div class="columns">
-        <div class="col">
-          <h4>左欄</h4>
-          <ul>
-            <li>重點 A</li>
-            <li>重點 B</li>
-            <li>重點 C</li>
-          </ul>
-        </div>
-        <div class="col">
-          <h4>右欄</h4>
-          <img class="img-full" src="https://placehold.co/400x300/e0e7ff/4338ca?text=Chart" alt="chart">
-        </div>
-      </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- SECTION 5: Mermaid diagram -->
-    <!-- ============================================ -->
-    <section>
-      <h2>Mermaid 流程圖</h2>
-      <div class="mermaid">
-        graph LR
-          A[開始] --> B{判斷}
-          B -->|是| C[執行]
-          B -->|否| D[結束]
-          C --> D
-      </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- SECTION 6: Mermaid timeline -->
-    <!-- ============================================ -->
-    <section>
-      <h2>Mermaid 時間線</h2>
-      <div class="mermaid">
-        timeline
-          title 專案里程碑
-          2026-Q1 : 研究階段
-          2026-Q2 : 原型開發
-          2026-Q3 : 測試與修正
-          2026-Q4 : 正式發布
-      </div>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- SECTION 7: Image & flag demo -->
-    <!-- ============================================ -->
-    <section data-markdown>
-      <textarea data-template>
-## 圖片與國旗範例
-
-各國參與：
-<img class="slide-flag" src="https://flagcdn.com/w80/tw.png" alt="Taiwan">
-<img class="slide-flag" src="https://flagcdn.com/w80/jp.png" alt="Japan">
-<img class="slide-flag" src="https://flagcdn.com/w80/us.png" alt="USA">
-<img class="slide-flag" src="https://flagcdn.com/w80/de.png" alt="Germany">
-
-Logo 嵌入：
-<img class="slide-logo" src="assets/logo-placeholder.svg" alt="Logo">
-      </textarea>
-    </section>
-
-    <!-- ============================================ -->
-    <!-- SECTION 8: Thank you -->
-    <!-- ============================================ -->
-    <section data-background-color="#1a1a2e">
-      <h2 style="color:#fff;">Thank You</h2>
-      <p style="color:#ccc; font-size:0.7em;">聯絡方式 / 連結</p>
-    </section>
-
-  </div><!-- /.slides -->
-
-  <!-- Optional persistent footer -->
-  <!--
-  <div class="slide-footer">
-    <span>mashbean.net</span>
-    <span>2026</span>
+<!-- ============================================================ -->
+<!-- SLIDE 2: Why DCI needs digital identity -->
+<!-- ============================================================ -->
+<section>
+  <h2>Why DCI Needs Digital Identity</h2>
+  <div class="mermaid">
+flowchart LR
+    A["<b>Connect</b><br/>連結、社群、持續性"] --> B["<b>Learn</b><br/>理解、資訊、討論"]
+    B --> C["<b>Act</b><br/>連署、投票、加入、協作"]
+    C --> D{"系統要求資格?"}
+    D -->|否| E["身分需求較低"]
+    D -->|是| F["數位身分進入<br/>核心治理問題"]
   </div>
-  -->
-</div>
+  <p class="key-msg">Identity matters most when systems gate action.</p>
+  <p class="small text-muted">數位身分在 DCI 裡最重要的地方，發生在系統開始要求資格、唯一性、責任與程序正當性的時候。</p>
+  <aside class="notes">
+如果把 DCI 看成一套讓公民得以連結、理解並行動的制度堆疊，那麼數位身分最敏感的位置，會出現在系統開始 gate action 的瞬間。
 
-<!-- ============================================ -->
+Connect 層主要處理持續性、社群治理、角色分工。Learn 層許多資訊取得不需要強身分。真正的政治壓力落在 Act。只要系統開始問你有沒有資格、是不是重複、是否屬於某個地域、年齡是否達標，數位身分就進入 public decision 的核心。
+
+三個工作命題：
+1. 主流數位身分體系在服務交付、認證、簽章、合規上已相當成功
+2. 當身分基礎設施進入年齡驗證、平台治理與公共空間入口，它開始決定誰能進入
+3. wallet、selective disclosure、ZK 的成熟，讓較民主的設計第一次進入可行區
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 3: Definition — two-layer model -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>Two-Layer Trust Model</h2>
+    <div class="mermaid">
+flowchart TD
+    A1["國家 / 法律授權"] --> A["<b>上層：發證正當性</b><br/>Issuance Legitimacy"]
+    A2["受信任機構 / 社群規則"] --> A
+    A --> C["<b>Civic Proof</b>"]
+    B1["Credential / Wallet"] --> B["<b>下層：交換架構</b><br/>Exchange Architecture"]
+    B2["Browser / OS / App"] --> B
+    B3["Trust List / Registry / Verifier"] --> B
+    B --> C
+    C --> D["公共行動<br/>投票 · 連署 · 資格驗證 · 成員治理 · 吹哨"]
+    </div>
+    <div class="conditions">
+      <span class="cond">匿名 Anonymous</span>
+      <span class="cond">不可連結 Unlinkable</span>
+      <span class="cond">可驗證 Verifiable</span>
+      <span class="cond">可問責 Accountable</span>
+    </div>
+    <p class="key-msg" style="font-size:0.8em;">可問責並不需要以實名為前提。<br>Accountability does not require real names.</p>
+    <div class="ref">
+      W3C VC 2.0 Recommendation (2025) &middot;
+      Chrome Digital Credentials API &middot;
+      NIST SP 800-63 Rev. 4 subscriber-controlled wallets &middot;
+      <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank">w3.org</a>
+    </div>
+    <aside class="notes">
+我建議把數位身分先拆成兩層。第一層是發證正當性（Issuance Legitimacy），處理法律效力、主權、制度問責。第二層是交換架構（Exchange Architecture），處理憑證如何持有、出示、驗證、撤銷、跨系統重用。
+
+我想加一個詞叫 civic proof，把焦點從「證件本身」移到「能不能支撐公共行動的證明形式」。
+
+四個條件：匿名、不可連結、可驗證、可問責。這四個條件必須同時成立。違反直覺但自洽的是：可問責並不需要以實名為前提。
+    </aside>
+  </section>
+
+  <!-- SLIDE 3b: Four proof types -->
+  <section>
+    <h2>Four Types of Civic Proof</h2>
+    <table>
+      <thead>
+        <tr><th>需求型態</th><th>典型場景</th><th>上層需要什麼正當性</th><th>下層需要什麼交換架構</th><th>對自由與隱私的最低要求</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Legal Identity</strong></td>
+          <td>報稅、具法效簽章、領取法定給付</td>
+          <td>國家或法律授權的根身分</td>
+          <td>強保證、可撤銷、可追訴</td>
+          <td>可驗證、可救濟</td>
+        </tr>
+        <tr>
+          <td><strong>Attribute Proof</strong></td>
+          <td>年齡、居住資格、學生、會員</td>
+          <td>可驗證的屬性來源</td>
+          <td>選擇性揭露、最小揭露</td>
+          <td>不可連結、no-phone-home</td>
+        </tr>
+        <tr>
+          <td><strong>Uniqueness Proof</strong></td>
+          <td>一人一帳、一人一票、論壇藍勾勾</td>
+          <td>唯一性來源可被信任</td>
+          <td>去重、抗 Sybil、低揭露</td>
+          <td>假名、不可連結</td>
+        </tr>
+        <tr>
+          <td><strong>Pseudonymous Participation</strong></td>
+          <td>吹哨、敏感諮詢、政治討論</td>
+          <td>程序正當性與事後問責機制</td>
+          <td>保留匿名、保留稽核可能</td>
+          <td>匿名、可問責、受監督</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="small text-muted" style="margin-top:0.5em;">分類基於 mashbean 的彙整</p>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 4: International comparison -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>
+      Global Comparison: Main Cases
+    </h2>
+    <table>
+      <thead>
+        <tr><th></th><th>上層：發證正當性</th><th>下層：交換架構</th><th>目前優勢</th><th>DCI 缺口</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW"> <strong>台灣</strong></td>
+          <td>MOICA 具法效；TW DIW 多發證者生態</td>
+          <td>PKI + wallet / VC 雙軌</td>
+          <td>法效清楚，政策試驗彈性上升</td>
+          <td>生態接入摩擦與 civic burden 並存</td>
+        </tr>
+        <tr>
+          <td><img class="flag" src="https://flagcdn.com/w40/eu.png" alt="EU"> <strong>歐盟</strong></td>
+          <td>eIDAS trust services、national trusted lists</td>
+          <td>EUDI Wallet、attestation、selective disclosure</td>
+          <td>法制完整、跨境互通有正式框架</td>
+          <td>規則複雜；wallet / browser = 新 gatekeeper</td>
+        </tr>
+        <tr>
+          <td><img class="flag" src="https://flagcdn.com/w40/se.png" alt="SE"> <strong>瑞典</strong></td>
+          <td>商業 BankID 為事實基礎設施；政府補位中</td>
+          <td>高日常採用、平台化成熟</td>
+          <td>使用頻率高、社會滲透深</td>
+          <td>單一商業 operator 依賴、納入性風險</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="key-msg" style="font-size:0.7em; margin-top:0.6em;">
+      國家賦予的根身分仍是主流，真正分化的地方在下層交換架構與生態治理。
+    </p>
+    <div class="ref">
+      <a href="https://moica.nat.gov.tw/" target="_blank">MOICA</a> &middot;
+      eIDAS = electronic IDentification, Authentication and trust Services &middot;
+      EUDI = European Union Digital Identity &middot;
+      TW DIW = Taiwan Digital Identity Wallet
+    </div>
+    <aside class="notes">
+從上層看，高保證力的信任根仍然多半由國家提供。個人自發行身分（如 ethereum address）、公民團體、企業發行的身分，基本上都無法滿足 legal proof 和 attribute proof 需求。
+
+真正開始分化的是下層交換架構。這十年來，COVID-19 是轉折點，因為疫苗護照的敏感個資，不同標準組織提出「去中心身分」概念。
+
+世界各地的競爭焦點，已經從「誰發身分」擴大成「誰控制信任清單、誰控制呈現介面、誰承擔 verifier onboarding 與 ecosystem cost」。
+    </aside>
+  </section>
+
+  <!-- SLIDE 4b: Supplementary comparison -->
+  <section>
+    <h2>Global Comparison: Supplementary Cases</h2>
+    <table>
+      <thead>
+        <tr><th></th><th>上層：發證正當性</th><th>下層：交換架構</th><th>目前優勢</th><th>DCI 缺口</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/us.png" alt="US"> <strong>美國</strong></td>
+          <td>州級 mDL、州法、州級 wallet</td>
+          <td>標準成熟、部署分散</td>
+          <td>OS 與市場影響力強</td>
+          <td>全國制度碎片化、州際差異大</td>
+        </tr>
+        <tr>
+          <td><strong>MOSIP</strong></td>
+          <td>各國自建的模組化身分基礎設施</td>
+          <td>開源、模組化、可在地部署</td>
+          <td>對多國具成本與主權吸引力</td>
+          <td>是否支撐 civic rights 取決於各國治理</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/in.png" alt="IN"> <strong>Aadhaar</strong></td>
+          <td>國家級巨大規模根身分</td>
+          <td>authentication / eKYC 導向</td>
+          <td>規模與覆蓋度極高</td>
+          <td>高規模 ≠ 高自由保障</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/bt.png" alt="BT"> <strong>不丹 NDI</strong></td>
+          <td>主權支持的 National Digital Identity</td>
+          <td>Trusted wallet、VC 導向</td>
+          <td>國家級創新方向</td>
+          <td>國際互通與治理成熟度仍在形成</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ref">
+      mDL = Mobile Driver's License &middot;
+      MOSIP = Modular Open Source Identity Platform &middot;
+      NDI = National Digital Identity &middot;
+      <a href="https://www.mosip.io/" target="_blank">mosip.io</a> &middot;
+      <a href="https://www.dmv.ca.gov/portal/ca-dmv-wallet/" target="_blank">California DMV Wallet</a>
+    </div>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 5: Taiwan deep dive -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW"> Taiwan: MOICA vs TW DIW</h2>
+    <table>
+      <thead>
+        <tr><th>向度</th><th>MOICA（自然人憑證）</th><th>TW DIW（數位皮夾）</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>設計中心</strong></td><td>發證者、法定效力、身分識別、電子簽章</td><td>持有者、憑證卡片跨場景重用</td></tr>
+        <tr><td><strong>典型任務</strong></td><td>身分識別、數位簽章、加解密</td><td>屬性出示、跨場景憑證、選擇性揭露</td></tr>
+        <tr><td><strong>第三方介接</strong></td><td>需正式申請、審查、獲准接入</td><td>sandbox 較開放，issuer / verifier 入口較寬</td></tr>
+        <tr><td><strong>揭露邏輯</strong></td><td>偏高強度確認，甚至完整身分確認</td><td>分場景授權與最小揭露</td></tr>
+        <tr><td><strong>主要摩擦</strong></td><td>臨櫃、資格、API 審查、接入成本</td><td>使用者理解、驗證者整合、trust list 治理</td></tr>
+        <tr><td><strong>DCI 啟示</strong></td><td>強 credential 足夠支撐政府流程，未必足夠支撐 civic action</td><td>應用空間變大，civic burden 也分散到公民與驗證者</td></tr>
+      </tbody>
+    </table>
+    <div class="ref">
+      MOICA = Ministry of the Interior Certification Authority &middot;
+      <a href="https://moica.nat.gov.tw/" target="_blank">moica.nat.gov.tw</a> &middot;
+      <a href="https://github.com/moda-gov-tw/TWDIW-official-app" target="_blank">TW DIW GitHub</a>
+    </div>
+    <aside class="notes">
+台灣值得單獨講，因為它同時包含 warning case 與 testbed。
+
+MOICA 是 PKI 晶片卡，高保證力、強法效。但問題在於開放生態的接入摩擦高度 issuer-centric。2020 年 New e-ID 因民眾反彈暫緩。
+
+TW DIW 走另一條路，把既有憑證轉成可由持有者管理的數位憑證卡片。強調選擇性揭露、互通、開放生態、多發證者。但 civic burden 的重新分配是關鍵問題——多信任根把理解、授權、驗證、申訴門檻轉嫁給民眾。
+
+台灣最值得觀察的，不在哪一套技術先進，而是兩種不同治理負擔分配方式放在同一個政策現場。
+    </aside>
+  </section>
+
+  <!-- SLIDE 5b: Civic cases -->
+  <section>
+    <h2><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW"> Taiwan Civic Cases</h2>
+    <div class="cols">
+      <div class="col">
+        <div class="case-card">
+          <h4>Case A: PTT &times; MOICA &times; ZK 藍勾勾</h4>
+          <p>台灣最大 BBS 系統 PTT，以<strong>自然人憑證產生 ZK proof</strong>，讓使用者在不揭露真實身分下拿到「藍勾勾」，降低選舉期間網軍攻擊。</p>
+          <p><strong>證明：</strong>國家根憑證 → trust root，但不必把 full identity 交給平台。</p>
+          <p>路徑：<span class="badge b-blue">State credential → civic proof</span></p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="case-card">
+          <h4>Case B: g0v Summit &times; TW DIW</h4>
+          <p>g0v Summit 2026，台灣最大公民科技社群年會，使用<strong>數位皮夾發放入場憑證</strong>，由非政府第三方擔任 issuer 與 verifier。</p>
+          <p><strong>證明：</strong>holder-centric 生態不只能由政府操作，公民社群也可運作。</p>
+          <p>路徑：<span class="badge b-green">Wallet → civic ecosystem</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="ref">
+      <a href="https://blog.bonds.tw/litepaper/" target="_blank">Bond for the Future — Interoperable Yet Unlinkable Digital Identity (mashbean et al.)</a> &middot;
+      <a href="https://summit.g0v.tw/2026/" target="_blank">g0v Summit 2026</a> &middot;
+      ZK = Zero-Knowledge Proof
+    </div>
+    <aside class="notes">
+案例 A：PTT 工程團隊以自然人憑證產生 ZK proof，讓使用者拿到藍勾勾。等於示範了國家根憑證可以提供 trust root，但不必讓平台知道具體是誰。
+
+案例 B：g0v Summit 2026 志工團隊將使用數位皮夾發放證件與入場憑證，非政府第三方擔任 issuer 與 verifier。直接證明 holder-centric 生態不是只能由政府操作。
+
+兩者形成對照：前者拿強國家 credential 產生低揭露 proof，後者用 wallet 架構擴大非政府發證與驗證的實作空間。
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 6: Age verification -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>Age Assurance: The Best Stress Test</h2>
+    <p class="small text-muted mt-0">兒少政策 &times; 身分基礎設施 &times; 公共空間入口</p>
+    <table>
+      <thead>
+        <tr><th></th><th>制度動向</th><th>關鍵時間點</th><th>核心張力</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/gb.png" alt="UK"> UK</td>
+          <td>Ofcom 要求 highly effective age assurance，允許多技術路徑</td>
+          <td>2025-07 起色情網站需強年齡查核</td>
+          <td>監理強度高，隱私標準未必一致</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/au.png" alt="AU"> Australia</td>
+          <td>社群媒體最低年齡限制，要求平台採 reasonable steps</td>
+          <td>2025-12 生效，2026-03 合規更新</td>
+          <td>平台責任、有效性、誤阻</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/eu.png" alt="EU"> EU</td>
+          <td>Age verification app / blueprint 與 EUDI 路線接合</td>
+          <td>2025 blueprint，2026-04 可部署</td>
+          <td>最小揭露能否制度化</td>
+        </tr>
+        <tr>
+          <td><img class="flag flag-sm" src="https://flagcdn.com/w40/us.png" alt="US"> United States</td>
+          <td>從州級內容 gate 走向 device / OS / app-store age signal</td>
+          <td>2025-06 Paxton 案；2025-10 CA AB1043</td>
+          <td>從「色情門檻」滑向「基礎設施層年齡訊號」</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="ref">
+      <a href="https://www.ofcom.org.uk/online-safety/protecting-children/age-checks-to-protect-children-online" target="_blank">Ofcom</a> &middot;
+      CA AB1043 = California Assembly Bill 1043 (Digital Age Assurance Act) &middot;
+      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean: Prove You're Old Enough (research report)</a>
+    </div>
+    <aside class="notes">
+我把年齡驗證當成整場最清楚的壓力測試。它把身分基礎設施直接推到公共空間入口：使用者不是先接觸內容再被治理，而是先證明自己才能進入。
+
+立法速度快過技術標準與人權評估。ISO/IEC 27566-1 於 2025 年底才發布，但英國、澳洲法律已生效。
+
+美國最值得注意：最高法院在 Paxton 案接受成人內容年齡驗證，加州 AB1043 更要求 OS 在帳號設定時產生 age-bracket signal。年齡確認正從內容網站往基礎設施層下沉。
+    </aside>
+  </section>
+
+  <!-- SLIDE 6b: Rights impact -->
+  <section>
+    <h2>Age Assurance: Four Rights at Stake</h2>
+    <div class="cols">
+      <div class="col">
+        <table>
+          <thead><tr><th>權利面向</th><th>風險型態</th></tr></thead>
+          <tbody>
+            <tr><td><strong>隱私</strong></td><td>證件、年齡、生物特徵被集中處理</td></tr>
+            <tr><td><strong>匿名</strong></td><td>合法瀏覽與匿名權衝突</td></tr>
+            <tr><td><strong>言論自由</strong></td><td>成人被迫自我審查 (chilling effect)</td></tr>
+            <tr><td><strong>數位落差</strong></td><td>無證件 / 無銀行帳戶者被排除</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <div class="mermaid">
+flowchart TD
+    A["兒少保護壓力"] --> B["立法快速推進"]
+    B --> C{"proof flow?"}
+    C --> D["逐站驗證"]
+    C --> E["OS / App Store<br/>age signal"]
+    C --> F["privacy-preserving<br/>proof"]
+    D --> G["追蹤 · 外洩<br/>寒蟬 · 排除"]
+    E --> G
+    F --> H["風險下降<br/>但不消失"]
+    G --> I["擴張成泛用<br/>身分閘門?"]
+    H --> I
+        </div>
+      </div>
+    </div>
+    <p class="key-msg" style="font-size:0.65em;">隱性第五題：會不會從特定內容控管，擴張成泛用數位身分閘門？</p>
+    <div class="ref">
+      Discord 2025-10：第三方供應商 5CA 事件，約 70,000 名使用者政府 ID 照片可能曝露 &middot;
+      <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights/" target="_blank">mashbean 研究報告（中文版）</a>
+    </div>
+    <aside class="notes">
+這一頁真正要問的，不只是誰來保護兒少，而是用什麼 proof flow 來保護。若設計不好，代價會同時落在隱私、匿名、言論自由與數位落差上。若設計得好，年齡驗證不必等於 full identity upload。
+
+Discord 2025 年事件：第三方供應商 5CA 約 70,000 名使用者政府 ID 照片可能曝露，集中式驗證服務商成為高價值攻擊目標。
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 7: Minimal proof -->
+<!-- ============================================================ -->
+<section>
+  <section>
+    <h2>From Full Identity to Minimal Proof</h2>
+    <div class="conditions" style="margin-bottom:0.5em;">
+      <span class="cond">Selective Disclosure</span>
+      <span class="cond">Unlinkability</span>
+      <span class="cond">No-Phone-Home</span>
+      <span class="cond">Browser Politics</span>
+    </div>
+    <div class="cols">
+      <div class="col">
+        <table>
+          <thead><tr><th>問題</th><th>Full Identity</th><th>Minimal Proof</th></tr></thead>
+          <tbody>
+            <tr><td>你滿 18 歲嗎</td><td>出示出生日期、完整證件</td><td>只證明 over 18</td></tr>
+            <tr><td>你住在某地嗎</td><td>出示完整地址或戶籍</td><td>只證明居住資格</td></tr>
+            <tr><td>你是同一個人嗎</td><td>交出真名、身分號碼</td><td>唯一性 proof 或假名 credential</td></tr>
+            <tr><td>你有某種資格嗎</td><td>交出整張證件</td><td>只出示特定屬性</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <div class="mermaid">
+flowchart TD
+    A["使用情境"] --> B{"單一服務登入?"}
+    B -->|是| C["Federation /<br/>passkey 已足夠"]
+    B -->|否| D{"多發證者 /<br/>跨場景 / 最小揭露?"}
+    D -->|是| E["Wallet 制度<br/>價值明顯"]
+    D -->|否| F["簡單 proof flow"]
+        </div>
+      </div>
+    </div>
+    <div class="ref">
+      W3C VC 2.0 = Verifiable Credentials &middot;
+      Chrome Digital Credentials API: over 18 不揭露 DOB &middot;
+      Google Wallet 2025 開源 ZKP libraries &middot;
+      EUDI ARF 限制 browser/OS 不得用 presentation request 做 market analysis &middot;
+      <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank">W3C</a>
+    </div>
+    <aside class="notes">
+今天的技術成熟度已經不是做不做得到，而是哪些情境應把 minimal proof 當成預設。
+
+Wallet 是否必要？條件式的。單一服務登入用 federation 或 passkey 足夠。多發證者、跨場景、最小揭露時，wallet 制度價值顯著上升。NIST 把 subscriber-controlled wallets 納入模型，就是承認這件事。
+
+呈現層正在快速平台化。Google Wallet、Chrome、Apple Wallet、EUDI 的 browser-mediated presentation 都在往這個方向走。Platform layer 不再中性，可能成為新 gatekeeper 或權利保護的新位置。
+
+Ethereum Foundation PSE (Privacy and Scaling Explorations) 把 client-side proving 與 zkID 放到 roadmap，讓 ZK 開始成為產品與公民實驗可依賴的技術底座。
+    </aside>
+  </section>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 8: Civic experiments -->
+<!-- ============================================================ -->
+<section>
+  <h2>Civic &amp; Subnational Experiments</h2>
+  <p class="key-msg" style="font-size:0.7em;">需求證據，還不是替代證據。</p>
+  <table>
+    <thead>
+      <tr><th>案例</th><th>Trust Root</th><th>揭露了什麼需求</th><th>目前仍弱的地方</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Vocdoni</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/es.png" alt="ES"> 加泰隆尼亞</td>
+        <td>地方政府、組織會員邊界、passport</td>
+        <td>可驗證、可稽核、privacy-first 的數位投票需求</td>
+        <td>法效、普及度、跨法域規模化</td>
+      </tr>
+      <tr>
+        <td><strong>Rarimo Freedom Tool</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/ro.png" alt="RO"><img class="flag flag-sm" src="https://flagcdn.com/w40/ru.png" alt="RU"><img class="flag flag-sm" src="https://flagcdn.com/w40/ir.png" alt="IR"></td>
+        <td>Passport-rooted、ZK proof</td>
+        <td>流亡社群、威權脈絡下的匿名資格證明需求</td>
+        <td>對護照與特定技術堆疊依賴高</td>
+      </tr>
+      <tr>
+        <td><strong>QuarkID</strong><br><img class="flag flag-sm" src="https://flagcdn.com/w40/ar.png" alt="AR"> Buenos Aires</td>
+        <td>城市級政府、公部門信任框架</td>
+        <td>城市級 public digital trust framework 的需求</td>
+        <td>城市級與 nation-level 外推需保守</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="small text-muted" style="margin-top:0.4em;">
+    更可能的未來：state-rooted credentials 與 civic-layer participation tools 的<strong>結合</strong>，而非全面替代。
+  </p>
+  <div class="ref">
+    <a href="https://vocdoni.io/" target="_blank">vocdoni.io</a> &middot;
+    Rarimo Freedom Tool: decentralized privacy-preserving online voting &middot;
+    QuarkID: Buenos Aires digital trust framework
+  </div>
+  <aside class="notes">
+當主流制度未充分支援低暴露、可攜、可驗證的 civic proof，公民與次國家實驗就會出現。
+
+Vocdoni 在 2017 年加泰隆尼亞獨立公投失敗後出現，透過西班牙護照驗證持有者進行模擬投票。Rarimo 在羅馬尼亞、俄羅斯與伊朗有小規模模擬投票。QuarkID 顯示城市級政府也在嘗試 citizen-controlled credentials。
+
+但我採取節制說法：這些是需求證據，不是替代證據。它們大多仍依賴既有護照、會員邊界等制度型 trust root。
+
+更深的政治問題：如何讓公民相信政府提供的證件不會變成追蹤工具。若公民相信 credential 只是 trust root，驗證流程不會回傳國家，接受度會完全不同。
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 9: Public blockchain -->
+<!-- ============================================================ -->
+<section>
+  <h2>Public Blockchain: Trust Layer &amp; Status Anchoring</h2>
+  <div class="cols">
+    <div class="col">
+      <table>
+        <thead><tr><th>元件</th><th>建議位置</th><th>原因</th></tr></thead>
+        <tbody>
+          <tr><td><strong>個人資料</strong></td><td>鏈下、本地 wallet</td><td>保護隱私、避免不可逆關聯</td></tr>
+          <tr><td><strong>Issuer DID / 公鑰</strong></td><td>公開 registry 或鏈上錨定</td><td>便於跨組織獨立驗證</td></tr>
+          <tr><td><strong>Trust list 錨點</strong></td><td>公開可驗基礎設施</td><td>可稽核、可共見、抗單點失效</td></tr>
+          <tr><td><strong>單次驗證事件</strong></td><td>盡量避免逐筆回連 issuer</td><td>降低 phone-home 風險</td></tr>
+        </tbody>
+      </table>
+      <p class="small text-muted" style="margin-top:0.3em;">
+        <strong>Federated trust-list alliance</strong>：<br>不同法域、城市、社群的 trust list 彼此橋接
+      </p>
+    </div>
+    <div class="col">
+      <div class="mermaid">
+flowchart LR
+    A["Issuer"] --> B["Trust List /<br/>Registry"]
+    B --> C["Public Chain<br/>Anchoring"]
+    C --> D["Verifier"]
+    A --> E["Credential<br/>→ Holder"]
+    E --> D
+    D -. "避免逐筆<br/>回連 issuer" .-> A
+      </div>
+      <div style="margin-top:0.5em;">
+        <span class="badge b-blue">公開可驗</span>
+        <span class="badge b-green">狀態錨定</span>
+        <span class="badge b-amber">跨組織共見</span>
+        <span class="badge b-purple">抗單點失效</span>
+      </div>
+    </div>
+  </div>
+  <div class="ref">
+    DID = Decentralized Identifier &middot;
+    目前僅不丹與台灣實際部署於國家級數位身分 &middot;
+    EBSI = European Blockchain Services Infrastructure
+  </div>
+  <aside class="notes">
+Public blockchain 在數位身分中有高制度想像，但真正大規模部署的國家案例目前只有不丹與台灣。
+
+我的看法：最適合的位置是 trust layer、status anchoring、跨組織共見、可稽核的狀態發布。不是把個資上鏈。合理的上鏈內容是 issuer DID、公鑰、trust list 錨點、status list 承諾值。
+
+為什麼強調 public blockchain：少數能同時提供 permissionless publication、跨組織共見、獨立驗證、抗單點失效的工具。
+
+未來方向是 federated trust-list alliance：不同法域的 trust list 彼此橋接，可對接、可查核、可分層治理。我參與了一年 ICANN 相關 fellowship 理解 DNS 信任根的建立，結論是 DNS 走出了與國家權力完全不同的道路，在數位身分領域很難重現。
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 10: Policy agenda -->
+<!-- ============================================================ -->
+<section>
+  <h2>Policy Agenda: From Rights to Deployment</h2>
+  <table>
+    <thead>
+      <tr><th>層次</th><th>具體政策動作</th><th>可對應案例</th><th>為何重要</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge b-red">權利基線</span></td>
+        <td>最小揭露、不可連結、no-phone-home、自願性、替代路徑、救濟</td>
+        <td>ACLU、EFF、CDT No Phone Home、EU browser restrictions</td>
+        <td>沒有底線，新 use case 都從最高可見性出發</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-blue">平台與標準</span></td>
+        <td>開放 wallet、標準化 provisioning、避免單一平台鎖定</td>
+        <td>Chrome DC API、TW DIW OID4VC/OID4VP、CA OpenCred</td>
+        <td>Presentation layer 會成為新 gatekeeper</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-green">採購與 rollout</span></td>
+        <td>Procurement sandbox、第三方測試、退出條款、incident response</td>
+        <td>Verifier onboarding、模組替換測試</td>
+        <td>權利若沒翻成採購語言，rollout 時會消失</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-amber">公益試點</span></td>
+        <td>以具體 civic use case 做小規模試驗</td>
+        <td>論壇藍勾勾、活動憑證、地方 consultation</td>
+        <td>先證明 civic proof 有用，再談全面 rollout</td>
+      </tr>
+      <tr>
+        <td><span class="badge b-purple">AI delegation</span></td>
+        <td>範圍限制、可撤銷、可稽核、human override</td>
+        <td>OpenID agent identity、NIST AI agent concept</td>
+        <td>身分問題從「誰登入」→「誰可代表誰行動」</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="key-msg" style="font-size:0.6em;">
+    一個體系可以很擅長 digital government，卻仍然不夠適合 digital civic action。<br>
+    差別在於權利底線、開放生態、採購治理是否被正面處理。
+  </p>
+  <div class="ref">
+    ACLU = American Civil Liberties Union &middot;
+    EFF = Electronic Frontier Foundation &middot;
+    CDT = Center for Democracy &amp; Technology &middot;
+    OID4VC/VP = OpenID for Verifiable Credentials / Presentations &middot;
+    <a href="https://www.aclu.org/news/privacy-technology/utah-digital-id-law" target="_blank">ACLU</a> &middot;
+    <a href="https://pro.mashbean.net/reports/2026-04-01-agentic-id-governance-en/" target="_blank">mashbean: Who Gets to Govern the Identity of AI Agents?</a>
+  </div>
+  <aside class="notes">
+在我的工作經驗裡，從政府方推動 DCI 極為困難。最困難的不是技術應用，而是用公務員、民間團體可以理解的語言，將技術架構與政治哲學轉化為採購需求、milestone 檢核點。
+
+五個可操作的動作：
+
+1. Privacy-first baseline：最小揭露、不可連結、no-phone-home、自願性、替代路徑、申訴救濟。
+
+2. Open wallets / standardized provisioning：presentation layer 會成為新 gatekeeper。
+
+3. Procurement sandbox：很多權利主張進入 rollout 就消失，因為沒被翻成採購語言。
+
+4. Testbed network：挑幾種 civic use case 做小規模試驗。
+
+5. AI delegated authority：AI agent 已快速侵入，問題從「誰登入」轉成「誰可代表誰行動」。
+  </aside>
+</section>
+
+<!-- ============================================================ -->
+<!-- SLIDE 11: Conclusion -->
+<!-- ============================================================ -->
+<section data-background-color="#1e293b">
+  <div class="conclusion-slide">
+    <h2 style="border-bottom-color:rgba(255,255,255,0.3);">Conclusion</h2>
+    <blockquote style="background:rgba(255,255,255,0.08); border-left:4px solid #60a5fa; padding:0.6em 1em; font-size:0.72em; color:#e2e8f0; border-radius:0 8px 8px 0; text-align:left;">
+      A democratic digital identity system should determine<br>
+      <strong style="color:#93c5fd;">when I can act without exposing more than necessary.</strong>
+    </blockquote>
+    <div class="discussion" style="margin-top:0.8em;">
+      <ol style="color:#cbd5e1;">
+        <li>哪些 civic acts 需要 legal identity，哪些只需要 attribute proof 或 uniqueness proof？</li>
+        <li>Browser、OS、wallet 是否已成新的公共基礎設施？它們會怎麼形塑公民生活？</li>
+        <li>若 state-rooted credentials 仍為主流，什麼樣的 exchange architecture 足以支撐 privacy、portability、redress、inclusion？</li>
+        <li>這個研究應如何收斂，才不會過度發散？</li>
+        <li>Practitioner、policy advocate、researcher 的下一步各是什麼？</li>
+      </ol>
+    </div>
+    <p style="font-size:0.5em; color:#64748b; margin-top:1em;">mashbean &middot; mashbean.net &middot; Allen Lab Policy Fellow</p>
+  </div>
+  <aside class="notes">
+最後的句子：一個民主社會需要的數位身分體系，不只要證明我是誰，也要決定我在什麼時候可以不暴露超過必要的資訊，仍然能合法參與公共生活。
+
+從 DCI 的角度看，核心問題不是如何讓每個人更容易被辨識。更重要的是，如何把具正當性的資格來源，轉成低摩擦、低暴露、可救濟的 civic proof。
+
+我最大的困擾：1. 研究方向牽涉太多領域，應沿什麼軸收斂。2. 從行動者、倡議者、學術研究者三個位置看，下一步各自是什麼。
+  </aside>
+</section>
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
 <!-- Scripts -->
-<!-- ============================================ -->
-<!-- Reveal.js core -->
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
-<!-- Plugins -->
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/markdown/markdown.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/highlight/highlight.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
-<!-- Mermaid -->
 <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
 
 <script>
-  // Initialize Mermaid before Reveal so diagrams render
   mermaid.initialize({
     startOnLoad: false,
-    theme: 'default',
-    // Use 'dark' theme if your slide background is dark
-    // theme: 'dark',
+    theme: 'neutral',
     securityLevel: 'loose',
+    flowchart: { curve: 'basis', useMaxWidth: true },
+    themeVariables: { fontSize: '14px' }
   });
 
-  // Render all mermaid blocks
   async function renderMermaid() {
     const elements = document.querySelectorAll('.mermaid');
     for (let i = 0; i < elements.length; i++) {
       const el = elements[i];
       const graphDef = el.textContent.trim();
-      const id = `mermaid-${i}`;
+      const id = 'mermaid-' + i;
       try {
         const { svg } = await mermaid.render(id, graphDef);
         el.innerHTML = svg;
       } catch (e) {
-        console.warn('Mermaid render error:', e);
+        console.warn('Mermaid render error for #' + id + ':', e);
       }
     }
   }
 
-  // Initialize Reveal.js
   Reveal.initialize({
     hash: true,
     slideNumber: 'c/t',
     width: 1280,
     height: 720,
-    margin: 0.08,
-    transition: 'slide', // none / fade / slide / convex / concave / zoom
+    margin: 0.06,
+    transition: 'slide',
     plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
   }).then(() => {
     renderMermaid();
