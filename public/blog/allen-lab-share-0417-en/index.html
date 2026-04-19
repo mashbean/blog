@@ -1312,5 +1312,101 @@
 </deck-stage>
 
 <script src="deck-stage.js"></script>
+
+<!-- Speaker Notes Toggle UI -->
+<style>
+#notes-toggle {
+  position: fixed; bottom: 16px; left: 16px; z-index: 100;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(30,30,30,0.85); border: 1px solid rgba(255,255,255,0.15);
+  color: #ccc; font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+#notes-toggle:hover { background: rgba(50,50,50,0.95); color: #fff; }
+#notes-toggle.active { background: rgba(60,90,140,0.9); color: #fff; border-color: rgba(120,160,220,0.4); }
+
+#notes-panel {
+  position: fixed; bottom: 64px; left: 16px; z-index: 99;
+  width: min(460px, calc(100vw - 32px));
+  max-height: 45vh; overflow-y: auto;
+  background: rgba(20,20,20,0.92); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 20px 24px;
+  color: rgba(232,228,218,0.9); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.65;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  display: none;
+}
+#notes-panel.visible { display: block; }
+#notes-panel .notes-header {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: rgba(154,180,214,0.8); margin-bottom: 12px;
+}
+#notes-panel .notes-body { white-space: pre-wrap; word-wrap: break-word; }
+#notes-panel .notes-empty { color: rgba(255,255,255,0.35); font-style: italic; }
+</style>
+
+<button id="notes-toggle" title="Toggle speaker notes (N)">📝</button>
+<div id="notes-panel">
+  <div class="notes-header">Speaker Notes — <span id="notes-slide-label">Slide 1</span></div>
+  <div class="notes-body" id="notes-body"></div>
+</div>
+
+<script>
+(function() {
+  // Load notes from JSON
+  var notesData = [];
+  var tag = document.getElementById('speaker-notes');
+  if (tag) {
+    try { notesData = JSON.parse(tag.textContent || '[]'); } catch(e) {}
+  }
+
+  var toggle = document.getElementById('notes-toggle');
+  var panel = document.getElementById('notes-panel');
+  var body = document.getElementById('notes-body');
+  var label = document.getElementById('notes-slide-label');
+  var currentIndex = 0;
+
+  function updateNotes(idx) {
+    currentIndex = idx;
+    var text = (notesData[idx] || '').trim();
+    label.textContent = 'Slide ' + (idx + 1);
+    if (text) {
+      body.textContent = text;
+      body.className = 'notes-body';
+    } else {
+      body.textContent = 'No notes for this slide.';
+      body.className = 'notes-body notes-empty';
+    }
+    panel.scrollTop = 0;
+  }
+
+  toggle.addEventListener('click', function() {
+    var visible = panel.classList.toggle('visible');
+    toggle.classList.toggle('active', visible);
+  });
+
+  // Listen for keyboard shortcut "N"
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'n' || e.key === 'N') {
+      toggle.click();
+    }
+  });
+
+  // Listen for slidechange events from deck-stage
+  var deck = document.querySelector('deck-stage');
+  if (deck) {
+    deck.addEventListener('slidechange', function(e) {
+      updateNotes(e.detail.index);
+    });
+  }
+
+  // Initialize with slide 0
+  updateNotes(0);
+})();
+</script>
 </body>
 </html>
