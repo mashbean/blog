@@ -1,0 +1,1286 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>從國家證件到公民證明 — mashbean</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/json" id="speaker-notes">["上一次會議，Jeremy 幫大家從 Payment 的角度切進 DPI。今天我想接著補上另一塊拼圖，也就是 Identity。若沿用目前常見的 DPI 三分法，討論通常會落在 Data、Payment、Identity 這三塊。Allen Lab 在 Data 上已經累積很多材料，所以今天我想補上最後這一塊，也就是數位身分。\n\n我自己過去一年大約有一半的時間都在這個題目裡面。過去兩年半我在台灣的數位發展部進行數位皮夾的推動與規劃。去年中離開政府之後，我持續做數位身分的政策研究，也參與一些公民場景的實驗。\n\n真正讓我把這些材料串起來的，是來到 Allen Lab 之後接觸到 Digital Civic Infrastructure 這個概念。我開始意識到，自己真正關心的方向，不只是大型國家專案能否制度化，也不只是商業服務能否穩定接入。更核心的問題，是數位身分能不能成為一種支撐 civic action 的基礎設施。\n\n我今天的焦點放在一個更窄、也更政治的問題：什麼樣的數位身分架構，能讓公民在數位空間中低摩擦、低暴露、可救濟地行動。只把證件搬到手機上，對我來說只是表層的產品語言。更深的問題牽涉國家權力、平台責任、公民自由、跨境互通，以及公共空間的進入條件。","如果把 DCI 看成一套讓公民得以連結、理解並行動的制度堆疊，那麼數位身分最敏感的位置，會出現在系統開始 gate action 的瞬間。在 Connect 這一層，身分主要處理的是持續性、社群治理、角色分工與基本信任。到了 Learn 這一層，許多資訊取得與討論其實不需要強身分。真正的政治壓力落在 Act。只要系統開始問你有沒有資格、是不是重複、是否屬於某個地域、年齡是否達標、是否符合程序，數位身分就會進入 public decision 的核心。\n\n因此我想提出三個工作命題。第一，主流數位身分體系其實已經相當成功，尤其在服務交付、認證、簽章、合規與 fraud reduction 上。第二，當身分基礎設施開始進入年齡驗證、平台治理與公共空間入口時，它就開始決定誰能進入哪些空間。第三，wallet、selective disclosure、unlinkability、ZK 以及 browser API 的成熟，讓較民主的數位身分設計第一次進入政策與產品的可行區，但制度治理明顯落後於技術可能性。","我建議把數位身分先拆成兩層再談。第一層是發證正當性，也就是誰有權核發會產生 civic consequences 的資格。這一層處理的是法律效力、主權、制度問責、撤銷權。第二層是交換架構，也就是憑證如何被持有、出示、驗證、撤銷、重用。把這兩層拆開之後，很多看起來混在一起的爭論就會清楚很多。\n\n我想在這裡多加一個詞，叫做 civic proof。這個詞的作用，是把焦點從「證件本身」移到「能不能支撐公共行動的證明形式」。很多時候，公民行動並不需要完整 legal identity，只需要 attribute proof、uniqueness proof，或 pseudonymous participation。\n\n規範上，我會用四個條件來檢查制度：匿名、不可連結、可驗證、可問責。這四個條件必須同時成立。其中一個違反直覺、但在密碼學上自洽的狀態是「可問責並不需要以實名為前提。」這句話會貫穿後面所有段落。","這裡是我認為最有用的四種 civic proof 分類。Legal identity 用於報稅、法定給付、具法效簽章。Attribute proof 用於年齡、居住資格、學生、會員身分。Uniqueness proof 用於一人一帳、一人一票，不需揭露你是誰。Pseudonymous participation 用於吹哨、敏感諮詢，你需要能參與、能被事後稽核，但平常不必揭露真實身分。如果不先把這四種需求分開，後面所有關於「數位身分是否需要強身分」的討論都會變得模糊。","如果從上層的發證正當性來看，高保證力的數位身分，今天仍然多半由國家，或由國家承認的制度提供。這一點沒有真正改變。\n\n這十年來真正開始分化的是下層交換架構，也就是憑證如何被持有、呈現、驗證、誰能加入生態、誰控制信任清單、誰承擔 onboarding 成本。真正啟動改變的歷史脈絡是 COVID-19，疫苗護照推動了 Verifiable Credential、DID、ZKP 等領域的發展。\n\n台灣同時存在 MOICA 的 issuer-centric 路徑，以及 TW DIW 朝多發證者、選擇性揭露前進的 wallet 路徑。歐盟上層是 eIDAS 與 national trusted lists，下層是 EUDI Wallet。瑞典社會高度依賴商業的 BankID。\n\n這一張真正要講清楚的是：世界各地的競爭焦點，已經從「誰發身分」擴大成「誰控制信任清單、誰控制呈現介面、誰承擔 verifier onboarding」。","再往外看幾個補充對照。美國不是單一路徑，而是州級與市場平台交錯的叢集。MOSIP 提供一種模組化、開源、可由國家自行擁有的基礎設施想像。Aadhaar 則提醒我們，大規模驗證與高覆蓋度不等於 civic-freedom-first。至於不丹，主權支持的 NDI 路線已經把 trusted wallet 與 VC 放進國家級方向之中。","台灣值得單獨講，因為它同時包含 warning case 與 testbed。\n\nMOICA 是台灣的自然人憑證，提供高保證力、強法效。2020 年政府試圖將 MOICA 與紙本身分證整合為 New e-ID，但遇到大量民眾反彈，最後暫緩。MOICA 的問題核心不在 PKI 本身，而在於開放生態的接入摩擦、申辦資格、臨櫃流程、第三方介接成本，以及整體制度高度 issuer-centric。\n\nTW DIW 走的是另一條路。它不是再發一張集中式國民數位身分，而是把既有憑證轉成可由持有者管理的數位憑證卡片。TW DIW 已經開源 Mobile App 的程式碼。它強調選擇性揭露、互通性、開放生態，以及多發證者與多驗證者的可能性。\n\n不過 TW DIW 的民主問題更準確的說法，是 civic burden 的重新分配。多信任根、多信任清單雖然擴大了生態空間，也把理解、授權、驗證、申訴、責任判定的門檻轉嫁給民眾與驗證者。MOICA 的摩擦集中在進場前；TW DIW 的摩擦集中在生態運作中。","案例 A：PTT × 自然人憑證 × ZK 藍勾勾。PTT 是台灣最大的 BBS，長期受到選舉前網軍攻擊的困擾。今年工程團隊以自然人憑證產生 ZK proof，讓使用者在不揭露真實身分的情況下拿到「藍勾勾」。這等於示範了：國家根憑證可以提供 trust root，但不必把 full identity 交給平台。這正是從 state credential 轉成 civic proof 的具體路徑。\n\n案例 B：g0v Summit 2026 × TW DIW。g0v 是台灣最大的公民科技社群，每兩年辦一次年會。今年志工團隊將使用數位皮夾發放證件，並由非政府第三方擔任 issuer 與 verifier。這證明 holder-centric 的生態不是只能由政府單獨操作。兩個案例剛好形成對照：前者是拿強國家 credential 產生低揭露 proof，後者則是用 wallet 架構擴大非政府發證與驗證的空間。","我把年齡驗證當成整場最清楚的壓力測試。因為它把原本位在後台的身分基礎設施，直接推到公共空間入口：使用者不是先接觸內容，再被治理，而是先證明自己，才能進入。\n\n這波立法速度其實快過技術標準與人權評估；在 ISO/IEC 27566-1 於 2025 年底發布之前，英國已要求強年齡查核、澳洲法律已生效，歐盟也已宣布 age verification app 可部署。\n\n四個法域代表四條路徑。英國是高監理強度與技術中立，澳洲是平台責任模式，歐盟則試圖把「只證明 over 18」制度化。美國最值得注意：最高法院在 Paxton 案接受了成人內容年齡驗證，加州 AB1043 更要求作業系統在帳號設定時產生 age-bracket signal。這代表年齡確認正在從內容網站，往裝置、OS 與 app distribution 的基礎設施層下沉。","這一頁真正要問的，不只是誰來保護兒少，而是用什麼 proof flow 來保護。若設計不好，代價會同時落在隱私、匿名、言論自由與數位落差上；若設計得好，年齡驗證不必等於 full identity upload。\n\nDiscord 2025 年事件：第三方供應商 5CA 約 70,000 名使用者政府 ID 照片可能曝露，說明集中式驗證服務商會成為高價值攻擊目標。","年齡驗證揭示了「政策」先於「技術」會出現什麼問題。有兩種數位身分的證明方案：full identity 與 minimal proof。今天的技術成熟度，已經不是技術做不做得到，而是哪些情境應把 minimal proof 當成預設。\n\nWallet 是否必要？我的回答是條件式的。若需求只是單一服務登入，federation、passkey 已經足夠。當需求變成多發證者、跨場景重用、最小揭露、使用者同意、跨境互通，wallet 的制度價值就會顯著上升。\n\n呈現層正在快速平台化。當 wallet、OS、browser 成為數位憑證的預設出入口，真正的競爭就從「誰核發身分」擴大成「誰控制身分的呈現與同意介面」。EUDI 對瀏覽器的限制條款、Google 對 no server tracking 的表述，都說明這一層正在被制度化。\n\nEthereum Foundation PSE 把 client-side proving 與 zkID 放到 roadmap 上，讓 ZK 不再只是研究語言，也開始成為產品與公民實驗可依賴的技術底座。","當主流制度未充分支援低暴露、可攜、可驗證的 civic proof，公民與次國家實驗就會出現。這些專案的價值，不是它們已經證明 alternative identity regime 成熟，而是它們把未被主流制度充分服務的需求直接暴露出來。\n\nVocdoni 是在加泰隆尼亞的技術開發非營利組織，透過西班牙護照驗證「加泰隆尼亞人」身分進行模擬投票。Rarimo 同樣使用 Passport 轉化為匿名數位身分，在羅馬尼亞、俄羅斯與伊朗進行小規模模擬投票。QuarkID 則顯示城市級政府也在嘗試把 digital trust framework 放進公共治理。\n\n但我想採取很節制的說法。這些案例比較適合作為需求證據，不適合作為完整替代證據。它們大多仍然依賴既有護照或地方政府文件作為 trust root。更可能的未來不是 state-rooted credentials 被全面替代，而是 state-rooted credentials 與 civic-layer participation tools 的結合。\n\n這裡還有一個更深的政治問題：如何讓公民相信，政府提供的證件不會變成政府追蹤公民的工具。這也是為什麼前一頁的 no-phone-home 與 unlinkability 這麼重要。","在新型態的數位身分服務中，有一個一直在標準規劃中，但幾乎沒有國家採用的案例，便是公共區塊鏈。目前只有不丹與台灣真的實作。\n\nPublic blockchain 在這裡的制度價值，不在合法性本身，也不在把個人資料放到鏈上。它最適合的位置，是 trust layer、status anchoring、跨組織共見、以及可稽核的狀態發布。真正比較合理的上鏈內容，是 issuer 的 DID、公鑰、trust list 的錨點、status list 的承諾值。\n\n為什麼是 public blockchain 而不是 DLT？因為 public blockchain 能同時提供 permissionless publication、跨組織共見、獨立驗證、以及較強抗單點失效能力。Permissioned consortium 的價值通常在特定法域內部的協調效率，但節點治理與全球可驗性邏輯完全不同。\n\n這也是我建議用 聯邦信任清單聯盟 來理解互通的原因。未來可行的方向，可能不是單一全球 trust root，而是不同法域、城市、機構、社群的 trust list 彼此橋接。","從我的工作經驗，從政府方推動 DCI 是極為困難的事情。最困難的不是技術應用，而是用公務員、民間團體可以理解的語言，將「技術架構」與「政治哲學的理想」轉化為行動語言。\n\n我把政策議程重寫成五個可操作的動作。\n\n第一，先固定 privacy-first baseline：最小揭露、不可連結、no-phone-home、自願性、紙本替代路徑、明確救濟。\n\n第二，要求 open wallets 與 standardized provisioning。presentation layer 會成為新的 gatekeeper。若 wallet、OS、browser 層被單一平台主導，數位身分只會從國家壟斷轉成平台壟斷。\n\n第三，建立 procurement sandbox。很多權利主張在政策白皮書裡看起來很漂亮，一進入 rollout 就消失，因為沒有被翻成採購語言。真正需要被測試的是全生命週期成本、第三方測試、incident response、模組替換能力、退出條款。\n\n第四，建立 testbed network。挑幾種 civic use case 做小規模、可比較的試驗。論壇 uniqueness proof、年齡或居住資格的最小揭露、社群 membership proof 都是候選。\n\n第五，AI delegated authority 必須被正式納入主線。下一階段最大的問題，會從「誰登入」轉成「誰可以代表誰行動」。AI agent 需要 scope limitation、revocation、auditability 與 human override。","我最後想留下的句子是：一個民主社會需要的數位身分體系，不只要證明我是誰，也要決定我在什麼時候可以不暴露超過必要的資訊，仍然能合法參與公共生活。\n\n從 DCI 的角度看，數位身分的核心問題，是如何把具正當性的資格來源，轉成低摩擦、低暴露、可救濟的 civic proof。主流國家身分制度很擅長支撐 government service、簽章、合規與平台接入；較弱的是假名式參與、不可連結、申訴救濟、以及低門檻的 civic reuse。\n\n我把問題公開留給大家。第一，哪些 civic acts 真的需要 legal identity，哪些只需要 attribute proof 或 pseudonymous participation。第二，wallet、OS、browser 若逐漸成為預設的 presentation layer，它們是否已經成為新的公共基礎設施。第三，若 state-rooted credentials 在可見未來仍是主流，什麼樣的 exchange architecture 才足以支撐民主社會需要的 privacy、portability、redress 與 inclusion。\n\n這也是我自己的研究問題：接下來應該沿著什麼軸收斂？是 use case、actor、trust layer、還是特定法域？從行動者、政策倡議者、學術研究者三個位置來看，下一步各自是什麼？","感謝大家。這裡列出幾份延伸閱讀，歡迎進一步討論。"]</script>
+
+<style>
+  body { margin: 0; background: #0a0a0a; }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ============================================================
+     SLIDE 01 — TITLE
+     ============================================================ -->
+<section class="slide" data-label="Title">
+  <div class="slide-head">
+    <span class="eyebrow">Allen Lab 研究會議 · <b>2026.04.17</b></span>
+    <span class="folio">01 / 16</span>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1.1fr 1fr; gap: 80px; flex: 1; align-items: start;">
+    <div>
+      <div class="label" style="margin-bottom: 32px;">從 數位公共建設 到 數位公民基礎設施</div>
+      <h1 class="slide-title" style="font-size: 96px; line-height: 1.02; letter-spacing: -0.015em; margin-bottom: 56px; font-weight: 700;">
+        從國家憑證<br>
+        到<em>公民證明</em>
+      </h1>
+      <p class="slide-subtitle" style="font-size: 28px; max-width: 720px;">
+        數位公民基礎設施中的數位身分——雙層信任模型、四種證明類型，以及當系統開始把關行動時會發生什麼。
+      </p>
+
+      <div style="margin-top: 48px; display: flex; align-items: baseline; gap: 24px;">
+        <span class="label">作者</span>
+        <span style="font-family: var(--serif); font-size: 24px; color: var(--ink);">mashbean</span>
+        <span class="caption">台北 · 哈佛大學甘迺迪學院 Allen Lab 政策研究員</span>
+      </div>
+    </div>
+
+    <div style="border-left: 1px solid var(--rule); padding-left: 48px;">
+      <div class="label" style="margin-bottom: 20px;">目錄</div>
+      <ol style="list-style: none; padding: 0; margin: 0; font-family: var(--serif); font-size: 19px; line-height: 1.55; color: var(--ink-2); counter-reset: toc;">
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">01</span><span>數位身分為何對 DCI 重要</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">02</span><span>雙層信任模型</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">03</span><span>四種公民證明類型</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">04</span><span>全球比較</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">05</span><span>台灣深度分析：MOICA 與 TW DIW</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">06</span><span>年齡驗證作為壓力測試</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">07</span><span>完整身分 vs. 最小證明</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">08</span><span>公民與次國家實驗</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0; border-bottom: 1px solid var(--rule);">
+          <span class="num">09</span><span>公共區塊鏈作為信任層</span>
+        </li>
+        <li style="display: grid; grid-template-columns: 44px 1fr; gap: 0; padding: 8px 0;">
+          <span class="num">10</span><span>政策議程與開放問題</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a>
+      <span class="divider">·</span>
+      mashbean 2026
+      <span class="divider">·</span>
+      <a href="../allen-lab-share-0417-en/" target="_blank">English version · 英文版</a>
+    </div>
+    <span class="label">mashbean.net</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 02 — WHY DCI NEEDS DIGITAL IDENTITY
+     ============================================================ -->
+<section class="slide" data-label="Why DCI Needs Identity">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 01</b> · 數位身分為何對 DCI 重要</span>
+    <span class="folio">02 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 64px;">數位身分最重要的時刻，是<em>系統開始把關行動</em>的時候。</h2>
+  <p class="slide-subtitle" style="font-size: 26px;">DCI 把公民參與拆成 Connect → Learn → Act 三層。數位身分最強烈介入的，是 Act 這一層——公共決策從這裡開始。</p>
+
+  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin: 40px 0 32px;">
+    <div style="padding: 32px 28px; background: var(--bg-card); border-top: 2px solid var(--rule-2);">
+      <div class="num" style="margin-bottom: 12px;">步驟 01</div>
+      <div style="font-family: var(--serif); font-size: 32px; color: var(--ink); margin-bottom: 10px;">連結 · Connect</div>
+      <p class="caption" style="font-size: 15px;">社群、持續性、角色分工。透過長期貢獻建立信任。身分只是象徵性錨點——弱身分通常已足夠。</p>
+    </div>
+    <div style="padding: 32px 28px; background: var(--bg-card); border-top: 2px solid var(--rule-2);">
+      <div class="num" style="margin-bottom: 12px;">步驟 02</div>
+      <div style="font-family: var(--serif); font-size: 32px; color: var(--ink); margin-bottom: 10px;">理解 · Learn</div>
+      <p class="caption" style="font-size: 15px;">資訊取得、討論。匿名閱讀與低門檻參與皆可行。多半不需要身分。</p>
+    </div>
+    <div style="padding: 32px 28px; background: var(--bg-card); border-top: 2px solid var(--accent);">
+      <div class="num" style="margin-bottom: 12px; color: var(--accent);">步驟 03</div>
+      <div style="font-family: var(--serif); font-size: 32px; color: var(--ink); margin-bottom: 10px;">行動 · Act</div>
+      <p class="caption" style="font-size: 15px;">連署、投票、加入、協作、吹哨。政治壓力落在這裡。</p>
+    </div>
+    <div style="padding: 32px 28px; background: var(--accent); color: var(--bg);">
+      <div class="num" style="margin-bottom: 12px; color: var(--bg);">資格把關</div>
+      <div style="font-family: var(--serif); font-size: 28px; line-height: 1.2; margin-bottom: 10px;">系統是否要求你具備資格？</div>
+      <p style="font-size: 15px; line-height: 1.5; margin: 0; color: rgba(246,241,232,0.9);">是 → 身分進入核心治理。唯一性、屬性、問責、程序全部變成制度問題。</p>
+    </div>
+  </div>
+
+  <div class="cols-3" style="margin-top: 28px; gap: 40px;">
+    <div>
+      <div class="label" style="margin-bottom: 10px;">命題 1</div>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.45; color: var(--ink-2); margin: 0;">主流數位身分在服務交付、簽章、合規與詐欺防治上已相當成功。</p>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom: 10px;">命題 2</div>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.45; color: var(--ink-2); margin: 0;">一旦它進入年齡驗證與平台治理，就開始決定誰可以進入哪些公共空間。</p>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom: 10px;">命題 3</div>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.45; color: var(--ink-2); margin: 0;">Wallet、選擇性揭露、ZK 與 browser API 讓民主身分成為可行——但制度治理明顯落後。</p>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">框架：Ash Center · Digital Civic Infrastructure <span class="divider">·</span> Connect–Learn–Act</div>
+    <span class="label">02 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 03 — TWO-LAYER TRUST MODEL (bespoke diagram)
+     ============================================================ -->
+<section class="slide" data-label="Two-Layer Trust Model">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 02</b> · 雙層信任模型</span>
+    <span class="folio">03 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 60px;">把<em>發證正當性</em>與<em>交換架構</em>拆開。</h2>
+  <p class="slide-subtitle" style="font-size: 22px; max-width: 1400px;">PKI、VC、wallet、browser、trust list 各自在不同層運作。拆開以後，大部分爭論會變得清楚。</p>
+
+  <div style="display: grid; grid-template-columns: 1.35fr 1fr; gap: 56px; flex: 1; align-items: start; margin-top: 12px;">
+
+    <!-- LEFT: bespoke diagram -->
+    <div style="position: relative;">
+      <!-- Upper layer -->
+      <div style="border: 1px solid var(--rule-2); background: var(--bg-card); padding: 20px 24px; margin-bottom: 0;">
+        <div class="label" style="margin-bottom: 4px;">上層</div>
+        <div style="font-family: var(--serif); font-size: 28px; color: var(--ink); margin-bottom: 12px;">發證正當性</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div style="padding: 10px 14px; background: var(--accent-tint); font-size: 14px; color: var(--accent); font-weight: 500;">國家 / 法律授權</div>
+          <div style="padding: 10px 14px; background: var(--accent-tint); font-size: 14px; color: var(--accent); font-weight: 500;">受信任機構 / 社群規則</div>
+        </div>
+        <p class="caption" style="font-size: 13px; margin-top: 10px;">法律效力 · 主權 · 問責 · 撤銷權</p>
+      </div>
+
+      <!-- connector -->
+      <div style="height: 28px; width: 2px; background: var(--rule-2); margin-left: 48px;"></div>
+
+      <!-- Lower layer -->
+      <div style="border: 1px solid var(--rule-2); background: var(--bg-card); padding: 20px 24px;">
+        <div class="label" style="margin-bottom: 4px;">下層</div>
+        <div style="font-family: var(--serif); font-size: 28px; color: var(--ink); margin-bottom: 12px;">交換架構</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+          <div style="padding: 10px 12px; background: var(--accent-tint); font-size: 13px; color: var(--accent); font-weight: 500;">Credential / Wallet</div>
+          <div style="padding: 10px 12px; background: var(--accent-tint); font-size: 13px; color: var(--accent); font-weight: 500;">Browser / OS / App</div>
+          <div style="padding: 10px 12px; background: var(--accent-tint); font-size: 13px; color: var(--accent); font-weight: 500;">信任清單 / 註冊處 / 驗證者</div>
+        </div>
+        <p class="caption" style="font-size: 13px; margin-top: 10px;">憑證如何被持有、出示、驗證、撤銷、重用。</p>
+      </div>
+
+      <!-- connector down -->
+      <div style="height: 28px; width: 2px; background: var(--ink); margin-left: 48px; position: relative;">
+        <div style="position: absolute; bottom: -1px; left: -4px; width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 8px solid var(--ink);"></div>
+      </div>
+
+      <!-- Civic Proof output -->
+      <div style="padding: 22px 28px; background: var(--ink); color: var(--bg);">
+        <div class="label" style="margin-bottom: 4px; color: rgba(246,241,232,0.65);">輸出</div>
+        <div style="font-family: var(--serif); font-size: 34px; color: #fff; margin-bottom: 8px; font-style: italic;">公民證明 · Civic Proof</div>
+        <p style="font-size: 14px; line-height: 1.55; color: rgba(246,241,232,0.85); margin: 0;">
+          投票 · 連署 · 資格驗證 · 成員治理 · 吹哨
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT: four normative conditions -->
+    <div>
+      <div class="label" style="margin-bottom: 20px;">四項規範條件</div>
+      <div style="display: grid; gap: 14px;">
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <span class="num" style="font-size: 14px;">I.</span>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">匿名</div>
+            <p class="caption" style="font-size: 14px; margin: 2px 0 0;">真實身分不必被揭露。</p>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <span class="num" style="font-size: 14px;">II.</span>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">不可連結</div>
+            <p class="caption" style="font-size: 14px; margin: 2px 0 0;">跨情境的使用無法被串聯。</p>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <span class="num" style="font-size: 14px;">III.</span>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">可驗證</div>
+            <p class="caption" style="font-size: 14px; margin: 2px 0 0;">主張可以被獨立確認。</p>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 40px 1fr; gap: 16px;">
+          <span class="num" style="font-size: 14px;">IV.</span>
+          <div>
+            <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">可問責</div>
+            <p class="caption" style="font-size: 14px; margin: 2px 0 0;">事後稽核與救濟仍然可行。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="claim" style="font-size: 24px; margin-top: 32px; padding: 16px 0 16px 20px;">
+        可問責<em style="color: var(--accent); font-style: italic;">並不</em>需要以實名為前提。
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      W3C VC 2.0 Recommendation (2025)
+      <span class="divider">·</span>
+      Chrome Digital Credentials API
+      <span class="divider">·</span>
+      NIST SP 800-63 Rev. 4 subscriber-controlled wallets
+    </div>
+    <span class="label">03 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 04 — FOUR CIVIC PROOFS
+     ============================================================ -->
+<section class="slide" data-label="Four Civic Proofs">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 03</b> · 四種公民證明類型</span>
+    <span class="folio">04 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">四種不同的<em>證明需求</em>——不是一個身分問題。</h2>
+  <p class="slide-subtitle" style="font-size: 22px;">若不把這四種先拆開，所有關於「數位身分是否需要強身分」的討論都會變得模糊。</p>
+
+  <table class="etable" style="margin-top: 24px; font-size: 16px;">
+    <thead>
+      <tr>
+        <th style="width: 22%;">需求類型</th>
+        <th style="width: 22%;">典型情境</th>
+        <th style="width: 20%;">上層<br>所需正當性</th>
+        <th style="width: 20%;">下層<br>所需交換架構</th>
+        <th style="width: 16%;">最低隱私要求</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label">
+          <div>法律身分 · Legal Identity</div>
+          <span class="tag">法定</span>
+        </td>
+        <td>報稅 · 具法效簽章 · 法定給付</td>
+        <td>國家或法律授權的根身分</td>
+        <td>高保證 · 可撤銷 · 可追訴</td>
+        <td>可驗證、可救濟</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div>屬性證明 · Attribute Proof</div>
+          <span class="tag">選擇性</span>
+        </td>
+        <td>年齡 · 居住資格 · 學生 · 會員</td>
+        <td>可驗證的屬性來源</td>
+        <td>選擇性與最小揭露</td>
+        <td>不可連結 · no-phone-home</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div>唯一性證明 · Uniqueness Proof</div>
+          <span class="tag">抗 Sybil</span>
+        </td>
+        <td>一人一帳 · 一人一票 · 論壇藍勾勾</td>
+        <td>可信的唯一性來源</td>
+        <td>去重 · 低揭露</td>
+        <td>假名 · 不可連結</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div>假名參與 · Pseudonymous Participation</div>
+          <span class="tag">敏感</span>
+        </td>
+        <td>吹哨 · 敏感諮詢 · 政治討論</td>
+        <td>程序正當性與事後問責</td>
+        <td>保留匿名 · 保留稽核</td>
+        <td>匿名 · 可問責</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="claim warm" style="margin-top: 32px; font-size: 28px;">
+    後面所有關於「強身分」的討論，其實都取決於你心裡想的是<em style="color: var(--warm); font-style: italic;">這四種中的哪一種</em>。
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">分類：mashbean 的彙整</div>
+    <span class="label">04 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 05 — GLOBAL COMPARISON (main)
+     ============================================================ -->
+<section class="slide" data-label="Global Comparison Main">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 04</b> · 全球比較——主要案例</span>
+    <span class="folio">05 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">根身分仍然來自國家。 <em>Exchange</em> 才是路徑分歧之處。</h2>
+  <p class="slide-subtitle" style="font-size: 22px;">過去十年，競爭焦點已從「誰發身分」擴展到「誰掌握信任清單與出示介面」。</p>
+
+  <table class="etable" style="margin-top: 24px; font-size: 15px;">
+    <thead>
+      <tr>
+        <th style="width: 14%;">&nbsp;</th>
+        <th style="width: 22%;">上層 · 發證正當性</th>
+        <th style="width: 20%;">下層 · 交換架構</th>
+        <th style="width: 22%;">目前優勢</th>
+        <th style="width: 22%;">DCI gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label">
+          <div><img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW">Taiwan</div>
+        </td>
+        <td>MOICA 具法效 · TW DIW 多元發證生態</td>
+        <td>PKI + wallet / VC 雙軌</td>
+        <td>法效明確，實驗彈性上升</td>
+        <td>生態整合摩擦與公民負擔並存</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><img class="flag" src="https://flagcdn.com/w40/eu.png" alt="EU">歐盟</div>
+        </td>
+        <td>eIDAS 信任服務 · 國家信任清單</td>
+        <td>EUDI Wallet · attestation · 選擇性揭露</td>
+        <td>完整法律框架 · 形式化跨境互通</td>
+        <td>規則複雜；wallet/browser 成為新的守門者</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><img class="flag" src="https://flagcdn.com/w40/se.png" alt="SE">Sweden</div>
+        </td>
+        <td>商業 BankID 為事實標準 · 政府補強</td>
+        <td>日常採用度高 · 平台化成熟</td>
+        <td>使用頻率高 · 社會滲透深</td>
+        <td>單一業者依賴 · 排除風險</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><img class="flag" src="https://flagcdn.com/w40/us.png" alt="US">美國</div>
+        </td>
+        <td>州層級 mDL · 州法 · 州層級 wallet</td>
+        <td>標準成熟 · 部署分散</td>
+        <td>OS 與市場影響力強</td>
+        <td>全國碎裂 · 州際差異大</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="claim" style="margin-top: 28px; font-size: 24px;">
+    身分進入 DCI 的關鍵不在根是否存在——而在 <em>什麼樣的交換架構</em> 承接這個根。
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      eIDAS = electronic IDentification, Authentication and trust Services
+      <span class="divider">·</span>
+      EUDI = 歐盟 Digital Identity
+      <span class="divider">·</span>
+      TW DIW = Taiwan Digital Identity Wallet
+    </div>
+    <span class="label">05 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 06 — GLOBAL COMPARISON (supplementary)
+     ============================================================ -->
+<section class="slide" data-label="Global Comparison Supp">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 04</b> · 全球比較——補充案例</span>
+    <span class="folio">06 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">補充案例： <em>規模、模組化、主權。</em></h2>
+
+  <table class="etable" style="margin-top: 24px; font-size: 16px;">
+    <thead>
+      <tr>
+        <th style="width: 16%;">&nbsp;</th>
+        <th style="width: 22%;">上層 · 發證正當性</th>
+        <th style="width: 20%;">下層 · 交換架構</th>
+        <th style="width: 20%;">目前優勢</th>
+        <th style="width: 22%;">DCI gap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label">
+          <div>MOSIP</div>
+          <span class="tag">平台</span>
+        </td>
+        <td>各國自建的模組化身分基礎設施</td>
+        <td>開源 · 模組化 · 可在地部署</td>
+        <td>多國的成本與主權吸引力</td>
+        <td>是否支持公民權利，取決於各國治理</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><img class="flag" src="https://flagcdn.com/w40/in.png" alt="IN">Aadhaar · 印度</div>
+        </td>
+        <td>國家規模的根身分</td>
+        <td>認證 / eKYC 導向</td>
+        <td>規模與覆蓋極高</td>
+        <td>高規模不等於高自由保障</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><img class="flag" src="https://flagcdn.com/w40/bt.png" alt="BT">不丹 NDI</div>
+        </td>
+        <td>主權支持的國家數位身分</td>
+        <td>受信任 wallet · VC 導向</td>
+        <td>國家層級的創新方向</td>
+        <td>國際互通與治理成熟度仍在形成中</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px;">
+    <div style="padding: 24px; border-left: 3px solid var(--accent); background: var(--bg-card);">
+      <div class="label" style="margin-bottom: 8px;">觀察 1</div>
+      <p style="font-family: var(--serif); font-size: 18px; line-height: 1.5; margin: 0; color: var(--ink-2);">MOSIP 把軟體堆疊和政治所有權分開——國家可以採用它，同時自行設計治理。</p>
+    </div>
+    <div style="padding: 24px; border-left: 3px solid var(--accent); background: var(--bg-card);">
+      <div class="label" style="margin-bottom: 8px;">觀察 2</div>
+      <p style="font-family: var(--serif); font-size: 18px; line-height: 1.5; margin: 0; color: var(--ink-2);">Aadhaar 是一個提醒：覆蓋率不等於公民權利證明。缺少救濟機制的規模，是警訊而非典範。</p>
+    </div>
+    <div style="padding: 24px; border-left: 3px solid var(--accent); background: var(--bg-card);">
+      <div class="label" style="margin-bottom: 8px;">觀察 3</div>
+      <p style="font-family: var(--serif); font-size: 18px; line-height: 1.5; margin: 0; color: var(--ink-2);">不丹 NDI 是高訊號：一個小國已經把 wallet + VC + 公共區塊鏈推進到生產環境。</p>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      mDL = Mobile Driver's License
+      <span class="divider">·</span>
+      MOSIP = Modular Open Source Identity Platform
+      <span class="divider">·</span>
+      NDI = National Digital Identity
+      <span class="divider">·</span>
+      <a href="https://www.mosip.io/" target="_blank">mosip.io</a>
+    </div>
+    <span class="label">06 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 07 — TAIWAN MOICA vs TW DIW
+     ============================================================ -->
+<section class="slide" data-label="Taiwan MOICA vs DIW">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 05</b> · <img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW">台灣深度分析</span>
+    <span class="folio">07 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">MOICA 把摩擦集中在 <em>before entry</em>。TW DIW 把摩擦分散到 <em>inside operation</em>.</h2>
+  <p class="slide-subtitle" style="font-size: 22px;">一個警示案例與一個試驗場，並列。</p>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px;">
+    <div style="padding: 28px; border: 1px solid var(--rule-2); background: var(--bg-card);">
+      <div class="label" style="margin-bottom: 8px; color: var(--ink);">MOICA · 自然人憑證</div>
+      <div style="font-family: var(--serif); font-size: 24px; color: var(--ink-3); font-style: italic; margin-bottom: 20px;">以發證者為中心 · 強法律效力</div>
+      <div style="display: grid; gap: 14px;">
+        <div>
+          <div class="num" style="font-size: 11px;">設計中心</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">以發證者為中心 · 法律效力 · 身分識別 · 數位簽章</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">典型任務</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">身分識別 · 數位簽章 · 加解密</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">整合方式</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">需正式申請、審查、核准</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">揭露邏輯</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">傾向高保證，甚至完整身分驗證</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">主要摩擦</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">臨櫃辦理 · 資格 · API 審查 · 整合成本</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 28px; border: 1px solid var(--accent); background: var(--accent-tint);">
+      <div class="label" style="margin-bottom: 8px; color: var(--accent);">TW DIW · 數位皮夾</div>
+      <div style="font-family: var(--serif); font-size: 24px; color: var(--accent); font-style: italic; margin-bottom: 20px;">以持有人為中心 · 情境化重用</div>
+      <div style="display: grid; gap: 14px;">
+        <div>
+          <div class="num" style="font-size: 11px;">設計中心</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">以持有人為中心 · 憑證跨情境重用</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">典型任務</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">屬性出示 · 跨情境憑證 · 選擇性揭露</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">整合方式</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">更開放的沙盒 · 發證者 / 驗證者進入門檻較寬</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">揭露邏輯</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">情境化授權 · 最小揭露</p>
+        </div>
+        <div>
+          <div class="num" style="font-size: 11px;">主要摩擦</div>
+          <p style="margin: 4px 0 0; font-size: 15px; color: var(--ink-2);">用戶理解 · 驗證者整合 · 信任清單治理</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="claim" style="margin-top: 28px; font-size: 23px;">
+    TW DIW 重新分配公民負擔——從單一中央閘口，分散到發證者、驗證者與公民構成的景觀中。
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      MOICA = Ministry of the Interior Certification Authority
+      <span class="divider">·</span>
+      <a href="https://moica.nat.gov.tw/" target="_blank">moica.nat.gov.tw</a>
+      <span class="divider">·</span>
+      <a href="https://github.com/moda-gov-tw/TWDIW-official-app" target="_blank">TW DIW GitHub</a>
+    </div>
+    <span class="label">07 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 08 — TAIWAN CIVIC CASES
+     ============================================================ -->
+<section class="slide" data-label="Taiwan Civic Cases">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 05</b> · <img class="flag" src="https://flagcdn.com/w40/tw.png" alt="TW">台灣公民案例</span>
+    <span class="folio">08 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 48px;">兩個進行中的實驗——<em>國家憑證 → 公民證明</em>，以及 <em>wallet → 公民生態系。</em></h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 28px; flex: 1;">
+    <!-- Case A -->
+    <div style="display: flex; flex-direction: column;">
+      <div style="margin-bottom: 12px;">
+        <div class="num" style="font-size: 14px; margin-bottom: 8px;">CASE A</div>
+        <span class="tag-pill" style="white-space: nowrap;">國家憑證 → 公民證明</span>
+      </div>
+      <h3 style="font-family: var(--serif); font-size: 36px; color: var(--ink); margin: 0 0 16px; line-height: 1.15;">PTT × MOICA × ZK 藍勾勾</h3>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.5; color: var(--ink-2); margin: 0 0 18px;">
+        PTT，台灣最大的 BBS，使用自然人憑證產生 ZK 證明——使用者獲得「藍勾勾」 <em>而無須揭露真實身分</em>，降低選舉期間的協同資訊攻擊。
+      </p>
+
+      <div style="padding: 20px 24px; background: var(--bg-card); border-left: 3px solid var(--accent); margin-top: auto;">
+        <div class="label" style="margin-bottom: 6px;">重點在於</div>
+        <p style="font-family: var(--serif); font-size: 18px; line-height: 1.45; margin: 0; color: var(--ink);">國家根憑證可以作為信任根——而不必把完整身分交給平台。</p>
+      </div>
+    </div>
+
+    <!-- Case B -->
+    <div style="display: flex; flex-direction: column;">
+      <div style="margin-bottom: 12px;">
+        <div class="num" style="font-size: 14px; margin-bottom: 8px;">CASE B</div>
+        <span class="tag-pill warm" style="white-space: nowrap;">Wallet → 公民生態系</span>
+      </div>
+      <h3 style="font-family: var(--serif); font-size: 36px; color: var(--ink); margin: 0 0 16px; line-height: 1.15;">g0v Summit 2026 × TW DIW</h3>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.5; color: var(--ink-2); margin: 0 0 18px;">
+        台灣最大公民科技社群的兩年一度大會，使用 TW DIW 發行入場憑證，由 <em>非政府第三方</em> 擔任發證者與驗證者。
+      </p>
+
+      <div style="padding: 20px 24px; background: var(--bg-card); border-left: 3px solid var(--warm); margin-top: auto;">
+        <div class="label" style="margin-bottom: 6px;">重點在於</div>
+        <p style="font-family: var(--serif); font-size: 18px; line-height: 1.45; margin: 0; color: var(--ink);">以持有人為中心的生態系，不只能由政府運作，公民社群同樣可以。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      <a href="https://summit.g0v.tw/2026/" target="_blank">g0v Summit 2026</a>
+      <span class="divider">·</span>
+      ZK = Zero-Knowledge Proof
+    </div>
+    <a class="mash" href="https://blog.bonds.tw/litepaper/" target="_blank">mashbean · Bond for the Future ↗</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 09 — AGE ASSURANCE (regulation)
+     ============================================================ -->
+<section class="slide" data-label="Age Assurance Regulation">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 06</b> · 年齡驗證作為壓力測試</span>
+    <span class="folio">09 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">年齡驗證是這整場討論裡最清楚的 <em>stress test</em> 。</h2>
+  <p class="slide-subtitle" style="font-size: 22px;">身分基礎設施——原本在後端——被推到公共空間的大門口。使用者需要 <em>before</em> they can enter.</p>
+
+  <table class="etable" style="margin-top: 24px; font-size: 16px;">
+    <thead>
+      <tr>
+        <th style="width: 14%;">&nbsp;</th>
+        <th style="width: 30%;">法規發展</th>
+        <th style="width: 26%;">關鍵時程</th>
+        <th style="width: 30%;">核心張力</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label"><div><img class="flag" src="https://flagcdn.com/w40/gb.png" alt="UK">英國</div></td>
+        <td>Ofcom 要求高度有效的年齡驗證；允許多種技術路徑</td>
+        <td>2025-07 起，成人內容網站須實施強年齡驗證</td>
+        <td>法規強度高；隱私標準未必一致</td>
+      </tr>
+      <tr>
+        <td class="row-label"><div><img class="flag" src="https://flagcdn.com/w40/au.png" alt="AU">澳洲</div></td>
+        <td>社群媒體最低年齡限制；要求平台採取合理措施</td>
+        <td>2025-12 生效 · 2026-03 合規更新</td>
+        <td>平台責任、有效性、誤阻</td>
+      </tr>
+      <tr>
+        <td class="row-label"><div><img class="flag" src="https://flagcdn.com/w40/eu.png" alt="EU">European Union</div></td>
+        <td>年齡驗證 app / 藍圖對齊 EUDI 路線</td>
+        <td>2025 藍圖 · 2026-04 可部署</td>
+        <td>最小揭露能否被制度化</td>
+      </tr>
+      <tr>
+        <td class="row-label"><div><img class="flag" src="https://flagcdn.com/w40/us.png" alt="US">美國</div></td>
+        <td>從州層級內容閘口，轉向裝置 / OS / app store 年齡訊號</td>
+        <td>2025-06 Paxton 案 · 2025-10 CA AB1043</td>
+        <td>從「成人內容閘口」滑向「基礎設施層的年齡訊號」</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="claim warm" style="margin-top: 28px; font-size: 24px;">
+    立法進度超前技術標準與人權評估。首批法律生效時，ISO/IEC 27566-1 尚不存在。
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      <a href="https://www.ofcom.org.uk/online-safety/protecting-children/age-checks-to-protect-children-online" target="_blank">Ofcom</a>
+      <span class="divider">·</span>
+      CA AB1043 = California Assembly Bill 1043 (Digital Age Assurance Act)
+    </div>
+    <a class="mash" href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean · Prove You're Old Enough ↗</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 10 — AGE ASSURANCE RIGHTS + FLOW
+     ============================================================ -->
+<section class="slide" data-label="Age Assurance Rights">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 06</b> · 年齡驗證——四項受威脅的權利</span>
+    <span class="folio">10 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">年齡驗證會不會從 <em>content control</em> 擴展為通用型 <em>身分閘口？</em></h2>
+
+  <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 56px; margin-top: 28px; flex: 1;">
+    <!-- LEFT: rights risks -->
+    <div>
+      <div class="label" style="margin-bottom: 16px;">受威脅的權利</div>
+      <div style="display: grid; gap: 14px;">
+        <div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">Privacy</div>
+          <p class="caption" style="font-size: 15px; margin: 4px 0 0;">身分證件、年齡、生物特徵被集中處理。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">匿名性</div>
+          <p class="caption" style="font-size: 15px; margin: 4px 0 0;">與合法瀏覽、匿名權相衝突。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">言論自由</div>
+          <p class="caption" style="font-size: 15px; margin: 4px 0 0;">成人被迫自我審查——寒蟬效應。</p>
+        </div>
+        <div style="display: grid; grid-template-columns: 170px 1fr; gap: 20px;">
+          <div style="font-family: var(--serif); font-size: 22px; color: var(--ink);">數位落差</div>
+          <p class="caption" style="font-size: 15px; margin: 4px 0 0;">無身分證或銀行帳戶者被排除。</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 28px; padding: 18px 22px; background: var(--warm-tint); border-left: 3px solid var(--warm);">
+        <div class="label" style="margin-bottom: 6px; color: var(--warm);">事件 · 2025-10</div>
+        <p style="font-family: var(--serif); font-size: 17px; line-height: 1.45; margin: 0; color: var(--ink-2);">Discord × 第三方廠商 5CA——約 70,000 名使用者的政府身分證件照片可能外洩。</p>
+      </div>
+    </div>
+
+    <!-- RIGHT: bespoke flow diagram -->
+    <div>
+      <div class="label" style="margin-bottom: 16px;">證明流程的可能走向</div>
+
+      <div style="display: flex; flex-direction: column; gap: 0; font-family: var(--sans);">
+        <!-- top: pressure -->
+        <div style="padding: 14px 18px; background: var(--ink); color: var(--bg); text-align: center; font-family: var(--serif); font-size: 20px;">
+          兒少保護壓力
+        </div>
+        <div style="height: 20px; width: 2px; background: var(--rule-2); margin: 0 auto;"></div>
+        <div style="padding: 12px 18px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center; font-size: 16px; font-weight: 500;">
+          立法快速推進
+        </div>
+        <div style="height: 20px; width: 2px; background: var(--rule-2); margin: 0 auto;"></div>
+
+        <!-- fork: three proof flow options -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+          <div style="padding: 14px 14px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center; font-size: 14px; line-height: 1.35;">
+            <div class="num" style="font-size: 10px; margin-bottom: 6px;">PATH A</div>
+            逐站驗證
+          </div>
+          <div style="padding: 14px 14px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center; font-size: 14px; line-height: 1.35;">
+            <div class="num" style="font-size: 10px; margin-bottom: 6px;">PATH B</div>
+            OS / App Store 年齡訊號
+          </div>
+          <div style="padding: 14px 14px; background: var(--accent-tint); border: 1px solid var(--accent); text-align: center; font-size: 14px; line-height: 1.35; color: var(--accent); font-weight: 500;">
+            <div class="num" style="font-size: 10px; margin-bottom: 6px;">PATH C</div>
+            隱私保護型證明
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 10px;">
+          <div style="height: 16px; width: 2px; background: var(--rule-2); margin: 0 auto;"></div>
+          <div style="height: 16px; width: 2px; background: var(--rule-2); margin: 0 auto;"></div>
+          <div style="height: 16px; width: 2px; background: var(--rule-2); margin: 0 auto;"></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 12px;">
+          <div style="padding: 14px 16px; background: var(--warm-tint); text-align: center; font-size: 14px; line-height: 1.35; color: var(--warm); font-weight: 500;">
+            追蹤 · 外洩 · 寒蟬 · 排除
+          </div>
+          <div style="padding: 14px 16px; background: var(--accent-tint); text-align: center; font-size: 14px; line-height: 1.35; color: var(--accent); font-weight: 500;">
+            風險降低，但並未消除
+          </div>
+        </div>
+
+        <div style="height: 20px; width: 2px; background: var(--rule-2); margin: 10px auto 0;"></div>
+
+        <div style="padding: 16px 18px; background: var(--ink); color: var(--bg); text-align: center; font-family: var(--serif); font-style: italic; font-size: 19px;">
+          → 擴展為通用型身分閘口？
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">問題不只是誰有權保護兒少——更是我們用什麼樣的證明流程來做這件事。</div>
+    <a class="mash" href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank">mashbean · 研究報告 ↗</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 11 — MINIMAL PROOF
+     ============================================================ -->
+<section class="slide" data-label="Minimal Proof">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 07</b> · 完整身分 vs. 最小證明</span>
+    <span class="folio">11 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">From <em>full identity</em> to <em>minimal proof.</em></h2>
+  <p class="slide-subtitle" style="font-size: 22px;">
+    選擇性揭露 · 不可連結 · no-phone-home · browser 政治——技術已不是瓶頸。
+  </p>
+
+  <table class="etable" style="margin-top: 20px; font-size: 17px;">
+    <thead>
+      <tr>
+        <th style="width: 36%;">問題</th>
+        <th style="width: 32%;">完整身分做法</th>
+        <th style="width: 32%;">最小證明做法</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label"><div>你是否滿 18 歲？</div></td>
+        <td>出示出生日期 · 完整身分證件</td>
+        <td>僅證明「滿 18 歲」</td>
+      </tr>
+      <tr>
+        <td class="row-label"><div>你是否住在這裡？</div></td>
+        <td>出示完整地址或戶籍</td>
+        <td>僅證明居住資格</td>
+      </tr>
+      <tr>
+        <td class="row-label"><div>你是否為同一人？</div></td>
+        <td>交出真實姓名 · 身分證字號</td>
+        <td>唯一性證明或假名憑證</td>
+      </tr>
+      <tr>
+        <td class="row-label"><div>你是否具備資格？</div></td>
+        <td>交出完整憑證</td>
+        <td>僅出示特定屬性</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 36px;">
+    <div>
+      <div class="label" style="margin-bottom: 10px;">Wallet 是必要的嗎？</div>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.5; margin: 0; color: var(--ink-2);">
+        <em>取決於情境。</em> 單一服務登入，federation 或 passkeys 即可。多發證者、跨情境、最小揭露、跨境互通——這些場景下 wallet 的制度性價值才急遽上升。
+      </p>
+    </div>
+    <div>
+      <div class="label" style="margin-bottom: 10px;">新的守門者</div>
+      <p style="font-family: var(--serif); font-size: 19px; line-height: 1.5; margin: 0; color: var(--ink-2);">
+        Wallet、作業系統、瀏覽器成為預設出示層。競爭從 <em>who issues identity</em> to <em>誰掌握同意介面。</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      W3C VC 2.0
+      <span class="divider">·</span>
+      Chrome Digital Credentials API（證明滿 18 歲而不揭露出生日期）
+      <span class="divider">·</span>
+      Google Wallet 2025 開源 ZKP 函式庫
+      <span class="divider">·</span>
+      Ethereum Foundation PSE——用戶端證明生成
+      <span class="divider">·</span>
+      EUDI ARF 對瀏覽器 / OS 的限制
+    </div>
+    <span class="label">11 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 12 — CIVIC & SUBNATIONAL
+     ============================================================ -->
+<section class="slide" data-label="Civic Experiments">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 08</b> · 公民與次國家實驗</span>
+    <span class="folio">12 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">這些案例證明了 <em>demand</em> ——但並非完整替代方案的證據。</h2>
+
+  <table class="etable" style="margin-top: 24px; font-size: 16px;">
+    <thead>
+      <tr>
+        <th style="width: 22%;">案例</th>
+        <th style="width: 22%;">信任根</th>
+        <th style="width: 30%;">所揭示的需求</th>
+        <th style="width: 26%;">仍然薄弱之處</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label">
+          <div>Vocdoni</div>
+          <span class="tag"><img class="flag" src="https://flagcdn.com/w40/es.png" alt="ES" style="height:10px; width:14px;"> 加泰隆尼亞</span>
+        </td>
+        <td>地方政府 · 組織成員 · 護照</td>
+        <td>可驗證、可稽核、隱私優先的數位投票</td>
+        <td>法律效力 · 採用度 · 跨司法管轄可擴展性</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div>Rarimo Freedom Tool</div>
+          <span class="tag">RO · RU · IR</span>
+        </td>
+        <td>以護照為根 · ZK 證明</td>
+        <td>流亡與威權情境下的匿名憑證證明</td>
+        <td>高度依賴護照與特定技術堆疊</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div>QuarkID</div>
+          <span class="tag"><img class="flag" src="https://flagcdn.com/w40/ar.png" alt="AR" style="height:10px; width:14px;"> 布宜諾斯艾利斯</span>
+        </td>
+        <td>市級政府 · 公部門信任框架</td>
+        <td>市級公共數位信任框架</td>
+        <td>從市到國家的推論須謹慎</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="claim" style="margin-top: 28px; font-size: 24px;">
+    更可能的未來是一種 <em>combination</em> ——國家根憑證與公民層參與工具的混合，而非全面取代。
+  </div>
+
+  <div style="padding: 20px 24px; background: var(--bg-card); border-left: 3px solid var(--rule-2); margin-top: 16px;">
+    <div class="label" style="margin-bottom: 6px;">更深的政治問題</div>
+    <p style="font-family: var(--serif); font-size: 18px; line-height: 1.45; margin: 0; color: var(--ink-2);">
+      如何讓公民相信，政府發行的憑證不會變成政府追蹤的工具？——這就是為什麼 no-phone-home 和不可連結性如此重要。
+    </p>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      <a href="https://vocdoni.io/" target="_blank">vocdoni.io</a>
+      <span class="divider">·</span>
+      Rarimo Freedom Tool · 去中心化隱私保護線上投票
+      <span class="divider">·</span>
+      QuarkID · 布宜諾斯艾利斯數位信任框架
+    </div>
+    <a class="mash" href="https://mashbean.net/facebook/2026/0417-1p1i5r/" target="_blank">mashbean.net · 延伸閱讀 ↗</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 13 — PUBLIC BLOCKCHAIN
+     ============================================================ -->
+<section class="slide" data-label="Public Blockchain">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 09</b> · 公共區塊鏈作為信任層</span>
+    <span class="folio">13 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">不是把個資上鏈—— <em>status anchoring</em> on-chain.</h2>
+  <p class="slide-subtitle" style="font-size: 22px;">目前只有不丹與台灣在國家層級數位身分中實際部署公共區塊鏈。它的制度價值在於信任層錨定，而非正當性本身。</p>
+
+  <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; margin-top: 24px; flex: 1;">
+
+    <!-- LEFT: placement table -->
+    <div>
+      <div class="label" style="margin-bottom: 16px;">每個元件該放在哪裡</div>
+      <table class="etable" style="font-size: 16px;">
+        <thead>
+          <tr>
+            <th style="width: 32%;">元件</th>
+            <th style="width: 30%;">建議位置</th>
+            <th style="width: 38%;">理由</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label"><div>個人資料</div></td>
+            <td><strong>鏈下</strong> · 本地 wallet</td>
+            <td>保護隱私；避免不可逆串聯</td>
+          </tr>
+          <tr>
+            <td class="row-label"><div>發證者 DID / 公鑰</div></td>
+            <td>公共註冊處或鏈上錨點</td>
+            <td>跨組織獨立驗證</td>
+          </tr>
+          <tr>
+            <td class="row-label"><div>信任清單錨點</div></td>
+            <td>可公開驗證的基礎設施</td>
+            <td>可稽核 · 抗單點失效</td>
+          </tr>
+          <tr>
+            <td class="row-label"><div>個別驗證事件</div></td>
+            <td>避免每次交易都回呼發證者</td>
+            <td>降低 phone-home 風險</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- RIGHT: bespoke architecture diagram -->
+    <div>
+      <div class="label" style="margin-bottom: 16px;">聯邦信任清單架構</div>
+
+      <div style="display: grid; gap: 12px; font-family: var(--sans);">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+          <div style="padding: 14px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center;">
+            <div class="num" style="font-size: 10px; margin-bottom: 4px;">A</div>
+            <div style="font-size: 15px; font-weight: 500;">Issuer</div>
+          </div>
+          <div style="padding: 14px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center;">
+            <div class="num" style="font-size: 10px; margin-bottom: 4px;">B</div>
+            <div style="font-size: 15px; font-weight: 500;">信任清單 / 註冊處</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: center; justify-items: center;">
+          <div style="width: 2px; height: 24px; background: var(--rule-2);"></div>
+          <div style="width: 2px; height: 24px; background: var(--rule-2);"></div>
+        </div>
+
+        <div style="padding: 18px; background: var(--accent); color: var(--bg); text-align: center;">
+          <div class="num" style="font-size: 10px; margin-bottom: 4px; color: rgba(246,241,232,0.75);">C · 信任層</div>
+          <div style="font-family: var(--serif); font-size: 22px; font-style: italic;">公共區塊鏈錨定</div>
+          <p style="font-size: 13px; margin: 8px 0 0; color: rgba(246,241,232,0.8); line-height: 1.4;">DID · 公鑰 · 信任清單錨點 · status-list commitment</p>
+        </div>
+
+        <div style="width: 2px; height: 24px; background: var(--rule-2); margin: 0 auto;"></div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: stretch;">
+          <div style="padding: 14px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center;">
+            <div class="num" style="font-size: 10px; margin-bottom: 4px;">D</div>
+            <div style="font-size: 15px; font-weight: 500;">Holder</div>
+          </div>
+          <div style="padding: 14px; background: var(--bg-card); border: 1px solid var(--rule-2); text-align: center;">
+            <div class="num" style="font-size: 10px; margin-bottom: 4px;">E</div>
+            <div style="font-size: 15px; font-weight: 500;">驗證者</div>
+          </div>
+        </div>
+
+        <div style="padding: 12px 16px; background: transparent; border: 1px dashed var(--rule-2); text-align: center; font-family: var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0.04em;">
+          ⌫  驗證者避免每次交易都回呼發證者
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="claim warm" style="margin-top: 16px; font-size: 22px;">
+    A <em style="color: var(--warm);">聯邦信任清單聯盟</em> ——而非單一全球信任根——才是最可行的未來。
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs">
+      DID = Decentralized Identifier
+      <span class="divider">·</span>
+      EBSI = European Blockchain Services Infrastructure
+    </div>
+    <span class="label">13 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 14 — POLICY AGENDA
+     ============================================================ -->
+<section class="slide" data-label="Policy Agenda">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 10</b> · 政策議程</span>
+    <span class="folio">14 / 16</span>
+  </div>
+
+  <h2 class="slide-title" style="font-size: 56px;">From <em>rights</em> to <em>deployment</em> ——五項可操作的行動。</h2>
+  <p class="slide-subtitle" style="font-size: 22px;">一個系統可以非常擅長數位政府，卻仍不足以支持數位公民行動。差別在於權利底線、開放生態系、採購治理是否 <em>affirmatively</em> addressed.</p>
+
+  <table class="etable" style="margin-top: 20px; font-size: 15px;">
+    <thead>
+      <tr>
+        <th style="width: 16%;">層級</th>
+        <th style="width: 32%;">具體政策行動</th>
+        <th style="width: 26%;">對應案例</th>
+        <th style="width: 26%;">為何重要</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label">
+          <div><span class="num" style="font-size: 11px;">01</span></div>
+          <div style="margin-top: 2px;">權利底線</div>
+        </td>
+        <td>最小揭露 · 不可連結 · no-phone-home · 自願 · 替代路徑 · 救濟</td>
+        <td>ACLU · EFF · CDT <em>No Phone Home</em> · 歐盟瀏覽器限制</td>
+        <td>沒有底線時，新場景預設會走向最大可見性。</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><span class="num" style="font-size: 11px;">02</span></div>
+          <div style="margin-top: 2px;">平台與標準</div>
+        </td>
+        <td>開放 wallet · 標準化配發 · 避免單一平台鎖定</td>
+        <td>Chrome DC API · TW DIW OID4VC / OID4VP · CA OpenCred</td>
+        <td>出示層將成為新的守門者。</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><span class="num" style="font-size: 11px;">03</span></div>
+          <div style="margin-top: 2px;">採購與上線</div>
+        </td>
+        <td>採購沙盒 · 第三方測試 · 退場條款 · 事件應變</td>
+        <td>驗證者上線 · 模組替換測試</td>
+        <td>權利若未被翻譯成採購語言，會在上線時消失。</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><span class="num" style="font-size: 11px;">04</span></div>
+          <div style="margin-top: 2px;">公益試點</div>
+        </td>
+        <td>以特定公民場景進行小規模試驗</td>
+        <td>論壇藍勾勾 · 活動憑證 · 地方諮詢</td>
+        <td>先證明公民證明有用—— <em>then</em> 再討論全面上線。</td>
+      </tr>
+      <tr>
+        <td class="row-label">
+          <div><span class="num" style="font-size: 11px;">05</span></div>
+          <div style="margin-top: 2px;">AI 代理授權</div>
+        </td>
+        <td>範圍限制 · 可撤銷 · 可稽核 · 人工推翻</td>
+        <td>OpenID agent identity · NIST AI agent 概念</td>
+        <td>從 <em>who logs in</em> to <em>誰可以代表誰行動。</em></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="slide-foot">
+    <div class="refs">
+      ACLU = American Civil Liberties Union
+      <span class="divider">·</span>
+      EFF = Electronic Frontier Foundation
+      <span class="divider">·</span>
+      CDT = Center for Democracy &amp; Technology
+      <span class="divider">·</span>
+      OID4VC / OID4VP = OpenID for Verifiable Credentials / Presentations
+    </div>
+    <a class="mash" href="https://pro.mashbean.net/reports/2026-04-01-agentic-id-governance-en/" target="_blank">mashbean · Agentic ID 治理 ↗</a>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 15 — CONCLUSION (dark)
+     ============================================================ -->
+<section class="slide dark" data-label="Conclusion">
+  <div class="slide-head">
+    <span class="eyebrow"><b>§ 11</b> · 結論</span>
+    <span class="folio">15 / 16</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; flex: 1; align-items: start;">
+    <div>
+      <div class="label" style="margin-bottom: 28px; color: rgba(232,228,218,0.5);">一句話作結</div>
+      <h2 class="slide-title" style="font-size: 56px; line-height: 1.15; margin-bottom: 56px;">
+        一個民主的數位身分系統，應該決定 <em style="color: #9ab4d6;">我何時可以行動，而不必揭露超過必要的資訊。</em>
+      </h2>
+
+      <p style="font-family: var(--serif); font-size: 22px; line-height: 1.55; color: rgba(232,228,218,0.8); max-width: 820px; text-wrap: pretty;">
+        主流國家系統在政府服務、簽章、合規與平台上線方面非常優秀；但在假名參與、不可連結、救濟、低門檻公民重用方面仍然薄弱。核心問題不是如何讓人更容易被識別——而是如何把合法資格轉化為低摩擦、低揭露、可救濟的公民證明。
+      </p>
+    </div>
+
+    <div>
+      <div class="label" style="margin-bottom: 24px; color: rgba(232,228,218,0.5);">開放問題</div>
+      <ol style="list-style: none; padding: 0; margin: 0; counter-reset: q;">
+        <li style="counter-increment: q; padding: 14px 0 14px 48px; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; font-family: var(--serif); font-size: 20px; line-height: 1.45; color: rgba(232,228,218,0.9);">
+          <span style="position: absolute; left: 0; top: 14px; font-family: var(--mono); font-size: 13px; color: #9ab4d6; letter-spacing: 0.08em;">Q.01</span>
+          哪些公民行動需要法律身分？哪些只需要屬性或唯一性證明？
+        </li>
+        <li style="counter-increment: q; padding: 14px 0 14px 48px; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; font-family: var(--serif); font-size: 20px; line-height: 1.45; color: rgba(232,228,218,0.9);">
+          <span style="position: absolute; left: 0; top: 14px; font-family: var(--mono); font-size: 13px; color: #9ab4d6; letter-spacing: 0.08em;">Q.02</span>
+          瀏覽器、作業系統、wallet 是否已經成為新的公共基礎設施？
+        </li>
+        <li style="counter-increment: q; padding: 14px 0 14px 48px; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; font-family: var(--serif); font-size: 20px; line-height: 1.45; color: rgba(232,228,218,0.9);">
+          <span style="position: absolute; left: 0; top: 14px; font-family: var(--mono); font-size: 13px; color: #9ab4d6; letter-spacing: 0.08em;">Q.03</span>
+          如果國家根憑證仍是主流，什麼樣的交換架構能支持隱私、可攜性、救濟與包容？
+        </li>
+        <li style="counter-increment: q; padding: 14px 0 14px 48px; border-bottom: 1px solid rgba(255,255,255,0.1); position: relative; font-family: var(--serif); font-size: 20px; line-height: 1.45; color: rgba(232,228,218,0.9);">
+          <span style="position: absolute; left: 0; top: 14px; font-family: var(--mono); font-size: 13px; color: #9ab4d6; letter-spacing: 0.08em;">Q.04</span>
+          這項研究應該如何收斂，以避免過度分散？
+        </li>
+        <li style="counter-increment: q; padding: 14px 0 14px 48px; position: relative; font-family: var(--serif); font-size: 20px; line-height: 1.45; color: rgba(232,228,218,0.9);">
+          <span style="position: absolute; left: 0; top: 14px; font-family: var(--mono); font-size: 13px; color: #9ab4d6; letter-spacing: 0.08em;">Q.05</span>
+          實務工作者、政策倡議者、研究者——各自的下一步是什麼？
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs" style="color: rgba(232,228,218,0.5);">
+      mashbean <span class="divider">·</span> mashbean.net <span class="divider">·</span> Allen Lab 政策研究員
+    </div>
+    <span class="label" style="color: rgba(232,228,218,0.5);">15 / 16</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SLIDE 16 — COLOPHON / THANK YOU
+     ============================================================ -->
+<section class="slide" data-label="Colophon">
+  <div class="slide-head">
+    <span class="eyebrow">版權與參考資料</span>
+    <span class="folio">16 / 16</span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; align-items: start;">
+    <div>
+      <h2 class="slide-title" style="font-size: 88px; line-height: 1;">謝謝。</h2>
+      <p class="slide-subtitle" style="font-size: 28px; margin-top: 20px;">歡迎討論。</p>
+
+      <div style="margin-top: 64px; display: grid; gap: 18px;">
+        <div style="display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <span class="label">Author</span>
+          <span style="font-family: var(--serif); font-size: 22px; color: var(--ink);">mashbean · 台北</span>
+        </div>
+        <div style="display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--rule);">
+          <span class="label">Web</span>
+          <a href="https://mashbean.net" target="_blank" style="font-family: var(--serif); font-size: 22px; color: var(--accent); text-decoration: none;">mashbean.net ↗</a>
+        </div>
+        <div style="display: grid; grid-template-columns: 140px 1fr; gap: 16px;">
+          <span class="label">License</span>
+          <span style="font-family: var(--serif); font-size: 18px; color: var(--ink-2);">CC BY-NC 4.0 · mashbean 2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="border-left: 1px solid var(--rule); padding-left: 48px;">
+      <div class="label" style="margin-bottom: 20px;">延伸閱讀</div>
+      <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 14px;">
+        <li>
+          <a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights-en/" target="_blank" style="text-decoration: none;">
+            <div class="num">REPORT</div>
+            <div style="font-family: var(--serif); font-size: 20px; color: var(--ink); line-height: 1.3;">Prove You're Old Enough：年齡驗證法律如何悄悄建構全球身分基礎設施</div>
+          </a>
+        </li>
+        <li>
+          <a href="https://pro.mashbean.net/reports/2026-04-01-agentic-id-governance-en/" target="_blank" style="text-decoration: none;">
+            <div class="num">REPORT</div>
+            <div style="font-family: var(--serif); font-size: 20px; color: var(--ink); line-height: 1.3;">誰來治理 AI agent 的身分？</div>
+          </a>
+        </li>
+        <li>
+          <a href="https://blog.bonds.tw/litepaper/" target="_blank" style="text-decoration: none;">
+            <div class="num">概念論文</div>
+            <div style="font-family: var(--serif); font-size: 20px; color: var(--ink); line-height: 1.3;">Bond for the Future——可互通但不可連結的數位身分</div>
+          </a>
+        </li>
+        <li>
+          <a href="https://mashbean.net/facebook/2026/0417-1p1i5r/" target="_blank" style="text-decoration: none;">
+            <div class="num">ESSAY</div>
+            <div style="font-family: var(--serif); font-size: 20px; color: var(--ink); line-height: 1.3;">公民與次國家實驗的延伸閱讀</div>
+          </a>
+        </li>
+        <li>
+          <a href="https://www.w3.org/news/2025/the-verifiable-credentials-2-0-family-of-specifications-is-now-a-w3c-recommendation/" target="_blank" style="text-decoration: none;">
+            <div class="num">標準</div>
+            <div style="font-family: var(--serif); font-size: 20px; color: var(--ink); line-height: 1.3;">W3C Verifiable Credentials 2.0 Recommendation (2025)</div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="slide-foot">
+    <div class="refs"><em>從國家憑證到公民證明</em> · Allen Lab 研究會議 · 2026.04.17</div>
+    <span class="label">結束 · 16 / 16</span>
+  </div>
+</section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+</body>
+</html>
