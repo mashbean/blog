@@ -1,0 +1,272 @@
+/* ============================================================
+   From State Credentials to Civic Proofs
+   Editorial / Academic design system
+   ============================================================ */
+
+:root {
+  /* Colors — warm cream + ink, muted civic blue */
+  --bg: #f6f1e8;            /* warm cream */
+  --bg-alt: #efe8d9;        /* deeper cream */
+  --bg-card: #fbf7ee;
+  --ink: #1a1a1a;           /* near black */
+  --ink-2: #333330;
+  --ink-3: #5c5a54;
+  --rule: #d9d0bd;          /* muted rule */
+  --rule-2: #c7bda6;
+  --accent: #2d4a7c;        /* deep civic blue */
+  --accent-2: #7a9ac4;      /* soft blue */
+  --accent-tint: #e6ecf3;
+  --warm: #a8632d;          /* muted amber for rare emphasis */
+  --warm-tint: #f1e4d0;
+  --dark: #14120f;          /* ink for conclusion slides */
+
+  /* Typography */
+  --serif: "Source Serif 4", "Source Serif Pro", "Iowan Old Style", Georgia, serif;
+  --sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", "IBM Plex Mono", "SF Mono", Menlo, monospace;
+}
+
+/* ---- Reset ---- */
+* { box-sizing: border-box; }
+
+.slide {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.55;
+  padding: 64px 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+/* ---- Header band on every slide ---- */
+.slide-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 28px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.slide-head .eyebrow { color: var(--ink-3); }
+.slide-head .eyebrow b { color: var(--accent); font-weight: 600; }
+.slide-head .folio { font-variant-numeric: tabular-nums; }
+
+/* ---- Slide title ---- */
+.slide-title {
+  font-family: var(--serif);
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  margin: 0 0 8px 0;
+  text-wrap: pretty;
+}
+.slide-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+.slide-subtitle {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 24px;
+  color: var(--ink-3);
+  margin: 0 0 28px 0;
+  line-height: 1.3;
+}
+
+/* ---- Body paragraphs ---- */
+.slide p { margin: 0 0 12px; }
+.lead {
+  font-family: var(--serif);
+  font-size: 26px;
+  line-height: 1.4;
+  color: var(--ink-2);
+  max-width: 1400px;
+  text-wrap: pretty;
+}
+
+/* ---- Key message — pulled-out claim ---- */
+.claim {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--ink);
+  padding: 18px 0 18px 28px;
+  border-left: 3px solid var(--accent);
+  margin: 20px 0;
+  text-wrap: balance;
+}
+.claim.warm { border-left-color: var(--warm); }
+
+/* ---- Labels / captions ---- */
+.label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.caption {
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+
+/* ---- Tables — editorial ---- */
+.etable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  line-height: 1.45;
+}
+.etable thead th {
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--ink-3);
+  padding: 0 16px 10px 0;
+  border-bottom: 1.5px solid var(--ink);
+  vertical-align: bottom;
+}
+.etable thead th:last-child { padding-right: 0; }
+.etable tbody td {
+  padding: 14px 16px 14px 0;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+  color: var(--ink-2);
+}
+.etable tbody td:last-child { padding-right: 0; }
+.etable tbody tr:last-child td { border-bottom: none; }
+.etable tbody td strong { color: var(--ink); font-weight: 600; }
+.etable .row-label {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.etable .row-label .tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+/* ---- Footer / references ---- */
+.slide-foot {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 32px;
+  font-size: 13px;
+  color: var(--ink-3);
+  line-height: 1.5;
+}
+.slide-foot .refs { flex: 1; font-family: var(--sans); }
+.slide-foot .refs a { color: var(--ink-3); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--rule-2); }
+.slide-foot .refs .divider { margin: 0 8px; color: var(--rule-2); }
+.slide-foot .mash {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.slide-foot .mash:hover { background: var(--accent); color: var(--bg); }
+
+/* ---- Flag & logo ---- */
+.flag {
+  display: inline-block;
+  height: 14px;
+  width: 21px;
+  object-fit: cover;
+  vertical-align: -2px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,.15);
+  margin-right: 6px;
+}
+
+/* ---- Columns ---- */
+.cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.cols-1-2 { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; }
+.cols-2-1 { display: grid; grid-template-columns: 2fr 1fr; gap: 48px; }
+
+/* ---- Tags / badges ---- */
+.tag-pill {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 0;
+  background: var(--accent-tint);
+  color: var(--accent);
+  font-weight: 500;
+}
+.tag-pill.warm { background: var(--warm-tint); color: var(--warm); }
+.tag-pill.ink { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+
+/* ---- Number markers ---- */
+.num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* ---- Conclusion dark slide ---- */
+.slide.dark {
+  background: var(--dark);
+  color: #e8e4da;
+}
+.slide.dark .slide-head {
+  border-bottom-color: rgba(255,255,255,0.15);
+  color: rgba(232,228,218,0.6);
+}
+.slide.dark .slide-head .eyebrow b { color: #9ab4d6; }
+.slide.dark .slide-title { color: #fff; }
+.slide.dark .slide-subtitle { color: rgba(232,228,218,0.7); }
+.slide.dark .claim {
+  color: #fff;
+  border-left-color: #9ab4d6;
+}
+.slide.dark .label { color: rgba(232,228,218,0.55); }
+.slide.dark .slide-foot {
+  border-top-color: rgba(255,255,255,0.15);
+  color: rgba(232,228,218,0.5);
+}
+
+/* ---- Asides (aside.notes) must be hidden ---- */
+aside.notes { display: none; }
