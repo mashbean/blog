@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>How AI Agents Changed My Work and Life — MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cobalt:#1E3AFF;
+    --magenta:#FF2D87;
+    --sun:#FFD60A;
+    --lime:#C6F432;
+    --ink:#0A0A0F;
+    --paper:#F7F4EC;
+    --paper2:#EFEAD8;
+  }
+  html,body{margin:0;padding:0;background:#000;font-family:'Inter',sans-serif;color:var(--ink);}
+  deck-stage{display:block;}
+  section{
+    box-sizing:border-box;
+    overflow:hidden;
+    font-family:'Inter',sans-serif;
+  }
+  .slide{
+    width:100%;height:100%;
+    padding:100px;
+    box-sizing:border-box;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+  .pad-x{padding-left:100px;padding-right:100px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:500;
+    opacity:0.75;
+  }
+  .title-xl{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:140px;
+    line-height:0.92;
+    letter-spacing:-0.03em;
+    margin:0;
+  }
+  .title-lg{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:96px;
+    line-height:0.95;
+    letter-spacing:-0.025em;
+    margin:0;
+  }
+  .title{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:72px;
+    line-height:1.0;
+    letter-spacing:-0.02em;
+    margin:0;
+  }
+  .subtitle{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:500;
+    font-size:44px;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .body{
+    font-family:'Inter',sans-serif;
+    font-size:34px;
+    line-height:1.4;
+    font-weight:400;
+  }
+  .body-lg{
+    font-family:'Inter',sans-serif;
+    font-size:40px;
+    line-height:1.35;
+    font-weight:400;
+  }
+  .small{
+    font-family:'Inter',sans-serif;
+    font-size:28px;
+    line-height:1.4;
+  }
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+  }
+  .pill{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:999px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  .num-marker{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:280px;
+    line-height:0.85;
+    letter-spacing:-0.04em;
+  }
+  .footer{
+    position:absolute;
+    bottom:48px;
+    left:100px;
+    right:100px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    opacity:0.55;
+  }
+  /* color skins */
+  .bg-paper{background:var(--paper);color:var(--ink);}
+  .bg-ink{background:var(--ink);color:var(--paper);}
+  .bg-cobalt{background:var(--cobalt);color:var(--paper);}
+  .bg-magenta{background:var(--magenta);color:var(--ink);}
+  .bg-sun{background:var(--sun);color:var(--ink);}
+  .bg-lime{background:var(--lime);color:var(--ink);}
+  .bg-paper2{background:var(--paper2);color:var(--ink);}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;}
+  .stack{display:flex;flex-direction:column;}
+  .row{display:flex;}
+
+  .card{
+    background:var(--paper);
+    color:var(--ink);
+    padding:48px;
+    border-radius:8px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .card.dark{background:#16161E;color:var(--paper);}
+  .rule{height:6px;background:var(--ink);width:100%;}
+  .rule-thin{height:2px;background:currentColor;width:100%;opacity:0.25;}
+
+  ul.clean{list-style:none;padding:0;margin:0;}
+  ul.clean li{
+    display:flex;
+    gap:32px;
+    align-items:baseline;
+    padding:22px 0;
+    border-bottom:2px solid currentColor;
+    border-color:rgba(0,0,0,0.15);
+  }
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean .marker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:0.05em;
+    flex-shrink:0;
+    width:80px;
+    opacity:0.6;
+  }
+  ul.clean .text{font-size:36px;line-height:1.3;}
+
+  .tag{
+    display:inline-flex;
+    padding:10px 22px;
+    border:2px solid currentColor;
+    border-radius:999px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+
+  /* Hero blob shapes */
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(0px);
+  }
+</style>
+</head>
+<body>
+<script type="application/json" id="speaker-notes">[]</script>
+<deck-stage width="1920" height="1080">
+
+  <!-- 1. TITLE -->
+  <section data-label="01 Title">
+    <div class="slide bg-cobalt" style="justify-content:flex-end;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-220px;right:-180px;width:900px;height:900px;border-radius:50%;background:var(--magenta);"></div>
+      <div style="position:absolute;top:380px;right:280px;width:380px;height:380px;border-radius:50%;background:var(--sun);"></div>
+      <div style="position:absolute;top:560px;right:-80px;width:260px;height:260px;border-radius:50%;background:var(--lime);"></div>
+      <div style="position:relative;z-index:2;">
+        <div class="eyebrow" style="margin-bottom:36px;">ISF 0427 — sharing</div>
+        <h1 class="title-xl" style="max-width:1500px;">how AI agents<br>changed my<br>work and life</h1>
+        <div style="margin-top:80px;display:flex;gap:48px;align-items:baseline;">
+          <div class="subtitle">MashBean</div>
+          <div class="small mono" style="opacity:0.8;">two months · ~8 hrs/day · still surprised</div>
+        </div>
+      </div>
+      <div class="footer" style="color:var(--paper);opacity:0.7;">
+        <span>April 27 · 2026</span>
+        <span>20 min talk</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. WHO I AM -->
+  <section data-label="02 Who I Am">
+    <div class="slide bg-paper">
+      <div class="eyebrow">02 — who I am</div>
+      <h2 class="title" style="margin-top:24px;">a non-coder, working<br>across policy &amp; the public sector</h2>
+      <div class="grid-2" style="margin-top:72px;gap:32px;">
+        <div class="card" style="background:var(--sun);">
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;">NOW</div>
+          <div class="subtitle" style="font-size:38px;">General Manager<br>Matters</div>
+          <div class="small" style="opacity:0.7;">censorship-resistant<br>community platform</div>
+        </div>
+        <div class="card" style="background:var(--lime);">
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;">FELLOW</div>
+          <div class="subtitle" style="font-size:38px;">ISF 2026<br>Global Fellow</div>
+          <div class="small" style="opacity:0.7;">+ AI+ Expo next week</div>
+        </div>
+        <div class="card" style="background:var(--magenta);color:var(--paper);">
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;">POLICY</div>
+          <div class="subtitle" style="font-size:38px;">Harvard Kennedy<br>School Fellow</div>
+          <div class="small" style="opacity:0.85;">→ Oxford MPP this Sept</div>
+        </div>
+        <div class="card" style="background:var(--ink);color:var(--paper);">
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;">BEFORE</div>
+          <div class="subtitle" style="font-size:38px;">Medical doctor<br>→ digital democracy</div>
+          <div class="small" style="opacity:0.7;">Taiwan public sector,<br>Ministry of Digital Affairs</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. WHY FOR NON-CODERS -->
+  <section data-label="03 Non-Coders">
+    <div class="slide bg-magenta">
+      <div class="eyebrow" style="opacity:0.85;">03 — why this talk is for non-coders</div>
+      <h2 class="title-lg" style="margin-top:36px;max-width:1600px;">you don't need to write code.<br>you need <em style="font-style:italic;background:var(--sun);padding:0 18px;">judgment</em>, <em style="font-style:italic;background:var(--lime);padding:0 18px;">data</em>, and <em style="font-style:italic;background:var(--cobalt);color:var(--paper);padding:0 18px;">taste</em>.</h2>
+      <div style="margin-top:auto;display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;">
+        <div>
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;opacity:0.7;">JUDGMENT</div>
+          <div class="body" style="margin-top:12px;">know whether the answer is good or bad.</div>
+        </div>
+        <div>
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;opacity:0.7;">DATA</div>
+          <div class="body" style="margin-top:12px;">know where to find sources worth working with.</div>
+        </div>
+        <div>
+          <div class="mono" style="font-size:24px;letter-spacing:0.12em;opacity:0.7;">TASTE</div>
+          <div class="body" style="margin-top:12px;">know which questions only you can ask.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. CHAT VS AGENT -->
+  <section data-label="04 Chat vs Agent">
+    <div class="slide bg-paper">
+      <div class="eyebrow">04 — chat vs agent</div>
+      <h2 class="title" style="margin-top:24px;">two completely different tools.</h2>
+      <div class="grid-2" style="margin-top:64px;gap:48px;flex:1;">
+        <div style="background:var(--paper2);padding:56px;display:flex;flex-direction:column;">
+          <div class="pill" style="background:var(--ink);color:var(--paper);align-self:flex-start;">CHAT</div>
+          <div class="subtitle" style="font-size:48px;margin-top:36px;">a conversation</div>
+          <ul class="clean" style="margin-top:36px;">
+            <li><span class="marker">01</span><span class="text">phone or laptop</span></li>
+            <li><span class="marker">02</span><span class="text">quick answers, rewrites, brainstorms</span></li>
+            <li><span class="marker">03</span><span class="text">lightweight, friendly, familiar</span></li>
+          </ul>
+        </div>
+        <div style="background:var(--cobalt);color:var(--paper);padding:56px;display:flex;flex-direction:column;">
+          <div class="pill" style="background:var(--sun);color:var(--ink);align-self:flex-start;">AGENT</div>
+          <div class="subtitle" style="font-size:48px;margin-top:36px;">a workflow</div>
+          <ul class="clean" style="margin-top:36px;color:var(--paper);">
+            <li style="border-color:rgba(255,255,255,0.25);"><span class="marker" style="opacity:0.7;">01</span><span class="text">runs on your computer</span></li>
+            <li style="border-color:rgba(255,255,255,0.25);"><span class="marker" style="opacity:0.7;">02</span><span class="text">reads files · writes tools · ships drafts</span></li>
+            <li style="border-color:rgba(255,255,255,0.25);"><span class="marker" style="opacity:0.7;">03</span><span class="text">deep, repeatable, pipeline-able</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CURRENT TOOL USE -->
+  <section data-label="05 Tool Use">
+    <div class="slide bg-ink">
+      <div class="eyebrow" style="opacity:0.65;">05 — how I use them today</div>
+      <h2 class="title" style="margin-top:24px;color:var(--paper);">chat for vibes.<br>agents for everything else.</h2>
+      <div style="margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:48px;flex:1;">
+        <div>
+          <div class="tag" style="color:var(--sun);border-color:var(--sun);">CHAT — keep using for</div>
+          <div style="margin-top:32px;display:flex;flex-direction:column;gap:24px;">
+            <div class="body" style="color:var(--paper);">→ light conversations &amp; bad-mood check-ins</div>
+            <div class="body" style="color:var(--paper);">→ replying to small emails</div>
+            <div class="body" style="color:var(--paper);">→ Deep Research (still very strong)</div>
+          </div>
+        </div>
+        <div>
+          <div class="tag" style="color:var(--lime);border-color:var(--lime);">AGENT — moved everything else</div>
+          <div style="margin-top:32px;display:flex;flex-direction:column;gap:24px;">
+            <div class="body" style="color:var(--paper);">→ research, analysis, document work</div>
+            <div class="body" style="color:var(--paper);">→ building small tools on my laptop</div>
+            <div class="body" style="color:var(--paper);">→ pipelines I run again and again</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:auto;background:var(--magenta);color:var(--ink);padding:36px 48px;display:flex;align-items:center;gap:32px;">
+        <div class="mono" style="font-size:28px;letter-spacing:0.1em;font-weight:700;">RULE OF THUMB</div>
+        <div class="body-lg" style="font-weight:500;">if I ask the same thing 3× → I turn it into a pipeline.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. TAKEAWAY 1 -->
+  <section data-label="06 Takeaway 1">
+    <div class="slide bg-sun">
+      <div class="eyebrow">06 — takeaway one</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:start;margin-top:48px;flex:1;">
+        <div class="num-marker">01</div>
+        <div>
+          <h2 class="title-lg">let the model think.</h2>
+          <div class="body-lg" style="margin-top:32px;max-width:900px;">on hard questions, speed isn't the point. the longer it reasons, the better the answer.</div>
+          <div style="margin-top:64px;display:flex;align-items:center;gap:0;background:var(--paper);">
+            <div style="flex:1;padding:32px;text-align:center;">
+              <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">FAST</div>
+              <div class="subtitle" style="font-size:36px;margin-top:8px;">instant</div>
+            </div>
+            <div style="width:2px;height:80px;background:var(--ink);opacity:0.15;"></div>
+            <div style="flex:1;padding:32px;text-align:center;">
+              <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">BETTER</div>
+              <div class="subtitle" style="font-size:36px;margin-top:8px;">thinking</div>
+            </div>
+            <div style="width:2px;height:80px;background:var(--ink);opacity:0.15;"></div>
+            <div style="flex:1.4;padding:32px;text-align:center;background:var(--magenta);color:var(--paper);">
+              <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.85;">USE THIS</div>
+              <div class="subtitle" style="font-size:36px;margin-top:8px;">pro · heavy</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TAKEAWAY 2 -->
+  <section data-label="07 Takeaway 2">
+    <div class="slide bg-lime">
+      <div class="eyebrow">07 — takeaway two</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:80px;align-items:start;margin-top:48px;flex:1;">
+        <div class="num-marker">02</div>
+        <div>
+          <h2 class="title-lg">paying more is<br>actually cheap.</h2>
+          <div style="margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:32px;">
+            <div style="background:var(--paper);padding:40px;">
+              <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">FEELS LIKE</div>
+              <div class="subtitle" style="font-size:42px;margin-top:12px;">$$ / month</div>
+              <div class="body" style="margin-top:16px;opacity:0.7;">an extra subscription line.</div>
+            </div>
+            <div style="background:var(--ink);color:var(--paper);padding:40px;">
+              <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">COMPARED TO</div>
+              <div class="subtitle" style="font-size:42px;margin-top:12px;">a hire</div>
+              <div class="body" style="margin-top:16px;opacity:0.75;">it's almost nothing.</div>
+            </div>
+          </div>
+          <div class="body-lg" style="margin-top:48px;font-weight:500;">the productivity gain isn't linear.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. WHY I STARTED -->
+  <section data-label="08 Why I Started">
+    <div class="slide bg-paper2">
+      <div class="eyebrow">08 — why I started</div>
+      <h2 class="title" style="margin-top:24px;">it wasn't curiosity.<br>it was layoffs.</h2>
+      <div style="margin-top:80px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;flex:1;align-items:start;">
+        <div style="padding:36px 0;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.5;">STEP 01</div>
+          <div class="subtitle" style="font-size:36px;margin-top:16px;">company<br>under pressure</div>
+        </div>
+        <div style="padding:36px 0;border-left:3px solid var(--ink);padding-left:32px;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.5;">STEP 02</div>
+          <div class="subtitle" style="font-size:36px;margin-top:16px;">we had to<br>downsize</div>
+        </div>
+        <div style="padding:36px 0;border-left:3px solid var(--ink);padding-left:32px;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.5;">STEP 03</div>
+          <div class="subtitle" style="font-size:36px;margin-top:16px;">one engineer<br>left</div>
+        </div>
+        <div style="padding:36px 32px;background:var(--cobalt);color:var(--paper);">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.85;">STEP 04</div>
+          <div class="subtitle" style="font-size:36px;margin-top:16px;">so I jumped<br>in myself</div>
+        </div>
+      </div>
+      <div class="body-lg" style="margin-top:48px;font-style:italic;opacity:0.75;">— Lunar New Year, downloaded an agent, didn't go back.</div>
+    </div>
+  </section>
+
+  <!-- 9. AHA 1 -->
+  <section data-label="09 Aha 1">
+    <div class="slide bg-cobalt">
+      <div class="eyebrow" style="opacity:0.8;">09 — aha moment one</div>
+      <h2 class="title-lg" style="margin-top:24px;">it organized a folder.</h2>
+      <div style="margin-top:64px;display:grid;grid-template-columns:1fr auto 1fr;gap:48px;align-items:center;flex:1;">
+        <div style="background:rgba(255,255,255,0.08);border:2px dashed rgba(255,255,255,0.4);padding:48px;height:380px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">BEFORE</div>
+          <div style="display:grid;grid-template-columns:repeat(10,1fr);gap:6px;">
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.25);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.15);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.35);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.1);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.4);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.18);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.3);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.12);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.28);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.16);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.22);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.38);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.1);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.32);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.18);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.26);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.14);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.4);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.2);"></div>
+            <div style="aspect-ratio:1;background:rgba(255,255,255,0.34);"></div>
+          </div>
+          <div>
+            <div class="title" style="font-size:88px;">1,000+</div>
+            <div class="body" style="opacity:0.8;">files · zero structure</div>
+          </div>
+        </div>
+        <div class="title" style="font-size:120px;color:var(--sun);">→</div>
+        <div style="background:var(--paper);color:var(--ink);padding:48px;height:380px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">AFTER · 1 SESSION</div>
+          <ul class="clean" style="margin:0;">
+            <li style="padding:14px 0;"><span class="marker">/01</span><span class="text" style="font-size:30px;">research/</span></li>
+            <li style="padding:14px 0;"><span class="marker">/02</span><span class="text" style="font-size:30px;">policy-drafts/</span></li>
+            <li style="padding:14px 0;"><span class="marker">/03</span><span class="text" style="font-size:30px;">archive/</span></li>
+          </ul>
+          <div class="body" style="opacity:0.7;">named, dated, sorted.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. AHA 2 -->
+  <section data-label="10 Aha 2">
+    <div class="slide bg-magenta">
+      <div class="eyebrow">10 — aha moment two</div>
+      <h2 class="title-lg" style="margin-top:24px;">the blog I'd<br>postponed for years.</h2>
+      <div style="margin-top:64px;display:grid;grid-template-columns:1fr auto 1fr;gap:48px;align-items:center;flex:1;">
+        <div style="display:flex;flex-direction:column;gap:18px;">
+          <div style="background:var(--paper);padding:24px 32px;font-family:'JetBrains Mono',monospace;font-size:26px;">old facebook posts</div>
+          <div style="background:var(--paper);padding:24px 32px;font-family:'JetBrains Mono',monospace;font-size:26px;margin-left:48px;">column drafts (2018)</div>
+          <div style="background:var(--paper);padding:24px 32px;font-family:'JetBrains Mono',monospace;font-size:26px;">scattered blog posts</div>
+          <div style="background:var(--paper);padding:24px 32px;font-family:'JetBrains Mono',monospace;font-size:26px;margin-left:24px;">.docx in 4 folders</div>
+          <div style="background:var(--paper);padding:24px 32px;font-family:'JetBrains Mono',monospace;font-size:26px;">notes app dump</div>
+        </div>
+        <div class="title" style="font-size:120px;color:var(--sun);">→</div>
+        <div style="background:var(--ink);color:var(--paper);padding:56px;display:flex;flex-direction:column;justify-content:center;height:100%;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">SHIPPED · ONE WEEKEND</div>
+          <div class="title" style="font-size:88px;margin-top:24px;line-height:0.95;">a real blog,<br>finally.</div>
+          <div class="body" style="margin-top:32px;opacity:0.75;">years of writing,<br>collected and published.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. DESIGN SYSTEM HANDOFF -->
+  <section data-label="11 Design System">
+    <div class="slide bg-paper">
+      <div class="eyebrow">11 — case study</div>
+      <h2 class="title" style="margin-top:24px;">designer left. design system stayed.</h2>
+      <div style="margin-top:56px;display:grid;grid-template-columns:1.2fr auto 1.2fr auto 1fr;gap:32px;align-items:stretch;flex:1;">
+        <div style="background:var(--lime);padding:36px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">SOURCE</div>
+          <div>
+            <div class="subtitle" style="font-size:36px;">design system<br>in figma</div>
+            <div class="small" style="margin-top:16px;opacity:0.7;">left by departing designer</div>
+          </div>
+        </div>
+        <div class="title" style="align-self:center;font-size:72px;">→</div>
+        <div style="background:var(--cobalt);color:var(--paper);padding:36px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.85;">AGENT WEEKEND</div>
+          <div>
+            <div class="subtitle" style="font-size:36px;">organized<br>→ pushed to git</div>
+            <div class="small" style="margin-top:16px;opacity:0.8;">tokens, components, docs</div>
+          </div>
+        </div>
+        <div class="title" style="align-self:center;font-size:72px;">→</div>
+        <div style="background:var(--ink);color:var(--paper);padding:36px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">OUTPUT</div>
+          <div>
+            <div class="subtitle" style="font-size:36px;">new pages<br>in 2–3 hrs</div>
+            <div class="small" style="margin-top:16px;opacity:0.7;">i'm not a designer<br>or a frontend dev.</div>
+          </div>
+        </div>
+      </div>
+      <div class="body-lg" style="margin-top:40px;font-weight:500;">the labor needed to ship a service is dropping fast.</div>
+    </div>
+  </section>
+
+  <!-- 12. PIPELINE OVERVIEW -->
+  <section data-label="12 Pipeline">
+    <div class="slide bg-paper2">
+      <div class="eyebrow">12 — research publishing pipeline</div>
+      <h2 class="title" style="margin-top:24px;">five roles. one relay.</h2>
+      <div style="margin-top:96px;flex:1;display:flex;align-items:center;">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:0;width:100%;">
+          <!-- node 1 -->
+          <div style="background:var(--cobalt);color:var(--paper);padding:36px 24px;text-align:center;clip-path:polygon(0 0, calc(100% - 30px) 0, 100% 50%, calc(100% - 30px) 100%, 0 100%);height:240px;display:flex;flex-direction:column;justify-content:center;">
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.85;">01</div>
+            <div class="subtitle" style="font-size:36px;margin-top:12px;">researcher</div>
+            <div class="small" style="opacity:0.85;margin-top:8px;">gathers sources</div>
+          </div>
+          <div style="background:var(--magenta);color:var(--paper);padding:36px 24px;text-align:center;clip-path:polygon(0 0, calc(100% - 30px) 0, 100% 50%, calc(100% - 30px) 100%, 0 100%, 30px 50%);height:240px;display:flex;flex-direction:column;justify-content:center;">
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.85;">02</div>
+            <div class="subtitle" style="font-size:36px;margin-top:12px;">writer</div>
+            <div class="small" style="opacity:0.85;margin-top:8px;">first draft</div>
+          </div>
+          <div style="background:var(--sun);color:var(--ink);padding:36px 24px;text-align:center;clip-path:polygon(0 0, calc(100% - 30px) 0, 100% 50%, calc(100% - 30px) 100%, 0 100%, 30px 50%);height:240px;display:flex;flex-direction:column;justify-content:center;">
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">03</div>
+            <div class="subtitle" style="font-size:36px;margin-top:12px;">critic</div>
+            <div class="small" style="opacity:0.75;margin-top:8px;">stress-tests it</div>
+          </div>
+          <div style="background:var(--lime);color:var(--ink);padding:36px 24px;text-align:center;clip-path:polygon(0 0, calc(100% - 30px) 0, 100% 50%, calc(100% - 30px) 100%, 0 100%, 30px 50%);height:240px;display:flex;flex-direction:column;justify-content:center;">
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">04</div>
+            <div class="subtitle" style="font-size:36px;margin-top:12px;">editor</div>
+            <div class="small" style="opacity:0.75;margin-top:8px;">revises</div>
+          </div>
+          <div style="background:var(--ink);color:var(--paper);padding:36px 24px;text-align:center;clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%, 30px 50%);height:240px;display:flex;flex-direction:column;justify-content:center;">
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">05</div>
+            <div class="subtitle" style="font-size:36px;margin-top:12px;">publisher</div>
+            <div class="small" style="opacity:0.75;margin-top:8px;">ships output</div>
+          </div>
+        </div>
+      </div>
+      <div class="body-lg" style="margin-top:64px;">each role gets its own prompt, task, and responsibility.</div>
+    </div>
+  </section>
+
+  <!-- 13. WHY PIPELINES -->
+  <section data-label="13 Why Pipelines">
+    <div class="slide bg-paper">
+      <div class="eyebrow">13 — why pipelines matter</div>
+      <h2 class="title" style="margin-top:24px;">standardize the process.<br>quality stops drifting.</h2>
+      <div style="margin-top:72px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;flex:1;">
+        <div style="background:var(--cobalt);color:var(--paper);padding:40px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="num-marker" style="font-size:160px;color:var(--sun);">01</div>
+          <div>
+            <div class="subtitle" style="font-size:34px;">standardized<br>process</div>
+          </div>
+        </div>
+        <div style="background:var(--magenta);color:var(--paper);padding:40px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="num-marker" style="font-size:160px;color:var(--sun);">02</div>
+          <div>
+            <div class="subtitle" style="font-size:34px;">stable<br>quality</div>
+          </div>
+        </div>
+        <div style="background:var(--sun);color:var(--ink);padding:40px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="num-marker" style="font-size:160px;color:var(--magenta);">03</div>
+          <div>
+            <div class="subtitle" style="font-size:34px;">far fewer<br>hallucinations</div>
+          </div>
+        </div>
+        <div style="background:var(--lime);color:var(--ink);padding:40px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="num-marker" style="font-size:160px;color:var(--cobalt);">04</div>
+          <div>
+            <div class="subtitle" style="font-size:34px;">improves<br>over time</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. REASONING CHAIN -->
+  <section data-label="14 Reasoning Chain">
+    <div class="slide bg-ink">
+      <div class="eyebrow" style="opacity:0.65;">14 — the reasoning chain</div>
+      <h2 class="title" style="margin-top:24px;color:var(--paper);">a structure for thinking,<br>not just writing.</h2>
+      <div style="margin-top:80px;display:flex;align-items:center;justify-content:space-between;flex:1;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <div style="width:200px;height:200px;border-radius:50%;background:var(--cobalt);color:var(--paper);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;">
+            <div class="subtitle" style="font-size:30px;">core<br>question</div>
+          </div>
+          <div class="mono" style="font-size:24px;color:var(--paper);opacity:0.6;">01</div>
+        </div>
+        <div class="mono" style="font-size:48px;color:var(--paper);opacity:0.4;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <div style="width:200px;height:200px;border-radius:50%;background:var(--magenta);color:var(--paper);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;">
+            <div class="subtitle" style="font-size:30px;">sub-<br>arguments</div>
+          </div>
+          <div class="mono" style="font-size:24px;color:var(--paper);opacity:0.6;">02</div>
+        </div>
+        <div class="mono" style="font-size:48px;color:var(--paper);opacity:0.4;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <div style="width:200px;height:200px;border-radius:50%;background:var(--sun);color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;">
+            <div class="subtitle" style="font-size:30px;">evidence</div>
+          </div>
+          <div class="mono" style="font-size:24px;color:var(--paper);opacity:0.6;">03</div>
+        </div>
+        <div class="mono" style="font-size:48px;color:var(--paper);opacity:0.4;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <div style="width:200px;height:200px;border-radius:50%;background:var(--lime);color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;">
+            <div class="subtitle" style="font-size:30px;">risk<br>check</div>
+          </div>
+          <div class="mono" style="font-size:24px;color:var(--paper);opacity:0.6;">04</div>
+        </div>
+        <div class="mono" style="font-size:48px;color:var(--paper);opacity:0.4;">→</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <div style="width:200px;height:200px;border-radius:50%;background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;box-sizing:border-box;">
+            <div class="subtitle" style="font-size:30px;">synthesis</div>
+          </div>
+          <div class="mono" style="font-size:24px;color:var(--paper);opacity:0.6;">05</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. FIVE REASONING TYPES -->
+  <section data-label="15 Reasoning Types">
+    <div class="slide bg-paper">
+      <div class="eyebrow">15 — five reasoning types</div>
+      <h2 class="title" style="margin-top:24px;">each carries a different risk.</h2>
+      <div style="margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:24px;flex:1;">
+        <div style="background:var(--cobalt);color:var(--paper);padding:32px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:24px;opacity:0.7;width:60px;flex-shrink:0;">01</div>
+          <div>
+            <div class="subtitle" style="font-size:38px;">deduction</div>
+            <div class="body" style="opacity:0.85;margin-top:8px;">apply rules to cases</div>
+          </div>
+        </div>
+        <div style="background:var(--magenta);color:var(--paper);padding:32px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:24px;opacity:0.7;width:60px;flex-shrink:0;">02</div>
+          <div>
+            <div class="subtitle" style="font-size:38px;">induction</div>
+            <div class="body" style="opacity:0.85;margin-top:8px;">find patterns in examples</div>
+          </div>
+        </div>
+        <div style="background:var(--sun);color:var(--ink);padding:32px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:24px;opacity:0.6;width:60px;flex-shrink:0;">03</div>
+          <div>
+            <div class="subtitle" style="font-size:38px;">analogy</div>
+            <div class="body" style="opacity:0.7;margin-top:8px;">compare similar cases</div>
+          </div>
+        </div>
+        <div style="background:var(--lime);color:var(--ink);padding:32px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:24px;opacity:0.6;width:60px;flex-shrink:0;">04</div>
+          <div>
+            <div class="subtitle" style="font-size:38px;">abduction</div>
+            <div class="body" style="opacity:0.7;margin-top:8px;">find the best explanation</div>
+          </div>
+        </div>
+        <div style="background:var(--ink);color:var(--paper);padding:32px;display:flex;align-items:baseline;gap:32px;grid-column:1 / span 2;">
+          <div class="mono" style="font-size:24px;opacity:0.65;width:60px;flex-shrink:0;">05</div>
+          <div>
+            <div class="subtitle" style="font-size:38px;">causal reasoning</div>
+            <div class="body" style="opacity:0.75;margin-top:8px;">explain cause and effect — highest risk, most evidence required</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. ONE QUESTION A DAY -->
+  <section data-label="16 Daily Practice">
+    <div class="slide bg-sun">
+      <div class="eyebrow">16 — daily training practice</div>
+      <h2 class="title-lg" style="margin-top:24px;">one hard question.<br>every single day.</h2>
+      <div style="margin-top:72px;display:grid;grid-template-columns:repeat(4,1fr);gap:0;flex:1;">
+        <div style="padding:36px 32px 36px 0;border-right:3px solid var(--ink);">
+          <div class="num-marker" style="font-size:140px;">①</div>
+          <div class="subtitle" style="font-size:34px;margin-top:16px;">ask</div>
+          <div class="body" style="margin-top:8px;opacity:0.75;">a real question worth a day.</div>
+        </div>
+        <div style="padding:36px 32px;border-right:3px solid var(--ink);">
+          <div class="num-marker" style="font-size:140px;">②</div>
+          <div class="subtitle" style="font-size:34px;margin-top:16px;">run</div>
+          <div class="body" style="margin-top:8px;opacity:0.75;">push it through the pipeline.</div>
+        </div>
+        <div style="padding:36px 32px;border-right:3px solid var(--ink);">
+          <div class="num-marker" style="font-size:140px;">③</div>
+          <div class="subtitle" style="font-size:34px;margin-top:16px;">publish</div>
+          <div class="body" style="margin-top:8px;opacity:0.75;">blog it or archive it.</div>
+        </div>
+        <div style="padding:36px 0 36px 32px;">
+          <div class="num-marker" style="font-size:140px;">④</div>
+          <div class="subtitle" style="font-size:34px;margin-top:16px;">tune</div>
+          <div class="body" style="margin-top:8px;opacity:0.75;">improve the prompts &amp; roles.</div>
+        </div>
+      </div>
+      <div class="body-lg" style="margin-top:40px;font-style:italic;">— I'm training myself to ask better; the agent to answer better.</div>
+    </div>
+  </section>
+
+  <!-- 17. EXAMPLE QUESTIONS -->
+  <section data-label="17 Example Qs">
+    <div class="slide bg-cobalt">
+      <div class="eyebrow" style="opacity:0.85;">17 — example questions I've actually asked</div>
+      <h2 class="title" style="margin-top:24px;color:var(--paper);">questions I had no one<br>to discuss with — yet.</h2>
+      <div style="margin-top:64px;display:flex;flex-direction:column;gap:20px;flex:1;">
+        <div style="background:var(--paper);padding:32px 40px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:26px;font-weight:700;color:var(--magenta);width:50px;flex-shrink:0;">Q1</div>
+          <div class="subtitle" style="font-size:38px;">which media revenue-sharing models actually worked internationally?</div>
+        </div>
+        <div style="background:var(--paper);padding:32px 40px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:26px;font-weight:700;color:var(--magenta);width:50px;flex-shrink:0;">Q2</div>
+          <div class="subtitle" style="font-size:38px;">how do we evaluate the influence of exile communities?</div>
+        </div>
+        <div style="background:var(--paper);padding:32px 40px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:26px;font-weight:700;color:var(--magenta);width:50px;flex-shrink:0;">Q3</div>
+          <div class="subtitle" style="font-size:38px;">what policy is needed for AI-agent identity?</div>
+        </div>
+        <div style="background:var(--paper);padding:32px 40px;display:flex;align-items:baseline;gap:32px;">
+          <div class="mono" style="font-size:26px;font-weight:700;color:var(--magenta);width:50px;flex-shrink:0;">Q4</div>
+          <div class="subtitle" style="font-size:38px;">what are the real effects of age-verification laws, country by country?</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18. WHAT HUMANS SHOULD DO -->
+  <section data-label="18 Humans">
+    <div class="slide bg-lime">
+      <div class="eyebrow">18 — what humans should still do</div>
+      <h2 class="title" style="margin-top:24px;">delegate the dull.<br>keep the judgment.</h2>
+      <div style="margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:48px;flex:1;">
+        <div style="background:var(--ink);color:var(--paper);padding:48px;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">DELEGATE TO AGENT</div>
+          <ul class="clean" style="margin-top:32px;color:var(--paper);">
+            <li style="border-color:rgba(255,255,255,0.2);"><span class="text" style="font-size:32px;">repetition</span></li>
+            <li style="border-color:rgba(255,255,255,0.2);"><span class="text" style="font-size:32px;">file wrangling</span></li>
+            <li style="border-color:rgba(255,255,255,0.2);"><span class="text" style="font-size:32px;">first drafts</span></li>
+            <li style="border-color:rgba(255,255,255,0.2);"><span class="text" style="font-size:32px;">data cleaning</span></li>
+          </ul>
+        </div>
+        <div style="background:var(--paper);padding:48px;">
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">KEEP FOR YOURSELF</div>
+          <ul class="clean" style="margin-top:32px;">
+            <li><span class="text" style="font-size:32px;">asking the question</span></li>
+            <li><span class="text" style="font-size:32px;">judging the answer</span></li>
+            <li><span class="text" style="font-size:32px;">making the decision</span></li>
+            <li><span class="text" style="font-size:32px;">taste &amp; context</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="body-lg" style="margin-top:32px;font-style:italic;opacity:0.75;">— inspiration comes from walking. I'd rather walk more.</div>
+    </div>
+  </section>
+
+  <!-- 19. WHO SHOULD USE -->
+  <section data-label="19 Who">
+    <div class="slide bg-magenta">
+      <div class="eyebrow">19 — who should use agents</div>
+      <h2 class="title" style="margin-top:24px;">two kinds of people<br>get the most out of this.</h2>
+      <div style="margin-top:64px;display:grid;grid-template-columns:1fr 1fr;gap:32px;flex:1;">
+        <div style="background:var(--paper);color:var(--ink);padding:56px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div class="num-marker" style="font-size:200px;color:var(--magenta);">A</div>
+            <div class="title" style="font-size:60px;margin-top:24px;">people<br>with taste</div>
+          </div>
+          <div class="body" style="opacity:0.75;">you can ask questions only<br>you would think to ask.</div>
+        </div>
+        <div style="background:var(--ink);color:var(--paper);padding:56px;display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div class="num-marker" style="font-size:200px;color:var(--sun);">B</div>
+            <div class="title" style="font-size:60px;margin-top:24px;">people<br>with data</div>
+          </div>
+          <div class="body" style="opacity:0.75;">you know where the sources are<br>and how to put them together.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 20. CLOSING -->
+  <section data-label="20 Closing">
+    <div class="slide bg-ink" style="position:relative;overflow:hidden;">
+      <div style="position:absolute;bottom:-260px;left:-180px;width:700px;height:700px;border-radius:50%;background:var(--cobalt);"></div>
+      <div style="position:absolute;top:-160px;right:-120px;width:480px;height:480px;border-radius:50%;background:var(--magenta);"></div>
+      <div style="position:absolute;bottom:200px;right:200px;width:200px;height:200px;border-radius:50%;background:var(--lime);"></div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;height:100%;">
+        <div class="eyebrow" style="opacity:0.7;color:var(--paper);">20 — try it tomorrow</div>
+        <h2 class="title-xl" style="margin-top:32px;color:var(--paper);font-size:120px;">ask better<br>questions.<br><span style="color:var(--sun);">use better<br>methods.</span></h2>
+        <div style="margin-top:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:24px;color:var(--paper);">
+          <div>
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">01</div>
+            <div class="body" style="margin-top:12px;">download an agent</div>
+          </div>
+          <div>
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">02</div>
+            <div class="body" style="margin-top:12px;">choose a stronger model</div>
+          </div>
+          <div>
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">03</div>
+            <div class="body" style="margin-top:12px;">ask one hard question</div>
+          </div>
+          <div>
+            <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.6;">04</div>
+            <div class="body" style="margin-top:12px;">turn repeats into pipelines</div>
+          </div>
+        </div>
+        <div style="margin-top:64px;display:flex;justify-content:space-between;align-items:flex-end;color:var(--paper);">
+          <div class="title" style="font-size:64px;">thank you.</div>
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">MashBean · ISF 0427</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+<script src="deck-stage.js"></script>
+</body>
+</html>
