@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>TWIGF 2026 會前對齊 — AI Agent 進入開放網路後的身分識別</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<script type="application/json" id="speaker-notes">
+[
+"大家好，我是彥霖。今天不是預演，是讓我們在台上能接得住彼此。我會先把場次的核心提問講清楚，然後用我最近替 Allen Lab 寫的一篇治理研究做底，再依各位的專長提建議分工。我自己對應的是『數位身分與憑證架構』這一棒。",
+"過去的網路身分問題很單純——你是不是這個帳號的主人、能不能登入、有沒有權限。但 agent 來了之後，『螢幕後面是不是本人』這題已經不夠用了。我們會碰到一連串新問題：這個 agent 到底代表誰？是它老闆派它來的還是它自己跑出來的？它的權限是從哪一層繼承下來的？它說的話我為什麼要信？這些問題沒有任何一題是『登入框』可以解決的。",
+"用三句話總結：第一，要先講清楚誰叫誰做了什麼，才有責任可言。第二，技術能讓我們『追得到』，但『負得了責』要靠制度，不要把責任最後又壓到一個倒楣的人身上。第三，使用者看不懂的信任不算信任。我建議我們四個人在短講裡，至少各自回應其中一句，這樣觀眾才不會聽到四套術語。",
+"這張圖很重要——人類花了三十年走完三階段，agent 可能十年內就被推完，但我們連第一階段的混亂都還沒解決。各位短講都可以從這裡找錨點。三個根本差異要記得：規模與速度差距、身分本體論差距、以及信任要錨在哪裡。",
+"這三條是我預期 15 分鐘交叉討論會撞出來的軸。沒有任何一位講者能單方解決，所以四個視角同時在場才有意義。希望大家在短講裡都能至少觸碰其中一條，留給交叉討論真正的空間。",
+"重新排序的邏輯：先打開身分架構（我）→ 接到基礎建設與多方治理（Edmon）→ 拉到實務治理工具與公共風險（Manju）→ 最後讓 Simon 用法律與 commons 框架收束。每一棒都帶一個 hook 給下一棒。請各位確認自己的切角，等下我們可以微調。",
+"交叉討論的價值不在於我們達成共識，而在於我們把歧見講清楚。如果四個人都同意彼此，觀眾學不到東西。所以希望大家不要在台上互相退讓，但盡量把歧見收回到『我們缺哪一層基礎設施』這個共同提問上。Nicole 主持時可能會拋一些尖銳問題，我們不要躲。",
+"三件事：詞彙至少撞一次、案例別撞、歧見要露出來。等等我們花幾分鐘對一下各自的開場 30 秒，看會不會有重疊或斷層。"
+]
+</script>
+<style>
+  :root {
+    /* deep green + white + amber accent */
+    --ink:        #0E2A22;   /* deepest forest */
+    --ink-2:      #163C30;
+    --ink-3:      #1F5240;
+    --teal:       #1F5240;   /* primary deep green */
+    --teal-soft:  #5A8773;
+    --teal-pale:  #C8DBD0;
+    --amber:      #E07A2B;   /* signal / tension accent */
+    --rust:       #B5471F;
+    --paper:      #FFFFFF;   /* white base */
+    --paper-2:    #F4F1EB;   /* warm off-white */
+    --paper-3:    #E6E1D6;
+    --rule:       #D9D4C7;
+    --muted:      #6B6B5E;
+  }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: #0b0b0b;
+    font-family: 'Noto Sans TC','Inter',system-ui,sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  deck-stage {
+    --bg: #0b0b0b;
+  }
+
+  section {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Sans TC','Inter',system-ui,sans-serif;
+    overflow: hidden;
+  }
+
+  /* ----- shared chrome ----- */
+  .frame {
+    position: absolute;
+    inset: 0;
+    padding: 80px 110px 80px 110px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono','Inter',monospace;
+    font-size: 24px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar .stack-mark {
+    display: inline-flex; gap: 4px; align-items: center;
+  }
+  .topbar .stack-mark i {
+    width: 14px; height: 4px; background: var(--teal); display: inline-block;
+  }
+  .topbar .stack-mark i:nth-child(2) { background: var(--teal-soft); }
+  .topbar .stack-mark i:nth-child(3) { background: var(--teal-pale); }
+  .topbar .stack-mark i:nth-child(4) { background: var(--amber); }
+
+  .footbar {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'JetBrains Mono','Inter',monospace;
+    font-size: 24px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* ---- type scale ---- */
+  .eyebrow {
+    font-family: 'JetBrains Mono','Inter',monospace;
+    font-size: 24px;
+    color: var(--teal);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  .h-title {
+    font-family: 'Noto Serif TC','Noto Sans TC',serif;
+    font-weight: 600;
+    font-size: 78px;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .h-title-sm {
+    font-family: 'Noto Serif TC','Noto Sans TC',serif;
+    font-weight: 600;
+    font-size: 60px;
+    line-height: 1.15;
+    color: var(--ink);
+    margin: 0;
+  }
+  .h-sub {
+    font-size: 32px;
+    line-height: 1.5;
+    color: var(--ink-3);
+    font-weight: 400;
+  }
+  .body {
+    font-size: 28px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .small {
+    font-size: 24px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .mono {
+    font-family: 'JetBrains Mono','Inter',monospace;
+  }
+
+  .rule-h { height: 1px; background: var(--rule); width: 100%; }
+
+  /* ---------- slide 1 ---------- */
+  .s1 .frame { padding: 90px 110px; }
+  .s1-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: start;
+  }
+  .s1 h1.h-title { font-size: 92px; }
+  .s1 .lede {
+    font-size: 32px;
+    line-height: 1.55;
+    color: var(--ink-3);
+    margin-top: 48px;
+    max-width: 820px;
+  }
+  .s1 .lede + * { font-size: 24px !important; }
+  .s1-meta {
+    background: var(--paper-2);
+    padding: 44px 44px;
+    border-left: 4px solid var(--teal);
+    display: grid;
+    gap: 20px;
+  }
+  .s1-meta dt {
+    font-family: 'JetBrains Mono','Inter',monospace;
+    font-size: 24px;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 4px;
+  }
+  .s1-meta dd { margin: 0; font-size: 26px; color: var(--ink); line-height: 1.45; }
+  .three-marker {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .three-marker .item {
+    border-top: 3px solid var(--teal);
+    padding-top: 16px;
+  }
+  .three-marker .num {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+  }
+  .three-marker .lbl {
+    font-size: 24px;
+    color: var(--ink);
+    margin-top: 6px;
+    line-height: 1.35;
+  }
+
+  /* ---------- slide 2 ---------- */
+  .s2-body {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    margin-top: 36px;
+    align-items: start;
+  }
+  .col-h {
+    font-family: 'JetBrains Mono','Inter',monospace;
+    font-size: 24px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+  .qcard.before {
+    background: var(--paper-2);
+    padding: 26px 32px;
+    border-left: 3px solid var(--ink-3);
+  }
+  .qcard.after {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 26px 32px;
+    border-left: 3px solid var(--amber);
+  }
+  .qcard .qline {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 500;
+  }
+  .qcard.before .qline { color: var(--ink); }
+  .qcard.after .qline { color: var(--paper); }
+  .qcard .meta {
+    font-size: 24px;
+    color: var(--muted);
+    margin-top: 16px;
+  }
+  .qcard.after .meta { color: var(--teal-pale); }
+  .five-stack {
+    margin-top: 16px;
+    display: grid;
+    gap: 4px;
+  }
+  .five-stack .row {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px dashed rgba(244,239,230,0.18);
+  }
+  .five-stack .row:last-child { border-bottom: none; }
+  .five-stack .n {
+    font-family: 'JetBrains Mono',monospace;
+    color: var(--amber);
+    font-size: 24px;
+  }
+  .five-stack .q {
+    font-size: 24px;
+    color: var(--paper);
+    line-height: 1.4;
+  }
+  .axis-line {
+    margin-top: 18px;
+    font-size: 24px;
+    color: var(--ink-3);
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+  }
+  .axis-line b { color: var(--teal); font-weight: 600; }
+
+  .s2-stats {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+  }
+  .stat {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 22px;
+    align-items: center;
+  }
+  .stat .num {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--rust);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .stat .lbl {
+    font-size: 24px;
+    color: var(--ink-2);
+    line-height: 1.4;
+    max-width: 360px;
+  }
+
+  /* ---------- slide 3 ---------- */
+  .three-cards {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    margin-top: 56px;
+    align-content: start;
+  }
+  .tcard {
+    display: flex;
+    flex-direction: column;
+    background: var(--paper-2);
+    padding: 22px 24px;
+    border-top: 6px solid var(--teal);
+    min-height: 600px;
+  }
+  .tcard:nth-child(2) { border-top-color: var(--teal-soft); background: var(--paper-2); }
+  .tcard:nth-child(3) { border-top-color: var(--amber); }
+  .tcard .tag {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    color: var(--muted);
+    letter-spacing: 0.14em;
+  }
+  .tcard h3 {
+    font-family: 'Noto Serif TC',serif;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.25;
+    margin: 14px 0 24px 0;
+    color: var(--ink);
+  }
+  .tcard .lead {
+    font-size: 24px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .tcard .chain {
+    margin-top: 22px;
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+  .tcard .chain .you { color: var(--teal); }
+  .tcard .chain .ag { color: var(--amber); }
+  .tcard .quote {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'Noto Serif TC',serif;
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--ink-2);
+    font-style: italic;
+  }
+  .tcard .quote .who {
+    display: block;
+    font-style: normal;
+    font-size: 24px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-family: 'JetBrains Mono',monospace;
+    letter-spacing: 0.06em;
+  }
+  .tcard .pair {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .tcard .pair .row {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .tcard .pair .k {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .tcard .pair .v {
+    font-size: 24px; color: var(--ink-2); line-height: 1.45;
+  }
+
+  /* ---------- slide 4 — dual timeline ---------- */
+  .s4-wrap {
+    flex: 1;
+    margin-top: 36px;
+    display: grid;
+    grid-template-rows: 1fr 1fr auto;
+    gap: 20px;
+  }
+  .lane {
+    background: var(--paper-2);
+    padding: 22px 30px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+  }
+  .lane.agent { background: var(--ink); color: var(--paper); }
+  .lane .lane-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--rule);
+    padding-right: 24px;
+  }
+  .lane.agent .lane-label { border-right-color: rgba(244,239,230,0.18); }
+  .lane .lane-label .who {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 32px;
+    font-weight: 600;
+  }
+  .lane .lane-label .when {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    color: var(--muted);
+    margin-top: 8px;
+    letter-spacing: 0.06em;
+  }
+  .lane.agent .lane-label .when { color: var(--teal-pale); }
+  .stages {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-left: 30px;
+    align-items: center;
+  }
+  .stage {
+    padding: 0 24px;
+    border-left: 1px dashed var(--rule);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .lane.agent .stage { border-left-color: rgba(244,239,230,0.18); }
+  .stage .num {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    color: var(--teal);
+  }
+  .lane.agent .stage:nth-child(1) .num { color: var(--rust); }
+  .lane.agent .stage:nth-child(2) .num { color: var(--amber); }
+  .lane.agent .stage:nth-child(3) .num { color: var(--teal-pale); }
+  .stage .title {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .stage .ex {
+    font-size: 24px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .lane.agent .stage .ex { color: var(--teal-pale); }
+  .stage.now { background: rgba(199,123,58,0.10); padding: 14px 24px; border-left-style: solid; border-left-width: 3px; border-left-color: var(--amber); }
+
+  .deltas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    padding: 16px 0 0 0;
+    border-top: 1px solid var(--rule);
+  }
+  .delta {
+    display: grid;
+    grid-template-columns: 38px 1fr;
+    gap: 14px;
+    align-items: start;
+  }
+  .delta .icon {
+    width: 28px; height: 28px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .delta .label {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+  }
+  .delta .text {
+    font-size: 24px;
+    color: var(--ink-2);
+    line-height: 1.45;
+    margin-top: 4px;
+  }
+
+  /* ---------- slide 5 — three tensions / scales ---------- */
+  .scales {
+    flex: 1;
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    align-items: stretch;
+  }
+  .scale {
+    background: var(--paper-2);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .scale .num {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 52px;
+    color: var(--teal);
+    line-height: 1;
+    font-weight: 700;
+  }
+  .scale h3 {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 28px;
+    line-height: 1.3;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .seesaw {
+    margin-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 28px 1fr;
+    align-items: stretch;
+    gap: 0;
+  }
+  .seesaw .side {
+    padding: 22px 18px;
+    font-size: 24px;
+    line-height: 1.45;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+  }
+  .seesaw .left  { background: var(--teal); color: var(--paper); }
+  .seesaw .right { background: var(--amber); color: var(--ink); }
+  .seesaw .pivot {
+    background: var(--ink);
+    position: relative;
+  }
+  .seesaw .pivot::before {
+    content: 'vs';
+    color: var(--paper);
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 14px;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    letter-spacing: 0.08em;
+  }
+  .scale .foot {
+    margin-top: auto;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-size: 24px;
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+
+  /* ---------- slide 6 — relay ---------- */
+  .relay {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .baton {
+    display: flex; flex-direction: column;
+    background: var(--paper-2);
+    border-top: 6px solid var(--teal);
+    position: relative;
+  }
+  .baton:nth-child(1) { border-top-color: var(--teal); }
+  .baton:nth-child(2) { border-top-color: var(--teal-soft); }
+  .baton:nth-child(3) { border-top-color: var(--amber); }
+  .baton:nth-child(4) { border-top-color: var(--rust); }
+  .baton .head {
+    padding: 18px 20px 14px 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .baton .leg {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 15px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .baton .who {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 6px;
+    line-height: 1.25;
+  }
+  .baton .role {
+    font-size: 17px;
+    color: var(--ink-2);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .baton .body-area {
+    padding: 16px 20px 16px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .baton .ang {
+    font-size: 19px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .baton .ang b { color: var(--teal); font-weight: 600; }
+  .baton .ang .lab {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .baton .hook {
+    margin-top: auto;
+    padding: 14px 20px;
+    background: var(--ink);
+    color: var(--paper);
+    border-left: 4px solid var(--amber);
+    font-size: 18px;
+    line-height: 1.45;
+  }
+  .baton .hook .lab {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 13px;
+    color: var(--amber);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  /* relay arrow */
+  .baton:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -18px;
+    top: 6px;
+    width: 14px;
+    height: 14px;
+    border-top: 2px solid var(--ink-3);
+    border-right: 2px solid var(--ink-3);
+    transform: rotate(45deg);
+    z-index: 2;
+  }
+
+  /* ---------- slide 7 ---------- */
+  .s7-grid {
+    flex: 1;
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 60px;
+  }
+  .s7-col h3 {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 30px;
+    margin: 0 0 22px 0;
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom: 2px solid var(--teal);
+    padding-bottom: 12px;
+    display: inline-block;
+  }
+  .qa-list {
+    display: grid; gap: 14px;
+    margin-bottom: 28px;
+  }
+  .qa {
+    font-size: 24px;
+    color: var(--ink-2);
+    line-height: 1.45;
+    padding: 14px 18px;
+    background: var(--paper-2);
+    border-left: 3px solid var(--teal-soft);
+  }
+  .qa.cases { background: var(--ink); color: var(--paper); border-left-color: var(--amber); }
+  .qa.cases b { color: var(--amber); }
+  .qa .case-list {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    line-height: 1.55;
+    color: var(--teal-pale);
+  }
+
+  .stance {
+    display: grid; gap: 12px;
+  }
+  .stance .row {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 16px;
+    align-items: baseline;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .stance .row:last-child { border-bottom: none; }
+  .stance .name {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 24px;
+    color: var(--teal);
+    font-weight: 600;
+  }
+  .stance .pos {
+    font-size: 21px;
+    color: var(--ink-2);
+    line-height: 1.45;
+  }
+  .moderator {
+    margin-top: 28px;
+    background: var(--paper-2);
+    padding: 22px 26px;
+    border-left: 3px solid var(--rust);
+  }
+  .moderator .lab {
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 24px;
+    color: var(--rust);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .moderator .q {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 22px;
+    color: var(--ink);
+    line-height: 1.45;
+    margin-top: 8px;
+  }
+
+  /* ---------- slide 8 ---------- */
+  .commits {
+    flex: 1;
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    align-items: stretch;
+  }
+  .commit {
+    background: var(--paper-2);
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    border-top: 6px solid var(--teal);
+  }
+  .commit:nth-child(2) { border-top-color: var(--teal-soft); }
+  .commit:nth-child(3) { border-top-color: var(--amber); }
+  .commit .num {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 76px;
+    color: var(--teal);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .commit:nth-child(2) .num { color: var(--teal-soft); }
+  .commit:nth-child(3) .num { color: var(--amber); }
+  .commit h3 {
+    font-family: 'Noto Serif TC',serif;
+    font-size: 30px;
+    line-height: 1.3;
+    margin: 24px 0 18px 0;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .commit .body {
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .commit .alloc {
+    margin-top: 18px;
+    display: grid;
+    gap: 8px;
+    font-family: 'JetBrains Mono',monospace;
+    font-size: 18px;
+    color: var(--ink);
+  }
+  .commit .alloc .row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    border-bottom: 1px dashed var(--rule);
+    padding: 6px 0;
+  }
+  .commit .alloc .who {
+    color: var(--teal);
+    font-weight: 600;
+  }
+
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ======================= SLIDE 1 ======================= -->
+  <section data-label="01 開場" class="s1">
+    <div class="frame">
+      <div class="topbar">
+        <span>TWIGF 2026 · Pre-session alignment</span>
+        <span class="stack-mark"><i></i><i></i><i></i><i></i> trust stack</span>
+      </div>
+
+      <div class="s1-grid">
+        <div>
+          <div class="eyebrow">11 / X &nbsp;·&nbsp; 60 MIN &nbsp;·&nbsp; 4 SPEAKERS</div>
+          <h1 class="h-title">TWIGF Agentic ID
+場次預熱對齊</h1>
+          <p class="lede">
+            <br/>
+          </p>
+        </div>
+
+        <dl class="s1-meta">
+          <div><dt>Session</dt><dd>AI Agent 進入開放網路後的身分識別</dd></div>
+          <div><dt>Format</dt><dd>4 × 8 min lightning + 15 min cross-talk</dd></div>
+          <div><dt>Convener</dt><dd>黃彥霖（豆泥）<br/><span class="mono small" style="font-size:24px;color:var(--muted)">Harvard Kennedy School · Allen Lab Policy Fellow</span></dd></div>
+          <div><dt>Today</dt><dd>10 minutes · working session</dd></div>
+        </dl>
+      </div>
+
+      <div class="three-marker">
+        <div class="item"><div class="num">01</div><div class="lbl">核心議題
+</div></div>
+        <div class="item"><div class="num">02</div><div class="lbl">從核心議題發展延伸</div></div>
+        <div class="item"><div class="num">03</div><div class="lbl">依各自專業交叉對談</div></div>
+      </div>
+
+      <div class="footbar">
+        <span>01 / 08</span>
+        <span>working session — not a rehearsal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 2 ======================= -->
+  <section data-label="02 核心提問換了">
+    <div class="frame">
+      <div class="topbar">
+        <span>02 · the question has changed</span>
+        <span class="mono">framing</span>
+      </div>
+
+      <div style="margin-top:36px">
+        <div class="eyebrow">場次的核心提問</div>
+        <h2 class="h-title-sm">過去問題「我能不能使用網路？」
+未來問題「它是誰、代表誰？」</h2>
+      </div>
+
+      <div class="s2-body">
+        <div>
+          <div class="col-h">過去 — 一道題</div>
+          <div class="qcard before">
+            <div class="qline">數位身分「螢幕後面的這個帳號，是不是它本人？」
+網路治理「誰能營運網路、誰能使用網路？出事誰負責？」</div>
+            <div class="meta mono">Internet Governance．login · authn · authz</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="col-h">現在 — 五道題</div>
+          <div class="qcard after">
+            <div class="qline">當行動者是 agent ⁄ digital twin</div>
+            <div class="five-stack">
+              <div class="row"><span class="n">Q1</span><span class="q">誰在行動？</span></div>
+              <div class="row"><span class="n">Q2</span><span class="q">代表誰？</span></div>
+              <div class="row"><span class="n">Q3</span><span class="q">有什麼權限？</span></div>
+              <div class="row"><span class="n">Q4</span><span class="q">輸出如何被信任？</span></div>
+              <div class="row"><span class="n">Q5</span><span class="q">這些信任關係由誰治理？</span></div>
+            </div>
+          </div>
+          <div class="axis-line">更難一點的延伸是：信任堆疊的縱向結構 × 治理權的橫向分配</div>
+        </div>
+      </div>
+
+      <div class="s2-stats">
+        <div class="stat">
+          <div class="num">1.3 B</div>
+          <div class="lbl">IDC 預估 2028 年全球運行中的 AI agent 數量</div>
+        </div>
+        <div class="stat">
+          <div class="num">93 %</div>
+          <div class="lbl">開源 agent 專案仍只用環境變數裡的 API key 當身分</div>
+        </div>
+      </div>
+
+      <div class="footbar">
+        <span>02 / 08</span>
+        <span>未來在實務上不會再有 AUTH 的介面了</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 3 ======================= -->
+  <section data-label="03 三層論述地基">
+    <div class="frame">
+      <div class="topbar">
+        <span>03 · three sentences for the whole paper</span>
+        <span class="mono">research foundation</span>
+      </div>
+
+      <div style="margin-top:32px">
+        <div class="eyebrow">AGENTIC ID 的國際討論整理</div>
+        <h2 class="h-title-sm">這個 Session 的前情提要：Agentic ID。</h2>
+      </div>
+
+      <div class="three-cards">
+
+        <div class="tcard">
+          <div class="tag">A · DELEGATION CHAIN</div>
+          <h3>委任鏈：<br/>誰叫誰做了什麼</h3>
+          <div class="lead">出事時，責任要從末端倒流回到我——<br/>但這條反向回路目前幾乎不存在。</div>
+          <div class="chain">
+            <span class="you">我</span> → AI<br/>
+            ↳ <span class="ag">A</span> 查行李規定<br/>
+            &nbsp;&nbsp;&nbsp;↳ <span class="ag">B</span> 刷卡付款<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↳ <span class="ag">C</span> 出狀況
+          </div>
+          <div class="quote">
+            「我 → A → B → C」<br/>但反向回不來。
+            <span class="who">— 委任鏈反向缺口</span>
+          </div>
+        </div>
+
+        <div class="tcard">
+          <div class="tag">B · ACCOUNTABILITY ≠ RESPONSIBILITY</div>
+          <h3>「追得到」<br/>不等於「負得了責」</h3>
+          <div class="pair">
+            <div class="row"><div class="k">追得到</div><div class="v">日誌、簽章、撤銷——<br/>知道是哪個 agent 出包</div></div>
+            <div class="row"><div class="k">負得了責</div><div class="v">法規、保險、制度——<br/>有人扛、有人賠、有人改</div></div>
+          </div>
+          <div class="quote">
+            「機器可以是肇事者，<br/>但機器當不了被告。」
+            <span class="who">— Floridi · Elish「道德緩衝區」警告</span>
+          </div>
+        </div>
+
+        <div class="tcard">
+          <div class="tag">C · TRUST CALIBRATION</div>
+          <h3>信任校準：<br/>使用者要看得懂訊號</h3>
+          <div class="lead">一般人信任系統，並非是因為密碼學夠強，
+是因為人「看得懂它什麼時候會出錯」。</div>
+          <div class="pair">
+            <div class="row"><div class="k">Gmail</div><div class="v">不是讀過加密協議，<br/>是失誤模式可預測</div></div>
+          </div>
+          <div class="quote">
+            使用者看不懂的信任，<br/>不算信任。
+            <span class="who">— calibration over cryptography</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footbar">
+        <span>03 / 08</span>
+        <span>各位講者可以根據自身專業來回應其中一題</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 4 ======================= -->
+  <section data-label="04 雙軌時間線">
+    <div class="frame">
+      <div class="topbar">
+        <span>04 · dual-track evolution</span>
+        <span class="mono">30 yr → 10 yr</span>
+      </div>
+
+      <div style="margin-top:30px">
+        <div class="eyebrow">身分演化的雙軌軌跡</div>
+        <h2 class="h-title-sm">人類花三十年尚未走完的數位身分之路，
+agent 可能一兩年內走完一輪。</h2>
+      </div>
+
+      <div class="s4-wrap">
+
+        <div class="lane human">
+          <div class="lane-label">
+            <div class="who">人 類</div>
+            <div class="when">~ 30 yrs · stage 1 → 3</div>
+          </div>
+          <div class="stages">
+            <div class="stage">
+              <div class="num">STAGE 1</div>
+              <div class="title">機構賦予</div>
+              <div class="ex">護照 · 身分證 · Aadhaar</div>
+            </div>
+            <div class="stage">
+              <div class="num">STAGE 2</div>
+              <div class="title">聯邦式</div>
+              <div class="ex">OAuth · SAML — 控制權集中於大平台</div>
+            </div>
+            <div class="stage">
+              <div class="num">STAGE 3</div>
+              <div class="title">可攜帶自主</div>
+              <div class="ex">DID / VC / eIDAS 2.0 wallet</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lane agent">
+          <div class="lane-label">
+            <div class="who">AI agent</div>
+            <div class="when">~ 10 yrs · accelerating</div>
+          </div>
+          <div class="stages">
+            <div class="stage now">
+              <div class="num">TODAY</div>
+              <div class="title">API key</div>
+              <div class="ex">最原始的機構賦予 — 環境變數裡的祕密</div>
+            </div>
+            <div class="stage">
+              <div class="num">IN PROGRESS</div>
+              <div class="title">平台聯邦化</div>
+              <div class="ex">Microsoft Entra Agent ID · Google A2A</div>
+            </div>
+            <div class="stage">
+              <div class="num">EXPLORING</div>
+              <div class="title">可攜身分層</div>
+              <div class="ex">DIF · W3C Agent Protocol · AP2</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deltas">
+          <div class="delta">
+            <div class="icon">×</div>
+            <div>
+              <div class="label">Scale & speed</div>
+              <div class="text">人以年計，agent 以毫秒計。</div>
+            </div>
+          </div>
+          <div class="delta">
+            <div class="icon">∅</div>
+            <div>
+              <div class="label">Identity ontology</div>
+              <div class="text">人天然有身分；agent 沒有先驗存在，只有「角色」。</div>
+            </div>
+          </div>
+          <div class="delta">
+            <div class="icon">⌖</div>
+            <div>
+              <div class="label">Trust anchor</div>
+              <div class="text">人類信任國家與法律；agent 的信任要錨在哪？</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footbar">
+        <span>04 / 08</span>
+        <span>第一階段的混亂都還沒解完</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 5 ======================= -->
+  <section data-label="05 三個張力">
+    <div class="frame">
+      <div class="topbar">
+        <span>05 · three tensions</span>
+        <span class="mono">where the panel earns its keep</span>
+      </div>
+
+      <div style="margin-top:30px">
+        <div class="eyebrow">深度討論</div>
+        <h2 class="h-title-sm">Panel 可以交叉討論的領域</h2>
+      </div>
+
+      <div class="scales">
+
+        <div class="scale">
+          <div class="num">01</div>
+          <h3>既有 DNS 治理<br/>vs. 新興 agent 標準</h3>
+          <div class="seesaw">
+            <div class="side left">DNS<br/><br/>25 年制度資產</div>
+            <div class="pivot"></div>
+            <div class="side right">agent<br/><br/>15 分鐘生命週期</div>
+          </div>
+          <div class="foot">舊治理體制可以多大程度被平移？</div>
+        </div>
+
+        <div class="scale">
+          <div class="num">02</div>
+          <h3>平台聯邦化<br/>vs. 可攜帶自主</h3>
+          <div class="seesaw">
+            <div class="side left">平台事實標準<br/><br/>Microsoft · Google</div>
+            <div class="pivot"></div>
+            <div class="side right">開放標準化<br/><br/>DIF · W3C · AP2</div>
+          </div>
+          <div class="foot">控制權落在誰手上？</div>
+        </div>
+
+        <div class="scale">
+          <div class="num">03</div>
+          <h3>技術可問責<br/>vs. 社會問責</h3>
+          <div class="seesaw">
+            <div class="side left">工程化<br/><br/>撤銷 · 稽核</div>
+            <div class="pivot"></div>
+            <div class="side right">道德緩衝區<br/><br/>推給最近的人</div>
+          </div>
+          <div class="foot">追得到 ≠ 負得了責。</div>
+        </div>
+
+      </div>
+
+      <div class="footbar">
+        <span>05 / 08</span>
+        <span>不同專業者的共同在場很有意義，台灣應該目前沒有這種討論</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 6 ======================= -->
+  <section data-label="06 四講者接力">
+    <div class="frame">
+      <div class="topbar">
+        <span>06 · four-leg relay</span>
+        <span class="mono">每一棒都帶一個 hook 給下一棒</span>
+      </div>
+
+      <div style="margin-top:24px">
+        <div class="eyebrow">四位講者的角色定位建議</div>
+        <h2 class="h-title-sm" style="font-size:50px">每一棒都帶一個 hook 給下一棒。</h2>
+      </div>
+
+      <div class="relay">
+
+        <!-- Leg 1 -->
+        <div class="baton">
+          <div class="head">
+            <div class="leg">LEG 1 · OPENING</div>
+            <div class="who">黃彥霖（豆泥）</div>
+            <div class="role">身分架構與委任問題打開</div>
+          </div>
+          <div class="body-area">
+            <div class="ang">
+              <span class="lab">Position</span>
+              數位發展部 DID/VC 數位皮夾實作 + Allen Lab 治理研究
+            </div>
+            <div class="ang">
+              <span class="lab">Angle</span>
+              用 Slide 3+4 框架立基；當 holder 是 agent 而非自然人時，<b>issuer / holder / verifier</b> 三角的民主課責層怎麼設計
+            </div>
+          </div>
+          <div class="hook">
+            <span class="lab">Hook → Edmon</span>
+            「但這套堆疊如果繞過 DNS、繞過二十年命名治理，會出什麼事？」
+          </div>
+        </div>
+
+        <!-- Leg 2 -->
+        <div class="baton">
+          <div class="head">
+            <div class="leg">LEG 2 · INFRASTRUCTURE</div>
+            <div class="who">Edmon Chung</div>
+            <div class="role">DotAsia CEO · 基礎建設、多方治理</div>
+          </div>
+          <div class="body-area">
+            <div class="ang">
+              <span class="lab">Position</span>
+              UASG 副主席；2025 與 Vint Cerf 共同擔任 WSIS+20 Informal Multistakeholder Sounding Board co-convenor
+            </div>
+            <div class="ang">
+              <span class="lab">Angle</span>
+              把 IDN/UA 二十年「協定層必須容納非主流身分」<b>平移到 agent identity 的 interoperability</b>
+            </div>
+            <div class="ang">
+              <span class="lab">Avoid</span>
+              陷入單一 ICANN 程序細節
+            </div>
+          </div>
+          <div class="hook">HOOK → MANJU
+「如果搞定了協定層，治理工具如何處理呢？誰能 revoke？」</div>
+        </div>
+
+        <!-- Leg 3 -->
+        <div class="baton">
+          <div class="head">
+            <div class="leg">LEG 3 · GOVERNANCE TOOLS</div>
+            <div class="who">Manju Chen</div>
+            <div class="role">TNN Director of Policy · NCSG 視角</div>
+          </div>
+          <div class="body-area">
+            <div class="ang">
+              <span class="lab">Position</span>
+              ICANN GNSO Council NCSG 代表；DNS abuse 治理前線
+            </div>
+            <div class="ang">
+              <span class="lab">Angle</span>
+              把 agent identity 當作 <b>trusted notifier 問題的鏡像</b>——<br/>
+              不是「身分證」，而是「可被驗證、可被撤銷、bilateral 同意」的關係
+            </div>
+            <div class="ang">
+              <span class="lab">NCSG warning</span>
+              強制 KYC、單一 root 會傷害匿名與弱勢使用者
+            </div>
+          </div>
+          <div class="hook">
+            <span class="lab">Hook → Simon</span>
+            「那 intermediary liability 的法律歸屬到底落在哪一層？」
+          </div>
+        </div>
+
+        <!-- Leg 4 -->
+        <div class="baton">
+          <div class="head">
+            <div class="leg">LEG 4 · LEGAL ANCHOR</div>
+            <div class="who">孫介然老師 Simon Sun</div>
+            <div class="role">NYCU 科法所助理教授</div>
+          </div>
+          <div class="body-area">
+            <div class="ang">
+              <span class="lab">Position</span>
+              Indiana SJD；Ostrom Workshop 多中心治理學派<br/>
+              <span style="color:var(--rust)"></span>
+            </div>
+            <div class="ang">
+              <span class="lab">Angle</span>
+              用 <b>commons / polycentric governance</b> 框架追問：agent identity 基礎建設由誰治理、規則誰訂、誰能 revoke
+            </div>
+            <div class="ang"></div>
+          </div>
+          <div class="hook">
+            <span class="lab">收束 → Q&A</span>
+            把四棒收回到「我們缺哪一層基礎設施」這個共同提問。
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footbar">
+        <span>06 / 08</span>
+        <span>身分架構 → 基礎建設 → 治理工具 → 法律收束</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 7 ======================= -->
+  <section data-label="07 預期張力">
+    <div class="frame">
+      <div class="topbar">
+        <span>07 · what 15 minutes of Q&A will surface</span>
+        <span class="mono">don't dodge disagreement</span>
+      </div>
+
+      <div style="margin-top:30px">
+        <div class="eyebrow">交叉討論預期撞出來的問題</div>
+        <h2 class="h-title-sm">15 分鐘 Q&amp;A 的潛在熱點。</h2>
+      </div>
+
+      <div class="s7-grid">
+
+        <div class="s7-col">
+          <h3>觀眾很可能問</h3>
+          <div class="qa-list">
+            <div class="qa">AI agent 出包誰負責？<br/>開發者、平台、issuer、使用者？</div>
+            <div class="qa">跨境 agent 在哪一個 jurisdiction？</div>
+            <div class="qa cases">
+              <b>「今天就能用的例子？」</b>
+              <div class="case-list">
+                · Microsoft Copilot EchoLeak<br/>
+                · Perplexity Comet · 150 秒被釣魚<br/>
+                · 金融 AI 助理 · 230 萬美元詐騙電匯
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="s7-col">
+          <h3>講者間天然的歧見</h3>
+          <div class="stance">
+            <div class="row">
+              <div class="name">Edmon</div>
+              <div class="pos">傾向「DNS / multistakeholder 模式可延伸」</div>
+            </div>
+            <div class="row">
+              <div class="name">Simon</div>
+              <div class="pos">用 commons 框架質疑「單一 root 與單一治理者」</div>
+            </div>
+            <div class="row">
+              <div class="name">Manju</div>
+              <div class="pos">從 NCSG 立場警告「過度 KYC 與基礎建設層判斷」</div>
+            </div>
+            <div class="row">
+              <div class="name">彥霖</div>
+              <div class="pos">推 DID/VC + 可問責性工程化，但承認信任校準工程不能單獨完成</div>
+            </div>
+          </div>
+
+          <div class="moderator">
+            <div class="lab">主持 Nicole 可能拋的引導</div>
+            <div class="q">「如果只能挑一個治理問題優先處理是什麼？」<br/>「台灣應該 lead 還是 follow？」</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footbar">
+        <span>07 / 08</span>
+        <span>最後收束到核心問題</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLIDE 8 ======================= -->
+  <section data-label="08 三件事確認">
+    <div class="frame">
+      <div class="topbar">
+        <span>08 · three commitments</span>
+        <span class="mono">before we go on stage</span>
+      </div>
+
+      <div style="margin-top:36px">
+        <div class="eyebrow">今天希望確認的三件事</div>
+        <h2 class="h-title-sm">請大家幫忙的三個 commitment。</h2>
+      </div>
+
+      <div class="commits">
+
+        <div class="commit">
+          <div class="num">01</div>
+          <h3>詞彙至少撞一次</h3>
+          <div class="body">
+            各自短講中至少呼應一次 Slide 3 的三組詞彙之一：
+          </div>
+          <div class="alloc" style="margin-top:22px">
+            <div class="row"><span>委任鏈</span><span class="who">→ delegation</span></div>
+            <div class="row"><span>追得到 ≠ 負得了責</span><span class="who">→ accountability ≠ responsibility</span></div>
+            <div class="row"><span>信任校準</span><span class="who">→ the signal of trust</span></div>
+          </div>
+        </div>
+
+        <div class="commit">
+          <div class="num">02</div>
+          <h3>案例不重疊</h3>
+          <div class="body">每位講者守自己最強的案例領域：</div>
+          <div class="alloc">
+            <div class="row"><span>DNS / UA</span><span class="who">Edmon</span></div>
+            <div class="row"><span>TNN · DNS abuse</span><span class="who">Manju</span></div>
+            <div class="row"><span>commons · liability</span><span class="who">Simon</span></div>
+            <div class="row"><span>DID / VC · 數位皮夾</span><span class="who">彥霖</span></div>
+          </div>
+        </div>
+
+        <div class="commit">
+          <div class="num">03</div>
+          <h3>歧見要露出來</h3>
+          <div class="body">
+            交叉討論不躲歧見，但<br/>
+            <b style="color:var(--ink)">收回到一個共同提問：</b>
+          </div>
+          <div style="margin-top:24px;padding:22px 24px;background:var(--ink);color:var(--paper);border-left:4px solid var(--amber);font-family:'Noto Serif TC',serif;font-size:24px;line-height:1.5">
+            「我們缺什麼基礎設施、<br/>誰來治理？」
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footbar">
+        <span>08 / 08</span>
+        <span>等等花幾分鐘對一下各自的開場 30 秒</span>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
