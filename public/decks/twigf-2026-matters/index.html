@@ -1194,11 +1194,12 @@
       <div class="case">
         <div class="tag">事件 2｜2020–2021</div>
         <h4>馬特市建築師 → 一年後告停</h4>
-        <ul style="margin:0;padding-left:1.1em;font-size:21px;line-height:1.55;color:var(--m-fg);list-style:disc">
-          <li style="margin-bottom:12px">由 21 位社區活躍用戶組成，有專屬徽章與三項治理特權</li>
-          <li style="margin-bottom:12px">同時擔任「社區陪審團」，修正全民投票的人情拉票、小號舞弊</li>
-          <li style="margin-bottom:12px">運作不到一年告停：建築師背景不一，主觀意見難收斂、形成派系</li>
-          <li>站方最花時間的，不是訴訟案，而是<b>陪審團內部的爭吵與調停</b></li>
+        <ul style="margin:0;padding-left:1.1em;font-size:20px;line-height:1.5;color:var(--m-fg);list-style:disc">
+          <li style="margin-bottom:10px">由 21 位社區活躍用戶組成，有專屬徽章與三項治理特權</li>
+          <li style="margin-bottom:10px">同時擔任「社區陪審團」，修正全民投票的人情拉票、小號舞弊</li>
+          <li style="margin-bottom:10px"><b class="em-green">難點一</b>：建築師皆為普通用戶，不知道如何提供有效的裁決建議，或自己就不熟悉社區規則，主觀意見難收斂，變成各說各話</li>
+          <li style="margin-bottom:10px"><b class="em-green">難點二</b>：建築師內部也有人情因素，例如站隊、爭吵、形成派系，無法有效修正全民投票的弊端</li>
+          <li><b class="em-green">最後</b>：運作不到一年告停。從結果看，站方最花時間的，不是訴訟案，而是<b>陪審團內部的爭吵與調停</b></li>
         </ul>
       </div>
       <div class="case">
@@ -1207,8 +1208,8 @@
         <ul style="margin:0;padding-left:1.1em;font-size:21px;line-height:1.55;color:var(--m-fg);list-style:disc">
           <li style="margin-bottom:12px">2025/01 春節，台灣使用者突然連不上，顯示「偽冒網址」警告</li>
           <li style="margin-bottom:12px">起因：民眾檢舉二次詐騙文，觸發 DNS-RPZ 網域層級封鎖</li>
-          <li style="margin-bottom:12px">過年承辦人找不到，靠私人關係聯繫到執行長才解封——歷時 3 天</li>
-          <li>反思：平台對使用者要求的程序，<b>自己被治理時也應該得到</b></li>
+          <li style="margin-bottom:12px">過年找不到承辦人，靠私人關係聯繫到執行長才解封——歷時 3 天，<b>對網站使用造成明顯影響</b></li>
+          <li>反思：治理的規則很重要，但相對應的<b>救濟機制</b>也很重要，讓我們反思 Matters 自身的數位治理機制是否完備</li>
         </ul>
       </div>
     </div>
@@ -1261,11 +1262,32 @@
 </section>
 
 <!-- =========================================================
-     Slide 22 — 預計可講：開源審查演算法的三件事 (flow chart)
+     Slide 22 — 審查演算法框架 (full-width chart reveal)
      ========================================================= -->
-<section data-label="22 多層次偵測流程">
+<section data-label="22 審查演算法框架">
   <div class="frame">
     <div class="eyebrow"><span class="num">22</span>Duke ／ 預計可講</div>
+    <h2 class="title">審查演算法框架</h2>
+    <div class="flow" style="max-width:820px;margin:32px auto 0;flex:1;justify-content:center;gap:10px">
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LAYER 1</span>語義特徵（BERT 類編碼器）</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LAYER 2</span>行為偵測（事件驅動，AWS Lambda 觸發）</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LAYER 3</span>信任評分</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step solid" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">ACTION</span>公共面排除（不刪除）</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LOOP</span>人工複核 → 回訓迭代</div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 23 — 開源審查演算法的三件事 (framework + 2 questions)
+     ========================================================= -->
+<section data-label="23 多層次偵測流程">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">23</span>Duke ／ 預計可講</div>
     <h2 class="title">開源審查演算法的三件事</h2>
     <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:64px;flex:1;align-items:start">
       <div class="flow" style="justify-content:flex-start;padding-top:8px">
