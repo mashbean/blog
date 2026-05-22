@@ -1,0 +1,1544 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>g0v Summit 2026 — Matters 工作坊簡報</title>
+<script src="deck-stage.js"></script>
+
+<!-- Matters Design System fonts (Phase 8a slide-theme aligns with Noto Sans TC + Noto Serif TC) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ---------------------------------------------------------------
+     Matters Design System — canonical tokens (PM 2026-04-24 拍板)
+     - Brand:   --color-brand-new-purple #7258FF
+                --color-brand-new-green  #C3F432
+     - Greys, typography, layout cribbed from
+       thematters/design-system / apps/slide-theme/styles/base.css
+     --------------------------------------------------------------- */
+  :root {
+    /* canonical brand */
+    --m-purple: #7258FF;
+    --m-purple-soft: #EFEBFF;
+    --m-neon: #C3F432;
+    --m-neon-soft: #EEFBC9;
+
+    /* greys */
+    --m-black: #000000;
+    --m-ink: #1A1A1A;
+    --m-fg: #1A1A1A;
+    --m-muted: #6B6B6B;
+    --m-rule: #E5E5E5;
+    --m-soft: #F5F5F5;
+    --m-softer: #FAFAFA;
+    --m-white: #FFFFFF;
+
+    /* status (kept for occasional use) */
+    --m-positive: #5C9969;
+    --m-warn: #DBA34F;
+    --m-negative: #C85C41;
+
+    /* legacy aliases — entire deck still references these names; remap to canonical */
+    --c-green: var(--m-ink);
+    --c-green-hover: #000000;
+    --c-green-press: var(--m-purple);
+    --c-green-lighter: var(--m-purple-soft);
+    --c-gold: var(--m-purple);
+    --c-gold-hover: var(--m-purple);
+    --c-yellow-lighter: var(--m-soft);
+    --c-purple: var(--m-purple);
+    --c-neon: var(--m-neon);
+    --c-black: var(--m-ink);
+    --c-noir: var(--m-black);
+    --c-grey-darker: #6B6B6B;
+    --c-grey-dark: #8A8A8A;
+    --c-grey: #B3B3B3;
+    --c-grey-light: var(--m-rule);
+    --c-grey-hover: #EDEDED;
+    --c-grey-lighter: var(--m-softer);
+    --c-white: var(--m-white);
+    --c-positive: var(--m-positive);
+    --c-warn: var(--m-warn);
+    --c-negative: var(--m-negative);
+
+    --font-ui: "Noto Sans TC","PingFang TC","Heiti TC","Microsoft JhengHei",system-ui,sans-serif;
+    --font-serif: "Noto Serif TC","Source Han Serif TC","PingFang TC",serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+
+    /* slide-scale tokens (1920×1080) */
+    --pad-x: 120px;
+    --pad-top: 100px;
+    --pad-bottom: 96px;
+    --title-gap: 52px;
+    --item-gap: 28px;
+
+    /* type scale */
+    --t-display: 132px;
+    --t-title: 76px;
+    --t-subtitle: 44px;
+    --t-body: 34px;
+    --t-small: 28px;
+    --t-eyebrow: 26px;
+  }
+
+  html, body { margin: 0; padding: 0; background: #000; color: var(--m-fg); font-family: var(--font-ui); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+  deck-stage { background: #000; }
+  section { background: var(--m-white); color: var(--m-fg); font-family: var(--font-ui); overflow: hidden; position: relative; }
+
+  /* Matters signature: <strong> gets a neon-green highlighter underline.
+     This is the single most recognisable type treatment from the design system. */
+  section strong, section b {
+    font-weight: 600;
+    background: linear-gradient(transparent 62%, var(--m-neon) 62%, var(--m-neon) 92%, transparent 92%);
+    padding: 0 2px;
+    color: var(--m-fg);
+  }
+  /* turn it off where the local component already provides emphasis */
+  .pill strong, .pill b,
+  .callout strong, .callout b,
+  .agenda-row strong, .agenda-row b,
+  .case strong, .case b,
+  .three-line strong, .three-line b,
+  table.matters strong, table.matters b,
+  .speaker-row strong, .speaker-row b { background: none; padding: 0; }
+
+  /* corner brand mark on every content slide */
+  section .brand-mark {
+    position: absolute; right: 56px; bottom: 44px;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 18px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--m-muted);
+    user-select: none;
+  }
+  section .brand-mark::before {
+    content: ""; width: 14px; height: 14px; border-radius: 50%;
+    background: var(--m-purple);
+    box-shadow: inset 0 0 0 3px var(--m-white);
+    outline: 2px solid var(--m-purple);
+  }
+
+  /* ---------- Reusable layout helpers ---------- */
+  .frame {
+    width: 100%; height: 100%;
+    padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+    box-sizing: border-box;
+    display: flex; flex-direction: column;
+  }
+  .eyebrow {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--m-purple);
+    margin: 0 0 28px;
+  }
+  .eyebrow .num {
+    color: var(--m-fg);
+    margin-right: 20px;
+    font-variant-numeric: tabular-nums;
+    background: var(--m-neon);
+    padding: 2px 10px;
+  }
+  .title {
+    font-family: var(--font-ui);
+    font-weight: 600;
+    font-size: var(--t-title);
+    line-height: 1.2;
+    color: var(--m-fg);
+    margin: 0 0 var(--title-gap);
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-size: var(--t-subtitle);
+    font-weight: 400;
+    line-height: 1.45;
+    color: #444;
+    margin: 0 0 40px;
+  }
+  .body {
+    font-size: var(--t-body);
+    line-height: 1.6;
+    color: var(--c-black);
+  }
+  .small {
+    font-size: var(--t-small);
+    line-height: 1.55;
+    color: #555;
+  }
+
+  /* horizontal accent line under eyebrow */
+  .rule {
+    width: 64px; height: 4px; background: var(--m-purple);
+    margin: 0 0 36px;
+  }
+
+  /* page chrome: corner mark */
+  .chrome-tl, .chrome-br {
+    position: absolute;
+    font-size: 22px;
+    font-family: var(--font-ui);
+    color: var(--c-grey-dark);
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+  .chrome-tl { top: 56px; left: var(--pad-x); }
+  .chrome-br { bottom: 56px; right: var(--pad-x); }
+
+  /* ---------- Tables ---------- */
+  table.matters {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-small);
+    line-height: 1.5;
+  }
+  table.matters thead th {
+    text-align: left;
+    font-weight: 600;
+    color: var(--m-muted);
+    border-bottom: 2px solid var(--m-fg);
+    padding: 18px 20px;
+    font-size: 22px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  table.matters tbody td {
+    border-bottom: 1px solid var(--c-grey-light);
+    padding: 20px;
+    vertical-align: top;
+    font-size: 26px;
+    line-height: 1.55;
+    color: var(--c-black);
+  }
+  table.matters tbody tr:last-child td { border-bottom: none; }
+  table.matters .em { font-weight: 600; color: var(--c-green-press); }
+
+  /* ---------- Callouts ---------- */
+  .callout {
+    border-left: 6px solid var(--m-purple);
+    background: var(--m-soft);
+    padding: 28px 36px;
+    font-size: var(--t-body);
+    line-height: 1.55;
+    color: var(--m-fg);
+    border-radius: 0;
+  }
+  .callout.green {
+    border-left-color: var(--m-purple);
+    background: var(--m-purple-soft);
+  }
+
+  /* big quote — Noto Serif TC, no decorative bar (Matters reading aesthetic) */
+  .pullquote {
+    font-family: var(--font-serif);
+    font-size: 52px;
+    line-height: 1.5;
+    color: var(--m-fg);
+    font-weight: 400;
+    border-left: 4px solid var(--m-purple);
+    padding: 12px 0 12px 48px;
+    margin: 0;
+    position: relative;
+  }
+  .pullquote .src { display: block; font-family: var(--font-ui); font-size: 24px; color: var(--m-muted); margin-top: 32px; font-weight: 500; letter-spacing: 0.06em; }
+
+  /* ---------- Section divider — black (is-inverse) with neon eyebrow ---------- */
+  section.section-divider {
+    background: var(--m-black);
+    color: var(--m-white);
+  }
+  section.section-divider .frame { justify-content: center; }
+  section.section-divider strong, section.section-divider b {
+    color: var(--m-black);
+    background: linear-gradient(transparent 62%, var(--m-neon) 62%, var(--m-neon) 92%, transparent 92%);
+  }
+  .sec-num {
+    font-family: var(--font-serif);
+    font-size: 200px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--m-neon);
+    margin: 0 0 32px;
+    letter-spacing: -0.02em;
+  }
+  .sec-label {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--m-neon);
+    margin: 0 0 28px;
+  }
+  .sec-title {
+    font-family: var(--font-serif);
+    font-size: 96px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--m-white);
+    margin: 0 0 36px;
+    letter-spacing: -0.01em;
+  }
+  .sec-sub {
+    font-size: 28px;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.7);
+    max-width: 1300px;
+  }
+
+  /* ---------- Lists ---------- */
+  ul.bullets, ol.numbered { margin: 0; padding: 0; list-style: none; }
+  ul.bullets li {
+    font-size: var(--t-body);
+    line-height: 1.55;
+    padding-left: 36px;
+    position: relative;
+    margin-bottom: var(--item-gap);
+  }
+  ul.bullets li::before {
+    content: ""; position: absolute; left: 0; top: 22px;
+    width: 12px; height: 12px; background: var(--m-purple); border-radius: 50%;
+  }
+  ol.numbered { counter-reset: num; }
+  ol.numbered > li {
+    counter-increment: num;
+    font-size: var(--t-body);
+    line-height: 1.55;
+    padding-left: 76px;
+    position: relative;
+    margin-bottom: 36px;
+  }
+  ol.numbered > li::before {
+    content: counter(num,decimal-leading-zero);
+    position: absolute; left: 0; top: 4px;
+    font-family: var(--font-serif);
+    font-size: 40px; font-weight: 700; color: var(--m-purple);
+    font-variant-numeric: tabular-nums;
+  }
+  ol.numbered > li .lead {
+    display: block; font-weight: 600; color: var(--m-fg); margin-bottom: 10px; font-size: 38px;
+  }
+
+  /* ---------- Cover (matches Matters slide-theme cover.css) ---------- */
+  section.cover { background: var(--m-white); }
+  section.cover .frame { padding: 110px 120px 100px; }
+  .cover-meta {
+    font-size: 24px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--m-purple); margin: 0 0 32px;
+  }
+  .cover-title {
+    font-family: var(--font-serif);
+    font-size: 124px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--m-fg);
+    margin: 0 0 36px;
+    letter-spacing: -0.012em;
+  }
+  .cover-sub {
+    font-family: var(--font-ui);
+    font-size: 40px; font-weight: 400;
+    line-height: 1.5; color: var(--m-muted);
+    margin: 0 0 60px;
+    max-width: 1500px;
+  }
+  .cover-rule { display: none; }
+  .cover-foot {
+    display: flex; gap: 88px; margin-top: auto;
+    padding-top: 36px;
+    border-top: 1px solid var(--m-rule);
+  }
+  .cover-foot .label { color: var(--m-muted); letter-spacing: 0.18em; font-size: 24px; margin-bottom: 10px; text-transform: uppercase; font-weight: 600; }
+  .cover-foot .val { color: var(--m-fg); font-weight: 500; font-size: 28px; }
+
+  /* ---------- Two column ---------- */
+  .col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; flex: 1; }
+  .col-1-2 { display: grid; grid-template-columns: 1fr 1.6fr; gap: 80px; flex: 1; }
+
+  /* card */
+  .card {
+    background: var(--m-softer);
+    border: 1px solid var(--m-rule);
+    border-radius: 0;
+    padding: 36px 40px;
+  }
+  .card h4 {
+    font-size: 32px; font-weight: 600; color: var(--m-fg); margin: 0 0 18px;
+  }
+  .card p {
+    font-size: 26px; line-height: 1.6; color: var(--m-fg); margin: 0 0 12px;
+  }
+
+  /* speaker grid */
+  .speakers { display: grid; grid-template-columns: 1fr; gap: 0; flex: 1; }
+  .speaker-row {
+    display: grid;
+    grid-template-columns: 240px 1fr 1.2fr;
+    gap: 40px;
+    padding: 22px 24px;
+    border-bottom: 1px solid var(--m-rule);
+    align-items: baseline;
+  }
+  .speaker-row:first-of-type { border-top: 2px solid var(--m-fg); }
+  .speaker-row .role { color: var(--m-purple); font-size: 18px; letter-spacing: 0.16em; font-weight: 600; text-transform: uppercase; }
+  .speaker-row .name { font-size: 30px; color: var(--m-fg); font-weight: 600; font-family: var(--font-serif); }
+  .speaker-row .name .org { display: block; font-size: 22px; color: var(--m-muted); font-weight: 400; margin-top: 6px; font-family: var(--font-ui); }
+  .speaker-row .angle { font-size: 24px; color: var(--m-fg); line-height: 1.55; }
+
+  /* agenda */
+  .agenda-row {
+    display: grid;
+    grid-template-columns: 280px 1fr 120px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--m-rule);
+    align-items: baseline;
+    gap: 32px;
+  }
+  .agenda-row.head { border-bottom: 2px solid var(--m-fg); color: var(--m-muted); font-weight: 600; font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .agenda-row .time { font-variant-numeric: tabular-nums; color: var(--m-muted); font-size: 24px; font-family: var(--font-mono); }
+  .agenda-row .what { font-size: 26px; color: var(--m-fg); }
+  .agenda-row .what b { color: var(--m-fg); }
+  .agenda-row .min { text-align: right; font-variant-numeric: tabular-nums; font-size: 26px; color: var(--m-fg); font-weight: 600; font-family: var(--font-mono); }
+  .agenda-row.feat .what { font-weight: 500; }
+
+  /* ---------- Slide 09: dual-layer architecture ---------- */
+  .arch {
+    flex: 1; display: grid; grid-template-rows: auto auto auto auto;
+    align-content: center; gap: 28px; margin-top: 12px;
+  }
+  .arch-row { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center; }
+  .arch-label {
+    font-size: 24px; letter-spacing: 0.18em; color: var(--c-grey-darker); font-weight: 500;
+  }
+  .arch-band {
+    border-radius: 14px; padding: 30px 36px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+  }
+  .arch-band.public {
+    background: var(--m-fg); color: var(--m-white);
+  }
+  .arch-band.public h5 { color: var(--m-neon); }
+  .arch-band.shadow {
+    background: var(--m-softer); border: 1px dashed var(--m-muted); color: var(--m-fg);
+  }
+  .arch-band h5 { font-size: 26px; margin: 0 0 8px; font-weight: 600; }
+  .arch-band p { font-size: 22px; margin: 0; line-height: 1.5; opacity: 0.9; }
+  .arch-divider {
+    text-align: center; font-size: 18px; letter-spacing: 0.32em; color: var(--m-purple); font-weight: 600; text-transform: uppercase;
+  }
+  .arch-content {
+    background: var(--m-purple-soft);
+    border-left: 6px solid var(--m-purple);
+    padding: 24px 32px;
+    font-size: 26px; color: var(--m-fg);
+  }
+
+  /* ---------- Slide 13: timeline ---------- */
+  .timeline {
+    flex: 1; display: flex; align-items: center; justify-content: space-between;
+    padding: 48px 0 64px;
+    position: relative;
+  }
+  .timeline::before {
+    content: ""; position: absolute; top: 50%; left: 4%; right: 4%;
+    height: 2px; background: var(--m-rule); z-index: 0;
+  }
+  .tl-step {
+    position: relative; z-index: 1;
+    width: 22%;
+    text-align: center;
+  }
+  .tl-year {
+    font-family: var(--font-serif);
+    font-size: 40px; font-weight: 700; color: var(--m-purple); margin-bottom: 24px; font-variant-numeric: tabular-nums;
+  }
+  .tl-dot {
+    width: 28px; height: 28px; background: var(--m-white);
+    border: 4px solid var(--m-purple); border-radius: 50%;
+    margin: 0 auto 32px;
+  }
+  .tl-step:nth-child(4) .tl-dot { background: var(--m-neon); border-color: var(--m-fg); }
+  .tl-name {
+    font-size: 30px; font-weight: 600; color: var(--m-fg); margin-bottom: 12px;
+  }
+  .tl-desc {
+    font-size: 22px; color: var(--m-muted); line-height: 1.5;
+  }
+
+  /* ---------- Slide 22: detection flow ---------- */
+  .flow {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  }
+  .flow-step {
+    background: var(--m-white);
+    border: 2px solid var(--m-fg);
+    border-radius: 0;
+    padding: 14px 40px;
+    font-size: 24px; color: var(--m-fg);
+    min-width: 540px; text-align: center;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .flow-step .lab { display: block; font-size: 14px; letter-spacing: 0.22em; color: var(--m-purple); margin-bottom: 4px; text-transform: uppercase; font-weight: 600; }
+  .flow-step.solid { background: var(--m-fg); color: var(--m-white); border-color: var(--m-fg); }
+  .flow-step.solid .lab { color: var(--m-neon); }
+  .flow-arrow { width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 12px solid var(--m-purple); }
+
+  /* ---------- Big number ---------- */
+  .bignum {
+    font-family: var(--font-serif);
+    font-size: 280px;
+    line-height: 0.95;
+    font-weight: 700;
+    color: var(--m-fg);
+    letter-spacing: -0.03em;
+  }
+  .bignum .pct { color: var(--m-purple); font-size: 180px; }
+
+  /* three case cards */
+  .cases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; flex: 1; }
+  .case {
+    background: var(--m-white);
+    border: 1px solid var(--m-rule);
+    border-top: 4px solid var(--m-purple);
+    padding: 32px 32px 36px;
+    border-radius: 0;
+    display: flex; flex-direction: column;
+  }
+  .case .tag { font-size: 16px; letter-spacing: 0.22em; color: var(--m-purple); font-weight: 600; margin-bottom: 14px; text-transform: uppercase; }
+  .case h4 { font-size: 30px; color: var(--m-fg); margin: 0 0 20px; line-height: 1.3; font-weight: 600; }
+  .case p { font-size: 22px; color: var(--m-fg); line-height: 1.6; margin: 0; }
+
+  /* three-line summary */
+  .three-lines { display: flex; flex-direction: column; gap: 36px; flex: 1; justify-content: center; }
+  .three-line {
+    display: grid; grid-template-columns: 120px 1fr; gap: 36px; align-items: start;
+    padding-bottom: 32px; border-bottom: 1px solid var(--m-rule);
+  }
+  .three-line:last-child { border-bottom: none; }
+  .three-line .num { font-family: var(--font-serif); font-size: 88px; font-weight: 700; color: var(--m-purple); line-height: 1; font-variant-numeric: tabular-nums; }
+  .three-line .text { font-size: 38px; line-height: 1.5; color: var(--m-fg); }
+
+  /* end card */
+  section.end { background: var(--m-black); color: var(--m-white); }
+  section.end .frame { justify-content: center; align-items: center; text-align: center; }
+  section.end strong, section.end b {
+    color: var(--m-black);
+    background: linear-gradient(transparent 62%, var(--m-neon) 62%, var(--m-neon) 92%, transparent 92%);
+  }
+  section.end .thanks {
+    font-family: var(--font-serif);
+    font-size: 220px;
+    color: var(--m-neon);
+    margin: 0 0 40px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  section.end .meta { font-size: 24px; color: rgba(255,255,255,0.6); margin-bottom: 12px; letter-spacing: 0.18em; text-transform: uppercase; }
+  section.end .contact { font-size: 32px; color: var(--m-white); }
+
+  /* utility */
+  .em-green { color: var(--m-fg); font-weight: 600; }
+  .em-gold { color: var(--m-purple); font-weight: 600; }
+  .mono { font-family: var(--font-mono); }
+
+  /* small inline tag */
+  .pill {
+    display: inline-block; background: var(--m-purple-soft); color: var(--m-purple);
+    border: 1px solid var(--m-purple); padding: 4px 14px; border-radius: 999px;
+    font-size: 22px; letter-spacing: 0.06em; font-weight: 500;
+  }
+  .pill.gold { background: var(--m-neon-soft); border-color: var(--m-fg); color: var(--m-fg); }
+
+  /* slide 10 quote layout */
+  .quote-frame { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; flex: 1; }
+  .insight ul { margin: 0; padding: 0; list-style: none; }
+  .insight li {
+    border-left: 3px solid var(--m-purple);
+    padding: 14px 0 14px 28px;
+    font-size: 26px; line-height: 1.6;
+    margin-bottom: 22px;
+  }
+</style>
+
+<script type="application/json" id="speaker-notes">[]</script>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- =========================================================
+     Slide 01 — 封面
+     ========================================================= -->
+<section data-label="01 封面" class="cover">
+  <div class="frame">
+    <div class="cover-meta">g0v Summit 2026 ／ 分享工作坊</div>
+    <div class="cover-rule"></div>
+    <h1 class="cover-title">平台使用者是商品、<br>是消費者、還是公民？</h1>
+    <p class="cover-sub">實踐平台審查演算法開源與其中的治理難題</p>
+    <div class="cover-foot">
+      <div>
+        <div class="label">場次</div>
+        <div class="val">g0v Summit 2026</div>
+      </div>
+      <div>
+        <div class="label">支持單位</div>
+        <div class="val">2026 年度 TWNIC 網路社群計畫</div>
+      </div>
+      <div>
+        <div class="label">工作坊方主</div>
+        <div class="val">Matters Lab</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 01b — Hack the platform (black manifesto)
+     ========================================================= -->
+<section data-label="01b HACK THE PLATFORM" class="section-divider">
+  <div class="frame" style="justify-content:center;align-items:flex-start">
+    <div class="sec-label" style="margin-bottom:48px">MANIFESTO</div>
+    <div style="font-family:var(--font-serif);font-weight:700;font-size:160px;line-height:1.05;letter-spacing:-0.02em;color:rgba(255,255,255,0.45);text-decoration:line-through;text-decoration-thickness:10px;text-decoration-color:var(--m-neon);margin:0 0 36px">HACK THE GOVERNMENT</div>
+    <div style="font-family:var(--font-serif);font-weight:700;font-size:200px;line-height:1.02;letter-spacing:-0.02em;color:var(--m-neon);margin:0">HACK THE PLATFORM</div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 02 — 為什麼是這個題目
+     ========================================================= -->
+<section data-label="02 為什麼是這個題目">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">02</span>為什麼是這個題目</div>
+    <h2 class="title">一個結構性的悖論</h2>
+    <div class="col2" style="align-items:start">
+      <div>
+        <p class="body" style="margin:0 0 36px">
+          主流社群平台用演算法決定言論的可見度，<br>
+          但決策邏輯被視為商業機密，<br>
+          使用者被下架也無從理解、無從救濟。
+        </p>
+        <h3 style="font-size:34px;color:var(--c-green-press);margin:32px 0 18px;font-weight:600">Matters 的特殊位置</h3>
+        <ul class="bullets">
+          <li>中文圈罕見的抗審查內容平台</li>
+          <li>同時面對每天 70–80% 垃圾內容、詐騙、言論操弄</li>
+          <li>「內容自主」與「內容審查」在這裡實質共生</li>
+        </ul>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="callout">因此這場工作坊想要打破「平台 vs. 審查」的對立敘事，或許可以找出「在打詐與言論自由的張力中，良善的治理路徑」</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 03 — 三個核心問題
+     ========================================================= -->
+<section data-label="03 三個核心問題">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">03</span>核心問題</div>
+    <h2 class="title">三個核心問題</h2>
+    <ol class="numbered" style="margin-top:24px">
+      <li>
+        <span class="lead">內容治理的權力結構</span>
+        平台用什麼資料、什麼模型決定內容的「留存與移除」？這個權力如何影響使用者權利與公共利益？
+      </li>
+      <li>
+        <span class="lead">人權保障的最低門檻</span>
+        公開審查演算法後，要怎樣建立「可被公民理解與檢驗」的透明度？
+      </li>
+      <li>
+        <span class="lead">高風險群體的兩難</span>
+        女性、兒少、倡議者、TNR 受害者——如何在防詐、反操弄、反暴力與表意自由之間找出多方都能接受的方案？
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 04 — 講者陣容
+     ========================================================= -->
+<section data-label="04 講者陣容">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">04</span>講者陣容</div>
+    <h2 class="title">五位講者，四個視角</h2>
+    <div class="speakers">
+      <div class="speaker-row">
+        <div class="role">創造｜創辦人視角</div>
+        <div class="name">張潔平 Annie Zhang<span class="org">Matters 創辦人</span></div>
+        <div class="angle">Matters 創辦的緣由，以及面臨的問題</div>
+      </div>
+      <div class="speaker-row">
+        <div class="role">主持人 + 引言</div>
+        <div class="name">黃豆泥 mashbean<span class="org">Matters Lab 總經理</span></div>
+        <div class="angle">平台的後台長什麼樣？平台營運者？平台治理？</div>
+      </div>
+      <div class="speaker-row">
+        <div class="role">案例｜運營</div>
+        <div class="name">李映昕 Yingshin Lee<span class="org">Matters 社群主管</span></div>
+        <div class="angle">12 個關鍵治理事件、用戶訪談洞察</div>
+      </div>
+      <div class="speaker-row">
+        <div class="role">案例｜技術</div>
+        <div class="name">Duke Wang<span class="org">開源社群貢獻者</span></div>
+        <div class="angle">spam-detection-scaffold 開源實踐</div>
+      </div>
+      <div class="speaker-row">
+        <div class="role">與談｜使用者</div>
+        <div class="name">Denken Chen<span class="org">獨立技術社群</span></div>
+        <div class="angle">技術背景使用者眼中的平台治理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Section 0 divider — Annie Zhang
+     ========================================================= -->
+<section data-label="S0 — Annie 創辦人視角" class="section-divider">
+  <div class="frame">
+    <div class="sec-num">00</div>
+    <div class="sec-label">SECTION ZERO</div>
+    <h2 class="sec-title">張潔平：Matters 與媒體產業的前世今生</h2>
+    <p class="sec-sub">沙地上的城堡、平台作為一種解決方案？後來呢？</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     Section 1 divider
+     ========================================================= -->
+<section data-label="S1 — mashbean 平台的後台" class="section-divider">
+  <div class="frame">
+    <div class="sec-num">01</div>
+    <div class="sec-label">SECTION ONE</div>
+    <h2 class="sec-title">mashbean：平台的後台長什麼樣？</h2>
+    <p class="sec-sub">平台營運者？平台治理？</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 06 — 我會用 12 分鐘做四件事
+     ========================================================= -->
+<section data-label="06 我會用 12 分鐘做四件事">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">06</span>mashbean ／ 12 分鐘</div>
+    <h2 class="title">Matters 平台治理史</h2>
+    <ol class="numbered">
+      <li>
+        為什麼這個工作坊存在：<span class="em-green">TWNIC 計畫的問題意識</span>
+      </li>
+      <li>
+        <span class="em-green">為什麼 Matters 抗審查</span>：歷史脈絡、技術設計、對使用者的真實意義
+      </li>
+      <li>
+        <span class="em-green">為什麼 Matters 不得不審查</span>：每天 70–80% 是垃圾，三類具體威脅
+      </li>
+      <li>
+        <span class="em-green">Legal 視角</span>：從用戶協議到 TWNIC 誤封——治理的另一面
+      </li>
+    </ol>
+    <div class="callout" style="margin-top:32px">建構一個平台的共同觀察前提</div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 07 — TWNIC 計畫的問題意識
+     ========================================================= -->
+<section data-label="07 TWNIC 計畫的問題意識">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">07</span>TWNIC 計畫的問題意識</div>
+    <h2 class="title">《審查還是抗審查？<br>網路平台「透明開盒」的兩難》</h2>
+    <div class="col2" style="margin-top:8px">
+      <div>
+        <h3 style="font-size:32px;color:var(--c-green-press);margin:0 0 20px;font-weight:600">雙重壓力</h3>
+        <ul class="bullets">
+          <li>平台必須打詐、防垃圾內容，否則使用者體驗崩潰</li>
+          <li>平台又必須維持言論自由與公共性，否則公共討論消失</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:32px;color:var(--c-green-press);margin:0 0 20px;font-weight:600">核心策略</h3>
+        <div class="callout">
+          以一個<strong>抗審查內容平台</strong>為示範場域，做一件商業平台不會做的事——<br>
+          公開審查演算法、公開治理流程、公開誤判案例。
+        </div>
+      </div>
+    </div>
+    <h3 style="font-size:28px;color:var(--c-grey-darker);letter-spacing:0.18em;margin:48px 0 20px;font-weight:500">九個月的執行框架（2026/1–2026/10）</h3>
+    <div style="display:flex;gap:18px;align-items:center;flex-wrap:nowrap;font-size:26px">
+      <span class="pill">演算法開源</span>
+      <span style="color:var(--c-gold);font-size:28px">➜</span>
+      <span class="pill">閉門研討</span>
+      <span style="color:var(--c-gold);font-size:28px">➜</span>
+      <span class="pill">公開工作坊</span>
+      <span style="color:var(--c-gold);font-size:28px">➜</span>
+      <span class="pill">DNS-RPZ 專題</span>
+      <span style="color:var(--c-gold);font-size:28px">➜</span>
+      <span class="pill">公開報告</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 08 — 為什麼 Matters 抗審查（一）：歷史脈絡
+     ========================================================= -->
+<section data-label="08 抗審查（一）歷史脈絡">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">08</span>為什麼 Matters 抗審查（一）</div>
+    <h2 class="title">歷史脈絡</h2>
+    <div class="col2" style="align-items:start;gap:64px">
+      <div>
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:24px;margin-bottom:32px">
+          <div style="font-size:36px;font-weight:600;color:var(--c-gold);font-variant-numeric:tabular-nums">2018</div>
+          <div style="font-size:26px;line-height:1.55"><b style="color:var(--c-green-press)">Matters 開站</b><br>中文世界少數能同時聚合台、港、中、海外華語使用者的公共討論平台</div>
+        </div>
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:24px;margin-bottom:32px">
+          <div style="font-size:36px;font-weight:600;color:var(--c-gold);font-variant-numeric:tabular-nums">2019</div>
+          <div style="font-size:26px;line-height:1.55"><b style="color:var(--c-green-press)">香港反修例</b><br>大量第一手記錄、被刪報導備份至 Matters；兩岸三地用戶湧入，使 Matters 成為簡中圈知名的言論集散地。同年也是垃圾廣告、政治網軍開始大量出現的時間點。</div>
+        </div>
+        <div style="display:grid;grid-template-columns:160px 1fr;gap:24px">
+          <div style="font-size:36px;font-weight:600;color:var(--c-gold);font-variant-numeric:tabular-nums">2020</div>
+          <div style="font-size:26px;line-height:1.55"><b style="color:var(--c-green-press)">香港國安法後</b><br>法人主體從香港遷至美國，適用法律隨之變更。</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="callout green">抗審查是根據使用者需求定位而生的服務。
+基於這個脈絡，審查與抗審查的張力很大
+
+流亡記者、獨立倡議者、被刪文的作者具有實質需求，但是更多的是一般使用者的日常文章</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 09 — 為什麼 Matters 抗審查（二）：技術方法
+     ========================================================= -->
+<section data-label="09 抗審查（二）技術方法">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">09</span>為什麼 Matters 抗審查（二）</div>
+    <h2 class="title">技術方法：站內可下架，站外仍可達</h2>
+
+    <div class="arch">
+      <div class="arch-row">
+        <div class="arch-label">站內入口<br>（平台可控）</div>
+        <div class="arch-band public">
+          <div>
+            <h5>matters.town 主站</h5>
+            <p>排序、推薦、搜尋、公共動態</p>
+          </div>
+          <div>
+            <h5>個人頁／追蹤</h5>
+            <p>站內社交圖譜</p>
+          </div>
+          <div>
+            <h5>治理對象</h5>
+            <p>可移除、可隱藏、可關小黑屋</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-divider">↑ 公共入口與排序 ／ 平台真正能控制的層 ↓</div>
+
+      <div class="arch-row">
+        <div class="arch-label">內容本體<br>（不可下架）</div>
+        <div class="arch-content">
+          <b>內容上鏈（IPFS）：</b>2018 年起每篇文章上傳至 IPFS 節點。即使主站下架，使用者仍可透過 CID 取用內容。
+        </div>
+      </div>
+      <div class="arch-row">
+        <div class="arch-label">站外入口<br>（站外可達）</div>
+        <div class="arch-band shadow">
+          <div>
+            <h5>ENS contenthash</h5>
+            <p>創作者可用 ENS 名稱解析到 IPFS 內容</p>
+          </div>
+          <div>
+            <h5>CID／IPFS gateway</h5>
+            <p>任何節點都可重組與閱讀</p>
+          </div>
+          <div>
+            <h5>最低限度個資</h5>
+            <p>不要求實名、不蒐集多餘個資、無私訊功能</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout green" style="margin-top:8px">
+      平台真正能控制的，是<strong>公共入口與排序</strong>，不是內容本體。<br>
+      這個分層，是後面所有治理討論的起點。
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 10 — 為什麼 Matters 抗審查（三）：對使用者的真實意義（quote）
+     ========================================================= -->
+<section data-label="10 抗審查（三）使用者意義">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">10</span>為什麼 Matters 抗審查（三）</div>
+    <h2 class="title">對使用者的真實意義</h2>
+    <div class="quote-frame">
+      <div>
+        <blockquote class="pullquote">
+          「沒有審查，是 Matters 一個很大的隱性 incentive，你們打出的是區塊鏈，但其實留住我的，是這個。<br><br>
+          你們沒有私訊功能，也是非常好的，讓我覺得 safe。」
+          <span class="src">—— 匿名訪談使用者，馬特市建築師、現居歐洲
+（取自 Matters 重度使用者訪談）</span>
+        </blockquote>
+      </div>
+      <div class="insight" style="display:flex;flex-direction:column;justify-content:center">
+        <div style="font-size:26px;letter-spacing:0.16em;color:var(--c-grey-darker);margin-bottom:18px">這段話揭示了</div>
+        <ul>
+          <li>抗審查對使用者而言是「能不能說真話」的最底層條件</li>
+          <li>但平台自己很少把這件事當作主要功能</li>
+          <li>使用者選擇 Matters，等於默許了一個交換：<b class="em-green">自由 + 自我審查</b></li>
+        </ul>
+        <div class="callout" style="margin-top:28px;font-size:28px">
+          這是這場工作坊的核心張力之一：<br>
+          <strong>使用者要的是不被審查的自由，平台給的卻必然是有限度的自由。</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 11 — 為什麼 Matters 不得不審查
+     ========================================================= -->
+<section data-label="11 不得不審查">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">11</span>為什麼 Matters 不得不審查</div>
+    <h2 class="title">每天的真實樣貌</h2>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:64px;align-items:start;flex:1">
+      <div style="text-align:center;align-self:center">
+        <div class="bignum">70<span class="pct">%</span></div>
+        <div style="font-size:26px;color:var(--c-grey-darker);margin-top:48px;letter-spacing:0.12em;line-height:1.55">每日新註冊／發文中<br>是垃圾內容（70–80%）</div>
+      </div>
+      <div>
+        <table class="matters">
+          <thead>
+            <tr><th style="width:24%">類型</th><th>代表樣態</th><th style="width:22%">出現時機</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">公共面污染</td><td>色情外送茶、賣藥、賭博貸款、SEO 商業洗版</td><td>2019 冬起</td></tr>
+            <tr><td class="em">政治網軍</td><td>郭文貴、閆麗夢系列；近年延伸至賴清德、蔡英文</td><td>2020 冬起</td></tr>
+            <tr><td class="em">偽裝型違害</td><td>二次詐騙文、複製貼上騷擾、模仿正常文章樣貌</td><td>2022 起</td></tr>
+            <tr><td class="em">真實世界侵害</td><td>仿冒名人、盜用身份、誹謗、未成年素材</td><td>2019–2024</td></tr>
+            <tr><td class="em">基礎設施攻擊</td><td>DDoS（2019、2022 兩次大規模）、信用卡盜刷金流攻擊（2021）</td><td>階段性</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="callout" style="margin-top:28px">
+      <strong>抗審查特性反而讓我們成為惡意攻擊的高價值目標。</strong>沒有治理工具，平台會在 6 個月內完全失去公共性。
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 12 — 治理現場：三個具體案例
+     ========================================================= -->
+<section data-label="12 三個具體案例">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">12</span>治理現場</div>
+    <h2 class="title">三個具體案例</h2>
+    <div class="cases">
+      <div class="case">
+        <div class="tag">案例一｜2020</div>
+        <h4>政治網軍洗版「郭文貴」系列</h4>
+        <p>一天可出現幾十篇標題與內容高度重疊的文章。這群網軍延續三到四年，註銷一批又來一批。從郭文貴到閆麗夢，再到賴清德、蔡英文——這是有人專門經營的輿論戰場。</p>
+      </div>
+      <div class="case">
+        <div class="tag">案例二｜2020</div>
+        <h4>「吳敦義」假帳號</h4>
+        <p>用戶仿冒前副總統，認真扮演「主席」與其他名人聊天。直到收到本尊辦公室來信要求下架。揭示一件事：<b class="em-green">仿冒迷因的邊界，往往要等真實世界主動踩線才會浮現。</b></p>
+      </div>
+      <div class="case">
+        <div class="tag">案例三｜2021</div>
+        <h4>信用卡盜刷金流攻擊</h4>
+        <p>連續半年，每日上百筆惡意充值＋提現洗錢，攻擊者使用代碼自動化、跨時區持續作業。平台必須在「打擊洗錢」與「維持作者收益」之間找平衡。</p>
+      </div>
+    </div>
+    <div class="callout green" style="margin-top:32px">
+      這三個案例都不是「言論審查」的問題——但它們都讓平台<strong>不得不</strong>動用工具去處理。
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 13 — 治理工具的演化（time line）
+     ========================================================= -->
+<section data-label="13 治理工具演化">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">13</span>治理工具的演化</div>
+    <h2 class="title">從刪除走向可見度</h2>
+
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-year">2019</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">人工點選</div>
+        <div class="tl-desc">耗時打地鼠</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-year">2020</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">帳號註銷</div>
+        <div class="tl-desc">不可逆</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-year">2023</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">小黑屋（不進公共頁）</div>
+        <div class="tl-desc">可逆、可救濟</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-year">2024</div>
+        <div class="tl-dot"></div>
+        <div class="tl-name">模型守門</div>
+        <div class="tl-desc">回訓迭代</div>
+      </div>
+    </div>
+
+    <div class="col2" style="gap:48px;margin-top:8px">
+      <div>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:0 0 16px;font-weight:600">關鍵轉向</h3>
+        <ul class="bullets" style="font-size:26px">
+          <li>從「<b class="em-green">內容是否存在</b>」走向「<b class="em-green">內容能否被看見</b>」</li>
+          <li>與歐盟 DSA 對「移除／停權／限制可見度」三類處分的設計趨同</li>
+          <li>對應外部治理時，也要求<b class="em-green">事前通知、申訴的可近性、比例原則</b></li>
+        </ul>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="callout">
+          這個演化不是設計出來的，是<strong>被事件壓力推出來的</strong>。<br>
+          接下來 Yingshin 會帶你看具體事件如何形塑這條路徑。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 14 — Legal（一）：用戶協議與金流攻擊
+     ========================================================= -->
+<section data-label="14 Legal 一">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">14</span>Legal 視角（一）</div>
+    <h2 class="title">用戶協議與金流攻擊</h2>
+    <div class="col2" style="align-items:start">
+      <div>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:0 0 18px;font-weight:600">用戶協議與隱私政策的演進</h3>
+        <ul class="bullets" style="font-size:26px">
+          <li>2019 年首版：考量去中心化儲存、IPFS、未來錢包整合</li>
+          <li>2019.08：因 LikeCoin 合作更新</li>
+          <li>2020.07：香港國安法後，法人主體與適用法律遷至美國</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:0 0 18px;font-weight:600">2021 信用卡盜刷攻擊事件</h3>
+        <ul class="bullets" style="font-size:26px">
+          <li>攻擊者開發機器人、跨時區自動化、用 163／QQ 信箱</li>
+          <li>應對：Stripe 風控閾值調高、fingerprint 連坐封鎖、提現端設准入</li>
+          <li>教訓：<b class="em-green">法務、產品、運營必須在攻擊發生時即時聯動</b></li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout green" style="margin-top:36px">
+      多數平台的 Legal 是「被動接收信件」，<br>
+      <strong>Matters 的 Legal 從第一天起就是「攻防戰前線」。</strong>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 15 — Legal（二）：名譽侵權與政府請求
+     ========================================================= -->
+<section data-label="15 Legal 二">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">15</span>Legal 視角（二）</div>
+    <h2 class="title">名譽侵權與政府請求</h2>
+    <div class="col2" style="align-items:start;gap:64px">
+      <div>
+        <h3 style="font-size:28px;color:var(--c-green-press);margin:0 0 14px;font-weight:600">名譽與侵權案件處理 SOP</h3>
+        <div style="font-size:26px;color:var(--c-black);margin-bottom:18px;line-height:1.5">
+          <span class="pill">通知作者</span> ➜ <span class="pill">限期補件</span> ➜ <span class="pill">期限後隱藏／凍結</span>
+        </div>
+        <ul class="bullets" style="font-size:24px">
+          <li>陳國球律師信案（2020）</li>
+          <li>台灣微軟產品序號案（2020）</li>
+          <li>雷晨 rita 身份冒用案（2020）</li>
+          <li>OKX 創辦人案（2023）</li>
+        </ul>
+        <h3 style="font-size:28px;color:var(--c-green-press);margin:32px 0 14px;font-weight:600">DMCA 浪潮（2024 至今）</h3>
+        <p style="font-size:24px;line-height:1.55;margin:0">透過 Cloudflare、AWS、Google 大量湧入。有限人力下，只處理重點明確違規者。</p>
+      </div>
+      <div>
+        <h3 style="font-size:28px;color:var(--c-green-press);margin:0 0 14px;font-weight:600">政府機關請求的處理態度</h3>
+        <table class="matters" style="font-size:22px">
+          <thead>
+            <tr><th style="width:34%;font-size:22px">案例</th><th style="width:24%;font-size:22px">來源</th><th style="font-size:22px">處理</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="em">法務部調查局 (2023)</td><td>刑事案件查詢</td><td>平台後台不在台灣，無資料可提供</td></tr>
+            <tr><td class="em">台中警察局 (2023)</td><td>帳號 IP</td><td>半年後才收到信，未回</td></tr>
+            <tr><td class="em">iWIN (2024)</td><td>兒少色情檢舉</td><td>違反平台規範，立即處理</td></tr>
+            <tr><td class="em">台北警察局 (2025)</td><td>妨害名譽</td><td>未回覆</td></tr>
+          </tbody>
+        </table>
+        <div class="callout green" style="margin-top:20px;font-size:24px">
+          <strong>禮貌回應，但不過度配合。</strong>因為我們本來就不蒐集多餘個資，所以也沒什麼能交。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 16 — Legal（三）：2025 春節 TWNIC 誤封事件
+     ========================================================= -->
+<section data-label="16 Legal 三 TWNIC 誤封">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">16</span>Legal 視角（三）</div>
+    <h2 class="title" style="margin-bottom:32px">2025 春節 TWNIC 誤封事件</h2>
+    <div class="col2" style="align-items:start;gap:64px">
+      <div>
+        <h3 style="font-size:28px;color:var(--c-green-press);margin:0 0 12px;font-weight:600">事件經過</h3>
+        <ul class="bullets" style="font-size:24px">
+          <li style="margin-bottom:8px">2025/01 春節期間，台灣使用者突然連不上 Matters</li>
+          <li style="margin-bottom:8px">顯示「偽冒網址」警告，附帶 TWNIC 申訴頁面</li>
+          <li style="margin-bottom:8px">起因：民眾向數位產業署檢舉站上的二次詐騙文</li>
+          <li style="margin-bottom:8px">觸發 DNS-RPZ 機制封鎖</li>
+        </ul>
+        <h3 style="font-size:28px;color:var(--c-green-press);margin:20px 0 12px;font-weight:600">過年期間的程序困境</h3>
+        <ul class="bullets" style="font-size:24px">
+          <li style="margin-bottom:8px">公務員放假，承辦人找不到</li>
+          <li style="margin-bottom:8px">申訴管道「形式上存在」，實質上無法啟動</li>
+          <li style="margin-bottom:8px">透過私人關係聯繫 TWNIC 執行長才解封——歷時三天</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-size:28px;color:var(--c-green-press);margin:0 0 12px;font-weight:600;line-height:1.4">平台變成被治理者時，才看見自己對使用者的程序漏洞</h3>
+        <ul class="bullets" style="font-size:24px">
+          <li style="margin-bottom:8px">TWNIC 程序設計：先通知網站管理員 → 不處理才封鎖</li>
+          <li style="margin-bottom:8px">但 Matters 從未收到通知</li>
+          <li style="margin-bottom:8px">救濟機制？「會幫您詢問」，後來不了了之</li>
+        </ul>
+        <div class="callout" style="margin-top:20px;font-size:24px;padding:18px 26px;line-height:1.5">
+          這場誤會幫我們建立了一個倫理鏡像：<br>
+          <strong>我們對使用者要求的程序透明、申訴可近、損失救濟——自己作為被治理者時也應該得到。</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 17 — 我這段的三句話總結
+     ========================================================= -->
+<section data-label="17 三句話總結">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">17</span>mashbean 段落 ／ 三句話總結</div>
+    <h2 class="title">小結：平台治理脈絡</h2>
+    <div class="three-lines">
+      <div class="three-line">
+        <div class="num">1</div>
+        <div class="text"><b>抗審查與審查可以不是對立</b>——是同一個平台的兩個必要面向。</div>
+      </div>
+      <div class="three-line">
+        <div class="num">2</div>
+        <div class="text">治理的真正戰場是「可見度」與「程序」。</div>
+      </div>
+      <div class="three-line">
+        <div class="num">3</div>
+        <div class="text"><b>平台同時是治理者也是被治理者</b>——2025 年 TWNIC 事件提醒我們，所有我們對使用者的程序要求，平台自己也應該得到。</div>
+      </div>
+    </div>
+    <div class="callout green" style="margin-top:24px">接下來四位講者會從運營、技術端、政策端、使用者四個角度，把結構性張力拉更高。</div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Section 2 divider
+     ========================================================= -->
+<section data-label="S2 — Yingshin 運營與治理事件" class="section-divider">
+  <div class="frame">
+    <div class="sec-num">02</div>
+    <div class="sec-label">SECTION TWO</div>
+    <h2 class="sec-title">Yingshin：運營與治理事件</h2>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 18 — Yingshin 的位置
+     ========================================================= -->
+<section data-label="18 Yingshin 的位置">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">18</span>Section 2 ／ Yingshin</div>
+    <h2 class="title">Yingshin 的位置</h2>
+    <div style="max-width:1280px">
+      <div style="margin-bottom:48px">
+        <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">身份</div>
+        <div style="font-size:34px;color:var(--c-black);font-weight:500">Matters 社群主管，每天面對治理現場</div>
+      </div>
+      <div>
+        <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">角色</div>
+        <div style="font-size:32px;color:var(--c-black);line-height:1.55">把「治理」從抽象概念落地成具體事件——讓觀眾理解：平台每一個工具、每一條規則背後，都有一個壓力事件。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 19 — 預計可講：3 個關鍵事件 + 1 個訪談洞察
+     ========================================================= -->
+<section data-label="19 三個事件 + 訪談洞察">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">19</span>Yingshin ／ 預計可講</div>
+    <h2 class="title">3 個關鍵事件</h2>
+    <div class="cases">
+      <div class="case">
+        <div class="tag">事件 1｜2019–2020</div>
+        <h4>色情廣告大軍 → 註銷功能誕生</h4>
+        <ul style="margin:0;padding-left:1.1em;font-size:21px;line-height:1.55;color:var(--m-fg);list-style:disc">
+          <li style="margin-bottom:12px">2019.12 第一波應召女郎、外送茶湧入：大量註冊、重複發文</li>
+          <li style="margin-bottom:12px">廣告會「進化」——把關鍵字埋進看似正常的文字，得人工點開掃描</li>
+          <li style="margin-bottom:12px">當時只能單篇隱藏，「跟打地鼠一樣沒完沒了」</li>
+          <li>2019.12 上線<b>註銷帳號</b>功能——最嚴厲、不可逆的手段</li>
+        </ul>
+      </div>
+      <div class="case">
+        <div class="tag">事件 2｜2020–2021</div>
+        <h4>馬特市建築師 → 一年後告停</h4>
+        <ul style="margin:0;padding-left:1.1em;font-size:20px;line-height:1.5;color:var(--m-fg);list-style:disc">
+          <li style="margin-bottom:10px">由 21 位社區活躍用戶組成，有專屬徽章與三項治理特權</li>
+          <li style="margin-bottom:10px">同時擔任「社區陪審團」，修正全民投票的人情拉票、小號舞弊</li>
+          <li style="margin-bottom:10px"><b class="em-green">難點一</b>：建築師皆為普通用戶，不知道如何提供有效的裁決建議，或自己就不熟悉社區規則，主觀意見難收斂，變成各說各話</li>
+          <li style="margin-bottom:10px"><b class="em-green">難點二</b>：建築師內部也有人情因素，例如站隊、爭吵、形成派系，無法有效修正全民投票的弊端</li>
+          <li><b class="em-green">最後</b>：運作不到一年告停。從結果看，站方最花時間的，不是訴訟案，而是<b>陪審團內部的爭吵與調停</b></li>
+        </ul>
+      </div>
+      <div class="case">
+        <div class="tag">事件 3｜2025</div>
+        <h4>TWNIC 誤封事件</h4>
+        <ul style="margin:0;padding-left:1.1em;font-size:21px;line-height:1.55;color:var(--m-fg);list-style:disc">
+          <li style="margin-bottom:12px">2025/01 春節，台灣使用者突然連不上，顯示「偽冒網址」警告</li>
+          <li style="margin-bottom:12px">起因：民眾檢舉二次詐騙文，觸發 DNS-RPZ 網域層級封鎖</li>
+          <li style="margin-bottom:12px">過年找不到承辦人，靠私人關係聯繫到執行長才解封——歷時 3 天，<b>對網站使用造成明顯影響</b></li>
+          <li>反思：治理的規則很重要，但相對應的<b>救濟機制</b>也很重要，讓我們反思 Matters 自身的數位治理機制是否完備</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Section 3 divider
+     ========================================================= -->
+<section data-label="S3 — Duke 審查演算法開源" class="section-divider">
+  <div class="frame">
+    <div class="sec-num">03</div>
+    <div class="sec-label">SECTION THREE</div>
+    <h2 class="sec-title">Duke：審查演算法開源</h2>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 21 — Duke 的位置
+     ========================================================= -->
+<section data-label="21 Duke 的位置">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">21</span>Section 3 ／ Duke</div>
+    <h2 class="title">Duke 的位置</h2>
+    <div class="col2" style="align-items:start">
+      <div>
+        <div style="margin-bottom:32px">
+          <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">身份</div>
+          <div style="font-size:30px;color:var(--c-black);font-weight:500">開源社群貢獻者、<span class="mono">thematters/spam-detection-scaffold</span> 維護者</div>
+        </div>
+        <div style="margin-bottom:32px">
+          <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">角色</div>
+          <div style="font-size:30px;color:var(--c-black);line-height:1.5">示範「審查演算法可以被開源、可以被討論」這件事。</div>
+        </div>
+        <div>
+          <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">核心 repo</div>
+          <div class="mono" style="font-size:26px;color:var(--c-green-press);background:var(--c-green-lighter);border:1px solid var(--c-green);padding:14px 20px;border-radius:8px">https://github.com/thematters/spam-detection-scaffold</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:0 0 18px;font-weight:600">建議切入點</h3>
+        <ul class="bullets" style="font-size:28px">
+          <li>為什麼開源是「可能的」（而不是「不可能的」）</li>
+          <li>多層次偵測框架的設計邏輯</li>
+          <li>偽陰／偽陽的取捨——這是一個工程問題也是一個倫理問題</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 22 — 審查演算法框架 (full-width chart reveal)
+     ========================================================= -->
+<section data-label="22 審查演算法框架">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">22</span>Duke ／ 預計可講</div>
+    <h2 class="title">審查演算法框架</h2>
+    <div class="flow" style="max-width:820px;margin:32px auto 0;flex:1;justify-content:center;gap:10px">
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LAYER 1</span>語義特徵（BERT 類編碼器）</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LAYER 2</span>行為偵測（事件驅動，AWS Lambda 觸發）</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LAYER 3</span>信任評分</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step solid" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">ACTION</span>公共面排除（不刪除）</div>
+      <div class="flow-arrow"></div>
+      <div class="flow-step" style="font-size:28px;min-width:640px;padding:18px 48px"><span class="lab">LOOP</span>人工複核 → 回訓迭代</div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 23 — 開源審查演算法的三件事 (framework + 2 questions)
+     ========================================================= -->
+<section data-label="23 多層次偵測流程">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">23</span>Duke ／ 預計可講</div>
+    <h2 class="title">開源審查演算法的三件事</h2>
+    <div style="display:grid;grid-template-columns:1.1fr 1fr;gap:64px;flex:1;align-items:start">
+      <div class="flow" style="justify-content:flex-start;padding-top:8px">
+        <h4 style="font-size:30px;color:var(--c-green-press);margin:0 0 18px;font-weight:600;align-self:center">2. 多層次偵測框架</h4>
+        <div class="flow-step"><span class="lab">LAYER 1</span>語義特徵（BERT 類編碼器）</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step"><span class="lab">LAYER 2</span>行為偵測（事件驅動，AWS Lambda 觸發）</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step"><span class="lab">LAYER 3</span>信任評分</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step solid"><span class="lab">ACTION</span>公共面排除（不刪除）</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step"><span class="lab">LOOP</span>人工複核 → 回訓迭代</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:28px">
+        <div>
+          <h4 style="font-size:30px;color:var(--c-green-press);margin:0 0 12px;font-weight:600">1. 為什麼一般平台不開源</h4>
+          <ul class="bullets" style="font-size:24px">
+            <li>商業平台擔心被繞過</li>
+            <li>Matters 的選擇：<b class="em-green">分層公開</b>——程式碼可開源，敏感參數延時發布</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="font-size:30px;color:var(--c-green-press);margin:0 0 12px;font-weight:600">3. 偽陰／偽陽的工程倫理</h4>
+          <ul class="bullets" style="font-size:24px">
+            <li>偽陽性 = 誤傷正常用戶（言論自由代價）</li>
+            <li>偽陰性 = 漏接 spam（公共空間品質代價）</li>
+            <li><b class="em-green">這個權衡點不該由工程師獨自決定</b>——這是工作坊的核心命題</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Section 4 divider — Denken（renumbered after Nicole removal）
+     ========================================================= -->
+<section data-label="S4 — Denken 技術背景使用者視角" class="section-divider">
+  <div class="frame">
+    <div class="sec-num">04</div>
+    <div class="sec-label">SECTION FOUR</div>
+    <h2 class="sec-title">Denken：技術背景使用者視角</h2>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 27 — Denken 的位置
+     ========================================================= -->
+<section data-label="27 Denken 的位置">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">27</span>Section 5 ／ Denken</div>
+    <h2 class="title">Denken 的位置</h2>
+    <div class="col2" style="align-items:start">
+      <div>
+        <div style="margin-bottom:32px">
+          <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">身份</div>
+          <div style="font-size:30px;color:var(--c-black);font-weight:500;line-height:1.5">獨立技術社群成員、Matters 長期使用者、PTT 多年開發經驗</div>
+        </div>
+        <div>
+          <div style="font-size:24px;letter-spacing:0.18em;color:var(--c-grey-darker);margin-bottom:10px">角色</div>
+          <div style="font-size:30px;color:var(--c-black);line-height:1.5">以<b class="em-green">有技術判斷力且有自治經驗的使用者</b>身份，從外部視角檢視平台。</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:0 0 18px;font-weight:600">使用者觀點</h3>
+        <ul class="bullets" style="font-size:26px">
+          <li>從首頁演算法看「平台給的可見度」</li>
+          <li>「開源」與「共創」之間的距離</li>
+          <li>Matters vs. PTT：兩種自主治理樣本的對照</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 28 — 使用者作為共治者的張力
+     ========================================================= -->
+<section data-label="28 三個觀察">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">28</span>Denken ／ 預計可講</div>
+    <h2 class="title">三個觀察</h2>
+    <div class="cases" style="flex:1">
+      <div class="case">
+        <div class="tag">觀察 1</div>
+        <h4>馬特市首頁演算法</h4>
+        <p style="margin-bottom:10px">作為使用者，演算法給我看什麼、藏了什麼？</p>
+        <p style="margin-bottom:10px">站方擁有可見度的最終決定權，但使用者對排序邏輯近乎一無所知。</p>
+        <p>呼應 mashbean 的「治理戰場是可見度」——但是從<b class="em-green">被治理者</b>的視角。</p>
+      </div>
+      <div class="case">
+        <div class="tag">觀察 2</div>
+        <h4>從開源到共創的距離</h4>
+        <p style="margin-bottom:10px">Matters 走到了<b class="em-green">開放 API</b>、<b class="em-green">開源 spam-detection-scaffold</b>——但沒有走到<b class="em-green">共創</b>。</p>
+        <p style="margin-bottom:10px">開源 ≠ 社群參與；開放 API ≠ 使用者能影響治理決策。</p>
+        <p>這個距離具體在哪？怎麼樣才算真的跨過？</p>
+      </div>
+      <div class="case">
+        <div class="tag">觀察 3</div>
+        <h4>自主治理：Matters vs. PTT</h4>
+        <p style="margin-bottom:10px">PTT 版主制度運作三十多年——板規、水桶、申訴一套完整。</p>
+        <p style="margin-bottom:10px">馬特市建築師制度為何只走了一年？</p>
+        <p>結論不是「Matters 不夠好」，而是<b class="em-green">不同社群會長出不同的治理形態，平台應該支撐而非設計</b>。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Section 5 divider — Q&A & closing
+     ========================================================= -->
+<section data-label="S5 — Q&A 與結語" class="section-divider">
+  <div class="frame">
+    <div class="sec-num">05</div>
+    <div class="sec-label">SECTION FIVE</div>
+    <h2 class="sec-title">Q&amp;A 與結語</h2>
+    <p class="sec-sub">把現場交給更多的眼睛、手與意見</p>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 30 — Q&A 引導問題
+     ========================================================= -->
+<section data-label="30 Q&A 引導問題">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">30</span>Q&amp;A 引導問題（15 分鐘）</div>
+    <h2 class="title">關於平台治理的罐頭問題</h2>
+    <p class="small" style="margin:0 0 24px;font-size:24px">如果現場太安靜，由 mashbean 拋出。</p>
+    <ol class="numbered" style="font-size:28px">
+      <li style="font-size:28px">如果你是平台的決策者，你會把偽陽／偽陰的閾值往哪一邊調？為什麼？</li>
+      <li style="font-size:28px">DNS-RPZ 這種「網域層級的限制接取」，到底應該由誰來決定、用什麼樣的程序？</li>
+      <li style="font-size:28px">Matters 這種規模的平台（每月萬餘名活躍作者）有可能成為治理示範嗎？還是只是特例？</li>
+      <li style="font-size:28px">對中文圈的使用者來說，「沒有審查」與「有透明的審查」，哪個比較重要？</li>
+      <li style="font-size:28px">如果今天有一個未成年性剝削內容、一個政治異議者的求助文章、一個明顯的詐騙文，你的處理優先順序是什麼？</li>
+    </ol>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 30b — Hack the platform 小實驗
+     ========================================================= -->
+<section data-label="30b Hack the Platform 小實驗">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">30b</span>HACK THE PLATFORM</div>
+    <h2 class="title">基於 Hack the Platform 立場，我們多做了一些小實驗</h2>
+    <div class="cases" style="grid-template-columns:1fr 1fr;gap:28px;flex:1">
+      <div class="case">
+        <div class="tag">實驗 1</div>
+        <h4>Matters RSS 訂閱</h4>
+        <p style="margin-bottom:10px">把站內訂閱關係輸出成標準 RSS，讓讀者可以脫離平台介面追蹤作者。</p>
+        <p class="mono" style="font-size:20px;color:var(--c-green-press);word-break:break-all">https://rss.matters.town</p>
+      </div>
+      <div class="case">
+        <div class="tag">實驗 2</div>
+        <h4>Matters 守望相助隊</h4>
+        <p style="margin-bottom:10px">社區協作的內容檢舉與互助治理通道，把治理現場部分開放給市民共看共議。</p>
+        <p class="mono" style="font-size:20px;color:var(--c-green-press);word-break:break-all">https://community-watch.matters.town</p>
+      </div>
+      <div class="case">
+        <div class="tag">實驗 3</div>
+        <h4>Matters 洋蔥小站</h4>
+        <p style="margin-bottom:10px">Tor 洋蔥服務鏡像，提供在封鎖環境下仍可讀寫 Matters 的低識別路徑。</p>
+        <p class="mono" style="font-size:18px;color:var(--c-green-press);word-break:break-all">http://v234hfbpwvhly7byty2pc7yvmp2f5nvvu6g6estjmbd7dimavj6xieqd.onion</p>
+      </div>
+      <div class="case">
+        <div class="tag">實驗 4</div>
+        <h4>救援 IPFS 文章轉換器</h4>
+        <p style="margin-bottom:10px">把 Matters 上鏈的 IPFS 文章一鍵轉成可離線、可備份的閱讀格式，讓內容不依賴單一前端。</p>
+        <p class="mono" style="font-size:20px;color:var(--c-green-press);word-break:break-all">https://matters-safety-guide.pages.dev</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 31 — 結語
+     ========================================================= -->
+<section data-label="31 結語">
+  <div class="frame">
+    <div class="eyebrow"><span class="num">31</span>結語（mashbean，3 分鐘）</div>
+    <h2 class="title">後續產出與邀請</h2>
+    <div class="col2" style="align-items:start;gap:80px">
+      <div>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:0 0 18px;font-weight:600">這場工作坊的後續產出</h3>
+        <ul class="bullets" style="font-size:26px">
+          <li>中英雙語報告（2026 年 9 月）</li>
+          <li>spam-detection-scaffold 開源版本（已開源）</li>
+          <li>研究資料集（去識別化）</li>
+        </ul>
+        <h3 style="font-size:30px;color:var(--c-green-press);margin:36px 0 18px;font-weight:600">多方利害關係人後續討論</h3>
+        <ul class="bullets" style="font-size:26px">
+          <li>5 月：g0v 公開工作坊</li>
+          <li>6 月：閉門研討會（Chatham House Rule）</li>
+          <li>7 月：DNS-RPZ 應變專題</li>
+        </ul>
+      </div>
+      <div style="display:flex;align-items:center">
+        <div class="callout green" style="font-size:34px;line-height:1.55">
+          <strong>邀請</strong><br><br>
+          如果你願意進一步參與，請留下聯絡方式。<br><br>
+          這條路 Matters 一個人走不完，需要更多的眼睛、手、與意見。
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     Slide 32 — 致謝
+     ========================================================= -->
+<section data-label="32 致謝" class="end">
+  <div class="frame">
+    <div class="thanks">致 謝</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:80px;text-align:center;width:100%;max-width:1500px;margin-top:24px">
+      <div>
+        <div class="meta" style="letter-spacing:0.16em;font-size:22px;margin-bottom:14px">支持單位</div>
+        <div style="font-size:30px;color:var(--m-white);font-weight:500;line-height:1.5">2026 年度 TWNIC<br>網路社群計畫</div>
+      </div>
+      <div>
+        <div class="meta" style="letter-spacing:0.16em;font-size:22px;margin-bottom:14px">參與夥伴</div>
+        <div style="font-size:26px;color:var(--m-white);line-height:1.6">Matters Lab　｜　thematters 開源社群<br>數位信任協會<br><span style="color:rgba(255,255,255,0.6);font-size:22px">以及所有貢獻 issue、留言、與意見的 Matters 市民</span></div>
+      </div>
+      <div>
+        <div class="meta" style="letter-spacing:0.16em;font-size:22px;margin-bottom:14px">聯絡</div>
+        <div class="contact mono" style="font-size:30px">mashbean@matters.town</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</deck-stage>
+
+</body>
+</html>
