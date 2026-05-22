@@ -1,0 +1,1194 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>web3 真的能實踐去中心自治嗎？ · g0v summit 2026 · FAB DAO</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+  /* ─── design tokens ─────────────────────────────────────── */
+  :root {
+    --ink:        #0E4747;
+    --ink-2:      #1B5C5C;
+    --ink-3:      #2A7575;
+    --mint:       #A8E9C9;
+    --mint-2:     #C8F0DA;
+    --lime:       #DBF36E;
+    --lime-2:     #ECF8A8;
+    --paper:      #FAF8EC;
+    --paper-2:    #F2EFD8;
+    --white:      #FFFFFF;
+    --shadow:     rgba(14,71,71,.10);
+
+    --bg:         var(--paper);
+    --bg-alt:     var(--paper-2);
+    --fg:         var(--ink);
+    --fg-muted:   rgba(14,71,71,.6);
+    --fg-soft:    rgba(14,71,71,.4);
+    --rule:       rgba(14,71,71,.18);
+    --surface:    var(--ink);
+    --on-surface: var(--paper);
+    --accent:     var(--mint);
+    --accent-2:   var(--lime);
+
+    --font-cjk:   "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    --font-latin: "Space Grotesk", "Noto Sans TC", system-ui, sans-serif;
+
+    --t-scale:    1;
+    --type-display:  calc(160px * var(--t-scale));
+    --type-title:    calc(88px  * var(--t-scale));
+    --type-h1:       calc(64px  * var(--t-scale));
+    --type-h2:       calc(44px  * var(--t-scale));
+    --type-h3:       34px;
+    --type-body:     28px;
+    --type-small:    26px;
+    --type-tiny:     24px;
+
+    --pad-x:      120px;
+    --pad-y:      96px;
+    --gap-title:  56px;
+    --gap-item:   28px;
+    --radius:     20px;
+    --radius-sm:  10px;
+    --radius-lg:  40px;
+  }
+
+  :root[data-accent="ink"]  { --accent: var(--ink-3);  --accent-2: var(--mint);  }
+  :root[data-accent="mint"] { --accent: var(--mint);   --accent-2: var(--lime);  }
+  :root[data-accent="lime"] { --accent: var(--lime);   --accent-2: var(--mint);  }
+
+  :root[data-dark="true"] {
+    --bg:         var(--ink);
+    --bg-alt:     #0a3636;
+    --fg:         var(--paper);
+    --fg-muted:   rgba(250,248,236,.65);
+    --fg-soft:    rgba(250,248,236,.4);
+    --rule:       rgba(250,248,236,.2);
+    --surface:    var(--paper);
+    --on-surface: var(--ink);
+    --shadow:     rgba(0,0,0,.4);
+  }
+
+  :root[data-font="serif"] { --font-cjk: "Noto Serif TC", "PingFang TC", serif; }
+
+  html, body { margin: 0; padding: 0; background: #0a1f1f; color: var(--fg);
+    font-family: var(--font-cjk); }
+  deck-stage:not(:defined) { visibility: hidden; }
+
+  .slide {
+    width: 100%; height: 100%;
+    background: var(--bg); color: var(--fg);
+    padding: var(--pad-y) var(--pad-x);
+    box-sizing: border-box;
+    display: flex; flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    font-family: var(--font-cjk);
+  }
+  .slide--dark   { --bg: var(--ink); --bg-alt: #0a3636; --fg: var(--paper);
+                   --fg-muted: rgba(250,248,236,.65); --fg-soft: rgba(250,248,236,.4);
+                   --rule: rgba(250,248,236,.22); --surface: var(--paper); --on-surface: var(--ink); }
+  .slide--mint   { --bg: var(--mint); --bg-alt: var(--mint-2); }
+  .slide--lime   { --bg: var(--lime); --bg-alt: var(--lime-2); }
+  .slide--paper  { --bg: var(--paper); --bg-alt: var(--paper-2); }
+
+  :root[data-dark="true"] .slide:not(.slide--mint):not(.slide--lime) {
+    --bg: var(--ink); --bg-alt: #0a3636; --fg: var(--paper);
+    --fg-muted: rgba(250,248,236,.65); --fg-soft: rgba(250,248,236,.4);
+    --rule: rgba(250,248,236,.22); --surface: var(--paper); --on-surface: var(--ink);
+  }
+
+  :root[data-grid="true"] .slide::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(14,71,71,.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(14,71,71,.07) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+  :root[data-grid="true"][data-dark="true"] .slide::before,
+  :root[data-grid="true"] .slide--dark::before {
+    background-image:
+      linear-gradient(to right, rgba(250,248,236,.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(250,248,236,.06) 1px, transparent 1px);
+  }
+  .slide > * { position: relative; z-index: 1; }
+
+  .slide-chrome {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-latin);
+    font-size: var(--type-tiny);
+    color: var(--fg-soft);
+    letter-spacing: .04em;
+    margin-bottom: 56px;
+  }
+  .slide-chrome .brand {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-weight: 500; color: var(--fg-muted);
+  }
+  .slide-chrome .brand .mark {
+    width: 32px; height: 32px; display: inline-block;
+    background: currentColor;
+    -webkit-mask: url("assets/mark-dark.png") center/contain no-repeat;
+            mask: url("assets/mark-dark.png") center/contain no-repeat;
+  }
+  .slide-chrome .nav {
+    display: inline-flex; gap: 16px; color: var(--fg-soft);
+  }
+
+  .eyebrow {
+    font-family: var(--font-latin);
+    font-size: var(--type-small);
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--fg-muted); margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .eyebrow--accent { color: var(--accent); }
+  .title-xl { font-size: var(--type-display); font-weight: 900;
+    line-height: .95; letter-spacing: -.02em; margin: 0; }
+  .title-l  { font-size: var(--type-title); font-weight: 900;
+    line-height: 1.05; letter-spacing: -.015em; margin: 0; }
+  .title-m  { font-size: var(--type-h1); font-weight: 800;
+    line-height: 1.15; letter-spacing: -.01em; margin: 0; }
+  .title-s  { font-size: var(--type-h2); font-weight: 700;
+    line-height: 1.2; margin: 0; }
+  .body     { font-size: var(--type-body); font-weight: 400;
+    line-height: 1.55; margin: 0; color: var(--fg); }
+  .body--muted { color: var(--fg-muted); }
+  .small    { font-size: var(--type-small); line-height: 1.5; margin: 0; color: var(--fg-muted); }
+
+  .hl       { background: var(--mint);  padding: 0 .15em; color: var(--ink); border-radius: 4px; }
+  .hl-2     { background: var(--lime);  padding: 0 .15em; color: var(--ink); border-radius: 4px; }
+
+  .pill {
+    display: inline-flex; align-items: center;
+    background: var(--surface); color: var(--on-surface);
+    padding: 14px 28px; border-radius: 999px;
+    font-size: var(--type-h3); font-weight: 700;
+    line-height: 1;
+  }
+  .pill--mint { background: var(--mint); color: var(--ink); }
+  .pill--lime { background: var(--lime); color: var(--ink); }
+  .pill--ghost{ background: transparent; color: var(--fg);
+    border: 2px solid var(--rule); }
+
+  .ph {
+    display: flex; align-items: center; justify-content: center;
+    background: repeating-linear-gradient(
+      135deg,
+      var(--bg-alt) 0 14px,
+      transparent 14px 28px
+    );
+    background-color: var(--bg-alt);
+    border: 2px dashed var(--rule);
+    color: var(--fg-soft);
+    font-family: var(--font-latin);
+    font-size: var(--type-small);
+    border-radius: var(--radius-sm);
+    text-align: center; padding: 24px;
+    box-sizing: border-box;
+  }
+
+  /* ─── 1. cover ──────────────────────────────────────────── */
+  .cover {
+    background: var(--ink); color: var(--paper);
+    --fg: var(--paper); --fg-muted: rgba(250,248,236,.7); --fg-soft: rgba(250,248,236,.4);
+    --rule: rgba(250,248,236,.22);
+  }
+  .cover .cover-grid {
+    flex: 1; display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: 1fr auto;
+    gap: 40px;
+  }
+  .cover .cover-title { align-self: center; max-width: 1400px; }
+  .cover .cover-mark {
+    width: 280px; align-self: start; justify-self: end;
+  }
+  .cover .cover-mark img { width: 100%; display: block; }
+  .cover .cover-foot {
+    grid-column: 1 / -1;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    padding-top: 32px; border-top: 2px solid var(--rule);
+    font-family: var(--font-latin); font-size: var(--type-small);
+    color: var(--fg-muted); letter-spacing: .05em;
+  }
+  .cover .cover-foot .meta-row { display: flex; gap: 60px; }
+  .cover .cover-foot .meta-row > div span:first-child {
+    display: block; font-size: var(--type-tiny);
+    color: var(--fg-soft); margin-bottom: 6px; letter-spacing: .12em; text-transform: uppercase;
+  }
+  .cover-title .kicker {
+    font-family: var(--font-latin); font-size: var(--type-h2);
+    color: var(--mint); letter-spacing: -.01em; font-weight: 500;
+    margin: 0 0 32px;
+  }
+
+  /* ─── 2. agenda ─────────────────────────────────────────── */
+  .agenda-list {
+    flex: 1; display: flex; flex-direction: column;
+    gap: 8px; counter-reset: ag;
+  }
+  .agenda-item {
+    display: grid; grid-template-columns: 140px 240px 1fr;
+    align-items: baseline; gap: 40px;
+    padding: 16px 0; border-top: 1px solid var(--rule);
+    counter-increment: ag;
+  }
+  .agenda-item:last-child { border-bottom: 1px solid var(--rule); }
+  .agenda-item .num {
+    font-family: var(--font-latin); font-size: var(--type-h3);
+    font-weight: 500; color: var(--accent);
+    letter-spacing: -.01em;
+  }
+  .agenda-item .lbl { font-size: var(--type-h3); font-weight: 800;
+    line-height: 1.2; }
+  .agenda-item .lbl .tag {
+    display: inline-block; margin-left: 10px; padding: 4px 10px;
+    font-family: var(--font-latin); font-size: var(--type-tiny); font-weight: 600;
+    background: var(--bg-alt); color: var(--fg-muted); border-radius: 4px;
+    vertical-align: middle; letter-spacing: .04em;
+  }
+  .agenda-item--current { background: linear-gradient(to right, var(--lime-2), transparent 60%); }
+  .agenda-item--current .num { color: var(--ink); }
+  .agenda-item .min { font-size: var(--type-small); color: var(--fg-muted);
+    line-height: 1.35; }
+
+  /* ─── 3. section divider ────────────────────────────────── */
+  .section {
+    background: var(--ink); color: var(--paper);
+    --fg: var(--paper); --fg-muted: rgba(250,248,236,.7); --fg-soft: rgba(250,248,236,.4);
+    --rule: rgba(250,248,236,.22);
+  }
+  .section .section-body {
+    flex: 1; display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  .section .section-num {
+    font-family: var(--font-latin); font-size: 280px;
+    font-weight: 500; line-height: 1; color: transparent;
+    -webkit-text-stroke: 2px var(--accent);
+    letter-spacing: -.03em;
+    margin: 0;
+  }
+  .section .section-title { align-self: center; }
+  .section .section-foot {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    font-size: var(--type-small); color: var(--fg-muted);
+    border-top: 2px solid var(--rule); padding-top: 24px;
+  }
+
+  /* ─── 4. quote ──────────────────────────────────────────── */
+  .quote-slide { background: var(--bg-alt); }
+  .quote-block { flex: 1; display: flex; flex-direction: column; justify-content: center;
+    max-width: 1500px; }
+  .quote-block .qmark {
+    font-family: var(--font-latin); font-size: 240px; line-height: .8;
+    color: var(--accent); margin: 0 0 16px;
+  }
+  .quote-block .quote-text {
+    font-size: 64px; font-weight: 500;
+    line-height: 1.35; margin: 0 0 56px;
+    letter-spacing: -.01em;
+  }
+  .quote-block .quote-attr {
+    display: flex; align-items: center; gap: 24px;
+    font-size: var(--type-h3); color: var(--fg-muted);
+  }
+  .quote-block .quote-attr::before {
+    content: ""; width: 60px; height: 2px; background: var(--fg-muted);
+  }
+
+  /* ─── 5. horizontal timeline ────────────────────────────── */
+  .htl { flex: 1; display: grid; grid-template-rows: auto 1fr; gap: 80px; }
+  .htl-track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+  }
+  .htl-track::before {
+    content: ""; position: absolute; left: 24px; right: 24px;
+    top: 28px; height: 3px; background: var(--rule);
+  }
+  .htl-event { display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .htl-dot {
+    position: relative; width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); border: 12px solid var(--bg);
+    box-sizing: content-box; margin: 0 0 0 -12px;
+  }
+  .htl-event--major .htl-dot {
+    width: 40px; height: 40px; background: var(--ink); border-color: var(--bg);
+    box-shadow: 0 0 0 6px var(--accent);
+    margin-left: -18px; margin-top: -6px;
+  }
+  :root[data-dark="true"] .htl-event--major .htl-dot { background: var(--paper); }
+  .htl-event time {
+    font-family: var(--font-latin); font-size: var(--type-h3);
+    font-weight: 700; color: var(--accent); letter-spacing: -.01em;
+  }
+  .htl-event h4 { font-size: var(--type-h3); font-weight: 700;
+    margin: 0; line-height: 1.2; }
+  .htl-event p  { font-size: var(--type-small); color: var(--fg-muted);
+    margin: 0; line-height: 1.5; }
+
+  /* ─── 6. vertical timeline ──────────────────────────────── */
+  .vtl { flex: 1; display: grid; grid-template-columns: 1fr; gap: 0;
+    padding-left: 32px; position: relative; }
+  .vtl::before {
+    content: ""; position: absolute; left: 0; top: 8px; bottom: 24px;
+    width: 3px; background: var(--rule);
+  }
+  .vtl-row {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 56px; padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .vtl-row::before {
+    content: ""; position: absolute; left: -41px; top: 34px;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--accent); border: 5px solid var(--bg);
+    box-sizing: content-box;
+  }
+  .vtl-row:last-child { border-bottom: 0; }
+  .vtl-row time {
+    font-family: var(--font-latin); font-size: var(--type-h2);
+    font-weight: 700; color: var(--accent); letter-spacing: -.01em;
+    line-height: 1;
+  }
+  .vtl-row .lbl-sub {
+    display: block; font-family: var(--font-cjk);
+    font-size: var(--type-small); color: var(--fg-soft);
+    margin-top: 8px; letter-spacing: 0;
+  }
+  .vtl-row h4 { font-size: var(--type-h2); font-weight: 700;
+    margin: 0 0 10px; line-height: 1.2; }
+  .vtl-row p  { font-size: var(--type-body); color: var(--fg-muted);
+    margin: 0; line-height: 1.5; max-width: 1100px; }
+
+  /* ─── 7. milestone card ─────────────────────────────────── */
+  .ms {
+    flex: 1; display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 72px; align-items: stretch;
+  }
+  .ms-left { display: flex; flex-direction: column; justify-content: center; gap: 32px; }
+  .ms-tag {
+    align-self: flex-start;
+    background: var(--accent); color: var(--ink);
+    padding: 10px 20px; border-radius: 6px;
+    font-family: var(--font-latin); font-size: var(--type-small);
+    font-weight: 700; letter-spacing: .06em;
+  }
+  .ms-date { font-family: var(--font-latin); font-size: var(--type-h2);
+    color: var(--fg-muted); font-weight: 500; margin: 0; }
+  .ms-title { font-size: 80px; font-weight: 900; line-height: 1.05;
+    margin: 0; letter-spacing: -.015em; }
+  .ms-meta { display: flex; gap: 60px; padding-top: 28px;
+    border-top: 1px solid var(--rule); }
+  .ms-meta > div span:first-child {
+    display: block; font-family: var(--font-latin);
+    font-size: var(--type-tiny); letter-spacing: .1em;
+    text-transform: uppercase; color: var(--fg-soft); margin-bottom: 6px;
+  }
+  .ms-meta > div span:last-child {
+    font-size: var(--type-h3); font-weight: 700;
+  }
+  .ms-right .ph { width: 100%; height: 100%; min-height: 600px; }
+
+  /* ─── 8. comparison ─────────────────────────────────────── */
+  .compare {
+    flex: 1; display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: stretch;
+  }
+  .compare-col {
+    background: var(--bg-alt);
+    border-radius: var(--radius);
+    padding: 56px 48px;
+    display: flex; flex-direction: column; gap: 28px;
+  }
+  .compare-col--accent {
+    background: var(--ink); color: var(--paper);
+    --fg-muted: rgba(250,248,236,.7);
+  }
+  .compare-col h3 {
+    font-size: var(--type-h1); font-weight: 800;
+    margin: 0; line-height: 1.1;
+  }
+  .compare-col .sub {
+    font-family: var(--font-latin); font-size: var(--type-small);
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--fg-muted); margin: 0;
+  }
+  .compare-col--accent .sub { color: rgba(250,248,236,.6); }
+  .compare-list {
+    list-style: none; padding: 0; margin: 24px 0 0;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .compare-list li {
+    font-size: var(--type-h3); line-height: 1.4;
+    padding-left: 40px; position: relative;
+  }
+  .compare-list li::before {
+    content: ""; position: absolute; left: 0; top: .55em;
+    width: 20px; height: 3px; background: var(--accent);
+  }
+  .compare-col--accent .compare-list li { color: var(--paper); }
+  .compare-col--accent .compare-list li::before { background: var(--accent); }
+
+  /* ─── 9. big stat ───────────────────────────────────────── */
+  .stat-grid {
+    flex: 1; display: grid; grid-template-columns: 1.4fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .stat-num {
+    font-family: var(--font-latin);
+    font-size: 360px; font-weight: 700;
+    line-height: .85;
+    letter-spacing: -.04em;
+    color: var(--accent);
+    margin: 0;
+  }
+  .stat-unit {
+    font-family: var(--font-latin); font-size: 80px;
+    color: var(--fg-muted); font-weight: 500;
+  }
+  .stat-side .stat-label {
+    font-size: var(--type-h1); font-weight: 800;
+    line-height: 1.15; margin: 0 0 28px;
+  }
+  .stat-side .stat-desc {
+    font-size: var(--type-h3); color: var(--fg-muted);
+    line-height: 1.5; margin: 0;
+  }
+  .stat-side .stat-foot {
+    margin-top: 48px; padding-top: 28px; border-top: 1px solid var(--rule);
+    display: flex; gap: 48px;
+  }
+  .stat-side .stat-foot > div { display: flex; flex-direction: column; }
+  .stat-side .stat-foot .num {
+    font-family: var(--font-latin); font-size: 56px;
+    font-weight: 700; color: var(--fg);
+  }
+  .stat-side .stat-foot .lbl { font-size: var(--type-small); color: var(--fg-soft); }
+
+  /* ─── 10. bullets (3-col / 4-col) ───────────────────────── */
+  .cols-3 { flex: 1; display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px; }
+  .cols-4 { flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; }
+  .col-card { display: flex; flex-direction: column; gap: 18px; }
+  .col-card .icon {
+    width: 72px; height: 72px; border-radius: 14px;
+    background: var(--accent); display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-latin); font-size: 36px; font-weight: 700; color: var(--ink);
+  }
+  .col-card h4 { font-size: var(--type-h2); font-weight: 800;
+    margin: 0; line-height: 1.15; }
+  .cols-4 .col-card h4 { font-size: var(--type-h3); }
+  .col-card .sub { font-family: var(--font-latin); font-size: var(--type-small);
+    color: var(--accent); font-weight: 600; margin: 0; letter-spacing: .04em; }
+  .col-card p  { font-size: var(--type-h3); color: var(--fg-muted);
+    line-height: 1.5; margin: 0; }
+  .cols-4 .col-card p { font-size: var(--type-body); }
+  .col-card .col-list {
+    list-style: none; padding: 0; margin: 8px 0 0;
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .col-card .col-list li {
+    font-size: var(--type-body); line-height: 1.4;
+    padding-left: 24px; position: relative; color: var(--fg);
+  }
+  .col-card .col-list li::before {
+    content: "—"; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+  }
+
+  /* ─── 12. concept diagram (hub & spoke) ─────────────────── */
+  .concept { flex: 1; display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
+  .concept-text h2 { font-size: var(--type-h1); font-weight: 800;
+    line-height: 1.15; margin: 0 0 28px; }
+  .concept-text p { font-size: var(--type-h3); color: var(--fg-muted);
+    line-height: 1.55; margin: 0 0 32px; max-width: 600px; }
+  .concept-text dl { display: grid; grid-template-columns: auto 1fr;
+    gap: 12px 24px; margin: 0; align-items: baseline; }
+  .concept-text dt {
+    font-family: var(--font-latin); font-size: var(--type-small);
+    font-weight: 700; color: var(--accent); letter-spacing: .04em;
+  }
+  .concept-text dd { margin: 0; font-size: var(--type-body); line-height: 1.45; }
+  .concept-diagram {
+    position: relative; aspect-ratio: 1;
+    align-self: stretch;
+  }
+  .concept-node {
+    position: absolute;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: var(--ink); color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-size: var(--type-h2); font-weight: 700; text-align: center;
+    box-shadow: 0 12px 32px var(--shadow);
+  }
+  :root[data-dark="true"] .concept-node { background: var(--paper); color: var(--ink); }
+  .concept-node--center {
+    width: 280px; height: 280px;
+    background: var(--accent); color: var(--ink);
+    left: 50%; top: 50%; transform: translate(-50%,-50%);
+    font-size: 56px;
+    z-index: 3;
+  }
+  .concept-node--n { left: 50%; top: 0;    transform: translateX(-50%); }
+  .concept-node--e { right: 0;  top: 50%;  transform: translateY(-50%); }
+  .concept-node--w { left: 0;   top: 50%;  transform: translateY(-50%); }
+  .concept-node--s { left: 50%; bottom: 0; transform: translateX(-50%); }
+  .concept-arrows { position: absolute; inset: 0; pointer-events: none;
+    z-index: 1;
+  }
+  .concept-arrows line { stroke: var(--rule); stroke-width: 3; stroke-dasharray: 8 8; }
+
+  /* Q&A end */
+  .end { background: var(--ink); color: var(--paper);
+    --fg: var(--paper); --fg-muted: rgba(250,248,236,.7); --rule: rgba(250,248,236,.22);
+  }
+  .end .end-grid { flex: 1; display: grid;
+    grid-template-rows: 1fr auto; gap: 60px; }
+  .end .end-main {
+    display: grid; grid-template-columns: 1.5fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .end .end-q { font-size: 280px; font-weight: 900;
+    line-height: .85; margin: 0; letter-spacing: -.03em;
+    font-family: var(--font-latin);
+  }
+  .end .end-q span { color: var(--accent); }
+  .end .thanks { font-size: 100px; font-weight: 800;
+    margin: 0 0 24px; line-height: 1; }
+  .end .end-sub { font-size: var(--type-h3); color: var(--fg-muted);
+    margin: 0; line-height: 1.55; }
+  .end .contact-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px;
+    padding-top: 40px; border-top: 2px solid var(--rule);
+  }
+  .end .contact-grid > div span:first-child {
+    display: block; font-family: var(--font-latin); font-size: var(--type-tiny);
+    color: rgba(250,248,236,.5); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .end .contact-grid > div span:last-child {
+    font-size: var(--type-h3); font-weight: 500;
+    word-break: break-all;
+  }
+
+  deck-stage { display:block; background: #0a1f1f; }
+</style>
+
+<script type="application/json" id="speaker-notes">
+[
+  "封面：歡迎詞、整場主題介紹。",
+  "大綱：今天 90 分鐘，六位講者，八個段落；我先講開場 10 分鐘。",
+  "Chapter 1 · 豆泥開場：我用 10 分鐘鋪陳脈絡、問題、與現況。",
+  "開場 hook：2020 大家困在家裡，web3 從邊緣的密碼龐克變成大眾話題。",
+  "時間軸：DeFi Summer → Beeple → NFT 高峰 → Luna 崩盤 → FTX 倒閉。整個泡沫的形狀。",
+  "對照：泡沫蒸發了，但基礎設施留下來了。Snapshot、多簽錢包、IPFS、L2、跨國協作。",
+  "金句：密碼龐克者沒有離開，他們只是把 PPT 收起來，繼續寫 code。",
+  "DAO 定義：四個圈圈 — 共識、金庫、社群、行動。",
+  "國際 DAO 三案例：Gitcoin、ENS、Optimism Collective —— 把公共財跑在鏈上。",
+  "台灣 DAO 軌跡：時代革命 → 公益紅包 → da0 → FIP-1 → FIP-2 → 道館 → FIP-3。",
+  "DAO 退潮：NFT 交易量自高峰跌掉九成；台灣大部分 DAO 都安靜了。",
+  "FAB DAO 為什麼活下來？四個關鍵 — 創辦人退場、多簽、下班後、參與者模式。",
+  "Chapter 2 · 青苔 Yian：FAB DAO 與行動客廳。",
+  "Chapter 3 · FL Yang：FIP-3 怎麼推動、客廳做了什麼、遇到哪些困難。",
+  "Chapter 4 · yii / 阿曾：藝術銀行。",
+  "Chapter 5 · Denken：超證實驗室與國際公共財。",
+  "Chapter 6 · Swift Evo（預錄）：綠沙發。",
+  "Chapter 7 · 互相補充：六位講者交叉對話。",
+  "Q&A：開放觀眾提問、感謝與聯絡資訊。"
+]
+</script>
+</head>
+
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ── 1 · 封面 ─────────────────────────────────────────── -->
+  <section data-label="01 封面" class="slide cover">
+    <div class="cover-grid">
+      <div class="cover-title">
+        <p class="kicker">g0v summit 2026 · R1 · Workshop</p>
+        <h1 class="title-xl" style="font-weight: 900;">web3 真的能<br/>實踐<span style="color:var(--mint);">去中心自治</span>嗎？</h1>
+        <p class="body" style="color:rgba(250,248,236,.75); margin-top:36px; font-size:36px; line-height:1.45; max-width:1300px;">FAB DAO 四年 web3 治理實驗的<span class="hl" style="background:var(--lime);">成</span>與<span class="hl-2" style="background:var(--mint);">敗</span></p>
+      </div>
+      <div class="cover-mark">
+        <img src="assets/logo-light.png" alt="FAB DAO" />
+      </div>
+      <div class="cover-foot">
+        <div class="meta-row">
+          <div><span>講者</span><span>大家</span></div>
+          <div><span>單位</span><span>FAB DAO</span></div>
+          <div><span>日期</span><span>2026.05.23</span></div>
+          <div><span>場次</span><span>90 min · 6 speakers</span></div>
+        </div>
+        <div>Formosa Art Bank DAO · 福爾摩沙藝術銀行</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 2 · 大綱 ─────────────────────────────────────────── -->
+  <section data-label="02 大綱" class="slide" style="padding-top: 72px; padding-bottom: 72px;">
+    <header class="slide-chrome" style="margin-bottom: 28px;">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">02 / 20 · Agenda</span>
+    </header>
+    <p class="eyebrow eyebrow--accent" style="margin-bottom: 8px;">本場大綱 · AGENDA · 90 min</p>
+    <h2 class="title-l" style="margin-bottom: 16px; font-size: 60px;">六位講者 · 八個段落</h2>
+    <div class="agenda-list" style="gap: 4px;">
+      <div class="agenda-item agenda-item--current" style="padding: 10px 0;">
+        <span class="num">00–10</span>
+        <span class="lbl">豆泥 mashbean<span class="tag">廚房 · NOW</span></span>
+        <span class="min">開場：脈絡、問題與現況</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">10–20</span>
+        <span class="lbl">青苔 Yian</span>
+        <span class="min">介紹 FAB DAO 與客廳</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">20–30</span>
+        <span class="lbl">FL Yang</span>
+        <span class="min">FIP-3 怎麼推動：客廳做了哪些事、哪裡困難</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">30–40</span>
+        <span class="lbl">yii · 阿曾</span>
+        <span class="min">FAB 分享：藝術銀行</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">40–50</span>
+        <span class="lbl">Denken</span>
+        <span class="min">超證實驗室與國際公共財的生與死？</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">50–60</span>
+        <span class="lbl">Swift Evo</span>
+        <span class="min">綠沙發這幾年的成果</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">60–75</span>
+        <span class="lbl">全體</span>
+        <span class="min">互相補充</span>
+      </div>
+      <div class="agenda-item" style="padding: 10px 0;">
+        <span class="num">75–90</span>
+        <span class="lbl">全體</span>
+        <span class="min">開放觀眾提問 Q&amp;A</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 3 · Chapter 01 divider ─────────────────────────────── -->
+  <section data-label="03 Chapter 01" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">03 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">01</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER ONE</p>
+        <h2 class="title-l" style="max-width: 1600px;">FAB DAO 鋪陳：<br/>脈絡、問題、與現況</h2>
+      </div>
+      <div class="section-foot">
+        <span>豆泥 · 廚房</span>
+        <span>00–10 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 4 · 開場 quote · web3 走進客廳 ─────────────────────── -->
+  <section data-label="04 開場" class="slide quote-slide">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">04 / 20 · 1.1 Hook</span>
+    </header>
+    <div class="quote-block">
+      <p class="qmark">"</p>
+      <p class="quote-text">2020 年，我們困在家裡。<br/>
+        <span class="hl">web3</span> 突然從<span class="hl-2">密碼龐克</span>的同溫層，<br/>
+        走進新聞版面。</p>
+      <p class="quote-attr">場景一 · 疫情 × 加密熱潮</p>
+    </div>
+  </section>
+
+
+  <!-- ── 5 · web3 狂潮時間軸 ───────────────────────────────── -->
+  <section data-label="05 web3 狂潮 2020–2022" class="slide">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">05 / 20 · 1.2 Hype</span>
+    </header>
+    <p class="eyebrow eyebrow--accent">2020 — 2022 · THE BIG WAVE</p>
+    <h2 class="title-l" style="margin-bottom: 56px;">兩年內，整個產業吹起又破掉</h2>
+    <div class="htl">
+      <div></div>
+      <div class="htl-track">
+        <div class="htl-event">
+          <span class="htl-dot"></span>
+          <time>2020.06</time>
+          <h4>DeFi Summer</h4>
+          <p>鏈上借貸與自動造市起飛，去中心金融第一次規模化</p>
+        </div>
+        <div class="htl-event htl-event--major">
+          <span class="htl-dot"></span>
+          <time>2021.03</time>
+          <h4>Beeple $69M</h4>
+          <p>Christie&rsquo;s 拍出 NFT 史上最高價，主流媒體全面報導</p>
+        </div>
+        <div class="htl-event htl-event--major">
+          <span class="htl-dot"></span>
+          <time>2021.08</time>
+          <h4>NFT 全民化</h4>
+          <p>OpenSea 月交易量飆破 $3B，CryptoPunks / BAYC 成現象級</p>
+        </div>
+        <div class="htl-event">
+          <span class="htl-dot"></span>
+          <time>2022.05</time>
+          <h4>Luna 崩盤</h4>
+          <p>UST 脫鉤、$60B 蒸發；穩定幣神話第一次被戳破</p>
+        </div>
+        <div class="htl-event htl-event--major">
+          <span class="htl-dot"></span>
+          <time>2022.11</time>
+          <h4>FTX 倒閉</h4>
+          <p>明星交易所黑箱破產，整個產業進入「漫長的冬天」</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 6 · 蒸發 vs 留下 ───────────────────────────────────── -->
+  <section data-label="06 泡沫 vs 基礎設施" class="slide" style="padding-top: 72px; padding-bottom: 72px;">
+    <header class="slide-chrome" style="margin-bottom: 24px;">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">06 / 20 · 1.3 Aftermath</span>
+    </header>
+    <p class="eyebrow eyebrow--accent" style="margin-bottom: 8px;">泡沫破滅後 · WHAT REMAINED</p>
+    <h2 class="title-l" style="margin-bottom: 28px; font-size: 60px;">不是所有東西都消失了</h2>
+    <div class="compare">
+      <div class="compare-col" style="padding: 36px 40px; gap: 16px;">
+        <p class="sub">↓ 蒸發的</p>
+        <h3 style="font-size: 48px;">Pixel jpegs<br/>與明星創辦人</h3>
+        <ul class="compare-list" style="margin-top: 8px; gap: 14px;">
+          <li>主流頭部 NFT 跌掉 90% 以上</li>
+          <li>多數 Layer-1 公鏈代幣腰斬再腰斬</li>
+          <li>名人 founder 人設崩塌、IPO 變判刑</li>
+          <li>大型基金、加密媒體陸續關門</li>
+        </ul>
+      </div>
+      <div class="compare-col compare-col--accent" style="padding: 36px 40px; gap: 16px;">
+        <p class="sub">↑ 留下的</p>
+        <h3 style="font-size: 48px;">能用的<br/>公共基礎設施</h3>
+        <ul class="compare-list" style="margin-top: 8px; gap: 14px;">
+          <li>Snapshot · 鏈下投票 + 鏈上憑證</li>
+          <li>Safe（多簽錢包）· 共管金庫</li>
+          <li>IPFS / Arweave · 內容永存</li>
+          <li>ENS / 跨鏈協作 · 去中心身份</li>
+          <li>Optimism / Base · 低成本 L2</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 7 · 密碼龐克繼續 quote ─────────────────────────────── -->
+  <section data-label="07 密碼龐克沒走" class="slide quote-slide slide--paper">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">07 / 20 · 1.4 Cypherpunks</span>
+    </header>
+    <div class="quote-block">
+      <p class="qmark">"</p>
+      <p class="quote-text">但密碼龐克者沒有離開。<br/>
+        他們只是<span class="hl-2">把投影片收起來</span>，<br/>
+        繼續寫 code。</p>
+      <p class="quote-attr">觀察 · 退潮之後的人們</p>
+    </div>
+  </section>
+
+
+  <!-- ── 8 · DAO 是什麼 hub-spoke concept ──────────────────── -->
+  <section data-label="08 DAO 是什麼" class="slide" style="padding-top: 72px; padding-bottom: 72px;">
+    <header class="slide-chrome" style="margin-bottom: 24px;">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">08 / 20 · 1.5 DAO 定義</span>
+    </header>
+    <p class="eyebrow eyebrow--accent" style="margin-bottom: 8px;">DAO · 去中心自治組織</p>
+    <div class="concept">
+      <div class="concept-text">
+        <h2>不是公司、不是社團，<br/>是一組鏈上的共管規則。</h2>
+        <p>把組織的金庫、提案、投票、執行都搬到鏈上做憑證；<span class="hl">誰持有代幣、誰就能投票</span>。</p>
+        <dl>
+          <dt>共識</dt><dd>Snapshot、Tally · 提案與投票留下不可竄改的紀錄</dd>
+          <dt>金庫</dt><dd>多簽錢包 · 任何花費需多人共同簽核</dd>
+          <dt>社群</dt><dd>Discord、線下聚會 · 共識在這裡長出來</dd>
+          <dt>行動</dt><dd>實際專案、補助、購藏、倡議 · 治理才有意義</dd>
+        </dl>
+      </div>
+      <div class="concept-diagram">
+        <svg class="concept-arrows" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <line x1="50" y1="20" x2="50" y2="40"></line>
+          <line x1="50" y1="60" x2="50" y2="80"></line>
+          <line x1="20" y1="50" x2="40" y2="50"></line>
+          <line x1="60" y1="50" x2="80" y2="50"></line>
+        </svg>
+        <div class="concept-node concept-node--center">DAO</div>
+        <div class="concept-node concept-node--n">共識<br/>Snapshot</div>
+        <div class="concept-node concept-node--e">金庫<br/>多簽</div>
+        <div class="concept-node concept-node--s">行動<br/>專案</div>
+        <div class="concept-node concept-node--w">社群<br/>Discord</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 9 · 國際 DAO 三案例 ────────────────────────────────── -->
+  <section data-label="09 國際 DAO 三案例" class="slide">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">09 / 20 · 1.6 國際案例</span>
+    </header>
+    <p class="eyebrow eyebrow--accent">公共財型 DAO · INTERNATIONAL</p>
+    <h2 class="title-l" style="margin-bottom: 56px;">不是炒幣，是在跑公共財</h2>
+    <div class="cols-3">
+      <div class="col-card">
+        <div class="icon">G</div>
+        <p class="sub">PUBLIC GOODS FUNDING</p>
+        <h4>Gitcoin Grants</h4>
+        <p>用 Quadratic Funding 把小額捐款放大成公共財補助；自 2019 年起累積分配超過 <span class="hl">USD 70M</span> 給開源生態。</p>
+      </div>
+      <div class="col-card">
+        <div class="icon">E</div>
+        <p class="sub">PROTOCOL GOVERNANCE</p>
+        <h4>ENS DAO</h4>
+        <p>把網域名稱（.eth）的治理權還給持有者；社群投票決定協議升級、金庫使用、捐款對象。</p>
+      </div>
+      <div class="col-card">
+        <div class="icon">O</div>
+        <p class="sub">RETRO PUBLIC GOODS</p>
+        <h4>Optimism Collective</h4>
+        <p>每年釋出 ETH 與代幣作為 <span class="hl-2">回溯公共財獎勵</span>；獎勵已經發生的貢獻而非未來承諾。</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 10 · 台灣 DAO 軌跡 ─────────────────────────────────── -->
+  <section data-label="10 台灣 DAO 軌跡" class="slide" style="padding-top: 72px; padding-bottom: 72px;">
+    <header class="slide-chrome" style="margin-bottom: 24px;">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">10 / 20 · 1.7 台灣軌跡</span>
+    </header>
+    <p class="eyebrow eyebrow--accent" style="margin-bottom: 8px;">2021 — 2026 · 台灣 DAO 簡史</p>
+    <h2 class="title-l" style="margin-bottom: 16px; font-size: 60px;">台灣也有自己的 DAO 浪潮</h2>
+    <div class="vtl" style="padding-left: 28px;">
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2021.09<span class="lbl-sub">早春</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">新時代國旗</h4>
+          <p style="font-size: 22px;">台灣 NFT 公益行動的第一個實驗。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2022.01<span class="lbl-sub">FAB 萌芽</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">公益紅包</h4>
+          <p style="font-size: 22px;">FAB DAO 第一個合作專案，預示「藝術 × 公益 × NFT」三角模型。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2022.09<span class="lbl-sub">百岳啟動</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">百岳計畫</h4>
+          <p style="font-size: 22px;">FAB DAO 為自己募款的數位藝術專案，在林茲電子藝術節展出。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2022.10<span class="lbl-sub">g0v × web3</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">da0 零時道</h4>
+          <p style="font-size: 22px;">g0v 社群孵化出的 web3 共創節點，把協作慣性帶進鏈上。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2023.04<span class="lbl-sub">DAO 化工程</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">FIP-1 通過 · 710 vs 8</h4>
+          <p style="font-size: 22px;">FAB DAO 正式 DAO 化，建立「客廳／廚房」分工，三個工作組成立。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2023.11<span class="lbl-sub">資金治理</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">FIP-2 通過 · 424 vs 0</h4>
+          <p style="font-size: 22px;">多簽錢包、兩年期預算、三種資金性質（Commitment / Bounty / Grant）落地。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2024.03<span class="lbl-sub">百岳新生</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">FAB 道館建館</h4>
+          <p style="font-size: 22px;">把百岳 NFT 持有者引導進共同治理；建築競圖 20 件入選。</p>
+        </div>
+      </div>
+      <div class="vtl-row" style="padding: 5px 0; grid-template-columns: 180px 1fr;">
+        <time style="font-size: 36px;">2026.05<span class="lbl-sub">本場</span></time>
+        <div>
+          <h4 style="font-size: 34px; margin-bottom: 4px;">FIP-3 投票中</h4>
+          <p style="font-size: 22px;">檢討資金使用、聯絡人兼任多簽人之效果，回應實作中浮現的治理需求。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 11 · DAO 退潮 stat ────────────────────────────────── -->
+  <section data-label="11 DAO 退潮" class="slide" style="padding-top: 72px; padding-bottom: 72px;">
+    <header class="slide-chrome" style="margin-bottom: 24px;">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">11 / 20 · 1.8 退潮</span>
+    </header>
+    <p class="eyebrow eyebrow--accent" style="margin-bottom: 8px;">2023 之後 · THE QUIET YEARS</p>
+    <h2 class="title-l" style="margin-bottom: 32px; font-size: 60px;">但同時，整個 DAO 圈安靜下來</h2>
+    <div class="stat-grid">
+      <div>
+        <p class="stat-num" style="font-size: 300px;">−90<span class="stat-unit">%</span></p>
+      </div>
+      <div class="stat-side">
+        <p class="stat-label">NFT 月交易量<br/>自 2022 高峰跌幅</p>
+        <p class="stat-desc">幣價回落、明星創辦人退場、Discord 從萬人活躍變成靜默的數位廢墟。<br/><br/>台灣大部分的 DAO 在 2023 後沒有新提案，剩下的人換場、燒完、回到日常工作。</p>
+        <div class="stat-foot">
+          <div><span class="num">~10</span><span class="lbl">2022 台灣活躍 DAO 約數</span></div>
+          <div><span class="num">少於 3</span><span class="lbl">2026 仍持續治理者</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 12 · FAB DAO 活下來的關鍵 4 col ───────────────────── -->
+  <section data-label="12 FAB DAO 為什麼活下來" class="slide">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">12 / 20 · 1.9 活下來的理由</span>
+    </header>
+    <p class="eyebrow eyebrow--accent">SURVIVAL NOTES · 來自廚房的觀察</p>
+    <h2 class="title-l" style="margin-bottom: 56px;">FAB DAO 竟然還活著，<br/>這到底是為什麼呢？</h2>
+    <div class="cols-4">
+      <div class="col-card">
+        <div class="icon">01</div>
+        <p class="sub">FOUNDER EXIT</p>
+        <h4>創辦人主動退場</h4>
+        <p>把光環從個人轉到組織；早早建立沒有「明星 founder」的決策慣性。</p>
+      </div>
+      <div class="col-card">
+        <div class="icon">02</div>
+        <p class="sub">MULTI-SIG TREASURY</p>
+        <h4>多簽錢包</h4>
+        <p>三人以上共管，預算可審計、可被質疑。財務從一開始就不是黑盒子。</p>
+      </div>
+      <div class="col-card">
+        <div class="icon">03</div>
+        <p class="sub">AFTER-WORK</p>
+        <h4>「下班後」哲學</h4>
+        <p>應好玩且不累死。從不要求全職奉獻，避免熱情經濟學的反噬。</p>
+      </div>
+      <div class="col-card">
+        <div class="icon">04</div>
+        <p class="sub">HOLDERS = VOTERS</p>
+        <h4>參與者即治理者</h4>
+        <p>百岳 NFT 持有者就是投票者；沒有把治理權外包給核心圈。</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 13 · 橋接 quote · 接給 Yian ───────────────────────── -->
+  <section data-label="13 橋接到 Yian" class="slide section slide--dark">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">13 / 20 · 1.10 Handoff</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num" style="font-size:200px;">→</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">END OF CHAPTER 01 · HANDOFF</p>
+        <h2 class="title-l" style="max-width: 1700px;">畢竟是<span style="color:var(--mint);">去中心自治組織</span>，<br/>就由五個小組聯絡人，<br/>來分享潮起潮落吧！</h2>
+      </div>
+      <div class="section-foot">
+        <span>NEXT · 青苔 Yian · FAB DAO 與行動客廳</span>
+        <span>10–20 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 14 · Chapter 02 divider ────────────────────────────── -->
+  <section data-label="14 Chapter 02" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">14 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">02</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER TWO</p>
+        <h2 class="title-l" style="max-width: 1600px;">FAB DAO 與行動客廳</h2>
+      </div>
+      <div class="section-foot">
+        <span>青苔 Yian</span>
+        <span>10–20 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 15 · Chapter 03 divider ────────────────────────────── -->
+  <section data-label="15 Chapter 03" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">15 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">03</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER THREE</p>
+        <h2 class="title-l" style="max-width: 1600px;">FIP-3：客廳怎麼推動<br />做了什麼、哪裡困難</h2>
+      </div>
+      <div class="section-foot">
+        <span>FL Yang</span>
+        <span>20–30 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 16 · Chapter 04 divider ────────────────────────────── -->
+  <section data-label="16 Chapter 04" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">16 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">04</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER FOUR</p>
+        <h2 class="title-l" style="max-width: 1600px;">藝術銀行</h2>
+      </div>
+      <div class="section-foot">
+        <span>yii · 阿曾</span>
+        <span>30–40 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 17 · Chapter 05 divider ────────────────────────────── -->
+  <section data-label="17 Chapter 05" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">17 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">05</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER FIVE</p>
+        <h2 class="title-l" style="max-width: 1600px;">超證實驗室<br />與國際公共財的生與死？</h2>
+      </div>
+      <div class="section-foot">
+        <span>Denken</span>
+        <span>40–50 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 18 · Chapter 06 divider ────────────────────────────── -->
+  <section data-label="18 Chapter 06" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">18 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">06</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER SIX</p>
+        <h2 class="title-l" style="max-width: 1600px;">綠沙發這幾年的成果</h2>
+      </div>
+      <div class="section-foot">
+        <span>Swift Evo · DeSci Asia · 預錄</span>
+        <span>50–60 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 19 · Chapter 07 divider ────────────────────────────── -->
+  <section data-label="19 Chapter 07" class="slide section">
+    <header class="slide-chrome">
+      <span class="brand"><span class="mark"></span>FAB DAO · 去中心治理史</span>
+      <span class="nav">19 / 20 · Chapter</span>
+    </header>
+    <div class="section-body">
+      <p class="section-num">07</p>
+      <div class="section-title">
+        <p class="eyebrow eyebrow--accent" style="color: var(--accent);">CHAPTER SEVEN</p>
+        <h2 class="title-l" style="max-width: 1600px;">互相補充</h2>
+      </div>
+      <div class="section-foot">
+        <span>六位講者 · 全體</span>
+        <span>60–75 min</span>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── 20 · Q&A 結尾 ──────────────────────────────────────── -->
+  <section data-label="20 結尾 · Q&amp;A" class="slide end">
+    <div class="end-grid">
+      <div class="end-main">
+        <p class="end-q">Q&amp;<span>A</span></p>
+        <div>
+          <h2 class="thanks">謝謝<br/>聆聽。</h2>
+          <p class="end-sub">這個段落留給觀眾。<br/>「歷史不是一個人向前一百步，<br/>是一百個人向前一步。」 100% = 1</p>
+        </div>
+      </div>
+      <div class="contact-grid">
+        <div><span>網站</span><span>fabdao.world</span></div>
+        <div><span>HackMD</span><span>hackmd.io/@fabdao</span></div>
+        <div><span>Snapshot</span><span>snapshot.org/#/s:fabdao.eth</span></div>
+        <div><span>Email</span><span>gm@fabdao.world</span></div>
+      </div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script>
+window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "mint",
+  "font": "sans",
+  "grid": true,
+  "dark": false,
+  "titleScale": 0.9
+}/*EDITMODE-END*/;
+</script>
+
+<script src="deck-stage.js"></script>
+
+</body>
+</html>
