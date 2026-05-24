@@ -1,0 +1,1771 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<title>自由與管制的天平：安全的服務還是自由的網路 · 胡博硯老師課堂 · 2026.05.26</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="deck-stage.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<style>
+  /* ────────────────────────────────────────────────────────────
+     cypherpunk-acid · design tokens
+     Palette ported from cypherpunk2026 PDF (deep teal → acid yellow)
+     ──────────────────────────────────────────────────────────── */
+  :root {
+    --cp-deep:        #06251F;
+    --cp-ink:         #08322C;
+    --cp-teal:        #1A5C4E;
+    --cp-moss:        #3A7A4E;
+    --cp-acid:        #E8F23F;
+    --cp-acid-soft:   #F0F77A;
+    --cp-amber:       #F2A03F;
+    --cp-cyan:        #4FF0D0;
+    --cp-paper:       #F2EFD8;
+    --cp-paper-soft:  #FDFBE9;
+    --cp-magenta:     #E84F8E;
+
+    --bg:        var(--cp-ink);
+    --bg-alt:    var(--cp-deep);
+    --fg:        var(--cp-paper);
+    --fg-muted:  rgba(242,239,216,.72);
+    --fg-soft:   rgba(242,239,216,.45);
+    --rule:      rgba(232,242,63,.22);
+    --rule-soft: rgba(242,239,216,.16);
+    --accent:    var(--cp-acid);
+    --accent-2:  var(--cp-amber);
+
+    --font-cjk:   "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+    --font-serif: "Noto Serif TC", "Source Han Serif TC", "PingFang TC", serif;
+    --font-mono:  "JetBrains Mono", ui-monospace, "SFMono-Regular", "Menlo", monospace;
+
+    --pad-x: 120px;
+    --pad-y: 96px;
+    --title-gap: 56px;
+    --item-gap: 28px;
+    --radius: 18px;
+    --radius-sm: 8px;
+
+    --t-display: 144px;
+    --t-title:   84px;
+    --t-h1:      64px;
+    --t-h2:      48px;
+    --t-h3:      36px;
+    --t-body:    32px;
+    --t-small:   30px;
+    --t-tiny:    30px;
+    --t-eyebrow: 30px;
+  }
+
+  html, body { margin:0; padding:0; background:#000; color:var(--fg); font-family:var(--font-cjk); font-size: 30px; line-height: 1.4; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+  deck-stage { background:#000; }
+  deck-stage:not(:defined){ visibility:hidden; }
+
+  section {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-cjk);
+    padding: var(--pad-y) var(--pad-x);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Subtle grid background on dark slides — cypherpunk terminal */
+  section:not(.s-paper):not(.s-acid)::before {
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(to right,  rgba(232,242,63,.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(232,242,63,.04) 1px, transparent 1px);
+    background-size: 80px 80px;
+    z-index:0;
+  }
+  section > * { position:relative; z-index:1; }
+
+  /* Slide variants */
+  .s-paper { --bg: var(--cp-paper); --fg: var(--cp-ink); --fg-muted: rgba(8,50,44,.7); --fg-soft: rgba(8,50,44,.45); --rule: rgba(8,50,44,.2); --rule-soft: rgba(8,50,44,.1); background: var(--cp-paper); color: var(--cp-ink); }
+  .s-acid  { --bg: var(--cp-acid);  --fg: var(--cp-ink); --fg-muted: rgba(8,50,44,.78); --fg-soft: rgba(8,50,44,.5);  --rule: rgba(8,50,44,.22); --accent: var(--cp-ink); background: var(--cp-acid); color: var(--cp-ink); }
+  .s-deep  { background: var(--cp-deep); }
+
+  /* ─── chrome (top status bar) ─────────────────────────────── */
+  .chrome {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono);
+    font-size: var(--t-tiny);
+    color: var(--fg-soft);
+    letter-spacing: .04em;
+    margin-bottom: 48px;
+  }
+  .chrome .brand { display:inline-flex; align-items:center; gap:14px; font-weight:500; }
+  .chrome .brand .dot { width:10px; height:10px; border-radius:999px; background: var(--accent); display:inline-block; box-shadow: 0 0 12px var(--accent); }
+  .chrome .nav    { display:inline-flex; gap:18px; }
+  .chrome .nav .sec { color: var(--accent); }
+
+  /* ─── typography primitives ──────────────────────────────── */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-eyebrow);
+    letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 26px;
+    font-weight: 500;
+  }
+  .eyebrow--muted { color: var(--fg-muted); }
+  .title-xxl { font-family: var(--font-serif); font-size: var(--t-display); font-weight: 900; line-height: .95; letter-spacing: -.02em; margin: 0; color: var(--fg); }
+  .title-xl  { font-family: var(--font-serif); font-size: var(--t-title);   font-weight: 900; line-height: 1.0;  letter-spacing: -.015em; margin: 0; color: var(--fg); }
+  .title-l   { font-family: var(--font-serif); font-size: var(--t-h1);      font-weight: 800; line-height: 1.1;  letter-spacing: -.01em; margin: 0; color: var(--fg); }
+  .title-m   { font-family: var(--font-serif); font-size: var(--t-h2);      font-weight: 700; line-height: 1.18; margin: 0; color: var(--fg); }
+  .title-s   { font-family: var(--font-cjk);   font-size: var(--t-h3);      font-weight: 700; line-height: 1.3;  margin: 0; color: var(--fg); }
+  .body      { font-family: var(--font-cjk);   font-size: var(--t-body);    font-weight: 400; line-height: 1.55; margin: 0; color: var(--fg); }
+  .small     { font-family: var(--font-cjk);   font-size: var(--t-small);   line-height: 1.5; margin: 0; color: var(--fg-muted); }
+  .tiny      { font-family: var(--font-mono);  font-size: var(--t-tiny);    line-height: 1.4; margin: 0; color: var(--fg-soft); letter-spacing: .02em; }
+  .mono      { font-family: var(--font-mono); }
+  .body--muted { color: var(--fg-muted); }
+
+  .hl   { background: var(--cp-acid); color: var(--cp-ink); padding: 0 .25em; border-radius: 4px; font-weight: 500; }
+  .hl-amber { background: var(--cp-amber); color: var(--cp-ink); padding: 0 .25em; border-radius: 4px; font-weight: 500; }
+  /* highlighter underline — works on both dark and light backgrounds */
+  .hl-line { background: linear-gradient(transparent 84%, var(--cp-acid) 84%, var(--cp-acid) 100%); padding: 0 3px; }
+  /* on paper variant, use a true highlighter — text on top of yellow */
+  .s-paper .hl-line { background: linear-gradient(transparent 60%, var(--cp-acid) 60%, var(--cp-acid) 92%, transparent 92%); }
+  /* on acid divider slides — use opaque ink underline instead of acid */
+  .s-acid .hl-line { background: linear-gradient(transparent 84%, var(--cp-ink) 84%, var(--cp-ink) 100%); }
+  .accent-acid  { color: var(--cp-acid); }
+  .accent-amber { color: var(--cp-amber); }
+  .accent-cyan  { color: var(--cp-cyan); }
+
+  /* ─── chips / pills ─────────────────────────────────────── */
+  .pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: transparent; color: var(--fg);
+    padding: 8px 18px; border-radius: 999px;
+    font-family: var(--font-mono); font-size: var(--t-tiny); font-weight: 500;
+    border: 1.5px solid var(--rule); letter-spacing: .04em;
+  }
+  .pill--acid  { background: var(--cp-acid);  color: var(--cp-ink); border-color: transparent; }
+  .pill--amber { background: var(--cp-amber); color: var(--cp-ink); border-color: transparent; }
+  .pill--ghost { background: transparent;     color: var(--fg); }
+
+  /* ─── layout helpers ─────────────────────────────────────── */
+  .stack { display: flex; flex-direction: column; }
+  .row   { display: flex; flex-direction: row; }
+  .gap-s  { gap: 16px; }
+  .gap-m  { gap: 28px; }
+  .gap-l  { gap: 48px; }
+  .gap-xl { gap: 72px; }
+  .grow   { flex: 1; }
+  .center-y { justify-content: center; }
+  .between  { justify-content: space-between; }
+
+  .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+  .cols-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; }
+  .cols-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
+
+  ul.clean { margin: 0; padding: 0; list-style: none; }
+  ul.clean > li { padding-left: 1.3em; position: relative; margin-bottom: 16px; }
+  ul.clean > li::before {
+    content: "›"; position: absolute; left: 0; top: -2px;
+    color: var(--accent); font-family: var(--font-mono); font-weight: 700;
+  }
+  ul.tight > li { margin-bottom: 8px; }
+
+  ol.steps { margin: 0; padding: 0; list-style: none; counter-reset: step; }
+  ol.steps > li { padding-left: 64px; position: relative; margin-bottom: 22px; }
+  ol.steps > li::before {
+    counter-increment: step; content: counter(step,decimal-leading-zero);
+    position: absolute; left: 0; top: 0;
+    font-family: var(--font-mono); font-weight: 700; font-size: 30px;
+    color: var(--accent); letter-spacing: .04em;
+  }
+
+  /* ─── callout boxes ──────────────────────────────────────── */
+  .callout {
+    border-left: 6px solid var(--accent);
+    padding: 24px 36px;
+    background: rgba(232,242,63,.06);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  }
+  .callout--amber { border-left-color: var(--cp-amber); background: rgba(242,160,63,.06); }
+  .callout--paper { background: rgba(242,239,216,.06); }
+
+  .card {
+    background: rgba(232,242,63,.04);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+  }
+  .card .card-eyebrow {
+    font-family: var(--font-mono); font-size: var(--t-tiny);
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 14px;
+  }
+
+  /* ─── figure (image embed) ───────────────────────────────── */
+  .fig {
+    display: flex; flex-direction: column;
+    background: rgba(232,242,63,.04);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--rule);
+  }
+  .fig img { display:block; width:100%; height:100%; object-fit:contain; background:transparent; }
+  .fig figcaption {
+    padding: 14px 20px;
+    font-family: var(--font-mono); font-size: var(--t-tiny);
+    color: var(--fg-soft); background: rgba(8,50,44,0.4);
+    border-top: 1px solid var(--rule-soft);
+    letter-spacing: .02em;
+  }
+  /* paper-variant slides keep the original light figure look */
+  .s-paper .fig { background: var(--cp-paper-soft); border-color: rgba(8,50,44,.12); }
+  .s-paper .fig img { background: var(--cp-paper-soft); }
+  .s-paper .fig figcaption { color: var(--cp-ink); background: var(--cp-paper-soft); border-top-color: rgba(8,50,44,.1); }
+
+  /* ─── cite footer ───────────────────────────────────────── */
+  .cite {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule-soft);
+    font-family: var(--font-mono);
+    font-size: 30px;
+    color: var(--fg-soft);
+    letter-spacing: .03em;
+  }
+  .cite .src { color: var(--accent); }
+
+  /* ─── COVER slide ───────────────────────────────────────── */
+  .cover { background: radial-gradient(ellipse at top right, var(--cp-teal) 0%, var(--cp-ink) 45%, var(--cp-deep) 100%); }
+  .cover .cv-mark {
+    font-family: var(--font-mono); font-size: 30px;
+    color: var(--cp-acid); letter-spacing: .3em; text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+  .cover .cv-title {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: 168px; line-height: .92; letter-spacing: -.02em;
+    color: var(--cp-paper); margin: 0;
+  }
+  .cover .cv-title em { font-style: normal; color: var(--cp-acid); }
+  .cover .cv-sub {
+    font-family: var(--font-serif); font-weight: 500;
+    font-size: 56px; line-height: 1.25; color: var(--cp-paper-soft);
+    margin: 36px 0 0; max-width: 80%;
+  }
+  .cover .cv-meta {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-top: auto; padding-top: 80px;
+    font-family: var(--font-mono); font-size: 30px;
+    color: var(--cp-paper-soft); letter-spacing: .06em;
+  }
+  .cover .cv-meta .who { font-size: 36px; color: var(--cp-acid); letter-spacing: 0; font-family: var(--font-serif); font-weight: 700; }
+
+  /* ─── DIVIDER slides ────────────────────────────────────── */
+  .divider { justify-content: center; align-items: flex-start; padding: var(--pad-y) 160px; }
+  .divider .div-tag {
+    font-family: var(--font-mono); font-weight: 700;
+    font-size: 80px; letter-spacing: .04em;
+    color: var(--cp-ink); margin: 0 0 24px;
+  }
+  .divider .div-title {
+    font-family: var(--font-serif); font-weight: 900;
+    font-size: 200px; line-height: .92; letter-spacing: -.02em;
+    color: var(--cp-ink); margin: 0;
+  }
+  .divider .div-quote {
+    margin-top: 56px; max-width: 1200px;
+    font-family: var(--font-serif); font-weight: 500;
+    font-size: 44px; line-height: 1.4;
+    color: var(--cp-ink); font-style: italic;
+  }
+  .divider .div-quote-src { display: block; margin-top: 16px; font-family: var(--font-mono); font-size: 30px; color: rgba(8,50,44,.65); font-style: normal; letter-spacing: .04em; }
+
+  /* ─── QUOTE slides ──────────────────────────────────────── */
+  .big-quote {
+    font-family: var(--font-serif); font-weight: 700;
+    font-size: 88px; line-height: 1.15; letter-spacing: -.01em;
+    color: var(--fg); margin: 0;
+  }
+  .big-quote em { font-style: normal; color: var(--cp-acid); }
+  .quote-mark {
+    font-family: var(--font-serif); font-size: 240px; line-height: .8;
+    color: var(--cp-acid); margin: 0;
+  }
+
+  /* ─── DATA stat ─────────────────────────────────────────── */
+  .stat { display: flex; flex-direction: column; gap: 8px; }
+  .stat .num { font-family: var(--font-mono); font-weight: 700; font-size: 120px; line-height: .9; color: var(--cp-acid); }
+  .stat .lbl { font-family: var(--font-cjk); font-size: 30px; color: var(--fg-muted); }
+
+  /* ─── two-col split (image + text) ──────────────────────── */
+  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; flex: 1; min-height: 0; }
+  .split--reverse { grid-template-columns: 1fr 1.1fr; }
+  .split > .text { display: flex; flex-direction: column; }
+  .split > .fig  { max-height: 720px; }
+
+  /* ─── timeline / horizontal flow ────────────────────────── */
+  .timeline { display: grid; grid-template-columns: repeat(6, 1fr); gap: 24px; }
+  .timeline .t-cell { padding: 20px; border-top: 2px solid var(--accent); }
+  .timeline .t-year { font-family: var(--font-mono); font-weight: 700; font-size: 30px; color: var(--accent); margin-bottom: 8px; letter-spacing: .04em; }
+  .timeline .t-text { font-family: var(--font-cjk); font-size: 30px; line-height: 1.45; color: var(--fg); }
+
+  /* ─── MANIFESTO slide (poster wall) ─────────────────────── */
+  .manifesto { padding: 72px 120px 64px; background: var(--cp-deep); justify-content: flex-start; }
+  .manifesto .mf-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    letter-spacing: .48em;
+    color: var(--cp-acid);
+    text-transform: uppercase;
+    margin: 24px 0 0;
+    font-weight: 500;
+  }
+  .manifesto .mf-stack { display: flex; flex-direction: column; flex: 1; justify-content: center; gap: 0; }
+  .manifesto .mf-line {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 152px;
+    line-height: 1.0;
+    letter-spacing: -.01em;
+    color: var(--cp-paper);
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .manifesto .mf-accent { color: var(--cp-acid); }
+  .manifesto .mf-rule {
+    border: 0;
+    border-top: 3px solid var(--cp-acid);
+    margin: 28px 0;
+    width: 100%;
+    opacity: .85;
+  }
+  .manifesto .mf-foot {
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 30px;
+    color: var(--fg-soft);
+    letter-spacing: .04em;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 24px;
+  }
+
+  /* print → one page per slide */
+  @media print {
+    @page { size: 1920px 1080px; margin: 0; }
+    html, body { background: #000; }
+  }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+<!-- ════════════════════════════════════════════════════════════════
+     §0 開場（4 張）
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- 01 · cover -->
+<section class="s-deep cover" data-label="Cover">
+  <div class="cv-mark">// CYPHERPUNK_2026 · </div>
+  <h1 class="cv-title" style="font-size: 134px; line-height: 1.1; letter-spacing: 3px;">自由與管制的天平：<br>安全的服務<br>還是<em>自由的網路</em></h1>
+  <p class="cv-sub">Liberty on the Scales:<br>Safe Services or a Free Internet?</p>
+  <div class="cv-meta">
+    <div class="stack gap-s">
+      <span class="who">mashbean · 黃豆泥</span>
+      <span>東吳大學城中校區 · 1402 教室</span>
+      <span>胡博硯老師課堂分享 · 2026.05.26 10:00</span>
+    </div>
+    <div class="stack gap-s" style="text-align:right;">
+      <span>mashbean.net/decks/Prof-Hu-Class-0526</span>
+      <span>v1 · 56 slides · ~60 min</span>
+    </div>
+  </div>
+</section>
+
+<!-- 02 · hook · manifesto wall -->
+<section class="s-deep manifesto" data-label="Hook · Manifesto">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 0 · opening</span><span>02 / 56</span></span>
+  </div>
+  <p class="mf-eyebrow">MANIFESTO</p>
+  <div class="mf-stack">
+    <h2 class="mf-line" style="font-size: 140px;">HACK THE <span class="mf-accent">GOVERNMENT</span></h2>
+    <hr class="mf-rule" />
+    <h2 class="mf-line" style="font-size: 140px;">HACK THE <span class="mf-accent">PLATFORM</span></h2>
+  </div>
+  <p class="mf-foot">在公務體系裡做數位建設　／　在開放原始碼社群裡寫扣　／　在抗審查平台裡研究審查</p>
+</section>
+
+<!-- 03 · self-intro -->
+<section data-label="Self intro">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 0 · opening</span><span>03 / 56</span></span>
+  </div>
+  <p class="eyebrow">// whoami</p>
+  <h2 class="title-xl">我是 mashbean，
+這幾年的興趣是在中央與邊陲游移。</h2>
+  <div class="cols-4 gap-m" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow">// past</p>
+      <p class="body">前 <strong>醫師</strong></p>
+      <p class="body">前 <strong>公務員</strong><br><span class="small">數位部「多元宇宙科」<br>2023 – 2025.08</span></p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// now</p>
+      <p class="body">Matters Lab 平台
+General Manager</p>
+      <p class="body"><strong>密碼龐克田野</strong><br><span class="small">拉美 · 台北 · 清邁</span></p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// fellow</p>
+      <ul class="clean tight">
+        <li style="font-size: 30px">ISF Global Fellow</li>
+        <li style="font-size: 30px">Ethereum Foundation<br>Next Billion Fellow</li>
+        <li style="font-size: 30px">Harvard Policy Fellow</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// next</p>
+      <p class="body"><strong>預備研究生</strong></p>
+      <p class="small"></p>
+    </div>
+  </div>
+  <div class="cite">// 從 密碼龐克者 討論在真實世界中，如何實現「不被支配的自由」</div>
+</section>
+
+<!-- 04 · agenda -->
+<section data-label="Agenda">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 0 · opening</span><span>04 / 56</span></span>
+  </div>
+  <p class="eyebrow">// agenda</p>
+  <h2 class="title-xl"></h2>
+  <div class="cols-3 gap-l" style="margin-top: 64px; flex:1;">
+    <div class="stack gap-m">
+      <div class="row gap-s" style="align-items:baseline;">
+        <span class="mono accent-acid" style="font-size:72px; font-weight:700;">§1</span>
+        <span class="mono" style="color:var(--fg-soft);">10 min</span>
+      </div>
+      <h3 class="title-m">密碼龐克史</h3>
+      <p class="small">從 1993 Manifesto 到<br>當代數位人權的倡議。</p>
+      <p class="tiny" style="margin-top:auto;">Eric Hughes · Vitalik · d/acc<br>Amir Taaki · Santi Siri · Balaji</p>
+    </div>
+    <div class="stack gap-m">
+      <div class="row gap-s" style="align-items:baseline;">
+        <span class="mono accent-acid" style="font-size:72px; font-weight:700;">§2</span>
+        <span class="mono" style="color:var(--fg-soft);">25 min</span>
+      </div>
+      <h3 class="title-m">平台審查法揭露</h3>
+      <p class="small">CDA §230 還有效嗎？<br>抗審查平台為什麼<strong>必須開發審查演算法</strong>？</p>
+      <p class="tiny" style="margin-top:auto;">DSA · OSA · Matters Lab<br>蜜罐悖論 · 演算法權力</p>
+    </div>
+    <div class="stack gap-m">
+      <div class="row gap-s" style="align-items:baseline;">
+        <span class="mono accent-acid" style="font-size:72px; font-weight:700;">§3</span>
+        <span class="mono" style="color:var(--fg-soft);">25 min</span>
+      </div>
+      <h3 class="title-m">年齡驗證與言論自由</h3>
+      <p class="small">「我已滿 18 歲」真的有效嗎？<br><strong>個資自主</strong> vs 國家安全。</p>
+      <p class="tiny" style="margin-top:auto;">25 國年齡驗證 · 5CA 外洩<br>ZK · DID · VC · 數位皮夾</p>
+    </div>
+  </div>
+  <div class="cite">// 60 min + 8 min Q&amp;A</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     §1 密碼龐克史（9 張 · 10 min）
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- 05 · divider §1 -->
+<section class="s-acid divider" data-label="§1 Divider">
+  <p class="div-tag">§ 01</p>
+  <h2 class="div-title">密碼龐克史</h2>
+  <p class="div-quote">"Cypherpunks <strong>write code</strong>."
+    <span class="div-quote-src">— Eric Hughes · A Cypherpunk's Manifesto · 1993</span>
+  </p>
+</section>
+
+<!-- 06 · manifesto -->
+<section data-label="Manifesto">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>06 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 1993 · a cypherpunk's manifesto</p>
+  <h2 class="title-l" style="margin-bottom:64px;"></h2>
+  <div class="stack gap-l" style="max-width: 1500px;">
+    <p class="title-m"><span class="accent-acid mono">[1]</span> &nbsp; Privacy is necessary for <span class="hl-line">an open society</span> in the electronic age.</p>
+    <p class="title-m"><span class="accent-acid mono">[2]</span> &nbsp; Privacy is the power to <span class="hl-line">selectively reveal</span> oneself to the world.</p>
+    <p class="title-m"><span class="accent-acid mono">[3]</span> &nbsp; Cypherpunks <span class="hl-line">write code</span>.</p>
+  </div>
+  <div class="cite">Eric Hughes · 1993-03-09 · <span class="src">activism.net/cypherpunk/manifesto.html</span></div>
+</section>
+
+<!-- 07 · two paths -->
+<section data-label="Two paths">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>07 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 數位轉型的二元路徑</p>
+  <h2 class="title-l">其他我認為的密碼龐克同路人</h2>
+  <div class="split" style="margin-top: 56px;">
+    <div class="text stack gap-m">
+      <p class="body"><strong>From the Left · Tech for Solidarity</strong><br>從集體協作、論壇、治理出發，「<span class="hl-line">民主化</span>」現有的權力結構。</p>
+      <p class="body"><strong>From the Right · Tech for Sovereignty</strong><br>從個人自由、抗審查、開放取用出發，「<span class="hl-line">自由化</span>」個體的選擇空間。</p>
+      <p class="callout"></p>
+    </div>
+    <figure class="fig">
+      <img src="assets/fig-cypherpunk-middle-from-leftright.png" alt="From Left / Middle / From Right" />
+      <figcaption>cypherpunk2026 · framework p.04</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 08 · solidarity -->
+<section data-label="Tech for Solidarity">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>08 / 56</span></span>
+  </div>
+  <p class="eyebrow">// from the left · tech for solidarity</p>
+  <h2 class="title-l">探索民主的技術 — <span class="accent-acid">民主化</span> Democratization</h2>
+  <div class="split split--reverse" style="margin-top: 56px;">
+    <figure class="fig">
+      <img src="assets/fig-tech-for-solidarity-democratization.png" alt="Tech for Solidarity" />
+      <figcaption>cypherpunk2026 · framework p.10</figcaption>
+    </figure>
+    <div class="text stack gap-m">
+      <p class="body">三條子路徑共同把<strong>協作能力</strong>從少數人手中拉到所有人手中：</p>
+      <ul class="clean">
+        <li><strong>協作工具發展</strong><br><span class="small">即時共筆 → wiki → 版本控制系統 (Git)</span></li>
+        <li><strong>網路論壇演進</strong><br><span class="small">BBS → Blog → SNS</span></li>
+        <li><strong>網路治理演進</strong><br><span class="small">Internet Governance · Certificate Authorities</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 09 · sovereignty -->
+<section data-label="Tech for Sovereignty">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>09 / 56</span></span>
+  </div>
+  <p class="eyebrow">// from the right · tech for sovereignty</p>
+  <h2 class="title-l">邁向自由的技術 — <span class="accent-acid">自由化</span> Liberalization</h2>
+  <div class="split" style="margin-top: 56px;">
+    <div class="text stack gap-m">
+      <p class="body">把<strong>抗審查、互通、可分叉</strong>當作出廠預設：</p>
+      <ul class="clean">
+        <li><strong>抗審查運動</strong><br><span class="small">E2E 加密 · VPN · Tor · P2P</span></li>
+        <li><strong>網路的網路</strong><br><span class="small">OAuth · OpenID Connect · OpenAPI · Protocol</span></li>
+        <li><strong>開放取用運動</strong><br><span class="small">Open Access · FOSS · GPL/MIT/BSD · Creative Commons</span></li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <img src="assets/fig-tech-for-sovereignty-liberalization.png" alt="Tech for Sovereignty" />
+      <figcaption>cypherpunk2026 · framework p.11</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 10 · anti-hegemony -->
+<section data-label="Anti-hegemony" style="padding:0;">
+  <img src="assets/fig-anti-hegemony-axes.png" alt="Anti-hegemony axes" style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:var(--cp-paper-soft); z-index:0;" />
+  <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(8,50,44,0.92) 0%, rgba(8,50,44,0.55) 28%, rgba(8,50,44,0) 50%, rgba(8,50,44,0) 70%, rgba(8,50,44,0.85) 100%); z-index:1;"></div>
+  <div style="position:relative; z-index:2; padding: var(--pad-y) var(--pad-x); height:100%; display:flex; flex-direction:column;">
+    <div class="chrome">
+      <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+      <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>10 / 56</span></span>
+    </div>
+    <p class="eyebrow">// the middle axis · anti-hegemony</p>
+    <h2 class="title-l">兩條路徑的共同前提：<br><span class="accent-acid">去中心化</span>本身就是政治姿態。</h2>
+    <div style="margin-top:auto; display:flex; gap:40px; align-items:flex-end;">
+      <p class="body" style="flex:1; background:rgba(8,50,44,0.7); padding:24px 28px; border-radius:8px; backdrop-filter:blur(4px);">左、中、右三條路最終都指向<strong>反霸權</strong>——不是反國家，也不是反市場，而是反「<span class="hl-line">任何單一節點</span>能定義所有人遊戲規則」。</p>
+      <figcaption class="tiny" style="background:rgba(8,50,44,0.7); padding:10px 16px; border-radius:6px; flex-shrink:0;">cypherpunk2026 · framework p.07</figcaption>
+    </div>
+  </div>
+</section>
+
+<!-- 11 · d/acc -->
+<section data-label="d/acc">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>11 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 2023 · vitalik buterin</p>
+  <h2 class="title-l">當代密碼龐克的接力棒：<span class="accent-acid">d/acc</span></h2>
+  <div class="split" style="margin-top: 56px;">
+    <div class="text stack gap-m">
+      <p class="body">Vitalik 在 2023 提出 <strong>d/acc</strong>，把「加速主義」拉回密碼龐克的方法論：</p>
+      <ul class="clean">
+        <li><strong>d</strong>efense — 防禦優先的科技</li>
+        <li><strong>d</strong>ecentralization — 去中心化</li>
+        <li><strong>d</strong>emocracy — 民主治理</li>
+      </ul>
+      <p class="callout"><span class="mono accent-acid">// HOOK</span><br>「d/acc 的 d，無論是 defense、democracy 還是 decentralization，<strong>全部都可以創造社會韌性</strong>。」</p>
+      <p class="tiny">— mashbean · d/acc Argentina 演講 · 2025-11</p>
+    </div>
+    <figure class="fig">
+      <img src="assets/fig-dacc.png" alt="d/acc framework" />
+      <figcaption>cypherpunk2026 · framework p.09</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 12 · field cypherpunk -->
+<section data-label="Field cypherpunk">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 · cypherpunk</span><span>12 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 2020s · cypherpunks in the wild</p>
+  <h2 class="title-l">當代密碼龐克的三種生活實驗</h2>
+  <div class="cols-3 gap-l" style="margin-top: 56px; flex:1;">
+    <div class="card">
+      <p class="card-eyebrow">// model 01</p>
+      <h3 class="title-s" style="margin-bottom:18px;">快閃城市<br><span class="small mono">Pop-up Cities</span></h3>
+      <p class="small">集體遊牧版本的「數位遊牧」。
+以兩到八週為單位聚集數百名工程師、研究者、政策人，做真實的小社會實驗。</p>
+      <p class="tiny" style="margin-top:20px;">Zuzalu (Vitalik, 黑山 2023)<br>Edge City · Mu · Frontier Tower</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// model 02</p>
+      <h3 class="title-s" style="margin-bottom:18px;">游擊實驗<br><span class="small mono">Guerrilla Experiments</span></h3>
+      <p class="small">直接把密碼學嫁接到既有社會運動上。</p>
+      <p class="tiny" style="margin-top:20px;"><strong>Amir Taaki</strong> · Bitcoin 早期核心，2015 投入敘利亞羅賈瓦自治區革命<br><br><strong>Santi Siri</strong> · 2013 創辦阿根廷「網路黨」，後續 Democracy Earth、Proof of Humanity</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// model 03</p>
+      <h3 class="title-s" style="margin-bottom:18px;">新國家／新學校<br><span class="small mono">Network States</span></h3>
+      <p class="small">從生活共同體開始，目標是國際承認的法律實體。</p>
+      <p class="tiny" style="margin-top:20px;"><strong>Balaji Srinivasan</strong> · 《網路國家》<br>新加坡網路學校<br><br><span class="accent-amber">⚠ 警告：右翼版本可能與威權體制趨同</span></p>
+    </div>
+  </div>
+  <div class="cite">// mashbean · 拉美田野筆記 · 2025-12 · <span class="src">facebook/2025/1203-7fg0y6</span></div>
+</section>
+
+<!-- 13 · bridge to §2 -->
+<section class="s-deep" data-label="Bridge to §2">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 1 → § 2</span><span>13 / 56</span></span>
+  </div>
+  <div class="stack gap-l grow center-y" style="max-width: 1400px;">
+    <p class="eyebrow">// transition</p>
+    <h2 class="title-xl">但密碼龐克的承諾——<br>「<span class="accent-acid">寫程式就能對抗強權</span>」——<br>撞上 21 世紀的平台時代<br>會怎樣？</h2>
+    <p class="body body--muted" style="margin-top: 32px;">下半節，我們進入一場 5 年的平台戰爭實錄。</p>
+  </div>
+  <div class="cite">→ § 2 · 平台審查法揭露</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     §2 平台審查法揭露（22 張 · 25 min）
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- 14 · divider §2 -->
+<section class="s-acid divider" data-label="§2 Divider">
+  <p class="div-tag">§ 02</p>
+  <h2 class="div-title">平台審查法<br>揭露</h2>
+  <p class="div-quote">"<strong>大家討厭 Facebook</strong>。<br>但大家還是<strong>使用</strong> Facebook。"
+    <span class="div-quote-src">— 張潔平 · Matters Lab</span>
+  </p>
+</section>
+
+<!-- 15 · §230 context -->
+<section data-label="CDA §230">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>15 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 1996 · communications decency act</p>
+  <h2 class="title-l">先回到憲法之外的「<span class="accent-acid">避風港</span>」起點。</h2>
+  <div class="callout" style="margin-top: 48px; max-width: 1600px;">
+    <p class="body" style="font-family: var(--font-mono); line-height: 1.5;">"No provider or user of an interactive computer service shall be treated as the <strong>publisher</strong> or <strong>speaker</strong> of any information provided by another information content provider."</p>
+    <p class="tiny" style="margin-top: 14px;">— 47 U.S.C. § 230 (c)(1)</p>
+  </div>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div>
+      <p class="card-eyebrow">// 平台不為使用者內容負責</p>
+      <p class="body">使 YouTube、Facebook、Reddit、Wikipedia、PTT 都能存在的法律前提。沒有 §230，就沒有現代 UGC 平台。</p>
+    </div>
+    <div>
+      <p class="card-eyebrow">// good samaritan 條款</p>
+      <p class="body">平台「善意」做內容審查時，<strong>不會因此被視為發布者</strong>——這保住了平台同時擁有「不審查」與「審查」的法律自由。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 16 · §230 now -->
+<section data-label="§230 today">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>16 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 30 years later · §230 修法壓力</p>
+  <h2 class="title-l">三十年後，左右兩派都想<span class="accent-acid">動 §230</span>。</h2>
+  <div class="cols-2 gap-l" style="margin-top: 48px;">
+    <div class="card">
+      <p class="card-eyebrow">// 從左方</p>
+      <ul class="clean">
+        <li><strong>FOSTA-SESTA</strong>（2018）<br><span class="small">性交易例外，第一個成功削弱 §230 的修法</span></li>
+        <li><strong>EARN IT Act</strong>（2020–）<br><span class="small">兒少性剝削；強制平台掃描內容</span></li>
+        <li><strong>KOSA</strong> Kids Online Safety Act<br><span class="small">2024 參議院 91:3 通過；眾議院卡關</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// 從右方</p>
+      <ul class="clean">
+        <li><strong>EO 13925</strong>（2020 川普一期）<br><span class="small">指控平台「政治偏見」濫用 §230；拜登 2021 撤銷</span></li>
+        <li><strong>Murthy v. Missouri</strong>（2024）<br><span class="small">最高法院迴避實質判決，但「政府施壓平台」議題未結</span></li>
+        <li><strong>Moody v. NetChoice</strong>（2024）<br><span class="small">確認平台 content moderation 受第一修正案保障</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="cite">// §230 沒有被推翻，但「平台必須對某些內容負責」的<span class="src">例外清單</span>在加長</div>
+</section>
+
+<!-- 17 · EU DSA -->
+<section data-label="EU DSA">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>17 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 2024-02 · 歐盟全面生效</p>
+  <h2 class="title-l">歐盟 <span class="accent-acid">DSA</span> · Digital Services Act<br><span class="small body--muted">把「平台責任」從美式避風港，反轉為歐式風險義務。</span></h2>
+  <div class="cols-3 gap-m" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow">// 三類處分</p>
+      <ul class="clean tight">
+        <li>內容<strong>移除</strong></li>
+        <li>帳號<strong>停權</strong></li>
+        <li><strong>限制可見度</strong></li>
+      </ul>
+      <p class="small" style="margin-top:16px; color:var(--fg-soft);">第三類是真正的權力中心：<br>「看不見」比「刪掉」更便宜。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// VLOPs 義務</p>
+      <p class="body">月活 &gt; <strong>4500 萬</strong> 的「超大型線上平台」<br>承擔：</p>
+      <ul class="clean tight" style="margin-top:8px;">
+        <li>演算法透明</li>
+        <li>年度系統性風險評估</li>
+        <li>研究者資料存取</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// 罰則</p>
+      <p class="stat"><span class="num">6%</span><span class="lbl">全球年營業額罰款上限</span></p>
+      <p class="small" style="margin-top:12px;">2024 X / TikTok / Meta 都已被開案調查</p>
+    </div>
+  </div>
+</section>
+
+<!-- 18 · UK OSA + AU + others -->
+<section data-label="UK / AU / others">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>18 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 全球平台立法浪潮</p>
+  <h2 class="title-l"></h2>
+  <div class="timeline" style="margin-top: 56px;">
+    <div class="t-cell"><div class="t-year">UK · 2023</div><div class="t-text"><strong>Online Safety Act</strong><br>Ofcom 2025-07 起執法</div></div>
+    <div class="t-cell"><div class="t-year">AU · 2024</div><div class="t-text"><strong>OSA Amendment</strong><br>16 歲社群媒體禁令<br>2025-12-10 生效</div></div>
+    <div class="t-cell"><div class="t-year">SG · 2023</div><div class="t-text"><strong>Online Safety Code</strong><br>App Store 層管制</div></div>
+    <div class="t-cell"><div class="t-year">BR · 2026</div><div class="t-text"><strong>Digital ECA</strong><br>數位兒少保護</div></div>
+    <div class="t-cell"><div class="t-year">MY · 2026</div><div class="t-text"><strong>OSA 2025</strong><br>eKYC + 16 歲</div></div>
+    <div class="t-cell"><div class="t-year">DE · 2025</div><div class="t-text"><strong>JMStV</strong><br>德國兒少媒體保護</div></div>
+  </div>
+  <div class="callout callout--amber" style="margin-top: 56px;">
+    <p class="body">三年內全球至少 <strong>25 國</strong> 推動相關立法。共通主軸：<strong>從「平台不負責」轉向「平台預先攔截」</strong>。</p>
+  </div>
+</section>
+
+<!-- 19 · algo power -->
+<section data-label="Algo power">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>19 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 真正的權力中心</p>
+  <h2 class="title-l"></h2>
+  <div class="callout" style="margin-top: 64px; max-width: 1600px;">
+    <p class="big-quote" style="font-size: 56px; line-height: 1.25;">「平台真正能控制的，是<span class="hl-line">公共入口與排序</span>，不是內容本體。」</p>
+    <p class="tiny" style="margin-top: 24px;">— g0v Summit 2026 · Matters Lab Workshop</p>
+  </div>
+  <p class="body body--muted" style="margin-top: 48px; max-width: 1500px;">內容用 IPFS、Tor 還救得回來。<br>但「沒有人看到」這件事——憲法言論自由保障不到。</p>
+</section>
+
+<!-- 20 · shadowban -->
+<section data-label="Shadowban">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>20 / 56</span></span>
+  </div>
+  <p class="eyebrow">// downrank / limit / shadowban</p>
+  <h2 class="title-l">看不見的審查，<br>比刪文更難挑戰。</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="stack gap-m">
+      <p class="body"><strong>傳統審查：</strong> 內容被刪除 → 使用者收到通知 → 可以申訴 → 可以提告 → <span class="accent-acid">有司法救濟路徑</span></p>
+      <p class="body"><strong>演算法降權：</strong> 內容仍在 → 使用者沒收到通知 → <span class="accent-amber">不知道發生了什麼</span> → 無法申訴 → 沒有司法路徑</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// 法律難題</p>
+      <p class="body">DSA Art. 17 規定平台必須給「<strong>statement of reasons</strong>」——<br><br>但「限流」是否觸發？<br>「不推薦」算不算限制？<br>「演算法調整」要不要說明？<br><br><span class="accent-acid">這是 2026 仍未解的執法前線。</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 21 · Matters intro -->
+<section data-label="Matters intro">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>21 / 56</span></span>
+  </div>
+  <p class="eyebrow">// case study · matters lab (2018–)</p>
+  <h2 class="title-l">案例研究：一個「<span class="accent-acid">去平台的平台</span>」。</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="stack gap-m">
+      <p class="body" style="font-size: 38px;">2018 在香港創辦，主打：</p>
+      <ul class="clean" style="font-size: 36px; line-height: 1.55;">
+        <li style="margin-bottom: 22px;">內容寫上 <strong>IPFS</strong>，平台不能單方下架</li>
+        <li style="margin-bottom: 22px;">服務架構設計成游擊風格，可遷移、可分叉</li>
+        <li style="margin-bottom: 22px;">治理開放、社群討論駁回機制</li>
+        <li style="margin-bottom: 22px;"></li>
+      </ul>
+    </div>
+    <div class="callout callout--amber">
+      <p class="body"><strong>2020-07 法人主體遷美國</strong><br>港版國安法通過後，把法律風險帶離香港、帶離中國司法管轄。</p>
+      <p class="tiny" style="margin-top:16px;">這是「平台抗審查」第一個被迫付的成本：<br>離開使用者所在的物理地理。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 22 · Matters timeline -->
+<section data-label="Matters 5-year attack map">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>22 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 5 years of attacks</p>
+  <h2 class="title-l">抗審查平台的<span class="accent-acid">真實職業傷害</span></h2>
+  <div class="timeline" style="margin-top: 56px;">
+    <div class="t-cell"><div class="t-year">2019.12</div><div class="t-text">色情廣告大軍<br><span class="small">第一場大規模灌水</span></div></div>
+    <div class="t-cell"><div class="t-year">2019–20</div><div class="t-text">郭文貴 / 閆麗夢<br>洗版運動</div></div>
+    <div class="t-cell"><div class="t-year">2020</div><div class="t-text">吳敦義仿冒帳號<br><span class="small">政治人物身分劫持</span></div></div>
+    <div class="t-cell"><div class="t-year">2021</div><div class="t-text">信用卡盜刷<br><span class="small">支付系統淪為洗錢工具</span></div></div>
+    <div class="t-cell"><div class="t-year">2024–25</div><div class="t-text">DMCA 浪潮<br><span class="small">合法武器化的下架請求</span></div></div>
+    <div class="t-cell"><div class="t-year">2025.01</div><div class="t-text"><span class="accent-amber">TWNIC DNS-RPZ</span><br>誤封 3 天<br><span class="small">被自動防詐機制波及</span></div></div>
+  </div>
+  <p class="body" style="margin-top: 64px; max-width: 1600px;"></p>
+  <div class="cite">// 2025-01 TWNIC 事件：Matters 因垃圾文觸發台灣 ISP 層級<span class="src">自動封鎖數日</span></div>
+</section>
+
+<!-- 23 · spam numbers -->
+<section data-label="70-80% spam">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>23 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the uncomfortable numbers</p>
+  <h2 class="title-l">「抗審查平台」的每日數據</h2>
+  <div class="cols-3 gap-l" style="margin-top: 64px;">
+    <div class="stat"><span class="num">70-80%</span><span class="lbl">每天新內容是<strong>垃圾</strong>／灌水／詐騙</span></div>
+    <div class="stat"><span class="num">10-20%</span><span class="lbl">日常生活、興趣、創作</span></div>
+    <div class="stat"><span class="num">~1%</span><span class="lbl">需要被保護的公民、政治、調查內容</span></div>
+  </div>
+  <div class="callout" style="margin-top: 72px; max-width: 1700px;">
+    <p class="title-m" style="font-family: var(--font-serif);"></p>
+  </div>
+</section>
+
+<!-- 24 · honeypot paradox -->
+<section data-label="Honeypot paradox">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>24 / 56</span></span>
+  </div>
+  <p class="eyebrow">// honeypot paradox</p>
+  <h2 class="title-l"><span class="accent-acid">蜜罐悖論</span>：抗審查平台同時吸引<br>政治異議與垃圾濫用。</h2>
+  <div class="callout callout--amber" style="margin-top: 64px; max-width: 1700px;">
+    <p class="title-m" style="font-family: var(--font-serif);">「攻擊者並非直接入侵系統，而是透過<span class="hl-amber">大量垃圾與詐騙內容</span>，<br>觸發民主社會用以維護安全的<span class="hl-amber">自動化機制</span>。」</p>
+    <p class="tiny" style="margin-top: 24px;">— mashbean · 抗審查出版平台的市場悖論與蜜罐悖論 · 2025-12</p>
+  </div>
+  <p class="body" style="margin-top: 56px; max-width: 1600px;">“Mass reporting is particularly challenging... because of its weaponization of platform infrastructures for community governance.”Colten Meisner, Policy &amp; Internet, 2023</p>
+</section>
+
+<!-- 25 · matters governance evolution -->
+<section data-label="Governance evolution">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>25 / 56</span></span>
+  </div>
+  <p class="eyebrow">// matters · governance tooling 2019→2024</p>
+  <h2 class="title-l"></h2>
+  <ol class="steps" style="margin-top: 56px; max-width: 1700px;">
+    <li><p class="title-s">人工審查 <span class="small mono">· 2019</span></p><p class="small">所有檢舉送到後台，編輯團隊一條條看。延遲高、不可規模化。</p></li>
+    <li><p class="title-s">帳號註銷 <span class="small mono">· 2020</span></p><p class="small">硬手段：直接刪帳號。但「永久」的成本太高，誤殺難以挽回。</p></li>
+    <li><p class="title-s">小黑屋（可逆隔離）<span class="small mono">· 2023</span></p><p class="small">不刪除、不註銷——只是「公共面排除」。可恢復、可申訴。</p></li>
+    <li><p class="title-s">模型守門 <span class="small mono">· 2024 → spam-detection-scaffold</span></p><p class="small">三層：① 語義（BERT 分類）② 行為（AWS Lambda 偵測模式）③ 信任評分。</p></li>
+  </ol>
+  <div class="cite">// 核心原則：<span class="src">不刪除，而是公共面排除</span>。內容仍在 IPFS，只是平台首頁不推薦。</div>
+</section>
+
+<!-- 26 · layered architecture -->
+<section data-label="Layered resilience">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>26 / 56</span></span>
+  </div>
+  <p class="eyebrow">// content resilience · layered architecture</p>
+  <h2 class="title-l">內容韌性的<span class="accent-acid">三層結構</span></h2>
+  <div class="cols-3 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// layer 03 · 可被收編</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">站內入口</h3>
+      <p class="small">matters.town 首頁、搜尋、推薦——可以被法院、ISP、平台政策影響。</p>
+      <p class="tiny accent-amber" style="margin-top: 16px;">這就是 §230 / DSA 主要管制的層級。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// layer 02 · 不可下架</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">內容本體</h3>
+      <p class="small">所有文章寫上 <strong>IPFS</strong>，由分散式節點固定。<br><br>只要還有一個節點固定，內容就活著。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-cyan">// layer 01 · 另闢蹊徑</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">站外入口</h3>
+      <ul class="clean tight">
+        <li><strong>ENS contenthash</strong></li>
+        <li>IPFS gateways</li>
+        <li><strong>Tor 洋蔥小站</strong></li>
+        <li>Fediverse mirror</li>
+      </ul>
+    </div>
+  </div>
+  <p class="body" style="margin-top: 56px; max-width: 1600px;">這是密碼龐克<strong>「分散信任」</strong>思想在平台層的具體實作。</p>
+</section>
+
+<!-- 27 · market paradox -->
+<section data-label="Market paradox">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>27 / 56</span></span>
+  </div>
+  <p class="eyebrow">// market paradox</p>
+  <h2 class="title-l">市場悖論：<span class="accent-acid">生存需求</span> ≠ <span class="accent-amber">商業需求</span></h2>
+  <div class="callout" style="margin-top: 64px; max-width: 1700px;">
+    <p class="big-quote" style="font-size: 56px; line-height: 1.3;">「邊緣地帶的人們有需求，不只是因為便利，
+因為另一種選擇是沉默、自我審查。」</p>
+  </div>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div>
+      <p class="card-eyebrow" style="font-size: 32px; font-weight: 600;">// 邊緣社群的需求結構</p>
+      <p class="body">道德/生存需求 = 高
+市場購買力 = 低且分散
+使用者支付意願 = 低（因經濟弱勢、匿名需求）</p>
+    </div>
+    <div>
+      <p class="card-eyebrow" style="font-size: 32px; font-weight: 600;">// 主流市場的不可達</p>
+      <p class="body">主流使用者沒有「沉默成本」<br>→ Facebook 夠用就好<br>→ 抗審查平台<strong>網路效應永遠打不贏通用大平台</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 28 · builder paradox -->
+<section data-label="Builder paradox">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>28 / 56</span></span>
+  </div>
+  <p class="eyebrow">// builder paradox</p>
+  <h2 class="title-l">建造者的<span class="accent-acid">雙重風險</span></h2>
+  <div class="cols-2 gap-l" style="margin-top: 64px;">
+    <div class="card">
+      <p class="card-eyebrow">// risk 01 · 商業失敗</p>
+      <p class="body">市場購買力分散；<br>主流使用者不來；<br>VC 看不到 10x 出場路徑。</p>
+      <p class="small" style="margin-top: 20px;">Mirror、Paragraph、Lens Protocol、Matters——這些平台都還在尋找可持續的營收模型。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// risk 02 · 人身安全</p>
+      <p class="body">敵對方<strong>不是市場對手</strong>，而是<strong>國家</strong>——<br>創辦人面對的不是訴訟，而是入境黑名單、家族騷擾、刑事追訴。</p>
+      <p class="small" style="margin-top: 20px;">「隱私不是犯罪。對我們而言，這不只是口號，而是現實世界中真實發生過的事。」</p>
+    </div>
+  </div>
+</section>
+
+<!-- 29 · platform as governor -->
+<section data-label="Platform as governor">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>29 / 56</span></span>
+  </div>
+  <p class="eyebrow">// dual role</p>
+  <h2 class="title-l">平台<span class="accent-acid">同時是治理者，也是被治理者</span>。</h2>
+  <div class="cols-2 gap-l" style="margin-top: 64px;">
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// 被治理者</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">TWNIC DNS-RPZ 誤封事件</h3>
+      <p class="small">2025-01 · 農曆年期間，Matters 被詐騙文洗版。<br>觸發台灣 ISP 層級<strong>自動防詐封鎖</strong>。<br><br>整站對台灣使用者<strong>連續 3 天無法訪問</strong>。<br>Matters 在這場戰役是<strong>受害方</strong>。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// 治理者</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">內部小黑屋 / 模型守門</h3>
+      <p class="small">同一週，Matters 一如既往的審查服務為：
+· 帳號隔離
+· 文章降權
+· 模型自動判定
+
+對使用者來說，Matters 是治理方。</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top: 48px; max-width: 1700px;">
+    <p class="body"></p>
+  </div>
+</section>
+
+<!-- 30 · open source limit -->
+<section data-label="Open source limit">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>30 / 56</span></span>
+  </div>
+  <p class="eyebrow">// open source ≠ open process</p>
+  <h2 class="title-l">開源 <span class="accent-acid">≠</span> 共創</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="stack gap-m">
+      <p class="body">理論上：<br>所有程式碼、所有參數、所有判斷規則——全部公開。</p>
+      <p class="body accent-amber">現實上：<br>spam-detection 的閾值一旦公開，<strong>攻擊者就能調整輸入避開偵測</strong>。</p>
+      <p class="body">折衷：<strong>分層開源</strong>——<br>程式碼公開，但敏感參數延遲發布 6–12 個月。</p>
+    </div>
+    <div class="callout callout--amber">
+      <p class="body">「sustaining 一個 censorship-resistant 平台，<br>很多時候要<strong>犧牲透明度來換安全</strong>。」</p>
+      <p class="tiny" style="margin-top: 16px;">
+</p>
+    </div>
+  </div>
+</section>
+
+<!-- 31 · components instead of platforms -->
+<section data-label="Solution 1 · Components">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>31 / 56</span></span>
+  </div>
+  <p class="eyebrow">// solution 01</p>
+  <h2 class="title-xl"><span class="accent-acid">Components</span><br>instead of Platforms.</h2>
+  <p class="body" style="margin-top: 56px; max-width: 1500px;">把「抗審查」做成<strong>可組合元件</strong>——身分、簽章、儲存、發布、訂閱——讓任何一個既有平台都能拿來用，而不是建一個新的孤島平台和 Facebook 競爭。</p>
+  <div class="cite">// 從 EPS Argentina talk · Privacy Stack 2025-11 · <span class="src">mashbean</span></div>
+</section>
+
+<!-- 32 · redesign incentives -->
+<section data-label="Solution 2 · Incentives">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>32 / 56</span></span>
+  </div>
+  <p class="eyebrow">// solution 02</p>
+  <h2 class="title-xl"><span class="accent-acid">Redesign incentives</span>.</h2>
+  <p class="body" style="margin-top: 48px; max-width: 1600px;">「免費」服務的真正成本，是<strong>使用者成為被監控的商品</strong>。<br><br>替代方案：<strong>創作者經濟、訂閱、社群代幣、公共財募款</strong>——讓使用者付得起，但<strong></strong>。</p>
+  <div class="callout" style="margin-top: 56px; max-width: 1700px;">
+    <p class="body"><strong>但要小心 incentive misalignment：</strong>「沒有審查」如果變成 Matters 的隱性 incentive，就會吸引以「絕對自由」為號召的詐騙者來定居。</p>
+  </div>
+</section>
+
+<!-- 33 · usability gap -->
+<section data-label="Solution 3 · Usability">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>33 / 56</span></span>
+  </div>
+  <p class="eyebrow">// solution 03</p>
+  <h2 class="title-xl"><span class="accent-acid">Close the usability gap</span>.</h2>
+  <div class="callout" style="margin-top: 64px; max-width: 1700px;">
+    <p class="big-quote" style="font-size: 56px; line-height: 1.3;">「真正困難的，從來不是技術。
+是習慣、便利、網路效應。」</p>
+  </div>
+  <p class="body" style="margin-top: 48px; max-width: 1600px;"></p>
+</section>
+
+<!-- 34 · dog food -->
+<section data-label="Solution 4 · Dog food">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 · platform</span><span>34 / 56</span></span>
+  </div>
+  <p class="eyebrow">// solution 04</p>
+  <h2 class="title-xl"><span class="accent-acid">Eat our own dog food</span>.</h2>
+  <p class="body" style="margin-top: 56px; max-width: 1600px;">如果連<strong>建造者自己都不日常使用</strong>，這個工具就還沒準備好給社運工作者、調查記者、海外異議人士用。</p>
+  <p class="body" style="margin-top: 28px; max-width: 1600px;">這也是密碼龐克最早的方法論——<br><strong>「Cypherpunks 自己 PGP 加密所有信件」</strong>，不只是寫程式給別人用。</p>
+  <div class="cite">// EPS Privacy Stack · Buenos Aires · 2025-11</div>
+</section>
+
+<!-- 35 · bridge to §3 -->
+<section class="s-deep" data-label="Bridge to §3">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 2 → § 3</span><span>35 / 56</span></span>
+  </div>
+  <div class="stack gap-l grow center-y" style="max-width: 1500px;">
+    <p class="eyebrow">// transition</p>
+    <h2 class="title-xl">平台審查的<span class="accent-acid">下一回合</span>，<br>是身分驗證。</h2>
+    <p class="body body--muted">「年齡驗證可能從『<strong>內容控制</strong>』，<br>滑坡為『<strong>通用身分閘口</strong>』。」</p>
+    <p class="tiny" style="margin-top: 32px;">— mashbean · Allen Lab Share · 2026-04</p>
+  </div>
+  <div class="cite">→ § 3 · 數位身分難題</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     §3 數位身分難題（21 張 · 25 min）
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- 36 · divider §3 -->
+<section class="s-acid divider" data-label="§3 Divider">
+  <p class="div-tag">§ 03</p>
+  <h2 class="div-title">數位身分<br>難題</h2>
+  <p class="div-quote">"<strong>我已滿 18 歲</strong>"——<br>真的有效嗎？</p>
+</section>
+
+<!-- 37 · ID history -->
+<section data-label="ID 3 generations">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>37 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 30-year evolution</p>
+  <h2 class="title-l">數位身分<span class="accent-acid">三代史</span></h2>
+  <div class="split split--reverse" style="margin-top: 48px;">
+    <figure class="fig">
+      <img src="assets/fig-id-history-web2-web3.png" alt="ID history web2 web3" />
+      <figcaption>數位皮夾 PDF · p.23 · Source: Unstoppable</figcaption>
+    </figure>
+    <div class="text stack gap-m">
+      <p class="body"><strong>① 集中式</strong> · 帳號 + 密碼<br><span class="small">每個服務都要重新註冊；資料庫易外洩</span></p>
+      <p class="body"><strong>② 聯邦式</strong> · Google / Facebook 登入<br><span class="small">便利，但把所有身分軌跡集中到 2-3 家平台</span></p>
+      <p class="body"><strong>③ 分散式</strong> · Wallet 登入（SSI）<br><span class="small">使用者自己持有憑證；簽發者不再記錄使用紀錄</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- 38 · OpenID gov spectrum -->
+<section class="s-paper" data-label="Government ID spectrum">
+  <div class="chrome">
+    <span class="brand"><span class="dot" style="background:#08322C; box-shadow:0 0 12px rgba(8,50,44,0.3);"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>38 / 56</span></span>
+  </div>
+  <p class="eyebrow" style="color:#08322C;">// openid foundation</p>
+  <h2 class="title-l" style="color:#08322C;">政府核發數位證件的<span style="color:#08322C; background:var(--cp-acid); padding:0 .25em; border-radius:4px;">5 種光譜</span></h2>
+  <figure class="fig" style="margin-top: 40px; flex: 1;">
+    <img src="assets/fig-openid-government-spectrum.png" alt="OpenID government ID spectrum" />
+    <figcaption>數位皮夾 PDF · p.15 · Source: OpenID Foundation</figcaption>
+  </figure>
+  <div class="cite" style="color:rgba(8,50,44,0.5); border-top-color:rgba(8,50,44,0.15);">// 從<span class="src" style="color:#08322C;">「電子身分證 + 集中生物辨識」</span> 到 <span class="src" style="color:#08322C;">「個人身分提供（數位皮夾）」</span></div>
+</section>
+
+<!-- 39 · SSI principles -->
+<section data-label="SSI principles">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>39 / 56</span></span>
+  </div>
+  <p class="eyebrow">// human-centric digital identity</p>
+  <h2 class="title-l">以人為本的數位身分</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow">// principle 01</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">多元身分</h3>
+      <p class="body">身分自古以來都是模糊定義，介於法定與約定俗成之間。<br><br>數位社會中，法定身分、企業服務帳號、社會關係<strong>已高度重疊</strong>——卻仍沒有夠成熟、安全、易用的 UX。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// principle 02</p>
+      <h3 class="title-s" style="margin-bottom: 14px;">數位自主 <span class="small mono accent-acid">/ SSI</span></h3>
+      <p class="body">Self-sovereign Identity——<br>使用者持有憑證、決定何時揭露、不可被第三方追蹤。<br><br>降低數位足跡招致<strong>監控</strong>的可能。</p>
+    </div>
+  </div>
+  <div class="cite">// Alex Preukschat &amp; Drummond Reed · Self-Sovereign Identity · Manning, 2021</div>
+</section>
+
+<!-- 40 · global age verification map -->
+<section data-label="Global age verification">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>40 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the wave</p>
+  <h2 class="title-l">三年內，<span class="accent-acid">25 國</span>同時推動年齡驗證。</h2>
+  <div class="timeline" style="margin-top: 48px;">
+    <div class="t-cell"><div class="t-year">AU · 25.12</div><div class="t-text"><strong>OSA</strong> 16 歲社群媒體禁令</div></div>
+    <div class="t-cell"><div class="t-year">UK · 25.07</div><div class="t-text"><strong>Ofcom</strong> OSA 執法啟動</div></div>
+    <div class="t-cell"><div class="t-year">US · 21 州</div><div class="t-text">+ 加州 <strong>AB1043</strong> 25-10</div></div>
+    <div class="t-cell"><div class="t-year">FR · 24.10</div><div class="t-text"><strong>Arcom</strong> 雙重匿名標準</div></div>
+    <div class="t-cell"><div class="t-year">EU · 26.04</div><div class="t-text"><strong>EUDI</strong> 年齡驗證藍圖</div></div>
+    <div class="t-cell"><div class="t-year">ISO · 25.12</div><div class="t-text"><strong>27566-1</strong> 國際標準</div></div>
+  </div>
+  <div class="cols-3 gap-m" style="margin-top: 56px;">
+    <div class="callout">
+      <p class="body"><strong>反例</strong>：日本 IDPA 2025-04 <span class="accent-acid">刻意不包年齡驗證</span></p>
+    </div>
+    <div class="callout">
+      <p class="body"><strong>已撤</strong>：南韓遊戲宵禁 2021 廢除（10 年後可逆轉）</p>
+    </div>
+    <div class="callout callout--amber">
+      <p class="body"><strong>暫緩</strong>：台灣 New eID 2020 因民眾反彈擱置</p>
+    </div>
+  </div>
+</section>
+
+<!-- 41 · Paxton case -->
+<section data-label="Paxton">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>41 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 2025-06-27 · u.s. supreme court</p>
+  <h2 class="title-l">Free Speech Coalition <span class="accent-acid">v.</span> Paxton</h2>
+  <div class="cols-2 gap-l" style="margin-top: 48px;">
+    <div class="stack gap-m">
+      <p class="body">最高法院以 <strong>6:3</strong> 認定德州色情站年齡驗證法<strong>合憲</strong>——<br>翻轉 30 年來「成人也有匿名瀏覽權」的判例傳統。</p>
+      <p class="body body--muted">Thomas 主筆，採「中度審查」而非嚴格審查標準。</p>
+      <div class="callout callout--amber">
+        <p class="body"><strong>Kagan / Sotomayor / Jackson 異議：</strong><br>「這條路一旦開通，年齡閘口將從色情擴及全網。」</p>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// EFF 評論</p>
+      <p class="big-quote" style="font-size: 48px; line-height: 1.25;">「踐踏<span class="hl-amber">言論自由</span>並破壞<span class="hl-amber">隱私</span>。」</p>
+      <p class="tiny" style="margin-top: 20px;">Electronic Frontier Foundation · 2025-06-27</p>
+      <p class="small" style="margin-top: 16px;">後續觀察：<br>路易斯安那 Pornhub 流量 <strong>↓ 80%</strong>，<br>但使用者轉用 <strong>VPN</strong>——<br>真正完成的是<strong>培訓全民學會繞過審查</strong>。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 42 · slope -->
+<section data-label="Slope">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>42 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 滑坡論證</p>
+  <h2 class="title-l">「為了兒少福祉」很容易變成
+「為了人民安全」。</h2>
+  <div class="callout callout--amber" style="margin-top: 64px; max-width: 1700px;">
+    <p class="big-quote" style="font-size: 56px; line-height: 1.3;">「<span class="hl-amber">基礎設施一旦建成</span>，<br>新政策就會傾向<span class="hl-amber">搭便車</span>。」</p>
+  </div>
+  <p class="body" style="margin-top: 56px; max-width: 1600px;"></p>
+</section>
+
+<!-- 43 · child paradox -->
+<section data-label="Child paradox">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>43 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the protection paradox</p>
+  <h2 class="title-l">為了保護兒童——<br>結果<span class="accent-amber">最受侵害的恰好是兒童的隱私</span>。</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="callout">
+      <p class="card-eyebrow">// 聯合國兒童權利公約 § 16</p>
+      <p class="body">明文保障兒童的<strong>隱私權</strong>。<br><br>當年齡驗證要求蒐集臉部估算、政府證件、地理位置——它本身就是侵害。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// 實效檢驗</p>
+      <p class="body">中國防沉迷系統部署超過 5 年——</p>
+      <p class="stat" style="margin-top: 20px;">
+        <span class="num accent-amber">~77%</span>
+        <span class="lbl">未成年人用<strong>借用帳號規避</strong></span>
+      </p>
+      <p class="tiny" style="margin-top: 16px;">換句話說：把 75% 的成年人推進高侵入身分蒐集，<br>只為了攔住 23% 真正自己驗證的未成年人。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 44 · data leak -->
+<section data-label="Honeypot is already breached">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>44 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the honeypot is already breached</p>
+  <h2 class="title-l">中央化身分驗證 = <span class="accent-amber">個資蜜罐</span>。<br><span class="small body--muted">而蜜罐已經破了——不只一次。</span></h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// 2025-10 · discord × 5ca</p>
+      <p class="stat"><span class="num accent-amber">~70,000</span><span class="lbl"><strong>政府證件</strong>外洩</span></p>
+      <p class="small" style="margin-top: 14px;">Discord 委外的客服廠商 5CA 遭駭，<br>洩漏使用者上傳的政府證件副本。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// 2025-07 · tea app</p>
+      <p class="stat"><span class="num accent-amber">72,000</span><span class="lbl">張使用者照片</span></p>
+      <p class="small" style="margin-top: 14px;">女性匿名約會評價 app；2024 年也曾被 4chan 肉搜。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// au10tix</p>
+      <p class="body">大型身分驗證商，<strong>憑證曝露超過一年</strong>未察覺。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// 真實效果</p>
+      <p class="body">路易斯安那 <strong>Pornhub 流量 ↓80%</strong><br>→ 使用者轉用 VPN<br>→ 培訓全民學會繞過。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 45 · four proofs -->
+<section data-label="Four proofs">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>45 / 56</span></span>
+  </div>
+  <p class="eyebrow">// what digital identity can actually prove</p>
+  <h2 class="title-l">數位身分可以證明的<span class="accent-acid">四件事</span></h2>
+  <div class="cols-4 gap-m" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow">// proof 01</p>
+      <h3 class="title-s">法律身分</h3>
+      <p class="small" style="margin-top: 8px;">你是誰<br>（姓名、身分證號）</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// proof 02</p>
+      <h3 class="title-s">屬性證明</h3>
+      <p class="small" style="margin-top: 8px;">你具備某種屬性<br>（年齡、學歷、職業）</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// proof 03</p>
+      <h3 class="title-s">唯一性證明</h3>
+      <p class="small" style="margin-top: 8px;">你是<strong>一個人</strong><br>（不是機器人、不是分身）</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// proof 04</p>
+      <h3 class="title-s">假名參與</h3>
+      <p class="small" style="margin-top: 8px;">你有資格參與<br>（不需揭露你是誰）</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top: 64px; max-width: 1700px;">
+    <p class="big-quote" style="font-size: 56px; line-height: 1.25;">「<span class="hl-line">可問責</span>並不需要以<span class="hl-line">實名</span>為前提。」</p>
+  </div>
+</section>
+
+<!-- 46 · ZK VC DID -->
+<section data-label="ZK · VC · DID">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>46 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the privacy-friendly stack</p>
+  <h2 class="title-l">隱私友善的<span class="accent-acid">技術元件</span></h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="stack gap-m">
+      <div class="card">
+        <p class="card-eyebrow accent-acid">// zk proof · zero-knowledge</p>
+        <p class="body">證明你符合條件——<strong>不揭露條件值本身</strong>。「我滿 18 歲」可以為真，而不暴露出生年月日。</p>
+      </div>
+      <div class="card">
+        <p class="card-eyebrow accent-acid">// DID · W3C 分散式識別符</p>
+        <p class="body">使用者控制的識別字串，不依附任何單一發行者。</p>
+      </div>
+    </div>
+    <div class="stack gap-m">
+      <div class="card">
+        <p class="card-eyebrow accent-acid">// VC · W3C 可驗證憑證 v2.0 (2025)</p>
+        <p class="body">由發行者簽章的可驗證資料；使用者選擇性揭露欄位。</p>
+      </div>
+      <div class="card">
+        <p class="card-eyebrow accent-acid">// OID4VC / OID4VP + no-phone-home</p>
+        <p class="body">呈現協定。<strong>「不回家通報」</strong>：簽發者不能追蹤這張憑證被用在哪裡。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 47 · PTT × ZK 藍勾勾 -->
+<section data-label="PTT × ZK">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>47 / 56</span></span>
+  </div>
+  <p class="eyebrow">// taiwan · proof of concept 2025</p>
+  <h2 class="title-l">案例：<span class="accent-acid">PTT × MOICA × ZK 藍勾勾</span></h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="stack gap-m">
+      <p class="body">用<strong>內政部憑證 (MOICA)</strong> 簽出 ZK 證明，讓 PTT 帳號取得「藍勾勾」——<br>表示這個帳號的後面是<strong>一個唯一的台灣公民</strong>。</p>
+      <ul class="clean">
+        <li>不洩漏身分證號</li>
+        <li>不洩漏姓名</li>
+        <li>不洩漏出生年月日</li>
+        <li>PTT 也無法<strong>反查回真實身分</strong></li>
+      </ul>
+    </div>
+    <div class="callout">
+      <p class="body">這示範了一件事：<br>「<strong>具公信力的政府身分</strong>」<br>不必等於「<strong>政府能追蹤你做什麼</strong>」。</p>
+      <p class="tiny" style="margin-top: 20px;">問題只剩一個：<br><strong>政府願不願意</strong>讓使用者用這種方式持有他發出的憑證？</p>
+    </div>
+  </div>
+</section>
+
+<!-- 48 · DID on public chains -->
+<section data-label="DID on public chains">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>48 / 56</span></span>
+  </div>
+  <p class="eyebrow">// 2025-26 · DID/VC 上公共鏈案例</p>
+  <h2 class="title-l"></h2>
+  <div class="cols-3 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 不丹</p>
+      <h3 class="title-s">NDI Wallet</h3>
+      <p class="body" style="margin-top: 12px;"><strong>2025-10 錨定 Ethereum 主網</strong>——全球首例國家數位身分上以太坊。</p>
+      <p class="tiny" style="margin-top: 14px;">National Digital Identity, Bhutan</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 台灣</p>
+      <h3 class="title-s">TW DIW 信任清單</h3>
+      <p class="body" style="margin-top: 12px;">數位皮夾<strong>信任清單</strong> 2025–26 規劃上公共鏈，讓任何驗證者都能離線驗證簽發者身分。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 阿根廷</p>
+      <h3 class="title-s">QuarkID</h3>
+      <p class="body" style="margin-top: 12px;">布宜諾斯艾利斯市政府的數位身分系統，<strong>上 ZKsync L2</strong>。</p>
+    </div>
+  </div>
+  <div class="cite">// 三例分別示範了：<span class="src">主網錨定 · 信任清單上鏈 · ZK Rollup 公私混合</span></div>
+</section>
+
+<!-- 49 · TW DIW -->
+<section class="s-paper" data-label="TW DIW">
+  <div class="chrome">
+    <span class="brand"><span class="dot" style="background:#08322C; box-shadow:0 0 12px rgba(8,50,44,0.3);"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>49 / 56</span></span>
+  </div>
+  <p class="eyebrow" style="color:#08322C;">// taiwan digital identity wallet</p>
+  <h2 class="title-l" style="color:#08322C;">台灣數位皮夾 — <span style="background:var(--cp-acid); padding:0 .25em; border-radius:4px;">信任框架 + 公共建設</span></h2>
+  <div class="split" style="margin-top: 40px;">
+    <div class="text stack gap-m">
+      <p class="body" style="color:#08322C;"><strong>2023</strong> 啟動規劃<br><strong>2026-04</strong> 開源（發行者 / 驗證者 / 行動 App）<br><strong>2026-12</strong> 信任清單治理機制上線預估</p>
+      <p class="body" style="color:#08322C;"><strong>三個關鍵字</strong>：<br>· 可組合<br>· 可跨境（國際互通）<br>· 非特許（任何符合標準的單位皆可發行）</p>
+      <p class="callout" style="background:rgba(8,50,44,0.06); border-left-color:#08322C;"><span class="mono" style="color:#08322C; font-weight:700;">// ToIP</span><br><span style="color:#08322C;"></span></p>
+    </div>
+    <figure class="fig">
+      <img src="assets/fig-toip-trust-framework.png" alt="ToIP Trust Framework" />
+      <figcaption>數位皮夾 PDF · p.29 · ToIP Foundation</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- 50 · wallet challenges -->
+<section class="s-paper" data-label="Wallet challenges">
+  <div class="chrome">
+    <span class="brand"><span class="dot" style="background:#08322C; box-shadow:0 0 12px rgba(8,50,44,0.3);"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>50 / 56</span></span>
+  </div>
+  <p class="eyebrow" style="color:#08322C;">// the three open problems</p>
+  <h2 class="title-l" style="color:#08322C;">數位皮夾的<span style="background:var(--cp-acid); padding:0 .25em; border-radius:4px;">三大難題</span></h2>
+  <div class="cols-3 gap-l" style="margin-top: 56px;">
+    <div style="background:rgba(8,50,44,0.06); border:1px solid rgba(8,50,44,0.15); border-radius:18px; padding:36px 32px;">
+      <p style="font-family:var(--font-mono); font-size: 30px; letter-spacing:.14em; text-transform:uppercase; color:#08322C; margin:0 0 14px;">// challenge 01</p>
+      <h3 class="title-s" style="color:#08322C;">信任、信任、還是信任</h3>
+      <ul style="list-style:none; padding:0; margin-top:16px; color:#08322C;">
+        <li style="margin-bottom:8px;">› 民眾信不信任政府？</li>
+        <li style="margin-bottom:8px;">› 民眾信不信任大型平台？</li>
+        <li style="margin-bottom:8px;">› 民眾信不信任公協會？</li>
+        <li style="margin-bottom:8px;">› <strong>民眾信不信任自己？</strong></li>
+      </ul>
+    </div>
+    <div style="background:rgba(8,50,44,0.06); border:1px solid rgba(8,50,44,0.15); border-radius:18px; padding:36px 32px;">
+      <p style="font-family:var(--font-mono); font-size: 30px; letter-spacing:.14em; text-transform:uppercase; color:#08322C; margin:0 0 14px;">// challenge 02</p>
+      <h3 class="title-s" style="color:#08322C;">商業模式尚未明確</h3>
+      <ul style="list-style:none; padding:0; margin-top:16px; color:#08322C;">
+        <li style="margin-bottom:8px;">› 密碼學從學術正在商轉</li>
+        <li style="margin-bottom:8px;">› 國際標準甫建立</li>
+        <li style="margin-bottom:8px;">› web3 加速錢包布建</li>
+        <li style="margin-bottom:8px;">› 新創與本土企業難以存活</li>
+      </ul>
+    </div>
+    <div style="background:rgba(8,50,44,0.06); border:1px solid rgba(8,50,44,0.15); border-radius:18px; padding:36px 32px;">
+      <p style="font-family:var(--font-mono); font-size: 30px; letter-spacing:.14em; text-transform:uppercase; color:#08322C; margin:0 0 14px;">// challenge 03</p>
+      <h3 class="title-s" style="color:#08322C;">網絡效應尚未發生</h3>
+      <p style="color:#08322C; margin-top:16px;">少數人有、多數人沒有；發行者不發、驗證者不接。</p>
+      <p style="color:#08322C; margin-top:12px;"><strong>需要關鍵的<span style="background:var(--cp-acid); padding:0 .25em;">第一個 killer use case</span>。</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- 51 · new gatekeepers -->
+<section data-label="New gatekeepers">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>51 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the new gatekeeper risk</p>
+  <h2 class="title-l">真正的風險，不是「<span class="accent-amber">誰發身分</span>」——<br>而是「<span class="accent-acid">誰掌握同意介面</span>」。</h2>
+  <div class="callout callout--amber" style="margin-top: 56px; max-width: 1700px;">
+    <p class="body">即便每張憑證都是 SSI、ZK、no-phone-home——<br>只要<strong>呈現介面</strong>掌握在 2–3 家公司手裡：</p>
+    <div class="row gap-m" style="margin-top: 24px; flex-wrap: wrap;">
+      <span class="pill pill--amber">Apple Wallet</span>
+      <span class="pill pill--amber">Google Wallet</span>
+      <span class="pill pill--amber">Samsung Wallet</span>
+      <span class="pill pill--amber">EUDI Wallet</span>
+    </div>
+    <p class="body" style="margin-top: 24px;">那麼，<strong>比國家更危險的，是平台級身分閘口</strong>。</p>
+  </div>
+  <p class="body" style="margin-top: 48px; max-width: 1600px;">「我們實際上正把國家的數位主權與產業競爭空間，<br>逐步<strong>外包給兩三家公司</strong>。」</p>
+</section>
+
+<!-- 52 · data sovereignty international -->
+<section data-label="International comparison">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>52 / 56</span></span>
+  </div>
+  <p class="eyebrow">// what other democracies are doing</p>
+  <h2 class="title-l">國際對照：民主國家怎麼做<span class="accent-acid">數位身分主權</span></h2>
+  <div class="cols-3 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 瑞士</p>
+      <h3 class="title-s">e-ID 公投通過</h3>
+      <p class="body" style="margin-top: 12px;"><strong>2025-09-28</strong> 全民公投通過（50.4%）。</p>
+      <p class="small" style="margin-top: 12px;">三大條款明訂於法：<br>· 開源 mandatory<br>· 不可連結 (unlinkability)<br>· 國家簽發、使用者持有</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 歐盟</p>
+      <h3 class="title-s">EUDI Wallet</h3>
+      <p class="body" style="margin-top: 12px;"><strong>2027 年前所有會員國須提供</strong>，免費。</p>
+      <p class="small" style="margin-top: 12px;">強制支援 <strong>ZKP</strong>；丹麥/法國/希臘/義大利/西班牙已試點。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 美國猶他</p>
+      <h3 class="title-s">SB 260</h3>
+      <p class="body" style="margin-top: 12px;">把數位身分定位為<strong>自然人固有權利</strong>。</p>
+      <p class="small" style="margin-top: 12px;">「州政府不再宣稱『我發給你一個身分』，<br>而是『我承認你主張的身分，並為其背書』。」</p>
+    </div>
+  </div>
+</section>
+
+<!-- 53 · TW context -->
+<section data-label="TW context">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>53 / 56</span></span>
+  </div>
+  <p class="eyebrow">// taiwan-specific context</p>
+  <h2 class="title-l">台灣的兩個歷史脈絡，<br>一個機會。</h2>
+  <div class="cols-3 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// 失敗經驗</p>
+      <h3 class="title-s">New eID · 2020 暫緩</h3>
+      <p class="small" style="margin-top: 12px;">民眾反彈 + 資安疑慮。<br><br>留下的教訓：<strong>沒有公開治理討論，就不會有信任基礎</strong>。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// 既有制度</p>
+      <h3 class="title-s">MOICA · 自然人憑證</h3>
+      <p class="small" style="margin-top: 12px;">「事前摩擦」高（讀卡機、實體申辦），但<strong>制度根基穩定</strong>。<br><br>20+ 年信任資本未被破壞。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-acid">// 新公共建設</p>
+      <h3 class="title-s">TW DIW · 數位皮夾</h3>
+      <p class="small" style="margin-top: 12px;">「運作中摩擦」低，<strong>與 MOICA 互補</strong>而非替代。<br><br>有機會成為民主陣營技術夥伴的台灣牌。</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top: 48px; max-width: 1700px;">
+    <p class="body">台灣從「<strong>編戶齊民</strong>」的中央集權傳統，到「<strong>以人為本</strong>」的現代數位身分——<br>這個歷史轉折是<span class="hl-line">未完成的工程</span>。</p>
+  </div>
+</section>
+
+<!-- 54 · procurement -->
+<section data-label="Procurement is the veto point">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>54 / 56</span></span>
+  </div>
+  <p class="eyebrow">// where the real fight is</p>
+  <h2 class="title-l">白皮書漂亮，<span class="accent-amber">實施就消失</span>。<br>真正的否決點在<span class="accent-acid">採購語言</span>。</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="stack gap-m">
+      <p class="body">每個國家的數位身分白皮書都寫：</p>
+      <ul class="clean">
+        <li>「以人為本」</li>
+        <li>「隱私優先」</li>
+        <li>「選擇性揭露」</li>
+        <li>「不可連結」</li>
+      </ul>
+      <p class="body accent-amber">但<strong>採購規格書</strong>裡通常寫：<br>「需提供使用紀錄查詢介面」<br>「需保留 5 年稽核資料」</p>
+    </div>
+    <div class="callout">
+      <p class="body"></p>
+      <ul class="clean" style="margin-top: 16px;">
+        <li>採購需求書</li>
+        <li>檢核點 (checkpoint)</li>
+        <li>incident response 流程</li>
+      </ul>
+      <p class="tiny" style="margin-top: 16px;">這是密碼龐克 2026 真正的<strong>戰場</strong>。</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top: 40px; max-width: 1700px;">
+    <p class="body"><strong>「個人自主權並非與國家主權對立——反而是<span class="hl-line">國家數位主權的必要條件</span>。」</strong></p>
+  </div>
+</section>
+
+<!-- 55 · AI agent identity -->
+<section data-label="AI Agent identity">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ 3 · identity</span><span>55 / 56</span></span>
+  </div>
+  <p class="eyebrow">// the next decade · 2026 → 2036</p>
+  <h2 class="title-l">下一個十年的身分問題</h2>
+  <div class="cols-2 gap-l" style="margin-top: 56px;">
+    <div class="card">
+      <p class="card-eyebrow">// 1993 · the new yorker</p>
+      <p class="big-quote" style="font-size: 48px; line-height: 1.3;">「在網路上，<br><span class="hl-line">沒人知道你是一條狗</span>。」</p>
+      <p class="tiny" style="margin-top: 24px;">Peter Steiner · 1993-07-05<br>密碼龐克時代的隱私承諾</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow accent-amber">// 2025 · the ai era</p>
+      <p class="big-quote" style="font-size: 48px; line-height: 1.3;">「在網路上，<br><span class="hl-amber">沒人知道你是人類或機器人</span>。」</p>
+      <p class="tiny" style="margin-top: 24px;">AI Agent 時代的代理身分難題：<br>從「<strong>誰登入</strong>」轉為「<strong>誰可代表誰行動</strong>」</p>
+    </div>
+  </div>
+  <p class="body" style="margin-top: 48px; max-width: 1700px;">這就是為什麼<strong>數位身分基礎建設不能等到下個世代再蓋</strong>——<br>它要在 AI Agent 大規模上線之前到位，否則我們會失去區分「人」與「代理人」的所有工具。</p>
+</section>
+
+<!-- 56 · closing -->
+<section class="s-deep" data-label="Closing">
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ closing</span><span>56 / 56</span></span>
+  </div>
+  <p class="eyebrow">// recap</p>
+  <h2 class="title-xl">三個論題，<span class="accent-acid">一條主線</span>。</h2>
+  <div class="cols-3 gap-l" style="margin-top: 48px;">
+    <div class="card">
+      <p class="card-eyebrow">// § 01</p>
+      <h3 class="title-s">密碼龐克</h3>
+      <p class="small" style="margin-top:12px;">抗審查不是反法律，<br>而是憲法之外的<strong>第三條路</strong>。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// § 02</p>
+      <h3 class="title-s">平台審查</h3>
+      <p class="small" style="margin-top:12px;">抗審查與審查是<strong>一體兩面</strong>，<br>治理 = collective survival。</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// § 03</p>
+      <h3 class="title-s">數位身分</h3>
+      <p class="small" style="margin-top:12px;">以人為本的 SSI<br>是台灣的<strong>時代機會</strong>。</p>
+    </div>
+  </div>
+  <div class="callout" style="margin-top: 56px; max-width: 1900px; border-left-color: var(--cp-acid);">
+    <p class="big-quote" style="font-size: 60px; line-height: 1.2; font-family: var(--font-serif);">"Privacy is the power to <span class="hl-line">selectively reveal</span> oneself to the world."</p>
+    <p class="tiny" style="margin-top: 28px;"></p>
+  </div>
+  <div class="cite">// 謝謝胡老師、謝謝各位 · <span class="src">mashbean · 2026-05-26 · 東吳 1402</span></div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     Q&A backup slides (skipped by default)
+     ════════════════════════════════════════════════════════════════ -->
+
+<!-- Q01 · reading list -->
+<section class="s-paper" data-label="Q&A · Reading list" data-deck-skip>
+  <div class="chrome">
+    <span class="brand"><span class="dot" style="background:#08322C; box-shadow:0 0 12px rgba(8,50,44,0.3);"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ backup · q&amp;a</span><span>Q01</span></span>
+  </div>
+  <p class="eyebrow" style="color:#08322C;">// 延伸閱讀 · take-home</p>
+  <h2 class="title-l" style="color:#08322C;">給<span style="background:var(--cp-acid); padding:0 .25em; border-radius:4px;">想繼續挖</span>的同學</h2>
+  <div class="cols-2 gap-l" style="margin-top: 48px;">
+    <div>
+      <p class="card-eyebrow" style="color:#08322C;">// 密碼龐克 / 平台</p>
+      <ul class="clean" style="color:#08322C;">
+        <li>Eric Hughes · <em>A Cypherpunk's Manifesto</em> (1993)</li>
+        <li>Vitalik Buterin · <em>My techno-optimism</em> (2023, d/acc)</li>
+        <li>mashbean · 拉美田野筆記 (facebook 1203-7fg0y6)</li>
+        <li>mashbean · 抗審查平台的市場悖論與蜜罐悖論 (blog 1228-120yfq)</li>
+        <li>g0v Summit 2026 Matters Lab Workshop deck</li>
+      </ul>
+    </div>
+    <div>
+      <p class="card-eyebrow" style="color:#08322C;">// 數位身分 / 年齡驗證</p>
+      <ul class="clean" style="color:#08322C;">
+        <li>Preukschat &amp; Reed · <em>Self-Sovereign Identity</em> (Manning, 2021)</li>
+        <li>W3C Verifiable Credentials Data Model v2.0 (2025)</li>
+        <li>ISO/IEC 27566-1:2025 · Age Assurance</li>
+        <li>mashbean · 年齡驗證與數位身分 (blog 0417-1trens)</li>
+        <li>mashbean · 年齡驗證 × 數位人權報告 (pro.mashbean.net 2026-04-16)</li>
+        <li>mashbean · 個資自主 vs 國家安全 (blog 1228-1lrqhr)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cite" style="color:rgba(8,50,44,0.5); border-top-color:rgba(8,50,44,0.15);">// 簡報網址：<span class="src" style="color:#08322C;">mashbean.net/decks/Prof-Hu-Class-0526</span></div>
+</section>
+
+<!-- Q02 · law comparison -->
+<section data-label="Q&A · Law comparison" data-deck-skip>
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ backup · q&amp;a</span><span>Q02</span></span>
+  </div>
+  <p class="eyebrow">// 法源對照</p>
+  <h2 class="title-l">平台責任：<span class="accent-acid">四地對照</span></h2>
+  <div class="cols-4 gap-m" style="margin-top: 48px;">
+    <div class="card">
+      <p class="card-eyebrow">// US</p>
+      <h3 class="title-s">CDA § 230</h3>
+      <p class="small" style="margin-top:12px;">1996<br>強避風港 + Good Samaritan</p>
+      <p class="tiny" style="margin-top:12px;">修法壓力：KOSA、EARN IT、FOSTA-SESTA</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// EU</p>
+      <h3 class="title-s">DSA</h3>
+      <p class="small" style="margin-top:12px;">2024-02 生效<br>三類處分 + VLOPs 義務</p>
+      <p class="tiny" style="margin-top:12px;">罰則上限：全球年營收 6%</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// UK / AU</p>
+      <h3 class="title-s">OSA</h3>
+      <p class="small" style="margin-top:12px;">UK 2023 / AU 2024 amend<br>內容類型強制義務</p>
+      <p class="tiny" style="margin-top:12px;">AU 2025-12 起 16 歲社群禁令</p>
+    </div>
+    <div class="card">
+      <p class="card-eyebrow">// TW</p>
+      <h3 class="title-s">數位中介服務法草案</h3>
+      <p class="small" style="margin-top:12px;">2022 草案撤回<br>後續無明確接續立法</p>
+      <p class="tiny" style="margin-top:12px;">現行依個資法 + 著作權法 + 兒少法零散治理</p>
+    </div>
+  </div>
+</section>
+
+<!-- Q03 · three questions for the future -->
+<section data-label="Q&A · Three questions" data-deck-skip>
+  <div class="chrome">
+    <span class="brand"><span class="dot"></span>cypherpunk_2026.deck</span>
+    <span class="nav"><span class="sec">§ backup · q&amp;a</span><span>Q03</span></span>
+  </div>
+  <p class="eyebrow">// for future law reform</p>
+  <h2 class="title-l">給未來修法的<span class="accent-acid">三個提問</span></h2>
+  <ol class="steps" style="margin-top: 56px; max-width: 1700px;">
+    <li>
+      <p class="title-s">「<span class="accent-acid">演算法降權</span>」算不算審查？</p>
+      <p class="small">如果算，DSA Art. 17 statement of reasons 觸發點要怎麼設？<br>如果不算，誰來保障使用者「不被靜默」的權利？</p>
+    </li>
+    <li>
+      <p class="title-s">年齡驗證可以避免成為<span class="accent-acid">通用身分閘口</span>嗎？</p>
+      <p class="small">技術上 ZK + no-phone-home 已經可行；<br>但<strong>採購規格</strong>有沒有同步要求？</p>
+    </li>
+    <li>
+      <p class="title-s">台灣怎麼把<span class="accent-acid">「以人為本」</span>寫進法律？</p>
+      <p class="small">瑞士 e-ID 公投三條：開源、不可連結、國家簽發。<br>台灣的版本應該長什麼樣？</p>
+    </li>
+  </ol>
+  <div class="cite">// 期待今天的對話 — <span class="src">問題比答案重要</span></div>
+</section>
+
+</deck-stage>
+
+</body>
+</html>
