@@ -215,12 +215,16 @@
   }
   .fig img { display:block; width:100%; height:100%; object-fit:contain; background:transparent; }
   .fig figcaption {
-    padding: 14px 20px;
+    padding: 16px 24px;
     font-family: var(--font-mono); font-size: var(--t-tiny);
-    color: var(--fg-soft); background: rgba(8,50,44,0.4);
-    border-top: 1px solid var(--rule-soft);
-    letter-spacing: .02em;
+    color: var(--cp-acid);                       /* bright acid — readable on dark teal */
+    background: rgba(8,50,44,0.88);              /* opaque-ish dark bar */
+    border-top: 1px solid var(--rule);
+    letter-spacing: .04em;
+    flex-shrink: 0;                              /* don't get squashed when img grows */
   }
+  /* hide empty callouts (user-emptied via the design editor) */
+  .callout:empty { display: none; }
   /* paper-variant slides keep the original light figure look */
   .s-paper .fig { background: var(--cp-paper-soft); border-color: rgba(8,50,44,.12); }
   .s-paper .fig img { background: var(--cp-paper-soft); }
@@ -2202,11 +2206,17 @@ General Manager</p>
       toggleFs();
     }
   });
-  // sync body class for CSS that wants to know fs state
+  // sync body class for CSS that wants to know fs state, AND toggle the
+  // deck-stage thumbnail rail off (so "fullscreen" hides the left preview too)
+  const stageEl = document.querySelector('deck-stage');
   ['fullscreenchange','webkitfullscreenchange'].forEach(ev => {
     document.addEventListener(ev, () => {
       const fs = !!(document.fullscreenElement || document.webkitFullscreenElement);
       document.body.classList.toggle('is-fullscreen', fs);
+      if (stageEl) {
+        if (fs) stageEl.setAttribute('no-rail', '');
+        else    stageEl.removeAttribute('no-rail');
+      }
     });
   });
 })();
