@@ -234,8 +234,16 @@
     pointer-events: none;
     z-index: 2;
   }
-  /* hide empty callouts (user-emptied via the design editor) */
+  /* ── design-editor leftovers ──────────────────────────────
+     User can empty text via claude.ai/design, leaving structural
+     containers (callout boxes, ul bullets, ghost paragraphs). Suppress
+     them so the slide doesn't render orphan boxes. */
+  p:empty, li:empty { display: none; }
   .callout:empty { display: none; }
+  /* callouts that only contain empty children (uses :has, supported in
+     all browsers shipped after 2023; safe to use here) */
+  .callout:not(:has(*:not(:empty))) { display: none; }
+  ul:not(:has(li:not(:empty))) { display: none; }
   /* paper-variant slides keep the original light figure look */
   .s-paper .fig { background: var(--cp-paper-soft); border-color: rgba(8,50,44,.12); }
   .s-paper .fig img { background: var(--cp-paper-soft); }
