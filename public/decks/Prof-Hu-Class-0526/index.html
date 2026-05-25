@@ -2129,10 +2129,11 @@ General Manager</p>
     const tip = live;
     if (!tip) return;
     const r = refEl.getBoundingClientRect();
-    // measure tip (visible but opacity 0 — getBoundingClientRect still works)
+    // park at 0,0 to measure final size — opacity is controlled by CSS
+    // (.ref-tip--live = 0, .is-shown = 1). Do NOT set inline opacity here:
+    // an inline style would override .is-shown and the tip would stay invisible.
     tip.style.left = '0px';
     tip.style.top  = '0px';
-    tip.style.opacity = '0';
     const tr = tip.getBoundingClientRect();
     const vw = window.innerWidth;
     const vh = window.innerHeight;
