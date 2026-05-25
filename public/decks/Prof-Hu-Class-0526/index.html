@@ -112,7 +112,7 @@
     font-size: var(--t-eyebrow);
     letter-spacing: .18em; text-transform: uppercase;
     color: var(--accent);
-    margin: 0 0 26px;
+    margin: 0 0 18px;
     font-weight: 500;
   }
   .eyebrow--muted { color: var(--fg-muted); }
@@ -197,13 +197,15 @@
     background: rgba(232,242,63,.04);
     border: 1px solid var(--rule);
     border-radius: var(--radius);
-    padding: 36px 32px;
+    padding: 28px 26px;
   }
   .card .card-eyebrow {
     font-family: var(--font-mono); font-size: var(--t-tiny);
     letter-spacing: .14em; text-transform: uppercase;
-    color: var(--accent); margin: 0 0 14px;
+    color: var(--accent); margin: 0 0 10px;
   }
+  /* inside cards, .tiny is for compact metadata — keep dense */
+  .card .tiny { font-size: 24px; line-height: 1.45; }
 
   /* ─── figure (image embed) ───────────────────────────────── */
   .fig {
