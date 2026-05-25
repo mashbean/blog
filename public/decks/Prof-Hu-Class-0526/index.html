@@ -419,13 +419,13 @@
   .ref:hover, .ref:focus { background: var(--cp-acid); color: var(--cp-ink); outline: none; }
   .s-paper .ref::after { background: var(--cp-ink); color: var(--cp-acid); }
 
-  /* the tooltip card itself */
-  .ref-tip {
-    position: absolute;
-    bottom: calc(100% + 14px);
-    left: 50%;
-    transform: translateX(-50%) translateY(8px);
-    width: 540px; max-width: 80vw;
+  /* tooltip — JS portals it to <body> with position:fixed so it
+     never gets clipped by section overflow:hidden */
+  .ref-tip { display: none; }                    /* hide inline copy; JS clones */
+
+  .ref-tip--live {
+    position: fixed;
+    width: 540px; max-width: min(92vw, 600px);
     background: var(--cp-paper);
     color: var(--cp-ink);
     border: 1.5px solid var(--cp-ink);
@@ -433,62 +433,76 @@
     padding: 26px 30px;
     text-align: left;
     box-shadow: 0 24px 60px rgba(0,0,0,.55);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 180ms ease, transform 220ms cubic-bezier(.2,.7,.2,1), visibility 0s linear 180ms;
-    z-index: 1000;
+    z-index: 10000;
     font-family: var(--font-cjk);
     font-weight: 400;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 160ms ease, transform 200ms cubic-bezier(.2,.7,.2,1);
+    display: block;
   }
-  .ref:hover .ref-tip, .ref:focus-within .ref-tip {
-    opacity: 1; visibility: visible; pointer-events: auto;
-    transform: translateX(-50%) translateY(0);
-    transition-delay: 0s;
+  .ref-tip--live.is-shown {
+    opacity: 1;
+    transform: translateY(0);
   }
-  .ref-tip .tip-meta {
+  .ref-tip--live .tip-meta {
     font-family: var(--font-mono); font-size: 16px; letter-spacing: .14em; text-transform: uppercase;
     color: var(--cp-ink); opacity: .55; margin: 0 0 10px; font-weight: 500;
   }
-  .ref-tip .tip-title { font-family: var(--font-serif); font-weight: 700; font-size: 26px; line-height: 1.25; color: var(--cp-ink); margin: 0 0 12px; }
-  .ref-tip .tip-body  { font-size: 20px; line-height: 1.55; color: var(--cp-ink); margin: 0 0 14px; font-weight: 400; }
-  .ref-tip .tip-src {
-    display: flex; gap: 8px; align-items: baseline;
+  .ref-tip--live .tip-title { font-family: var(--font-serif); font-weight: 700; font-size: 26px; line-height: 1.25; color: var(--cp-ink); margin: 0 0 12px; }
+  .ref-tip--live .tip-body  { font-size: 20px; line-height: 1.55; color: var(--cp-ink); margin: 0 0 14px; font-weight: 400; }
+  .ref-tip--live .tip-src {
+    display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap;
     font-family: var(--font-mono); font-size: 16px; color: var(--cp-ink); opacity: .7;
     padding-top: 12px; border-top: 1px solid rgba(8,50,44,.18);
   }
-  .ref-tip .tip-src .src-label { opacity: .55; letter-spacing: .08em; text-transform: uppercase; }
-  .ref-tip .tip-src .src-name  { font-weight: 600; }
-  /* arrow pointing down to the term */
-  .ref-tip::after {
-    content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  .ref-tip--live .tip-src .src-label { opacity: .55; letter-spacing: .08em; text-transform: uppercase; }
+  .ref-tip--live .tip-src .src-name  { font-weight: 600; }
+  /* arrow attached via JS-set --tip-arrow-x */
+  .ref-tip--live::after {
+    content: ""; position: absolute;
+    left: var(--tip-arrow-x, 50%);
+    top: 100%;
+    transform: translateX(-50%);
     width: 0; height: 0;
     border: 9px solid transparent;
     border-top-color: var(--cp-paper);
     margin-top: -1px;
     filter: drop-shadow(0 1px 0 var(--cp-ink));
   }
+  .ref-tip--live.is-below::after {
+    top: auto; bottom: 100%;
+    border-top-color: transparent;
+    border-bottom-color: var(--cp-paper);
+    margin-top: 0; margin-bottom: -1px;
+    filter: drop-shadow(0 -1px 0 var(--cp-ink));
+  }
 
   /* ───────────────────────────────────────────────────────
-     Web motion · always-on ambient animations
+     Web motion · always-on ambient (safe, no content-hide risk)
      ─────────────────────────────────────────────────────── */
+  /* status-dot pulse */
   @keyframes cp-dot-pulse {
     0%, 100% { box-shadow: 0 0 12px var(--cp-acid), 0 0 0 0 rgba(232,242,63,.55); }
     50%      { box-shadow: 0 0 22px var(--cp-acid), 0 0 0 10px rgba(232,242,63,0); }
   }
   .chrome .brand .dot { animation: cp-dot-pulse 2.2s ease-in-out infinite; }
 
+  /* very subtle background grid drift on dark slides */
   @keyframes cp-grid-drift {
     0%   { background-position: 0 0, 0 0; }
     100% { background-position: 80px 80px, 80px 80px; }
   }
   section:not(.s-paper):not(.s-acid)::before { animation: cp-grid-drift 24s linear infinite; }
 
+  /* mono terminal cursor blink — ONLY on top-level .eyebrow (not card-eyebrow)
+     keeps slides clean even with many cards */
   @keyframes cp-cursor-blink {
     0%, 49%   { opacity: 1; }
     50%, 100% { opacity: 0; }
   }
-  .eyebrow::after, .card-eyebrow::after, .cv-mark::after {
+  .eyebrow::after, .cv-mark::after {
     content: "▌";
     display: inline-block;
     margin-left: 6px;
@@ -499,56 +513,22 @@
     opacity: .85;
   }
 
-  /* slide enter — runs each time a slide becomes active (see deck-stage hook below) */
-  @keyframes cp-slide-enter {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
+  /* gentle whole-section fade on slide enter — no per-child stagger,
+     no transform, no risk of content disappearing */
+  @keyframes cp-slide-fade {
+    from { opacity: .82; }
+    to   { opacity: 1; }
   }
-  section.cp-entering > * { animation: cp-slide-enter 540ms cubic-bezier(.16,.84,.3,1) both; }
-  section.cp-entering > *:nth-child(1) { animation-delay:  40ms; }
-  section.cp-entering > *:nth-child(2) { animation-delay: 120ms; }
-  section.cp-entering > *:nth-child(3) { animation-delay: 200ms; }
-  section.cp-entering > *:nth-child(4) { animation-delay: 280ms; }
-  section.cp-entering > *:nth-child(5) { animation-delay: 360ms; }
-  section.cp-entering > *:nth-child(6) { animation-delay: 440ms; }
-  section.cp-entering > *:nth-child(n+7) { animation-delay: 520ms; }
+  section.cp-entering { animation: cp-slide-fade 320ms ease-out both; }
 
-  /* draw-on accent underline (for hl-line on cp-entering slides) */
-  @keyframes cp-hl-draw {
-    from { background-size: 0 100%; }
-    to   { background-size: 100% 100%; }
-  }
-  section.cp-entering .hl-line {
-    background-repeat: no-repeat;
-    background-size: 0 100%;
-    animation: cp-hl-draw 760ms cubic-bezier(.6,.1,.3,1) 540ms both;
-  }
-
-  /* stat number count-up = handled by JS swapping data-final → text + brief reveal */
-  @keyframes cp-stat-pop {
-    from { opacity: 0; transform: translateY(20px) scale(.92); filter: blur(8px); }
-    to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0); }
-  }
-  section.cp-entering .stat .num {
-    animation: cp-stat-pop 700ms cubic-bezier(.2,.8,.2,1) 600ms both;
-  }
-
-  /* big-quote — slight scale-in for emphasis */
-  @keyframes cp-quote-rise {
-    from { opacity: 0; transform: translateY(20px); letter-spacing: .02em; }
-    to   { opacity: 1; transform: translateY(0);    letter-spacing: -.01em; }
-  }
-  section.cp-entering .big-quote {
-    animation: cp-quote-rise 820ms cubic-bezier(.16,.84,.3,1) 280ms both;
-  }
-  /* huge quote-mark ornament — gentle floating */
+  /* huge quote-mark ornament — gentle float */
   @keyframes cp-mark-float {
     0%, 100% { transform: translateY(0); opacity: .9; }
     50%      { transform: translateY(-12px); opacity: 1; }
   }
   .quote-mark { animation: cp-mark-float 4.6s ease-in-out infinite; }
 
-  /* respect reduced motion */
+  /* honor reduced-motion + suppress in print */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -557,14 +537,12 @@
      Print: hide cursor blink + tooltip; suppress motion
      ─────────────────────────────────────────────────────── */
   @media print {
-    .eyebrow::after, .card-eyebrow::after, .cv-mark::after { content: none !important; }
+    .eyebrow::after, .cv-mark::after { content: none !important; }
     .ref-tip { display: none !important; }
     .ref::after { display: none !important; }
     .chrome .brand .dot { animation: none !important; }
-    section.cp-entering > *,
-    section.cp-entering .stat .num,
-    section.cp-entering .big-quote,
-    section.cp-entering .hl-line { animation: none !important; }
+    section.cp-entering { animation: none !important; }
+    .fs-toggle { display: none !important; }
   }
 
 </style>
@@ -2010,226 +1988,223 @@ General Manager</p>
 
 
 <!-- ════════════════════════════════════════════════════════════════
-     Motion + tooltip runtime
+     Motion · tooltip portal · fullscreen — runtime
      ════════════════════════════════════════════════════════════════ -->
+<style>
+  /* fullscreen toggle button — bottom-right corner of viewport */
+  .fs-toggle {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    width: 56px; height: 56px;
+    border-radius: 999px;
+    background: rgba(8,50,44,.65);
+    color: var(--cp-acid);
+    border: 1.5px solid rgba(232,242,63,.4);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 22px;
+    z-index: 99999;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 160ms, transform 160ms, opacity 240ms;
+    opacity: .55;
+  }
+  .fs-toggle:hover { background: var(--cp-acid); color: var(--cp-ink); transform: scale(1.06); opacity: 1; }
+  .fs-toggle::before { content: "⛶"; line-height: 1; }
+  :fullscreen .fs-toggle::before, .is-fullscreen .fs-toggle::before { content: "⛶"; }
+  .fs-toggle .fs-label {
+    position: absolute; right: 64px; top: 50%; transform: translateY(-50%);
+    background: rgba(8,50,44,.85); color: var(--cp-paper);
+    padding: 6px 12px; border-radius: 6px;
+    font-size: 14px; letter-spacing: .04em; white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: opacity 160ms;
+  }
+  .fs-toggle:hover .fs-label { opacity: 1; }
+</style>
+
+<button class="fs-toggle" type="button" aria-label="Toggle fullscreen (F)">
+  <span class="fs-label">Fullscreen · press F</span>
+</button>
+
 <script>
 (function() {
-  // ─── slide-enter motion: add .cp-entering on slidechange ─────
+  // ─── slide-enter motion: subtle whole-section fade ──────────
   const stage = document.querySelector('deck-stage');
-  if (!stage) return;
-  function fire(slide) {
-    if (!slide) return;
-    slide.classList.remove('cp-entering');
-    // force reflow so re-add restarts animations
-    // eslint-disable-next-line no-unused-expressions
-    void slide.offsetWidth;
-    slide.classList.add('cp-entering');
+  if (stage) {
+    function fire(slide) {
+      if (!slide) return;
+      slide.classList.remove('cp-entering');
+      void slide.offsetWidth;  // force reflow
+      slide.classList.add('cp-entering');
+    }
+    stage.addEventListener('slidechange', (e) => fire(e.detail.slide));
   }
-  stage.addEventListener('slidechange', (e) => fire(e.detail.slide));
 
-  // ─── tooltip wiring ──────────────────────────────────────────
-  // Cite data: {key: {meta, title, body, src}}
+  // ─── citations data ─────────────────────────────────────────
   const CITES = {
-    // === US: platform liability & free speech ===========================
-    'us-230': {
-      meta: '47 U.S.C. § 230 (c)(1) · 1996',
-      title: '美國平台的核心避風港條款',
-      body: '「No provider or user of an interactive computer service shall be treated as the publisher or speaker of any information provided by another information content provider.」平台通常不為使用者內容當作出版者／發言者負責——這是 YouTube、Reddit、Wikipedia、PTT 類 UGC 平台得以存在的法律前提。',
-      src: 'Legal Information Institute (Cornell)',
-    },
-    'us-230-gs': {
-      meta: '47 U.S.C. § 230 (c)(2) · Good Samaritan',
-      title: '善意審查保護條款',
-      body: '§230 同時保護平台「善意」移除、限制不當內容的行為。重點是：平台可以選擇不審查，也可以選擇審查，兩者都受到法律保護。這就是「不審查與審查的雙重自由」的法源。',
-      src: 'Legal Information Institute (Cornell)',
-    },
-    'us-fosta': {
-      meta: 'Pub. L. 115-164 · 2018',
-      title: 'FOSTA-SESTA',
-      body: '第一個明顯削弱 §230 的成功修法，針對性交易與人口販運內容。讓平台在特定情境下不能再完全主張避風港。§230 沒被廢除，但例外清單正在增加。',
-      src: 'Columbia Human Rights Law Review',
-    },
-    'us-earnit': {
-      meta: 'EARN IT Act · S.1207',
-      title: 'EARN IT Act',
-      body: '針對兒少性剝削內容的修法倡議，邏輯是讓平台必須符合某些兒少保護最佳實務，才保有 §230 保障。爭議點在於它可能導致平台掃描私人通訊，進而衝擊端到端加密。',
-      src: 'U.S. Senate Judiciary Committee',
-    },
-    'us-kosa': {
-      meta: 'Kids Online Safety Act · 2024',
-      title: 'KOSA',
-      body: '主張平台對未成年人負有更高安全義務。2024 年美國參議院以 91 比 3 通過，但眾議院未完成立法。屬於「兒少保護推動平台預先攔截」的脈絡。',
-      src: 'U.S. Senate Commerce Committee',
-    },
-    'us-eo13925': {
-      meta: 'Executive Order 13925 · 2020',
-      title: '川普行政命令 EO 13925',
-      body: '主張平台用 §230 當盾牌，同時又以政治偏見方式審查內容。它本身沒有推翻 §230，但開啟美國保守派對平台中立性的制度攻勢。拜登 2021 撤銷。',
-      src: 'White House / Federal Register',
-    },
-    'us-murthy': {
-      meta: '603 U.S. ___ (2024)',
-      title: 'Murthy v. Missouri',
-      body: '此案在問：政府要求平台處理假訊息、疫情、選舉資訊，會不會構成政府間接審查？最高法院沒有進入實質判斷，主要以「原告欠缺 Article III standing」處理。',
-      src: 'Supreme Court of the U.S.',
-    },
-    'us-moody': {
-      meta: '603 U.S. ___ (2024)',
-      title: 'Moody v. NetChoice',
-      body: '涉及佛州與德州法律，兩州想限制大型平台刪文、降權、標註內容的能力。最高法院承認平台在內容編輯與排序上有第一修正案利益，並把案件發回下級法院重做分析。',
-      src: 'Supreme Court of the U.S.',
-    },
-    'us-paxton': {
-      meta: '606 U.S. ___ (2025-06-27)',
-      title: 'Free Speech Coalition v. Paxton',
-      body: '最高法院以 6:3 支持德州成人網站年齡驗證法。Thomas 主筆，採「中度審查」而非嚴格審查標準，降低了政府推動年齡驗證的憲法門檻——翻轉過去成人匿名瀏覽受高度保護的傳統。',
-      src: 'Supreme Court of the U.S.',
-    },
-    'us-eff-paxton': {
-      meta: 'EFF Analysis · 2025-06-27',
-      title: 'EFF 對 Paxton 案的批評',
-      body: 'EFF 認為該判決打擊成人言論自由、匿名權與資料安全：使用者為了瀏覽合法內容也可能被迫交出政府證件、交易資料或臉部資訊。凸顯年齡驗證從兒少保護進一步變成身分閘口。',
-      src: 'Electronic Frontier Foundation',
-    },
-    'us-la80': {
-      meta: 'Louisiana · post-Act 440',
-      title: '路易斯安那 Pornhub 流量下降 80%',
-      body: '說明年齡驗證的實效問題：使用者未必停止瀏覽成人內容，可能轉向 VPN 或不合規網站。支持「年齡驗證可能訓練全民繞過管制」的論點。',
-      src: 'Electronic Frontier Foundation',
-    },
-
-    // === EU & 各國平台安全立法 ===========================
-    'eu-dsa': {
-      meta: 'Regulation (EU) 2022/2065',
-      title: 'EU Digital Services Act',
-      body: '把平台責任從美式避風港推向風險治理。大型平台 (VLOPs) 要做系統性風險評估、透明度報告、研究者資料存取，違規罰鍰最高可達全球年營業額 6%。三類處分：內容移除、帳號停權、限制可見度。',
-      src: 'European Commission',
-    },
-    'eu-dsa17': {
-      meta: 'DSA Article 17',
-      title: 'Statement of Reasons 義務',
-      body: '要求 hosting services 對內容限制提供具體理由。明確涵蓋內容可見度限制、帳號停權、服務終止等處分。但演算法降權、不推薦、排序調整是否都應觸發說明義務——這是 DSA 實務的執法前線。',
-      src: 'eu-digital-services-act.com',
-    },
-    'uk-osa': {
-      meta: 'UK Online Safety Act 2023',
-      title: 'UK Online Safety Act',
-      body: '讓 Ofcom 成為平台安全監理者，特別針對兒少可接觸的有害內容與成人內容年齡驗證。2025 年起，英國開始要求相關服務導入高強度 age assurance。',
-      src: 'GOV.UK',
-    },
-    'au-osa': {
-      meta: 'Online Safety Amendment 2024',
-      title: '澳洲 16 歲社群媒體禁令',
-      body: '要求社群平台自 2025-12-10 起採取合理措施，阻止 16 歲以下使用者建立或保有帳號。這是「平台預先攔截」的最明顯例子。',
-      src: 'eSafety Commissioner',
-    },
-    'sg-adsc': {
-      meta: 'IMDA · 2024',
-      title: 'Singapore App Distribution Services Code',
-      body: '把管制拉到 App Store 層級，要求 Apple App Store、Google Play 等指定 app distribution services 採取系統層安全措施，特別保護兒少。入口管制從平台進一步上移到作業系統與商店。',
-      src: 'Infocomm Media Development Authority',
-    },
-    'ca-ab1043': {
-      meta: 'California AB 1043 · 2025-10',
-      title: 'Digital Age Assurance Act',
-      body: '要求作業系統在帳號設定階段蒐集年齡資訊，並透過 API 向 app 提供 age bracket signal。把年齡驗證推向 App Store 與 OS 層級，跨出「從色情站擴及全網」的第一步。',
-      src: 'LegiScan',
-    },
-    'global-age': {
-      meta: 'BR Digital ECA · MY OSA · DE JMStV',
-      title: '全球年齡驗證浪潮（三國同步）',
-      body: '兒少保護正在全球擴張成平台義務、年齡驗證義務與系統層預防義務：巴西 Digital ECA 於 2026 年進入實施；馬來西亞預計推動 16 歲以下社群限制；德國 JMStV 長期要求特定成人內容採取年齡保護措施。',
-      src: 'gov.br · MCMC · KJM',
-    },
-
-    // === 思想、研究與技術引用 ===========================
-    'manifesto': {
-      meta: 'Eric Hughes · 1993-03-09',
-      title: 'A Cypherpunk\'s Manifesto',
-      body: '「Privacy is necessary for an open society in the electronic age.」「Cypherpunks write code.」隱私不是隱藏犯罪，而是個人選擇性揭露自己的能力。',
-      src: 'activism.net/cypherpunk/manifesto.html',
-    },
-    'dacc': {
-      meta: 'Vitalik Buterin · 2023-11',
-      title: 'd/acc · defense · decentralization · democracy',
-      body: '把技術加速導向 defense、decentralization、democracy。當代密碼龐克不只反政府管制，也主張建立更有韌性的防禦性基礎設施。',
-      src: 'vitalik.eth.limo',
-    },
-    'meisner': {
-      meta: 'Colten Meisner · Policy & Internet · 2023',
-      title: 'Mass reporting as platform weaponization',
-      body: '檢舉機制本來是社群治理工具，但可被組織化攻擊者武器化，變成讓平台自動懲罰目標內容的手段。這是「蜜罐悖論」的學術版本。',
-      src: 'Wiley · Policy & Internet 15(4)',
-    },
-    'unconv-16': {
-      meta: 'CRC Article 16',
-      title: 'UN 兒童權利公約第 16 條',
-      body: '保障兒童不受任意或非法干預其隱私、家庭、住所與通訊。可反駁「為了保護兒童就可大量蒐集兒童身分資料」的直覺——為保護兒童設計的年齡驗證，可能侵蝕的恰好是兒童自身的隱私權。',
-      src: 'United Nations',
-    },
-    'w3c-vc2': {
-      meta: 'W3C Recommendation · 2025',
-      title: 'Verifiable Credentials Data Model v2.0',
-      body: 'VC 的重點是 issuer、holder、verifier 三方架構，並支援選擇性揭露與不可連結揭露。年齡驗證不必等於上傳身分證全本。',
-      src: 'W3C',
-    },
-    'iso-27566': {
-      meta: 'ISO/IEC 27566-1:2025',
-      title: 'Age Assurance — Part 1: Framework',
-      body: '年齡保證系統的國際標準框架，包含隱私與安全特性。說明年齡驗證已經從政策口號進入標準化階段。',
-      src: 'ISO',
-    },
-    'eudi-av': {
-      meta: 'EUDI Wallet · age verification use case',
-      title: 'EUDI 年齡驗證藍圖',
-      body: '允許使用者證明超過某年齡門檻，同時透過選擇性揭露避免暴露完整出生日期。支撐 ZK proof、selective disclosure、no-phone-home 的架構選擇。',
-      src: 'European Commission',
-    },
-    'ch-eid': {
-      meta: '2025-09-28 · 50.39% 通過',
-      title: '瑞士 e-ID 公投',
-      body: '採國家簽發、使用者持有、免費自願使用的方向。三大條款入法：開源 mandatory、不可連結 (unlinkability)、國家背書而非中央資料庫。民主國家把數位身分主權、開源、不可連結性寫入制度的範本。',
-      src: 'e-id.admin.ch',
-    },
-    'steiner': {
-      meta: 'Peter Steiner · The New Yorker · 1993-07-05',
-      title: '"On the Internet, nobody knows you\'re a dog."',
-      body: '代表早期網路匿名性的承諾。把它改寫成 AI 時代問題：「沒人知道你是人類或機器人。」從匿名權問題轉向代理人身分、AI agent 授權與人機辨識問題。',
-      src: 'The New Yorker',
-    },
+    'us-230': { meta: '47 U.S.C. § 230 (c)(1) · 1996', title: '美國平台的核心避風港條款', body: '「No provider or user of an interactive computer service shall be treated as the publisher or speaker of any information provided by another information content provider.」平台通常不為使用者內容當作出版者／發言者負責——這是 YouTube、Reddit、Wikipedia、PTT 類 UGC 平台得以存在的法律前提。', src: 'Legal Information Institute (Cornell)' },
+    'us-230-gs': { meta: '47 U.S.C. § 230 (c)(2) · Good Samaritan', title: '善意審查保護條款', body: '§230 同時保護平台「善意」移除、限制不當內容的行為。重點是：平台可以選擇不審查，也可以選擇審查，兩者都受到法律保護。這就是「不審查與審查的雙重自由」的法源。', src: 'Legal Information Institute (Cornell)' },
+    'us-fosta': { meta: 'Pub. L. 115-164 · 2018', title: 'FOSTA-SESTA', body: '第一個明顯削弱 §230 的成功修法，針對性交易與人口販運內容。讓平台在特定情境下不能再完全主張避風港。§230 沒被廢除，但例外清單正在增加。', src: 'Columbia Human Rights Law Review' },
+    'us-earnit': { meta: 'EARN IT Act · S.1207', title: 'EARN IT Act', body: '針對兒少性剝削內容的修法倡議，邏輯是讓平台必須符合某些兒少保護最佳實務，才保有 §230 保障。爭議點在於它可能導致平台掃描私人通訊，進而衝擊端到端加密。', src: 'U.S. Senate Judiciary Committee' },
+    'us-kosa': { meta: 'Kids Online Safety Act · 2024', title: 'KOSA', body: '主張平台對未成年人負有更高安全義務。2024 年美國參議院以 91 比 3 通過，但眾議院未完成立法。屬於「兒少保護推動平台預先攔截」的脈絡。', src: 'U.S. Senate Commerce Committee' },
+    'us-eo13925': { meta: 'Executive Order 13925 · 2020', title: '川普行政命令 EO 13925', body: '主張平台用 §230 當盾牌，同時又以政治偏見方式審查內容。它本身沒有推翻 §230，但開啟美國保守派對平台中立性的制度攻勢。拜登 2021 撤銷。', src: 'White House / Federal Register' },
+    'us-murthy': { meta: '603 U.S. ___ (2024)', title: 'Murthy v. Missouri', body: '此案在問：政府要求平台處理假訊息、疫情、選舉資訊，會不會構成政府間接審查？最高法院沒有進入實質判斷，主要以「原告欠缺 Article III standing」處理。', src: 'Supreme Court of the U.S.' },
+    'us-moody': { meta: '603 U.S. ___ (2024)', title: 'Moody v. NetChoice', body: '涉及佛州與德州法律，兩州想限制大型平台刪文、降權、標註內容的能力。最高法院承認平台在內容編輯與排序上有第一修正案利益，並把案件發回下級法院重做分析。', src: 'Supreme Court of the U.S.' },
+    'us-paxton': { meta: '606 U.S. ___ (2025-06-27)', title: 'Free Speech Coalition v. Paxton', body: '最高法院以 6:3 支持德州成人網站年齡驗證法。Thomas 主筆，採「中度審查」而非嚴格審查標準，降低了政府推動年齡驗證的憲法門檻——翻轉過去成人匿名瀏覽受高度保護的傳統。', src: 'Supreme Court of the U.S.' },
+    'us-eff-paxton': { meta: 'EFF Analysis · 2025-06-27', title: 'EFF 對 Paxton 案的批評', body: 'EFF 認為該判決打擊成人言論自由、匿名權與資料安全：使用者為了瀏覽合法內容也可能被迫交出政府證件、交易資料或臉部資訊。凸顯年齡驗證從兒少保護進一步變成身分閘口。', src: 'Electronic Frontier Foundation' },
+    'us-la80': { meta: 'Louisiana · post-Act 440', title: '路易斯安那 Pornhub 流量下降 80%', body: '說明年齡驗證的實效問題：使用者未必停止瀏覽成人內容，可能轉向 VPN 或不合規網站。支持「年齡驗證可能訓練全民繞過管制」的論點。', src: 'Electronic Frontier Foundation' },
+    'eu-dsa': { meta: 'Regulation (EU) 2022/2065', title: 'EU Digital Services Act', body: '把平台責任從美式避風港推向風險治理。大型平台 (VLOPs) 要做系統性風險評估、透明度報告、研究者資料存取，違規罰鍰最高可達全球年營業額 6%。三類處分：內容移除、帳號停權、限制可見度。', src: 'European Commission' },
+    'eu-dsa17': { meta: 'DSA Article 17', title: 'Statement of Reasons 義務', body: '要求 hosting services 對內容限制提供具體理由。明確涵蓋內容可見度限制、帳號停權、服務終止等處分。但演算法降權、不推薦、排序調整是否都應觸發說明義務——這是 DSA 實務的執法前線。', src: 'eu-digital-services-act.com' },
+    'uk-osa': { meta: 'UK Online Safety Act 2023', title: 'UK Online Safety Act', body: '讓 Ofcom 成為平台安全監理者，特別針對兒少可接觸的有害內容與成人內容年齡驗證。2025 年起，英國開始要求相關服務導入高強度 age assurance。', src: 'GOV.UK' },
+    'au-osa': { meta: 'Online Safety Amendment 2024', title: '澳洲 16 歲社群媒體禁令', body: '要求社群平台自 2025-12-10 起採取合理措施，阻止 16 歲以下使用者建立或保有帳號。這是「平台預先攔截」的最明顯例子。', src: 'eSafety Commissioner' },
+    'sg-adsc': { meta: 'IMDA · 2024', title: 'Singapore App Distribution Services Code', body: '把管制拉到 App Store 層級，要求 Apple App Store、Google Play 等指定 app distribution services 採取系統層安全措施，特別保護兒少。入口管制從平台進一步上移到作業系統與商店。', src: 'Infocomm Media Development Authority' },
+    'ca-ab1043': { meta: 'California AB 1043 · 2025-10', title: 'Digital Age Assurance Act', body: '要求作業系統在帳號設定階段蒐集年齡資訊，並透過 API 向 app 提供 age bracket signal。把年齡驗證推向 App Store 與 OS 層級，跨出「從色情站擴及全網」的第一步。', src: 'LegiScan' },
+    'global-age': { meta: 'BR Digital ECA · MY OSA · DE JMStV', title: '全球年齡驗證浪潮（三國同步）', body: '兒少保護正在全球擴張成平台義務、年齡驗證義務與系統層預防義務：巴西 Digital ECA 於 2026 年進入實施；馬來西亞預計推動 16 歲以下社群限制；德國 JMStV 長期要求特定成人內容採取年齡保護措施。', src: 'gov.br · MCMC · KJM' },
+    'manifesto': { meta: 'Eric Hughes · 1993-03-09', title: "A Cypherpunk's Manifesto", body: '「Privacy is necessary for an open society in the electronic age.」「Cypherpunks write code.」隱私不是隱藏犯罪，而是個人選擇性揭露自己的能力。', src: 'activism.net/cypherpunk/manifesto.html' },
+    'dacc': { meta: 'Vitalik Buterin · 2023-11', title: 'd/acc · defense · decentralization · democracy', body: '把技術加速導向 defense、decentralization、democracy。當代密碼龐克不只反政府管制，也主張建立更有韌性的防禦性基礎設施。', src: 'vitalik.eth.limo' },
+    'meisner': { meta: 'Colten Meisner · Policy & Internet · 2023', title: 'Mass reporting as platform weaponization', body: '檢舉機制本來是社群治理工具，但可被組織化攻擊者武器化，變成讓平台自動懲罰目標內容的手段。這是「蜜罐悖論」的學術版本。', src: 'Wiley · Policy & Internet 15(4)' },
+    'unconv-16': { meta: 'CRC Article 16', title: 'UN 兒童權利公約第 16 條', body: '保障兒童不受任意或非法干預其隱私、家庭、住所與通訊。可反駁「為了保護兒童就可大量蒐集兒童身分資料」的直覺——為保護兒童設計的年齡驗證，可能侵蝕的恰好是兒童自身的隱私權。', src: 'United Nations' },
+    'w3c-vc2': { meta: 'W3C Recommendation · 2025', title: 'Verifiable Credentials Data Model v2.0', body: 'VC 的重點是 issuer、holder、verifier 三方架構，並支援選擇性揭露與不可連結揭露。年齡驗證不必等於上傳身分證全本。', src: 'W3C' },
+    'iso-27566': { meta: 'ISO/IEC 27566-1:2025', title: 'Age Assurance — Part 1: Framework', body: '年齡保證系統的國際標準框架，包含隱私與安全特性。說明年齡驗證已經從政策口號進入標準化階段。', src: 'ISO' },
+    'eudi-av': { meta: 'EUDI Wallet · age verification use case', title: 'EUDI 年齡驗證藍圖', body: '允許使用者證明超過某年齡門檻，同時透過選擇性揭露避免暴露完整出生日期。支撐 ZK proof、selective disclosure、no-phone-home 的架構選擇。', src: 'European Commission' },
+    'ch-eid': { meta: '2025-09-28 · 50.39% 通過', title: '瑞士 e-ID 公投', body: '採國家簽發、使用者持有、免費自願使用的方向。三大條款入法：開源 mandatory、不可連結 (unlinkability)、國家背書而非中央資料庫。民主國家把數位身分主權、開源、不可連結性寫入制度的範本。', src: 'e-id.admin.ch' },
+    'steiner': { meta: 'Peter Steiner · The New Yorker · 1993-07-05', title: '"On the Internet, nobody knows you\'re a dog."', body: '代表早期網路匿名性的承諾。把它改寫成 AI 時代問題：「沒人知道你是人類或機器人。」從匿名權問題轉向代理人身分、AI agent 授權與人機辨識問題。', src: 'The New Yorker' },
   };
 
-  // expose for templating: when a <span class="ref" data-cite="key"> exists
-  // but doesn't already contain a .ref-tip, inject one.
-  function buildTip(c) {
-    if (!c) return null;
-    const tip = document.createElement('span');
-    tip.className = 'ref-tip';
+  // ─── tooltip portal: render in <body>, position by JS ───────
+  let live = null;
+  let activeRef = null;
+  let hideTimer = null;
+
+  function ensureLive() {
+    if (live) return live;
+    live = document.createElement('div');
+    live.className = 'ref-tip--live';
+    live.setAttribute('role', 'tooltip');
+    document.body.appendChild(live);
+    // when mouse enters tooltip, cancel hide so user can read it
+    live.addEventListener('mouseenter', () => { live.style.pointerEvents = 'auto'; clearTimeout(hideTimer); });
+    live.addEventListener('mouseleave', () => { hide(); });
+    return live;
+  }
+
+  function renderTip(c) {
+    const tip = ensureLive();
     tip.innerHTML = [
       '<p class="tip-meta">', c.meta || '', '</p>',
       '<p class="tip-title">', c.title || '', '</p>',
       '<p class="tip-body">', c.body || '', '</p>',
       '<p class="tip-src"><span class="src-label">SOURCE</span> <span class="src-name">', c.src || '', '</span></p>',
     ].join('');
-    return tip;
   }
 
-  function wireTooltips(root) {
-    (root || document).querySelectorAll('.ref[data-cite]').forEach((el) => {
-      if (el.querySelector(':scope > .ref-tip')) return;
-      const c = CITES[el.dataset.cite];
-      const tip = buildTip(c);
-      if (tip) el.appendChild(tip);
-      // make accessible
-      el.setAttribute('tabindex', '0');
-      el.setAttribute('role', 'button');
-      el.setAttribute('aria-label', (c && c.title) || el.textContent + ' (citation)');
+  function position(refEl) {
+    const tip = live;
+    if (!tip) return;
+    const r = refEl.getBoundingClientRect();
+    // measure tip (visible but opacity 0 — getBoundingClientRect still works)
+    tip.style.left = '0px';
+    tip.style.top  = '0px';
+    tip.style.opacity = '0';
+    const tr = tip.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const margin = 16;
+
+    // horizontal: center over ref, clamp into viewport
+    let x = r.left + r.width / 2 - tr.width / 2;
+    x = Math.max(margin, Math.min(vw - tr.width - margin, x));
+    // arrow x offset: where ref-center sits inside tip
+    const arrowX = (r.left + r.width / 2) - x;
+
+    // vertical: prefer above; if no room, go below
+    let y = r.top - tr.height - 14;
+    let below = false;
+    if (y < margin) { y = r.bottom + 14; below = true; }
+    if (y + tr.height > vh - margin) { y = vh - tr.height - margin; }
+
+    tip.style.left = x + 'px';
+    tip.style.top  = y + 'px';
+    tip.style.setProperty('--tip-arrow-x', arrowX + 'px');
+    tip.classList.toggle('is-below', below);
+  }
+
+  function show(refEl) {
+    const key = refEl.dataset.cite;
+    const c = CITES[key];
+    if (!c) return;
+    clearTimeout(hideTimer);
+    activeRef = refEl;
+    renderTip(c);
+    requestAnimationFrame(() => {
+      position(refEl);
+      live.classList.add('is-shown');
     });
   }
-  wireTooltips();
-  // re-wire after any dynamic mutations the host might do
-  const mo = new MutationObserver(() => wireTooltips());
-  mo.observe(document.body, { childList: true, subtree: true });
+
+  function hide() {
+    if (!live) return;
+    activeRef = null;
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => {
+      live.classList.remove('is-shown');
+      live.style.pointerEvents = 'none';
+    }, 120);
+  }
+
+  function wireRefs() {
+    document.querySelectorAll('.ref[data-cite]').forEach(el => {
+      if (el.__wired) return;
+      el.__wired = true;
+      el.setAttribute('tabindex', '0');
+      el.setAttribute('role', 'button');
+      const c = CITES[el.dataset.cite];
+      if (c) el.setAttribute('aria-label', c.title);
+      el.addEventListener('mouseenter', () => show(el));
+      el.addEventListener('mouseleave', () => hide());
+      el.addEventListener('focus',      () => show(el));
+      el.addEventListener('blur',       () => hide());
+    });
+  }
+  wireRefs();
+  // re-wire on later DOM additions
+  new MutationObserver(() => wireRefs()).observe(document.body, { childList: true, subtree: true });
+  // re-position on scroll/resize while shown
+  ['scroll','resize'].forEach(ev => window.addEventListener(ev, () => {
+    if (activeRef && live && live.classList.contains('is-shown')) position(activeRef);
+  }, { passive: true }));
+  // ESC dismisses
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && live && live.classList.contains('is-shown')) hide();
+  });
+
+  // ─── fullscreen toggle ─────────────────────────────────────
+  const fsBtn = document.querySelector('.fs-toggle');
+  function toggleFs() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) {
+      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    } else {
+      const el = document.documentElement;
+      (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+    }
+  }
+  if (fsBtn) fsBtn.addEventListener('click', toggleFs);
+  // F key (avoid conflict if deck-stage already binds F; check via capture)
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'f' || e.key === 'F') {
+      e.preventDefault();
+      toggleFs();
+    }
+  });
+  // sync body class for CSS that wants to know fs state
+  ['fullscreenchange','webkitfullscreenchange'].forEach(ev => {
+    document.addEventListener(ev, () => {
+      const fs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+      document.body.classList.toggle('is-fullscreen', fs);
+    });
+  });
 })();
 </script>
 
