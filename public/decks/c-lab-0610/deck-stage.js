@@ -300,6 +300,7 @@
       window.addEventListener('resize', this._onResize);
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       // Initial collection + layout happens via slotchange, which fires on mount.
+      queueMicrotask(() => this._onSlotChange());
     }
 
     disconnectedCallback() {

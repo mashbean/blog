@@ -1905,11 +1905,9 @@
     };
     stage.addEventListener('slidechange', (e) => apply(e.detail.slide));
     // Fallback: if the init slidechange fired before this listener attached,
-    // mark the first slide active so opening the deck still animates.
+    // sync the currently visible slide so opening a deep link still animates.
     requestAnimationFrame(() => {
-      if (!stage.querySelector('section.is-active')) {
-        apply(stage.querySelector('section'));
-      }
+      apply(stage.querySelector('section[data-deck-active]') || stage.querySelector('section'));
     });
   })();
 </script>
