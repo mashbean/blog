@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>Demo 假簡報 — 簡報系統測試</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="deck-stage.js"></script>
+<style>
+  :root {
+    --ink: #0E1116;
+    --paper: #FFFFFF;
+    --bone: #F1EFEA;
+    --neon: #2BE08A;
+    --neon-deep: #15B86C;
+    --violet: #6C5CE7;
+    --grid: rgba(14,17,22,0.10);
+    --grid-on-ink: rgba(255,255,255,0.10);
+    --grid-on-neon: rgba(14,17,22,0.16);
+  }
+  html, body { margin:0; padding:0; background:#000; color:var(--ink); font-family:'Space Grotesk','Noto Sans TC',sans-serif; }
+  deck-stage { background:#000; }
+  section {
+    box-sizing:border-box;
+    width:1920px; height:1080px;
+    overflow:hidden; position:relative;
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .zh { font-family:'Noto Sans TC','Space Grotesk',sans-serif; }
+  .mono { font-family:'JetBrains Mono',monospace; letter-spacing:0.02em; }
+
+  /* shared furniture */
+  .dotgrid { position:absolute; inset:0; pointer-events:none;
+    background-image: radial-gradient(circle, var(--grid) 1.5px, transparent 1.5px); background-size:40px 40px; }
+  .dotgrid.on-ink { background-image: radial-gradient(circle, var(--grid-on-ink) 1.5px, transparent 1.5px); }
+  .dotgrid.on-neon { background-image: radial-gradient(circle, var(--grid-on-neon) 1.5px, transparent 1.5px); }
+
+  .stamp { position:absolute; top:48px; left:64px; display:flex; align-items:center; gap:18px;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:24px; letter-spacing:0.12em; }
+  .stamp .dot { width:14px; height:14px; background:var(--neon-deep); border-radius:50%; }
+  .stamp.on-ink { color:var(--paper); }
+  .stamp.on-ink .dot { background:var(--neon); }
+  .stamp.on-neon .dot { background:var(--ink); }
+
+  .ident { position:absolute; top:48px; right:64px; font-family:'JetBrains Mono',monospace;
+    font-size:24px; letter-spacing:0.14em; font-weight:700; text-transform:uppercase; }
+  .ident.on-ink { color:var(--paper); }
+
+  .baseline { position:absolute; left:64px; right:64px; bottom:48px; display:flex;
+    justify-content:space-between; align-items:center; font-family:'JetBrains Mono',monospace;
+    font-size:20px; letter-spacing:0.14em; font-weight:700; text-transform:uppercase; }
+  .baseline.on-ink { color:var(--paper); }
+
+  /* SLIDE 1 — COVER */
+  .s1 { background:var(--ink); color:var(--paper); }
+  .s1 .cover-stack { position:absolute; left:100px; right:100px; top:300px; }
+  .s1 .super { font-family:'JetBrains Mono',monospace; font-weight:700; font-size:24px;
+    letter-spacing:0.24em; text-transform:uppercase; margin-bottom:24px; color:var(--neon); }
+  .s1 h1.zh { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:170px;
+    line-height:0.98; letter-spacing:-0.02em; margin:0; }
+  .s1 h1 .accent { color:var(--neon); }
+  .s1 .sub-zh { margin-top:36px; font-family:'Noto Sans TC',sans-serif; font-weight:700;
+    font-size:40px; line-height:1.25; max-width:1500px; }
+  .s1 .tag-en { margin-top:18px; font-family:'Space Grotesk',sans-serif; font-weight:500;
+    font-size:26px; line-height:1.3; opacity:0.8; }
+  .s1 .meta { position:absolute; left:100px; right:100px; bottom:64px; display:grid;
+    grid-template-columns:1fr 1fr 1fr; gap:60px; border-top:6px solid var(--neon); padding-top:24px; }
+  .s1 .meta .k { font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700;
+    letter-spacing:0.18em; text-transform:uppercase; opacity:0.6; margin-bottom:8px; }
+  .s1 .meta .v { font-family:'Noto Sans TC',sans-serif; font-size:26px; font-weight:700; line-height:1.25; }
+  .s1 .meta .v.en { font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:24px; opacity:0.75; margin-top:4px; }
+  .cover-nodes { position:absolute; right:90px; top:150px; width:420px; height:420px; }
+
+  /* SLIDE 2 — Why */
+  .s2 { background:var(--paper); color:var(--ink); }
+  .s2 .frame { position:absolute; left:100px; right:100px; top:160px; bottom:120px; display:flex; flex-direction:column; }
+  .s2 h2 { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:120px; line-height:0.95; letter-spacing:-0.02em; margin:0; }
+  .s2 .h2-en { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:48px; color:var(--neon-deep); margin-top:14px; }
+  .s2 .pts { display:grid; grid-template-columns:1fr 1fr; gap:48px 80px; margin-top:96px; }
+  .s2 .pt { display:flex; gap:32px; align-items:flex-start; }
+  .s2 .pt .num { font-family:'JetBrains Mono',monospace; font-weight:700; font-size:32px; color:var(--neon-deep); padding-top:6px; min-width:80px; }
+  .s2 .pt p { font-family:'Noto Sans TC',sans-serif; font-weight:700; font-size:38px; line-height:1.35; margin:0; }
+  .s2 .pt .em { color:var(--neon-deep); }
+
+  /* SLIDE 3 — How it works */
+  .s3 { background:var(--ink); color:var(--paper); }
+  .s3 .top { position:absolute; left:100px; right:100px; top:140px; }
+  .s3 h2 { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:108px; line-height:0.95; letter-spacing:-0.02em; margin:0; }
+  .s3 .h2-en { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:34px; color:var(--neon); margin-top:24px; }
+  .s3 .traps { position:absolute; left:100px; right:100px; top:520px; display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .s3 .trap { border:3px solid var(--paper); padding:36px 32px; min-height:300px; display:flex; flex-direction:column; justify-content:space-between; }
+  .s3 .trap .num { font-family:'JetBrains Mono',monospace; font-weight:700; font-size:26px; color:var(--neon); letter-spacing:0.1em; }
+  .s3 .trap .name-zh { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:40px; line-height:1.1; margin-top:24px; }
+  .s3 .trap .name-en { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:24px; letter-spacing:0.04em; opacity:0.7; margin-top:10px; }
+
+  /* SLIDE 4 — Pipeline */
+  .s4 { background:var(--bone); color:var(--ink); }
+  .s4 h2 { position:absolute; left:100px; top:160px; font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:108px; line-height:0.95; margin:0; letter-spacing:-0.02em; }
+  .s4 .h2-en { position:absolute; left:100px; top:300px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:38px; color:var(--neon-deep); }
+  .s4 .cols { position:absolute; left:100px; right:100px; top:480px; bottom:120px; display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+  .s4 .col { padding:48px 36px; display:flex; flex-direction:column; justify-content:space-between; position:relative; }
+  .s4 .col + .col { border-left:4px solid var(--ink); }
+  .s4 .col .num { font-family:'JetBrains Mono',monospace; font-weight:700; font-size:28px; letter-spacing:0.16em; color:var(--neon-deep); }
+  .s4 .col .zh { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:60px; line-height:1.05; margin-top:32px; letter-spacing:-0.02em; }
+  .s4 .col .desc { font-family:'JetBrains Mono',monospace; font-weight:400; font-size:24px; line-height:1.4; margin-top:auto; opacity:0.75; }
+  .s4 .col.feature { background:var(--neon); }
+  .s4 .col.feature .num, .s4 .col.feature .desc { color:var(--ink); opacity:0.9; }
+
+  /* SLIDE 5 — What this tests */
+  .s5 { background:var(--paper); color:var(--ink); }
+  .s5 h2 { position:absolute; left:100px; top:160px; font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:108px; line-height:0.95; margin:0; letter-spacing:-0.02em; }
+  .s5 .h2-en { position:absolute; left:100px; top:300px; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:38px; color:var(--neon-deep); }
+  .s5 .qs { position:absolute; left:100px; right:100px; top:440px; bottom:80px; display:flex; flex-direction:column; border-top:3px solid var(--ink); }
+  .s5 .q { flex:1; display:grid; grid-template-columns:140px 1fr 1fr; align-items:center; padding:8px 0; border-bottom:3px solid var(--ink); gap:32px; }
+  .s5 .q .n { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:64px; line-height:1; letter-spacing:-0.04em; color:var(--neon-deep); }
+  .s5 .q .zh { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:36px; line-height:1.2; }
+  .s5 .q .en { font-family:'Space Grotesk',sans-serif; font-weight:500; font-size:26px; line-height:1.3; opacity:0.7; }
+  .s5 .q.feature { background:var(--neon); margin:0 -20px; padding:0 20px; }
+
+  /* SLIDE 6 — Closing */
+  .s6 { background:var(--neon); color:var(--ink); }
+  .s6 .corner-tl { position:absolute; top:64px; left:64px; right:64px; display:flex; justify-content:space-between;
+    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:24px; letter-spacing:0.18em; text-transform:uppercase; }
+  .s6 .quote { position:absolute; left:100px; right:100px; top:200px; bottom:200px; display:flex; flex-direction:column; justify-content:center; }
+  .s6 .qm { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:240px; line-height:0.6; color:var(--ink); margin-bottom:40px; }
+  .s6 .quote p { font-family:'Noto Sans TC',sans-serif; font-weight:900; font-size:84px; line-height:1.18; letter-spacing:-0.015em; margin:0; text-wrap:pretty; }
+  .s6 .quote p .em { background:var(--ink); color:var(--neon); padding:0 12px; }
+  .s6 .baseline-6 { position:absolute; left:100px; right:100px; bottom:64px; display:flex; justify-content:space-between; align-items:center; border-top:6px solid var(--ink); padding-top:28px; }
+  .s6 .baseline-6 .lets { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:42px; letter-spacing:-0.01em; }
+  .s6 .baseline-6 .meta { font-family:'JetBrains Mono',monospace; font-weight:700; font-size:24px; letter-spacing:0.16em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ==================== SLIDE 1 — COVER ==================== -->
+  <section data-label="01 Cover" class="s1">
+    <div class="dotgrid on-ink"></div>
+    <div class="stamp on-ink"><span class="dot"></span><span>MASHBEAN.NET ／ DECK SYSTEM TEST</span></div>
+    <div class="ident on-ink">01 / 06</div>
+
+    <svg class="cover-nodes" viewBox="0 0 440 440" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g stroke="#2BE08A" stroke-width="2">
+        <line x1="60" y1="60" x2="220" y2="160"/>
+        <line x1="220" y1="160" x2="380" y2="80"/>
+        <line x1="220" y1="160" x2="120" y2="320"/>
+        <line x1="220" y1="160" x2="340" y2="300"/>
+        <line x1="120" y1="320" x2="340" y2="300"/>
+      </g>
+      <circle cx="60" cy="60" r="10" fill="#FFFFFF"/>
+      <circle cx="380" cy="80" r="14" fill="#6C5CE7"/>
+      <circle cx="220" cy="160" r="22" fill="#2BE08A"/>
+      <circle cx="120" cy="320" r="12" fill="#FFFFFF"/>
+      <circle cx="340" cy="300" r="16" fill="#2BE08A"/>
+    </svg>
+
+    <div class="cover-stack">
+      <div class="super">Demo · 假簡報 · Not a real talk</div>
+      <h1 class="zh">這是一份<br/><span class="accent">Demo 假簡報</span></h1>
+      <div class="sub-zh zh">用來測試 mashbean.net 的簡報系統，從產生到上線跑一遍。</div>
+      <div class="tag-en">A throwaway deck to verify the slides pipeline end to end — content is fictional.</div>
+    </div>
+
+    <div class="meta">
+      <div>
+        <div class="k">Purpose</div>
+        <div class="v zh">流程測試</div>
+        <div class="v en">Pipeline smoke test</div>
+      </div>
+      <div>
+        <div class="k">Author</div>
+        <div class="v zh">黃豆泥　Mashbean</div>
+        <div class="v en">mashbean.net</div>
+      </div>
+      <div>
+        <div class="k">Date</div>
+        <div class="v zh">2026 年 6 月 10 日</div>
+        <div class="v en">6 slides · 16:9</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 2 — WHY ==================== -->
+  <section data-label="02 Why" class="s2">
+    <div class="dotgrid"></div>
+    <div class="stamp"><span class="dot"></span><span>02 ／ WHY THIS DEMO</span></div>
+    <div class="ident">02 / 06</div>
+
+    <div class="frame">
+      <h2 class="zh">為什麼做這個 demo</h2>
+      <div class="h2-en">Why this throwaway deck exists</div>
+      <div class="pts">
+        <div class="pt"><span class="num">01</span><p class="zh">驗證能不能<span class="em">產生</span>一份簡報</p></div>
+        <div class="pt"><span class="num">02</span><p class="zh">驗證能不能<span class="em">build</span> 進站台</p></div>
+        <div class="pt"><span class="num">03</span><p class="zh">驗證能不能<span class="em">部署</span>到 mashbean.net</p></div>
+        <div class="pt"><span class="num">04</span><p class="zh">驗證線上能<span class="em">播放</span>、能換頁</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 3 — HOW IT WORKS ==================== -->
+  <section data-label="03 How" class="s3">
+    <div class="dotgrid on-ink"></div>
+    <div class="stamp on-ink"><span class="dot"></span><span>03 ／ HOW IT WORKS</span></div>
+    <div class="ident on-ink">03 / 06</div>
+
+    <div class="top">
+      <h2 class="zh">這套簡報怎麼運作</h2>
+      <div class="h2-en">A self-contained deck driven by deck-stage.js</div>
+    </div>
+
+    <div class="traps">
+      <div class="trap">
+        <div class="num">A</div>
+        <div>
+          <div class="name-zh zh">每張 1920×1080</div>
+          <div class="name-en">Authored at 16:9, auto-scaled to fit</div>
+        </div>
+      </div>
+      <div class="trap">
+        <div class="num">B</div>
+        <div>
+          <div class="name-zh zh">&lt;deck-stage&gt; 播放器</div>
+          <div class="name-en">Web component · keyboard + touch nav</div>
+        </div>
+      </div>
+      <div class="trap">
+        <div class="num">C</div>
+        <div>
+          <div class="name-zh zh">零外部依賴</div>
+          <div class="name-en">Self-contained · IPFS-friendly</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 4 — PIPELINE ==================== -->
+  <section data-label="04 Pipeline" class="s4">
+    <div class="dotgrid"></div>
+    <div class="stamp"><span class="dot"></span><span>04 ／ THE PIPELINE</span></div>
+    <div class="ident">04 / 06</div>
+
+    <h2 class="zh">上線四步</h2>
+    <div class="h2-en">From file to mashbean.net</div>
+
+    <div class="cols">
+      <div class="col">
+        <div class="num">01</div>
+        <div class="zh">寫 HTML</div>
+        <div class="desc">public/decks/&lt;name&gt;/</div>
+      </div>
+      <div class="col">
+        <div class="num">02</div>
+        <div class="zh">本地<br/>build</div>
+        <div class="desc">npm run build</div>
+      </div>
+      <div class="col">
+        <div class="num">03</div>
+        <div class="zh">git<br/>push</div>
+        <div class="desc">→ main</div>
+      </div>
+      <div class="col feature">
+        <div class="num">04</div>
+        <div class="zh">自動<br/>部署</div>
+        <div class="desc">Actions → Pages → mashbean.net</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 5 — WHAT THIS TESTS ==================== -->
+  <section data-label="05 Checklist" class="s5">
+    <div class="dotgrid"></div>
+    <div class="stamp"><span class="dot"></span><span>05 ／ WHAT THIS TESTS</span></div>
+    <div class="ident">05 / 06</div>
+
+    <h2 class="zh">這份 demo 在測什麼</h2>
+    <div class="h2-en">The checklist behind the throwaway</div>
+
+    <div class="qs">
+      <div class="q"><span class="n">1</span><span class="zh">內容能正確產生</span><span class="en">Markup renders & scales</span></div>
+      <div class="q feature"><span class="n">2</span><span class="zh">build 不會壞掉</span><span class="en">Astro build stays green</span></div>
+      <div class="q"><span class="n">3</span><span class="zh">部署有觸發</span><span class="en">GitHub Actions deploys</span></div>
+      <div class="q"><span class="n">4</span><span class="zh">線上可播放</span><span class="en">Live deck is playable</span></div>
+    </div>
+  </section>
+
+  <!-- ==================== SLIDE 6 — CLOSING ==================== -->
+  <section data-label="06 Closing" class="s6">
+    <div class="dotgrid on-neon"></div>
+    <div class="corner-tl"><span>MASHBEAN.NET</span><span>／ DEMO DECK</span></div>
+
+    <div class="quote">
+      <div class="qm">“</div>
+      <p class="zh">能跑通一份<span class="em">假簡報</span>，<br/>才放心做真的。</p>
+    </div>
+
+    <div class="baseline-6">
+      <div class="lets">謝謝觀賞 — 這是一份 demo。</div>
+      <div class="meta">2026.06.10 ／ END</div>
+    </div>
+  </section>
+
+</deck-stage>
+
+</body>
+</html>
