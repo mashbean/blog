@@ -1,0 +1,3214 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>文化前線 II 讀書會 · AI、工作與能動性 · MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cobalt:#1E3AFF;
+    --magenta:#FF2D87;
+    --sun:#FFD60A;
+    --lime:#C6F432;
+    --ink:#0A0A0F;
+    --paper:#F7F4EC;
+    --paper2:#EFEAD8;
+  }
+  html,body{margin:0;padding:0;background:#000;font-family:'Inter','Noto Sans TC',sans-serif;color:var(--ink);}
+  deck-stage{display:block;}
+  section{
+    box-sizing:border-box;
+    overflow:hidden;
+    font-family:'Inter','Noto Sans TC',sans-serif;
+    line-break:strict;
+    overflow-wrap:break-word;
+  }
+  .slide{
+    width:100%;height:100%;
+    padding:100px;
+    box-sizing:border-box;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+  .pad-x{padding-left:100px;padding-right:100px;}
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    font-weight:500;
+    opacity:0.75;
+  }
+  .title-xl{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+    font-size:140px;
+    line-height:1.08;
+    letter-spacing:0;
+    margin:0;
+    text-wrap:balance;
+  }
+  .title-lg{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+    font-size:96px;
+    line-height:1.08;
+    letter-spacing:0;
+    margin:0;
+    text-wrap:balance;
+  }
+  .title{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+    font-size:72px;
+    line-height:1.12;
+    letter-spacing:0;
+    margin:0;
+    text-wrap:balance;
+  }
+  .subtitle{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:500;
+    font-size:44px;
+    line-height:1.25;
+    letter-spacing:0;
+    margin:0;
+    text-wrap:balance;
+  }
+  .body{
+    font-family:'Inter','Noto Sans TC',sans-serif;
+    font-size:34px;
+    line-height:1.5;
+    font-weight:400;
+    text-wrap:pretty;
+  }
+  .body-lg{
+    font-family:'Inter','Noto Sans TC',sans-serif;
+    font-size:40px;
+    line-height:1.45;
+    font-weight:400;
+    text-wrap:pretty;
+  }
+  .small{
+    font-family:'Inter','Noto Sans TC',sans-serif;
+    font-size:28px;
+    line-height:1.45;
+  }
+  .mono{
+    font-family:'JetBrains Mono',monospace;
+  }
+  .pill{
+    display:inline-block;
+    padding:14px 28px;
+    border-radius:999px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+  .num-marker{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+    font-size:280px;
+    line-height:1;
+    letter-spacing:0;
+  }
+  .footer{
+    position:absolute;
+    bottom:48px;
+    left:100px;
+    right:100px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    opacity:0.55;
+  }
+  /* color skins */
+  .bg-paper{background:var(--paper);color:var(--ink);}
+  .bg-ink{background:var(--ink);color:var(--paper);}
+  .bg-cobalt{background:var(--cobalt);color:var(--paper);}
+  .bg-magenta{background:var(--magenta);color:var(--ink);}
+  .bg-sun{background:var(--sun);color:var(--ink);}
+  .bg-lime{background:var(--lime);color:var(--ink);}
+  .bg-paper2{background:var(--paper2);color:var(--ink);}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;}
+  .stack{display:flex;flex-direction:column;}
+  .row{display:flex;}
+  .slide [style*="display:grid"] > *,
+  .slide [style*="display:flex"] > *,
+  .grid-2 > *,
+  .grid-3 > *{min-width:0;}
+
+  .card{
+    background:var(--paper);
+    color:var(--ink);
+    padding:40px;
+    border-radius:8px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .card.dark{background:#16161E;color:var(--paper);}
+  .rule{height:6px;background:var(--ink);width:100%;}
+  .rule-thin{height:2px;background:currentColor;width:100%;opacity:0.25;}
+
+  ul.clean{list-style:none;padding:0;margin:0;}
+  ul.clean li{
+    display:flex;
+    gap:32px;
+    align-items:baseline;
+    padding:22px 0;
+    border-bottom:2px solid currentColor;
+    border-color:rgba(0,0,0,0.15);
+  }
+  ul.clean li:last-child{border-bottom:none;}
+  ul.clean .marker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:0.05em;
+    flex-shrink:0;
+    width:80px;
+    opacity:0.6;
+  }
+  ul.clean .text{font-size:36px;line-height:1.45;}
+
+  .tag{
+    display:inline-flex;
+    padding:10px 22px;
+    border:2px solid currentColor;
+    border-radius:999px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:24px;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    font-weight:500;
+  }
+
+  .zh-tight{line-height:1.18 !important;}
+  .zh-card-title{line-height:1.28 !important;}
+  .zh-grid-label{line-height:1.35 !important;}
+  .q-item{align-items:flex-start !important;}
+  .q-item .subtitle{line-height:1.25 !important;}
+  .chevron-flow .subtitle{font-size:32px !important;line-height:1.18 !important;}
+  .chain-node .subtitle{line-height:1.2 !important;}
+
+  .appendix-slide{
+    background:#F7F4EC;
+    color:var(--ink);
+  }
+  .appendix-title{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+    font-size:68px;
+    line-height:1.14;
+    margin:0;
+    letter-spacing:0;
+    text-wrap:balance;
+  }
+  .appendix-copy{
+    font-size:30px;
+    line-height:1.55;
+    max-width:1280px;
+    margin-top:28px;
+  }
+  .appendix-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:22px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    opacity:0.55;
+  }
+  .kr-card{
+    border:2px solid rgba(10,10,15,0.24);
+    background:rgba(255,255,255,0.45);
+    padding:34px;
+    border-radius:4px;
+  }
+  .kr-card-title{
+    font-size:40px;
+    line-height:1.25;
+    font-weight:700;
+  }
+  .kr-note{
+    font-size:24px;
+    line-height:1.5;
+    opacity:0.72;
+  }
+  .kr-register-table{
+    border-collapse:separate;
+    border-spacing:14px 10px;
+    width:100%;
+    table-layout:fixed;
+    font-size:24px;
+    line-height:1.25;
+  }
+  .kr-register-table th{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:600;
+    text-align:center;
+    vertical-align:bottom;
+    padding:0 10px 8px;
+  }
+  .kr-register-table th small{
+    display:block;
+    font-family:'Inter','Noto Sans TC',sans-serif;
+    font-size:20px;
+    line-height:1.25;
+    font-weight:400;
+    opacity:0.65;
+  }
+  .kr-register-table td{
+    border:3px solid rgba(10,10,15,0.42);
+    height:64px;
+    text-align:center;
+    vertical-align:middle;
+    background:rgba(255,255,255,0.52);
+    padding:0 14px;
+  }
+  .kr-register-table .row-label{
+    border:none;
+    background:transparent;
+    text-align:right;
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+    font-size:30px;
+    padding-right:10px;
+  }
+  .kr-register-table .shade{
+    background:rgba(10,10,15,0.28);
+    color:rgba(10,10,15,0.78);
+  }
+  .kr-register-table .tool-line{
+    border-left:3px dashed rgba(10,10,15,0.42);
+  }
+  .kr-flow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    margin-top:66px;
+  }
+  .kr-flow-node{
+    min-width:176px;
+    min-height:118px;
+    border:3px solid rgba(10,10,15,0.52);
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-size:24px;
+    line-height:1.28;
+    font-weight:600;
+    background:rgba(255,255,255,0.45);
+    position:relative;
+  }
+  .kr-flow-node.wide{min-width:246px;overflow:visible;}
+  .kr-arrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:34px;
+    opacity:0.62;
+    flex:0 0 auto;
+  }
+  .kr-flow-note{
+    position:absolute;
+    top:-58px;
+    left:50%;
+    transform:translateX(-50%);
+    width:220px;
+    font-size:18px;
+    line-height:1.25;
+    font-weight:500;
+    opacity:0.62;
+  }
+  .kr-no-note{
+    position:absolute;
+    top:142px;
+    left:50%;
+    transform:translateX(-50%);
+    width:230px;
+    font-size:17px;
+    line-height:1.25;
+    font-weight:400;
+    opacity:0.55;
+  }
+  .kr-no-note::before{
+    content:"";
+    display:block;
+    width:0;
+    height:44px;
+    border-left:2px dashed rgba(10,10,15,0.32);
+    margin:0 auto 8px;
+  }
+  .kr-diagram-box{
+    border:3px solid rgba(10,10,15,0.48);
+    border-radius:6px;
+    min-height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:24px;
+    font-size:26px;
+    line-height:1.3;
+    font-weight:600;
+    background:rgba(255,255,255,0.38);
+  }
+  .kr-arrow-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:20px;
+    line-height:1.3;
+    opacity:0.58;
+  }
+
+  .kr-page{
+    background:#F7F4EC;
+    color:var(--ink);
+    padding:84px 96px 92px;
+  }
+  .kr-page.dark{
+    background:var(--ink);
+    color:var(--paper);
+  }
+  .kr-head{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:36px;
+    align-items:start;
+  }
+  .kr-kicker{
+    font-family:'JetBrains Mono',monospace;
+    font-size:20px;
+    line-height:1.35;
+    letter-spacing:0.12em;
+    color:rgba(10,10,15,0.56);
+    text-transform:uppercase;
+    padding-top:14px;
+  }
+  .kr-page.dark .kr-kicker{color:rgba(247,244,236,0.62);}
+  .kr-title{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:64px;
+    line-height:1.12;
+    font-weight:700;
+    letter-spacing:0;
+    margin:0;
+    text-wrap:balance;
+  }
+  .kr-subtitle{
+    font-size:30px;
+    line-height:1.55;
+    margin-top:22px;
+    max-width:1120px;
+    color:rgba(10,10,15,0.72);
+  }
+  .kr-page.dark .kr-subtitle{color:rgba(247,244,236,0.72);}
+  .kr-canvas{
+    margin-top:52px;
+    border-top:3px solid currentColor;
+    padding-top:42px;
+  }
+  .kr-two-up{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:34px;
+  }
+  .kr-panel{
+    border:3px solid rgba(10,10,15,0.42);
+    background:rgba(255,255,255,0.48);
+    min-height:430px;
+    padding:42px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    border-radius:4px;
+  }
+  .kr-page.dark .kr-panel{
+    border-color:rgba(247,244,236,0.36);
+    background:rgba(247,244,236,0.06);
+  }
+  .kr-panel-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:19px;
+    letter-spacing:0.12em;
+    color:rgba(10,10,15,0.55);
+    text-transform:uppercase;
+  }
+  .kr-page.dark .kr-panel-label{color:rgba(247,244,236,0.58);}
+  .kr-panel-title{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:44px;
+    line-height:1.22;
+    font-weight:700;
+    margin-top:18px;
+  }
+  .kr-panel-copy{
+    font-size:28px;
+    line-height:1.52;
+    color:rgba(10,10,15,0.72);
+  }
+  .kr-page.dark .kr-panel-copy{color:rgba(247,244,236,0.72);}
+  .kr-rule-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:32px;
+  }
+  .kr-rule{
+    border-left:8px solid var(--ink);
+    background:rgba(255,255,255,0.52);
+    padding:34px 38px;
+    min-height:232px;
+  }
+  .kr-rule.positive{border-left-color:var(--lime);}
+  .kr-rule.negative{border-left-color:var(--magenta);}
+  .kr-rule-title{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:38px;
+    line-height:1.24;
+    font-weight:700;
+  }
+  .kr-rule-copy{
+    font-size:27px;
+    line-height:1.52;
+    margin-top:22px;
+    color:rgba(10,10,15,0.72);
+  }
+  .kr-equation{
+    margin-top:46px;
+    border:2px solid rgba(10,10,15,0.18);
+    padding:24px 34px;
+    text-align:center;
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:31px;
+    line-height:1.35;
+    background:rgba(255,255,255,0.4);
+  }
+  .kr-matrix-wrap{
+    position:relative;
+    margin-top:10px;
+  }
+  .kr-reach-line{
+    display:grid;
+    grid-template-columns:170px 1fr;
+    align-items:center;
+    margin-bottom:18px;
+  }
+  .kr-reach-line .line{
+    height:3px;
+    background:rgba(10,10,15,0.36);
+    position:relative;
+  }
+  .kr-reach-line .line::after{
+    content:"";
+    position:absolute;
+    right:-2px;
+    top:50%;
+    transform:translateY(-50%);
+    border-left:16px solid rgba(10,10,15,0.48);
+    border-top:9px solid transparent;
+    border-bottom:9px solid transparent;
+  }
+  .kr-reach-line .label{
+    font-size:22px;
+    line-height:1.35;
+    color:rgba(10,10,15,0.56);
+    text-align:center;
+  }
+  .kr-matrix{
+    display:grid;
+    grid-template-columns:170px repeat(4, 1fr);
+    gap:12px;
+    align-items:stretch;
+  }
+  .kr-matrix .axis,
+  .kr-matrix .row-head{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;
+  }
+  .kr-matrix .axis{
+    min-height:82px;
+    display:flex;
+    flex-direction:column;
+    justify-content:end;
+    align-items:center;
+    text-align:center;
+    font-size:28px;
+    line-height:1.18;
+    padding-bottom:10px;
+  }
+  .kr-matrix .axis small{
+    display:block;
+    font-family:'Inter','Noto Sans TC',sans-serif;
+    font-size:20px;
+    line-height:1.25;
+    font-weight:400;
+    margin-top:6px;
+    color:rgba(10,10,15,0.58);
+  }
+  .kr-matrix .row-head{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    text-align:right;
+    font-size:32px;
+    line-height:1.2;
+    padding-right:18px;
+  }
+  .kr-cell{
+    border:3px solid rgba(10,10,15,0.38);
+    min-height:74px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:0 16px;
+    font-size:25px;
+    line-height:1.25;
+    background:rgba(255,255,255,0.5);
+  }
+  .kr-cell.filled{
+    background:rgba(10,10,15,0.28);
+    font-weight:600;
+  }
+  .kr-cell.boundary{
+    border-left-style:dashed;
+  }
+  .kr-legend{
+    display:flex;
+    justify-content:center;
+    gap:64px;
+    margin-top:28px;
+    font-size:24px;
+    line-height:1.35;
+    color:rgba(10,10,15,0.68);
+  }
+  .kr-swatch{
+    display:inline-block;
+    width:36px;
+    height:20px;
+    background:rgba(10,10,15,0.28);
+    vertical-align:middle;
+    margin-right:12px;
+  }
+  .kr-transducer{
+    display:grid;
+    grid-template-columns:1.35fr 0.9fr;
+    gap:72px;
+    align-items:center;
+  }
+  .kr-machine{
+    display:grid;
+    grid-template-columns:1fr 170px 1fr;
+    gap:24px;
+    align-items:center;
+  }
+  .kr-box{
+    border:3px solid rgba(10,10,15,0.46);
+    min-height:156px;
+    padding:28px;
+    border-radius:5px;
+    background:rgba(255,255,255,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:30px;
+    line-height:1.22;
+    font-weight:700;
+  }
+  .kr-machine-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:19px;
+    line-height:1.35;
+    color:rgba(10,10,15,0.58);
+    text-align:center;
+  }
+  .kr-arrow-stack{
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .kr-arrow-row{
+    display:grid;
+    grid-template-columns:1fr;
+    align-items:center;
+    gap:4px;
+    color:rgba(10,10,15,0.62);
+  }
+  .kr-arrow-row .bar{
+    height:3px;
+    background:currentColor;
+    position:relative;
+  }
+  .kr-arrow-row.right .bar::after,
+  .kr-arrow-row.left .bar::before{
+    content:"";
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    border-top:8px solid transparent;
+    border-bottom:8px solid transparent;
+  }
+  .kr-arrow-row.right .bar::after{
+    right:-1px;
+    border-left:14px solid currentColor;
+  }
+  .kr-arrow-row.left .bar::before{
+    left:-1px;
+    border-right:14px solid currentColor;
+  }
+  .kr-side-notes{
+    border-left:3px solid rgba(10,10,15,0.18);
+    padding-left:52px;
+    display:grid;
+    gap:34px;
+  }
+  .kr-side-note{
+    font-size:29px;
+    line-height:1.48;
+    font-weight:600;
+  }
+  .kr-decision-flow{
+    display:grid;
+    grid-template-columns:190px 44px 1fr 72px 1fr 72px 1fr 72px 190px;
+    gap:12px;
+    align-items:center;
+    margin-top:42px;
+  }
+  .kr-decision-node{
+    border:3px solid rgba(10,10,15,0.44);
+    min-height:160px;
+    border-radius:5px;
+    background:rgba(255,255,255,0.5);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  .kr-decision-node .term{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:32px;
+    line-height:1.18;
+    font-weight:700;
+  }
+  .kr-decision-node .question{
+    font-size:23px;
+    line-height:1.32;
+    margin-top:12px;
+  }
+  .kr-yes{
+    font-family:'JetBrains Mono',monospace;
+    font-size:20px;
+    color:rgba(10,10,15,0.58);
+    text-align:center;
+  }
+  .kr-yes::after{
+    content:"";
+    display:block;
+    height:3px;
+    background:rgba(10,10,15,0.4);
+    margin-top:8px;
+  }
+  .kr-branch-row{
+    display:grid;
+    grid-template-columns:190px 44px 1fr 72px 1fr 72px 1fr 72px 190px;
+    gap:12px;
+    margin-top:18px;
+    align-items:start;
+  }
+  .kr-no-branch{
+    border-top:2px dashed rgba(10,10,15,0.28);
+    padding-top:14px;
+    text-align:center;
+    color:rgba(10,10,15,0.58);
+    font-size:20px;
+    line-height:1.35;
+  }
+  .kr-compare{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:42px;
+  }
+  .kr-compare-panel{
+    border-top:6px solid var(--lime);
+    background:rgba(255,255,255,0.48);
+    padding:34px 34px 38px;
+  }
+  .kr-compare-panel.negative{border-top-color:var(--magenta);}
+  .kr-compare-title{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:34px;
+    line-height:1.25;
+    font-weight:700;
+  }
+  .kr-mini-machine{
+    display:grid;
+    grid-template-columns:1fr 90px 1fr;
+    gap:18px;
+    align-items:center;
+    margin-top:30px;
+  }
+  .kr-mini-box{
+    border:3px solid rgba(10,10,15,0.42);
+    min-height:210px;
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    font-size:25px;
+    line-height:1.3;
+    font-weight:600;
+    background:rgba(247,244,236,0.55);
+    position:relative;
+  }
+  .kr-surrogate{
+    border:3px dashed rgba(10,10,15,0.38);
+    padding:18px 28px;
+    border-radius:5px;
+    margin-top:24px;
+  }
+  .kr-outcome{
+    margin-top:30px;
+    font-size:27px;
+    line-height:1.45;
+    font-weight:700;
+  }
+  .kr-oracle-layout{
+    display:grid;
+    grid-template-columns:170px 1fr 230px;
+    gap:28px;
+    align-items:start;
+  }
+  .kr-row-labels,
+  .kr-row-outcomes{
+    padding-top:118px;
+    display:grid;
+    grid-template-rows:78px 78px;
+    row-gap:12px;
+  }
+  .kr-row-labels{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-size:36px;
+    line-height:1.18;
+    font-weight:700;
+    text-align:right;
+  }
+  .kr-row-outcomes{
+    font-size:30px;
+    line-height:1.32;
+    color:rgba(10,10,15,0.66);
+  }
+  .kr-remember{
+    margin:62px auto 0;
+    max-width:1340px;
+    display:grid;
+    gap:24px;
+  }
+  .kr-remember-row{
+    display:grid;
+    grid-template-columns:72px 1fr;
+    gap:34px;
+    align-items:start;
+    border-top:2px solid rgba(10,10,15,0.14);
+    padding-top:24px;
+  }
+  .kr-remember-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:32px;
+    color:rgba(10,10,15,0.45);
+  }
+  .kr-remember-text{
+    font-size:34px;
+    line-height:1.42;
+    font-weight:500;
+  }
+
+  /* Hero blob shapes */
+  .blob{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(0px);
+  }
+
+  /* ============================================================
+     MOTION SYSTEM — entry stagger + ambient accents.
+     Gated on `section.is-active` (set by slidechange listener) so
+     animations only run on the visible slide. Reduced motion respected.
+     ============================================================ */
+  @media (prefers-reduced-motion: no-preference) {
+    @keyframes m-fade-up   { from{opacity:0;transform:translateY(36px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes m-fade-down { from{opacity:0;transform:translateY(-22px);} to{opacity:1;transform:translateY(0);} }
+    @keyframes m-fade-in   { from{opacity:0;} to{opacity:1;} }
+    @keyframes m-slide-l   { from{opacity:0;transform:translateX(-70px);} to{opacity:1;transform:translateX(0);} }
+    @keyframes m-pop       { from{opacity:0;transform:scale(0.86);} to{opacity:1;transform:scale(1);} }
+    @keyframes m-pop-bounce{ 0%{opacity:0;transform:scale(0.7);} 65%{opacity:1;transform:scale(1.06);} 100%{transform:scale(1);} }
+    @keyframes m-pulse     { 0%,100%{transform:scale(1);} 50%{transform:scale(1.035);} }
+    @keyframes m-breathe   { 0%,100%{box-shadow:0 0 0 0 rgba(255,45,135,0);} 50%{box-shadow:0 0 0 22px rgba(255,45,135,0.18);} }
+    @keyframes m-arrow-pulse { 0%,100%{transform:translateX(0);} 50%{transform:translateX(14px);} }
+    @keyframes m-drift-a   { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(60px,-40px) scale(1.06);} }
+    @keyframes m-drift-b   { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-50px,30px) scale(0.94);} }
+    @keyframes m-drift-c   { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(30px,40px) scale(1.12);} }
+    @keyframes m-shimmer   { 0%,100%{opacity:0.85;} 50%{opacity:0.32;} }
+    @keyframes m-rotate    { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
+    @keyframes m-flow-marquee { 0%{background-position:-200% 0;} 100%{background-position:200% 0;} }
+
+    /* Universal entry — eyebrow drops in, then title rises, then body */
+    section.is-active .eyebrow { animation: m-fade-down 0.5s ease-out 0.05s backwards; }
+    section.is-active .title-xl,
+    section.is-active .title-lg,
+    section.is-active .title { animation: m-fade-up 0.7s cubic-bezier(0.2,0.7,0.2,1) 0.18s backwards; }
+    section.is-active .subtitle { animation: m-fade-up 0.6s cubic-bezier(0.2,0.7,0.2,1) 0.28s backwards; }
+
+    /* Cards / grid items pop in with stagger inside the active slide */
+    section.is-active .grid-2 > *,
+    section.is-active .grid-3 > * {
+      animation: m-pop 0.55s cubic-bezier(0.2,0.7,0.2,1) backwards;
+    }
+    section.is-active .grid-2 > *:nth-child(1), section.is-active .grid-3 > *:nth-child(1) { animation-delay: 0.40s; }
+    section.is-active .grid-2 > *:nth-child(2), section.is-active .grid-3 > *:nth-child(2) { animation-delay: 0.50s; }
+    section.is-active .grid-2 > *:nth-child(3), section.is-active .grid-3 > *:nth-child(3) { animation-delay: 0.60s; }
+    section.is-active .grid-2 > *:nth-child(4), section.is-active .grid-3 > *:nth-child(4) { animation-delay: 0.70s; }
+
+    /* Hover lift on cards — subtle, stops feeling static during talk */
+    .card, .lift { transition: transform 0.4s cubic-bezier(0.2,0.7,0.2,1), box-shadow 0.4s; will-change: transform; }
+    .card:hover, .lift:hover { transform: translateY(-8px); box-shadow: 0 18px 40px -16px rgba(0,0,0,0.25); }
+
+    /* Title slide (1) + closing slide (20): blobs drift while active */
+    section.is-active .blob-a { animation: m-drift-a 14s ease-in-out infinite; }
+    section.is-active .blob-b { animation: m-drift-b 11s ease-in-out infinite 0.6s; }
+    section.is-active .blob-c { animation: m-drift-c 9s  ease-in-out infinite 1.1s; }
+
+    /* Slide 5 — rule-of-thumb callout breathes */
+    section.is-active .pulse-callout {
+      animation: m-fade-up 0.65s cubic-bezier(0.2,0.7,0.2,1) 0.55s backwards,
+                 m-breathe 3.4s ease-in-out 1.4s infinite;
+    }
+
+    /* Slide 6 — "use this" panel breathes to draw the eye */
+    section.is-active .breathe { animation: m-pulse 2.6s ease-in-out 1s infinite; transform-origin:center; }
+
+    /* Slide 9 / 10 — arrow → pulses to suggest movement */
+    section.is-active .arrow-pulse { animation: m-arrow-pulse 1.8s ease-in-out 0.8s infinite; }
+
+    /* Slide 9 — BEFORE grid: random twinkle on tiles, gentle */
+    section.is-active .shimmer-grid > * { animation: m-shimmer 2.4s ease-in-out infinite; }
+    section.is-active .shimmer-grid > *:nth-child(3n)  { animation-delay: 0.3s; }
+    section.is-active .shimmer-grid > *:nth-child(5n)  { animation-delay: 0.7s; }
+    section.is-active .shimmer-grid > *:nth-child(7n)  { animation-delay: 1.1s; }
+    section.is-active .shimmer-grid > *:nth-child(11n) { animation-delay: 1.5s; }
+
+    /* Slide 12 — pipeline chevrons cascade in left-to-right */
+    section.is-active .chevron-flow > * {
+      animation: m-slide-l 0.55s cubic-bezier(0.2,0.7,0.2,1) backwards;
+    }
+    section.is-active .chevron-flow > *:nth-child(1) { animation-delay: 0.35s; }
+    section.is-active .chevron-flow > *:nth-child(2) { animation-delay: 0.50s; }
+    section.is-active .chevron-flow > *:nth-child(3) { animation-delay: 0.65s; }
+    section.is-active .chevron-flow > *:nth-child(4) { animation-delay: 0.80s; }
+    section.is-active .chevron-flow > *:nth-child(5) { animation-delay: 0.95s; }
+
+    /* Slide 14 — reasoning chain: circles pop in, arrows fade between */
+    section.is-active .chain-node { animation: m-pop-bounce 0.6s cubic-bezier(0.2,0.9,0.3,1) backwards; }
+    section.is-active .chain-node:nth-of-type(1) { animation-delay: 0.30s; }
+    section.is-active .chain-node:nth-of-type(2) { animation-delay: 0.55s; }
+    section.is-active .chain-node:nth-of-type(3) { animation-delay: 0.80s; }
+    section.is-active .chain-node:nth-of-type(4) { animation-delay: 1.05s; }
+    section.is-active .chain-node:nth-of-type(5) { animation-delay: 1.30s; }
+    section.is-active .chain-arrow { animation: m-fade-in 0.4s ease-out backwards; }
+    section.is-active .chain-arrow:nth-of-type(1) { animation-delay: 0.45s; }
+    section.is-active .chain-arrow:nth-of-type(2) { animation-delay: 0.70s; }
+    section.is-active .chain-arrow:nth-of-type(3) { animation-delay: 0.95s; }
+    section.is-active .chain-arrow:nth-of-type(4) { animation-delay: 1.20s; }
+
+    /* Slide 16 — "提問 / 執行 / 發布 / 調校" cycle: sun ring slowly orbits behind */
+    section.is-active .cycle-orbit { animation: m-rotate 22s linear infinite; }
+
+    /* Slide 17 — questions stagger in like they're being asked one by one */
+    section.is-active .q-item { animation: m-fade-up 0.55s cubic-bezier(0.2,0.7,0.2,1) backwards; }
+    section.is-active .q-item:nth-of-type(1) { animation-delay: 0.30s; }
+    section.is-active .q-item:nth-of-type(2) { animation-delay: 0.45s; }
+    section.is-active .q-item:nth-of-type(3) { animation-delay: 0.60s; }
+    section.is-active .q-item:nth-of-type(4) { animation-delay: 0.75s; }
+  }
+  /* ============================================================
+     GENERIC MOTION UTILITIES  (added for 文化前線II deck)
+     Every entrance is gated on `section.is-active` so it (re)plays
+     each time a slide is entered. Author usage:
+       <div data-anim="fade-up" style="--d:.3s">…</div>
+       <div data-loop="pulse" style="--d:1s">…</div>
+     --d = delay, --dur = duration override. Reduced-motion respected.
+     ============================================================ */
+  @media (prefers-reduced-motion: no-preference){
+    @keyframes a-fade-up   {from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:none}}
+    @keyframes a-fade-down {from{opacity:0;transform:translateY(-28px)} to{opacity:1;transform:none}}
+    @keyframes a-fade-in   {from{opacity:0} to{opacity:1}}
+    @keyframes a-slide-l   {from{opacity:0;transform:translateX(-90px)} to{opacity:1;transform:none}}
+    @keyframes a-slide-r   {from{opacity:0;transform:translateX(90px)} to{opacity:1;transform:none}}
+    @keyframes a-pop       {from{opacity:0;transform:scale(.84)} to{opacity:1;transform:scale(1)}}
+    @keyframes a-pop-bounce{0%{opacity:0;transform:scale(.7)} 65%{opacity:1;transform:scale(1.07)} 100%{transform:scale(1)}}
+    @keyframes a-grow-x    {from{transform:scaleX(0)} to{transform:scaleX(1)}}
+    @keyframes a-grow-y    {from{transform:scaleY(0)} to{transform:scaleY(1)}}
+    @keyframes a-blur-in   {from{opacity:0;filter:blur(14px)} to{opacity:1;filter:blur(0)}}
+    @keyframes a-draw      {to{stroke-dashoffset:0}}
+
+    @keyframes a-pulse     {0%,100%{transform:scale(1)} 50%{transform:scale(1.04)}}
+    @keyframes a-breathe   {0%,100%{box-shadow:0 0 0 0 rgba(255,45,135,0)} 50%{box-shadow:0 0 0 24px rgba(255,45,135,.16)}}
+    @keyframes a-breathe-cobalt{0%,100%{box-shadow:0 0 0 0 rgba(30,58,255,0)} 50%{box-shadow:0 0 0 24px rgba(30,58,255,.18)}}
+    @keyframes a-arrow     {0%,100%{transform:translateX(0)} 50%{transform:translateX(16px)}}
+    @keyframes a-arrow-down{0%,100%{transform:translateY(0)} 50%{transform:translateY(12px)}}
+    @keyframes a-drift-a   {0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(64px,-44px) scale(1.07)}}
+    @keyframes a-drift-b   {0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-54px,32px) scale(.93)}}
+    @keyframes a-drift-c   {0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(34px,44px) scale(1.12)}}
+    @keyframes a-shimmer   {0%,100%{opacity:.9} 50%{opacity:.28}}
+    @keyframes a-orbit     {from{transform:rotate(0)} to{transform:rotate(360deg)}}
+    @keyframes a-float     {0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)}}
+    @keyframes a-sweep     {0%{background-position:-160% 0} 100%{background-position:160% 0}}
+    @keyframes a-flash     {0%,100%{opacity:.55} 50%{opacity:1}}
+    @keyframes a-tug       {0%,100%{transform:translateX(0)} 50%{transform:translateX(var(--tug,-26px))}}
+
+    section.is-active [data-anim]{
+      animation-duration:var(--dur,.62s);
+      animation-timing-function:cubic-bezier(.2,.7,.2,1);
+      animation-fill-mode:backwards;
+      animation-delay:var(--d,0s);
+    }
+    section.is-active [data-anim="fade-up"]   {animation-name:a-fade-up}
+    section.is-active [data-anim="fade-down"] {animation-name:a-fade-down}
+    section.is-active [data-anim="fade-in"]   {animation-name:a-fade-in}
+    section.is-active [data-anim="slide-l"]   {animation-name:a-slide-l}
+    section.is-active [data-anim="slide-r"]   {animation-name:a-slide-r}
+    section.is-active [data-anim="pop"]       {animation-name:a-pop}
+    section.is-active [data-anim="pop-bounce"]{animation-name:a-pop-bounce}
+    section.is-active [data-anim="grow-x"]    {animation-name:a-grow-x;transform-origin:left center}
+    section.is-active [data-anim="grow-y"]    {animation-name:a-grow-y;transform-origin:bottom center}
+    section.is-active [data-anim="blur-in"]   {animation-name:a-blur-in}
+
+    /* Ambient loops — keep running while the slide is active */
+    section.is-active [data-loop="pulse"]        {animation:a-pulse 2.6s ease-in-out var(--d,1s) infinite;transform-origin:center}
+    section.is-active [data-loop="breathe"]      {animation:a-breathe 3.2s ease-in-out var(--d,1.2s) infinite}
+    section.is-active [data-loop="breathe-cobalt"]{animation:a-breathe-cobalt 3.2s ease-in-out var(--d,1.2s) infinite}
+    section.is-active [data-loop="arrow"]        {animation:a-arrow 1.7s ease-in-out var(--d,.6s) infinite}
+    section.is-active [data-loop="arrow-down"]   {animation:a-arrow-down 1.7s ease-in-out var(--d,.6s) infinite}
+    section.is-active [data-loop="drift-a"]      {animation:a-drift-a 14s ease-in-out infinite}
+    section.is-active [data-loop="drift-b"]      {animation:a-drift-b 11s ease-in-out infinite .6s}
+    section.is-active [data-loop="drift-c"]      {animation:a-drift-c 9s  ease-in-out infinite 1.1s}
+    section.is-active [data-loop="shimmer"]      {animation:a-shimmer 2.4s ease-in-out var(--d,0s) infinite}
+    section.is-active [data-loop="orbit"]        {animation:a-orbit 24s linear infinite;transform-origin:center}
+    section.is-active [data-loop="float"]        {animation:a-float 4s ease-in-out var(--d,0s) infinite}
+    section.is-active [data-loop="flash"]        {animation:a-flash 1.8s ease-in-out var(--d,0s) infinite}
+    section.is-active [data-loop="tug"]          {animation:a-tug 2.4s ease-in-out var(--d,.8s) infinite}
+
+    /* SVG line-draw: set stroke-dasharray=stroke-dashoffset=path length inline */
+    section.is-active [data-anim="draw"]{animation:a-draw var(--dur,1s) ease-out var(--d,0s) forwards}
+
+    /* sweeping highlight bar (for "scanning / processing" feel) */
+    .sweep{
+      background-image:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);
+      background-size:220% 100%;
+    }
+    section.is-active .sweep{animation:a-sweep 2.6s ease-in-out 1s infinite}
+  }
+  /* ============================================================
+     EXTRA COMPONENTS  (added for 文化前線II deck)
+     ============================================================ */
+
+  /* compact overrides — denser prose after the rewrite needs tighter cards */
+  .card{padding:30px;gap:12px;}
+  .kr-rule{min-height:0;padding:28px 32px;}
+  .fork-col{padding:26px 28px 28px;}
+  .kr-remember{gap:14px;}
+  .kr-remember-row{padding-top:16px;}
+
+  /* —— SPINE: the four-altitude through-line, shown on dividers —— */
+  .spine{display:flex;align-items:stretch;gap:14px;margin-top:8px;}
+  .spine .chip{
+    flex:1;border:2px solid currentColor;border-radius:6px;
+    padding:20px 22px;opacity:0.34;
+    display:flex;flex-direction:column;gap:8px;min-width:0;
+    transition:opacity .4s;
+  }
+  .spine .chip .lv{font-family:'JetBrains Mono',monospace;font-size:19px;letter-spacing:0.1em;opacity:0.8;}
+  .spine .chip .who{font-family:'Space Grotesk','Noto Sans TC',sans-serif;font-weight:700;font-size:30px;line-height:1.15;}
+  .spine .chip .q{font-size:21px;line-height:1.35;opacity:0.85;}
+  .spine .chip.active{opacity:1;background:currentColor;}
+  .spine .chip.active .lv,.spine .chip.active .who,.spine .chip.active .q{color:var(--paper);}
+  .spine.on-dark .chip.active{background:var(--sun);}
+  .spine.on-dark .chip.active .lv,.spine.on-dark .chip.active .who,.spine.on-dark .chip.active .q{color:var(--ink);}
+
+  /* —— SCALE BAR: two opposing forces (tug of war) —— */
+  .scale-bar{display:flex;height:120px;border:3px solid currentColor;border-radius:8px;overflow:hidden;}
+  .scale-bar .seg{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;transition:flex .6s cubic-bezier(.2,.7,.2,1);}
+  .scale-bar .seg .lab{font-family:'Space Grotesk','Noto Sans TC',sans-serif;font-weight:700;font-size:30px;}
+  .scale-bar .seg .sub{font-size:20px;opacity:0.85;}
+  .scale-bar .seg.sub-force{background:var(--magenta);color:var(--paper);}
+  .scale-bar .seg.com-force{background:var(--lime);color:var(--ink);}
+
+  /* —— FORK: one input branching into outcomes —— */
+  .fork{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
+  .fork-col{border-top:8px solid currentColor;background:rgba(255,255,255,0.5);padding:32px 30px 34px;display:flex;flex-direction:column;gap:14px;border-radius:0 0 6px 6px;}
+  .fork-col.good{border-top-color:var(--lime);}
+  .fork-col.mid{border-top-color:var(--sun);}
+  .fork-col.bad{border-top-color:var(--magenta);}
+  .fork-col .ft{font-family:'Space Grotesk','Noto Sans TC',sans-serif;font-weight:700;font-size:34px;line-height:1.2;}
+  .fork-col .fl{font-family:'JetBrains Mono',monospace;font-size:19px;letter-spacing:0.1em;opacity:0.6;}
+  .fork-col .fc{font-size:25px;line-height:1.5;opacity:0.78;}
+  .fork-col .verdict{margin-top:auto;font-weight:700;font-size:24px;}
+
+  /* —— STAT block —— */
+  .stat{display:flex;flex-direction:column;gap:6px;}
+  .stat .big{font-family:'Space Grotesk','Noto Sans TC',sans-serif;font-weight:700;font-size:108px;line-height:1;letter-spacing:-0.01em;}
+  .stat .cap{font-size:26px;line-height:1.4;opacity:0.78;}
+
+  /* —— ERODE grid: cells flip from human → machine —— */
+  .erode{display:grid;gap:8px;}
+  .erode .cell{aspect-ratio:1;border-radius:4px;background:rgba(10,10,15,0.14);}
+  .erode .cell.taken{background:var(--magenta);}
+  .erode.on-dark .cell{background:rgba(255,255,255,0.16);}
+  .erode.on-dark .cell.taken{background:var(--sun);}
+
+  /* —— big pull-quote —— */
+  .pullquote{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700;font-size:64px;line-height:1.2;letter-spacing:0;
+    text-wrap:balance;
+  }
+  .pullquote .hl{background:var(--sun);color:var(--ink);padding:0 14px;}
+  .pullquote .hl-l{background:var(--lime);color:var(--ink);padding:0 14px;}
+  .pullquote .hl-m{background:var(--magenta);color:var(--paper);padding:0 14px;}
+  .attribution{font-family:'JetBrains Mono',monospace;font-size:24px;letter-spacing:0.08em;opacity:0.6;margin-top:36px;}
+
+  /* —— labeled divider number —— */
+  .sec-index{font-family:'Space Grotesk','Noto Sans TC',sans-serif;font-weight:700;font-size:340px;line-height:0.8;letter-spacing:-0.02em;opacity:0.12;position:absolute;}
+
+  /* —— two-column "before → after" reasoning row —— */
+  .reason-row{display:grid;grid-template-columns:1fr 64px 1fr;gap:24px;align-items:center;}
+  .reason-row .because{font-family:'JetBrains Mono',monospace;font-size:22px;text-align:center;opacity:0.55;}
+
+  /* —— inline emphasis chips —— */
+  .ichip{display:inline-block;padding:4px 16px;border-radius:999px;font-family:'JetBrains Mono',monospace;font-size:0.66em;letter-spacing:0.06em;vertical-align:middle;}
+  .ichip.sun{background:var(--sun);color:var(--ink);}
+  .ichip.lime{background:var(--lime);color:var(--ink);}
+  .ichip.mag{background:var(--magenta);color:var(--paper);}
+  .ichip.cobalt{background:var(--cobalt);color:var(--paper);}
+
+  /* —— question card —— */
+  .qcard{background:var(--paper);color:var(--ink);padding:20px 36px;border-left:10px solid var(--cobalt);display:flex;flex-direction:column;gap:9px;}
+  .qcard.q-mag{border-left-color:var(--magenta);}
+  .qcard.q-sun{border-left-color:var(--sun);}
+  .qcard.q-lime{border-left-color:var(--lime);}
+  .qcard .qhead{display:flex;align-items:baseline;gap:20px;}
+  .qcard .qnum{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:26px;color:var(--cobalt);}
+  .qcard.q-mag .qnum{color:var(--magenta);}
+  .qcard .qmeta{font-family:'JetBrains Mono',monospace;font-size:19px;letter-spacing:0.08em;opacity:0.5;text-transform:uppercase;}
+  .qcard .qtext{font-family:'Space Grotesk','Noto Sans TC',sans-serif;font-weight:600;font-size:29px;line-height:1.42;}
+  .qcard .qsub{font-size:23px;line-height:1.5;opacity:0.7;}
+  /* ============================================================
+     ANNOTATION POPUP  (補足脈絡用的彈出註解)
+     用法：
+     <span class="note-ref">看得見的詞<span class="note-tag">註</span>
+       <span class="note-body"><h4>標題</h4><p>較長的脈絡…</p></span>
+     </span>
+     點一下 → 中央彈出卡片；點背景 / ✕ / Esc 關閉。
+     ============================================================ */
+  .note-ref{
+    cursor:pointer;
+    border-bottom:2px dotted currentColor;
+    padding-bottom:1px;
+    white-space:normal;
+  }
+  .note-ref .note-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.6em;
+    font-weight:600;
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:999px;
+    padding:2px 9px;
+    margin-left:6px;
+    vertical-align:0.12em;
+    letter-spacing:0.04em;
+  }
+  .note-ref .note-body{display:none;}
+
+  #note-overlay{
+    position:fixed; inset:0; z-index:2147483600;
+    display:none; align-items:center; justify-content:center;
+    padding:7vh 8vw;
+    background:rgba(10,10,15,0.55);
+    -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px);
+  }
+  #note-overlay.open{display:flex;}
+  #note-overlay .note-card{
+    position:relative;
+    background:var(--paper); color:var(--ink);
+    max-width:1040px; width:100%; max-height:80vh; overflow:auto;
+    border-radius:14px; padding:56px 64px 60px;
+    box-shadow:0 36px 90px -24px rgba(0,0,0,0.65);
+    animation:note-in .26s cubic-bezier(.2,.7,.2,1);
+  }
+  @keyframes note-in{from{opacity:0;transform:translateY(26px) scale(.98);}to{opacity:1;transform:none;}}
+  #note-overlay .note-card h4{
+    font-family:'Space Grotesk','Noto Sans TC',sans-serif;
+    font-weight:700; font-size:38px; line-height:1.25;
+    margin:0 0 22px;
+  }
+  #note-overlay .note-card p{
+    font-size:29px; line-height:1.72; margin:0 0 18px;
+    color:rgba(10,10,15,0.82);
+  }
+  #note-overlay .note-card p:last-child{margin-bottom:0;}
+  #note-overlay .note-kicker{
+    font-family:'JetBrains Mono',monospace; font-size:20px;
+    letter-spacing:0.14em; text-transform:uppercase;
+    opacity:0.5; margin-bottom:14px;
+  }
+  #note-overlay .note-close{
+    position:absolute; top:22px; right:26px;
+    width:46px; height:46px; border:none; border-radius:999px;
+    background:rgba(10,10,15,0.08); color:var(--ink);
+    font-size:24px; line-height:1; cursor:pointer;
+  }
+  #note-overlay .note-close:hover{background:rgba(10,10,15,0.16);}
+  .note-hint{
+    font-family:'JetBrains Mono',monospace;
+    font-size:19px; letter-spacing:0.08em; opacity:0.42;
+  }
+</style>
+</head>
+<body>
+<script type="application/json" id="speaker-notes">[]</script>
+<deck-stage width="1920" height="1080">
+  <!-- ===== 00 · OPENING ===== -->
+
+  <!-- 1. COVER -->
+  <section data-label="封面">
+    <div class="slide bg-cobalt" style="justify-content:flex-end;position:relative;overflow:hidden;">
+      <div class="blob-a" data-loop="drift-a" style="position:absolute;top:-240px;right:-180px;width:920px;height:920px;border-radius:50%;background:var(--magenta);"></div>
+      <div class="blob-b" data-loop="drift-b" style="position:absolute;top:360px;right:300px;width:380px;height:380px;border-radius:50%;background:var(--sun);"></div>
+      <div class="blob-c" data-loop="drift-c" style="position:absolute;top:600px;right:-80px;width:260px;height:260px;border-radius:50%;background:var(--lime);"></div>
+      <div style="position:relative;z-index:2;">
+        <div class="eyebrow" data-anim="fade-down" style="margin-bottom:34px;">文化前線 II · 讀書會</div>
+        <h1 class="title-xl" data-anim="fade-up" style="max-width:1560px;font-size:128px;">AI、工作<br>與能動性</h1>
+        <div class="subtitle" data-anim="fade-up" style="--d:.25s;margin-top:40px;max-width:1280px;opacity:0.92;">AI 會走成什麼樣子，<br>由誰決定、又怎麼決定？</div>
+        <div class="subtitle" data-anim="fade-up" style="--d:.4s;margin-top:60px;font-size:36px;">一場演講 · 三本書 · 四個層次</div>
+      </div>
+      <div class="footer" style="color:var(--paper);opacity:0.7;">
+        <span>2026 · 6 · 27</span>
+        <span>MashBean</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. THE SPINE / MASTER MAP -->
+  <section data-label="今晚的路線">
+    <div class="slide bg-paper">
+      <div class="eyebrow" data-anim="fade-down">今晚的路線 · 一個問句，四個高度</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:22px;">同一個問題，<br>我們會問四次。</h2>
+      <div class="pullquote" data-anim="fade-up" style="--d:.2s;margin-top:40px;font-size:54px;">
+        AI 會走成什麼樣子，由<span class="hl-m">誰</span>決定、又<span class="hl">怎麼</span>決定？
+      </div>
+      <div class="spine" style="margin-top:auto;">
+        <div class="chip active" data-anim="fade-up" style="--d:.30s">
+          <div class="lv">01 · 個體</div>
+          <div class="who">David<br>Krakauer</div>
+          <div class="q">工具讓人變強，或把能力換掉</div>
+        </div>
+        <div class="chip" data-anim="fade-up" style="--d:.42s">
+          <div class="lv">02 · 勞動市場</div>
+          <div class="who">Susskind</div>
+          <div class="q">對人類勞動的需求會不會枯竭</div>
+        </div>
+        <div class="chip" data-anim="fade-up" style="--d:.54s">
+          <div class="lv">03 · 政治</div>
+          <div class="who">Srnicek</div>
+          <div class="q">後工作的方向由誰決定</div>
+        </div>
+        <div class="chip" data-anim="fade-up" style="--d:.66s">
+          <div class="lv">04 · 設計</div>
+          <div class="who">Acemoglu<br>et al.</div>
+          <div class="q">技術走向能不能被設計</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. WHY THIS ORDER -->
+  <section data-label="為什麼是這個順序">
+    <div class="slide bg-ink">
+      <div class="eyebrow" data-anim="fade-down" style="opacity:0.7;">為什麼是這個順序</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:22px;color:var(--paper);">由內而外，<br>從「我的心智」推到「整個制度」。</h2>
+      <div style="margin-top:auto;display:flex;align-items:stretch;justify-content:space-between;gap:18px;">
+        <div style="flex:1;background:#16161E;border-radius:8px;padding:36px 30px;display:flex;flex-direction:column;gap:14px;" data-anim="pop">
+          <div class="mono" style="font-size:22px;color:var(--sun);">個體</div>
+          <div class="subtitle" style="font-size:34px;color:var(--paper);">工具對「我」<br>做了什麼</div>
+          <div class="small" style="opacity:0.65;color:var(--paper);">心智被它撐大，還是被它接管</div>
+        </div>
+        <div class="mono" data-loop="arrow" style="align-self:center;font-size:48px;color:var(--paper);opacity:0.4;--d:.2s;">→</div>
+        <div style="flex:1;background:#16161E;border-radius:8px;padding:36px 30px;display:flex;flex-direction:column;gap:14px;--d:.15s;" data-anim="pop">
+          <div class="mono" style="font-size:22px;color:var(--sun);">勞動市場</div>
+          <div class="subtitle" style="font-size:34px;color:var(--paper);">工具對「人類<br>勞動」做了什麼</div>
+          <div class="small" style="opacity:0.65;color:var(--paper);">許多崗位的需求逐步乾枯</div>
+        </div>
+        <div class="mono" data-loop="arrow" style="align-self:center;font-size:48px;color:var(--paper);opacity:0.4;--d:.35s;">→</div>
+        <div style="flex:1;background:#16161E;border-radius:8px;padding:36px 30px;display:flex;flex-direction:column;gap:14px;--d:.3s;" data-anim="pop">
+          <div class="mono" style="font-size:22px;color:var(--sun);">政治</div>
+          <div class="subtitle" style="font-size:34px;color:var(--paper);">誰有權<br>決定方向</div>
+          <div class="small" style="opacity:0.65;color:var(--paper);">後工作的世界要怎麼爭取</div>
+        </div>
+        <div class="mono" data-loop="arrow" style="align-self:center;font-size:48px;color:var(--paper);opacity:0.4;--d:.5s;">→</div>
+        <div style="flex:1;background:var(--lime);border-radius:8px;padding:36px 30px;display:flex;flex-direction:column;gap:14px;--d:.45s;" data-anim="pop">
+          <div class="mono" style="font-size:22px;color:var(--ink);opacity:0.6;">設計</div>
+          <div class="subtitle" style="font-size:34px;color:var(--ink);">把方向<br>變成設計選擇</div>
+          <div class="small" style="opacity:0.7;color:var(--ink);">親勞工 AI 要怎麼做出來</div>
+        </div>
+      </div>
+      <div class="body-lg" data-anim="fade-up" style="--d:.6s;margin-top:42px;color:var(--paper);opacity:0.85;">這四段排成一條由內而外的推進鏈，從一個人的心智一路推到整套制度。它們共享同一個結論，也就是 <strong>AI 的走向，是一連串選擇累積出來的結果，在每一個層次，做選擇的人與依據都不一樣。</strong><span class="note-ref">為什麼從個體開始<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">導論 · 全場結構</div><h4>從最近的尺度，推到最遠的尺度</h4><p>把個體放在最前面，是因為每個人對 AI 最直接的經驗，都發生在自己使用工具的當下，可能是寫一封信、查一份資料，或解一道題。David Krakauer 問的正是這層尺度的問題，也就是工具究竟讓我的認知能力長出來，還是把它悄悄替換掉。</p><p>從這裡往外推，同樣的問題會在勞動市場、政治與技術設計上再重演一次。尺度越大，能下決定的人就越少、越集中，影響卻越深遠。把四層依序攤開，是要讓「選擇」這件事在每一層都顯形，使討論不停在個人感受。</p></span></span></div>
+    </div>
+  </section>
+  <!-- ============================================================
+       01 · 個體層次 · David Krakauer，工具如何增益或削弱智能
+       10 張，分隔頁 + 能力≠智能 + 核心測試 + 等式 + 矩陣 + 轉換器
+       + 內化決策流 + 拿掉工具 + LLM 神諭vs對話 + 要記得
+       ============================================================ -->
+
+  <!-- K1. 分隔頁 -->
+  <section data-label="01 個體 · 分隔">
+    <div class="slide kr-page dark" style="justify-content:space-between;">
+      <div>
+        <div class="eyebrow">第一高度 · 個體層次</div>
+        <h2 class="title-xl" data-anim="fade-up" style="margin-top:22px;font-size:96px;line-height:1.06;">工具如何<br>增益或削弱<span class="hl" style="background:var(--sun);color:var(--ink);padding:0 16px;">智能</span></h2>
+        <div class="kr-subtitle" data-anim="fade-up" style="--d:.3s;max-width:1120px;margin-top:28px;">在談 AI 對勞動市場、政治、設計的影響之前，先處理一個更小、更貼身的問題，也就是工具對「使用它的那個人」究竟做了什麼。這一段的講者是 David Krakauer（Santa Fe Institute 院長，複雜科學家），他把認知工具分成兩類，作為整場讀書會的個體層次起點。</div>
+      </div>
+      <div class="spine on-dark" data-anim="fade-up" style="--d:.5s;">
+        <div class="chip active">
+          <div class="lv">01 · 個體</div>
+          <div class="who">David<br>Krakauer</div>
+          <div class="q">工具讓人變強，或把能力換掉</div>
+        </div>
+        <div class="chip">
+          <div class="lv">02 · 勞動市場</div>
+          <div class="who">Daniel<br>Susskind</div>
+          <div class="q">對人類勞動的需求會不會枯竭</div>
+        </div>
+        <div class="chip">
+          <div class="lv">03 · 政治</div>
+          <div class="who">Nick<br>Srnicek</div>
+          <div class="q">後工作的方向由誰決定</div>
+        </div>
+        <div class="chip">
+          <div class="lv">04 · 設計</div>
+          <div class="who">Acemoglu<br>et al.</div>
+          <div class="q">技術走向能不能被設計</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K2. 能力 ≠ 智能 -->
+  <section data-label="02 能力≠智能">
+    <div class="slide kr-page">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 01 · 能力 vs 智能</div>
+        <div>
+          <h2 class="kr-title">能力與智能是兩件事</h2>
+          <div class="kr-subtitle">同一個工具，可以同時提高你能完成的事，又降低你能獨立做到的事。前者衡量的是借助工具之後的產出，後者衡量的是工具拿走以後，你身上還剩下什麼。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-two-up">
+          <div class="kr-panel" data-anim="slide-l">
+            <div>
+              <div class="kr-panel-label">CAPABILITY · 能力</div>
+              <div class="kr-panel-title">借工具得到的結果</div>
+            </div>
+            <div class="kr-panel-copy">能力指的是答案、產出，以及被跨越的距離。你請別人回答問題，或讓裝置替你完成一件事，當下確實得到了結果。但這份結果不會改變你下一次的處境，下一次你並沒有更能靠自己找到答案。能力是<span class="ichip mag">租來的</span>，工具一收回，它就跟著消失。</div>
+          </div>
+          <div class="kr-panel" data-anim="slide-r" style="--d:.2s;">
+            <div>
+              <div class="kr-panel-label">INTELLIGENCE · 智能</div>
+              <div class="kr-panel-title">拿掉工具仍留下的</div>
+            </div>
+            <div class="kr-panel-copy">智能指的是留在你身上、能遷移到別處、能重複使用的那一部分。Krakauer 用「轉化」（transduced）來描述這個過程，意思是說，若使用工具的過程中沒有任何東西被轉化進你的心智，智能就沒有增加。智能是<span class="ichip lime">擁有的</span>，工具離手以後它依然在。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K3. 核心測試 -->
+  <section data-label="03 核心測試">
+    <div class="slide kr-page dark">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 02 · 唯一的判準</div>
+        <div>
+          <h2 class="kr-title">你能在腦中重建這個工具嗎？</h2>
+          <div class="kr-subtitle">Can you rebuild the tool in your head？整套互補與競爭的區分，就掛在這一個問句上。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-rule-grid">
+          <div class="kr-rule positive" data-anim="fade-up">
+            <div class="kr-rule-title">可以 → 互補（complementary）</div>
+            <div class="kr-rule-copy">當工具的結構能被內化，使用它的過程就會把能力留在你身上。地圖內化成測繪知識與空間感，指南針內化成心中的幾何與方位感，算盤內化成心算。工具離手以後，這些能力仍在運作。</div>
+          </div>
+          <div class="kr-rule negative" data-anim="fade-up" style="--d:.2s;">
+            <div class="kr-rule-title">不行 → 競爭（competitive）</div>
+            <div class="kr-rule-copy">當工具保持不透明，你只能向它查詢，沒有東西轉移到你身上。GPS 靠衛星三邊定位（trilateration）算出位置，這套運算你無法在腦中重建，於是它永遠留在外部，你愈依賴它，自己愈不會認路。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K4. 等式鏈 -->
+  <section data-label="04 等式鏈">
+    <div class="slide bg-cobalt">
+      <div class="eyebrow">個體 03 · 一條等價鏈</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:18px;">互補，是同一件事<br>用四種說法。</h2>
+      <div style="display:flex;align-items:center;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:auto;margin-bottom:auto;">
+        <div class="kr-box" data-anim="pop" style="background:rgba(247,244,236,0.12);border-color:rgba(247,244,236,0.5);color:var(--paper);min-height:150px;padding:30px 36px;">可解釋<br><span class="mono" style="font-size:20px;opacity:0.7;">explicable</span></div>
+        <div class="subtitle" data-anim="fade-in" style="--d:.35s;color:var(--sun);font-weight:700;">⇔</div>
+        <div class="kr-box" data-anim="pop" style="--d:.45s;background:rgba(247,244,236,0.12);border-color:rgba(247,244,236,0.5);color:var(--paper);min-height:150px;padding:30px 36px;">可內化<br><span class="mono" style="font-size:20px;opacity:0.7;">internalizable</span></div>
+        <div class="subtitle" data-anim="fade-in" style="--d:.8s;color:var(--sun);font-weight:700;">⇔</div>
+        <div class="kr-box" data-anim="pop" style="--d:.9s;background:rgba(247,244,236,0.12);border-color:rgba(247,244,236,0.5);color:var(--paper);min-height:150px;padding:30px 36px;">轉移能力<br><span class="mono" style="font-size:20px;opacity:0.7;">transfers</span></div>
+        <div class="subtitle" data-anim="fade-in" style="--d:1.25s;color:var(--sun);font-weight:700;">⇔</div>
+        <div class="kr-box" data-anim="pop-bounce" style="--d:1.35s;background:var(--sun);border-color:var(--sun);color:var(--ink);min-height:150px;padding:30px 36px;">互補<br><span class="mono" style="font-size:20px;opacity:0.75;">complementary</span></div>
+      </div>
+      <div class="body-lg" data-anim="fade-up" style="--d:1.7s;font-weight:500;">這條鏈是雙向的。只要任何一環斷掉，工具變得不可解釋、或無法內化、或能力不轉移，它就會落到另一端，成為<span class="ichip mag">競爭性</span>的工具。</div>
+    </div>
+  </section>
+
+  <!-- K5. 工具觸及範圍矩陣 -->
+  <section data-label="05 觸及範圍矩陣">
+    <div class="slide kr-page">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 04 · 工具觸及範圍</div>
+        <div>
+          <h2 class="kr-title">指南針、地圖、GPS，工具一步步接管</h2>
+          <div class="kr-subtitle">把「導航」拆成四個暫存器（registers），看每種工具承載了哪幾個。從左到右，工具的觸及範圍一路擴大。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-matrix-wrap">
+          <div class="kr-reach-line">
+            <div></div>
+            <div>
+              <div class="label">工具觸及範圍增加</div>
+              <div class="line" data-anim="grow-x"></div>
+            </div>
+          </div>
+          <div class="kr-matrix" aria-label="工具暫存器矩陣">
+            <div></div>
+            <div class="axis">記憶<small>保存狀態</small></div>
+            <div class="axis">操作<small>轉換</small></div>
+            <div class="axis">路徑策略<small>選擇怎麼做</small></div>
+            <div class="axis">目標策略<small>選擇做什麼</small></div>
+
+            <div class="row-head">指南針</div>
+            <div class="kr-cell"></div>
+            <div class="kr-cell filled" data-anim="pop" style="--d:.2s;">一個公設</div>
+            <div class="kr-cell"></div>
+            <div class="kr-cell">由你</div>
+
+            <div class="row-head">地圖</div>
+            <div class="kr-cell filled" data-anim="pop" style="--d:.4s;">佈局</div>
+            <div class="kr-cell">由你讀</div>
+            <div class="kr-cell">由你規劃</div>
+            <div class="kr-cell">由你</div>
+
+            <div class="row-head">GPS</div>
+            <div class="kr-cell filled" data-anim="pop" style="--d:.7s;">道路地圖</div>
+            <div class="kr-cell filled" data-anim="pop" style="--d:.9s;">定位</div>
+            <div class="kr-cell filled" data-anim="pop" style="--d:1.1s;">路線</div>
+            <div class="kr-cell boundary" data-anim="pop" style="--d:1.3s;">由你設定</div>
+          </div>
+          <div class="kr-legend">
+            <div><span class="kr-swatch"></span>灰底，表示工具承載這個暫存器</div>
+            <div>白底，表示使用者承載。GPS 吞掉了記憶、操作、路徑三格，只把「目標」留給你。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K6. 轉換器 -->
+  <section data-label="06 轉換器">
+    <div class="slide kr-page dark">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 05 · 誰是工具，誰是使用者</div>
+        <div>
+          <h2 class="kr-title">界線由「誰持有目標」決定</h2>
+          <div class="kr-subtitle">人與工具都可以抽象成同一類物件，也就是一台轉換器 (S, δ, λ)，彼此互相讀寫。<span class="note-ref">轉換器<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">David Krakauer · 個體層次</div><h4>轉換器 (S, δ, λ)</h4><p>Krakauer 把人與工具都化約成同一種數學物件，也就是一台轉換器（transducer）。其中 S 是狀態集，δ 是轉移函數，會依輸入更新狀態，λ 是輸出函數，會依狀態給出回應。在這個框架裡，人腦與裝置屬於同一類，差別只在彼此如何讀寫。</p><p>正因為兩者同類，工具與使用者的界線就不能靠材質或外型來畫，只能靠功能來畫。決定要達成什麼的那一方握有目標，另一方為它服務。</p></span></span></div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-transducer">
+          <div data-anim="fade-up">
+            <div class="kr-machine">
+              <div class="kr-box" style="background:rgba(247,244,236,0.06);border-color:rgba(247,244,236,0.5);color:var(--paper);">轉換器<br><span class="mono">(S, δ, λ)</span></div>
+              <div class="kr-arrow-stack" data-loop="arrow">
+                <div class="kr-arrow-label">寫入</div>
+                <div class="kr-arrow-row right"><div class="bar"></div></div>
+                <div class="kr-arrow-row left"><div class="bar"></div></div>
+                <div class="kr-arrow-label">讀取</div>
+              </div>
+              <div class="kr-box" style="background:rgba(247,244,236,0.06);border-color:rgba(247,244,236,0.5);color:var(--paper);">轉換器<br><span class="mono">(S′, δ′, λ′)</span></div>
+            </div>
+          </div>
+          <div class="kr-side-notes" data-anim="fade-up" style="--d:.25s;">
+            <div class="kr-side-note">握有<span class="ichip sun">目標</span>、決定要達成什麼的那一方，就是<strong>使用者</strong>。</div>
+            <div class="kr-side-note">只為對方服務，負責記憶、操作、或通往目標路線的那一方，就是<strong>工具</strong>。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K7. 內化決策流 -->
+  <section data-label="07 內化決策流">
+    <div class="slide kr-page">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 06 · 內化的三道關卡</div>
+        <div>
+          <h2 class="kr-title">透明度、可壓縮性、物質性</h2>
+          <div class="kr-subtitle">一個工具要被內化成增益，必須連過三關。三關都成立，內化才會增益，任何一關不成立，工具就會在那個環節削弱你。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-decision-flow">
+          <div class="kr-decision-node" data-anim="pop"><div class="term">工具的<br>結構</div></div>
+          <div class="kr-yes" data-anim="fade-in" style="--d:.2s;"></div>
+          <div class="kr-decision-node" data-anim="pop" style="--d:.3s;"><div class="term">透明度</div><div class="question">能看進去嗎？</div></div>
+          <div class="kr-yes" data-anim="fade-in" style="--d:.5s;">是</div>
+          <div class="kr-decision-node" data-anim="pop" style="--d:.6s;"><div class="term">可壓縮性</div><div class="question">能化約成小東西嗎？</div></div>
+          <div class="kr-yes" data-anim="fade-in" style="--d:.8s;">是</div>
+          <div class="kr-decision-node" data-anim="pop" style="--d:.9s;"><div class="term">物質性</div><div class="question">副本放得進你的通道嗎？</div></div>
+          <div class="kr-yes" data-anim="fade-in" style="--d:1.1s;">是</div>
+          <div class="kr-decision-node" data-anim="pop-bounce" style="--d:1.2s;border-color:var(--lime);"><div class="term">內化會<br>增益</div></div>
+        </div>
+        <div class="kr-branch-row" data-anim="fade-up" style="--d:1.4s;">
+          <div></div>
+          <div></div>
+          <div class="kr-no-branch">否 → 因不透明而削弱<br>GPS</div>
+          <div></div>
+          <div class="kr-no-branch">否 → 仍有殘餘重建成本<br>計算機（長除法仍要力氣）</div>
+          <div></div>
+          <div class="kr-no-branch">否 → 因溢出而削弱<br>超大型任務（腦容量裝不下）</div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K8. 拿掉工具後留下什麼 -->
+  <section data-label="08 拿掉工具">
+    <div class="slide kr-page dark">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 07 · 增益 vs 削弱</div>
+        <div>
+          <h2 class="kr-title">拿掉工具之後，什麼留下來？</h2>
+          <div class="kr-subtitle">同一個動作都是使用工具，結果卻可能分成兩種，差別在於你有沒有把它的結構複製進腦中。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-compare">
+          <div class="kr-compare-panel" data-anim="slide-l">
+            <div class="kr-compare-title">(a) 腦中建立「替身」→ 增益</div>
+            <div class="kr-mini-machine">
+              <div class="kr-mini-box" style="background:rgba(247,244,236,0.06);border-color:rgba(247,244,236,0.5);color:var(--paper);">使用者<div class="kr-surrogate" style="border-color:var(--lime);">替身</div></div>
+              <div>
+                <div class="kr-arrow-label">複製結構</div>
+                <div class="kr-arrow-row left" style="margin-top:18px;"><div class="bar"></div></div>
+              </div>
+              <div class="kr-mini-box" style="background:rgba(247,244,236,0.06);border-color:rgba(247,244,236,0.5);color:var(--paper);">工具</div>
+            </div>
+            <div class="kr-outcome" style="color:var(--lime);">使用者在腦中複製了工具的壓縮副本。拿掉工具，替身還在，你也就保有這項技能。</div>
+          </div>
+          <div class="kr-compare-panel negative" data-anim="slide-r" style="--d:.2s;">
+            <div class="kr-compare-title">(b) 工具接管 M/O/Π → 削弱</div>
+            <div class="kr-mini-machine">
+              <div class="kr-mini-box" style="background:rgba(247,244,236,0.06);border-color:rgba(247,244,236,0.5);color:var(--paper);">使用者<span style="font-weight:400;font-size:21px;margin-top:14px;display:block;opacity:0.8;">只負責查詢、允許</span></div>
+              <div>
+                <div class="kr-arrow-label">查詢</div>
+                <div class="kr-arrow-row right" style="margin-top:12px;"><div class="bar"></div></div>
+                <div class="kr-arrow-row left" style="margin-top:12px;"><div class="bar"></div></div>
+                <div class="kr-arrow-label">允許</div>
+              </div>
+              <div class="kr-mini-box" style="background:rgba(247,244,236,0.06);border-color:rgba(247,244,236,0.5);color:var(--paper);">工具<div style="border:3px solid var(--magenta);padding:14px 24px;border-radius:5px;margin-top:18px;" class="mono">M / O / Π</div></div>
+            </div>
+            <div class="kr-outcome" style="color:var(--magenta);">使用者把記憶、操作、路徑都交給工具，自己只查詢與允許。拿掉工具，什麼都不剩，這份收益只是租來的。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K9. LLM 神諭 vs 對話 -->
+  <section data-label="09 LLM 神諭vs對話">
+    <div class="slide kr-page">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 08 · LLM 怎麼用，由你選</div>
+        <div>
+          <h2 class="kr-title">同一個模型，當神諭會削弱你，當對話會增益你</h2>
+          <div class="kr-subtitle">把前面的暫存器矩陣套到 LLM。工具與使用者的界線，可以靠近你這一側，也可以一路退到最右。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-oracle-layout">
+          <div class="kr-row-labels">
+            <div data-anim="slide-l">LLM 作為<br>對話</div>
+            <div data-anim="slide-l" style="--d:.5s;">LLM 作為<br>神諭</div>
+          </div>
+          <div>
+            <div class="kr-matrix" style="grid-template-columns:repeat(4,1fr);">
+              <div class="axis">記憶<small>保存狀態</small></div>
+              <div class="axis">操作<small>轉換</small></div>
+              <div class="axis">路徑策略<small>選擇怎麼做</small></div>
+              <div class="axis">目標策略<small>選擇做什麼</small></div>
+              <div class="kr-cell filled" data-anim="pop" style="--d:.15s;">回想</div>
+              <div class="kr-cell filled" data-anim="pop" style="--d:.25s;">草擬，你檢查</div>
+              <div class="kr-cell" data-anim="pop" style="--d:.35s;">由你決定</div>
+              <div class="kr-cell boundary" data-anim="pop" style="--d:.45s;">由你設定</div>
+              <div class="kr-cell filled" data-anim="pop" style="--d:.6s;">回想</div>
+              <div class="kr-cell filled" data-anim="pop" style="--d:.7s;">解題</div>
+              <div class="kr-cell filled" data-anim="pop" style="--d:.8s;">選擇做法</div>
+              <div class="kr-cell filled boundary" data-anim="pop" style="--d:.9s;">連目標也交給它</div>
+            </div>
+            <div class="mono" style="text-align:center;font-size:22px;opacity:0.55;margin-top:18px;">工具／使用者界線</div>
+          </div>
+          <div class="kr-row-outcomes">
+            <div data-anim="fade-in" style="--d:.55s;color:#3a7a1f;font-weight:600;">增益，<br>你保持敏銳</div>
+            <div data-anim="fade-in" style="--d:1s;color:var(--magenta);font-weight:600;">削弱，<br>你變得依賴</div>
+          </div>
+        </div>
+        <div class="body" data-anim="fade-up" style="--d:1.2s;text-align:center;margin-top:22px;font-weight:600;">LLM 是<span class="ichip sun">第一個</span>把「這個答案由你選擇」交還給你的工具。GPS 把界線釘死在最右，你只能接受它的路線，而 LLM 容許你自己決定界線落在哪裡。</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- K10. 要記得 -->
+  <section data-label="10 要記得">
+    <div class="slide kr-page dark">
+      <div class="kr-head">
+        <div class="kr-kicker">個體 · 收束</div>
+        <div>
+          <h2 class="kr-title">要記得</h2>
+          <div class="kr-subtitle">關於工具對「個體心智」做了什麼，留下這四句。</div>
+        </div>
+      </div>
+      <div class="kr-canvas">
+        <div class="kr-remember">
+          <div class="kr-remember-row" data-anim="fade-up">
+            <div class="kr-remember-num">01</div>
+            <div class="kr-remember-text">工具可以同時提高你的能力、降低你的智能。</div>
+          </div>
+          <div class="kr-remember-row" data-anim="fade-up" style="--d:.15s;">
+            <div class="kr-remember-num">02</div>
+            <div class="kr-remember-text">工具是增益還是削弱，取決於你能不能在腦中重建它。</div>
+          </div>
+          <div class="kr-remember-row" data-anim="fade-up" style="--d:.3s;">
+            <div class="kr-remember-num">03</div>
+            <div class="kr-remember-text">LLM 是第一個把「這個答案由你選擇」交還給你的工具。</div>
+          </div>
+          <div class="kr-remember-row" data-anim="fade-up" style="--d:.45s;">
+            <div class="kr-remember-num">04</div>
+            <div class="kr-remember-text">當成思想的 GPS 使用，它會削弱你，當成由你驗證的對話使用，它會增益你。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== BRIDGE 1 · Krakauer → Susskind ===== -->
+  <section data-label="橋接一 放大尺度">
+    <div class="slide bg-sun">
+      <div class="eyebrow" data-anim="fade-down">橋接 · 從個體放大到勞動市場</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:20px;">同一個問題，<br>把尺度放大一千倍。</h2>
+      <div class="reason-row" data-anim="fade-up" style="--d:.2s;margin-top:64px;">
+        <div class="card" style="background:var(--ink);color:var(--paper);">
+          <div class="mono" style="font-size:22px;color:var(--sun);">KRAKAUER · 個體</div>
+          <div class="subtitle" style="font-size:36px;">工具對「我」<br>是增益還是削弱？</div>
+          <div class="body" style="opacity:0.8;">能內化進腦中的工具讓我變強，與我互補；<br>無法內化、只能依賴的工具會逐漸取代我的能力。</div>
+        </div>
+        <div class="because" data-loop="arrow">映射<br>→</div>
+        <div class="card" style="background:var(--cobalt);color:var(--paper);">
+          <div class="mono" style="font-size:22px;color:var(--sun);">SUSSKIND · 勞動市場</div>
+          <div class="subtitle" style="font-size:36px;">工具對「人類勞動」<br>是增益還是削弱？</div>
+          <div class="body" style="opacity:0.85;">互補力量提高人類勞動的價值；<br>替代力量整段移除人類勞動。</div>
+        </div>
+      </div>
+      <div class="body-lg" data-anim="fade-up" style="--d:.5s;margin-top:auto;font-weight:500;">Krakauer 在個體層次追問的，是一件工具究竟對「我」的能力做了什麼，而當這個提問移到 Susskind 的勞動市場層次，它就放大成整個經濟體裡<span class="ichip lime">互補力量</span>與<span class="ichip mag">替代力量</span>之間的拉鋸<span class="note-ref">同一道分界<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Krakauer → Susskind · 橋接</div><h4>從「我」到「勞動市場」的同構</h4><p>Krakauer 想衡量的，是一件工具進入個人之後，當使用者卸下這件工具，身上還剩下多少能力。凡是能被內化、用過之後讓使用者自身能力跟著提升的工具，就與人互補；凡是只能仰賴、一旦撤除使用者就再也回不到原有水準的工具，就與人競爭。</p><p>Susskind 把同一道分界搬到整個經濟體來看。互補力量會抬高某一類人類勞動的價值與需求，替代力量則讓機器接手原本由人完成的工作。兩個層次處理的其實是同一個問題，差別只在於前者衡量的是單一個體的能力收支，後者衡量的是一整類工作的價格與數量。</p></span></span>。</div>
+    </div>
+  </section>
+<section data-label="分隔頁 · 勞動市場">
+  <div class="slide bg-cobalt">
+    <div class="eyebrow">02 · 勞動市場層次 · Daniel Susskind</div>
+    <div class="title-lg" data-anim="fade-up">《A World Without<br>Work》</div>
+    <div class="subtitle" data-anim="fade-up" style="--d:.2s; margin-top:18px;">技術性失業的真正形貌，在於工作仍然存在，<br>可是<span class="ichip sun">足夠</span>的工作正在減少</div>
+    <div class="spine on-dark" data-anim="fade-up" style="--d:.4s; margin-top:48px;">
+      <div class="chip"><div class="lv">01 · 個體</div><div class="who">David<br>Krakauer</div><div class="q">工具讓人變強，或把能力換掉</div></div>
+      <div class="chip active"><div class="lv">02 · 勞動市場</div><div class="who">Daniel<br>Susskind</div><div class="q">對人類勞動的需求會不會枯竭</div></div>
+      <div class="chip"><div class="lv">03 · 政治</div><div class="who">Nick<br>Srnicek</div><div class="q">後工作的方向由誰決定</div></div>
+      <div class="chip"><div class="lv">04 · 設計</div><div class="who">Acemoglu<br>et al.</div><div class="q">技術走向能不能被設計</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="核心命題">
+  <div class="slide bg-paper">
+    <div class="eyebrow">02 · 勞動市場 · 核心命題</div>
+    <div class="title" data-anim="fade-up">值得憂慮的，是「足夠」這兩個字</div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.25s; margin-top:40px;">真正值得憂慮的，是一個<span class="hl">沒有足夠工作</span>的世界。工作仍然存在，可是數量已經不足以讓每個人都能靠它取得<span class="hl-m">收入、地位與人生意義</span>，至於<span class="hl-l">完全沒有工作</span>，反倒是少見的極端。</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.6s; margin-top:46px;">於是問題從「AI 會不會搶工作」升級成一個制度問題，也就是當工作不再是分配收入、地位與意義的主要管道時，社會該怎麼<span class="ichip cobalt">重新設計</span>經濟、政治與生活秩序。</div>
+  </div>
+</section>
+
+<section data-label="兩種錯誤想像">
+  <div class="slide bg-ink">
+    <div class="eyebrow">02 · 勞動市場 · 第三條路</div>
+    <div class="title" data-anim="fade-up">兩種簡化想像之間的第三條路</div>
+    <div class="grid-2" data-anim="fade-up" style="--d:.2s; margin-top:40px;">
+      <div class="card dark"><div class="tag">簡化一 · 災難式想像</div><div class="subtitle" style="margin-top:14px;">某天技術爆炸<br>所有人同時失業</div><div class="body" style="margin-top:14px;">這種想像把整個過程設想成一次性的崩塌。</div></div>
+      <div class="card dark"><div class="tag">簡化二 · 歷史樂觀論</div><div class="subtitle" style="margin-top:14px;">過去三百年<br>焦慮都落空了</div><div class="body" style="margin-top:14px;">這種想像由此推論未來必然也不會出事。</div></div>
+    </div>
+    <div class="erode on-dark" data-anim="fade-up" style="--d:.5s; grid-template-columns:repeat(16,1fr); max-width:920px; margin-top:32px;">
+      <div class="cell">人</div><div class="cell">人</div><div class="cell taken" data-anim="pop" style="--d:.7s;">機</div><div class="cell">人</div><div class="cell taken" data-anim="pop" style="--d:.85s;">機</div><div class="cell">人</div><div class="cell taken" data-anim="pop" style="--d:1s;">機</div><div class="cell">人</div><div class="cell taken" data-anim="pop" style="--d:1.15s;">機</div><div class="cell">人</div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:1.3s; margin-top:28px;">Susskind 的論證落在這兩者之間。他主張工作需求會緩慢<span class="ichip sun">乾枯（withering）</span>，機器一點一點接手任務，人類退守到越來越少的領域，整個過程比較像逐步萎縮，不太像一次爆炸。</div>
+  </div>
+</section>
+
+<section data-label="Leontief 的馬">
+  <div class="slide bg-sun">
+    <div class="eyebrow">02 · 勞動市場 · 馬糞危機</div>
+    <div class="title" data-anim="fade-up">人類，會不會是下一匹馬？</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.2s; margin-top:28px;">19 世紀末的倫敦與紐約高度依賴馬匹運轉，馬糞與馬屍堆積成嚴重的公衛危機，等到汽車與內燃機一來，問題就迅速消失了。多數人把這件事讀成技術進步的勝利，經濟學家 Wassily Leontief 卻看見另一層意義。</div>
+    <div class="reason-row" data-anim="fade-up" style="--d:.45s; margin-top:44px;">
+      <div class="card"><div class="tag">曾經</div><div class="subtitle" style="margin-top:10px;">馬 是經濟核心勞動力</div></div>
+      <div class="because">幾十年內<br>被技術排除 →</div>
+      <div class="card"><div class="tag">於是 Leontief 問</div><div class="subtitle" style="margin-top:10px;">人類，會是下一匹馬嗎？</div></div>
+    </div>
+    <div class="body" data-anim="fade-up" style="--d:.7s; margin-top:36px;">Susskind 接受這份憂慮的精神，同時修正它的形式。他認為人類不會在短時間內被完全逐出，真實的圖像是機器不會做所有事，卻會做越來越多事。<span class="note-ref">由此衍生三個新問題<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Susskind · 勞動市場</div><h4>馬的命運與人的三問</h4><p>Leontief 擔心人類有一天會遭遇與馬相同的命運，被自己參與打造的技術逐出生產體系。Susskind 認為這個比喻的精神成立，只是形式需要修正，因為機器接手的是任務，而且是逐步接手，所以人類退場其實是漸進的萎縮。</p><p>順著這個診斷，全書真正要處理的是三個彼此交纏的問題，分別是繁榮如何分配的不平等問題、科技權力如何受控的權力問題，以及人在少工作的世界裡如何安頓自己的意義問題。</p></span></span>，貫穿全書。</div>
+  </div>
+</section>
+
+<section data-label="替代 vs 互補">
+  <div class="slide bg-paper2">
+    <div class="eyebrow">02 · 勞動市場 · 兩股力量</div>
+    <div class="title" data-anim="fade-up">替代與互補，過去互補略勝一籌</div>
+    <div class="scale-bar" data-anim="grow-x" style="--d:.25s; margin-top:40px;">
+      <div class="seg sub-force" style="flex:1.1;"><div class="lab">替代力量</div><div class="sub">機器取代人類任務</div></div>
+      <div class="seg com-force" style="flex:1.45;" data-loop="breathe"><div class="lab">互補力量</div><div class="sub">機器提升人類其他任務的價值</div></div>
+    </div>
+    <div class="body" data-anim="fade-up" style="--d:.45s; margin-top:30px;">技術會同時帶來兩股力量。替代力量衡量的是機器接手了哪些人類任務，互補力量衡量的則是機器讓人類在其他任務上的價值提高了多少。互補又可以分成三種具體形式。</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.55s; margin-top:30px;">
+      <div class="card"><div class="num-marker" style="font-size:64px;">1</div><div class="subtitle" style="margin-top:6px;">生產力效果</div><div class="body" style="margin-top:10px;">人做剩下的任務時更有效率。</div></div>
+      <div class="card"><div class="num-marker" style="font-size:64px;">2</div><div class="subtitle" style="margin-top:6px;">大餅效果</div><div class="body" style="margin-top:10px;">經濟成長帶來更多整體需求。</div></div>
+      <div class="card"><div class="num-marker" style="font-size:64px;">3</div><div class="subtitle" style="margin-top:6px;">變餅效果</div><div class="body" style="margin-top:10px;">結構轉變生出新部門、新職業。</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="勞動時代">
+  <div class="slide bg-magenta">
+    <div class="eyebrow">02 · 勞動市場 · 為何焦慮落空</div>
+    <div class="title" data-anim="fade-up">於是我們一直活在「勞動時代」</div>
+    <div class="kr-equation" data-anim="fade-up" style="--d:.25s; margin-top:48px;">只看見替代 ⇔ 低估互補 ⇔ 焦慮落空</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.5s; margin-top:48px;">從飛梭、珍妮紡紗機到盧德運動，工人很早就害怕機器奪走生計，這份焦慮也有它的道理，因為工業革命確實摧毀了許多技藝與社群，英國工人的實質薪資甚至長期幾乎沒漲。然而過去三百年終究<span class="ichip sun">沒有出現永久性的大規模失業</span>。</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.7s; margin-top:24px;">焦慮之所以反覆落空，在於人們只看到替代、低估了互補，技術總體上仍讓人類勞動保有足夠的需求。這段歷史就是 <span class="ichip lime">Age of Labour（勞動時代）</span>。Susskind 真正要追問的，是這個時代會不會結束。</div>
+  </div>
+</section>
+
+<section data-label="實用主義革命">
+  <div class="slide bg-ink">
+    <div class="eyebrow">02 · 勞動市場 · 為何這次不同</div>
+    <div class="title" data-anim="fade-up">實用主義革命，機器不必像人</div>
+    <div class="grid-2" data-anim="fade-up" style="--d:.2s; margin-top:36px;">
+      <div class="card dark"><div class="tag">第一波 · 純粹主義</div><div class="subtitle" style="margin-top:12px;">試圖模仿人類智能</div><div class="body" style="margin-top:12px;">這條路想複製人類的推理與專家規則，最後遇上瓶頸，走進 AI 冬天。</div></div>
+      <div class="card dark"><div class="tag">第二波 · 實用主義革命</div><div class="subtitle" style="margin-top:12px;">只問能否完成任務</div><div class="body" style="margin-top:12px;">這條路放下了像人思考的執著，改以非人類方式達成成效，真正在乎的是成本與效果。</div></div>
+    </div>
+    <div class="kr-flow" data-anim="fade-up" style="--d:.5s; margin-top:36px;">
+      <div class="kr-flow-node">Deep Blue 以非人方式擊敗 Kasparov</div>
+      <div class="kr-arrow">→</div>
+      <div class="kr-flow-node">AlphaGo / AlphaGo Zero 自我對弈出新策略</div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.75s; margin-top:30px;">由此得到一個判準，要判斷機器能否取代一項任務，該看的是它能否完成、成本是否合理，至於它是否像人一樣理解這項任務，並不重要。</div>
+  </div>
+</section>
+
+<section data-label="刺蝟大軍">
+  <div class="slide bg-lime">
+    <div class="eyebrow">02 · 勞動市場 · AI 謬誤</div>
+    <div class="title" data-anim="fade-up">威脅工作的，是勤奮的刺蝟大軍</div>
+    <div class="grid-2" style="margin-top:34px;">
+      <div class="card" data-anim="slide-r" style="--d:.2s;"><div class="tag">AI 謬誤</div><div class="subtitle" style="margin-top:12px;">「機器要像人，才能取代人」</div><div class="body" style="margin-top:12px;">醫師說機器沒有臨床直覺，建築師說機器沒有創造力，音樂家說機器沒有情感，這些話常常只是專業者的自我安慰。它們在哲學上或許成立，卻不能保證機器無法用別的方式完成相同的任務。</div></div>
+      <div class="card" data-anim="slide-l" style="--d:.2s;"><div class="tag">真正的威脅</div><div class="subtitle" style="margin-top:12px;">一整支勤奮的刺蝟大軍</div>
+        <div class="erode" style="grid-template-columns:repeat(12,1fr); gap:7px; margin-top:18px;">
+          <div class="cell taken" data-anim="pop" style="--d:0.340s;"></div><div class="cell taken" data-anim="pop" style="--d:0.362s;"></div><div class="cell taken" data-anim="pop" style="--d:0.384s;"></div><div class="cell taken" data-anim="pop" style="--d:0.406s;"></div><div class="cell taken" data-anim="pop" style="--d:0.428s;"></div><div class="cell taken" data-anim="pop" style="--d:0.450s;"></div><div class="cell taken" data-anim="pop" style="--d:0.472s;"></div><div class="cell taken" data-anim="pop" style="--d:0.494s;"></div><div class="cell taken" data-anim="pop" style="--d:0.516s;"></div><div class="cell taken" data-anim="pop" style="--d:0.538s;"></div><div class="cell taken" data-anim="pop" style="--d:0.560s;"></div><div class="cell taken" data-anim="pop" style="--d:0.582s;"></div><div class="cell taken" data-anim="pop" style="--d:0.604s;"></div><div class="cell taken" data-anim="pop" style="--d:0.626s;"></div><div class="cell taken" data-anim="pop" style="--d:0.648s;"></div><div class="cell taken" data-anim="pop" style="--d:0.670s;"></div><div class="cell taken" data-anim="pop" style="--d:0.692s;"></div><div class="cell taken" data-anim="pop" style="--d:0.714s;"></div><div class="cell taken" data-anim="pop" style="--d:0.736s;"></div><div class="cell taken" data-anim="pop" style="--d:0.758s;"></div><div class="cell taken" data-anim="pop" style="--d:0.780s;"></div><div class="cell taken" data-anim="pop" style="--d:0.802s;"></div><div class="cell taken" data-anim="pop" style="--d:0.824s;"></div><div class="cell taken" data-anim="pop" style="--d:0.846s;"></div>
+        </div>
+        <div class="body" style="margin-top:12px;">侵蝕工作其實不需要一台 AGI。<span class="note-ref">狐狸與刺蝟<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Susskind · 勞動市場</div><h4>萬能狐狸與刺蝟大軍</h4><p>關於未來工作的討論常常過度著迷於 AGI，彷彿威脅來自一台什麼都會的機器。Susskind 借用古諺裡的兩種動物做對比，狐狸知道很多事，刺蝟只精於一件事。</p><p>就業層面真正的壓力來源，是大量各自擅長一件事的狹義 AI。它們像一整支刺蝟大軍，各吃掉一塊任務，合起來就足以侵蝕整份工作，過程裡並不需要任何一隻萬能狐狸。</p></span></span>許多狹義 AI 各取代一小塊任務，合起來就足以侵蝕整份工作。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="任務侵蝕">
+  <div class="slide bg-ink">
+    <div class="eyebrow">02 · 勞動市場 · 任務侵蝕</div>
+    <div class="title" data-anim="fade-up">三類人類能力，都正在被吃掉</div>
+    <div class="fork" data-anim="fade-up" style="--d:.2s; margin-top:32px;">
+      <div class="fork-col mid"><div class="fl">手工能力</div>
+        <div class="erode on-dark" style="grid-template-columns:repeat(5,1fr); margin-top:12px;"><div class="cell taken" data-anim="pop" style="--d:.4s;"></div><div class="cell taken" data-anim="pop" style="--d:.5s;"></div><div class="cell"></div><div class="cell taken" data-anim="pop" style="--d:.6s;"></div><div class="cell"></div></div>
+        <div class="fc" style="margin-top:12px;">無人曳引機、採果機器人、自動營建。</div>
+      </div>
+      <div class="fork-col mid"><div class="fl">認知能力</div>
+        <div class="erode on-dark" style="grid-template-columns:repeat(5,1fr); margin-top:12px;"><div class="cell taken" data-anim="pop" style="--d:.55s;"></div><div class="cell"></div><div class="cell taken" data-anim="pop" style="--d:.65s;"></div><div class="cell taken" data-anim="pop" style="--d:.75s;"></div><div class="cell"></div></div>
+        <div class="fc" style="margin-top:12px;">法律文件審閱、醫學影像、履歷篩選。</div>
+      </div>
+      <div class="fork-col mid"><div class="fl">情感能力</div>
+        <div class="erode on-dark" style="grid-template-columns:repeat(5,1fr); margin-top:12px;"><div class="cell"></div><div class="cell taken" data-anim="pop" style="--d:.7s;"></div><div class="cell"></div><div class="cell taken" data-anim="pop" style="--d:.8s;"></div><div class="cell"></div></div>
+        <div class="fc" style="margin-top:12px;">情感運算、社交與照護機器人。</div>
+      </div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:1s; margin-top:28px; font-size:38px;">與其急著畫出機器永遠跨不過的界線，不如承認<span class="hl-m">邊界正在移動</span>，因為今天的技術，正是未來最不先進的技術。</div>
+  </div>
+</section>
+
+<section data-label="摩擦性失業">
+  <div class="slide bg-paper">
+    <div class="eyebrow">02 · 勞動市場 · 摩擦性失業</div>
+    <div class="title" data-anim="fade-up">有工作，卻搆不到的 Tantalus 困境</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.2s; margin-top:24px;">就像希臘神話裡的 Tantalus 站在水中、頭頂垂著果實，水與果實都在眼前，卻永遠搆不到。經濟裡仍然有工作，許多人卻無法取得，這份摩擦來自三種錯配。</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.45s; margin-top:34px;">
+      <div class="card"><div class="tag">技能錯配</div><div class="body" style="margin-top:12px;">過去從農業轉進工廠相對容易，如今要從工廠轉進高階知識工作，門檻高出許多，不是人人都能跨過。</div></div>
+      <div class="card"><div class="tag">身份錯配</div><div class="body" style="margin-top:12px;">被製造業排出的男性，常因尊嚴與性別角色的想像，不願轉入照護、教學等女性比例較高的服務工作。</div></div>
+      <div class="card"><div class="tag">地點錯配</div><div class="body" style="margin-top:12px;">工作集中在少數創新城市，失業者既負擔不起搬遷，也不願離開原本的社群。</div></div>
+    </div>
+    <div class="body" data-anim="fade-up" style="--d:.7s; margin-top:28px;">失業率本身還低估了問題，因為許多人乾脆退出勞動市場，從此不再被計入失業，也有些工作沒有消失，卻一路走向<span class="ichip mag">低薪化、不穩定化</span>。</div>
+  </div>
+</section>
+
+<section data-label="結構性失業">
+  <div class="slide bg-cobalt">
+    <div class="eyebrow">02 · 勞動市場 · 結構性失業</div>
+    <div class="title" data-anim="fade-up">真正更根本的威脅，在於沒有足夠的工作</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.2s; margin-top:24px;">過去互補之所以壓過替代，倚賴的是一個<span class="ichip sun">優越性假設</span>，也就是人比機器更適合執行新任務。隨著任務侵蝕持續下去，這個假設愈來愈站不住腳，三種互補力量也跟著逐一變弱。</div>
+    <div class="scale-bar" data-anim="grow-x" style="--d:.45s; margin-top:30px;">
+      <div class="seg com-force" style="flex:.7;"><div class="lab">生產力↓</div><div class="sub">自駕成熟，人再有效率也不重要</div></div>
+      <div class="seg com-force" style="flex:.7;"><div class="lab">大餅↓</div><div class="sub">產出增加未必帶動就業</div></div>
+      <div class="seg com-force" style="flex:.7;"><div class="lab">變餅↓</div><div class="sub">新任務也由機器完成</div></div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.75s; margin-top:34px; font-size:44px;">「對商品與服務的需求，<span class="hl">不等於</span>對人類勞動的需求。」</div>
+    <div class="attribution" data-anim="fade-up" style="--d:.95s;">— John Stuart Mill</div>
+  </div>
+</section>
+
+<section data-label="技術與不平等">
+  <div class="slide bg-paper2">
+    <div class="eyebrow">02 · 勞動市場 · 不平等</div>
+    <div class="title" data-anim="fade-up">技術失業，是當代不平等的極端版</div>
+    <div class="grid-2" data-anim="fade-up" style="--d:.2s; margin-top:34px;">
+      <div class="card"><div class="tag">人力資本</div><div class="subtitle" style="margin-top:10px;">技能、知識、經驗</div><div class="body" style="margin-top:10px;">它的回報是 <span class="ichip cobalt">工資</span>，多數人靠它取得收入。</div></div>
+      <div class="card"><div class="tag">傳統資本</div><div class="subtitle" style="margin-top:10px;">股票、土地、機器、資料、專利</div><div class="body" style="margin-top:10px;">它的回報是 <span class="ichip mag">利潤、租金、股息</span>。</div></div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.5s; margin-top:30px;">技術失業的本質，是<span class="ichip sun">多數人的人力資本在市場中不再有價值</span>，這些人如果又缺乏傳統資本，就被排除在社會繁榮之外。</div>
+    <div class="body" data-anim="fade-up" style="--d:.7s; margin-top:22px;">三股趨勢同時發生，包括勞動收入內部的差距擴大、勞動相對於資本的收入占比下降，以及傳統資本本身高度集中。未來真正的課題，因此落在<span class="ichip lime">分配問題</span>上。</div>
+  </div>
+</section>
+
+<section data-label="教育的極限 → 大國家">
+  <div class="slide bg-ink">
+    <div class="eyebrow">02 · 勞動市場 · 回應</div>
+    <div class="title" data-anim="fade-up">教育有極限，於是轉向大國家</div>
+    <div class="grid-2" data-anim="fade-up" style="--d:.2s; margin-top:28px;">
+      <div class="card dark"><div class="tag">極限一 · 技能不可達</div><div class="body" style="margin-top:10px;">天賦、年齡、時間與金錢各不相同，無法假定人人都能被再訓練成高階知識工作者。</div></div>
+      <div class="card dark"><div class="tag">極限二 · 需求不足</div><div class="body" style="margin-top:10px;">就算教育成功也解不了結構性失業，因為問題出在市場不再願意付錢購買人類勞動，並不是人的技能不夠。</div></div>
+    </div>
+    <div class="subtitle" data-anim="fade-up" style="--d:.45s; margin-top:28px;"><span class="ichip lime">大國家（Big State）</span>負責的是分配，並不接管生產</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.65s; margin-top:24px;">
+      <div class="card dark"><div class="subtitle">收入分享</div><div class="body" style="margin-top:8px;">沿著收入流向課稅。</div></div>
+      <div class="card dark"><div class="subtitle">資本分享</div><div class="body" style="margin-top:8px;">設立公民財富基金。</div></div>
+      <div class="card dark"><div class="subtitle">勞動支持</div><div class="body" style="margin-top:8px;">維護薪資底線與勞權。</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="CBI · Big Tech · 新安全時代">
+  <div class="slide bg-sun">
+    <div class="eyebrow">02 · 勞動市場 · 收束</div>
+    <div class="title" data-anim="fade-up">從 UBI 到 CBI，再到新安全時代</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.2s; margin-top:30px;">
+      <div class="card"><div class="tag">UBI → CBI</div><div class="body" style="margin-top:10px;">UBI 解決了收入分配，卻留下「貢獻問題」。CBI 因此附帶條件，要求受領者以非經濟方式貢獻社群，例如照護、社區服務、文化活動與公民參與。</div></div>
+      <div class="card"><div class="tag">Big Tech 政治權力</div><div class="body" style="margin-top:10px;">大型科技公司的影響遍及經濟壟斷，也遍及資訊與民主的塑造，需要專責的政治監督。<span class="note-ref">為何消費者滿意不夠<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Susskind · 勞動市場</div><h4>經濟權力之外的政治權力</h4><p>傳統反壟斷工具由經濟學家主導，擅長處理價格、競爭與消費者福利，這些屬於企業的經濟權力。可是 Google、Facebook、Amazon 等公司還透過搜尋排序、廣告投放、平台規則與內容審查，塑造資訊流通與公共生活，這屬於它們的政治權力。</p><p>Susskind 主張設立專責的政治權力監督機構，讓它能調查系統、要求透明，必要時拆分公司。關鍵理由在於，人們喜歡使用某項服務，並不等於已經授權企業任意塑造其政治生活，消費者的滿意無法自動轉化為政治正當性。</p></span></span></div></div>
+      <div class="card"><div class="tag">休閒政策</div><div class="body" style="margin-top:10px;">少工作的世界需要學會在自由時間裡過得有目的、有結構，讓休閒承載真正的價值，不至於淪為空洞的娛樂。</div></div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.55s; margin-top:30px; font-size:40px;">引 Zweig《昨日世界》，我們這一代的任務，是建立一個<span class="hl-m">不再以有薪工作為基礎的新安全時代</span>。</div>
+  </div>
+</section>
+  <!-- ===== BRIDGE 2 · Susskind → Srnicek ===== -->
+  <section data-label="橋接二 誰來建">
+    <div class="slide bg-magenta">
+      <div class="eyebrow" data-anim="fade-down" style="opacity:0.9;">橋接 · 從政策放大到政治</div>
+      <h2 class="title-lg" data-anim="fade-up" style="margin-top:20px;max-width:1640px;">Susskind 開好了藥方。<br>那麼，<span style="background:var(--sun);color:var(--ink);padding:0 14px;">誰</span>會去抓藥？</h2>
+      <div class="grid-2" style="margin-top:64px;gap:40px;">
+        <div class="card" data-anim="slide-l" style="background:var(--paper);">
+          <div class="mono" style="font-size:22px;opacity:0.6;">SUSSKIND 留下的缺口</div>
+          <div class="subtitle" style="font-size:38px;">「大國家、CBI、<br>監管 Big Tech」</div>
+          <div class="body" style="opacity:0.78;">Susskind 把這些當成技術官僚<strong>應該採納的好政策</strong>，彷彿只要有人在公共討論裡提出來，制度就會順勢採行。他描述了一套值得追求的終點，卻沒有說明從現狀走到那個終點，途中要克服哪些阻力。</div>
+        </div>
+        <div class="card" data-anim="slide-r" style="background:var(--ink);color:var(--paper);">
+          <div class="mono" style="font-size:22px;color:var(--sun);">SRNICEK 接手的問題</div>
+          <div class="subtitle" style="font-size:38px;">「好政策不會<br>自己長出來。」</div>
+          <div class="body" style="opacity:0.82;">Srnicek 提醒，大國家與 CBI 這類重分配方案，會直接削減既有受益者的權力與利潤，因此它已經超出了政策設計的範圍，進入<strong>權力與政治的層次</strong>，能不能成事，要看共識主導權、動員組織與長期戰略。<span class="note-ref">霸權<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Srnicek · 政治層次</div><h4>「霸權」與單純的「好主意」之別</h4><p>一套政策要落地，需要三個條件同時成立，包括取得社會共識的主導權、具備把人動員起來的組織，以及撐得起一套長期戰略。這三者決定了好政策能不能真的被推上去。</p><p>Srnicek 沿用 Antonio Gramsci 的霸權概念，認為政策要落地，得先讓社會多數把它視為理所當然的常識，而這套常識，由具備組織能力的集團長期塑造出來。對照之下，1947 年成立的 Mont Pelerin Society，到 IEA、Heritage 等智庫接力，足足用了三十年，才把新自由主義從邊緣學說變成各國政府的預設立場。重分配方案若要成形，同樣需要這種長期的組織工程，它並不是靠一份政策白皮書就能完成的。</p></span></span></div>
+        </div>
+      </div>
+      <div class="body-lg" data-anim="fade-up" style="--d:.5s;margin-top:auto;font-weight:500;">於是問題從「該做什麼」移到了「<span class="ichip cobalt">誰有力量讓它發生</span>」。</div>
+    </div>
+  </section>
+<section data-label="03 分隔頁">
+  <div class="slide bg-ink">
+    <div class="eyebrow">03 · 政治 · Srnicek &amp; Williams</div>
+    <div class="title-lg" data-anim="fade-up">Inventing<br>the Future</div>
+    <div class="subtitle" data-anim="fade-up" style="--d:.25s; margin-top:18px; opacity:.85;">Postcapitalism and a World Without Work</div>
+    <div class="body" data-anim="fade-up" style="--d:.4s; margin-top:14px; max-width:1200px;">後工作政治把問題從「個體」與「市場」抬升到<span class="ichip sun">政治</span>這個層次，因為誰有權定義「現代性」與「自由」，誰就有權設定整個社會願意走向何方。左翼的任務也因此從「<span class="ichip mag">抵抗</span>既有秩序」，轉為設法奪回「<span class="ichip lime">未來</span>」的定義權。</div>
+    <div class="spine on-dark" data-anim="fade-up" style="--d:.6s; margin-top:48px;">
+      <div class="chip"><div class="lv">01 · 個體</div><div class="who">David<br>Krakauer</div><div class="q">工具讓人變強，或把能力換掉</div></div>
+      <div class="chip"><div class="lv">02 · 勞動市場</div><div class="who">Daniel<br>Susskind</div><div class="q">對人類勞動的需求會不會枯竭</div></div>
+      <div class="chip active"><div class="lv">03 · 政治</div><div class="who">Nick<br>Srnicek</div><div class="q">後工作的方向由誰決定</div></div>
+      <div class="chip"><div class="lv">04 · 設計</div><div class="who">Acemoglu<br>et al.</div><div class="q">技術走向能不能被設計</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="未來被取消">
+  <div class="slide bg-paper">
+    <div class="eyebrow">03 · 政治 · 診斷起點</div>
+    <div class="title" data-anim="fade-up">「未來被取消了。」</div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.3s; margin-top:40px;">20 世紀的左翼曾經能夠提出宏大的解放願景，<span class="hl-l">更短的工時、太空時代、性別解放</span>都還在想像的範圍之內。新自由主義經過數十年的勝利，把「現代化」重新定義為私有化、緊縮、彈性勞動與市場競爭，左翼於是只剩下<span class="hl-m">防衛的姿態</span>，能做的只有抵抗、保存與保衛地方。</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.6s; margin-top:44px; max-width:1320px;">作者想要重建的，是一套<span class="ichip cobalt">面向未來</span>、<span class="ichip lime">能夠擴張規模</span>，又能奪回「現代性」與「自由」定義權的<span class="ichip mag">反霸權政治</span>。它要重新有能力描繪一個值得前往的社會，並且把這個願景真正組織出來，讓左翼超越只能守住殘餘的處境。</div>
+    <div class="attribution" data-anim="fade-up" style="--d:.8s;">— the future has been cancelled</div>
+  </div>
+</section>
+
+<section data-label="工作 vs 活動">
+  <div class="slide bg-cobalt">
+    <div class="eyebrow">03 · 政治 · 概念分辨</div>
+    <div class="title" data-anim="fade-up">後工作，不等於無所事事</div>
+    <div class="grid-2" data-anim="fade-up" style="--d:.3s; margin-top:48px;">
+      <div class="card">
+        <div class="tag">WORK · 工作</div>
+        <div class="subtitle" style="margin-top:14px;">為生存出售勞動力</div>
+        <div class="body" style="margin-top:16px;">受雇主支配的工資勞動，是把時間與能力賣出去，換取活下去所需的收入。生存因此被綁定在受雇、服從與市場需求之上。</div>
+      </div>
+      <div class="card dark">
+        <div class="tag">ACTIVITY · 活動</div>
+        <div class="subtitle" style="margin-top:14px;">學習 · 創作 · 照護</div>
+        <div class="body" style="margin-top:16px;">政治參與、遊戲、社交與自我發展，都屬於活動。後工作社會想做的，是讓人<span class="ichip lime">不再為了活下去被迫接受工作</span>，而能更自由地安排自己的生活。</div>
+      </div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.6s; margin-top:40px;">真正的目標，是把「活動」從「工作」的綁架中解放出來，讓學習、創作與照護不必再以出售勞動力為前提。</div>
+  </div>
+</section>
+
+<section data-label="folk politics">
+  <div class="slide bg-paper2">
+    <div class="eyebrow">03 · 政治 · 批判核心</div>
+    <div class="title" data-anim="fade-up">folk politics（常民政治）</div>
+    <div class="body" data-anim="fade-up" style="--d:.2s; margin-top:10px;">這是當代左翼的一種政治常識，偏好<span class="ichip cobalt">「即刻性」</span>的三個層面。它跟 populism 是<span class="ichip mag">兩回事</span>，指的是直接行動、地方性、水平組織與立即可見成果的整套偏好。</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.4s; margin-top:36px;">
+      <div class="card">
+        <div class="tag">時間上</div>
+        <div class="subtitle" style="margin-top:12px;">反應式</div>
+        <div class="body" style="margin-top:14px;">以短期戰術、臨時佔領與自發暴動式的能量為主，多半在回應政府與企業的動作，少有主動設定議程的長期規劃。</div>
+      </div>
+      <div class="card">
+        <div class="tag">空間上</div>
+        <div class="subtitle" style="margin-top:12px;">地方 · 小規模</div>
+        <div class="body" style="margin-top:14px;">偏好社群、面對面民主、在地貨幣與在地食物，對大型制度、全球規模與代表機制抱持懷疑。</div>
+      </div>
+      <div class="card">
+        <div class="tag">概念上</div>
+        <div class="subtitle" style="margin-top:12px;">經驗勝結構</div>
+        <div class="body" style="margin-top:14px;">看重個人經驗、情感與特殊性，相對輕視結構分析、抽象與普遍性，往往把倫理姿態放在政治戰略之前。</div>
+      </div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.7s; margin-top:34px;">這套常識也有它的道理，任何政治本來都從具體與地方開始。真正的問題在於<span class="ichip sun">「停留」</span>在這裡，始終無法擴展到對抗全球資本主義所需的規模。</div>
+  </div>
+</section>
+
+<section data-label="我們沒贏">
+  <div class="slide bg-magenta">
+    <div class="eyebrow">03 · 政治 · 第二章</div>
+    <div class="title" data-anim="fade-up">為什麼我們沒贏？</div>
+    <div class="grid-2" data-anim="fade-up" style="--d:.3s; margin-top:42px;">
+      <div class="card">
+        <div class="tag">水平主義</div>
+        <div class="body" style="margin-top:14px;">當所有決策都靠面對面共識決，政治參與本身就變成高強度的勞動，把沒時間、缺發言能力、要照護家人的人排除在外。這套模式在小規模時可行，面對國家與全球金融時卻難以擴張。</div>
+      </div>
+      <div class="card">
+        <div class="tag">佔領運動</div>
+        <div class="body" style="margin-top:14px;">它讓不平等成為公共議題，卻拒絕提出明確要求、抗拒組織垂直性，也欠缺與工會、政黨的穩定連結，警力一清空就破碎。<span class="note-ref">阿根廷 2001<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Srnicek &amp; Williams · 政治</div><h4>危機中的鄰里大會</h4><p>2001 年金融崩潰之後，阿根廷出現了鄰里大會與工人接管工廠的浪潮。在危機時刻，這些自組織確實維繫了社會再生產，撐住了人們的日常生活。</p><p>然而它們無法取代國家的功能，工人控制的工廠仍然受市場競爭與利潤壓力約束。這正好說明常民政治的限制，它能在裂縫中存活，卻難以改寫整體秩序。</p></span></span></div>
+      </div>
+      <div class="card">
+        <div class="tag">地方主義</div>
+        <div class="body" style="margin-top:14px;">在地食物常被視為更永續，但是否真的更低碳，必須連同生產條件與能源一起計算。氣候、金融與供應鏈都是全球系統問題，地方尺度根本處理不了。</div>
+      </div>
+      <div class="card">
+        <div class="tag">抵抗 / 退出</div>
+        <div class="body" style="margin-top:14px;">防衛的姿態只能保住殘餘；想在資本主義之外另建自治小島同樣行不通，因為<span class="ichip cobalt">資本能夠容納各種自治小島</span>，把它們收編成體系的一部分。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="他們在贏">
+  <div class="slide bg-ink">
+    <div class="eyebrow">03 · 政治 · 新自由主義霸權工程</div>
+    <div class="title" data-anim="fade-up">為什麼他們在贏？</div>
+    <div class="body" data-anim="fade-up" style="--d:.2s; margin-top:10px;">新自由主義的勝利並不是自然發生的，背後其實是一場刻意經營的<span class="ichip lime">長期政治工程</span>。它採取了一套與 folk politics 相反的戰略，既不迷信短期，也不停留地方，更不抗拒抽象理論與制度。</div>
+    <div class="kr-flow" data-anim="fade-up" style="--d:.4s; margin-top:46px;">
+      <div class="kr-flow-node">邊緣思想<br><small style="opacity:.7;">主流還是凱因斯</small></div>
+      <div class="kr-arrow" data-loop="arrow">→</div>
+      <div class="kr-flow-node">Mont Pelerin<br>Society<br><small style="opacity:.7;">IEA · Heritage 智庫</small></div>
+      <div class="kr-arrow">→</div>
+      <div class="kr-flow-node">1970s 停滯<br>性通膨危機<br><small style="opacity:.7;">處方早備好</small></div>
+      <div class="kr-arrow">→</div>
+      <div class="kr-flow-node">變成<br>「常識」</div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.9s; margin-top:48px; font-size:46px;">危機來臨時，真正被採用的，是<span class="hl">已經躺在那裡</span>的那些想法。</div>
+    <div class="attribution" data-anim="fade-up" style="--d:1.1s;">— Milton Friedman</div>
+  </div>
+</section>
+
+<section data-label="左翼現代性">
+  <div class="slide bg-sun">
+    <div class="eyebrow">03 · 政治 · 第四章</div>
+    <div class="title" data-anim="fade-up">奪回「現代性」</div>
+    <div class="body" data-anim="fade-up" style="--d:.2s; margin-top:10px;">現代性不必歸資本主義所有。自由、進步與普遍解放也曾經支撐奴隸解放、反殖民與女性主義，左翼把它們拱手讓出，是一種錯誤的退讓。</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.4s; margin-top:36px;">
+      <div class="card">
+        <div class="tag">進步</div>
+        <div class="subtitle" style="margin-top:12px;">hyperstition</div>
+        <div class="body" style="margin-top:14px;">這是一種會努力使自身成真的未來虛構。進步沒有歷史保證，它是一種政治建構，由願景去凝聚情感、方向與行動，讓不可能逐步變成可能。</div>
+      </div>
+      <div class="card">
+        <div class="tag">普遍性</div>
+        <div class="subtitle" style="margin-top:12px;">開放可改寫</div>
+        <div class="body" style="margin-top:14px;">作者承認普遍主義曾與殖民同謀，卻沒有因此放棄它。他主張一種開放、可爭奪、能被「被排除者」改寫的普遍性，當作被壓迫者挑戰既有秩序的工具。</div>
+      </div>
+      <div class="card">
+        <div class="tag">合成自由</div>
+        <div class="subtitle" style="margin-top:12px;">synthetic freedom</div>
+        <div class="body" style="margin-top:14px;">自由需要被建造出來。名義上一個人可以參選、換工作、拒絕工作，可是一旦缺少收入、時間、教育與健康，這些形式上的自由就無法落實。</div>
+      </div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.7s; margin-top:24px;">自由衡量的是一個人實際能做到什麼，它<span class="ichip mag">要靠公共財與集體能力一起建造</span>，光是免於干預還遠遠不夠。</div>
+  </div>
+</section>
+
+<section data-label="剩餘人口">
+  <div class="slide bg-paper">
+    <div class="eyebrow">03 · 政治 · 工作危機</div>
+    <div class="title" data-anim="fade-up">剩餘人口</div>
+    <div class="body" data-anim="fade-up" style="--d:.2s; margin-top:8px;">surplus populations 指的是無法被正式工資勞動吸收的人。資本主義一直靠三個機制持續製造出這群人。<span class="note-ref">無產者<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Srnicek &amp; Williams · 政治</div><h4>誰是無產者</h4><p>承接馬克思的定義，無產者泛指失去生產與生存手段、必須出售勞動力才能活下去的人，不只限於工廠工人。資本主義透過原始積累，使人脫離土地與自給，被推入工資勞動市場。</p><p>剩餘人口因此是這套體系運作的常態產物，並不是偶然出現的邊緣現象。體系需要這群人來壓低工資、削弱工人力量，卻又害怕他們造成暴動與不穩。</p></span></span></div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.4s; margin-top:34px;">
+      <div class="card"><div class="tag">機制 1</div><div class="subtitle" style="margin-top:10px;">自動化</div><div class="body" style="margin-top:12px;">生產力提高，產出同樣商品所需的人力隨之下降。一旦需求沒有同步成長、技能變化又太快，失業與低薪就會擴大。</div></div>
+      <div class="card"><div class="tag">機制 2</div><div class="subtitle" style="margin-top:10px;">原始積累</div><div class="body" style="margin-top:12px;">全球化把更多農民與自給人口推進市場，迫使他們依賴工資維生，全球無產階級因此不斷擴大。</div></div>
+      <div class="card"><div class="tag">機制 3</div><div class="subtitle" style="margin-top:10px;">主動排除</div><div class="body" style="margin-top:12px;">女性、種族少數、移民與監禁人口長期被排除在穩定工資之外，成為低薪、無薪與非正式勞動的來源。</div></div>
+    </div>
+    <div class="rule-thin" data-anim="grow-x" style="--d:.7s; margin-top:28px;"></div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.8s; margin-top:22px;">這些症狀包括<span class="ichip cobalt">零工化</span>、<span class="ichip mag">低薪</span>、<span class="ichip sun">無工作復甦</span>、貧民窟擴張與過早去工業化。以工作為中心的社會秩序正在瓦解，經濟越來越難提供足夠又體面的工作，人們卻仍被迫依賴工作才能生存。</div>
+  </div>
+</section>
+
+<section data-label="後工作四要求">
+  <div class="slide bg-cobalt">
+    <div class="eyebrow">03 · 政治 · 第六章 · 非改良主義改革</div>
+    <div class="title" data-anim="fade-up">後工作四要求</div>
+    <div class="body" data-anim="fade-up" style="--d:.2s; margin-top:8px;">這四項屬於「非改良主義改革」，目的在於改變力量平衡、打開下一步的可能，超越小修小補的層次。它們彼此支撐，必須合在一起才會生效。</div>
+    <div class="grid-2" data-anim="pop" style="--d:.4s; margin-top:10px;">
+      <div class="card"><div class="tag">01 · 全面自動化</div><div class="body" style="margin-top:12px;">讓機器接手枯燥、危險與重複的工作，把必要勞動降到最低。關鍵在於收益要回到社會手中，不讓它落入資本。</div></div>
+      <div class="card" data-anim="pop" style="--d:.55s;"><div class="tag">02 · 縮短工作週</div><div class="body" style="margin-top:12px;">把自動化帶來的生產力收益分配出去，藉此降低失業與碳排。作者偏好<span class="ichip lime">三日週末</span>，因為它順著既有的長週末形式延伸而來。</div></div>
+      <div class="card" data-anim="pop" style="--d:.7s;"><div class="tag">03 · 全民基本收入</div><div class="body" style="margin-top:12px;">金額要足以生活，無條件普遍發放，並且作為福利國家的補充來設計，好讓人有能力拒絕惡劣的工作。</div></div>
+      <div class="card dark" data-anim="pop" style="--d:.85s;"><div class="tag">04 · 削弱工作倫理</div><div class="body" style="margin-top:12px;">最大的障礙來自<span class="ichip sun">文化</span>，也就是「不工作就不配領收入」這套深植人心的常識，它讓自動化被誤認成損失，看不見它原本可以是一種解放。</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="如何贏">
+  <div class="slide bg-paper2">
+    <div class="eyebrow">03 · 政治 · 第七、八章 · 反霸權工程</div>
+    <div class="title" data-anim="fade-up">如何贏？</div>
+    <div class="grid-3" data-anim="fade-up" style="--d:.3s; margin-top:40px;">
+      <div class="card" data-anim="slide-l" style="--d:.3s;">
+        <div class="tag">新常識</div>
+        <div class="body" style="margin-top:14px;">重建烏托邦想像、改造經濟教育、重新利用技術。技術內含政治，卻也保有被重新導向的潛能，<span class="ichip cobalt">Lucas Aerospace</span> 的工人計畫與智利的 <span class="ichip lime">Cybersyn</span> 都是例子。<span class="note-ref">兩個技術案例<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Srnicek &amp; Williams · 政治</div><h4>技術可以被重新導向</h4><p>Lucas Aerospace 的工人在 1970 年代提出計畫，要把軍工生產能力轉向社會有用的產品，例如醫療技術、再生能源與社宅供暖。</p><p>智利的 Cybersyn 則用控制論與通訊系統，支援民主社會主義的經濟規劃。兩者都說明同一套技術，在不同的設計與所有權安排之下，會通往不同的社會。</p></span></span></div>
+      </div>
+      <div class="card" data-anim="slide-l" style="--d:.5s;">
+        <div class="tag">組織生態</div>
+        <div class="body" style="margin-top:14px;">社運、媒體、智庫、工會、政黨與地方組織彼此互補，不把希望全押在單一形式上。國家掌握福利、移民、工時與投資方向，<span class="ichip mag">因此不可放棄國家</span>這個戰場。</div>
+      </div>
+      <div class="card" data-anim="slide-l" style="--d:.7s;">
+        <div class="tag">槓桿點</div>
+        <div class="body" style="margin-top:14px;">物流、平台、演算法、供應鏈與資料系統，是新出現的弱點所在。租金罷工、債務罷工、港口封鎖與城市動脈中斷，都可能成為新形式的力量。</div>
+      </div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.95s; margin-top:36px;">值得借鏡的是新自由主義的<span class="ichip sun">戰略層面</span>，也就是它長期經營的思想基礎設施與組織生態，至於它的菁英主義則不必複製。</div>
+  </div>
+</section>
+
+<section data-label="四種後工作未來">
+  <div class="slide bg-ink">
+    <div class="eyebrow">03 · 政治 · 後記 · 走向由選擇決定</div>
+    <div class="title" data-anim="fade-up">四種後工作未來</div>
+    <div class="body" data-anim="fade-up" style="--d:.2s; margin-top:8px;">少了左翼的方向，「後工作」同樣可能變成噩夢。四條岔路裡，只有最後一條才是作者真正想要的。AI 的走向，是一連串選擇累積出來的結果，在每一個層次，做選擇的人與依據都不一樣。</div>
+    <div class="fork" data-anim="fade-up" style="--d:.4s; margin-top:32px; grid-template-columns:repeat(4,1fr); gap:22px;">
+      <div class="fork-col bad" data-anim="slide-l" style="--d:.4s;"><div class="fl">未來 A</div><div class="ft">新殖民</div><div class="fc">富國享自動化紅利，窮國繼續提供低薪勞動，邊境變得更暴力。</div><div class="verdict">不要</div></div>
+      <div class="fork-col bad" data-anim="slide-l" style="--d:.55s;"><div class="fl">未來 B</div><div class="ft">生態崩潰</div><div class="fc">自動化建立在化石燃料與消費擴張之上，反而加劇氣候災難。</div><div class="verdict">不要</div></div>
+      <div class="fork-col mid" data-anim="slide-l" style="--d:.7s;"><div class="fl">未來 C</div><div class="ft">厭女</div><div class="fc">男性從工資勞動中解放，女性卻仍承擔無薪的照護與家務。</div><div class="verdict">不要</div></div>
+      <div class="fork-col good" data-anim="slide-l" style="--d:.85s;"><div class="fl">未來 D</div><div class="ft">左翼後工作</div><div class="fc">開放邊界、廢除監禁、推動全球基本收入，連結反種族主義與女性主義。</div><div class="verdict">這一條</div></div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:1.1s; margin-top:32px; font-size:40px;">未來不會自動到來，它需要被<span class="hl-l">選出來</span>，被發明、組織、資助與制度化。</div>
+  </div>
+</section>
+  <!-- ===== BRIDGE 3 · Srnicek → Acemoglu ===== -->
+  <section data-label="橋接三 怎麼導">
+    <div class="slide bg-lime">
+      <div class="eyebrow" data-anim="fade-down">橋接 · 從宣言放大到設計</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:20px;">「技術可以被重新導向」，<br>那它到底要怎麼導？</h2>
+      <div class="reason-row" data-anim="fade-up" style="--d:.2s;margin-top:60px;">
+        <div class="card" style="background:var(--magenta);color:var(--paper);">
+          <div class="mono" style="font-size:22px;color:var(--sun);">SRNICEK · 政治宣言</div>
+          <div class="subtitle" style="font-size:34px;">技術內含政治，<br>潛能可被重新導向。</div>
+          <div class="body" style="opacity:0.85;">這是一般性的主張，<br>停在「應該」的層次。</div>
+        </div>
+        <div class="because" data-loop="arrow">具體化<br>→</div>
+        <div class="card" style="background:var(--ink);color:var(--paper);">
+          <div class="mono" style="font-size:22px;color:var(--lime);">ACEMOGLU · 設計與政策</div>
+          <div class="subtitle" style="font-size:34px;">同一支 AI，<br>列出它的岔路。</div>
+          <div class="body" style="opacity:0.85;">五種技術變遷、一個寓言、<br>九項政策，是可操作的「怎麼做」。</div>
+        </div>
+      </div>
+      <div class="body-lg" data-anim="fade-up" style="--d:.5s;margin-top:auto;font-weight:500;">Srnicek 指出技術的方向可以被選擇，Acemoglu 接著把這個方向落實成一張<span class="ichip mag">設計與政策清單</span>，告訴我們此刻正站在哪些岔路上、又該依據什麼來選。<span class="note-ref">兩種寫法的分工<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Srnicek／Acemoglu · 設計層次</div><h4>從「可以選」到「怎麼選」</h4><p>Srnicek 所做的工作，是把技術從「中立工具」的形象裡拉出來，指出每一套系統都嵌著特定的權力安排與政治選擇，因此它的潛能可以被重新導向到別的目標上。這個主張具有方向感，停在原則的層次。</p><p>Acemoglu 等人接手的是後半段。他們把同一支 AI 拆成五種可能的技術變遷路徑，用 Tantalus 的寓言說明為何市場會自動偏向取代人力的那一條，再提出九項政策，把方向盤交回到設計者與制度的手上。三本書的論證到這裡終於合流，AI 的走向，是一連串選擇累積出來的結果，在每一個層次，做選擇的人與依據都不一樣。</p></span></span></div>
+    </div>
+  </section>
+<section data-label="04 設計分隔頁">
+  <div class="slide bg-cobalt">
+    <div class="eyebrow" data-anim="fade-down">04 · 設計層次 · Acemoglu / Autor / Johnson</div>
+    <div class="title-lg" data-anim="fade-up" style="--d:.1s;">Building Pro-Worker AI<br>親勞工人工智慧</div>
+    <div class="subtitle" data-anim="fade-up" style="--d:.25s; margin-top:18px;">技術究竟走向自動化，還是走向擴展人類能力，取決於設計目標與政策誘因</div>
+    <div class="body" data-anim="fade-up" style="--d:.35s; margin-top:14px; opacity:.85;">Daron Acemoglu · David Autor · Simon Johnson　|　NBER Working Paper No. 34854, 2026</div>
+    <div class="spine on-dark" data-anim="fade-up" style="--d:.5s; margin-top:56px;">
+      <div class="chip"><div class="lv">01 · 個體</div><div class="who">David<br>Krakauer</div><div class="q">工具讓人變強，或把能力換掉</div></div>
+      <div class="chip"><div class="lv">02 · 勞動市場</div><div class="who">Daniel<br>Susskind</div><div class="q">對人類勞動的需求會不會枯竭</div></div>
+      <div class="chip"><div class="lv">03 · 政治</div><div class="who">Nick<br>Srnicek</div><div class="q">後工作的方向由誰決定</div></div>
+      <div class="chip active"><div class="lv">04 · 設計</div><div class="who">Acemoglu<br>et al.</div><div class="q">技術走向能不能被設計</div></div>
+    </div>
+  </div>
+</section>
+
+<section data-label="核心問題">
+  <div class="slide bg-paper">
+    <div class="eyebrow">04 · 設計 · 否定單向決定論</div>
+    <div class="title">AI 一定會<br>削弱勞工嗎？</div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.2s; margin-top:30px; font-size:42px;">AI 確實具備強大的自動化能力，足以接手客服、行銷、駕駛、翻譯、寫作與診斷裡的許多任務。同樣這套能力也可以走另一條路，<span class="hl-l">協助人完成更複雜的任務、掌握新的專業、進而提高專業的市場價值</span>。同一套技術最後會走成什麼樣子，落在「設計成什麼」這個選擇上。</div>
+    <div class="grid-2" style="margin-top:36px;">
+      <div class="card" data-anim="fade-up" style="--d:.4s;">
+        <div class="body-lg">反直覺數據</div>
+        <div class="body" style="margin-top:10px;">2024 年的調查呈現出一項反直覺的結果，那些<span class="ichip mag">已經在工作中用過 AI 的人</span>，比從未使用過的人更擔心自身未來的工作機會將會減少。</div>
+      </div>
+      <div class="card dark" data-anim="fade-up" style="--d:.55s;">
+        <div class="body-lg">恐懼來自判斷</div>
+        <div class="body" style="margin-top:10px;">這份擔憂其實來自實際使用後的判斷。用過的人看到的是當前技術正被導向自動化，他們的恐懼建立在親身經驗之上，源自對現況的真實觀察。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="親勞工定義">
+  <div class="slide bg-ink">
+    <div class="eyebrow">04 · 設計 · 一個看似簡單卻嚴格的定義</div>
+    <div class="title">什麼才算<br>「親勞工 AI」？</div>
+    <div class="grid-3" style="margin-top:40px;">
+      <div class="card" data-anim="fade-up" style="--d:.2s;">
+        <div class="num-marker" style="font-size:64px;">01</div>
+        <div class="body" style="margin-top:8px;">提高生產力並不等於親勞工。產出變多以後，仍有可能壓低薪資、削弱專業的稀缺性，讓工作者實際分到的份額反而下降。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.35s;">
+        <div class="num-marker" style="font-size:64px;">02</div>
+        <div class="body" style="margin-top:8px;">讓任何人都能輕易上手，同樣不等於親勞工。它雖然擴大了就業入口，卻也把專業<span class="ichip mag">商品化</span>，壓低這項專業在市場上的價值。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.5s;">
+        <div class="num-marker" style="font-size:64px;">03</div>
+        <div class="body" style="margin-top:8px;">真正的標準在於<span class="ichip lime">擴展人類能力</span>，讓技能與專業變得更稀缺、更有用，也更能換到報酬。</div>
+      </div>
+    </div>
+    <div class="pullquote" data-anim="fade-up" style="--d:.7s; margin-top:36px; font-size:40px;">作者真正衡量的是「<span class="hl">專業價值</span>」，至於單純的「工作數量」，本身並不足以當作判準。</div>
+  </div>
+</section>
+
+<section data-label="技能vs專業">
+  <div class="slide bg-paper2">
+    <div class="eyebrow">04 · 設計 · 稀缺性才是關鍵</div>
+    <div class="title">任務重要不保證薪資高<br>專業稀缺才決定報酬</div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.15s; margin-top:20px;">一種專業要擁有高市場價值，必須同時滿足兩個條件，先是被某種有經濟價值的活動需要，同時又<span class="ichip cobalt">具稀缺性</span>，無法被大量快速生產，也不能讓任何人在短時間內掌握。<span class="note-ref">技能與專業<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Acemoglu et al. · 設計</div><h4>技能、專業與任務</h4><p>作者把「技能」界定為較廣泛的能力，像是分析、領導、創造力、靈巧度，把「專業」界定為針對特定任務的知識與判斷，像是心臟手術、焊接、程式、翻譯、航空維修、專利審查。</p><p>AI 是透過改變「任務分配」與「專業稀缺性」來影響勞動市場，取代任務會讓專業貶值，創造新任務會讓專業升值，而讓低資歷者能做高資歷者的任務時，會提升一部分人的所得，同時加重另一部分人的競爭壓力。</p></span></span></div>
+    <div class="grid-2" style="margin-top:34px;">
+      <div class="card" data-anim="slide-r" style="--d:.3s;">
+        <div class="tag">門檻低 → 薪資低</div>
+        <div class="body-lg" style="margin-top:12px;">校園交通導護 / 工地旗手</div>
+        <div class="body" style="margin-top:10px;">他們做的是攸關安全的重要工作，可是訓練門檻低、任何人都能快速上手，所以任務再怎麼重要，也不會把薪資抬上去。</div>
+      </div>
+      <div class="card dark" data-anim="slide-l" style="--d:.45s;">
+        <div class="tag">訓練稀缺 → 薪資高</div>
+        <div class="body-lg" style="margin-top:12px;">空中交通管制員</div>
+        <div class="body" style="margin-top:10px;">這個職位需要長期訓練、考核與實習，專業稀缺而難以複製，薪資因此高出許多。真正決定價格的是稀缺性，至於任務本身有多重要，影響其實有限。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="五種技術變遷">
+  <div class="slide kr-page">
+    <div class="kr-head">
+      <div class="kr-kicker">補充 01</div>
+      <div><h2 class="kr-title">五種技術變遷類型</h2><div class="kr-subtitle">這是全文最重要的分析工具，其中只有最後一型「明確」親勞工</div></div>
+    </div>
+    <div class="kr-canvas">
+      <div class="kr-matrix" style="grid-template-columns:300px 1fr 200px;">
+        <div class="kr-cell axis"><small>類型</small></div>
+        <div class="kr-cell axis"><small>對勞工的可能效果</small></div>
+        <div class="kr-cell axis"><small>明確親勞工？</small></div>
+
+        <div class="kr-cell row-head" data-anim="pop" style="--d:.2s;">勞動增強型</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.25s;">既有任務做得更快更準，薪資效果不確定</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.3s;">不一定</div>
+
+        <div class="kr-cell row-head" data-anim="pop" style="--d:.4s;">資本增強型</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.45s;">設備與演算法更有效率，勞工所得效果不確定</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.5s;">不一定</div>
+
+        <div class="kr-cell row-head" data-anim="pop" style="--d:.6s;">自動化型</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.65s;">人力需求下降、專業貶值、勞動份額降低</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.7s;">通常不符合</div>
+
+        <div class="kr-cell row-head" data-anim="pop" style="--d:.8s;">專業平準化型</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.85s;">有利新進者，加劇既有專業者的競爭</div>
+        <div class="kr-cell" data-anim="pop" style="--d:.9s;">效果混合</div>
+
+        <div class="kr-cell row-head filled" data-anim="pop-bounce" style="--d:1.05s;">創造新任務型</div>
+        <div class="kr-cell filled" data-anim="pop-bounce" style="--d:1.1s;">產生需要新人類專業的新工作，薪資與勞動份額皆升</div>
+        <div class="kr-cell filled" data-anim="pop-bounce" style="--d:1.15s;">明確符合</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="航空維修寓言">
+  <div class="slide bg-paper">
+    <div class="eyebrow">04 · 設計 · 核心寓言 · 同一領域，三條路</div>
+    <div class="title">航空維修，<br>三支假想 AI 工具</div>
+    <div class="fork" data-anim="fade-up" style="--d:.2s; margin-top:28px;">
+      <div class="fork-col bad" data-anim="slide-l" style="--d:.3s;">
+        <div class="fl">自動化器</div>
+        <div class="ft">Aviation Maintenance Automator</div>
+        <div class="fc">它讓幾乎沒受訓的人靠 AI 指令完成檢查與維修，技師退居成「AI 的眼睛與雙手」，終點則是以靈巧機器人完全取代人。</div>
+        <div class="verdict">去技能化 · 反親勞工</div>
+      </div>
+      <div class="fork-col mid" data-anim="slide-l" style="--d:.45s;">
+        <div class="fl">技師助手</div>
+        <div class="ft">AMT Assistant</div>
+        <div class="fc">它負責分析診斷資料、建議測試步驟、處理法規合規與文件，藉此擴展受訓技師的能力，讓他能處理更複雜的診斷與維修。</div>
+        <div class="verdict">較接近親勞工</div>
+      </div>
+      <div class="fork-col good" data-anim="slide-l" style="--d:.6s;">
+        <div class="fl">轉軌助手</div>
+        <div class="ft">AMT Liftoff</div>
+        <div class="fc">它用模擬學習環境協助技師轉入新興太空載具維修。由於這個新興領域幾乎沒有既有工作者被取代，等於創造了新任務與新專業。</div>
+        <div class="verdict">明確親勞工</div>
+      </div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.85s; margin-top:30px; font-size:36px;">勞動後果是由<span class="hl">設計目標、部署方式與組織權力關係</span>共同決定的，技術本身並不會單獨決定它。</div>
+  </div>
+</section>
+
+<section data-label="真實案例">
+  <div class="slide bg-lime">
+    <div class="eyebrow">04 · 設計 · 親勞工 AI 不只是紙上談兵</div>
+    <div class="title">真實世界裡的親勞工 AI</div>
+    <div class="grid-3" style="margin-top:20px; gap:26px 24px;">
+      <div class="card" data-anim="fade-up" style="--d:.2s;">
+        <div class="body-lg">Schneider 電工助手</div>
+        <div class="body" style="margin-top:8px;">它比對資料庫來診斷設備與電路，最終仍交由工程師檢查、修改、確認，讓人能專注在判斷與修復上。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.3s;">
+        <div class="body-lg">Empowerment Companion</div>
+        <div class="body" style="margin-top:8px;">它為身障服務工作者提供任務提示與清潔示範，幫他們建立自我效能，擴大他們能承接的工作範圍。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.4s;">
+        <div class="body-lg">教師 AI 助手</div>
+        <div class="body" style="margin-top:8px;">它判斷學習困難並建議分組，是教師的能力放大器，一旦成功，學校甚至可能需要更多老師來與它搭配。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.5s;">
+        <div class="body-lg">USPTO More Like This</div>
+        <div class="body" style="margin-top:8px;">它依概念相似性找出先前技術，讓審查員能從低價值的關鍵字搜尋，轉向高價值的判斷與審查。</div>
+      </div>
+      <div class="card dark" data-anim="fade-up" style="--d:.6s;">
+        <div class="body-lg">聽障外送員語音工具</div>
+        <div class="body" style="margin-top:8px;">它即時把語音轉成文字，補上與顧客通話這道障礙，消除了聽障工作者的評價落差。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.7s; display:flex; align-items:center;">
+        <div class="body">啟示在於，親勞工 AI 不必尖端、龐大或昂貴，只要能<span class="ichip mag">精準補足限制</span>，就足以提升所得與尊嚴。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section data-label="同技術兩意圖">
+  <div class="slide bg-ink">
+    <div class="eyebrow">04 · 設計 · 一支技術，兩種意圖</div>
+    <div class="title">親不親勞工，<br>取決於部署意圖</div>
+    <div class="reason-row" data-anim="fade-up" style="--d:.2s; margin-top:40px;">
+      <div class="card" style="flex:1;">
+        <div class="tag">支援自主</div>
+        <div class="body-lg" style="margin-top:10px;">Empowerment Companion</div>
+        <div class="body" style="margin-top:8px;">它用上 AI、感測與任務分配，目標是賦權工作者，放大他們的自我效能。</div>
+      </div>
+      <div class="because">相同技術<br>→ 兩種設計</div>
+      <div class="card dark" style="flex:1;">
+        <div class="tag">中央化監控</div>
+        <div class="body-lg" style="margin-top:10px;">Amazon Flex 式管理</div>
+        <div class="body" style="margin-top:8px;">同一套能力被設計成紀律與控制的工具，反過來壓縮工作者的自主空間。</div>
+      </div>
+    </div>
+    <div class="pullquote" data-anim="blur-in" style="--d:.5s; margin-top:34px; font-size:36px;">一個反例是 Teleperformance 在哥倫比亞用 AI 分析員工<span class="hl-m">家中影音</span>。當技術主要被用來降低自主、強化單方控制，就算它提高了效率，也不符合親勞工的標準。</div>
+  </div>
+</section>
+
+<section data-label="市場失靈">
+  <div class="slide bg-magenta">
+    <div class="eyebrow">04 · 設計 · 為何不能等市場自己解決</div>
+    <div class="title">市場不會自然產生<br>足夠的親勞工 AI</div>
+    <div class="grid-2" style="margin-top:34px;">
+      <div class="card" data-anim="fade-up" style="--d:.2s;">
+        <div class="body-lg">① 企業買方誘因</div>
+        <div class="body" style="margin-top:8px;">自動化能減少對特定勞工的依賴、削弱工會、增加可分配的剩餘，買方因此偏好取代型工具。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.32s;">
+        <div class="body-lg">② 開發者商業模式</div>
+        <div class="body" style="margin-top:8px;">大公司已經建立自動化產品與銷售管道，新創為了被收購也跟著做，於是形成了<span class="ichip cobalt">路徑依賴</span>。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.44s;">
+        <div class="body-lg">③ AGI 意識形態</div>
+        <div class="body" style="margin-top:8px;">把「打造超越人類的智慧」當成最高目標，於是資源被導向取代人類這條路，支援人類的方向反而被冷落。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.56s;">
+        <div class="body-lg">④ 工作者抵抗</div>
+        <div class="body" style="margin-top:8px;">親勞工 AI 常要求重新學習、調整職務邊界，導入成本與內部阻力會讓企業中途放棄。</div>
+      </div>
+    </div>
+    <div class="pullquote" data-anim="fade-up" style="--d:.7s; margin-top:28px; font-size:36px;">因此，<span class="hl">公共政策必須主動介入誘因結構。</span></div>
+  </div>
+</section>
+
+<section data-label="九項政策">
+  <div class="slide bg-cobalt">
+    <div class="eyebrow">04 · 設計 · 把方向變成可操作的政策</div>
+    <div class="title">九項政策方向</div>
+    <div class="grid-3" style="margin-top:36px;">
+      <div class="card" data-anim="fade-up" style="--d:.2s;">
+        <div class="tag">塑造需求</div>
+        <div class="body" style="margin-top:10px;">在醫療與教育推動親勞工採購，建立政府內部的 AI 專業，提供研究補助，並設置類似 DARPA 的競賽機制，讓更好的方案彼此競爭出來。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.35s;">
+        <div class="tag">改誘因</div>
+        <div class="body" style="margin-top:10px;">平衡稅制，調整目前對雇用訓練人力課重稅、對買設備買軟體偏優惠的現況，並以反壟斷為不同商業模式留下空間。</div>
+      </div>
+      <div class="card" data-anim="fade-up" style="--d:.5s;">
+        <div class="tag">給勞工權利</div>
+        <div class="body" style="margin-top:10px;">強化勞工的發言權，建立對專業與創作資料的控制與補償權，並審慎處理那些可能阻擋新進者的證照壁壘。</div>
+      </div>
+    </div>
+    <div class="body-lg" data-anim="fade-up" style="--d:.7s; margin-top:34px;">這些政策的目的在於改變研發、採購、部署與制度環境，把實際的開發工作留給市場，藉此<span class="ichip sun">讓更多 AI 朝親勞工方向發展</span>。</div>
+  </div>
+</section>
+
+<section data-label="六題自檢">
+  <div class="slide kr-page dark">
+    <div class="kr-head">
+      <div class="kr-kicker">補充 02</div>
+      <div><h2 class="kr-title">判斷一支 AI 是否親勞工，靠這六題自檢</h2><div class="kr-subtitle">它把 AI 治理從抽象倫理，轉成可操作的勞動經濟分析</div></div>
+    </div>
+    <div class="kr-canvas">
+      <div class="kr-remember">
+        <div class="kr-remember-row" data-anim="fade-up" style="--d:.2s;"><div class="kr-remember-num">01</div><div class="kr-remember-text">它是否讓工作者能執行<b>新任務</b>？</div></div>
+        <div class="kr-remember-row" data-anim="fade-up" style="--d:.3s;"><div class="kr-remember-num">02</div><div class="kr-remember-text">它是否使<b>人類判斷更重要</b>？</div></div>
+        <div class="kr-remember-row" data-anim="fade-up" style="--d:.4s;"><div class="kr-remember-num">03</div><div class="kr-remember-text">它是否創造<b>新的專業需求</b>？</div></div>
+        <div class="kr-remember-row" data-anim="fade-up" style="--d:.5s;"><div class="kr-remember-num">04</div><div class="kr-remember-text">它是否只是把專業變成<b>廉價可替代流程</b>？</div></div>
+        <div class="kr-remember-row" data-anim="fade-up" style="--d:.6s;"><div class="kr-remember-num">05</div><div class="kr-remember-text">它是擴大<b>自主</b>，還是強化<b>監控</b>？</div></div>
+        <div class="kr-remember-row" data-anim="fade-up" style="--d:.7s;"><div class="kr-remember-num">06</div><div class="kr-remember-text">收益最後流向<b>勞工、消費者，還是主要流向資本</b>？</div></div>
+      </div>
+      <div class="pullquote" data-anim="blur-in" style="--d:.9s; margin-top:26px; font-size:33px;">這六題正好對應 Krakauer 的<span class="hl-l">增益 vs 削弱</span>，只是被放到勞動市場的層次上，增益就是親勞工，削弱就是去技能化的自動化與監控。</div>
+    </div>
+  </div>
+</section>
+  <!-- ===== 90 · SYNTHESIS ===== -->
+
+  <!-- SYNTH 1 · the spine resolved -->
+  <section data-label="綜合 四段合流">
+    <div class="slide bg-paper">
+      <div class="eyebrow" data-anim="fade-down">綜合 · 四段合流</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:18px;">在每一層，都有兩條路擺在眼前，<br>一條讓人變強，一條讓人變弱。</h2>
+      <div style="margin-top:46px;display:grid;grid-template-columns:200px 1fr 1fr;gap:14px 22px;align-items:stretch;">
+        <div></div>
+        <div class="mono" data-anim="fade-down" style="font-size:22px;letter-spacing:0.1em;color:var(--ink);text-align:center;background:var(--lime);padding:14px;border-radius:6px;">增益路 · 選對了</div>
+        <div class="mono" data-anim="fade-down" style="font-size:22px;letter-spacing:0.1em;color:var(--paper);text-align:center;background:var(--magenta);padding:14px;border-radius:6px;">削弱路 · 選錯了</div>
+
+        <div class="subtitle" data-anim="slide-l" style="font-size:30px;display:flex;flex-direction:column;justify-content:center;line-height:1.18;">個體<span class="small" style="opacity:0.5;margin-top:4px;">Krakauer</span></div>
+        <div class="kr-rule positive" data-anim="fade-up" style="min-height:0;padding:22px 26px;">當成你會驗證的對話 → 腦中留下替身，<strong>保持敏銳</strong></div>
+        <div class="kr-rule negative" data-anim="fade-up" style="--d:.08s;min-height:0;padding:22px 26px;">當成思想 GPS → 拿掉工具<strong>什麼都不剩</strong></div>
+
+        <div class="subtitle" data-anim="slide-l" style="--d:.1s;font-size:30px;display:flex;flex-direction:column;justify-content:center;line-height:1.18;">勞動市場<span class="small" style="opacity:0.5;margin-top:4px;">Susskind</span></div>
+        <div class="kr-rule positive" data-anim="fade-up" style="--d:.12s;min-height:0;padding:22px 26px;">互補力量 → 把人<strong>變貴</strong>、創造新任務</div>
+        <div class="kr-rule negative" data-anim="fade-up" style="--d:.16s;min-height:0;padding:22px 26px;">替代力量 → 任務侵蝕、需求<strong>乾枯</strong></div>
+
+        <div class="subtitle" data-anim="slide-l" style="--d:.2s;font-size:30px;display:flex;flex-direction:column;justify-content:center;line-height:1.18;">政治<span class="small" style="opacity:0.5;margin-top:4px;">Srnicek</span></div>
+        <div class="kr-rule positive" data-anim="fade-up" style="--d:.22s;min-height:0;padding:22px 26px;">自動化紅利社會化 → <strong>後工作平台</strong></div>
+        <div class="kr-rule negative" data-anim="fade-up" style="--d:.26s;min-height:0;padding:22px 26px;">右翼版後工作 → 排外、監禁、<strong>福利懲罰</strong></div>
+
+        <div class="subtitle" data-anim="slide-l" style="--d:.3s;font-size:30px;display:flex;flex-direction:column;justify-content:center;line-height:1.18;">設計<span class="small" style="opacity:0.5;margin-top:4px;">Acemoglu</span></div>
+        <div class="kr-rule positive" data-anim="fade-up" style="--d:.32s;min-height:0;padding:22px 26px;">親勞工 AI → 新任務、<strong>專業更值錢</strong></div>
+        <div class="kr-rule negative" data-anim="fade-up" style="--d:.36s;min-height:0;padding:22px 26px;">去技能化 + 監控 → 專業<strong>被商品化</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SYNTH 2 · agreements & disagreements -->
+  <section data-label="綜合 共識與分歧">
+    <div class="slide bg-ink">
+      <div class="eyebrow" data-anim="fade-down" style="opacity:0.7;">綜合 · 他們在哪裡同意，在哪裡分歧</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:18px;color:var(--paper);">三個共識，三個分歧。</h2>
+      <div class="grid-2" style="margin-top:48px;gap:40px;flex:1;">
+        <div style="background:#16161E;border-left:8px solid var(--lime);padding:40px;" data-anim="slide-l">
+          <div class="mono" style="font-size:22px;color:var(--lime);">三個共識</div>
+          <ul class="clean" style="margin-top:22px;color:var(--paper);">
+            <li style="border-color:rgba(255,255,255,0.16);"><span class="marker" style="color:var(--lime);">01</span><span class="text" style="font-size:30px;">分析單位是「任務 / 專業」這一層，而工作只是任務的集合<span class="note-ref">為何降到任務層<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">四位作者 · 方法</div><h4>把「工作」拆成「任務」來看</h4><p>四位作者各自以不同方式，都把分析的單位從整份「工作」降到構成工作的「任務」或「專業能力」。一份會計師的工作，由蒐集憑證、辨識異常、解釋報表、與客戶溝通等數十項任務組成；自動化通常先吃掉其中可被規則化的幾項，整個職位往往還在，內容已被掏空。</p><p>用這個顆粒度去看，才能解釋為何同一個職稱會同時出現「某些人變得更值錢、某些人被取代」的分歧結果。Acemoglu 與 Susskind 也由此區分替代效應與互補效應，看 AI 是吃掉任務，還是替既有的人創造新任務。</p></span></span></span></li>
+            <li style="border-color:rgba(255,255,255,0.16);"><span class="marker" style="color:var(--lime);">02</span><span class="text" style="font-size:30px;">爭點落在所得分配與價值歸屬，工作數量本身是次要的</span></li>
+            <li style="border-color:rgba(255,255,255,0.16);"><span class="marker" style="color:var(--lime);">03</span><span class="text" style="font-size:30px;">AI 的方向是可以選的，它的走向取決於人為的決策</span></li>
+          </ul>
+        </div>
+        <div style="background:#16161E;border-left:8px solid var(--magenta);padding:40px;" data-anim="slide-r">
+          <div class="mono" style="font-size:22px;color:var(--magenta);">三個分歧</div>
+          <ul class="clean" style="margin-top:22px;color:var(--paper);">
+            <li style="border-color:rgba(255,255,255,0.16);"><span class="marker" style="color:var(--magenta);">01</span><span class="text" style="font-size:30px;">誰是真正的主要行動者，是國家、左翼運動，還是設計者與政策</span></li>
+            <li style="border-color:rgba(255,255,255,0.16);"><span class="marker" style="color:var(--magenta);">02</span><span class="text" style="font-size:30px;">該對市場抱持多少信任，是修補它，還是乾脆取代它</span></li>
+            <li style="border-color:rgba(255,255,255,0.16);"><span class="marker" style="color:var(--magenta);">03</span><span class="text" style="font-size:30px;">工作本身又該如何處置，是把它重新分配，還是把它徹底廢除</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="body-lg" data-anim="fade-up" style="--d:.5s;margin-top:36px;color:var(--paper);opacity:0.85;">他們對風險本身大致有共識，真正各執一詞的，是「<span class="ichip sun">由誰、透過什麼制度，把方向重新扳回來</span>」。AI 的走向，是一連串選擇累積出來的結果；在每一個層次，做選擇的人與依據都不一樣。</div>
+    </div>
+  </section>
+  <!-- ===== 95 · QUESTIONS ===== -->
+
+  <!-- Q divider -->
+  <section data-label="提問 開始">
+    <div class="slide bg-cobalt" style="position:relative;overflow:hidden;">
+      <div class="sec-index" data-loop="float" style="right:60px;bottom:-40px;color:var(--paper);">?</div>
+      <div class="eyebrow" data-anim="fade-down" style="opacity:0.85;">提問 · 把四段書帶回我們的處境</div>
+      <h2 class="title-xl" data-anim="fade-up" style="margin-top:30px;color:var(--paper);font-size:118px;">提問</h2>
+      <div class="subtitle" data-anim="fade-up" style="--d:.2s;margin-top:34px;color:var(--paper);max-width:1320px;opacity:0.9;">接下來這四組問題分別對應今晚的四個高度，每一組都從書本出發，最後落回台灣的制度、產業與我們各自的工作現場。AI 的走向，是一連串選擇累積出來的結果，在每一個層次，做選擇的人與依據都不一樣。</div>
+      <div class="spine on-dark" style="margin-top:auto;color:var(--paper);">
+        <div class="chip active" data-anim="fade-up" style="--d:.3s"><div class="lv">01 · 個體</div><div class="who" style="font-size:26px;">David Krakauer</div><div class="q" style="font-size:22px;opacity:0.8;">工具讓人變強，或把能力換掉</div></div>
+        <div class="chip active" data-anim="fade-up" style="--d:.4s"><div class="lv">02 · 勞動市場</div><div class="who" style="font-size:26px;">Daniel Susskind</div><div class="q" style="font-size:22px;opacity:0.8;">對人類勞動的需求會不會枯竭</div></div>
+        <div class="chip active" data-anim="fade-up" style="--d:.5s"><div class="lv">03 · 政治</div><div class="who" style="font-size:26px;">Nick Srnicek</div><div class="q" style="font-size:22px;opacity:0.8;">後工作的方向由誰決定</div></div>
+        <div class="chip active" data-anim="fade-up" style="--d:.6s"><div class="lv">04 · 設計</div><div class="who" style="font-size:26px;">Acemoglu et al.</div><div class="q" style="font-size:22px;opacity:0.8;">技術走向能不能被設計</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q cluster A · Krakauer -->
+  <section data-label="提問 A 個體">
+    <div class="slide bg-paper">
+      <div class="eyebrow" data-anim="fade-down">提問 A · 個體層次 · 我們每天怎麼用 AI（David Krakauer）</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:14px;font-size:50px;">每一次使用，你是在累積能力，還是在外包能力？</h2>
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px;">
+        <div class="qcard" data-anim="fade-up" style="--d:.1s;">
+          <div class="qhead"><span class="qnum">A1</span><span class="qmeta">增益與削弱</span></div>
+          <div class="qtext">回想你最近一次用 AI 完成的工作，你能不能在腦中重建它的推理、自己驗證每一步，還是你只是接受了答案，把判斷整段交了出去。能自己重建的人會把理解帶得走，整段外包出去的人則在下次離開工具時就做不出來。你會怎麼判斷自己當時落在哪一邊？<span class="note-ref">能在腦中重建<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">David Krakauer · 個體</div><h4>增益型工具與削弱型工具</h4><p>Krakauer 把工具分成兩類。增益型工具（complementary）在使用之後會把能力留在人身上，像算盤練久了腦中就能心算，地圖看久了腦中就有方位感。削弱型工具（competitive）則在你依賴它的同時，悄悄抽走你原本的能力，像長期靠衛星導航的人，常會失去自己辨認路線的本事。</p><p>同一個 AI 工具能被當成哪一種來用，取決於使用者每一次的選擇。你可以把它的輸出當成需要自己消化、驗證、能夠重建的草稿，也可以把它當成不必細看的最終答案，兩種用法會把人帶往相反的方向。</p></span></span></div>
+        </div>
+        <div class="qcard" data-anim="fade-up" style="--d:.2s;">
+          <div class="qhead"><span class="qnum">A2</span><span class="qmeta">個人選擇與結構壓力</span></div>
+          <div class="qtext">Krakauer 認為 LLM 是第一個把「累積能力或外包能力」的選擇權交到使用者手上的工具。可是當 KPI 與交期把時間壓到極限，職場真的留得出空間，讓你採用那種比較慢、卻能把知識內化的用法嗎？倘若整個結構只獎勵速度，個人的好選擇又撐得住多久？</div>
+        </div>
+        <div class="qcard" data-anim="fade-up" style="--d:.3s;">
+          <div class="qhead"><span class="qnum">A3</span><span class="qmeta">下一個世代</span></div>
+          <div class="qtext">假如有一個世代從小就把 AI 當成隨問隨答的神諭長大，他們會失去哪些一旦拿掉工具就所剩無幾的能力，例如從零搭建論證、在沒有提示的情況下記住與調度知識。教育要怎麼設計，才能讓孩子心裡先長出那個能獨立運作的「替身」，再去使用工具？</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q cluster B · Susskind -->
+  <section data-label="提問 B 勞動市場">
+    <div class="slide bg-paper2">
+      <div class="eyebrow" data-anim="fade-down">提問 B · 勞動市場層次 · 台灣的工作與分配（Daniel Susskind）</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:14px;font-size:50px;">藥方寫在書上，台灣抓得到藥嗎？</h2>
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px;">
+        <div class="qcard q-mag" data-anim="fade-up" style="--d:.1s;">
+          <div class="qhead"><span class="qnum" style="color:var(--magenta)">B1</span><span class="qmeta">CBI 的陰影</span></div>
+          <div class="qtext">Susskind 提出的條件式基本收入（CBI），要求領取者以非經濟的方式對社會有所貢獻，才能領取。放到台灣，「由誰來定義什麼算是有價值的貢獻」很可能演變成一套新的官僚程序與道德審查。照護家人、經營社區、從事創作這些難以量化的勞動，真的會被認定、被算進去嗎？還是反而會把弱勢者擋在門外？<span class="note-ref">條件式基本收入<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Daniel Susskind · 勞動市場</div><h4>CBI 與無條件 UBI 的差別</h4><p>無條件基本收入（UBI）人人皆領，不問用途與行為。Susskind 提出的條件式基本收入（CBI）則附帶了條件，要求領取者以某種非經濟、但對社群有益的方式做出貢獻，例如照護、志願服務、進修。</p><p>這個設計想避開「白領錢」的政治反彈，卻也把一個棘手的權力交給了某個機構，也就是定義什麼貢獻才算數的權力。一旦定義權集中，標準就可能被用來篩選、規訓，甚至排除最需要支持的人。</p></span></span></div>
+        </div>
+        <div class="qcard q-mag" data-anim="fade-up" style="--d:.2s;">
+          <div class="qhead"><span class="qnum" style="color:var(--magenta)">B2</span><span class="qmeta">沿著收入流向課稅</span></div>
+          <div class="qtext">Susskind 主張，當所得持續從勞動端流向資本與大型平台，稅制就應該跟著錢的流向走，往資本與平台課稅，再重新分配。台灣的福利國家底子相對薄弱，工會與重分配的政治力量也有限。我們有沒有足夠的政治條件，真的把稅追到資本那一端，還是現實上只會延續對資方的補貼？</div>
+        </div>
+        <div class="qcard q-mag" data-anim="fade-up" style="--d:.3s;">
+          <div class="qhead"><span class="qnum" style="color:var(--magenta)">B3</span><span class="qmeta">三種錯配</span></div>
+          <div class="qtext">摩擦性失業的背後有三種錯配，分別是技能的錯配、身份認同的錯配，以及地點的錯配。對應到台灣，分別是中高齡勞工再訓練後仍難轉進新興職類、男性多半不願投入被視為女性領域的照護業，以及好工作高度集中在雙北而其他縣市機會稀薄。這三種裡，哪一種在台灣最頑固、最難拆解？<span class="note-ref">三種錯配<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Daniel Susskind · 勞動市場</div><h4>失業不只是缺工作</h4><p>Susskind 指出，自動化造成的摩擦性失業，問題常常出在媒合上。市場上其實有缺口，失業者卻與那些缺口對不上。技能錯配是舊技能不再被新職位需要，身份錯配是有些工作雖然有缺，卻與勞工的自我認同衝突而不被接受，地點錯配則是工作與勞工分處不同區域，難以遷移媒合。</p><p>三種錯配各自需要不同政策。技能要靠再訓練，身份要靠文化與職業形象的轉變，地點要靠住房、交通與區域發展。把它們混為一談，政策就會開錯藥。</p></span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q cluster C · Srnicek -->
+  <section data-label="提問 C 政治">
+    <div class="slide bg-paper">
+      <div class="eyebrow" data-anim="fade-down">提問 C · 政治層次 · 東亞、半導體與後工作（Nick Srnicek）</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:14px;font-size:50px;">後工作政治，能翻譯成台灣的語言嗎？</h2>
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px;">
+        <div class="qcard q-sun" data-anim="fade-up" style="--d:.1s;">
+          <div class="qhead"><span class="qnum" style="color:#caa400">C1</span><span class="qmeta">供應鏈型經濟</span></div>
+          <div class="qtext">Srnicek 的後工作策略以西方民主社會為背景，主張縮短工時、鬆動那種把長工時當美德的工作倫理。台灣與東亞的經濟核心建立在半導體供應鏈、出口接單與綿密的交期上，整條鏈彼此咬合、容錯空間極小。在這樣的結構裡，縮短工時、削弱工作倫理這套主張真的落實得了嗎？還是會先被供應鏈的節奏吞掉？</div>
+        </div>
+        <div class="qcard q-sun" data-anim="fade-up" style="--d:.2s;">
+          <div class="qhead"><span class="qnum" style="color:#caa400">C2</span><span class="qmeta">我們也卡在即刻性嗎</span></div>
+          <div class="qtext">Srnicek 批評常民政治（folk politics）只擅長抗議、佔領與在地實驗，這些行動能快速凝聚情感，卻難以累積成長期的制度力量。回看台灣的 318、g0v 以及各式倡議，它們是不是也停在這種講求當下、講求現場的即刻性裡？我們有沒有在這些能量之上，慢慢建立可長可久的論述霸權與組織生態？<span class="note-ref">常民政治與即刻性<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Nick Srnicek · 政治</div><h4>folk politics 的侷限</h4><p>Srnicek 與 Williams 用常民政治來指一種偏好直接、在地、即時、講求真誠在場的政治直覺，像是佔領廣場、水平串連、拒絕宏大計畫。它在凝聚與抵抗上很有力，卻天生短於規模化與長期建設。</p><p>他們把這種弱點稱為即刻性的政治（the politics of immediacy），意思是行動緊扣眼前的時刻與地點，難以延展成跨越年代的制度建構。要對抗已經高度組織化的資本與右翼智庫，左翼還需要補上長期的論述霸權、媒體、政黨與專業組織。</p></span></span></div>
+        </div>
+        <div class="qcard q-sun" data-anim="fade-up" style="--d:.3s;">
+          <div class="qhead"><span class="qnum" style="color:#caa400">C3</span><span class="qmeta">三種壞未來</span></div>
+          <div class="qtext">Srnicek 警告，後工作若沒有明確的左翼方向引導，可能滑向三種壞未來，包括對外延續剝削的新殖民、對地球加速透支的生態崩壞，以及把女性推回家務的厭女回潮。對照台灣的移工處境、能源轉型壓力，以及大量仍由女性無償承擔的家庭照護，這三種壞未來中，哪一種離我們最近、最該提早警惕？</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q cluster D · Acemoglu -->
+  <section data-label="提問 D 設計">
+    <div class="slide bg-lime">
+      <div class="eyebrow" data-anim="fade-down">提問 D · 設計層次 · 親勞工 AI 在台灣（Daron Acemoglu et al.）</div>
+      <h2 class="title" data-anim="fade-up" style="margin-top:14px;font-size:50px;">把方向變成設計，台灣準備好了嗎？</h2>
+      <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px;">
+        <div class="qcard q-lime" data-anim="fade-up" style="--d:.1s;">
+          <div class="qhead"><span class="qnum" style="color:#5a8a00">D1</span><span class="qmeta">六題自檢</span></div>
+          <div class="qtext">拿 Acemoglu 的診斷問題，去檢查你單位現在正要導入的某一套 AI，看它究竟在替人創造新的、需要判斷的任務，還是把原本的專業切成一段段可外包的廉價流程。再追問導入之後省下的成本與多出的收益，最後流進了誰的口袋，是現場工作者，是公司，還是工具供應商。把這些問題逐一問完，答案往往會顛覆當初的提案理由。<span class="note-ref">診斷問題<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">Daron Acemoglu et al. · 設計</div><h4>技術方向是可以被選擇的</h4><p>Acemoglu 等人主張，技術沒有單一的天命走向。同一波 AI，可以被設計成替代勞工、壓低工資的方向，也可以被設計成增強勞工、創造新任務的方向，差別在於投資、研發與政策怎麼引導。</p><p>他們提供了一組診斷問題，幫助組織在導入前先問清楚這套技術究竟創造新任務還是消滅任務、提升還是貶低現場技能、生產力的果實由誰分享、是否擴大或縮小了平台與資本的市場力量。這些問題把模糊的「導入 AI」拆成一連串可被檢視、可被選擇的具體決定。</p></span></span></div>
+        </div>
+        <div class="qcard q-lime" data-anim="fade-up" style="--d:.2s;">
+          <div class="qhead"><span class="qnum" style="color:#5a8a00">D2</span><span class="qmeta">國家有沒有能力</span></div>
+          <div class="qtext">Acemoglu 主張國家應該動用採購、補助、稅制與反壟斷，主動把技術推向親勞工的方向，不該被動承接市場提供的任何成品。台灣的數位發展部、國科會、勞動部，是否具備這樣的專業能力與政治意願，去辨識並扶持那些增強勞工的 AI？還是在預算與績效壓力下，最終仍偏向採購那些主打省人力的工具？</div>
+        </div>
+        <div class="qcard q-lime" data-anim="fade-up" style="--d:.3s;">
+          <div class="qhead"><span class="qnum" style="color:#5a8a00">D3</span><span class="qmeta">保護還是壁壘</span></div>
+          <div class="qtext">當 AI 讓初階者也能做出過去資深者才做得到的成果，證照制度與工會就站到一個尷尬的位置。它們一方面保障了既有勞工的薪資與尊嚴，另一方面也可能把新進者擋在門外、固化既得利益。親勞工的保護與排他性的壟斷，這兩者的界線該畫在哪裡，又該由誰來畫？</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== 99 · CLOSE ===== -->
+  <section data-label="結尾">
+    <div class="slide bg-ink" style="position:relative;overflow:hidden;">
+      <div class="blob-a" data-loop="drift-a" style="position:absolute;bottom:-580px;left:-620px;width:720px;height:720px;border-radius:50%;background:var(--cobalt);"></div>
+      <div class="blob-b" data-loop="drift-b" style="position:absolute;top:-160px;right:-120px;width:480px;height:480px;border-radius:50%;background:var(--magenta);"></div>
+      <div class="blob-c" data-loop="drift-c" style="position:absolute;bottom:120px;right:-90px;width:200px;height:200px;border-radius:50%;background:var(--lime);"></div>
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;height:100%;">
+        <div class="eyebrow" data-anim="fade-down" style="opacity:0.7;color:var(--paper);">收束</div>
+        <h2 class="title-xl" data-anim="fade-up" style="margin-top:26px;color:var(--paper);font-size:104px;">未來不會<br>自動到來，<br><span style="color:var(--sun);">它需要被選出來。</span></h2>
+        <div class="body-lg" data-anim="fade-up" style="--d:.3s;margin-top:44px;color:var(--paper);opacity:0.85;max-width:1180px;">這場演講與三本書，把同一個提問放到個體、市場、政治、技術四個高度反覆觀看，問的始終是 AI 會走成什麼樣子，由誰決定、又怎麼決定。<strong>AI 的走向，是一連串選擇累積出來的結果，在每一個層次，做選擇的人與依據都不一樣。</strong>正因如此，每一個層次都還留有著力的空間，<span class="note-ref">沒有任何一段是注定的<span class="note-tag">註</span><span class="note-body"><div class="note-kicker">四個層次 · 收束</div><h4>選擇散落在四個層次</h4><p>個體層次的選擇來自每個人怎麼使用工具，可能是把 AI 當成外接記憶，也可能是把它當成思考的替身；市場層次的選擇藏在企業導入自動化的決策與制度設計裡，左右著價值往哪裡流動；政治層次的選擇在於哪一套方案掌握了方向與資源；設計層次的選擇則寫進演算法的目標函數與產品形態之中。</p><p>四者的時間尺度與行動者各不相同，卻又彼此牽動。唯有看清楚每一層由誰在選、依據什麼在選，才能判斷自己究竟能在哪裡介入。</p></span></span>。</div>
+        <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;color:var(--paper);">
+          <div class="title" style="font-size:60px;line-height:1.2;">謝謝。</div>
+          <div class="mono" style="font-size:24px;letter-spacing:0.1em;opacity:0.7;">文化前線 II · 讀書會 · MashBean</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</deck-stage>
+<script>
+/**
+ * <deck-stage> — reusable web component for HTML decks.
+ *
+ * Handles:
+ *  (a) speaker notes — reads <script type="application/json" id="speaker-notes">
+ *      and posts {slideIndexChanged: N} to the parent window on nav.
+ *  (b) keyboard navigation — ←/→, PgUp/PgDn, Space, Home/End, number keys.
+ *  (c) press R to reset to slide 0 (with a tasteful keyboard hint).
+ *  (d) bottom-center overlay showing slide count + hints, fades out on idle.
+ *  (e) auto-scaling — inner canvas is a fixed design size (default 1920×1080)
+ *      scaled with `transform: scale()` to fit the viewport, letterboxed.
+ *      Set the `noscale` attribute to render at authored size (1:1) — the
+ *      PPTX exporter sets this so its DOM capture sees unscaled geometry.
+ *  (f) print — `@media print` lays every slide out as its own page at the
+ *      design size, so the browser's Print → Save as PDF produces a clean
+ *      one-page-per-slide PDF with no extra setup.
+ *
+ * Slides are HIDDEN, not unmounted. Non-active slides stay in the DOM with
+ * `visibility: hidden` + `opacity: 0`, so their state (videos, iframes,
+ * form inputs, React trees) is preserved across navigation.
+ *
+ * Lifecycle event — the component dispatches a `slidechange` CustomEvent on
+ * itself whenever the active slide changes (including the initial mount).
+ * The event bubbles and composes out of shadow DOM, so you can listen on
+ * the <deck-stage> element or on document:
+ *
+ *   document.querySelector('deck-stage').addEventListener('slidechange', (e) => {
+ *     e.detail.index         // new 0-based index
+ *     e.detail.previousIndex // previous index, or -1 on init
+ *     e.detail.total         // total slide count
+ *     e.detail.slide         // the new active slide element
+ *     e.detail.previousSlide // the prior slide element, or null on init
+ *     e.detail.reason        // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+ *   });
+ *
+ * Persistence: none at the deck level. The host app keeps the current slide
+ * in its own URL (?slide=) and re-delivers it via location.hash on load, so a
+ * bare load with no hash always starts at slide 1.
+ *
+ * Usage:
+ *   <deck-stage width="1920" height="1080">
+ *     <section data-label="Title">...</section>
+ *     <section data-label="Agenda">...</section>
+ *   </deck-stage>
+ *
+ * Slides are the direct element children of <deck-stage>. Each slide is
+ * automatically tagged with:
+ *   - data-screen-label="NN Label"   (1-indexed, for comment flow)
+ *   - data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text"
+ */
+
+(() => {
+  const DESIGN_W_DEFAULT = 1920;
+  const DESIGN_H_DEFAULT = 1080;
+  const OVERLAY_HIDE_MS = 1800;
+  const VALIDATE_ATTR = 'no_overflowing_text,no_overlapping_text,slide_sized_text';
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  const stylesheet = `
+    :host {
+      position: fixed;
+      inset: 0;
+      display: block;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .canvas {
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
+      background: #fff;
+      will-change: transform;
+    }
+
+    /* Slides live in light DOM (via <slot>) so authored CSS still applies.
+       We absolutely position each slotted child to stack them. */
+    ::slotted(*) {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    ::slotted([data-deck-active]) {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    /* Tap zones for mobile — back/forward thirds like Stories.
+       Transparent, no visible UI, don't block the overlay. */
+    .tapzones {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      z-index: 2147482000;
+      pointer-events: none;
+    }
+    .tapzone {
+      flex: 1;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Only activate tap zones on coarse pointers (touch devices). */
+    @media (hover: hover) and (pointer: fine) {
+      .tapzones { display: none; }
+    }
+
+    .overlay {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 6px) scale(0.92);
+      filter: blur(6px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #000;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 12px;
+      font-feature-settings: "tnum" 1;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease;
+      transform-origin: center bottom;
+      z-index: 2147483000;
+      user-select: none;
+    }
+    .overlay[data-visible] {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0) scale(1);
+      filter: blur(0);
+    }
+
+    .btn {
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 999px;
+      color: rgba(255,255,255,0.72);
+      transition: background 140ms ease, color 140ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .btn:active { background: rgba(255,255,255,0.18); }
+    .btn:focus { outline: none; }
+    .btn:focus-visible { outline: none; }
+    .btn::-moz-focus-inner { border: 0; }
+    .btn svg { width: 14px; height: 14px; display: block; }
+    .btn.reset {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 0 10px 0 12px;
+      gap: 6px;
+      color: rgba(255,255,255,0.72);
+    }
+    .btn.reset .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10px;
+      line-height: 1;
+      color: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+
+    .count {
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+      font-weight: 500;
+      padding: 0 8px;
+      min-width: 42px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .count .sep { color: rgba(255,255,255,0.45); margin: 0 3px; font-weight: 400; }
+    .count .total { color: rgba(255,255,255,0.55); }
+
+    .divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.18);
+      margin: 0 2px;
+    }
+
+    /* ── Print: one page per slide, no chrome ────────────────────────────
+       The screen layout stacks every slide at inset:0 inside a scaled
+       canvas; for print we want them in document flow at the authored
+       design size so the browser paginates one slide per sheet. The
+       @page size is set from the width/height attributes via the inline
+       <style id="deck-stage-print-page"> that connectedCallback injects
+       into <head> (the @page at-rule has no effect inside shadow DOM). */
+    @media print {
+      :host {
+        position: static;
+        inset: auto;
+        background: none;
+        overflow: visible;
+        color: inherit;
+      }
+      .stage { position: static; display: block; }
+      .canvas {
+        transform: none !important;
+        width: auto !important;
+        height: auto !important;
+        background: none;
+        will-change: auto;
+      }
+      ::slotted(*) {
+        position: relative !important;
+        inset: auto !important;
+        width: var(--deck-design-w) !important;
+        height: var(--deck-design-h) !important;
+        box-sizing: border-box !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        break-after: page;
+        page-break-after: always;
+        break-inside: avoid;
+        overflow: hidden;
+      }
+      ::slotted(*:last-child) {
+        break-after: auto;
+        page-break-after: auto;
+      }
+      .overlay, .tapzones { display: none !important; }
+    }
+  `;
+
+  class DeckStage extends HTMLElement {
+    static get observedAttributes() { return ['width', 'height', 'noscale']; }
+
+    constructor() {
+      super();
+      this._root = this.attachShadow({ mode: 'open' });
+      this._index = 0;
+      this._slides = [];
+      this._notes = [];
+      this._hideTimer = null;
+      this._mouseIdleTimer = null;
+
+      this._onKey = this._onKey.bind(this);
+      this._onResize = this._onResize.bind(this);
+      this._onSlotChange = this._onSlotChange.bind(this);
+      this._onMouseMove = this._onMouseMove.bind(this);
+      this._onTapBack = this._onTapBack.bind(this);
+      this._onTapForward = this._onTapForward.bind(this);
+    }
+
+    get designWidth() {
+      return parseInt(this.getAttribute('width'), 10) || DESIGN_W_DEFAULT;
+    }
+    get designHeight() {
+      return parseInt(this.getAttribute('height'), 10) || DESIGN_H_DEFAULT;
+    }
+
+    connectedCallback() {
+      this._render();
+      this._loadNotes();
+      this._syncPrintPageRule();
+      window.addEventListener('keydown', this._onKey);
+      window.addEventListener('resize', this._onResize);
+      window.addEventListener('mousemove', this._onMouseMove, { passive: true });
+      // Initial collection + layout happens via slotchange, which fires on mount.
+      queueMicrotask(() => this._onSlotChange());
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('keydown', this._onKey);
+      window.removeEventListener('resize', this._onResize);
+      window.removeEventListener('mousemove', this._onMouseMove);
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      if (this._mouseIdleTimer) clearTimeout(this._mouseIdleTimer);
+    }
+
+    attributeChangedCallback() {
+      if (this._canvas) {
+        this._canvas.style.width = this.designWidth + 'px';
+        this._canvas.style.height = this.designHeight + 'px';
+        this._canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+        this._canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+        this._fit();
+        this._syncPrintPageRule();
+      }
+    }
+
+    _render() {
+      const style = document.createElement('style');
+      style.textContent = stylesheet;
+
+      const stage = document.createElement('div');
+      stage.className = 'stage';
+
+      const canvas = document.createElement('div');
+      canvas.className = 'canvas';
+      canvas.style.width = this.designWidth + 'px';
+      canvas.style.height = this.designHeight + 'px';
+      canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+      canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+
+      const slot = document.createElement('slot');
+      slot.addEventListener('slotchange', this._onSlotChange);
+      canvas.appendChild(slot);
+      stage.appendChild(canvas);
+
+      // Tap zones (mobile): left third = back, right third = forward.
+      const tapzones = document.createElement('div');
+      tapzones.className = 'tapzones export-hidden';
+      tapzones.setAttribute('aria-hidden', 'true');
+      tapzones.setAttribute('data-noncommentable', '');
+      const tzBack = document.createElement('div');
+      tzBack.className = 'tapzone tapzone--back';
+      const tzMid = document.createElement('div');
+      tzMid.className = 'tapzone tapzone--mid';
+      tzMid.style.pointerEvents = 'none';
+      const tzFwd = document.createElement('div');
+      tzFwd.className = 'tapzone tapzone--fwd';
+      tzBack.addEventListener('click', this._onTapBack);
+      tzFwd.addEventListener('click', this._onTapForward);
+      tapzones.append(tzBack, tzMid, tzFwd);
+
+      // Overlay: compact, solid black, with clickable controls.
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay export-hidden';
+      overlay.setAttribute('role', 'toolbar');
+      overlay.setAttribute('aria-label', 'Deck controls');
+      overlay.setAttribute('data-noncommentable', '');
+      overlay.innerHTML = `
+        <button class="btn prev" type="button" aria-label="Previous slide" title="Previous (←)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+        </button>
+        <span class="count" aria-live="polite"><span class="current">1</span><span class="sep">/</span><span class="total">1</span></span>
+        <button class="btn next" type="button" aria-label="Next slide" title="Next (→)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+        <span class="divider"></span>
+        <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+      `;
+
+      overlay.querySelector('.prev').addEventListener('click', () => this._go(this._index - 1, 'click'));
+      overlay.querySelector('.next').addEventListener('click', () => this._go(this._index + 1, 'click'));
+      overlay.querySelector('.reset').addEventListener('click', () => this._go(0, 'click'));
+
+      this._root.append(style, stage, tapzones, overlay);
+      this._canvas = canvas;
+      this._slot = slot;
+      this._overlay = overlay;
+      this._countEl = overlay.querySelector('.current');
+      this._totalEl = overlay.querySelector('.total');
+    }
+
+    /** @page must live in the document stylesheet — it's a no-op inside
+     *  shadow DOM. Inject/update a single <head> style tag so the print
+     *  sheet matches the design size and Save-as-PDF yields one slide per
+     *  page with no margins. */
+    _syncPrintPageRule() {
+      const id = 'deck-stage-print-page';
+      let tag = document.getElementById(id);
+      if (!tag) {
+        tag = document.createElement('style');
+        tag.id = id;
+        document.head.appendChild(tag);
+      }
+      tag.textContent =
+        '@page { size: ' + this.designWidth + 'px ' + this.designHeight + 'px; margin: 0; } ' +
+        '@media print { html, body { margin: 0 !important; padding: 0 !important; background: none !important; overflow: visible !important; height: auto !important; } ' +
+        '* { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }';
+    }
+
+    _onSlotChange() {
+      this._collectSlides();
+      this._restoreIndex();
+      this._applyIndex({ showOverlay: false, broadcast: true, reason: 'init' });
+      this._fit();
+    }
+
+    _collectSlides() {
+      const assigned = this._slot.assignedElements({ flatten: true });
+      this._slides = assigned.filter((el) => {
+        // Skip template/style/script nodes even if someone slots them.
+        const tag = el.tagName;
+        return tag !== 'TEMPLATE' && tag !== 'SCRIPT' && tag !== 'STYLE';
+      });
+
+      this._slides.forEach((slide, i) => {
+        const n = i + 1;
+        // Determine a label for comment flow: prefer explicit data-label,
+        // then an existing data-screen-label, then first heading, else "Slide".
+        let label = slide.getAttribute('data-label');
+        if (!label) {
+          const existing = slide.getAttribute('data-screen-label');
+          if (existing) {
+            // Strip any leading number the author may have included.
+            label = existing.replace(/^\s*\d+\s*/, '').trim() || existing;
+          }
+        }
+        if (!label) {
+          const h = slide.querySelector('h1, h2, h3, [data-title]');
+          if (h) label = (h.textContent || '').trim().slice(0, 40);
+        }
+        if (!label) label = 'Slide';
+        slide.setAttribute('data-screen-label', `${pad2(n)} ${label}`);
+
+        // Validation attribute for comment flow / auto-checks.
+        if (!slide.hasAttribute('data-om-validate')) {
+          slide.setAttribute('data-om-validate', VALIDATE_ATTR);
+        }
+
+        slide.setAttribute('data-deck-slide', String(i));
+      });
+
+      if (this._totalEl) this._totalEl.textContent = String(this._slides.length || 1);
+      if (this._index >= this._slides.length) this._index = Math.max(0, this._slides.length - 1);
+    }
+
+    _loadNotes() {
+      const tag = document.getElementById('speaker-notes');
+      if (!tag) { this._notes = []; return; }
+      try {
+        const parsed = JSON.parse(tag.textContent || '[]');
+        if (Array.isArray(parsed)) this._notes = parsed;
+      } catch (e) {
+        console.warn('[deck-stage] Failed to parse #speaker-notes JSON:', e);
+        this._notes = [];
+      }
+    }
+
+    _restoreIndex() {
+      // The host's ?slide= param is delivered as a #<int> hash (1-indexed) on
+      // the iframe src. No hash → slide 1; the deck itself keeps no position
+      // state across loads.
+      const h = (location.hash || '').match(/^#(\d+)$/);
+      if (h) {
+        const n = parseInt(h[1], 10) - 1;
+        if (n >= 0 && n < this._slides.length) this._index = n;
+      }
+    }
+
+    _applyIndex({ showOverlay = true, broadcast = true, reason = 'init' } = {}) {
+      if (!this._slides.length) return;
+      const prev = this._prevIndex == null ? -1 : this._prevIndex;
+      const curr = this._index;
+      // Keep the iframe's own hash in sync so an in-iframe location.reload()
+      // (reload banner path in viewer-handle.ts) lands on the current slide,
+      // not the stale deep-link hash from initial load.
+      try { history.replaceState(null, '', '#' + (curr + 1)); } catch (e) {}
+      this._slides.forEach((s, i) => {
+        if (i === curr) s.setAttribute('data-deck-active', '');
+        else s.removeAttribute('data-deck-active');
+      });
+      if (this._countEl) this._countEl.textContent = String(curr + 1);
+
+      if (broadcast) {
+        // (1) Legacy: host-window postMessage for speaker-notes renderers.
+        try { window.postMessage({ slideIndexChanged: curr }, '*'); } catch (e) {}
+
+        // (2) In-page CustomEvent on the <deck-stage> element itself.
+        //     Bubbles and composes out of shadow DOM so slide code can listen:
+        //       document.querySelector('deck-stage').addEventListener('slidechange', e => {
+        //         e.detail.index, e.detail.previousIndex, e.detail.total, e.detail.slide, e.detail.reason
+        //       });
+        const detail = {
+          index: curr,
+          previousIndex: prev,
+          total: this._slides.length,
+          slide: this._slides[curr] || null,
+          previousSlide: prev >= 0 ? (this._slides[prev] || null) : null,
+          reason: reason, // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+        };
+        this.dispatchEvent(new CustomEvent('slidechange', {
+          detail,
+          bubbles: true,
+          composed: true,
+        }));
+      }
+
+      this._prevIndex = curr;
+      if (showOverlay) this._flashOverlay();
+    }
+
+    _flashOverlay() {
+      if (!this._overlay) return;
+      this._overlay.setAttribute('data-visible', '');
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      this._hideTimer = setTimeout(() => {
+        this._overlay.removeAttribute('data-visible');
+      }, OVERLAY_HIDE_MS);
+    }
+
+    _fit() {
+      if (!this._canvas) return;
+      // PPTX export sets noscale so the DOM capture sees authored-size
+      // geometry — the scaled canvas is in shadow DOM, so the exporter's
+      // resetTransformSelector can't reach .canvas.style.transform directly.
+      if (this.hasAttribute('noscale')) {
+        this._canvas.style.transform = 'none';
+        return;
+      }
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
+      this._canvas.style.transform = `scale(${s})`;
+    }
+
+    _onResize() { this._fit(); }
+
+    _onMouseMove() {
+      // Keep overlay visible while mouse moves; hide after idle.
+      this._flashOverlay();
+    }
+
+    _onTapBack(e) {
+      e.preventDefault();
+      this._go(this._index - 1, 'tap');
+    }
+
+    _onTapForward(e) {
+      e.preventDefault();
+      this._go(this._index + 1, 'tap');
+    }
+
+    _onKey(e) {
+      // Ignore when the user is typing.
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const key = e.key;
+      let handled = true;
+
+      if (key === 'ArrowRight' || key === 'PageDown' || key === ' ' || key === 'Spacebar') {
+        this._go(this._index + 1, 'keyboard');
+      } else if (key === 'ArrowLeft' || key === 'PageUp') {
+        this._go(this._index - 1, 'keyboard');
+      } else if (key === 'Home') {
+        this._go(0, 'keyboard');
+      } else if (key === 'End') {
+        this._go(this._slides.length - 1, 'keyboard');
+      } else if (key === 'r' || key === 'R') {
+        this._go(0, 'keyboard');
+      } else if (/^[0-9]$/.test(key)) {
+        // 1..9 jump to that slide; 0 jumps to 10.
+        const n = key === '0' ? 9 : parseInt(key, 10) - 1;
+        if (n < this._slides.length) this._go(n, 'keyboard');
+      } else {
+        handled = false;
+      }
+
+      if (handled) {
+        e.preventDefault();
+        this._flashOverlay();
+      }
+    }
+
+    _go(i, reason = 'api') {
+      if (!this._slides.length) return;
+      const clamped = Math.max(0, Math.min(this._slides.length - 1, i));
+      if (clamped === this._index) {
+        this._flashOverlay();
+        return;
+      }
+      this._index = clamped;
+      this._applyIndex({ showOverlay: true, broadcast: true, reason });
+    }
+
+    // Public API ------------------------------------------------------------
+
+    /** Current slide index (0-based). */
+    get index() { return this._index; }
+    /** Total slide count. */
+    get length() { return this._slides.length; }
+    /** Programmatically navigate. */
+    goTo(i) { this._go(i, 'api'); }
+    next() { this._go(this._index + 1, 'api'); }
+    prev() { this._go(this._index - 1, 'api'); }
+    reset() { this._go(0, 'api'); }
+  }
+
+  if (!customElements.get('deck-stage')) {
+    customElements.define('deck-stage', DeckStage);
+  }
+})();
+</script>
+<script>
+  // Gate motion to the active slide. deck-stage fires `slidechange` on init
+  // and on every navigation; we toggle `is-active` so CSS animations only run
+  // on the visible slide (and re-trigger when re-entering).
+  (() => {
+    const stage = document.querySelector('deck-stage');
+    if (!stage) return;
+    const apply = (slide) => {
+      stage.querySelectorAll('section.is-active').forEach(s => s.classList.remove('is-active'));
+      if (!slide) return;
+      void slide.offsetWidth; // force reflow so CSS animations restart cleanly
+      slide.classList.add('is-active');
+    };
+    stage.addEventListener('slidechange', (e) => apply(e.detail.slide));
+    requestAnimationFrame(() => {
+      apply(stage.querySelector('section[data-deck-active]') || stage.querySelector('section'));
+    });
+  })();
+
+  // Annotation popups — click a .note-ref to open its .note-body in a centered card.
+  (() => {
+    const ov = document.createElement('div');
+    ov.id = 'note-overlay';
+    ov.innerHTML = '<div class="note-card" role="dialog" aria-modal="true"><button class="note-close" aria-label="關閉">✕</button><div class="note-content"></div></div>';
+    document.body.appendChild(ov);
+    const content = ov.querySelector('.note-content');
+    const close = () => ov.classList.remove('open');
+    ov.addEventListener('click', (e) => { if (e.target === ov || e.target.closest('.note-close')) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); }, true);
+    document.addEventListener('click', (e) => {
+      const ref = e.target.closest('.note-ref'); if (!ref) return;
+      const body = ref.querySelector('.note-body'); if (!body) return;
+      e.preventDefault();
+      content.innerHTML = body.innerHTML;
+      ov.classList.add('open');
+    });
+  })();
+</script>
+</body>
+</html>
