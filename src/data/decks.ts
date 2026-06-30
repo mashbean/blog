@@ -96,7 +96,7 @@ export const decks: Deck[] = [
   {
     slug: "isf-0427",
     title: "How AI Agents Changed My Work and Life",
-    event: "ISF",
+    event: "International Strategic Forum · 國際戰略論壇",
     date: "2026-04-27",
     lang: "en",
   },
