@@ -1,0 +1,59 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import { formatDate } from "@/utils/date";
+import { withBase } from "@/utils/paths";
+import type { ResolvedDeck } from "@/data/decks";
+
+interface Props {
+  deck: ResolvedDeck;
+}
+
+const { deck } = Astro.props as Props;
+
+// Build-time check: only render the <img> if its thumbnail was generated.
+// Otherwise fall back to the gradient title card (same as PostCard's fallback).
+const thumbFsPath = path.join(process.cwd(), "public", deck.thumb.replace(/^\/+/, ""));
+const hasThumb = fs.existsSync(thumbFsPath);
+
+const isExternal = /^https?:\/\//.test(deck.url);
+const href = isExternal ? deck.url : withBase(deck.url);
+const thumbSrc = /^https?:\/\//.test(deck.thumb) ? deck.thumb : withBase(deck.thumb);
+const dateLabel = formatDate(new Date(`${deck.date}T00:00:00`));
+const langLabel = deck.lang === "en" ? "EN" : "中文";
+---
+
+<article class="post-card post-card-compact deck-card">
+  <a
+    class="post-card-thumb-link"
+    href={href}
+    target="_blank"
+    rel="noopener"
+    aria-hidden="true"
+    tabindex="-1"
+  >
+    {hasThumb ? (
+      <img
+        class="post-card-thumb"
+        src={thumbSrc}
+        alt={`${deck.title} 簡報首頁`}
+        loading="lazy"
+        decoding="async"
+      />
+    ) : (
+      <div class="post-card-thumb post-card-thumb-fallback post-card-thumb-fallback-compact">
+        <span class="post-card-thumb-badge">簡報</span>
+        <small>{deck.title}</small>
+      </div>
+    )}
+  </a>
+  <p class="post-card-meta">
+    <time datetime={deck.date}>{dateLabel}</time>
+    {deck.event && <>{" · "}{deck.event}</>}
+    {deck.location && <>{" · "}{deck.location}</>}
+    {" · "}<span class="deck-card-lang">{langLabel}</span>
+  </p>
+  <h2 class="post-card-title">
+    <a href={href} target="_blank" rel="noopener">{deck.title}</a>
+  </h2>
+</article>

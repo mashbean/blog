@@ -1,0 +1,28 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import DeckCard from "@/components/DeckCard.astro";
+import { getDecks } from "@/data/decks";
+
+const decks = getDecks();
+---
+
+<BaseLayout title="簡報 / Decks" description="豆泥（mashbean）在各場演講、課堂與工作坊的簡報與投影片彙整。">
+  <div class="home-section-head">
+    <h1 class="section-title" style="margin-top: 0;">簡報</h1>
+    <p class="home-section-meta">{decks.length} 份 · 各場演講、課堂與工作坊的投影片</p>
+  </div>
+
+  {
+    decks.length === 0 ? (
+      <p>目前還沒有簡報。</p>
+    ) : (
+      <ul class="post-list post-list-compact-grid" aria-label="簡報列表">
+        {decks.map((deck) => (
+          <li>
+            <DeckCard deck={deck} />
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</BaseLayout>
