@@ -30,11 +30,16 @@ export const getWeb3PublicConfig = (): Web3PublicConfig | null => {
   resolved = true;
 
   const issues: string[] = [];
-  const tipEnsName = (import.meta.env.PUBLIC_TIP_ENS_NAME ?? "").trim();
-  const tipAddressRaw = (import.meta.env.PUBLIC_TIP_ADDRESS ?? "").trim();
+  // Non-secret public defaults so the production build works with zero env /
+  // dashboard config (these match the values previously kept in CI). An
+  // explicitly-set env var always wins.
+  const tipEnsName = (import.meta.env.PUBLIC_TIP_ENS_NAME ?? "mashbean.eth").trim();
+  const tipAddressRaw = (
+    import.meta.env.PUBLIC_TIP_ADDRESS ?? "0xab51AD23d222fD0afB4e29F3244402af9aa3C420"
+  ).trim();
   const signerEnsNameRaw = (import.meta.env.PUBLIC_SIGNER_ENS_NAME ?? "").trim();
-  const rpcUrlRaw = (import.meta.env.PUBLIC_WEB3_RPC_URL ?? "").trim();
-  const chainIdRaw = (import.meta.env.PUBLIC_WEB3_CHAIN_ID ?? "").trim();
+  const rpcUrlRaw = (import.meta.env.PUBLIC_WEB3_RPC_URL ?? "https://ethereum.publicnode.com").trim();
+  const chainIdRaw = (import.meta.env.PUBLIC_WEB3_CHAIN_ID ?? "1").trim();
 
   if (!tipEnsName) issues.push("PUBLIC_TIP_ENS_NAME is missing");
   if (tipAddressRaw && !isAddressLike(tipAddressRaw)) {

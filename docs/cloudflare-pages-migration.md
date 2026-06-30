@@ -15,23 +15,14 @@
 
 ## 一次性設定
 
-### 1. 建置變數（Settings → Variables / 建置變數）
+### 1. 建置變數 —— 不用設了 ✅
 
-在 Cloudflare 專案 `mashbean-blog` 設定這些 **build 環境變數**（都不是機密）：
+`SITE_URL` 預設改成 `https://mashbean.net`、web3 那組公開值（`mashbean.eth`、公開打賞地址、
+public RPC、chain 1）都已當作預設寫進程式碼（`astro.config.ts`、`src/utils/web3Config.ts`），
+**所以 Cloudflare 不需要設任何建置變數**，`npm run build` 直接成功。env 有設仍以 env 為準。
 
-| 變數 | 值 |
-|---|---|
-| `SITE_URL` | `https://mashbean.net` |
-| `BASE_PATH` | `/` |
-| `PUBLIC_TIP_ENS_NAME` | `mashbean.eth` |
-| `PUBLIC_TIP_ADDRESS` | `0xab51AD23d222fD0afB4e29F3244402af9aa3C420` |
-| `PUBLIC_WEB3_CHAIN_ID` | `1` |
-| `PUBLIC_WEB3_RPC_URL` | `https://ethereum.publicnode.com` |
-| `BUILD_CONCURRENCY` | `4` |
-| `PUBLIC_PLAUSIBLE_DOMAIN` | `mashbean.net` |
-| `PUBLIC_PLAUSIBLE_SCRIPT_SRC` | `https://plausible.io/js/script.js` |
-
-沒設前兩個 + web3 那組，`npm run build` 會在 Web3TipJar 直接 crash。
+> 唯一可選：想要 Plausible 統計，再到 Settings 加 `PUBLIC_PLAUSIBLE_DOMAIN=mashbean.net`、
+> `PUBLIC_PLAUSIBLE_SCRIPT_SRC=https://plausible.io/js/script.js`（沒設只是沒統計，不會壞）。
 
 ### 2. 把程式碼合進 main
 
