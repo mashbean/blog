@@ -47,6 +47,7 @@ npm run lint         # check + format:check
 ```
 
 整理原則：
+
 - `src/content/blog/` 是文章唯一來源。
 - `dist/`、`node_modules/`、暫存與產物都不納入版本控制。
 - 測試/實驗頁不放在 `public/` 根目錄，避免誤上線。
@@ -77,6 +78,7 @@ tags: ["公共網路"]
 - 文章：`/blog/{year}/{monthday}-{code}/`
 
 SEO/機器可讀入口：
+
 - `sitemap-index.xml`
 - `rss.xml`
 - `llms.txt`
@@ -87,12 +89,15 @@ SEO/機器可讀入口：
 部署 workflow：`/Users/mashbean/Codex/.github/workflows/deploy.yml`
 
 必要條件：
+
 - GitHub Pages Source 設定為 `GitHub Actions`
 - push 到 `main` 觸發部署
 
 環境變數（GitHub Actions Variables）：
+
 - `PUBLIC_PLAUSIBLE_DOMAIN`（例如 `mashbean.net`）
 - `PUBLIC_PLAUSIBLE_SCRIPT_SRC`（例如 `https://plausible.io/js/script.js`）
+- `PUBLIC_TIP_ADDRESS`（可選；設定後 build 不需逐頁解析 `PUBLIC_TIP_ENS_NAME`）
 - `PUBLIC_SIGNER_ENS_NAME`（若啟用文章簽名驗證）
 - `ENABLE_IPFS_PUBLISH=true` 才會啟用 `Auto Publish IPFS + IPNS`
 
@@ -106,12 +111,14 @@ SEO/機器可讀入口：
 - Mermaid 圖表轉 PNG 備援：`npm run diagrams:build`（只掃 blog 可用 `npm run diagrams:build:blog`）
 
 發布新文章建議流程：
+
 1. 新增 `src/content/blog/*.md`
 2. 執行 `npm run cover:latest`（會自動套用目前封面 prompt、生成封面、裁切為 1200x630、壓縮為 JPG 並回寫 `cover`）
 3. 執行 `npm run sign:posts -- --file <你的檔名.md>`
 4. 執行 `npm run check`
 
 封面相關欄位：
+
 - `coverPrompt` 會直接覆蓋自動推導的 prompt
 - `coverNegativePrompt` 可補強避開元素
 - `coverPreset` 可指定 `editorialResearch` 或 `bolognaAnimals`
@@ -120,6 +127,7 @@ SEO/機器可讀入口：
 說明：`scripts/` 僅保留可重複執行、目前流程仍會用到的工具；一次性輸出報表與快取已排除追蹤。
 
 Mermaid 備援輸出位置：
+
 - 圖檔：`public/images/diagrams/...`
 - 清單：`public/images/diagrams/manifest.json`
 

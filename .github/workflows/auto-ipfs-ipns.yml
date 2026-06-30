@@ -24,6 +24,7 @@ jobs:
       SITE_URL: "https://mashbean.net"
       BASE_PATH: "/"
       PUBLIC_TIP_ENS_NAME: "mashbean.eth"
+      PUBLIC_TIP_ADDRESS: ${{ vars.PUBLIC_TIP_ADDRESS || '0xab51AD23d222fD0afB4e29F3244402af9aa3C420' }}
       PUBLIC_WEB3_CHAIN_ID: "1"
       PUBLIC_WEB3_RPC_URL: "https://ethereum.publicnode.com"
       WEB3_SIGNER_PRIVATE_KEY: ${{ secrets.WEB3_SIGNER_PRIVATE_KEY }}
