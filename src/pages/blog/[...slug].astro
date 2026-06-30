@@ -11,8 +11,9 @@ import { buildBlogPageData } from "@/utils/blogPageData";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
 import { verifyArticleSignature } from "@/utils/articleSignature";
 import { isWeb3FeatureEnabled, requireWeb3PublicConfig } from "@/utils/web3Config";
-import { resolveEnsProfile } from "@/utils/ens";
+import { resolveConfiguredEnsProfile } from "@/utils/ens";
 import Web3TipJar from "@/components/Web3TipJar.astro";
+import LegacyRedirect from "@/components/LegacyRedirect.astro";
 
 const blogPageDataPromise = buildBlogPageData({
   includeDrafts: !import.meta.env.PROD,
@@ -20,6 +21,7 @@ const blogPageDataPromise = buildBlogPageData({
 });
 
 export async function getStaticPaths() {
+  const includeLegacyPaths = process.env.FAST_BUILD !== "1";
   const { posts, contextById } = await buildBlogPageData({
     includeDrafts: !import.meta.env.PROD,
     includeFuture: !import.meta.env.PROD
@@ -28,7 +30,10 @@ export async function getStaticPaths() {
   return posts.flatMap((post) => {
     const canonical = getPostCanonicalPathSegment(post);
     const context = contextById.get(post.id)!;
-    return getPostPathCandidates(post, { includeVerboseLegacy: true }).map((segment) => ({
+    const pathCandidates = includeLegacyPaths
+      ? getPostPathCandidates(post, { includeVerboseLegacy: true })
+      : [canonical];
+    return pathCandidates.map((segment) => ({
       params: { slug: segment },
       props: {
         post,
@@ -50,25 +55,41 @@ const { post, isLegacyPath = false, newerPostId = null, olderPostId = null, rela
   relatedPostIds?: string[];
   classifiedCurrent: ClassifiedTags;
 };
-const { postsById } = await blogPageDataPromise;
-const { Content, headings } = await render(post);
+const postsById = !isLegacyPath
+  ? (await blogPageDataPromise).postsById
+  : new Map<string, CollectionEntry<"blog">>();
+let Content: any = null;
+let headings: { depth: number; slug: string; text: string }[] = [];
+if (!isLegacyPath) {
+  const renderedPost = await render(post);
+  Content = renderedPost.Content;
+  headings = renderedPost.headings;
+}
 const postTitle = cleanPostTitle(post.data.title);
-const signatureCheck = verifyArticleSignature(
-  {
-    slug: post.id,
-    title: post.data.title,
-    description: post.data.description,
-    pubDateISO: post.data.pubDate.toISOString(),
-    updatedDateISO: post.data.updatedDate?.toISOString(),
-    body: post.body ?? ""
-  },
-  {
-    contentHash: post.data.contentHash,
-    signature: post.data.signature,
-    signer: post.data.signer,
-    signatureVersion: post.data.signatureVersion
-  }
-);
+const signatureCheck = !isLegacyPath
+  ? verifyArticleSignature(
+      {
+        slug: post.id,
+        title: post.data.title,
+        description: post.data.description,
+        pubDateISO: post.data.pubDate.toISOString(),
+        updatedDateISO: post.data.updatedDate?.toISOString(),
+        body: post.body ?? ""
+      },
+      {
+        contentHash: post.data.contentHash,
+        signature: post.data.signature,
+        signer: post.data.signer,
+        signatureVersion: post.data.signatureVersion
+      }
+    )
+  : {
+      status: "unsigned" as const,
+      reason: "Legacy redirect",
+      computedHash: "",
+      recoveredAddress: null,
+      expectedSigner: null
+    };
 const signatureBadgeState =
   signatureCheck.status === "verified"
     ? "verified"
@@ -88,9 +109,11 @@ const signatureBadgeTitle =
       ? "此篇文章尚未簽名"
       : "簽名資料需更新";
 const signatureHash = post.data.contentHash ?? signatureCheck.computedHash;
-const web3Enabled = isWeb3FeatureEnabled();
+const web3Enabled = !isLegacyPath && isWeb3FeatureEnabled();
 const web3Config = web3Enabled ? requireWeb3PublicConfig() : null;
-const tipEnsProfile = web3Config ? await resolveEnsProfile(web3Config.tipEnsName) : null;
+const tipEnsProfile = web3Config
+  ? await resolveConfiguredEnsProfile(web3Config.tipEnsName, web3Config.tipAddress)
+  : null;
 const signerEnsName = web3Config?.signerEnsName ?? "";
 const signerEnsStatusText = signerEnsName
   ? signatureCheck.status === "verified"
@@ -99,7 +122,7 @@ const signerEnsStatusText = signerEnsName
       ? "未簽名"
       : "簽名異常"
   : "未設定";
-const resolvedCover = resolveCoverPath(post.data.cover);
+const resolvedCover = !isLegacyPath ? resolveCoverPath(post.data.cover) : null;
 const coverSrc = resolvedCover
   ? /^https?:\/\//.test(resolvedCover.primary)
     ? resolvedCover.primary
@@ -127,63 +150,62 @@ const coverURL = coverSrc
       : coverSrc
   : undefined;
 
-const readingMinutes = (() => {
-  const plain = (post.body ?? "")
-    .replace(/```[\s\S]*?```/g, " ")
-    .replace(/`[^`]*`/g, " ")
-    .replace(/<[^>]+>/g, " ")
-    .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ");
-  const latinWords = (plain.match(/[A-Za-z0-9_]+/g) ?? []).length;
-  const cjkChars = (plain.match(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u30FF]/g) ?? []).length;
-  const mixedWordCount = latinWords + cjkChars / 2;
-  return Math.max(1, Math.round(mixedWordCount / 220));
-})();
+const readingMinutes = !isLegacyPath
+  ? (() => {
+      const plain = (post.body ?? "")
+        .replace(/```[\s\S]*?```/g, " ")
+        .replace(/`[^`]*`/g, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ");
+      const latinWords = (plain.match(/[A-Za-z0-9_]+/g) ?? []).length;
+      const cjkChars = (plain.match(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u30FF]/g) ?? []).length;
+      const mixedWordCount = latinWords + cjkChars / 2;
+      return Math.max(1, Math.round(mixedWordCount / 220));
+    })()
+  : 0;
 
 const tocHeadings = headings.filter((item) => item.depth === 2 || item.depth === 3);
 
-const newerPost = newerPostId ? postsById.get(newerPostId) ?? null : null;
-const olderPost = olderPostId ? postsById.get(olderPostId) ?? null : null;
-const relatedPosts = relatedPostIds
-  .map((itemId) => postsById.get(itemId))
-  .filter((item): item is CollectionEntry<"blog"> => Boolean(item));
+const newerPost = !isLegacyPath && newerPostId ? postsById.get(newerPostId) ?? null : null;
+const olderPost = !isLegacyPath && olderPostId ? postsById.get(olderPostId) ?? null : null;
+const relatedPosts = !isLegacyPath
+  ? relatedPostIds
+      .map((itemId) => postsById.get(itemId))
+      .filter((item): item is CollectionEntry<"blog"> => Boolean(item))
+  : [];
 
-const articleStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: postTitle,
-  description: post.data.description,
-  inLanguage: post.data.lang ?? "zh-TW",
-  datePublished: post.data.pubDate.toISOString(),
-  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
-  author: {
-    "@type": "Person",
-    name: post.data.author ?? "Mashbean"
-  },
-  mainEntityOfPage: pageURL,
-  image: coverURL ? [coverURL] : undefined
-};
+const articleStructuredData = !isLegacyPath
+  ? {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: postTitle,
+      description: post.data.description,
+      inLanguage: post.data.lang ?? "zh-TW",
+      datePublished: post.data.pubDate.toISOString(),
+      dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+      author: {
+        "@type": "Person",
+        name: post.data.author ?? "Mashbean"
+      },
+      mainEntityOfPage: pageURL,
+      image: coverURL ? [coverURL] : undefined
+    }
+  : null;
 ---
 
-<BaseLayout
-  title={postTitle}
-  description={post.data.description}
-  canonicalURL={effectiveCanonicalURL}
-  ogImage={resolvedCover?.primary ?? post.data.cover}
-  ogType="article"
-  structuredData={isLegacyPath ? null : articleStructuredData}
-  isArticle={!isLegacyPath}
-  noindex={false}
->
-  {
-    isLegacyPath ? (
-      <section class="subscribe-panel">
-        <h1 class="section-title" style="margin-top: 0;">文章網址已更新</h1>
-        <p>你目前在舊連結，我們會自動導向新網址。</p>
-        <p>
-          若未自動跳轉，請點這裡：<a href={buildPostUrl(post)}>{buildPostUrl(post)}</a>
-        </p>
-      </section>
-    ) : (
+{
+  isLegacyPath ? (
+    <LegacyRedirect canonicalPath={buildPostUrl(post)} canonicalURL={canonicalPostURL} />
+  ) : (
+    <BaseLayout
+      title={postTitle}
+      description={post.data.description}
+      canonicalURL={effectiveCanonicalURL}
+      ogImage={resolvedCover?.primary ?? post.data.cover}
+      ogType="article"
+      structuredData={articleStructuredData}
+      isArticle={true}
+    >
   <article class="article-layout">
     <div class="article-main">
       <header class="article-header">
@@ -385,17 +407,7 @@ const articleStructuredData = {
       </div>
     </aside>
   </article>
-    )
-  }
-</BaseLayout>
-
-{
-  isLegacyPath && (
-    <script is:inline define:vars={{ canonicalPath: buildPostUrl(post) }}>
-      if (window.location.pathname !== canonicalPath) {
-        window.location.replace(canonicalPath);
-      }
-    </script>
+    </BaseLayout>
   )
 }
 

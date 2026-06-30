@@ -54,7 +54,7 @@ export const resolveEnsProfile = async (name: string): Promise<EnsResolution> =>
           reverseMatchesInput: false,
           isVerified: false,
           verificationCode: "unresolved",
-          verificationMessage: "ENS 名稱目前沒有綁定地址"
+          verificationMessage: "ENS 名稱目前沒有綁定地址",
         };
       }
 
@@ -90,7 +90,7 @@ export const resolveEnsProfile = async (name: string): Promise<EnsResolution> =>
         reverseMatchesInput,
         isVerified: forwardMatchesInput && reverseMatchesInput && reverseForwardMatches,
         verificationCode,
-        verificationMessage
+        verificationMessage,
       };
     } catch (error) {
       return {
@@ -102,11 +102,34 @@ export const resolveEnsProfile = async (name: string): Promise<EnsResolution> =>
         isVerified: false,
         verificationCode: "error",
         verificationMessage: "ENS 解析時發生錯誤",
-        error: error instanceof Error ? error.message : "Unknown ENS resolution error"
+        error: error instanceof Error ? error.message : "Unknown ENS resolution error",
       };
     }
   })();
 
   resolutionCache.set(normalizedInput, task);
   return task;
+};
+
+export const resolveConfiguredEnsProfile = async (
+  name: string,
+  configuredAddress?: string,
+): Promise<EnsResolution> => {
+  const normalizedInput = normalizeName(name);
+  const trimmedAddress = configuredAddress?.trim();
+
+  if (trimmedAddress && ethers.utils.isAddress(trimmedAddress)) {
+    return {
+      inputName: normalizedInput,
+      resolvedAddress: ethers.utils.getAddress(trimmedAddress),
+      reverseName: normalizedInput,
+      forwardMatchesInput: true,
+      reverseMatchesInput: true,
+      isVerified: true,
+      verificationCode: "verified",
+      verificationMessage: "使用建置設定的 ENS 收款地址",
+    };
+  }
+
+  return resolveEnsProfile(normalizedInput);
 };

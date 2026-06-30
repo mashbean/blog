@@ -1,0 +1,35 @@
+---
+// Minimal redirect stub for legacy URL aliases.
+// Intentionally does NOT use BaseLayout / Header / Footer / global.css / web fonts:
+// these pages exist only to bounce old URLs to the canonical one, and are never
+// actually seen by a human (the client-side redirect fires immediately, and the
+// meta refresh covers the no-JS case). Rendering the full layout for ~1,300 of
+// these stubs was the single largest chunk of CI build time, so keep them bare.
+interface Props {
+  /** Canonical path to redirect to, e.g. "/blog/2026/0417-xxxxxx/". */
+  canonicalPath: string;
+  /** Absolute canonical URL for <link rel="canonical">, if available. */
+  canonicalURL?: string;
+}
+
+const { canonicalPath, canonicalURL } = Astro.props as Props;
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, follow" />
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
+    <meta http-equiv="refresh" content={`0; url=${canonicalPath}`} />
+    <title>文章網址已更新</title>
+    <script is:inline define:vars={{ canonicalPath }}>
+      if (window.location.pathname !== canonicalPath) {
+        window.location.replace(canonicalPath);
+      }
+    </script>
+  </head>
+  <body data-pagefind-ignore>
+    <p>文章網址已更新，<a href={canonicalPath}>點此前往新網址</a>。</p>
+  </body>
+</html>
