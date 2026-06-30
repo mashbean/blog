@@ -42,7 +42,6 @@
     "images:batch:openai": "node scripts/batch-generate-images-openai.mjs",
     "images:batch:openai:dry": "node scripts/batch-generate-images-openai.mjs --dry-run",
     "cover:latest": "node scripts/generate-latest-cover-openai.mjs",
-    "decks:thumbs": "node scripts/screenshot-decks.mjs",
     "diagrams:build": "node scripts/export-mermaid-diagrams.mjs",
     "diagrams:build:blog": "node scripts/export-mermaid-diagrams.mjs --collection=blog",
     "publish:post": "node scripts/publish-post.mjs",

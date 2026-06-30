@@ -16,7 +16,7 @@ const decks = getDecks();
     decks.length === 0 ? (
       <p>目前還沒有簡報。</p>
     ) : (
-      <ul class="post-list post-list-compact-grid" aria-label="簡報列表">
+      <ul class="deck-list" aria-label="簡報列表">
         {decks.map((deck) => (
           <li>
             <DeckCard deck={deck} />
@@ -26,3 +26,14 @@ const decks = getDecks();
     )
   }
 </BaseLayout>
+
+<style>
+  .deck-list {
+    list-style: none;
+    margin: 1.2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+</style>

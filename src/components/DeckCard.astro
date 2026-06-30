@@ -1,6 +1,4 @@
 ---
-import fs from "node:fs";
-import path from "node:path";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import type { ResolvedDeck } from "@/data/decks";
@@ -11,49 +9,102 @@ interface Props {
 
 const { deck } = Astro.props as Props;
 
-// Build-time check: only render the <img> if its thumbnail was generated.
-// Otherwise fall back to the gradient title card (same as PostCard's fallback).
-const thumbFsPath = path.join(process.cwd(), "public", deck.thumb.replace(/^\/+/, ""));
-const hasThumb = fs.existsSync(thumbFsPath);
-
 const isExternal = /^https?:\/\//.test(deck.url);
 const href = isExternal ? deck.url : withBase(deck.url);
-const thumbSrc = /^https?:\/\//.test(deck.thumb) ? deck.thumb : withBase(deck.thumb);
 const dateLabel = formatDate(new Date(`${deck.date}T00:00:00`));
 const langLabel = deck.lang === "en" ? "EN" : "中文";
 ---
 
-<article class="post-card post-card-compact deck-card">
-  <a
-    class="post-card-thumb-link"
-    href={href}
-    target="_blank"
-    rel="noopener"
-    aria-hidden="true"
-    tabindex="-1"
-  >
-    {hasThumb ? (
-      <img
-        class="post-card-thumb"
-        src={thumbSrc}
-        alt={`${deck.title} 簡報首頁`}
-        loading="lazy"
-        decoding="async"
-      />
-    ) : (
-      <div class="post-card-thumb post-card-thumb-fallback post-card-thumb-fallback-compact">
-        <span class="post-card-thumb-badge">簡報</span>
-        <small>{deck.title}</small>
-      </div>
-    )}
-  </a>
-  <p class="post-card-meta">
-    <time datetime={deck.date}>{dateLabel}</time>
-    {deck.event && <>{" · "}{deck.event}</>}
-    {deck.location && <>{" · "}{deck.location}</>}
-    {" · "}<span class="deck-card-lang">{langLabel}</span>
-  </p>
-  <h2 class="post-card-title">
-    <a href={href} target="_blank" rel="noopener">{deck.title}</a>
-  </h2>
-</article>
+<a class="deck-row" href={href} target="_blank" rel="noopener">
+  <time class="deck-row-date" datetime={deck.date}>{dateLabel}</time>
+  <span class="deck-row-body">
+    <span class="deck-row-title">{deck.title}</span>
+    <span class="deck-row-meta">
+      {deck.event && <span class="deck-row-event">{deck.event}</span>}
+      {deck.location && <span>{deck.location}</span>}
+      <span class="deck-row-lang">{langLabel}</span>
+    </span>
+  </span>
+  <span class="deck-row-arrow" aria-hidden="true">↗</span>
+</a>
+
+<style>
+  .deck-row {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-md);
+    padding: 0.85rem 1.1rem;
+    background: var(--color-surface-elevated);
+    text-decoration: none;
+    color: inherit;
+    transition:
+      border-color 0.16s ease,
+      box-shadow 0.16s ease,
+      background 0.16s ease;
+  }
+  .deck-row:hover {
+    border-color: var(--color-border-strong);
+    box-shadow: 0 7px 18px rgba(16, 48, 55, 0.08);
+    background: var(--color-surface-muted);
+  }
+  .deck-row-date {
+    flex: 0 0 auto;
+    min-width: 6.5em;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .deck-row-body {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 0.28rem;
+    min-width: 0;
+  }
+  .deck-row-title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: 1.08rem;
+    line-height: 1.35;
+    color: var(--color-ink);
+  }
+  .deck-row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.6rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+  .deck-row-lang {
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--radius-pill);
+    padding: 0 0.5em;
+    font-size: 0.78rem;
+  }
+  .deck-row-arrow {
+    flex: 0 0 auto;
+    align-self: center;
+    color: var(--color-muted);
+    transition: color 0.16s ease, transform 0.16s ease;
+  }
+  .deck-row:hover .deck-row-arrow {
+    color: var(--color-accent);
+    transform: translate(2px, -2px);
+  }
+  @media (max-width: 640px) {
+    .deck-row {
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: stretch;
+    }
+    .deck-row-date {
+      min-width: 0;
+      order: -1;
+    }
+    .deck-row-arrow {
+      display: none;
+    }
+  }
+</style>

@@ -1,18 +1,20 @@
-// Source of truth for the /decks/ index. Decks are static HTML under
+// Source of truth for the /decks/ index. Decks are static presentations under
 // public/decks/<slug>/ and carry no structured metadata, so titles / events /
 // dates are maintained here by hand. Pre-filled from each deck's <title>, the
 // slug, and the git add-date — refine `event`, `location`, and `date` as needed
 // (dates for the g0v/TWIGF/TWNIC talks are approximate add-dates).
 //
-// Add a new deck: drop it in public/decks/<slug>/, add an entry here, then run
-// `npm run decks:thumbs` to generate its thumbnail.
+// The index renders text-only cards (no thumbnails). For acronym events
+// (TWIGF/TWNIC/…) include the Chinese name in `event` when there is one.
+//
+// Add a new deck: drop it in public/decks/<slug>/, then add an entry here.
 
 export interface Deck {
   /** Folder under public/decks/, e.g. "Prof-Hu-Class-0526". */
   slug: string;
   /** Clean talk title (without the ·event·date suffix). */
   title: string;
-  /** Occasion / host, shown under the title. */
+  /** Occasion / host, shown under the title (bilingual where applicable). */
   event?: string;
   /** ISO date, used for sort + display. */
   date: string;
@@ -21,8 +23,6 @@ export interface Deck {
   lang: "zh-Hant" | "en";
   /** Link target; defaults to `/decks/<slug>/`. */
   url?: string;
-  /** Thumbnail; defaults to `/images/decks/<slug>.jpg`. */
-  thumb?: string;
   featured?: boolean;
   /** Hidden in production (e.g. test decks). */
   draft?: boolean;
@@ -34,13 +34,6 @@ export const decks: Deck[] = [
     title: "AI、工作與能動性",
     event: "文化前線 II 讀書會",
     date: "2026-06-28",
-    lang: "zh-Hant",
-  },
-  {
-    slug: "ai-work-agency-reading",
-    title: "AI、工作焦慮與能動性",
-    event: "文化前線 II 讀書會",
-    date: "2026-06-17",
     lang: "zh-Hant",
   },
   {
@@ -82,21 +75,21 @@ export const decks: Deck[] = [
   {
     slug: "twigf-2026-pre-alignment",
     title: "AI Agent 與 Digital Twin 進入開放網路後的身分識別",
-    event: "TWIGF 2026",
+    event: "TWIGF 2026 · 台灣網路治理論壇",
     date: "2026-05-04",
     lang: "zh-Hant",
   },
   {
     slug: "twigf-2026-matters",
-    title: "會前討論簡報",
-    event: "TWIGF 2026",
+    title: "平台使用者是商品、是消費者、還是公民？",
+    event: "TWIGF 2026 · 台灣網路治理論壇",
     date: "2026-05-04",
     lang: "zh-Hant",
   },
   {
     slug: "twnic-2026-newcomers",
     title: "網路治理的世界中，誰是新血？",
-    event: "TWNIC Engagement Forum 2026 · Opening",
+    event: "TWNIC Engagement Forum 2026 · 台灣網路資訊中心",
     date: "2026-05-04",
     lang: "zh-Hant",
   },
@@ -111,17 +104,15 @@ export const decks: Deck[] = [
 
 export interface ResolvedDeck extends Deck {
   url: string;
-  thumb: string;
 }
 
-/** Decks sorted newest-first, with url/thumb defaults filled; drafts dropped in prod. */
+/** Decks sorted newest-first, with url defaults filled; drafts dropped in prod. */
 export const getDecks = (): ResolvedDeck[] =>
   decks
-    .filter((deck) => import.meta.env.PROD ? !deck.draft : true)
+    .filter((deck) => (import.meta.env.PROD ? !deck.draft : true))
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date))
     .map((deck) => ({
       ...deck,
       url: deck.url ?? `/decks/${deck.slug}/`,
-      thumb: deck.thumb ?? `/images/decks/${deck.slug}.jpg`,
     }));
