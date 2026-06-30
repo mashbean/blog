@@ -100,6 +100,23 @@ export const decks: Deck[] = [
     date: "2026-04-27",
     lang: "en",
   },
+  {
+    // Lives under /blog/, not /decks/ — needs a url override.
+    slug: "allen-lab-share-0417-zh",
+    title: "從國家證件到公民證明",
+    event: "Harvard Ash Center · Allen Lab Fellow Meeting",
+    date: "2026-04-17",
+    lang: "zh-Hant",
+    url: "/blog/allen-lab-share-0417-zh/",
+  },
+  {
+    slug: "allen-lab-share-0417-en",
+    title: "From State Credentials to Civic Proofs",
+    event: "Harvard Ash Center · Allen Lab Fellow Meeting",
+    date: "2026-04-17",
+    lang: "en",
+    url: "/blog/allen-lab-share-0417-en/",
+  },
 ];
 
 export interface ResolvedDeck extends Deck {
