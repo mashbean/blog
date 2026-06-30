@@ -31,7 +31,7 @@ export interface Deck {
 export const decks: Deck[] = [
   {
     slug: "ai-work-agency-reading-1",
-    title: "AI、工作與能動性",
+    title: "在被 AI 離職與焦慮之間，選擇躺平",
     event: "文化前線 II 讀書會",
     date: "2026-06-28",
     lang: "zh-Hant",
@@ -67,8 +67,8 @@ export const decks: Deck[] = [
   },
   {
     slug: "g0v-summit-2026-matters",
-    title: "Matters 工作坊",
-    event: "g0v Summit 2026",
+    title: "平台使用者是商品、是消費者、還是公民？",
+    event: "g0v Summit 2026 · Matters 工作坊",
     date: "2026-05-22",
     lang: "zh-Hant",
   },
