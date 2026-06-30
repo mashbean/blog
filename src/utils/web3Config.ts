@@ -1,5 +1,6 @@
 export interface Web3PublicConfig {
   tipEnsName: string;
+  tipAddress?: string;
   signerEnsName: string;
   rpcUrl: string;
   chainId: number;
@@ -21,6 +22,8 @@ export const isWeb3FeatureEnabled = (): boolean =>
 const formatConfigError = (issues: string[]): string =>
   `Invalid Web3 public config: ${issues.join("; ")}. Required env: PUBLIC_TIP_ENS_NAME, PUBLIC_WEB3_RPC_URL, PUBLIC_WEB3_CHAIN_ID.`;
 
+const isAddressLike = (value: string): boolean => /^0x[a-fA-F0-9]{40}$/.test(value);
+
 export const getWeb3PublicConfig = (): Web3PublicConfig | null => {
   if (!isWeb3FeatureEnabled()) return null;
   if (resolved) return cached;
@@ -28,11 +31,15 @@ export const getWeb3PublicConfig = (): Web3PublicConfig | null => {
 
   const issues: string[] = [];
   const tipEnsName = (import.meta.env.PUBLIC_TIP_ENS_NAME ?? "").trim();
+  const tipAddressRaw = (import.meta.env.PUBLIC_TIP_ADDRESS ?? "").trim();
   const signerEnsNameRaw = (import.meta.env.PUBLIC_SIGNER_ENS_NAME ?? "").trim();
   const rpcUrlRaw = (import.meta.env.PUBLIC_WEB3_RPC_URL ?? "").trim();
   const chainIdRaw = (import.meta.env.PUBLIC_WEB3_CHAIN_ID ?? "").trim();
 
   if (!tipEnsName) issues.push("PUBLIC_TIP_ENS_NAME is missing");
+  if (tipAddressRaw && !isAddressLike(tipAddressRaw)) {
+    issues.push(`PUBLIC_TIP_ADDRESS must be a 0x-prefixed address (got "${tipAddressRaw}")`);
+  }
   if (!rpcUrlRaw) issues.push("PUBLIC_WEB3_RPC_URL is missing");
   if (!chainIdRaw) issues.push("PUBLIC_WEB3_CHAIN_ID is missing");
   if (issues.length > 0) return null;
@@ -58,9 +65,10 @@ export const getWeb3PublicConfig = (): Web3PublicConfig | null => {
 
   cached = {
     tipEnsName: tipEnsName.toLowerCase(),
+    tipAddress: tipAddressRaw || undefined,
     signerEnsName: (signerEnsNameRaw || tipEnsName).toLowerCase(),
     rpcUrl: trimTrailingSlash(rpcUrl.toString()),
-    chainId
+    chainId,
   };
 
   return cached;
@@ -74,11 +82,15 @@ export const requireWeb3PublicConfig = (): Web3PublicConfig => {
   if (cfg) return cfg;
 
   const tipEnsName = (import.meta.env.PUBLIC_TIP_ENS_NAME ?? "").trim();
+  const tipAddressRaw = (import.meta.env.PUBLIC_TIP_ADDRESS ?? "").trim();
   const rpcUrlRaw = (import.meta.env.PUBLIC_WEB3_RPC_URL ?? "").trim();
   const chainIdRaw = (import.meta.env.PUBLIC_WEB3_CHAIN_ID ?? "").trim();
   const issues: string[] = [];
 
   if (!tipEnsName) issues.push("PUBLIC_TIP_ENS_NAME is missing");
+  if (tipAddressRaw && !isAddressLike(tipAddressRaw)) {
+    issues.push(`PUBLIC_TIP_ADDRESS must be a 0x-prefixed address (got "${tipAddressRaw}")`);
+  }
   if (!rpcUrlRaw) issues.push("PUBLIC_WEB3_RPC_URL is missing");
   if (!chainIdRaw) issues.push("PUBLIC_WEB3_CHAIN_ID is missing");
 

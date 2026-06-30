@@ -3,6 +3,7 @@
 interface ImportMetaEnv {
   readonly PUBLIC_ENABLE_WEB3?: string;
   readonly PUBLIC_TIP_ENS_NAME: string;
+  readonly PUBLIC_TIP_ADDRESS?: string;
   readonly PUBLIC_SIGNER_ENS_NAME?: string;
   readonly PUBLIC_WEB3_RPC_URL: string;
   readonly PUBLIC_WEB3_CHAIN_ID: string;
