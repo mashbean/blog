@@ -1,8 +1,9 @@
 name: Deploy Astro to GitHub Pages (User/Org)
 
+# RETIRED: mashbean.net is served by Cloudflare (Workers) via Git integration.
+# This workflow no longer auto-deploys on push — kept as a manual-only fallback
+# in case we ever need to bring GitHub Pages back. Run it from the Actions tab.
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:
