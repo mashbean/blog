@@ -1,0 +1,96 @@
+name: Deploy to Cloudflare Pages
+
+# Migration target: replaces the GitHub Pages deploy (deploy.yml) once verified.
+#
+# Trigger is workflow_dispatch ONLY for now so it does not race the existing
+# GitHub Pages deploy. Cutover sequence (see docs/cloudflare-pages-migration.md):
+#   1. Create the Pages project + add the two repo secrets below.
+#   2. Run this workflow manually, verify the *.pages.dev URL.
+#   3. Add mashbean.net as a custom domain on the Pages project.
+#   4. Swap the trigger to `push: branches: [main]` and disable deploy.yml.
+on:
+  workflow_dispatch:
+  # Temporary: auto-run on the migration branch for a safe PREVIEW deploy.
+  # Does NOT touch main / GitHub Pages. Remove this branch entry at cutover and
+  # switch to `branches: ["main"]`.
+  push:
+    branches: ["cf-pages-migration"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "cf-pages-${{ github.ref }}"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: "https://mashbean.net"
+      BASE_PATH: "/"
+      PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.PUBLIC_PLAUSIBLE_DOMAIN }}
+      PUBLIC_PLAUSIBLE_SCRIPT_SRC: ${{ vars.PUBLIC_PLAUSIBLE_SCRIPT_SRC }}
+      PUBLIC_TIP_ENS_NAME: "mashbean.eth"
+      PUBLIC_TIP_ADDRESS: ${{ vars.PUBLIC_TIP_ADDRESS || '0xab51AD23d222fD0afB4e29F3244402af9aa3C420' }}
+      PUBLIC_SIGNER_ENS_NAME: ${{ vars.PUBLIC_SIGNER_ENS_NAME }}
+      PUBLIC_WEB3_CHAIN_ID: "1"
+      PUBLIC_WEB3_RPC_URL: "https://ethereum.publicnode.com"
+      BUILD_CONCURRENCY: "4"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Restore Astro build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .astro
+            node_modules/.astro
+            node_modules/.vite
+          key: astro-cache-${{ runner.os }}-${{ hashFiles('src/content/**', 'src/**/*.astro', 'astro.config.ts') }}
+          restore-keys: |
+            astro-cache-${{ runner.os }}-
+
+      - name: Verify post signatures
+        continue-on-error: true
+        run: npm run sign:posts:check
+
+      - name: Check cover image sizes
+        run: npm run check:covers
+
+      - name: Build Astro
+        run: npm run build
+
+      # Idempotent: creates the project in the account that owns the API token
+      # on first run, no-ops afterwards. Removes the need to pre-create it in
+      # the dashboard and guarantees the correct account.
+      - name: Ensure Pages project exists
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npx --yes wrangler@4 pages project create mashbean-blog \
+            --production-branch=main || echo "Project already exists — continuing."
+
+      # wrangler uploads only the files whose content hash changed, so the
+      # deploy is incremental even though the build is full. main -> production,
+      # any other branch -> a preview deployment with its own URL.
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy dist
+            --project-name=mashbean-blog
+            --branch=${{ github.head_ref || github.ref_name }}

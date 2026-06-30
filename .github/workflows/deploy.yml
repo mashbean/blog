@@ -23,9 +23,13 @@ jobs:
       PUBLIC_PLAUSIBLE_DOMAIN: ${{ vars.PUBLIC_PLAUSIBLE_DOMAIN }}
       PUBLIC_PLAUSIBLE_SCRIPT_SRC: ${{ vars.PUBLIC_PLAUSIBLE_SCRIPT_SRC }}
       PUBLIC_TIP_ENS_NAME: "mashbean.eth"
+      PUBLIC_TIP_ADDRESS: ${{ vars.PUBLIC_TIP_ADDRESS || '0xab51AD23d222fD0afB4e29F3244402af9aa3C420' }}
       PUBLIC_SIGNER_ENS_NAME: ${{ vars.PUBLIC_SIGNER_ENS_NAME }}
       PUBLIC_WEB3_CHAIN_ID: "1"
       PUBLIC_WEB3_RPC_URL: "https://ethereum.publicnode.com"
+      # Render pages in parallel to overlap per-page latency on the 2-core
+      # runner. Lower this if the build OOMs or slows down.
+      BUILD_CONCURRENCY: "4"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,7 +44,23 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
+
+      # Persist Astro's content/render cache across runs. With restore-keys the
+      # previous cache is reused even when content changed, so only changed
+      # posts re-render instead of all ~1,200 pages — the practical "only
+      # rebuild what changed" win. Restored AFTER npm ci because that wipes
+      # node_modules (where node_modules/.astro lives).
+      - name: Restore Astro build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .astro
+            node_modules/.astro
+            node_modules/.vite
+          key: astro-cache-${{ runner.os }}-${{ hashFiles('src/content/**', 'src/**/*.astro', 'astro.config.ts') }}
+          restore-keys: |
+            astro-cache-${{ runner.os }}-
 
       - name: Verify post signatures
         continue-on-error: true
