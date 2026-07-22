@@ -58,6 +58,8 @@
   .card{background:var(--paper);border:2px solid var(--ink);padding:38px 42px;display:flex;flex-direction:column;gap:14px;}
   .bg-ink .card{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.3);}
   .card h3{font-size:37px;line-height:1.3;}
+  .compact .card{padding:26px 30px;gap:10px;}
+  .compact .card .body{font-size:23.5px;line-height:1.58;}
   .card .body{font-size:27px;line-height:1.66;}
   .idx{font-family:var(--font-mono);font-size:22px;letter-spacing:0.12em;color:var(--purple);font-weight:700;}
   .bg-ink .idx{color:var(--lime);}
@@ -102,7 +104,7 @@
 
   /* footprint chain (SVG-ish flow with animated arrows) */
   .chain{display:flex;align-items:stretch;gap:0;margin-top:36px;}
-  .chain .node{flex:1;background:var(--paper);border:2.5px solid var(--ink);border-radius:8px;padding:24px 20px;display:flex;flex-direction:column;gap:8px;min-width:0;}
+  .chain .node{flex:1;background:var(--paper);border:2.5px solid var(--ink);color:var(--ink);border-radius:8px;padding:24px 20px;display:flex;flex-direction:column;gap:8px;min-width:0;}
   .chain .node .who{font-family:var(--font-display);font-size:27px;}
   .chain .node .sees{font-size:20px;line-height:1.5;opacity:0.8;}
   .chain .arr{display:flex;align-items:center;padding:0 10px;font-size:30px;color:var(--purple);flex:0 0 auto;}
@@ -228,7 +230,7 @@
 <section class="slide bg-subtle" data-label="三種角色">
   <p class="eyebrow">分析框架</p>
   <h2 class="title" style="margin-top:30px;">同一段旅程上的三種角色</h2>
-  <p class="body" style="margin-top:26px;max-width:1500px;">接下來我們用服務設計常用的<span class="note-ref">使用者旅程地圖<span class="note-tag">註</span><span class="note-body"><span class="nk">方法說明</span><span class="nh">為什麼用旅程地圖談資安</span><span class="np">使用者旅程地圖（user journey map）原本是服務設計的工具，把一段服務經驗拆成先後的接觸點，逐站檢視使用者在做什麼、系統在做什麼。把它借來談數位安全，好處是風險不再是一張抽象的工具清單，而是跟著具體行為走：每一站你做了什麼、誰在旁邊看、留下了什麼。</span><span class="np">本場演講把一篇敏感報導的生命週期拆成五站，每一站都同時標出三種角色的視角，對策也依站配置，方便回去之後按站檢查自己的工作流程。</span></span></span>，把一篇敏感報導從構思到收款的生命週期拆成五站。地圖上每一站，都有三種角色同時在場。</p>
+  <p class="body" style="margin-top:26px;max-width:1500px;">接下來我們用服務設計常用的<span class="note-ref">使用者旅程地圖<span class="note-tag">註</span><span class="note-body"><span class="nk">方法說明</span><span class="nh">為什麼用旅程地圖談資安</span><span class="np">使用者旅程地圖（user journey map）原本是服務設計的工具，把一段服務經驗拆成先後的接觸點，逐站檢視使用者在做什麼、系統在做什麼。把它借來談數位安全，好處是風險的討論跟著具體行為走，每一站你做了什麼、誰在旁邊看、留下了什麼，一站一站攤開來看。</span><span class="np">本場演講把一篇敏感報導的生命週期拆成五站，每一站都同時標出三種角色的視角，對策也依站配置，方便回去之後按站檢查自己的工作流程。</span></span></span>，把一篇敏感報導從構思到收款的生命週期拆成五站。地圖上每一站，都有三種角色同時在場。</p>
   <div class="grid-3" style="margin-top:44px;">
     <div class="actor" data-anim="slide-l" style="--d:.2s;">
       <span class="en">ACTOR</span><h3>行動者</h3>
@@ -342,15 +344,15 @@
 <section class="slide bg-cream" data-label="STOP3 上稿">
   <p class="eyebrow">STOP 03 · 上稿</p>
   <h2 class="title" style="margin-top:24px;">檔案比文章多說了很多話</h2>
-  <p class="body" style="margin-top:26px;max-width:1560px;">一張照片除了畫面，還帶著拍攝座標、時間與機型；一份文件除了內容，還帶著作者名稱與修改紀錄。文章發出去之後，這些附著在檔案上的線索也一起出去了，而且文章一旦進入 <span class="note-ref">IPFS、搜尋引擎或他人的備份<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 03 · 可撤回性</span><span class="nh">發布是一扇單向門</span><span class="np">Matters 的文章會進入 IPFS 分散式網路，這是平台抗審查設計的一部分：單一前端被封鎖，內容仍然存在。同一個設計反過來也意味著，刪除平台上的原頁，收不回已經散布出去的副本；搜尋引擎快取、讀者的離線備份、他站轉貼同樣如此。</span><span class="np">因此上稿前的判斷，要把「這段內容可以被長期公開保存嗎」納進來。保護消息來源的細節，在按下發布之前處理，永遠比事後補救有效。</span></span></span>，刪除原頁也收不回所有副本。</p>
-  <div class="grid-3" style="margin-top:40px;">
+  <p class="body" style="margin-top:18px;max-width:1560px;">一張照片除了畫面，還帶著拍攝座標與機型；一份文件除了內容，還帶著作者欄位與修改紀錄。這些線索會跟著文章一起出門，而且文章一旦進入 <span class="note-ref">IPFS、搜尋引擎或他人的備份<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 03 · 可撤回性</span><span class="nh">發布是一扇單向門</span><span class="np">Matters 的文章會進入 IPFS 分散式網路，這是平台抗審查設計的一部分：單一前端被封鎖，內容仍然存在。同一個設計反過來也意味著，刪除平台上的原頁，收不回已經散布出去的副本；搜尋引擎快取、讀者的離線備份、他站轉貼同樣如此。</span><span class="np">因此上稿前的判斷，要把「這段內容可以被長期公開保存嗎」納進來。保護消息來源的細節，在按下發布之前處理，永遠比事後補救有效。</span></span></span>，刪除原頁也收不回所有副本。</p>
+  <div class="grid-3 compact" style="margin-top:22px;">
     <div class="card" data-anim="fade-up" style="--d:.2s;"><span class="idx">照片與影像</span><p class="body">EXIF 座標、拍攝時間、機型；畫面背景裡的門牌、反光、票據與工作環境。</p></div>
     <div class="card" data-anim="fade-up" style="--d:.35s;"><span class="idx">文件</span><p class="body">作者欄位、公司名稱、修訂歷程、隱藏的批註與追蹤修訂。</p></div>
     <div class="card" data-anim="fade-up" style="--d:.5s;"><span class="idx">行為</span><p class="body">草稿版本、發稿時間規律、引文細節，都可能反向指認消息來源。</p></div>
   </div>
-  <div class="grid-2" style="margin-top:36px;">
-    <div class="card"><span class="idx">平台能做的</span><p class="body">在架構層減少非必要的保存，並把「發布之後收不回」誠實寫進指南，而不是留給發表者事後發現。</p></div>
-    <div class="card"><span class="idx">發表者能做的</span><p class="body">上傳前清除中繼資料，請不熟悉案件的人做一次來源識別檢查，發布前想清楚哪些內容承受得起長期公開。</p></div>
+  <div class="grid-2 compact" style="margin-top:20px;">
+    <div class="card"><span class="idx">平台能做的</span><p class="body">在架構層減少非必要的保存，並把「發布之後收不回」誠實寫進指南。</p></div>
+    <div class="card"><span class="idx">發表者能做的</span><p class="body">上傳前清除中繼資料，請不熟悉案件的人做一次來源識別檢查。</p></div>
   </div>
   <div class="jmini">
     <div class="chip"><span class="no">01</span><span class="nm">查資料</span></div>
@@ -366,7 +368,7 @@
 <section class="slide bg-subtle" data-label="STOP4 發布之後">
   <p class="eyebrow">STOP 04 · 發布之後</p>
   <h2 class="title" style="margin-top:24px;">當政府公文送到平台信箱</h2>
-  <p class="body" style="margin-top:24px;max-width:1560px;">文章發布之後，壓力會轉向平台。平台收到政府資料調閱公文時的處理順序，決定了發表者在這一站的安全。業界成熟的作法大致分四步，其中真正的防線藏在第三步。</p>
+  <p class="body" style="margin-top:24px;max-width:1560px;">稿子發出去之後，劇情多半轉到發表者看不到的地方。政府資料調閱公文寄達的是平台的信箱，平台怎麼接招，就決定了發表者在這一站的安全。業界成熟的接招方式大致是這四步。</p>
   <div class="chain" style="margin-top:36px;">
     <div class="node" data-anim="pop" style="--d:.15s;"><span class="who">① 形式審查</span><span class="sees">公文是否具法律效力、管轄權是否及於平台註冊地</span></div>
     <div class="arr" data-loop="arrow">→</div>
@@ -406,16 +408,16 @@
 <section class="slide bg-purple" data-label="數位衛生">
   <p class="eyebrow">第二部分</p>
   <h1 class="title-lg" style="margin-top:auto;">數位衛生<span class="accent">，</span><br>發表者這一側的日常</h1>
-  <p class="body-lg" style="margin-top:44px;margin-bottom:auto;max-width:1400px;">平台能做的有其極限，剩下的部分回到發表者手上。數位衛生（digital hygiene）這個說法的重點在於「衛生」二字：它不要求任何人成為資安專家，它要求的是像刷牙一樣的日常維護。</p>
+  <p class="body-lg" style="margin-top:44px;margin-bottom:auto;max-width:1400px;">前半場談的是平台端的責任，後半場輪到發表者自己的日常。數位衛生（digital hygiene）這個說法的重點在「衛生」二字，它要求的是像刷牙一樣的日常維護，做的人無需成為資安專家。</p>
   <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>11</span></div>
 </section>
 
 <!-- 12 威脅建模 -->
 <section class="slide bg-cream" data-label="威脅建模">
   <p class="eyebrow">數位衛生 · 方法</p>
-  <h2 class="title" style="margin-top:24px;">挑工具之前，先回答五個問題</h2>
-  <p class="body" style="margin-top:24px;max-width:1560px;">電子前哨基金會（EFF）把<span class="note-ref">威脅建模<span class="note-tag">註</span><span class="note-body"><span class="nk">數位衛生 · 威脅建模</span><span class="nh">EFF 的 Security Plan 五問</span><span class="np">EFF 在 Surveillance Self-Defense 指南的〈Your Security Plan〉模組中，把安全規劃拆成五個問題：我要保護什麼資產、要防範誰、對方取得資產的後果多嚴重、發生的可能性多高、我願意付出多少代價來防範。</span><span class="np">這套方法的價值在於承認安全是取捨，不是狀態。不同的對手看得到的東西不同：同一個咖啡店網路裡的陌生人、你的雇主、平台、國家級行為者，各有不同的能力範圍，對策也完全不同。工具名稱不等於保護範圍，先想清楚對手是誰，再決定工具。</span></span></span>整理成五個問題。這五問的關鍵在第二問：不同的對手，看得到的東西完全不同，對策自然也不同。</p>
-  <div class="grid-3" style="margin-top:40px;">
+  <h2 class="title" style="margin-top:24px;">你的對手是誰，決定你的工具箱</h2>
+  <p class="body" style="margin-top:24px;max-width:1560px;">電子前哨基金會（EFF）把<span class="note-ref">威脅建模<span class="note-tag">註</span><span class="note-body"><span class="nk">數位衛生 · 威脅建模</span><span class="nh">EFF 的 Security Plan 五問</span><span class="np">EFF 在 Surveillance Self-Defense 指南的〈Your Security Plan〉模組中，把安全規劃拆成五個問題：我要保護什麼資產、要防範誰、對方取得資產的後果多嚴重、發生的可能性多高、我願意付出多少代價來防範。</span><span class="np">這套方法的價值在於承認安全是取捨，不是狀態。不同的對手看得到的東西不同：同一個咖啡店網路裡的陌生人、你的雇主、平台、國家級行為者，各有不同的能力範圍，對策也完全不同。工具名稱不等於保護範圍，先想清楚對手是誰，再決定工具。</span></span></span>整理成五個問題，其中的關鍵是第二問。同網路的人、雇主、平台與國家級對手，看得到的東西完全不同，對策自然也不同。</p>
+  <div class="grid-3 compact" style="margin-top:26px;">
     <div class="card" data-anim="fade-up" style="--d:.15s;"><span class="idx">Q1</span><p class="body">我要保護<b>什麼</b>？消息來源、自己的身分，還是採訪素材？</p></div>
     <div class="card" data-anim="fade-up" style="--d:.25s;"><span class="idx">Q2</span><p class="body">要防範<b>誰</b>？同網路的人、雇主、平台，還是國家級對手？</p></div>
     <div class="card" data-anim="fade-up" style="--d:.35s;"><span class="idx">Q3</span><p class="body">被拿到的<b>後果</b>多嚴重？丟工作、被騷擾，還是人身危險？</p></div>
@@ -470,7 +472,7 @@
       <p class="body">先不要在原裝置上改密碼、搜尋處理方式或討論事件，改用另一部可信任的裝置聯絡專業支援，並保存事件時間線。</p>
     </div>
   </div>
-  <p class="body-lg" style="margin-top:56px;max-width:1450px;">數位衛生的終點不是零風險。它的終點，是清楚知道自己接受了哪些風險，而不是在不知情的狀態下承擔它們。</p>
+  <p class="body-lg" style="margin-top:56px;max-width:1450px;">數位衛生到不了零風險。它能到達的終點，是清楚知道自己接受了哪些風險，免得在不知情的狀態下承擔它們。</p>
   <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>15</span></div>
 </section>
 
@@ -495,7 +497,7 @@
     <div class="arr" data-loop="arrow" style="--d:1s;">→</div>
     <div class="node" data-anim="pop" style="--d:.6s;"><span class="who">公開區塊鏈</span><span class="sees">地址、每筆轉帳的對象、時間與金額，全球可查</span></div>
   </div>
-  <p class="body" style="margin-top:44px;max-width:1560px;">許多海外獨立記者採用多國帳戶收款以分散風險。這個作法值得繼續，但要先分清楚它分散的是什麼：<span class="note-ref">多國帳戶分散的是「被凍結」的風險，不是「被指認」的風險<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 05 · 分散與匿名</span><span class="nh">兩種風險，兩種對策</span><span class="np">帳戶被凍結是可用性風險：單一機構停止服務，收入就中斷。多國、多機構開戶確實能分散這種風險，因為任何單一機構的處分影響有限。</span><span class="np">身分被指認是連結性風險：每一個帳戶在開戶時都完成了 KYC，法定身分已經與帳戶綁定。帳戶開得越多，持有你身分資料的機構也越多，可被調取或外洩的節點反而增加。兩種風險需要分開評估，不能以為分散了一種，另一種也跟著降低。</span></span></span>。每個帳戶都做過 KYC，每個帳戶都接得回你。</p>
+  <p class="body" style="margin-top:44px;max-width:1560px;">許多海外獨立記者採用多國帳戶收款以分散風險。這個作法值得繼續，前提是認清它處理的是哪一種風險。<span class="note-ref">多國帳戶分散的是「被凍結」的風險，防不了「被指認」的風險<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 05 · 分散與匿名</span><span class="nh">兩種風險，兩種對策</span><span class="np">帳戶被凍結是可用性風險：單一機構停止服務，收入就中斷。多國、多機構開戶確實能分散這種風險，因為任何單一機構的處分影響有限。</span><span class="np">身分被指認是連結性風險：每一個帳戶在開戶時都完成了 KYC，法定身分已經與帳戶綁定。帳戶開得越多，持有你身分資料的機構也越多，可被調取或外洩的節點反而增加。兩種風險需要分開評估，不能以為分散了一種，另一種也跟著降低。</span></span></span>。每個帳戶都做過 KYC，每個帳戶都接得回你。</p>
   <div class="jmini">
     <div class="chip"><span class="no">01</span><span class="nm">查資料</span></div>
     <div class="chip"><span class="no">02</span><span class="nm">聯絡互動</span></div>
@@ -510,11 +512,19 @@
 <section class="slide bg-ink" data-label="鏈上裸奔">
   <p class="eyebrow">STOP 05 · 加密貨幣</p>
   <h2 class="title" style="margin-top:24px;">公開鏈不是匿名，是裸奔</h2>
-  <div class="grid-2" style="margin-top:48px;gap:56px;">
-    <p class="body-lg">不少人以為改收加密貨幣就多了一層匿名。實情相反：在公開區塊鏈上，只要知道某人持有哪個地址，他的每一筆轉帳、每個往來對象、每個時間點，任何人都查得到，而且永久保存。</p>
-    <p class="body-lg">以此為基礎發展出的<span class="note-ref">幣流分析<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 05 · 幣流分析</span><span class="nh">同一套技術，兩種用途</span><span class="np">幣流分析（blockchain analysis）指的是利用鏈上公開資料，追蹤資金流向、為地址貼上身分標籤的技術。Chainalysis、Elliptic 等公司以此協助執法機關追緝詐騙與洗錢，交易所也依賴同類服務判斷入金是否來自可疑地址。</span><span class="np">技術本身不分對象。用來追贓款的方法，同樣可以用來追蹤一位獨立記者的讀者贊助：誰在什麼時間、捐了多少、從哪個地址來。以公開地址收受敏感贊助，等於把收入帳本攤開在所有人面前。</span></span></span>產業，已經能把地址與真實身分大規模對應。用日常公開錢包收敏感贊助，等於替監視者省去了最費工的一步。</p>
+  <p class="body-lg" style="margin-top:34px;max-width:1560px;">改收加密貨幣，常被想成多了一層匿名，實情恰好相反。一筆敏感贊助在公開鏈上會走完這樣一條路，每一站都公開、永久、全球可查，而<span class="note-ref">幣流分析<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 05 · 幣流分析</span><span class="nh">同一套技術，兩種用途</span><span class="np">幣流分析（blockchain analysis）指的是利用鏈上公開資料，追蹤資金流向、為地址貼上身分標籤的技術。Chainalysis、Elliptic 等公司以此協助執法機關追緝詐騙與洗錢，交易所也依賴同類服務判斷入金是否來自可疑地址。</span><span class="np">技術本身不分對象。用來追贓款的方法，同樣可以用來追蹤一位獨立記者的讀者贊助，誰在什麼時間、捐了多少、從哪個地址來。以公開地址收受敏感贊助，等於把收入帳本攤開在所有人面前。</span></span></span>產業已經把追蹤這條路的工作工業化了。</p>
+  <div class="chain" style="margin-top:44px;">
+    <div class="node" data-anim="pop" style="--d:.15s;"><span class="who">讀者贊助</span><span class="sees">誰、什麼時間、多少錢</span></div>
+    <div class="arr" data-loop="arrow">→</div>
+    <div class="node" data-anim="pop" style="--d:.3s;"><span class="who">你的公開地址</span><span class="sees">與日常錢包共用即刻穿幫</span></div>
+    <div class="arr" data-loop="arrow" style="--d:.8s;">→</div>
+    <div class="node" data-anim="pop" style="--d:.45s;"><span class="who">公開帳本</span><span class="sees">每筆轉帳永久保存、全球可查</span></div>
+    <div class="arr" data-loop="arrow" style="--d:1s;">→</div>
+    <div class="node hot" data-anim="pop" style="--d:.6s;"><span class="who">幣流分析</span><span class="sees">地址貼標、資金圖譜、身分對應</span></div>
+    <div class="arr" data-loop="arrow" style="--d:1.2s;">→</div>
+    <div class="node" data-anim="pop" style="--d:.75s;"><span class="who">監視者</span><span class="sees">交易所 KYC 一交叉，接回法定身分</span></div>
   </div>
-  <p class="pullquote" data-anim="fade-up" style="--d:.5s;margin-top:72px;">於是弔詭出現了：想要隱私的人，<span class="hl">過去反而不該用區塊鏈</span>。</p>
+  <p class="pullquote" data-anim="fade-up" style="--d:1s;margin-top:64px;">弔詭就在這裡，想要隱私的人，<span class="hl">過去反而不該用區塊鏈</span>。</p>
   <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>18</span></div>
 </section>
 
