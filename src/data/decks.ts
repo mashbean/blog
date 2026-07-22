@@ -30,6 +30,13 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "tianjian-2026-0826",
+    title: "平台中介者如何成為保護獨立記者的屏障",
+    event: "在田間學 · 田間 China Media Project",
+    date: "2026-08-26",
+    lang: "zh-Hant",
+  },
+  {
     slug: "ai-work-agency-reading-1",
     title: "在被 AI 離職與焦慮之間，選擇躺平",
     event: "文化前線 II 讀書會",

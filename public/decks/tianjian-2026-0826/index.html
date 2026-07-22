@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>平台中介者如何成為保護獨立記者的屏障 · 在田間學 · MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'jf open 粉圓';
+    src:url('./assets/jf-openhuninn-headings.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  :root{
+    /* safety.matters.town design tokens */
+    --cream:#FAF7F0;
+    --paper:#FFFFFF;
+    --subtle:#F5F3FF;
+    --ink:#000000;
+    --ink-soft:#333333;
+    --purple:#7258FF;
+    --purple-dark:#32009B;
+    --lime:#C3F432;
+    --grey:#B3B3B3;
+    --font-display:'jf open 粉圓','Noto Sans TC',sans-serif;
+    --font-body:'Noto Sans TC',sans-serif;
+    --font-mono:'JetBrains Mono',monospace;
+  }
+  html,body{margin:0;padding:0;background:#000;font-family:var(--font-body);color:var(--ink);}
+  deck-stage{display:block;}
+  section{box-sizing:border-box;overflow:hidden;font-family:var(--font-body);line-break:strict;overflow-wrap:break-word;}
+  .slide{width:100%;height:100%;padding:88px 110px 96px;box-sizing:border-box;position:relative;display:flex;flex-direction:column;}
+  .bg-cream{background:var(--cream);color:var(--ink);}
+  .bg-ink{background:var(--ink);color:var(--cream);}
+  .bg-subtle{background:var(--subtle);color:var(--ink);}
+  .bg-purple{background:var(--purple-dark);color:var(--cream);}
+
+  .eyebrow{font-family:var(--font-mono);font-size:23px;letter-spacing:0.2em;text-transform:uppercase;font-weight:500;color:var(--purple-dark);}
+  .bg-ink .eyebrow,.bg-purple .eyebrow{color:var(--lime);}
+  h1,h2,h3{font-family:var(--font-display);font-weight:400;margin:0;text-wrap:balance;}
+  .title-xl{font-size:118px;line-height:1.08;letter-spacing:-0.03em;}
+  .title-lg{font-size:84px;line-height:1.1;letter-spacing:-0.03em;}
+  .title{font-size:62px;line-height:1.16;letter-spacing:-0.02em;}
+  .subtitle{font-family:var(--font-display);font-size:40px;line-height:1.3;}
+  .accent{color:var(--purple);}
+  .bg-ink .accent,.bg-purple .accent{color:var(--lime);}
+  .body{font-size:31px;line-height:1.72;font-weight:400;text-wrap:pretty;}
+  .body-lg{font-size:36px;line-height:1.68;font-weight:400;text-wrap:pretty;}
+  .small{font-size:25px;line-height:1.6;}
+  .muted{opacity:0.62;}
+  .footer{position:absolute;bottom:44px;left:110px;right:110px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:21px;letter-spacing:0.1em;text-transform:uppercase;opacity:0.5;}
+
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:44px;}
+  .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:36px;}
+  .grid-2>*,.grid-3>*{min-width:0;}
+  .card{background:var(--paper);border:2px solid var(--ink);padding:38px 42px;display:flex;flex-direction:column;gap:14px;}
+  .bg-ink .card{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.3);}
+  .card h3{font-size:37px;line-height:1.3;}
+  .card .body{font-size:27px;line-height:1.66;}
+  .idx{font-family:var(--font-mono);font-size:22px;letter-spacing:0.12em;color:var(--purple);font-weight:700;}
+  .bg-ink .idx{color:var(--lime);}
+  .rule{height:4px;background:var(--ink);width:100%;}
+
+  .pill{display:inline-block;padding:10px 24px;border-radius:999px;font-family:var(--font-mono);font-size:22px;letter-spacing:0.08em;font-weight:500;border:2px solid currentColor;}
+  .pill.solid{background:var(--lime);color:var(--ink);border-color:var(--lime);}
+
+  .pullquote{font-family:var(--font-display);font-size:58px;line-height:1.42;text-wrap:balance;}
+  .pullquote .hl{background:var(--lime);color:var(--ink);padding:0 14px;}
+  .pullquote .hl-p{background:var(--purple);color:var(--cream);padding:0 14px;}
+
+  /* ============ 使用者旅程地圖 ============ */
+  .jmap{display:grid;grid-template-columns:200px repeat(5,1fr);gap:10px;margin-top:40px;}
+  .jmap .corner{display:flex;align-items:flex-end;font-family:var(--font-mono);font-size:19px;letter-spacing:0.1em;opacity:0.55;padding-bottom:12px;}
+  .jmap .stop{background:var(--ink);color:var(--cream);padding:20px 18px 16px;display:flex;flex-direction:column;gap:6px;border-radius:6px 6px 0 0;}
+  .jmap .stop .no{font-family:var(--font-mono);font-size:18px;letter-spacing:0.14em;color:var(--lime);}
+  .jmap .stop .nm{font-family:var(--font-display);font-size:31px;line-height:1.2;}
+  .jmap .lane-label{display:flex;align-items:center;gap:12px;font-family:var(--font-display);font-size:26px;padding-right:8px;}
+  .jmap .lane-label .dot{width:18px;height:18px;border-radius:50%;flex-shrink:0;}
+  .jmap .cell{background:var(--paper);border:2px solid rgba(0,0,0,0.16);border-radius:6px;padding:16px 16px;font-size:20.5px;line-height:1.5;}
+  .jmap .cell.watch{background:#0e0e14;color:rgba(255,255,255,0.88);border-color:#0e0e14;}
+  .jmap .cell b{color:var(--purple-dark);}
+  .jmap .cell.watch b{color:var(--lime);font-weight:600;}
+
+  /* mini journey strip on stage slides */
+  .jmini{display:flex;gap:12px;margin-top:auto;padding-top:20px;margin-bottom:56px;}
+  .jmini .chip{flex:1;border:2px solid currentColor;border-radius:6px;padding:14px 18px;opacity:0.32;display:flex;align-items:baseline;gap:14px;transition:opacity .4s;min-width:0;}
+  .jmini .chip .no{font-family:var(--font-mono);font-size:17px;letter-spacing:0.1em;}
+  .jmini .chip .nm{font-family:var(--font-display);font-size:24px;white-space:nowrap;}
+  .jmini .chip.active{opacity:1;background:var(--ink);color:var(--cream);border-color:var(--ink);}
+  .jmini .chip.active .no{color:var(--lime);}
+  .bg-ink .jmini .chip.active,.bg-purple .jmini .chip.active{background:var(--lime);color:var(--ink);border-color:var(--lime);}
+  .bg-ink .jmini .chip.active .no{color:var(--ink);}
+
+  /* actor legend */
+  .actor{border-left:12px solid var(--purple);background:var(--paper);padding:34px 40px;display:flex;flex-direction:column;gap:12px;}
+  .actor.svc{border-left-color:var(--purple-dark);}
+  .actor.watch{border-left-color:var(--ink);}
+  .actor h3{font-size:40px;}
+  .actor .en{font-family:var(--font-mono);font-size:20px;letter-spacing:0.1em;opacity:0.5;}
+
+  /* footprint chain (SVG-ish flow with animated arrows) */
+  .chain{display:flex;align-items:stretch;gap:0;margin-top:36px;}
+  .chain .node{flex:1;background:var(--paper);border:2.5px solid var(--ink);border-radius:8px;padding:24px 20px;display:flex;flex-direction:column;gap:8px;min-width:0;}
+  .chain .node .who{font-family:var(--font-display);font-size:27px;}
+  .chain .node .sees{font-size:20px;line-height:1.5;opacity:0.8;}
+  .chain .arr{display:flex;align-items:center;padding:0 10px;font-size:30px;color:var(--purple);flex:0 0 auto;}
+  .chain .node.hot{border-color:var(--purple);box-shadow:0 0 0 6px rgba(114,88,255,0.15);}
+
+  /* linkability puzzle */
+  .puzzle{display:flex;justify-content:center;align-items:center;gap:26px;margin-top:48px;}
+  .puzzle .piece{width:340px;padding:34px 30px;border-radius:10px;text-align:center;font-size:25px;line-height:1.5;}
+  .puzzle .piece b{display:block;font-family:var(--font-display);font-size:31px;margin-bottom:8px;}
+  .puzzle .p1{background:var(--subtle);color:var(--ink);}
+  .puzzle .p2{background:var(--lime);color:var(--ink);}
+  .puzzle .p3{background:var(--purple);color:var(--cream);}
+  .puzzle .times{font-family:var(--font-mono);font-size:44px;opacity:0.6;}
+
+  /* checklist (interactive) */
+  ul.chk{list-style:none;padding:0;margin:28px 0 0;}
+  ul.chk li{display:flex;gap:26px;align-items:flex-start;padding:24px 20px;border-bottom:2px solid rgba(0,0,0,0.14);cursor:pointer;transition:background .2s;border-radius:6px;}
+  .bg-ink ul.chk li{border-color:rgba(255,255,255,0.18);}
+  ul.chk li:hover{background:rgba(114,88,255,0.07);}
+  ul.chk .box{flex-shrink:0;width:40px;height:40px;border:3px solid rgba(0,0,0,0.55);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-top:4px;color:transparent;transition:all .2s;}
+  .bg-ink ul.chk .box{border-color:rgba(255,255,255,0.55);}
+  ul.chk li.done .box{background:var(--purple);border-color:var(--purple);color:#fff;}
+  .bg-ink ul.chk li.done .box{background:var(--lime);border-color:var(--lime);color:var(--ink);}
+  ul.chk .t{font-size:29px;line-height:1.55;}
+  ul.chk .t b{font-weight:700;}
+  ul.chk li.done .t{opacity:0.45;}
+  .chk-count{font-family:var(--font-mono);font-size:22px;letter-spacing:0.1em;opacity:0.55;margin-top:22px;}
+
+  /* money three generations */
+  .gen{display:grid;grid-template-columns:1fr 1fr 1fr;gap:30px;margin-top:40px;}
+  .gen .g{border-top:10px solid var(--purple);background:var(--paper);color:var(--ink);padding:32px 34px;display:flex;flex-direction:column;gap:12px;border-radius:0 0 8px 8px;}
+  .gen .g.g2{border-top-color:var(--purple-dark);}
+  .gen .g.g3{border-top-color:var(--lime);}
+  .gen .g .era{font-family:var(--font-mono);font-size:19px;letter-spacing:0.12em;opacity:0.55;}
+  .gen .g h3{font-size:36px;}
+  .gen .g .mech{font-size:23.5px;line-height:1.6;}
+  .gen .g .fail{margin-top:auto;font-size:22px;line-height:1.55;padding-top:14px;border-top:2px dashed rgba(0,0,0,0.2);}
+
+  /* animations */
+  @keyframes a-fade-up{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+  @keyframes a-fade-in{from{opacity:0}to{opacity:1}}
+  @keyframes a-slide-l{from{opacity:0;transform:translateX(-90px)}to{opacity:1;transform:none}}
+  @keyframes a-slide-r{from{opacity:0;transform:translateX(90px)}to{opacity:1;transform:none}}
+  @keyframes a-pop{from{opacity:0;transform:scale(.84)}to{opacity:1;transform:scale(1)}}
+  @keyframes a-pop-bounce{0%{opacity:0;transform:scale(.7)}65%{opacity:1;transform:scale(1.07)}100%{transform:scale(1)}}
+  @keyframes a-grow-x{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes a-blur-in{from{opacity:0;filter:blur(14px)}to{opacity:1;filter:blur(0)}}
+  @keyframes a-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+  @keyframes a-arrow{0%,100%{transform:translateX(0)}50%{transform:translateX(14px)}}
+  @keyframes a-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+  @keyframes a-merge-l{from{transform:translateX(0)}to{transform:translateX(56px)}}
+  @keyframes a-merge-r{from{transform:translateX(0)}to{transform:translateX(-56px)}}
+  @keyframes a-flash{0%,100%{opacity:.55}50%{opacity:1}}
+
+  section.is-active [data-anim]{animation-duration:var(--dur,.62s);animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:backwards;animation-delay:var(--d,0s);}
+  section.is-active [data-anim="fade-up"]{animation-name:a-fade-up}
+  section.is-active [data-anim="fade-in"]{animation-name:a-fade-in}
+  section.is-active [data-anim="slide-l"]{animation-name:a-slide-l}
+  section.is-active [data-anim="slide-r"]{animation-name:a-slide-r}
+  section.is-active [data-anim="pop"]{animation-name:a-pop}
+  section.is-active [data-anim="pop-bounce"]{animation-name:a-pop-bounce}
+  section.is-active [data-anim="grow-x"]{animation-name:a-grow-x;transform-origin:left center}
+  section.is-active [data-anim="blur-in"]{animation-name:a-blur-in}
+  section.is-active [data-loop="pulse"]{animation:a-pulse 2.6s ease-in-out var(--d,1s) infinite;transform-origin:center}
+  section.is-active [data-loop="arrow"]{animation:a-arrow 1.7s ease-in-out var(--d,.6s) infinite}
+  section.is-active [data-loop="float"]{animation:a-float 4s ease-in-out var(--d,0s) infinite}
+  section.is-active [data-loop="flash"]{animation:a-flash 1.8s ease-in-out var(--d,0s) infinite}
+  section.is-active [data-loop="merge-l"]{animation:a-merge-l 1.2s cubic-bezier(.2,.7,.2,1) var(--d,1.6s) forwards}
+  section.is-active [data-loop="merge-r"]{animation:a-merge-r 1.2s cubic-bezier(.2,.7,.2,1) var(--d,1.6s) forwards}
+
+  /* ============ 註解彈出卡（info popup） ============ */
+  .note-ref{cursor:pointer;border-bottom:2px dotted currentColor;padding-bottom:1px;white-space:normal;}
+  .note-ref .note-tag{font-family:var(--font-mono);font-size:0.6em;font-weight:600;background:var(--purple);color:#fff;border-radius:999px;padding:2px 10px;margin-left:6px;vertical-align:0.12em;letter-spacing:0.04em;}
+  .bg-ink .note-ref .note-tag,.bg-purple .note-ref .note-tag{background:var(--lime);color:var(--ink);}
+  .note-ref .note-body{display:none;}
+  #note-overlay{position:fixed;inset:0;z-index:2147483600;display:none;align-items:center;justify-content:center;padding:7vh 8vw;background:rgba(0,0,0,0.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);}
+  #note-overlay.open{display:flex;}
+  #note-overlay .note-card{position:relative;background:var(--cream);color:var(--ink);max-width:1020px;width:100%;max-height:80vh;overflow:auto;border-radius:14px;padding:54px 62px 58px;box-shadow:0 36px 90px -24px rgba(0,0,0,0.65);animation:note-in .26s cubic-bezier(.2,.7,.2,1);}
+  @keyframes note-in{from{opacity:0;transform:translateY(26px) scale(.98)}to{opacity:1;transform:none}}
+  #note-overlay .note-card h4{font-family:var(--font-display);font-weight:400;font-size:37px;line-height:1.3;margin:0 0 20px;}
+  #note-overlay .note-card p{font-size:27px;line-height:1.75;margin:0 0 18px;color:rgba(0,0,0,0.82);}
+  #note-overlay .note-card p:last-child{margin-bottom:0;}
+  #note-overlay .note-kicker{font-family:var(--font-mono);font-size:19px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;margin-bottom:14px;}
+  #note-overlay .note-close{position:absolute;top:22px;right:26px;width:46px;height:46px;border:none;border-radius:999px;background:rgba(0,0,0,0.08);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;}
+  #note-overlay .note-close:hover{background:rgba(0,0,0,0.16);}
+  #note-overlay .nk{display:block;font-family:var(--font-mono);font-size:19px;letter-spacing:0.14em;text-transform:uppercase;opacity:0.5;margin-bottom:14px;}
+  #note-overlay .nh{display:block;font-family:var(--font-display);font-size:37px;line-height:1.3;margin:0 0 20px;}
+  #note-overlay .np{display:block;font-size:27px;line-height:1.75;margin:0 0 18px;color:rgba(0,0,0,0.82);}
+  #note-overlay .np:last-child{margin-bottom:0;}
+</style>
+</head>
+<body>
+<deck-stage width="1920" height="1080">
+
+<!-- 01 封面 -->
+<section class="slide bg-cream" data-label="封面">
+  <p class="eyebrow" data-anim="fade-in">在田間學 · 2026.08.26 · 線上活動</p>
+  <h1 class="title-xl" data-anim="fade-up" style="--d:.15s;margin-top:44px;">平台中介者如何成為<br>保護<span class="accent">獨立記者</span>的屏障</h1>
+  <p class="body-lg" data-anim="fade-up" style="--d:.35s;margin-top:52px;max-width:1350px;">大多數的數位安全指南，站在使用者這一側教人自保。這一場演講換一個位置，從平台服務業者的視角出發，說明一位發表者的數位足跡如何被記錄、被拼合，而平台與發表者又能在哪些環節，一起把它藏好。</p>
+  <div class="footer"><span>豆泥 黃彥霖 · Matters</span><span>safety.matters.town</span></div>
+</section>
+
+<!-- 02 為什麼由平台來講 -->
+<section class="slide bg-cream" data-label="為什麼由平台來講">
+  <p class="eyebrow">開場</p>
+  <h2 class="title" data-anim="fade-up" style="margin-top:36px;">真正知道「系統記錄了什麼」的，<br>是平台自己</h2>
+  <div class="body-lg" data-anim="fade-up" style="--d:.25s;margin-top:48px;max-width:1500px;">我在 <span class="note-ref">Matters<span class="note-tag">註</span><span class="note-body"><span class="nk">講者背景</span><span class="nh">Matters 與這場演講的位置</span><span class="np">Matters 是一個以華文創作者為主的寫作與發布平台，因為使用者之中有相當比例的獨立記者與離散社群作者，平台長期需要面對審查、封鎖與資料請求的實際壓力。</span><span class="np">本場演講的內容整理自 Matters 於 2026 年公開的安全指南 safety.matters.town，該指南的立場是由平台主動揭露「我們看得到什麼」，再據此陪發表者盤點風險。</span></span></span> 負責平台治理。平台位居發表者與政府、廣告商、駭客、法院之間，是一個名副其實的中介者。中介者選擇記錄什麼、保存多久、給誰看，這些選擇加總起來，就是發表者風險的底線。</div>
+  <div class="body-lg" data-anim="fade-up" style="--d:.45s;margin-top:36px;max-width:1500px;">因此，平台能給發表者的第一層保護，是誠實揭露自己看得到什麼。發表者唯有先知道足跡長什麼樣子，才有辦法決定要藏哪裡、藏到什麼程度。</div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>02</span></div>
+</section>
+
+<!-- 03 核心命題 -->
+<section class="slide bg-ink" data-label="核心命題">
+  <p class="eyebrow">核心命題</p>
+  <div style="margin:auto 0;">
+    <p class="pullquote" data-anim="blur-in">用化名發稿，<span class="hl">只處理了名字</span>。<br>登入的信箱、裝置、連線方式、照片中繼資料與收款紀錄，仍可能把零散片段接回你身上。</p>
+    <p class="body" data-anim="fade-up" style="--d:.5s;margin-top:44px;opacity:0.75;">—— safety.matters.town，Matters 安全指南</p>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>03</span></div>
+</section>
+
+<!-- 04 三種角色 -->
+<section class="slide bg-subtle" data-label="三種角色">
+  <p class="eyebrow">分析框架</p>
+  <h2 class="title" style="margin-top:30px;">同一段旅程上的三種角色</h2>
+  <p class="body" style="margin-top:26px;max-width:1500px;">接下來我們用服務設計常用的<span class="note-ref">使用者旅程地圖<span class="note-tag">註</span><span class="note-body"><span class="nk">方法說明</span><span class="nh">為什麼用旅程地圖談資安</span><span class="np">使用者旅程地圖（user journey map）原本是服務設計的工具，把一段服務經驗拆成先後的接觸點，逐站檢視使用者在做什麼、系統在做什麼。把它借來談數位安全，好處是風險不再是一張抽象的工具清單，而是跟著具體行為走：每一站你做了什麼、誰在旁邊看、留下了什麼。</span><span class="np">本場演講把一篇敏感報導的生命週期拆成五站，每一站都同時標出三種角色的視角，對策也依站配置，方便回去之後按站檢查自己的工作流程。</span></span></span>，把一篇敏感報導從構思到收款的生命週期拆成五站。地圖上每一站，都有三種角色同時在場。</p>
+  <div class="grid-3" style="margin-top:44px;">
+    <div class="actor" data-anim="slide-l" style="--d:.2s;">
+      <span class="en">ACTOR</span><h3>行動者</h3>
+      <p class="body">獨立記者、自媒體經營者，任何以化名發表敏感內容的人。他的每一個動作，都會在別人的系統裡留下一小段紀錄。</p>
+    </div>
+    <div class="actor svc" data-anim="fade-up" style="--d:.35s;">
+      <span class="en">SERVICE PROVIDERS</span><h3>服務提供者</h3>
+      <p class="body">裝置與作業系統、網路服務商、平台、支付機構。各自只看到旅程的一小段，卻都在依法或依商業慣例保存紀錄。</p>
+    </div>
+    <div class="actor watch" data-anim="slide-r" style="--d:.5s;">
+      <span class="en">OBSERVERS</span><h3>監視者</h3>
+      <p class="body">政府與執法機關、駭客、資料掮客、幣流分析者。他們未必需要入侵任何系統，向不同服務提供者調取或收購片段，再拼起來就夠了。</p>
+    </div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>04</span></div>
+</section>
+
+<!-- 05 旅程地圖總覽 -->
+<section class="slide bg-cream" data-label="旅程地圖總覽">
+  <p class="eyebrow">使用者旅程地圖</p>
+  <h2 class="title" style="margin-top:24px;">一篇敏感報導的五站旅程</h2>
+  <div class="jmap">
+    <div class="corner">站別 →<br>視角 ↓</div>
+    <div class="stop" data-anim="fade-up" style="--d:.1s;"><span class="no">STOP 01</span><span class="nm">查資料</span></div>
+    <div class="stop" data-anim="fade-up" style="--d:.2s;"><span class="no">STOP 02</span><span class="nm">聯絡互動</span></div>
+    <div class="stop" data-anim="fade-up" style="--d:.3s;"><span class="no">STOP 03</span><span class="nm">上稿</span></div>
+    <div class="stop" data-anim="fade-up" style="--d:.4s;"><span class="no">STOP 04</span><span class="nm">發布之後</span></div>
+    <div class="stop" data-anim="fade-up" style="--d:.5s;"><span class="no">STOP 05</span><span class="nm">收款</span></div>
+
+    <div class="lane-label"><span class="dot" style="background:var(--purple);"></span>行動者</div>
+    <div class="cell" data-anim="fade-in" style="--d:.35s;">搜尋敏感題目、下載文件、瀏覽消息來源</div>
+    <div class="cell" data-anim="fade-in" style="--d:.45s;">追蹤、留言、與消息來源往返聯繫</div>
+    <div class="cell" data-anim="fade-in" style="--d:.55s;">上傳照片與文件、編輯草稿、按下發布</div>
+    <div class="cell" data-anim="fade-in" style="--d:.65s;">轉發、回應讀者、必要時修改或撤下</div>
+    <div class="cell" data-anim="fade-in" style="--d:.75s;">開通讚賞、訂閱、接受法幣或加密貨幣</div>
+
+    <div class="lane-label"><span class="dot" style="background:var(--purple-dark);"></span>服務提供者<br>看到什麼</div>
+    <div class="cell" data-anim="fade-in" style="--d:.5s;"><b>ISP 與網站</b>：IP、DNS、連線時間、瀏覽器特徵</div>
+    <div class="cell" data-anim="fade-in" style="--d:.6s;"><b>平台</b>：互動時間與頻率、追蹤關係、名稱與頭像</div>
+    <div class="cell" data-anim="fade-in" style="--d:.7s;"><b>平台與儲存</b>：EXIF、文件屬性、草稿版本、發稿時間</div>
+    <div class="cell" data-anim="fade-in" style="--d:.8s;"><b>平台、搜尋引擎、IPFS</b>：公開副本、轉貼、快取</div>
+    <div class="cell" data-anim="fade-in" style="--d:.9s;"><b>支付商、銀行、公開鏈</b>：KYC 身分、交易時間與金額</div>
+
+    <div class="lane-label"><span class="dot" style="background:var(--ink);"></span>監視者<br>能拼出什麼</div>
+    <div class="cell watch" data-anim="fade-in" style="--d:.65s;">連線時段與題目取向，鎖定「誰在查」</div>
+    <div class="cell watch" data-anim="fade-in" style="--d:.75s;">社交圖譜與作息，把化名接回<b>日常身分</b></div>
+    <div class="cell watch" data-anim="fade-in" style="--d:.85s;">拍攝地點與工作環境，指向<b>消息來源</b></div>
+    <div class="cell watch" data-anim="fade-in" style="--d:.95s;">刪不掉的副本，成為日後追訴的<b>證據鏈</b></div>
+    <div class="cell watch" data-anim="fade-in" style="--d:1.05s;">法定身分與金流路徑，完成<b>最後一塊拼圖</b></div>
+  </div>
+  <p class="small muted" style="margin-top:26px;">接下來逐站放大。每一站先看紀錄怎麼產生，再看平台與發表者各自能做什麼。</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>05</span></div>
+</section>
+
+<!-- 06 STOP1 查資料 -->
+<section class="slide bg-cream" data-label="STOP1 查資料">
+  <p class="eyebrow">STOP 01 · 查資料</p>
+  <h2 class="title" style="margin-top:24px;">一次搜尋，沿路經手四組服務商</h2>
+  <p class="body" style="margin-top:24px;max-width:1560px;">行動者查一個敏感題目時，封包沿路經過的每一個節點，都可能各留下一小段紀錄。HTTPS 加密的是傳輸的內容，<span class="note-ref">連線的時間與去向仍然可能被看見<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 01 · 技術邊界</span><span class="nh">HTTPS 保護什麼、不保護什麼</span><span class="np">HTTPS 在瀏覽器與網站之間建立加密通道，網路上的中間人讀不到頁面內容與表單資料。但是連線的中繼資料，包括你在什麼時間、從哪個 IP、連向哪個網域，對網路服務商而言仍然可見；DNS 查詢若未加密，查了哪個網域也一樣可見。</span><span class="np">這正是「工具名稱不等於保護範圍」的第一個例子。VPN 把可見範圍移轉給 VPN 業者，Tor 進一步切開來源與去向，兩者各有代價與限制，選哪一種取決於你要防範的觀察者是誰。</span></span></span>。</p>
+  <div class="chain">
+    <div class="node" data-anim="pop" style="--d:.2s;"><span class="who">裝置與瀏覽器</span><span class="sees">瀏覽紀錄、下載檔案、Cookie、瀏覽器特徵</span></div>
+    <div class="arr" data-loop="arrow">→</div>
+    <div class="node hot" data-anim="pop" style="--d:.35s;"><span class="who">網路服務商</span><span class="sees">IP、DNS 查詢、連線時間與流量形狀</span></div>
+    <div class="arr" data-loop="arrow" style="--d:.8s;">→</div>
+    <div class="node" data-anim="pop" style="--d:.5s;"><span class="who">網站與 CDN</span><span class="sees">造訪頁面、搜尋字串、閱讀時間</span></div>
+    <div class="arr" data-loop="arrow" style="--d:1s;">→</div>
+    <div class="node" data-anim="pop" style="--d:.65s;"><span class="who">追蹤器</span><span class="sees">跨站瀏覽輪廓、廣告識別碼</span></div>
+  </div>
+  <div class="grid-2" style="margin-top:44px;">
+    <div class="card"><span class="idx">平台能做的</span><p class="body">提供不落地的匿名閱讀入口。Matters 的洋蔥小站讓高風險地區的讀者經由 Tor 閱讀，不在平台留下連線去向。</p></div>
+    <div class="card"><span class="idx">發表者能做的</span><p class="body">先更新瀏覽器與作業系統，為敏感工作另開獨立的瀏覽器設定檔，再依對手與所在網路選擇 VPN、Tor 或洋蔥小站。</p></div>
+  </div>
+  <div class="jmini">
+    <div class="chip active"><span class="no">01</span><span class="nm">查資料</span></div>
+    <div class="chip"><span class="no">02</span><span class="nm">聯絡互動</span></div>
+    <div class="chip"><span class="no">03</span><span class="nm">上稿</span></div>
+    <div class="chip"><span class="no">04</span><span class="nm">發布之後</span></div>
+    <div class="chip"><span class="no">05</span><span class="nm">收款</span></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>06</span></div>
+</section>
+
+<!-- 07 STOP2 聯絡互動 -->
+<section class="slide bg-cream" data-label="STOP2 聯絡互動">
+  <p class="eyebrow">STOP 02 · 聯絡互動</p>
+  <h2 class="title" style="margin-top:24px;">互動紀錄，是最會說話的足跡</h2>
+  <div class="grid-2" style="margin-top:40px;gap:56px;">
+    <div>
+      <p class="body">單看任何一則留言都無害。可是把追蹤名單、留言對象、按讚習慣與上線時段放在一起，一張社交圖譜就浮現了：你常和誰往來、活躍在哪個時區、關心哪些議題。</p>
+      <p class="body" style="margin-top:28px;">更麻煩的是，即使換了名字，<span class="note-ref">頭像、自介、語氣與活動時間<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 02 · 風格指紋</span><span class="nh">寫作風格也是一種識別特徵</span><span class="np">文體計量學（stylometry）研究早已證明，用詞習慣、句長分布、標點癖好等特徵可以在相當程度上識別作者。對於同時經營化名帳號與日常帳號的人，兩邊若共用同一套語氣與慣用語，等於留下一組跨帳號的指紋。</span><span class="np">務實的作法是為化名帳號另備一套名稱、頭像、自介與聯絡方式，發文前回頭檢視公開個人頁，並且把敏感聯絡與日常社交放在不同的環境處理。</span></span></span>也可能把化名接回日常身分。</p>
+    </div>
+    <div class="card" data-anim="slide-r" style="--d:.3s;">
+      <span class="idx">平台看得到的</span>
+      <p class="body">互動時間與頻率、追蹤與留言關係、名稱頭像與寫作習慣。這些是平台功能運作的必要資料，也因此是平台必須誠實面對的持有清單。</p>
+      <div class="rule" style="opacity:0.15;margin:10px 0;"></div>
+      <span class="idx">發表者能做的</span>
+      <p class="body">別沿用其他平台的名稱、頭像與自介；留言前回頭看一次自己的公開個人頁；敏感聯絡改用端對端加密工具，與日常社交分開。</p>
+    </div>
+  </div>
+  <div class="jmini">
+    <div class="chip"><span class="no">01</span><span class="nm">查資料</span></div>
+    <div class="chip active"><span class="no">02</span><span class="nm">聯絡互動</span></div>
+    <div class="chip"><span class="no">03</span><span class="nm">上稿</span></div>
+    <div class="chip"><span class="no">04</span><span class="nm">發布之後</span></div>
+    <div class="chip"><span class="no">05</span><span class="nm">收款</span></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>07</span></div>
+</section>
+
+<!-- 08 STOP3 上稿 -->
+<section class="slide bg-cream" data-label="STOP3 上稿">
+  <p class="eyebrow">STOP 03 · 上稿</p>
+  <h2 class="title" style="margin-top:24px;">檔案比文章多說了很多話</h2>
+  <p class="body" style="margin-top:26px;max-width:1560px;">一張照片除了畫面，還帶著拍攝座標、時間與機型；一份文件除了內容，還帶著作者名稱與修改紀錄。文章發出去之後，這些附著在檔案上的線索也一起出去了，而且文章一旦進入 <span class="note-ref">IPFS、搜尋引擎或他人的備份<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 03 · 可撤回性</span><span class="nh">發布是一扇單向門</span><span class="np">Matters 的文章會進入 IPFS 分散式網路，這是平台抗審查設計的一部分：單一前端被封鎖，內容仍然存在。同一個設計反過來也意味著，刪除平台上的原頁，收不回已經散布出去的副本；搜尋引擎快取、讀者的離線備份、他站轉貼同樣如此。</span><span class="np">因此上稿前的判斷，要把「這段內容可以被長期公開保存嗎」納進來。保護消息來源的細節，在按下發布之前處理，永遠比事後補救有效。</span></span></span>，刪除原頁也收不回所有副本。</p>
+  <div class="grid-3" style="margin-top:40px;">
+    <div class="card" data-anim="fade-up" style="--d:.2s;"><span class="idx">照片與影像</span><p class="body">EXIF 座標、拍攝時間、機型；畫面背景裡的門牌、反光、票據與工作環境。</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.35s;"><span class="idx">文件</span><p class="body">作者欄位、公司名稱、修訂歷程、隱藏的批註與追蹤修訂。</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.5s;"><span class="idx">行為</span><p class="body">草稿版本、發稿時間規律、引文細節，都可能反向指認消息來源。</p></div>
+  </div>
+  <div class="grid-2" style="margin-top:36px;">
+    <div class="card"><span class="idx">平台能做的</span><p class="body">在架構層減少非必要的保存，並把「發布之後收不回」誠實寫進指南，而不是留給發表者事後發現。</p></div>
+    <div class="card"><span class="idx">發表者能做的</span><p class="body">上傳前清除中繼資料，請不熟悉案件的人做一次來源識別檢查，發布前想清楚哪些內容承受得起長期公開。</p></div>
+  </div>
+  <div class="jmini">
+    <div class="chip"><span class="no">01</span><span class="nm">查資料</span></div>
+    <div class="chip"><span class="no">02</span><span class="nm">聯絡互動</span></div>
+    <div class="chip active"><span class="no">03</span><span class="nm">上稿</span></div>
+    <div class="chip"><span class="no">04</span><span class="nm">發布之後</span></div>
+    <div class="chip"><span class="no">05</span><span class="nm">收款</span></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>08</span></div>
+</section>
+
+<!-- 09 STOP4 發布之後：公文 -->
+<section class="slide bg-subtle" data-label="STOP4 發布之後">
+  <p class="eyebrow">STOP 04 · 發布之後</p>
+  <h2 class="title" style="margin-top:24px;">當政府公文送到平台信箱</h2>
+  <p class="body" style="margin-top:24px;max-width:1560px;">文章發布之後，壓力會轉向平台。平台收到政府資料調閱公文時的處理順序，決定了發表者在這一站的安全。業界成熟的作法大致分四步，其中真正的防線藏在第三步。</p>
+  <div class="chain" style="margin-top:36px;">
+    <div class="node" data-anim="pop" style="--d:.15s;"><span class="who">① 形式審查</span><span class="sees">公文是否具法律效力、管轄權是否及於平台註冊地</span></div>
+    <div class="arr" data-loop="arrow">→</div>
+    <div class="node" data-anim="pop" style="--d:.3s;"><span class="who">② 範圍最小化</span><span class="sees">只回應法律要求的最小範圍，拒絕釣魚式調閱</span></div>
+    <div class="arr" data-loop="arrow" style="--d:.8s;">→</div>
+    <div class="node hot" data-anim="pop" style="--d:.45s;"><span class="who">③ 資料盤點</span><span class="sees">平台實際持有什麼？沒有記錄的資料，無從交出</span></div>
+    <div class="arr" data-loop="arrow" style="--d:1s;">→</div>
+    <div class="node" data-anim="pop" style="--d:.6s;"><span class="who">④ 透明度</span><span class="sees">在法律允許下公開統計，讓使用者知道發生過什麼</span></div>
+  </div>
+  <p class="body" style="margin-top:40px;max-width:1560px;">資料最小化是架構設計層次的決定，必須在寫下第一行程式之前就想好。<span class="note-ref">沒有記錄的東西，任何公文都調不走<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 04 · 資料最小化</span><span class="nh">最小化原則與透明度報告</span><span class="np">資料最小化是資料保護法制的基本原則之一，歐盟 GDPR 第 5 條把它列為處理個人資料的原則性要求：只蒐集與目的相關且必要的資料。對高風險平台而言，它同時是最有效的法律防禦，因為調閱的上限就是平台實際持有的下限。</span><span class="np">透明度報告則是業界自 2010 年代以來逐漸建立的慣例，Google、Meta、Cloudflare 等公司定期公開政府資料請求的統計與處理原則。規模較小的平台同樣可以做，Matters 的版本是「看不見的平台清道夫」治理報告與 safety.matters.town。</span></span></span>。這句話聽起來像同義反覆，卻是整段流程裡唯一不依賴法務攻防的保護。</p>
+  <div class="jmini">
+    <div class="chip"><span class="no">01</span><span class="nm">查資料</span></div>
+    <div class="chip"><span class="no">02</span><span class="nm">聯絡互動</span></div>
+    <div class="chip"><span class="no">03</span><span class="nm">上稿</span></div>
+    <div class="chip active"><span class="no">04</span><span class="nm">發布之後</span></div>
+    <div class="chip"><span class="no">05</span><span class="nm">收款</span></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>09</span></div>
+</section>
+
+<!-- 10 可連結性 -->
+<section class="slide bg-ink" data-label="可連結性">
+  <p class="eyebrow">中場小結</p>
+  <h2 class="title" style="margin-top:24px;">危險的不是單一紀錄，<br>是「可連結性」</h2>
+  <div class="puzzle">
+    <div class="piece p1" data-anim="slide-l" style="--d:.3s;" data-loop="merge-l"><b>網路服務商</b>連線時間與 IP</div>
+    <div class="times" data-anim="fade-in" style="--d:1s;">×</div>
+    <div class="piece p2" data-anim="fade-up" style="--d:.5s;"><b>平台</b>上線習慣與互動關係</div>
+    <div class="times" data-anim="fade-in" style="--d:1.2s;">×</div>
+    <div class="piece p3" data-anim="slide-r" style="--d:.7s;" data-loop="merge-r"><b>支付機構</b>法定身分</div>
+  </div>
+  <p class="body-lg" data-anim="fade-up" style="--d:1.8s;margin-top:64px;max-width:1500px;">任何一塊拼圖單獨存在都不足以指認一個人。監視者真正的能力，在於向不同服務提供者調取、收購或等待外洩，取得多塊拼圖之後完成拼合。他不需要駭進任何系統。這也解釋了為什麼平台的保存政策，會直接影響發表者的人身安全。</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>10</span></div>
+</section>
+
+<!-- 11 過場：數位衛生 -->
+<section class="slide bg-purple" data-label="數位衛生">
+  <p class="eyebrow">第二部分</p>
+  <h1 class="title-lg" style="margin-top:auto;">數位衛生<span class="accent">，</span><br>發表者這一側的日常</h1>
+  <p class="body-lg" style="margin-top:44px;margin-bottom:auto;max-width:1400px;">平台能做的有其極限，剩下的部分回到發表者手上。數位衛生（digital hygiene）這個說法的重點在於「衛生」二字：它不要求任何人成為資安專家，它要求的是像刷牙一樣的日常維護。</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>11</span></div>
+</section>
+
+<!-- 12 威脅建模 -->
+<section class="slide bg-cream" data-label="威脅建模">
+  <p class="eyebrow">數位衛生 · 方法</p>
+  <h2 class="title" style="margin-top:24px;">挑工具之前，先回答五個問題</h2>
+  <p class="body" style="margin-top:24px;max-width:1560px;">電子前哨基金會（EFF）把<span class="note-ref">威脅建模<span class="note-tag">註</span><span class="note-body"><span class="nk">數位衛生 · 威脅建模</span><span class="nh">EFF 的 Security Plan 五問</span><span class="np">EFF 在 Surveillance Self-Defense 指南的〈Your Security Plan〉模組中，把安全規劃拆成五個問題：我要保護什麼資產、要防範誰、對方取得資產的後果多嚴重、發生的可能性多高、我願意付出多少代價來防範。</span><span class="np">這套方法的價值在於承認安全是取捨，不是狀態。不同的對手看得到的東西不同：同一個咖啡店網路裡的陌生人、你的雇主、平台、國家級行為者，各有不同的能力範圍，對策也完全不同。工具名稱不等於保護範圍，先想清楚對手是誰，再決定工具。</span></span></span>整理成五個問題。這五問的關鍵在第二問：不同的對手，看得到的東西完全不同，對策自然也不同。</p>
+  <div class="grid-3" style="margin-top:40px;">
+    <div class="card" data-anim="fade-up" style="--d:.15s;"><span class="idx">Q1</span><p class="body">我要保護<b>什麼</b>？消息來源、自己的身分，還是採訪素材？</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.25s;"><span class="idx">Q2</span><p class="body">要防範<b>誰</b>？同網路的人、雇主、平台，還是國家級對手？</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.35s;"><span class="idx">Q3</span><p class="body">被拿到的<b>後果</b>多嚴重？丟工作、被騷擾，還是人身危險？</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.45s;"><span class="idx">Q4</span><p class="body">發生的<b>可能性</b>多高？誰有動機與能力對我下手？</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.55s;"><span class="idx">Q5</span><p class="body">我願意付出<b>多少代價</b>？金錢、時間、便利性的取捨底線在哪？</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.65s;" data-loop="float"><span class="idx">→</span><p class="body">回答完五問，才進入工具清單。以下清單分成三批，依急迫程度排列。</p></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>12</span></div>
+</section>
+
+<!-- 13 清單 A -->
+<section class="slide bg-cream" data-label="清單A 今天處理">
+  <p class="eyebrow">數位衛生 · 清單 A</p>
+  <h2 class="title" style="margin-top:20px;">今天處理<span class="muted" style="font-size:0.55em;">　點擊逐項打勾</span></h2>
+  <ul class="chk">
+    <li><span class="box">✓</span><span class="t"><b>為平台帳號設定專用密碼</b>，交給可信任的密碼管理器產生與保管，不與信箱、社群或工作帳號共用。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>加強註冊信箱的安全</b>。帳號復原幾乎都會回到信箱，請開啟多因素驗證，並檢查復原信箱與仍在登入的裝置。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>分開化名與其他帳號的識別線索</b>。名稱、頭像、自介、聯絡方式與公開錢包全部換一套。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>更新裝置並開啟磁碟加密</b>，設定夠長的密碼或 PIN。生物辨識不要作為唯一的鎖定方式。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>上傳前檢查檔案中繼資料</b>，清除照片座標、機型、文件作者與修改紀錄，同時檢查畫面背景。</span></li>
+  </ul>
+  <p class="chk-count" data-chk-count>0 / 5 完成</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>13</span></div>
+</section>
+
+<!-- 14 清單 B -->
+<section class="slide bg-cream" data-label="清單B 接著準備">
+  <p class="eyebrow">數位衛生 · 清單 B</p>
+  <h2 class="title" style="margin-top:20px;">接著準備<span class="muted" style="font-size:0.55em;">　把工作環境依情境分開</span></h2>
+  <ul class="chk">
+    <li><span class="box">✓</span><span class="t"><b>從已知網址登入</b>。不點訊息裡的登入連結，自己開瀏覽器輸入網址，再用另一個管道確認對方身分。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>為敏感工作建立獨立瀏覽環境</b>，不在同一個環境登入會說出真實身分的服務。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>準備可還原的備份</b>，而且備份之後真的試著還原一次。復原密鑰與工作裝置分開存放。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>寫下自己的威脅模型</b>，界定需要防範的觀察者，再決定 VPN 與 Tor 的組合。</span></li>
+    <li><span class="box">✓</span><span class="t"><b>預先約定事件聯絡方式</b>：聯絡人、帳號復原、證據保存與暫停發稿的條件，不要等出事才臨時決定。</span></li>
+  </ul>
+  <p class="chk-count" data-chk-count>0 / 5 完成</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>14</span></div>
+</section>
+
+<!-- 15 清單 C -->
+<section class="slide bg-ink" data-label="清單C 找人一起看">
+  <p class="eyebrow">數位衛生 · 清單 C</p>
+  <h2 class="title" style="margin-top:24px;">找人一起看</h2>
+  <div class="grid-2" style="margin-top:44px;">
+    <div class="card" data-anim="slide-l" style="--d:.2s;">
+      <span class="idx">國家級風險交給專業團隊</span>
+      <p class="body">跨境追查、立即人身風險與進階監控，超過任何公開清單能處理的範圍。<span class="note-ref" style="border-color:rgba(255,255,255,0.5);">Access Now 與 Amnesty<span class="note-tag">註</span><span class="note-body"><span class="nk">清單 C · 求助資源</span><span class="nh">兩條可信的求助管道</span><span class="np">Access Now 數位安全熱線（Digital Security Helpline）為公民社會工作者、記者與人權捍衛者提供全天候的事件支援，服務免費，支援多種語言。</span><span class="np">Amnesty International 的 Security Lab 專責進階監控與間諜軟體的數位鑑識，Pegasus 等案例的技術報告多出自此類實驗室。懷疑裝置被植入間諜軟體時，這是少數具備鑑識能力的求助對象。</span></span></span>是兩條可信的管道，發稿或收款之前就可以聯繫，不必等到出事。</p>
+    </div>
+    <div class="card" data-anim="slide-r" style="--d:.35s;">
+      <span class="idx">疑似入侵時換乾淨裝置</span>
+      <p class="body">先不要在原裝置上改密碼、搜尋處理方式或討論事件，改用另一部可信任的裝置聯絡專業支援，並保存事件時間線。</p>
+    </div>
+  </div>
+  <p class="body-lg" style="margin-top:56px;max-width:1450px;">數位衛生的終點不是零風險。它的終點，是清楚知道自己接受了哪些風險，而不是在不知情的狀態下承擔它們。</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>15</span></div>
+</section>
+
+<!-- 16 過場：金流 -->
+<section class="slide bg-purple" data-label="金流過場">
+  <p class="eyebrow">第三部分</p>
+  <h1 class="title-lg" style="margin-top:auto;">最難的一站<span class="accent">：</span>錢</h1>
+  <p class="body-lg" style="margin-top:44px;margin-bottom:auto;max-width:1400px;">名字可以化名，信箱可以另開，但錢終究要流到一個真實的人手上。在旅程地圖的五站之中，收款是可連結性最強的一站，因為支付資料與法定身分之間，隔著的往往只有一層 KYC 表單。</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>16</span></div>
+</section>
+
+<!-- 17 STOP5 收款地圖 -->
+<section class="slide bg-cream" data-label="STOP5 收款">
+  <p class="eyebrow">STOP 05 · 收款</p>
+  <h2 class="title" style="margin-top:24px;">每一條收款路徑，都通往法定身分</h2>
+  <div class="chain" style="margin-top:44px;">
+    <div class="node" data-anim="pop" style="--d:.15s;"><span class="who">平台</span><span class="sees">讚賞、訂閱、打賞的帳務紀錄</span></div>
+    <div class="arr" data-loop="arrow">→</div>
+    <div class="node" data-anim="pop" style="--d:.3s;"><span class="who">支付服務商</span><span class="sees">卡號、帳單地址、交易時間與金額</span></div>
+    <div class="arr" data-loop="arrow" style="--d:.8s;">→</div>
+    <div class="node hot" data-anim="pop" style="--d:.45s;"><span class="who">銀行</span><span class="sees">KYC 實名身分、跨行與跨境紀錄</span></div>
+    <div class="arr" data-loop="arrow" style="--d:1s;">→</div>
+    <div class="node" data-anim="pop" style="--d:.6s;"><span class="who">公開區塊鏈</span><span class="sees">地址、每筆轉帳的對象、時間與金額，全球可查</span></div>
+  </div>
+  <p class="body" style="margin-top:44px;max-width:1560px;">許多海外獨立記者採用多國帳戶收款以分散風險。這個作法值得繼續，但要先分清楚它分散的是什麼：<span class="note-ref">多國帳戶分散的是「被凍結」的風險，不是「被指認」的風險<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 05 · 分散與匿名</span><span class="nh">兩種風險，兩種對策</span><span class="np">帳戶被凍結是可用性風險：單一機構停止服務，收入就中斷。多國、多機構開戶確實能分散這種風險，因為任何單一機構的處分影響有限。</span><span class="np">身分被指認是連結性風險：每一個帳戶在開戶時都完成了 KYC，法定身分已經與帳戶綁定。帳戶開得越多，持有你身分資料的機構也越多，可被調取或外洩的節點反而增加。兩種風險需要分開評估，不能以為分散了一種，另一種也跟著降低。</span></span></span>。每個帳戶都做過 KYC，每個帳戶都接得回你。</p>
+  <div class="jmini">
+    <div class="chip"><span class="no">01</span><span class="nm">查資料</span></div>
+    <div class="chip"><span class="no">02</span><span class="nm">聯絡互動</span></div>
+    <div class="chip"><span class="no">03</span><span class="nm">上稿</span></div>
+    <div class="chip"><span class="no">04</span><span class="nm">發布之後</span></div>
+    <div class="chip active"><span class="no">05</span><span class="nm">收款</span></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>17</span></div>
+</section>
+
+<!-- 18 裸奔 -->
+<section class="slide bg-ink" data-label="鏈上裸奔">
+  <p class="eyebrow">STOP 05 · 加密貨幣</p>
+  <h2 class="title" style="margin-top:24px;">公開鏈不是匿名，是裸奔</h2>
+  <div class="grid-2" style="margin-top:48px;gap:56px;">
+    <p class="body-lg">不少人以為改收加密貨幣就多了一層匿名。實情相反：在公開區塊鏈上，只要知道某人持有哪個地址，他的每一筆轉帳、每個往來對象、每個時間點，任何人都查得到，而且永久保存。</p>
+    <p class="body-lg">以此為基礎發展出的<span class="note-ref">幣流分析<span class="note-tag">註</span><span class="note-body"><span class="nk">STOP 05 · 幣流分析</span><span class="nh">同一套技術，兩種用途</span><span class="np">幣流分析（blockchain analysis）指的是利用鏈上公開資料，追蹤資金流向、為地址貼上身分標籤的技術。Chainalysis、Elliptic 等公司以此協助執法機關追緝詐騙與洗錢，交易所也依賴同類服務判斷入金是否來自可疑地址。</span><span class="np">技術本身不分對象。用來追贓款的方法，同樣可以用來追蹤一位獨立記者的讀者贊助：誰在什麼時間、捐了多少、從哪個地址來。以公開地址收受敏感贊助，等於把收入帳本攤開在所有人面前。</span></span></span>產業，已經能把地址與真實身分大規模對應。用日常公開錢包收敏感贊助，等於替監視者省去了最費工的一步。</p>
+  </div>
+  <p class="pullquote" data-anim="fade-up" style="--d:.5s;margin-top:72px;">於是弔詭出現了：想要隱私的人，<span class="hl">過去反而不該用區塊鏈</span>。</p>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>18</span></div>
+</section>
+
+<!-- 19 三代演化 -->
+<section class="slide bg-cream" data-label="隱私金流三代">
+  <p class="eyebrow">STOP 05 · 隱私金流技術</p>
+  <h2 class="title" style="margin-top:20px;">三代演化，把問題從密碼學移向治理</h2>
+  <div class="gen">
+    <div class="g" data-anim="fade-up" style="--d:.15s;">
+      <span class="era">第一代 · 混幣器</span>
+      <h3>Tornado Cash</h3>
+      <p class="mech">像一座許願池：投進去的硬幣與撿出來的硬幣不是同一顆，幣流就此產生斷點。池子越大、間隔越久，越能藏樹於林。</p>
+      <p class="fail">池子不分好壞。遭駭資金與國家級洗錢混入後，全體使用者一起被標記，<span class="note-ref">服務曾遭美國制裁、開發者被起訴<span class="note-tag">註</span><span class="note-body"><span class="nk">第一代 · 法律後果</span><span class="nh">Tornado Cash 的三段時間線</span><span class="np">2022 年 8 月，美國財政部海外資產控制辦公室（OFAC）將 Tornado Cash 列入制裁名單，指其自 2019 年起經手洗錢逾七十億美元，其中包括北韓 Lazarus Group 的四億五千餘萬美元。2024 年 11 月，第五巡迴法院在 Van Loon v. Treasury 案判決不可變的智能合約不屬於制裁法授權處分的「財產」，OFAC 逾越授權；2025 年 3 月 21 日，OFAC 正式將其自名單除名。</span><span class="np">值得注意的是，協定除名不等於開發者平反：Pertsev 在荷蘭一審被判五年四個月（上訴中），Storm 在美國的訴訟至今仍未終局。工具的法律地位與人的刑責走上兩條不同的軌道，這正是「技術問題演變為治理問題」的具體例子。</span></span></span>。</p>
+    </div>
+    <div class="g g2" data-anim="fade-up" style="--d:.35s;">
+      <span class="era">第二代 · 白名單</span>
+      <h3>Privacy Pools</h3>
+      <p class="mech">投幣前先出示「匿名良民證」：證明自己的錢不屬於已知的髒錢集合，但不透露自己是誰。證明失效時可取回退款，不會被沒收。</p>
+      <p class="fail">關鍵問題從密碼學轉為治理：<span class="note-ref">誰來定義乾淨<span class="note-tag">註</span><span class="note-body"><span class="nk">第二代 · 治理問題</span><span class="nh">關聯集服務商（ASP）與好壞的定義權</span><span class="np">Privacy Pools 的設計出自 Buterin、Illum、Nadler、Schär 與 Soleimani 的論文〈Blockchain Privacy and Regulatory Compliance〉（2024 年刊於 Blockchain: Research and Applications）。核心概念是關聯集（association set）：使用者以零知識證明表明自己的資金屬於某個乾淨集合，而集合的維護者稱為 ASP。實作方 0xbow 已於 2025 年 3 月底在以太坊主網上線，規模尚小，仍屬早期方案。</span><span class="np">誰能經營 ASP、依什麼標準納入或排除，就是這一代設計留下的治理問題。獨裁政權眼中的「運動人士」與民主社會眼中的「公民」可能是同一批人，良民的定義沒有全球共識，因此不同的池子會演化出不同的在地標準。</span></span></span>？獨裁政權的黑名單上，可能正是我們想保護的人。</p>
+    </div>
+    <div class="g g3" data-anim="fade-up" style="--d:.55s;">
+      <span class="era">第三代 · 黑名單＋聯防</span>
+      <h3>Railgun</h3>
+      <p class="mech">不在制裁名單上即可將資產上盾，需要時以零知識證明選擇性揭露、自證清白，不必交出全部隱私。</p>
+      <p class="fail">搭配守望相助機制：遭駭服務的贓款地址被社群標記後上不了盾。<span class="note-ref">2025 年 zkLend 事件<span class="note-tag">註</span><span class="note-body"><span class="nk">第三代 · 實際案例</span><span class="nh">一次邊界防守成功的紀錄，以及它的限度</span><span class="np">2025 年 2 月 12 日，鏈上借貸服務 zkLend 遭駭，損失約九百五十萬美元。攻擊者嘗試將贓款轉入 Railgun 以切斷追蹤，但無法通過 Private Proofs of Innocence 的檢核而被拒斥，資金只能退回原地址。</span><span class="np">這個案例證明的是「隱私協定可以在不認識任何使用者的前提下拒收已知贓款」，不多也不少。它沒有讓受害者拿回錢：該名攻擊者一個月後把約五百四十萬美元誤送進假冒 Tornado Cash 的釣魚網站而全數損失，zkLend 本身則在同年六月宣布結束營運。單一事件也不足以證明聯防在所有情境下有效。</span></span></span>是一次成功的邊界防守。</p>
+    </div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>19</span></div>
+</section>
+
+<!-- 20 治理 -->
+<section class="slide bg-ink" data-label="治理才是問題">
+  <p class="eyebrow">STOP 05 · 小結</p>
+  <div style="margin:auto 0;">
+    <p class="pullquote" data-anim="blur-in">技術一代比一代精巧，<br>而真正未決的問題只有一個：<span class="hl">誰來定義好人</span>。</p>
+    <p class="body-lg" data-anim="fade-up" style="--d:.5s;margin-top:56px;max-width:1500px;">白名單與黑名單都需要維護者，維護者就有立場。對獨立記者而言，這不是抽象的哲學問題：在某些政權的名單上，記者本人就是待排除的對象。所以選擇隱私金流工具時，除了技術，也要看它的名單由誰維護、依什麼程序修訂。</p>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>20</span></div>
+</section>
+
+<!-- 21 實務建議 -->
+<section class="slide bg-cream" data-label="收款實務建議">
+  <p class="eyebrow">STOP 05 · 實務建議</p>
+  <h2 class="title" style="margin-top:24px;">回到今天可以做的四件事</h2>
+  <div class="grid-2" style="margin-top:44px;">
+    <div class="card" data-anim="fade-up" style="--d:.15s;"><span class="idx">01 先盤點，再收款</span><p class="body">把整段付款流程會經過的服務商列出來：平台、支付商、銀行、公開鏈各看得到什麼。寫下來之後，再決定能不能接受身分被接上的風險。</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.3s;"><span class="idx">02 錢包分離</span><p class="body">敏感工作不沿用日常公開錢包。地址重用是幣流分析最容易利用的線索，一次交叉就足以打穿兩個身分。</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.45s;"><span class="idx">03 分散歸分散，匿名歸匿名</span><p class="body">多國帳戶防的是凍結，不是指認。兩種風險分開評估，不要以為做了一種，另一種也順便解決了。</p></div>
+    <div class="card" data-anim="fade-up" style="--d:.6s;"><span class="idx">04 高風險收款先找人談</span><p class="body">隱私金流工具在各司法管轄區的法律定性不同。收款之前，找懂在地法律與安全的人一起判斷。本場內容是技術現況的介紹，不構成法律建議。</p></div>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>21</span></div>
+</section>
+
+<!-- 22 收束 -->
+<section class="slide bg-cream" data-label="收束">
+  <p class="eyebrow">收束</p>
+  <div style="margin:auto 0;">
+    <p class="pullquote" data-anim="blur-in">隱私是一種當然權利。<br>不能因為有老鼠屎在做壞事，<span class="hl-p">整鍋粥就必須露白</span>。</p>
+    <p class="body-lg" data-anim="fade-up" style="--d:.5s;margin-top:56px;max-width:1520px;">平台中介者要成為屏障，做的其實是三件不會過時的事：誠實揭露自己看得到什麼、在架構層做到資料最小化、然後與發表者站在同一側，沿著旅程地圖把足跡一站一站藏好。技術會演化，名單會更迭，這三件事不會變。</p>
+  </div>
+  <div class="footer"><span>平台中介者如何成為保護獨立記者的屏障</span><span>22</span></div>
+</section>
+
+<!-- 23 資源 -->
+<section class="slide bg-subtle" data-label="延伸資源">
+  <p class="eyebrow">延伸資源</p>
+  <h2 class="title" style="margin-top:24px;">帶得走的東西</h2>
+  <div class="grid-3" style="margin-top:44px;">
+    <div class="card"><span class="idx">本場指南</span><h3 style="font-size:32px;">safety.matters.town</h3><p class="body">旅程地圖的完整版：足跡盤點、行動清單與平台措施，持續更新。</p></div>
+    <div class="card"><span class="idx">長文</span><h3 style="font-size:32px;">風暴鈔、隱の池與軌道炮</h3><p class="body">隱私金流三代演化的白話解析，發表於 Matters 與 mashbean.net。</p></div>
+    <div class="card"><span class="idx">即將發布</span><h3 style="font-size:32px;">田間數位資安小冊</h3><p class="body">與 Toomore 合著，涵蓋兩場活動內容，活動後發送給報名者。</p></div>
+    <div class="card"><span class="idx">威脅建模</span><h3 style="font-size:32px;">EFF Surveillance Self-Defense</h3><p class="body">ssd.eff.org，本場威脅建模五問的出處。</p></div>
+    <div class="card"><span class="idx">記者專用</span><h3 style="font-size:32px;">CPJ Digital Safety Kit</h3><p class="body">保護記者委員會的數位安全工具包，涵蓋帳號、裝置與事件準備。</p></div>
+    <div class="card"><span class="idx">緊急支援</span><h3 style="font-size:32px;">Access Now Helpline</h3><p class="body">公民社會與記者的全天候數位安全熱線，出事前就可以聯繫。</p></div>
+  </div>
+  <div class="footer"><span>謝謝大家 · 豆泥 黃彥霖 · mashbean.net</span><span>23</span></div>
+</section>
+
+</deck-stage>
+
+<script src="./deck-stage.js"></script>
+<script>
+  // slide entrance animations re-trigger
+  (() => {
+    const stage = document.querySelector('deck-stage');
+    if (!stage) return;
+    const apply = (slide) => {
+      stage.querySelectorAll('section.is-active').forEach(s => s.classList.remove('is-active'));
+      if (!slide) return;
+      void slide.offsetWidth;
+      slide.classList.add('is-active');
+    };
+    stage.addEventListener('slidechange', (e) => apply(e.detail.slide));
+    requestAnimationFrame(() => {
+      apply(stage.querySelector('section[data-deck-active]') || stage.querySelector('section'));
+    });
+  })();
+
+  // Annotation popups — click a .note-ref to open its .note-body in a centered card.
+  (() => {
+    const ov = document.createElement('div');
+    ov.id = 'note-overlay';
+    ov.innerHTML = '<div class="note-card" role="dialog" aria-modal="true"><button class="note-close" aria-label="關閉">✕</button><div class="note-content"></div></div>';
+    document.body.appendChild(ov);
+    const content = ov.querySelector('.note-content');
+    const close = () => ov.classList.remove('open');
+    ov.addEventListener('click', (e) => { if (e.target === ov || e.target.closest('.note-close')) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); }, true);
+    document.addEventListener('click', (e) => {
+      const ref = e.target.closest('.note-ref'); if (!ref) return;
+      const body = ref.querySelector('.note-body'); if (!body) return;
+      e.preventDefault(); e.stopPropagation();
+      content.innerHTML = body.innerHTML;
+      ov.classList.add('open');
+    }, true);
+  })();
+
+  // Interactive checklists — click to toggle, keep a per-slide counter.
+  (() => {
+    document.querySelectorAll('ul.chk').forEach((list) => {
+      const slide = list.closest('section');
+      const counter = slide && slide.querySelector('[data-chk-count]');
+      const update = () => {
+        if (!counter) return;
+        const total = list.querySelectorAll('li').length;
+        const done = list.querySelectorAll('li.done').length;
+        counter.textContent = done + ' / ' + total + ' 完成';
+      };
+      list.addEventListener('click', (e) => {
+        if (e.target.closest('.note-ref')) return;
+        const li = e.target.closest('li'); if (!li) return;
+        e.stopPropagation();
+        li.classList.toggle('done');
+        update();
+      });
+    });
+  })();
+</script>
+</body>
+</html>
