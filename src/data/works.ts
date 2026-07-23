@@ -100,6 +100,17 @@ export const works: Work[] = [
     group: "matters",
   },
   {
+    slug: "safety-guide",
+    title: "Matters 安全指南",
+    tagline:
+      "給獨立記者與敏感議題寫作者的安全指南：從查資料、聯絡、上稿到收款，看懂平台來函、洋蔥小站、IPFS 與個人備份。",
+    url: "https://safety.matters.town/",
+    repo: "https://github.com/thematters/matters-safety-guide",
+    chips: ["數位安全", "獨立記者"],
+    cover: "images/works/safety-guide.jpg",
+    group: "matters",
+  },
+  {
     slug: "seven-day-book-museum",
     title: "七日書博物館",
     tagline: "歷屆七日書的典藏館：每一期的七道題目、大滿貫與參加獎名冊，寫過的都留了下來。",
