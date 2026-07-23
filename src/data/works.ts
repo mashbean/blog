@@ -50,8 +50,18 @@ export const works: Work[] = [
       "從國家憑證到公民自我證明的學術研究站：25 篇系列文章，涵蓋數位身分、規範理論、工程實作與跨國治理。",
     url: "https://civic-proof.mashbean.net/",
     repo: "https://github.com/mashbean/civic-proof-en",
-    chips: ["研究站", "英文"],
+    chips: ["研究站", "中英雙語"],
     cover: "images/works/civic-proof.jpg",
+    group: "personal",
+  },
+  {
+    slug: "bonds",
+    title: "Bond 有備而來",
+    tagline:
+      "也許今天風和日麗，但 BEAR 可能隨時闖入——把身分與證明先備份好，有備而來。",
+    url: "https://bonds.tw/",
+    chips: ["數位備災"],
+    cover: "images/works/bonds.jpg",
     group: "personal",
   },
   {
