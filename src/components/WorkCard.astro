@@ -1,4 +1,5 @@
 ---
+import { withBase } from "@/utils/paths";
 import type { Work } from "@/data/works";
 
 interface Props {
@@ -9,24 +10,40 @@ const { work } = Astro.props as Props;
 ---
 
 <article class="work-card" id={work.slug}>
-  <h3 class="work-card-title">
-    <a href={work.url} target="_blank" rel="noopener noreferrer">
-      {work.title}
-      <span class="work-card-arrow" aria-hidden="true">↗</span>
-    </a>
-  </h3>
-  <p class="work-card-tagline">{work.tagline}</p>
-  <p class="work-card-meta">
-    {work.chips?.map((chip) => <span class="work-card-chip">{chip}</span>)}
-    {work.note && <span class="work-card-note">{work.note}</span>}
-    {
-      work.repo && (
-        <a class="work-card-repo" href={work.repo} target="_blank" rel="noopener noreferrer">
-          原始碼
-        </a>
-      )
-    }
-  </p>
+  {
+    work.cover && (
+      <a
+        class="work-card-cover"
+        href={work.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <img src={withBase(work.cover)} alt="" loading="lazy" decoding="async" />
+      </a>
+    )
+  }
+  <div class="work-card-body">
+    <h3 class="work-card-title">
+      <a href={work.url} target="_blank" rel="noopener noreferrer">
+        {work.title}
+        <span class="work-card-arrow" aria-hidden="true">↗</span>
+      </a>
+    </h3>
+    <p class="work-card-tagline">{work.tagline}</p>
+    <p class="work-card-meta">
+      {work.chips?.map((chip) => <span class="work-card-chip">{chip}</span>)}
+      {work.note && <span class="work-card-note">{work.note}</span>}
+      {
+        work.repo && (
+          <a class="work-card-repo" href={work.repo} target="_blank" rel="noopener noreferrer">
+            原始碼
+          </a>
+        )
+      }
+    </p>
+  </div>
 </article>
 
 <style>
@@ -34,11 +51,10 @@ const { work } = Astro.props as Props;
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 0.45rem;
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--radius-md);
-    padding: 0.95rem 1.1rem 0.85rem;
     background: var(--color-surface-elevated);
+    overflow: hidden;
     transition:
       border-color 0.16s ease,
       box-shadow 0.16s ease,
@@ -48,6 +64,28 @@ const { work } = Astro.props as Props;
     border-color: var(--color-border-strong);
     box-shadow: 0 7px 18px rgba(16, 48, 55, 0.08);
     background: var(--color-surface-muted);
+  }
+  .work-card-cover {
+    display: block;
+    border-bottom: 1px solid var(--color-border-subtle);
+    background: var(--color-surface-muted);
+  }
+  .work-card-cover img {
+    width: 100%;
+    aspect-ratio: 40 / 21;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.22s ease;
+  }
+  .work-card:hover .work-card-cover img {
+    transform: scale(1.02);
+  }
+  .work-card-body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    padding: 0.85rem 1.1rem 0.85rem;
   }
   .work-card-title {
     margin: 0;

@@ -16,7 +16,6 @@ const groups = (Object.keys(workGroups) as Array<keyof typeof workGroups>).map((
 >
   <div class="home-section-head">
     <h1 class="section-title" style="margin-top: 0;">作品集</h1>
-    <p class="home-section-meta">{works.length} 件 · 個人實驗與馬特市的開源公共設施</p>
   </div>
 
   {
@@ -24,7 +23,6 @@ const groups = (Object.keys(workGroups) as Array<keyof typeof workGroups>).map((
       <section class="work-group" aria-label={group.title}>
         <div class="work-group-head">
           <h2 class="work-group-title">{group.title}</h2>
-          <p class="work-group-blurb">{group.blurb}</p>
         </div>
         <ul class="work-grid">
           {group.items.map((work) => (
@@ -52,11 +50,6 @@ const groups = (Object.keys(workGroups) as Array<keyof typeof workGroups>).map((
   .work-group-title {
     margin: 0;
     font-size: 1.3rem;
-  }
-  .work-group-blurb {
-    margin: 0;
-    color: var(--color-muted);
-    font-size: 0.9rem;
   }
   .work-grid {
     list-style: none;

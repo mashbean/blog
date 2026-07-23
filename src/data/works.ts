@@ -4,10 +4,11 @@
 // source); order within each group is curatorial, not chronological.
 //
 // Add a new work: append an entry here — the page renders whatever this
-// array holds.
+// array holds. Covers live in public/images/works/<slug>.jpg (960w JPEG,
+// sourced from each site's og:image or a homepage screenshot).
 
 export interface Work {
-  /** Stable id, used as the DOM anchor (`/works/#<slug>`). */
+  /** Stable id, used as the DOM anchor (`/works/#<slug>`) and cover filename. */
   slug: string;
   title: string;
   /** One-liner shown under the title. */
@@ -20,18 +21,14 @@ export interface Work {
   chips?: string[];
   /** Access caveat, e.g. Tor-only. */
   note?: string;
+  /** Card cover, path under public/ (e.g. images/works/qian-dao.jpg). */
+  cover?: string;
   group: "personal" | "matters";
 }
 
-export const workGroups: Record<Work["group"], { title: string; blurb: string }> = {
-  personal: {
-    title: "個人手作",
-    blurb: "自己的攤位：一人專案，想到就做。",
-  },
-  matters: {
-    title: "馬特市工程",
-    blurb: "在 Matters 蓋的開源公共設施，程式碼全部公開。",
-  },
+export const workGroups: Record<Work["group"], { title: string }> = {
+  personal: { title: "個人手作" },
+  matters: { title: "馬特市工程" },
 };
 
 export const works: Work[] = [
@@ -43,6 +40,7 @@ export const works: Work[] = [
     url: "https://mashbean.github.io/Open-Book/",
     repo: "https://github.com/mashbean/Open-Book",
     chips: ["開放資料", "中英雙語"],
+    cover: "images/works/open-book.jpg",
     group: "personal",
   },
   {
@@ -53,6 +51,7 @@ export const works: Work[] = [
     url: "https://civic-proof.mashbean.net/",
     repo: "https://github.com/mashbean/civic-proof-en",
     chips: ["研究站", "英文"],
+    cover: "images/works/civic-proof.jpg",
     group: "personal",
   },
   {
@@ -63,6 +62,18 @@ export const works: Work[] = [
     url: "https://pro.mashbean.net/",
     repo: "https://github.com/mashbean/blog-pro",
     chips: ["AI 代筆", "研究報告"],
+    cover: "images/works/nanti-pro.jpg",
+    group: "personal",
+  },
+  {
+    slug: "fiction",
+    title: "小說集《普通人》",
+    tagline:
+      "五篇小說：框架由豆泥設計、文字由 AI 執筆，把還沒有正解的難題寫成故事。",
+    url: "https://pro.mashbean.net/fiction/",
+    repo: "https://github.com/mashbean/blog-pro",
+    chips: ["小說", "AI 代筆"],
+    cover: "images/works/fiction.jpg",
     group: "personal",
   },
   {
@@ -73,15 +84,7 @@ export const works: Work[] = [
     url: "https://check.mashbean.net/",
     repo: "https://github.com/mashbean/qian-dao",
     chips: ["純靜態", "WebAudio 合成音效"],
-    group: "personal",
-  },
-  {
-    slug: "zhaogu",
-    title: "照骨",
-    tagline:
-      "三世輪迴武俠文字 RPG：全文本二十萬字、22 種結局，選擇是唯一的機制。死過，才算入了江湖。",
-    url: "https://github.com/mashbean/sanshi-jianghu",
-    chips: ["文字遊戲", "位元像素", "線上版籌備中"],
+    cover: "images/works/qian-dao.jpg",
     group: "personal",
   },
   {
@@ -93,6 +96,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/matters-onion-gateway",
     chips: ["Tor", "匿名閱讀"],
     note: "需以 Tor Browser 開啟",
+    cover: "images/works/onion-gateway.jpg",
     group: "matters",
   },
   {
@@ -102,6 +106,7 @@ export const works: Work[] = [
     url: "https://freewriting.matters.town/museum",
     repo: "https://github.com/thematters/seven-day-book-landing",
     chips: ["社群書寫"],
+    cover: "images/works/seven-day-book-museum.jpg",
     group: "matters",
   },
   {
@@ -112,6 +117,7 @@ export const works: Work[] = [
     url: "https://lifeboat.matters.town/",
     repo: "https://github.com/thematters/matters-lifeboat",
     chips: ["資料可攜", "IPFS"],
+    cover: "images/works/lifeboat.jpg",
     group: "matters",
   },
   {
@@ -122,6 +128,7 @@ export const works: Work[] = [
     url: "https://fediverse-gateway.matters.town/",
     repo: "https://github.com/thematters/matters-fediverse-gateway",
     chips: ["ActivityPub", "開發中"],
+    cover: "images/works/fediverse-gateway.jpg",
     group: "matters",
   },
   {
@@ -132,6 +139,7 @@ export const works: Work[] = [
     url: "https://community-watch.matters.town/",
     repo: "https://github.com/thematters/community-watch",
     chips: ["社群治理"],
+    cover: "images/works/community-watch.jpg",
     group: "matters",
   },
   {
@@ -142,6 +150,7 @@ export const works: Work[] = [
     url: "https://governance.matters.town/",
     repo: "https://github.com/thematters/matters-governance-site",
     chips: ["治理科普", "TWNIC 計畫"],
+    cover: "images/works/governance.jpg",
     group: "matters",
   },
 ];
