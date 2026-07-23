@@ -46,6 +46,26 @@ export const works: Work[] = [
     group: "personal",
   },
   {
+    slug: "civic-proof",
+    title: "civic-proof 公民證明",
+    tagline:
+      "從國家憑證到公民自我證明的學術研究站：25 篇系列文章，涵蓋數位身分、規範理論、工程實作與跨國治理。",
+    url: "https://civic-proof.mashbean.net/",
+    repo: "https://github.com/mashbean/civic-proof-en",
+    chips: ["研究站", "英文"],
+    group: "personal",
+  },
+  {
+    slug: "nanti-pro",
+    title: "難題",
+    tagline:
+      "由豆泥提問、AI 代筆作答的研究報告站——許多問題還沒有正解，但是要有人開始問。",
+    url: "https://pro.mashbean.net/",
+    repo: "https://github.com/mashbean/blog-pro",
+    chips: ["AI 代筆", "研究報告"],
+    group: "personal",
+  },
+  {
     slug: "qian-dao",
     title: "籤到",
     tagline:
