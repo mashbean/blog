@@ -19,6 +19,7 @@
   }
 
   html {
+    color-scheme: light;
     scroll-behavior: smooth;
     scroll-padding-top: 5.6rem;
     scrollbar-gutter: stable;
@@ -52,6 +53,7 @@
     font-family: var(--font-serif);
     line-height: 1.25;
     letter-spacing: 0.01em;
+    text-wrap: balance;
   }
 
   a {
@@ -1182,9 +1184,12 @@
   }
 
   .article-prose {
-    max-width: 74ch;
-    font-size: calc(1rem * var(--article-font-scale));
+    /* 全形字 = 1em：36em 即「一行最多 36 字」，比 ch（以「0」半形寬計）更貼中文行長 */
+    max-width: 36em;
+    font-size: calc(1.125rem * var(--article-font-scale));
     transition: font-size 0.15s ease;
+    overflow-wrap: break-word;
+    hanging-punctuation: first allow-end;
   }
 
   .article-layout {
@@ -1392,7 +1397,19 @@
   }
 
   .article-prose p {
-    margin: 0 0 1rem;
+    margin: 0 0 1.3em;
+  }
+
+  .article-prose p,
+  .article-prose li,
+  .article-prose blockquote {
+    text-align: justify;
+    text-wrap: pretty;
+  }
+
+  .article-prose a {
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
   }
 
   .article-prose h2,
@@ -1404,7 +1421,7 @@
   .article-prose h2 {
     margin-bottom: 0.62rem;
     font-family: var(--font-serif);
-    font-size: clamp(1.32rem, 2.15vw, 1.72rem);
+    font-size: clamp(1.42rem, 2.15vw, 1.72rem);
     line-height: 1.3;
     font-weight: 700;
     letter-spacing: 0.015em;
@@ -1413,7 +1430,7 @@
   .article-prose h3 {
     margin-bottom: 0.56rem;
     font-family: var(--font-sans);
-    font-size: clamp(1.18rem, 1.85vw, 1.42rem);
+    font-size: clamp(1.28rem, 1.85vw, 1.42rem);
     line-height: 1.34;
     font-weight: 700;
     letter-spacing: 0.01em;
@@ -1423,12 +1440,12 @@
 
   .article-prose ul,
   .article-prose ol {
-    margin: 0 0 1rem 1.3rem;
+    margin: 0 0 1.3em 1.3rem;
     padding: 0;
   }
 
   .article-prose blockquote {
-    margin: 1.1rem 0;
+    margin: 1.3em 0;
     border-left: 4px solid #8ecdc1;
     padding: 0.5rem 0 0.5rem 0.8rem;
     color: #2f5a58;
@@ -2588,7 +2605,8 @@
   }
 
   body.focus-reading .article-main {
-    max-width: 78ch;
+    /* 對齊 .article-prose 的 36em × 1.125rem，聚焦模式置中不偏移 */
+    max-width: 40.5em;
     margin-inline: auto;
   }
 
@@ -2906,11 +2924,11 @@
   }
 
   .article-prose h2 {
-    font-size: clamp(1.2rem, 5.6vw, 1.38rem);
+    font-size: clamp(1.32rem, 6vw, 1.5rem);
   }
 
   .article-prose h3 {
-    font-size: clamp(1.08rem, 5vw, 1.24rem);
+    font-size: clamp(1.2rem, 5.4vw, 1.35rem);
     padding-left: 0.5rem;
     border-left-width: 3px;
   }
