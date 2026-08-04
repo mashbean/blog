@@ -1,5 +1,5 @@
 ---
-import { render, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { buildPostUrl, getPostCanonicalPathSegment, getPostPathCandidates } from "@/utils/blog";
 import { formatDate } from "@/utils/date";
@@ -64,6 +64,24 @@ if (!isLegacyPath) {
   const renderedPost = await render(post);
   Content = renderedPost.Content;
   headings = renderedPost.headings;
+}
+
+// 對應的翻譯版本（translations collection 以 translationOf 指回本文 id）。
+// 翻譯與原文共用同一網址，由前端切換顯示，不另外產生頁面。
+let translation: CollectionEntry<"translations"> | null = null;
+let TranslationContent: any = null;
+let translationHeadings: { depth: number; slug: string; text: string }[] = [];
+if (!isLegacyPath) {
+  const translationEntries = await getCollection(
+    "translations",
+    (entry: CollectionEntry<"translations">) => entry.data.translationOf === post.id
+  );
+  translation = translationEntries[0] ?? null;
+  if (translation) {
+    const renderedTranslation = await render(translation);
+    TranslationContent = renderedTranslation.Content;
+    translationHeadings = renderedTranslation.headings;
+  }
 }
 const postTitle = cleanPostTitle(post.data.title);
 const signatureCheck = !isLegacyPath
@@ -150,21 +168,27 @@ const coverURL = coverSrc
       : coverSrc
   : undefined;
 
-const readingMinutes = !isLegacyPath
-  ? (() => {
-      const plain = (post.body ?? "")
-        .replace(/```[\s\S]*?```/g, " ")
-        .replace(/`[^`]*`/g, " ")
-        .replace(/<[^>]+>/g, " ")
-        .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ");
-      const latinWords = (plain.match(/[A-Za-z0-9_]+/g) ?? []).length;
-      const cjkChars = (plain.match(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u30FF]/g) ?? []).length;
-      const mixedWordCount = latinWords + cjkChars / 2;
-      return Math.max(1, Math.round(mixedWordCount / 220));
-    })()
+const computeReadingMinutes = (body: string): number => {
+  const plain = body
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ");
+  const latinWords = (plain.match(/[A-Za-z0-9_]+/g) ?? []).length;
+  const cjkChars = (plain.match(/[\u4E00-\u9FFF\u3400-\u4DBF\u3040-\u30FF]/g) ?? []).length;
+  const mixedWordCount = latinWords + cjkChars / 2;
+  return Math.max(1, Math.round(mixedWordCount / 220));
+};
+
+const readingMinutes = !isLegacyPath ? computeReadingMinutes(post.body ?? "") : 0;
+const translationReadingMinutes = translation
+  ? computeReadingMinutes(translation.body ?? "")
   : 0;
 
 const tocHeadings = headings.filter((item) => item.depth === 2 || item.depth === 3);
+const translationTocHeadings = translationHeadings.filter(
+  (item) => item.depth === 2 || item.depth === 3
+);
 
 const newerPost = !isLegacyPath && newerPostId ? postsById.get(newerPostId) ?? null : null;
 const olderPost = !isLegacyPath && olderPostId ? postsById.get(olderPostId) ?? null : null;
@@ -206,17 +230,44 @@ const articleStructuredData = !isLegacyPath
       structuredData={articleStructuredData}
       isArticle={true}
     >
-  <article class="article-layout">
+  <article class="article-layout" data-active-lang="zh">
     <div class="article-main">
       <header class="article-header">
-        <h1 class="article-title">{postTitle}</h1>
+        <h1 class="article-title">
+          {translation ? (
+            <>
+              <span class="lang-variant lang-zh">{postTitle}</span>
+              <span class="lang-variant lang-en" lang="en">{cleanPostTitle(translation.data.title)}</span>
+            </>
+          ) : (
+            postTitle
+          )}
+        </h1>
+        {translation && (
+          <div class="lang-toggle" role="group" aria-label="切換語言 Switch language">
+            <button type="button" class="lang-toggle-btn is-active" data-lang-btn="zh">中文</button>
+            <button type="button" class="lang-toggle-btn" data-lang-btn="en">English</button>
+          </div>
+        )}
         <div class="article-meta-row">
           <p class="article-meta">
-            發布：
+            {translation ? (
+              <>
+                <span class="lang-variant lang-zh">發布：</span>
+                <span class="lang-variant lang-en">Published: </span>
+              </>
+            ) : (
+              "發布："
+            )}
             <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-            {" · 約 "}
-            {readingMinutes}
-            {" 分鐘閱讀"}
+            {translation ? (
+              <>
+                <span class="lang-variant lang-zh">{` · 約 ${readingMinutes} 分鐘閱讀`}</span>
+                <span class="lang-variant lang-en">{` · ${translationReadingMinutes} min read`}</span>
+              </>
+            ) : (
+              ` · 約 ${readingMinutes} 分鐘閱讀`
+            )}
             {
               post.data.updatedDate && (
                 <>
@@ -305,7 +356,14 @@ const articleStructuredData = !isLegacyPath
           </details>
         )}
         {post.data.author && <p class="article-author">作者：{post.data.author}</p>}
-        {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
+        {post.data.lead && (
+          <p class:list={{ "article-lead": true, "lang-variant": Boolean(translation), "lang-zh": Boolean(translation) }}>
+            {post.data.lead}
+          </p>
+        )}
+        {translation?.data.lead && (
+          <p class="article-lead lang-variant lang-en" lang="en">{translation.data.lead}</p>
+        )}
 
         {classifiedCurrent.topics.length > 0 && (
           <ul class="tag-list" aria-label="文章標籤">
@@ -343,7 +401,18 @@ const articleStructuredData = !isLegacyPath
       )}
 
       <div class="article-prose">
-        <Content />
+        {translation ? (
+          <>
+            <div class="lang-variant lang-zh">
+              <Content />
+            </div>
+            <div class="lang-variant lang-en" lang="en">
+              <TranslationContent />
+            </div>
+          </>
+        ) : (
+          <Content />
+        )}
       </div>
 
       <nav class="article-pagination" aria-label="文章導覽">
@@ -388,14 +457,32 @@ const articleStructuredData = !isLegacyPath
       <div class="toc-card">
         {tocHeadings.length > 0 && (
           <>
-            <h2>目錄</h2>
-            <ol class="toc-list">
+            <h2>
+              {translation ? (
+                <>
+                  <span class="lang-variant lang-zh">目錄</span>
+                  <span class="lang-variant lang-en" lang="en">Contents</span>
+                </>
+              ) : (
+                "目錄"
+              )}
+            </h2>
+            <ol class:list={{ "toc-list": true, "lang-variant": Boolean(translation), "lang-zh": Boolean(translation) }}>
               {tocHeadings.map((item) => (
                 <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
                   <a href={`#${item.slug}`}>{item.text}</a>
                 </li>
               ))}
             </ol>
+            {translation && translationTocHeadings.length > 0 && (
+              <ol class="toc-list lang-variant lang-en" lang="en">
+                {translationTocHeadings.map((item) => (
+                  <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
+                    <a href={`#${item.slug}`}>{item.text}</a>
+                  </li>
+                ))}
+              </ol>
+            )}
           </>
         )}
         <div class="toc-share-card">
@@ -432,6 +519,49 @@ const articleStructuredData = !isLegacyPath
           copyButton.textContent = originalLabel ?? "分享本文";
         }, 1200);
       });
+    </script>
+  )
+}
+
+{
+  !isLegacyPath && translation && (
+    <script is:inline>
+      (() => {
+        const article = document.querySelector(".article-layout");
+        const buttons = Array.from(document.querySelectorAll("[data-lang-btn]"));
+        if (!article || buttons.length === 0) return;
+
+        const setLang = (lang, updateUrl) => {
+          article.setAttribute("data-active-lang", lang);
+          buttons.forEach((btn) => {
+            const isActive = btn.getAttribute("data-lang-btn") === lang;
+            btn.classList.toggle("is-active", isActive);
+            btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+          });
+          if (updateUrl) {
+            const url = new URL(window.location.href);
+            if (lang === "en") {
+              url.searchParams.set("lang", "en");
+            } else {
+              url.searchParams.delete("lang");
+            }
+            window.history.replaceState(null, "", url);
+          }
+        };
+
+        buttons.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const lang = btn.getAttribute("data-lang-btn") || "zh";
+            setLang(lang, true);
+            if (typeof window.mbTrack === "function") {
+              window.mbTrack("Article Language Switched", { lang });
+            }
+          });
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("lang") === "en") setLang("en", false);
+      })();
     </script>
   )
 }

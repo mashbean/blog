@@ -3077,3 +3077,41 @@
     white-space: normal;
   }
 }
+
+/* 文章中英切換（translations collection 提供同址雙語內容） */
+.article-layout[data-active-lang="zh"] .lang-variant.lang-en,
+.article-layout[data-active-lang="en"] .lang-variant.lang-zh {
+  display: none;
+}
+
+.lang-toggle {
+  margin-top: 0.66rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  border: 1px solid #c7d8d2;
+  border-radius: 999px;
+  background: #f8fcfa;
+  padding: 0.18rem;
+}
+
+.lang-toggle-btn {
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #31505e;
+  font-size: 0.85rem;
+  min-height: 2.1rem;
+  padding: 0.22rem 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.lang-toggle-btn:hover {
+  background: #ebf6f2;
+}
+
+.lang-toggle-btn.is-active {
+  background: #1f3b48;
+  color: #f8fcfa;
+}

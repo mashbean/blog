@@ -38,9 +38,18 @@ const blog = defineCollection({
   schema: postSchema
 });
 
+// 同一篇文章的翻譯版本。獨立 collection，因此不會出現在文章列表、
+// RSS、搜尋、標籤與 sitemap；只由文章頁面依 translationOf 對應渲染。
+const translations = defineCollection({
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/translations" }),
+  schema: postSchema.extend({
+    translationOf: z.string()
+  })
+});
+
 const facebook = defineCollection({
   loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/facebook" }),
   schema: postSchema
 });
 
-export const collections = { blog, facebook };
+export const collections = { blog, facebook, translations };
