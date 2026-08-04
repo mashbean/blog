@@ -1,0 +1,777 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我不洗錢，為何要理解匿名支付？ · COSCUP 2026 · MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'jf open 粉圓';
+    src:url('./assets/jf-openhuninn-headings.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  :root{
+    --bg:#0A0E16;
+    --panel:#101a2c;
+    --panel-2:#0D1524;
+    --line:#33445F;
+    --line-dim:#22304A;
+    --txt:#E8EEF9;
+    --dim:#93A1B8;
+    --cyan:#6AE3F9;
+    --green:#A8E64C;
+    --red:#FF6B81;
+    --amber:#FFC53D;
+    --purple:#B9A7FF;
+    --font-display:'jf open 粉圓','Noto Sans TC',sans-serif;
+    --font-body:'Noto Sans TC',sans-serif;
+    --font-mono:'JetBrains Mono','Noto Sans TC',monospace;
+  }
+  html,body{margin:0;padding:0;background:#000;font-family:var(--font-body);}
+  deck-stage{display:block;}
+  section{box-sizing:border-box;overflow:hidden;line-break:strict;overflow-wrap:break-word;}
+
+  .slide{
+    width:100%;height:100%;box-sizing:border-box;position:relative;
+    padding:64px 88px 56px;display:flex;flex-direction:column;
+    background:var(--bg);color:var(--txt);
+    background-image:radial-gradient(circle, rgba(255,255,255,.05) 1.2px, transparent 1.2px);
+    background-size:38px 38px;
+  }
+  .slide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;margin-bottom:8px;}
+  .eyebrow{font-family:var(--font-mono);font-size:24px;letter-spacing:.06em;color:var(--cyan);font-weight:500;margin:0 0 10px;}
+  .eyebrow .cm{color:var(--dim);}
+  h1,h2{font-family:var(--font-display);font-weight:400;margin:0;text-wrap:balance;}
+  .title-xl{font-size:104px;line-height:1.14;letter-spacing:-0.02em;}
+  .title{font-size:56px;line-height:1.2;letter-spacing:-0.01em;}
+  .round-chip{
+    font-family:var(--font-mono);font-size:22px;white-space:nowrap;
+    border:1.5px solid var(--line);border-radius:999px;padding:10px 22px;color:var(--dim);
+    background:rgba(16,26,44,.7);
+  }
+  .round-chip b{color:var(--amber);font-weight:500;}
+  .round-chip i{color:var(--purple);font-style:normal;}
+
+  .fc-wrap{flex:1;position:relative;min-height:0;}
+  svg.fc{width:100%;height:100%;display:block;}
+
+  /* flowchart vocabulary */
+  .edge{stroke:var(--line);stroke-width:3.5;fill:none;}
+  .edge.c-cyan{stroke:var(--cyan);}
+  .edge.c-red{stroke:var(--red);}
+  .edge.c-green{stroke:var(--green);}
+  .edge.c-amber{stroke:var(--amber);}
+  .edge.c-purple{stroke:var(--purple);}
+  .edge.dashed{stroke-dasharray:9 9;}
+  .ah{fill:var(--line);}
+  .ah.c-cyan{fill:var(--cyan);} .ah.c-red{fill:var(--red);} .ah.c-green{fill:var(--green);}
+  .ah.c-amber{fill:var(--amber);} .ah.c-purple{fill:var(--purple);}
+  .nodebox{fill:var(--panel);stroke:var(--line);stroke-width:2.5;}
+  .v-red .nodebox{stroke:var(--red);} .v-green .nodebox{stroke:var(--green);}
+  .v-amber .nodebox{stroke:var(--amber);} .v-purple .nodebox{stroke:var(--purple);}
+  .v-cyan .nodebox{stroke:var(--cyan);}
+  .ghost .nodebox{fill:transparent;stroke-dasharray:10 8;}
+  .nlabel{fill:var(--txt);font-family:var(--font-mono);font-size:29px;font-weight:500;text-anchor:middle;}
+  .nlabel.sm{font-size:25px;}
+  .nsub{fill:var(--dim);font-family:var(--font-body);font-size:22px;text-anchor:middle;}
+  .ntag{fill:var(--dim);font-family:var(--font-mono);font-size:20px;text-anchor:middle;letter-spacing:.08em;}
+  .t-red{fill:var(--red);} .t-green{fill:var(--green);} .t-amber{fill:var(--amber);}
+  .t-purple{fill:var(--purple);} .t-cyan{fill:var(--cyan);} .t-txt{fill:var(--txt);}
+  .token{stroke:#0A0E16;stroke-width:3;}
+  .caption{fill:var(--dim);font-family:var(--font-body);font-size:24px;}
+  .caption.big{font-size:28px;fill:var(--txt);}
+  .mono-cap{font-family:var(--font-mono);}
+
+  /* bottom band */
+  .band{fill:rgba(255,197,61,.08);stroke:var(--amber);stroke-width:2;stroke-dasharray:12 8;}
+  .band-purple{fill:rgba(185,167,255,.08);stroke:var(--purple);stroke-width:2;stroke-dasharray:12 8;}
+
+  /* footnote pop-ups */
+  .note-btn{
+    position:absolute;z-index:40;appearance:none;cursor:pointer;
+    font-family:var(--font-mono);font-size:21px;color:var(--amber);
+    background:rgba(16,26,44,.9);border:1.5px dashed var(--amber);border-radius:999px;
+    padding:8px 18px;letter-spacing:.05em;
+  }
+  .note-btn:hover{background:rgba(255,197,61,.14);}
+  .note-pop{
+    position:absolute;z-index:50;width:520px;visibility:hidden;opacity:0;
+    background:var(--panel-2);border:1.5px solid var(--line);border-radius:14px;
+    padding:22px 26px;font-size:22px;line-height:1.62;color:var(--txt);
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  .note-pop .np-title{font-family:var(--font-mono);color:var(--amber);font-size:20px;margin:0 0 8px;letter-spacing:.05em;}
+  .note-pop p{margin:0 0 10px;} .note-pop p:last-child{margin:0;}
+  .note-pop .src{color:var(--dim);font-size:19px;}
+
+  .footer-strip{
+    position:absolute;left:88px;right:88px;bottom:26px;display:flex;justify-content:space-between;
+    font-family:var(--font-mono);font-size:19px;color:#5A6A84;letter-spacing:.04em;
+  }
+
+  /* title slide */
+  .s1-bg{position:absolute;inset:0;opacity:.34;pointer-events:none;}
+  .s1-body{position:relative;z-index:2;margin-top:auto;margin-bottom:auto;}
+  .s1-sub{font-size:40px;color:var(--dim);margin:26px 0 0;font-family:var(--font-display);}
+  .s1-meta{margin-top:56px;font-size:27px;line-height:1.7;}
+  .s1-meta .who{color:var(--txt);font-weight:500;}
+  .s1-meta .aff{color:var(--purple);}
+  .s1-meta .where{font-family:var(--font-mono);color:var(--dim);font-size:23px;margin-top:14px;}
+
+  /* end slide */
+  .s10-body{margin-top:auto;margin-bottom:auto;position:relative;z-index:2;}
+  .s10-lines{margin:44px 0 0;font-size:36px;line-height:2.0;font-family:var(--font-display);}
+  .s10-lines .hl{color:var(--green);}
+  .s10-links{margin-top:60px;font-family:var(--font-mono);font-size:26px;line-height:2.1;color:var(--dim);}
+  .s10-links b{color:var(--cyan);font-weight:500;}
+</style>
+</head>
+<body>
+
+<script type="application/json" id="speaker-notes">[
+  "開場：COSCUP anoni.net 議程。自介：黃豆泥，以太坊基金會森友會小組（Silviculture Society）成員。今天不教洗錢，教的是為什麼「不洗錢的人」更需要理解匿名支付。",
+  "先建立共同語言：傳統洗錢三部曲（處置、分層、整合），以及對應的防治工事：KYC、可疑交易申報、FIU、FATF。台灣的兆豐案可以當註腳。",
+  "反直覺：加密貨幣是全裸的帳本。知道一個地址就能重建金流、社會關係、行動軌跡。幣流分析＋交易所 KYC＋各國洗錢防制辦公室，讓鏈上防治比銀行更即時。",
+  "Tornado Cash：許願池換硬幣的比喻。固定面額、祕密字條、零知識證明，幣流從此有了斷點。",
+  "斷點的代價：池子分不出好錢壞錢，政府就去抓造池的人。制裁、荷蘭與美國兩場審判、第五巡迴法院翻盤、營救運動、以太坊基金會為何出錢。",
+  "Privacy Pools：白名單路線。進池前先篩查，領回時出示匿名良民證。被除名可以原路退款。合規與隱私放進同一個架構協商。",
+  "Railgun：黑名單路線。上盾冷卻一小時、全民聯防、需要時選擇性揭露 PPOI。zkLend 駭客 950 萬美元被擋下是實戰戰績。",
+  "Kohaku：把隱私做成錢包預設值。EF Privacy Cluster、Devconnect 發表。人越多池越大，集體防禦。",
+  "總結整條攻防梯：每一層的攻與防都推著下一層演化。收尾丟出治理問題：誰來定義好人與壞人？",
+  "結尾：三句帶走的話＋底稿文章連結＋anoni.net 共筆。"
+]</script>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ══════════ 1 · 封面 ══════════ -->
+  <section data-label="封面" data-anim="s1">
+    <div class="slide">
+      <svg class="s1-bg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <path id="s1p" class="edge c-purple" d="M-40,880 C 300,860 380,700 620,720 S 980,900 1240,830 S 1700,640 1980,700" />
+        <g class="v-purple ghost"><rect class="nodebox" x="560" y="680" width="130" height="76" rx="14"/></g>
+        <g class="v-cyan ghost"><rect class="nodebox" x="1180" y="792" width="130" height="76" rx="14"/></g>
+        <g class="v-green ghost"><rect class="nodebox" x="1660" y="640" width="130" height="76" rx="14"/></g>
+        <circle id="s1tok" class="token t-cyan" r="13" cx="-40" cy="880"/>
+      </svg>
+      <div class="s1-body">
+        <p class="eyebrow" data-step="1"><span class="cm">//</span> coscup_2026 <span class="cm">·</span> anoni.net 匿名網路社群議程</p>
+        <h1 class="title-xl" data-step="2">我不洗錢，<br/>為何要理解匿名支付？</h1>
+        <p class="s1-sub" data-step="3">從零開始介紹隱私加密金流交易</p>
+        <div class="s1-meta" data-step="4">
+          <div><span class="who">黃豆泥 mashbean</span>　<span class="aff">以太坊基金會森友會小組（Silviculture Society）成員</span></div>
+          <div class="where">2026-08-08 15:00–15:30 · TR511 · 入門 · 中文</div>
+        </div>
+      </div>
+      <div class="footer-strip"><span>coscup-2026 / privacy-money</span><span>mashbean.net</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 2 · 普通金流洗錢 ══════════ -->
+  <section data-label="普通金流怎麼洗" data-anim="s2">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_1 <span class="cm">·</span> fiat_laundering → aml_defense</p>
+          <h2 class="title">普通金流怎麼洗錢——以及怎麼防</h2>
+        </div>
+        <div class="round-chip"><i>魔</i> 洗錢三部曲 → <b>道</b> 洗錢防制</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- main chain -->
+          <g class="v-red" data-step="1"><rect class="nodebox" x="20" y="170" width="205" height="110" rx="16"/><text class="nlabel" x="122" y="218">髒錢</text><text class="nsub" x="122" y="254">詐騙・貪污・毒品</text></g>
+          <path class="edge c-red" data-step="2" d="M225,225 H320"/><polygon class="ah c-red" data-step="2" points="320,225 300,215 300,235"/>
+          <g data-step="2"><rect class="nodebox" x="322" y="170" width="300" height="110" rx="16"/><text class="nlabel" x="472" y="216">處置 Placement</text><text class="nsub" x="472" y="252">把現金塞進金融體系</text></g>
+          <path class="edge c-red" data-step="4" d="M622,225 H717"/><polygon class="ah c-red" data-step="4" points="717,225 697,215 697,235"/>
+          <g data-step="4"><rect class="nodebox" x="719" y="170" width="300" height="110" rx="16"/><text class="nlabel" x="869" y="216">分層 Layering</text><text class="nsub" x="869" y="252">把來源攪到看不清</text></g>
+          <path class="edge c-red" data-step="6" d="M1019,225 H1114"/><polygon class="ah c-red" data-step="6" points="1114,225 1094,215 1094,235"/>
+          <g data-step="6"><rect class="nodebox" x="1116" y="170" width="300" height="110" rx="16"/><text class="nlabel" x="1266" y="216">整合 Integration</text><text class="nsub" x="1266" y="252">變成能光明正大花的錢</text></g>
+          <path class="edge c-green" data-step="8" d="M1416,225 H1511"/><polygon class="ah c-green" data-step="8" points="1511,225 1491,215 1491,235"/>
+          <g class="v-green" data-step="8"><rect class="nodebox" x="1513" y="170" width="211" height="110" rx="16"/><text class="nlabel" x="1618" y="218">乾淨的錢</text><text class="nsub" x="1618" y="254">（看起來）</text></g>
+          <!-- stage examples -->
+          <g data-step="3"><rect class="nodebox ghostbox" x="322" y="316" width="300" height="112" rx="14" fill="transparent" stroke="#22304A" stroke-width="2" stroke-dasharray="8 7"/><text class="nsub" x="472" y="360">現金拆單存入</text><text class="nsub" x="472" y="396">人頭帳戶・賭場籌碼</text></g>
+          <g data-step="5"><rect x="719" y="316" width="300" height="112" rx="14" fill="transparent" stroke="#22304A" stroke-width="2" stroke-dasharray="8 7"/><text class="nsub" x="869" y="360">多層轉帳・空殼公司</text><text class="nsub" x="869" y="396">跨境匯款繞地球一圈</text></g>
+          <g data-step="7"><rect x="1116" y="316" width="300" height="112" rx="14" fill="transparent" stroke="#22304A" stroke-width="2" stroke-dasharray="8 7"/><text class="nsub" x="1266" y="360">買房產名車珠寶</text><text class="nsub" x="1266" y="396">假裝是合法營收</text></g>
+          <!-- travelling coin -->
+          <path id="s2coin-path" d="M122,140 C 400,86 1200,86 1618,140" fill="none" stroke="none"/>
+          <circle class="token t-red" data-step="9" data-mp="#s2coin-path" data-mp-dur="2.4" r="15" cx="122" cy="140" opacity="0"/>
+          <!-- defense phase -->
+          <g class="v-amber" data-step="10"><rect class="nodebox" x="250" y="76" width="150" height="58" rx="29"/><text class="nlabel sm t-amber" x="325" y="114">盾 KYC</text></g>
+          <g class="v-amber" data-step="11"><rect class="nodebox" x="647" y="76" width="150" height="58" rx="29"/><text class="nlabel sm t-amber" x="722" y="114">盾 申報</text></g>
+          <g class="v-amber" data-step="12"><rect class="nodebox" x="1044" y="76" width="150" height="58" rx="29"/><text class="nlabel sm t-amber" x="1119" y="114">盾 查核</text></g>
+          <g data-step="13">
+            <rect class="band" x="20" y="500" width="1704" height="170" rx="18"/>
+            <text class="nlabel t-amber" x="872" y="560" style="letter-spacing:.1em;">道：洗錢防制工事</text>
+            <text class="caption big" x="872" y="620" text-anchor="middle">銀行認識你的客戶（KYC）｜大額與可疑交易申報（STR）｜金融情報中心（FIU）｜FATF 國際互評</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n2">※ 考據</button>
+        <div class="note-pop" id="n2" style="right:0; top:52px;">
+          <p class="np-title">/* 台灣的版本 */</p>
+          <p>台灣的金融情報中心是法務部調查局洗錢防制處。2016 年兆豐銀行紐約分行因洗錢防制缺失，遭美國紐約州金融服務署裁罰 1.8 億美元，直接促成台灣《洗錢防制法》大翻修（2017 年施行），迎戰 FATF 亞太防制洗錢組織（APG）相互評鑑。</p>
+          <p class="src">FATF 40 項建議是全球洗錢防制的共同語言。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>01 / fiat</span><span>道高一尺</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 3 · 加密貨幣：全裸的帳本 ══════════ -->
+  <section data-label="全裸的帳本" data-anim="s3">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_2 <span class="cm">·</span> public_ledger → chain_analysis</p>
+          <h2 class="title">加密貨幣：全裸的帳本</h2>
+        </div>
+        <div class="round-chip"><i>魔</i> 換條跑道 → <b>道</b> 幣流分析</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- public ledger backdrop -->
+          <g data-step="1">
+            <rect x="20" y="60" width="1704" height="240" rx="20" fill="rgba(106,227,249,.05)" stroke="#2A4A5F" stroke-width="2" stroke-dasharray="12 8"/>
+            <text class="ntag t-cyan" x="872" y="100">PUBLIC LEDGER · 公開帳本 · 所有人可查、永久保存</text>
+          </g>
+          <!-- chain hops -->
+          <g data-step="2"><rect class="nodebox" x="60" y="150" width="230" height="100" rx="16"/><text class="nlabel" x="175" y="194">錢包 A</text><text class="nsub" x="175" y="228">0x3a9f…</text></g>
+          <path class="edge c-cyan" data-step="3" d="M290,200 H396"/><polygon class="ah c-cyan" data-step="3" points="396,200 376,190 376,210"/>
+          <g data-step="3"><rect class="nodebox" x="398" y="150" width="230" height="100" rx="16"/><text class="nlabel" x="513" y="194">錢包 B</text><text class="nsub" x="513" y="228">0x71c2…</text></g>
+          <path class="edge c-cyan" data-step="4" d="M628,200 H734"/><polygon class="ah c-cyan" data-step="4" points="734,200 714,190 714,210"/>
+          <g data-step="4"><rect class="nodebox" x="736" y="150" width="230" height="100" rx="16"/><text class="nlabel" x="851" y="194">錢包 C</text><text class="nsub" x="851" y="228">0xd405…</text></g>
+          <path class="edge c-cyan" data-step="5" d="M966,200 H1072"/><polygon class="ah c-cyan" data-step="5" points="1072,200 1052,190 1052,210"/>
+          <g class="v-amber" data-step="5"><rect class="nodebox" x="1074" y="150" width="260" height="100" rx="16"/><text class="nlabel" x="1204" y="194">交易所</text><text class="nsub" x="1204" y="228">off-ramp・要 KYC</text></g>
+          <path class="edge c-green" data-step="6" d="M1334,200 H1440"/><polygon class="ah c-green" data-step="6" points="1440,200 1420,190 1420,210"/>
+          <g class="v-green" data-step="6"><rect class="nodebox" x="1442" y="150" width="240" height="100" rx="16"/><text class="nlabel" x="1562" y="194">銀行帳戶</text><text class="nsub" x="1562" y="228">換回法幣</text></g>
+          <!-- red token hopping -->
+          <path id="s3hop" d="M175,150 C 260,100 430,100 513,150 C 600,100 766,100 851,150 C 940,100 1120,100 1204,150" fill="none" stroke="none"/>
+          <circle class="token t-red" data-step="7" data-mp="#s3hop" data-mp-dur="2.2" r="14" cx="175" cy="150" opacity="0"/>
+          <!-- chain analysis -->
+          <g class="v-red" data-step="8"><rect class="nodebox" x="330" y="420" width="330" height="110" rx="16"/><text class="nlabel" x="495" y="464">幣流分析</text><text class="nsub" x="495" y="500">標記地址・畫出關係圖</text></g>
+          <path class="edge c-red dashed" data-step="9" d="M420,420 L 220,270"/>
+          <path class="edge c-red dashed" data-step="9" d="M480,420 L 513,270"/>
+          <path class="edge c-red dashed" data-step="9" d="M560,420 L 830,270"/>
+          <path class="edge c-red" data-step="10" d="M660,475 C 850,475 1000,400 1130,270"/><polygon class="ah c-red" data-step="10" points="1130,270 1105,275 1120,292"/>
+          <g class="v-amber" data-step="11"><rect class="nodebox" x="1074" y="420" width="330" height="110" rx="16"/><text class="nlabel sm" x="1239" y="464">洗錢防制辦公室</text><text class="nsub" x="1239" y="500">接獲申報・凍結・起訴</text></g>
+          <path class="edge c-amber" data-step="11" d="M1204,420 V270"/><polygon class="ah c-amber" data-step="11" points="1204,270 1194,290 1214,290"/>
+          <!-- punchline -->
+          <g data-step="12">
+            <text class="caption big" x="60" y="622">知道一個地址，就能看到對方完整的<tspan class="t-red">金流</tspan>、<tspan class="t-red">社會關係</tspan>與<tspan class="t-red">行動軌跡</tspan>——</text>
+            <text class="caption big" x="60" y="668">比銀行帳本更透明。裸奔的除了壞人，還有倡議者、捐款人、受助者。</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n3">※ 考據</button>
+        <div class="note-pop" id="n3" style="right:0; top:52px;">
+          <p class="np-title">/* 幣流分析的實戰 */</p>
+          <p>Chainalysis、Elliptic、TRM Labs 靠公開帳本重建資金網絡。2022 年 3 月 Axie Infinity 的 Ronin 側鏈被駭 6.25 億美元，FBI 一個月內就靠幣流分析歸因到北韓 Lazarus 集團，OFAC 隨即制裁其錢包地址。</p>
+          <p class="src">交易所受 FATF「travel rule」約束，轉帳要附帶身分資訊。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>02 / naked-ledger</span><span>魔高一丈？其實更裸</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 4 · Tornado Cash ══════════ -->
+  <section data-label="Tornado Cash" data-anim="s4">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_3 <span class="cm">·</span> mixer.deposit() → trace_broken</p>
+          <h2 class="title">Tornado Cash：許願池裡換硬幣</h2>
+        </div>
+        <div class="round-chip"><i>魔</i> 混幣器：幣流斷點</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- depositors -->
+          <g data-step="1"><rect class="nodebox" x="30" y="70" width="235" height="84" rx="14"/><text class="nlabel sm" x="147" y="106">燕尾服先生</text><text class="nsub" x="147" y="138">存 1 ETH</text></g>
+          <g data-step="1"><rect class="nodebox" x="30" y="200" width="235" height="84" rx="14"/><text class="nlabel sm" x="147" y="236">西裝太太</text><text class="nsub" x="147" y="268">存 1 ETH</text></g>
+          <g class="v-red" data-step="1"><rect class="nodebox" x="30" y="330" width="235" height="84" rx="14"/><text class="nlabel sm t-red" x="147" y="366">駭客</text><text class="nsub" x="147" y="398">存 1 ETH（髒）</text></g>
+          <g data-step="1"><rect class="nodebox" x="30" y="460" width="235" height="84" rx="14"/><text class="nlabel sm" x="147" y="496">吊嘎大叔</text><text class="nsub" x="147" y="528">存 1 ETH</text></g>
+          <!-- edges into pool -->
+          <path class="edge c-cyan" data-step="2" d="M265,112 C 420,112 480,220 588,268"/>
+          <path class="edge c-cyan" data-step="2" d="M265,242 C 400,242 460,270 585,300"/>
+          <path class="edge c-red"  data-step="2" d="M265,372 C 400,372 460,350 585,330"/>
+          <path class="edge c-cyan" data-step="2" d="M265,502 C 420,502 480,400 588,352"/>
+          <!-- pool -->
+          <g data-step="3">
+            <circle cx="790" cy="310" r="182" fill="rgba(185,167,255,.08)" stroke="var(--purple)" stroke-width="3"/>
+            <text class="nlabel t-purple" x="790" y="290">Tornado Cash</text>
+            <text class="nsub" x="790" y="330">許願池（智能合約）</text>
+            <text class="nsub" x="790" y="366">固定面額 0.1／1／10／100</text>
+          </g>
+          <!-- swirl tokens -->
+          <path id="s4swirl" d="M 790,190 a 120,120 0 1,1 -1,0" fill="none" stroke="none"/>
+          <circle class="token t-cyan"  data-step="4" data-mp="#s4swirl" data-mp-dur="1.6" r="13" cx="790" cy="190" opacity="0"/>
+          <circle class="token t-red"   data-step="4" data-mp="#s4swirl" data-mp-dur="1.6" data-mp-delay="0.25" r="13" cx="790" cy="190" opacity="0"/>
+          <circle class="token t-cyan"  data-step="4" data-mp="#s4swirl" data-mp-dur="1.6" data-mp-delay="0.5" r="13" cx="790" cy="190" opacity="0"/>
+          <!-- withdrawals -->
+          <path class="edge c-purple" data-step="5" d="M965,250 C 1120,200 1220,180 1330,166"/><polygon class="ah c-purple" data-step="5" points="1330,166 1308,160 1312,180"/>
+          <path class="edge c-purple" data-step="5" d="M972,310 C 1130,310 1220,310 1330,310"/><polygon class="ah c-purple" data-step="5" points="1330,310 1310,300 1310,320"/>
+          <path class="edge c-purple" data-step="5" d="M965,370 C 1120,420 1220,440 1330,454"/><polygon class="ah c-purple" data-step="5" points="1330,454 1312,440 1308,460"/>
+          <g data-step="5"><rect class="nodebox" x="1334" y="124" width="250" height="84" rx="14"/><text class="nlabel sm" x="1459" y="160">全新地址 E</text><text class="nsub" x="1459" y="192">幾週後領回 1 ETH</text></g>
+          <g data-step="5"><rect class="nodebox" x="1334" y="268" width="250" height="84" rx="14"/><text class="nlabel sm" x="1459" y="304">全新地址 F</text><text class="nsub" x="1459" y="336">幾個月後領回 1 ETH</text></g>
+          <g data-step="5"><rect class="nodebox" x="1334" y="412" width="250" height="84" rx="14"/><text class="nlabel sm" x="1459" y="448">全新地址 G</text><text class="nsub" x="1459" y="480">戴口罩穿吊嘎領回</text></g>
+          <!-- question marks -->
+          <g data-step="6">
+            <text class="nlabel t-purple" x="1180" y="150" style="font-size:34px;">？</text>
+            <text class="nlabel t-purple" x="1180" y="300" style="font-size:34px;">？</text>
+            <text class="nlabel t-purple" x="1180" y="440" style="font-size:34px;">？</text>
+          </g>
+          <!-- broken trace -->
+          <g data-step="7">
+            <path class="edge c-red dashed" d="M147,430 C 240,470 420,520 560,470"/>
+            <text class="nlabel t-red" x="612" y="470" style="font-size:40px;">✂</text>
+            <text class="ntag t-red" x="640" y="520">幣流分析到這裡斷線——「斷點」</text>
+          </g>
+          <!-- mechanism strip -->
+          <g data-step="8">
+            <rect class="band-purple" x="30" y="590" width="1694" height="106" rx="16"/>
+            <text class="caption big" x="872" y="634" text-anchor="middle">存款時拿到一張祕密字條（note）；領回時用零知識證明出示：</text>
+            <text class="caption big" x="872" y="676" text-anchor="middle"><tspan class="t-purple">「我確實存過一筆，但我用數學保證你查不出是哪一筆。」</tspan></text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n4">※ 考據</button>
+        <div class="note-pop" id="n4" style="right:0; top:52px;">
+          <p class="np-title">/* zk-SNARK 與藏樹於林 */</p>
+          <p>Tornado Cash 2019 年上線。零知識證明讓「證明存過款」與「揭露哪一筆」脫鉤；池子越大、存領間隔越久，越能藏樹於林。</p>
+          <p class="src">副作用：北韓 Lazarus 是重度使用者。OFAC 稱其自 2019 年起經手逾 70 億美元虛擬貨幣，其中含 Ronin 案的 4.55 億美元。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>03 / mixer</span><span>魔高一丈</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 5 · 制裁與營救 ══════════ -->
+  <section data-label="制裁與營救" data-anim="s5">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_3b <span class="cm">·</span> sanction → trial → rescue</p>
+          <h2 class="title">沒有機制擋髒錢，政府就抓造池的人</h2>
+        </div>
+        <div class="round-chip"><b>道</b> 制裁與審判 → <i>魔</i>？營救運動</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- spine -->
+          <path id="s5spine" class="edge c-amber" data-step="1" d="M40,300 H1704"/>
+          <!-- events: alternate up/down -->
+          <g data-step="2"><circle cx="120" cy="300" r="11" fill="var(--cyan)"/><rect class="nodebox" x="30" y="120" width="220" height="120" rx="14"/><text class="ntag t-cyan" x="140" y="158">2019</text><text class="nsub" x="140" y="192">Tornado Cash</text><text class="nsub" x="140" y="222">上線</text><path class="edge dashed" d="M120,240 V286"/></g>
+          <g data-step="3"><circle cx="380" cy="300" r="11" fill="var(--red)"/><rect class="nodebox v-red" x="278" y="360" width="230" height="150" rx="14" stroke="var(--red)"/><text class="ntag t-red" x="393" y="398">2022.08.08</text><text class="nsub" x="393" y="432">美國 OFAC 制裁</text><text class="nsub" x="393" y="462">首次把「智能合約」</text><text class="nsub" x="393" y="492">放進制裁名單</text><path class="edge dashed" d="M380,314 V356"/></g>
+          <g data-step="4"><circle cx="640" cy="300" r="11" fill="var(--red)"/><rect class="nodebox" x="538" y="120" width="230" height="120" rx="14"/><text class="ntag t-red" x="653" y="158">2023.08</text><text class="nsub" x="653" y="192">美國起訴開發者</text><text class="nsub" x="653" y="222">Storm・Semenov</text><path class="edge dashed" d="M640,240 V286"/></g>
+          <g data-step="5"><circle cx="900" cy="300" r="11" fill="var(--red)"/><rect class="nodebox" x="798" y="360" width="230" height="150" rx="14"/><text class="ntag t-red" x="913" y="398">2024.05.14</text><text class="nsub" x="913" y="432">荷蘭法院判</text><text class="nsub" x="913" y="462">開發者 Pertsev</text><text class="nsub" x="913" y="492">64 個月徒刑</text><path class="edge dashed" d="M900,314 V356"/></g>
+          <g data-step="6"><circle cx="1160" cy="300" r="11" fill="var(--green)"/><rect class="nodebox" x="1048" y="120" width="250" height="120" rx="14"/><text class="ntag t-green" x="1173" y="158">2024.11</text><text class="nsub" x="1173" y="192">美國第五巡迴法院：</text><text class="nsub" x="1173" y="222">不可變合約非「財產」</text><path class="edge dashed" d="M1160,240 V286"/></g>
+          <g data-step="7"><circle cx="1400" cy="300" r="11" fill="var(--green)"/><rect class="nodebox" x="1298" y="360" width="230" height="120" rx="14"/><text class="ntag t-green" x="1413" y="398">2025.03.21</text><text class="nsub" x="1413" y="432">OFAC 解除</text><text class="nsub" x="1413" y="462">Tornado Cash 制裁</text><path class="edge dashed" d="M1400,314 V356"/></g>
+          <g data-step="8"><circle cx="1640" cy="300" r="11" fill="var(--amber)"/><rect class="nodebox v-amber" x="1490" y="120" width="240" height="150" rx="14" stroke="var(--amber)"/><text class="ntag t-amber" x="1610" y="158">2025.08.06</text><text class="nsub" x="1610" y="192">Storm「無照匯款」罪成</text><text class="nsub" x="1610" y="222">洗錢與違反制裁</text><text class="nsub" x="1610" y="252">兩罪陪審團未決</text><path class="edge dashed" d="M1640,270 V286"/></g>
+          <!-- rescue band -->
+          <g data-step="9">
+            <rect class="band-purple" x="30" y="560" width="1694" height="136" rx="16"/>
+            <text class="caption big" x="872" y="608" text-anchor="middle">營救運動：以太坊基金會捐 125 萬美元、判決後再加碼 50 萬對等捐款；社群募逾 470 萬（freeromanstorm.com）</text>
+            <text class="nlabel t-purple" x="872" y="662" style="font-size:31px;">“Privacy is normal, and writing code is not a crime.”</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n5">※ 考據</button>
+        <div class="note-pop" id="n5" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 為何美國、荷蘭都出手 */</p>
+          <p>美方主張：混幣器等同無照匯款業務，且明知北韓 Lazarus 用它洗錢仍未阻止。荷蘭法院則認定 Pertsev「寫工具的人要為工具負責」。反方主張：程式碼是言論，開發者管不了不可變合約。</p>
+          <p>Van Loon v. Treasury：第五巡迴上訴法院認定不可變智能合約非 OFAC 職權可及的「財產」，財政部隨後主動除名。Pertsev 2025 年 2 月改電子監控候上訴。</p>
+          <p class="src">以太坊基金會出錢的理由：若「寫程式＝共犯」成立，所有開源基礎建設的開發者都會寒蟬。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>03b / the-trial</span><span>道高一尺</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · Privacy Pools ══════════ -->
+  <section data-label="Privacy Pools" data-anim="s6">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_4 <span class="cm">·</span> if (clean) join_pool else ragequit</p>
+          <h2 class="title">Privacy Pools：帶著良民證進池</h2>
+        </div>
+        <div class="round-chip"><i>魔</i> 白名單混幣 ＋ <b>道</b> 可驗證的清白</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <g data-step="1"><rect class="nodebox" x="30" y="200" width="230" height="110" rx="16"/><text class="nlabel" x="145" y="246">存款人</text><text class="nsub" x="145" y="282">想要隱私的好人</text></g>
+          <path class="edge c-cyan" data-step="2" d="M260,255 H360"/><polygon class="ah c-cyan" data-step="2" points="360,255 340,245 340,265"/>
+          <!-- ASP diamond -->
+          <g data-step="2">
+            <polygon points="500,150 640,255 500,360 360,255" fill="var(--panel)" stroke="var(--amber)" stroke-width="2.5"/>
+            <text class="nlabel sm t-amber" x="500" y="244">ASP 篩查</text>
+            <text class="nsub" x="500" y="280">關聯集合服務商</text>
+          </g>
+          <!-- clean branch -->
+          <path class="edge c-green" data-step="3" d="M640,255 H740"/><polygon class="ah c-green" data-step="3" points="740,255 720,245 720,265"/>
+          <text class="ntag t-green" data-step="3" x="690" y="230">乾淨</text>
+          <g data-step="3">
+            <rect x="742" y="130" width="430" height="250" rx="20" fill="rgba(168,230,76,.07)" stroke="var(--green)" stroke-width="3"/>
+            <text class="nlabel t-green" x="957" y="186">乾淨關聯集合</text>
+            <text class="nsub" x="957" y="222">Association Set</text>
+            <circle class="token t-cyan" cx="850" cy="290" r="13"/><circle class="token t-cyan" cx="910" cy="320" r="13"/>
+            <circle class="token t-cyan" cx="970" cy="280" r="13"/><circle class="token t-cyan" cx="1030" cy="320" r="13"/>
+            <circle class="token t-cyan" cx="1090" cy="290" r="13"/>
+          </g>
+          <path class="edge c-purple" data-step="4" d="M1172,255 H1272"/><polygon class="ah c-purple" data-step="4" points="1272,255 1252,245 1252,265"/>
+          <g class="v-purple" data-step="4"><rect class="nodebox" x="1274" y="180" width="440" height="150" rx="16"/><text class="nlabel sm t-purple" x="1494" y="230">匿名良民證</text><text class="nsub" x="1494" y="266">Proof of Innocence（零知識證明）</text><text class="nsub" x="1494" y="300">「我來自乾淨集合」→ 新地址領回</text></g>
+          <!-- reject branch -->
+          <path class="edge c-red dashed" data-step="5" d="M500,360 V470"/><polygon class="ah c-red" data-step="5" points="500,470 490,450 510,450"/>
+          <text class="ntag t-red" data-step="5" x="560" y="424">被拒／事後除名</text>
+          <g class="v-red" data-step="5"><rect class="nodebox" x="330" y="474" width="340" height="120" rx="16"/><text class="nlabel sm t-red" x="500" y="520">ragequit 原路退回</text><text class="nsub" x="500" y="556">錢拿得回來，只是沒有隱私</text></g>
+          <path class="edge c-red dashed" data-step="5" d="M330,534 C 200,534 145,420 145,314"/><polygon class="ah c-red" data-step="5" points="145,314 135,334 155,334"/>
+          <!-- governance chips -->
+          <g data-step="6">
+            <rect class="band" x="742" y="440" width="972" height="200" rx="18"/>
+            <text class="caption big" x="1228" y="496" text-anchor="middle">額度越大、審核越嚴（分級 KYC）｜池子越大、越能藏樹於林</text>
+            <text class="caption big" x="1228" y="544" text-anchor="middle">向政府證明「這筆錢與已知髒錢無關」，同時保住匿名</text>
+            <text class="caption big t-amber" x="1228" y="604" text-anchor="middle">誰來定義「乾淨」？——治理問題正式登場</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n6">※ 考據</button>
+        <div class="note-pop" id="n6" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 論文與上線 */</p>
+          <p>2023 年 9 月論文《Blockchain Privacy and Regulatory Compliance》，作者含 Vitalik Buterin、Chainalysis 首席科學家 Jacob Illum、巴塞爾大學 Nadler 與 Schär、Ameen Soleimani——幣流分析公司科學家與以太坊創辦人聯名，本身就是合規與隱私的和解姿態。</p>
+          <p>2025 年 3 月 31 日由 0xbow 在以太坊主網上線，Vitalik 是第一批存款人；0xbow 於 2025 年 11 月完成 350 萬美元募資。</p>
+          <p class="src">創辦人在阿根廷演講喊出「沒有恐怖分子的隱私世界」，隨即被問：誰的恐怖分子？獨裁國家的異議者，常常就是名單上的人。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>04 / privacy-pools</span><span>魔高一丈，且帶良民證</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 7 · Railgun ══════════ -->
+  <section data-label="Railgun" data-anim="s7">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_5 <span class="cm">·</span> shield() → cooldown(1h) → defi() → unshield()</p>
+          <h2 class="title">Railgun：上盾、冷卻、自證清白</h2>
+        </div>
+        <div class="round-chip"><i>魔</i> 黑名單後驗 ＋ <b>道</b> 全民聯防</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- compare chip -->
+          <g data-step="1">
+            <rect x="30" y="20" width="1694" height="66" rx="14" fill="rgba(106,227,249,.06)" stroke="#2A4A5F" stroke-width="2"/>
+            <text class="caption big" x="872" y="63" text-anchor="middle">Privacy Pools＝<tspan class="t-green">白名單先驗</tspan>（先審再進池）　vs　Railgun＝<tspan class="t-purple">黑名單後驗</tspan>（先進池，抓到再擋）</text>
+          </g>
+          <!-- main rail -->
+          <g data-step="2"><rect class="nodebox" x="30" y="180" width="220" height="110" rx="16"/><text class="nlabel" x="140" y="226">上盾</text><text class="nsub" x="140" y="262">Shield 進入私域</text></g>
+          <path class="edge c-cyan" data-step="3" d="M250,235 H344"/><polygon class="ah c-cyan" data-step="3" points="344,235 324,225 324,245"/>
+          <g class="v-amber" data-step="3"><rect class="nodebox" x="346" y="166" width="330" height="140" rx="16"/><text class="nlabel sm t-amber" x="511" y="212">冷卻期 1 小時</text><text class="nsub" x="511" y="248">與駭案黑名單比對</text><text class="nsub" x="511" y="282">「後發先至」爭取標記時間</text></g>
+          <path class="edge c-green" data-step="4" d="M676,235 H770"/><polygon class="ah c-green" data-step="4" points="770,235 750,225 750,245"/>
+          <text class="ntag t-green" data-step="4" x="722" y="212">通過</text>
+          <g data-step="4">
+            <rect x="772" y="120" width="460" height="240" rx="20" fill="rgba(185,167,255,.08)" stroke="var(--purple)" stroke-width="3"/>
+            <text class="nlabel t-purple" x="1002" y="170">0zk 私域百寶袋</text>
+            <rect class="nodebox" x="806" y="200" width="120" height="60" rx="12"/><text class="nsub" x="866" y="238">換匯</text>
+            <rect class="nodebox" x="942" y="200" width="120" height="60" rx="12"/><text class="nsub" x="1002" y="238">放貸</text>
+            <rect class="nodebox" x="1078" y="200" width="120" height="60" rx="12"/><text class="nsub" x="1138" y="238">轉帳</text>
+            <text class="nsub" x="1002" y="330">外面只看得到「有人在動」，看不到誰在動</text>
+          </g>
+          <path class="edge c-cyan" data-step="6" d="M1232,235 H1326"/><polygon class="ah c-cyan" data-step="6" points="1326,235 1306,225 1306,245"/>
+          <g data-step="6"><rect class="nodebox" x="1328" y="180" width="220" height="110" rx="16"/><text class="nlabel" x="1438" y="226">解盾</text><text class="nsub" x="1438" y="262">Unshield 回一般地址</text></g>
+          <!-- token loop inside vault -->
+          <path id="s7loop" d="M 866,230 C 900,170 1100,170 1138,230 C 1100,290 900,290 866,230" fill="none" stroke="none"/>
+          <circle class="token t-purple" data-step="5" data-mp="#s7loop" data-mp-dur="2" data-mp-fade r="13" cx="866" cy="230" opacity="0"/>
+          <!-- PPOI -->
+          <g class="v-purple" data-step="7"><rect class="nodebox" x="1284" y="380" width="430" height="120" rx="16"/><text class="nlabel sm t-purple" x="1499" y="426">選擇性揭露 PPOI</text><text class="nsub" x="1499" y="462">需要時，用數學向執法者自證清白</text></g>
+          <path class="edge c-purple dashed" data-step="7" d="M1350,380 C 1280,330 1240,300 1232,280"/>
+          <!-- blocked branch -->
+          <path class="edge c-red dashed" data-step="8" d="M511,306 V420"/><polygon class="ah c-red" data-step="8" points="511,420 501,400 521,400"/>
+          <text class="ntag t-red" data-step="8" x="580" y="374">在黑名單上</text>
+          <g class="v-red" data-step="8"><rect class="nodebox" x="330" y="424" width="362" height="120" rx="16"/><text class="nlabel sm t-red" x="511" y="470">✕ 上不了盾</text><text class="nsub" x="511" y="506">資金退回原本的問題地址</text></g>
+          <!-- case study -->
+          <g data-step="9">
+            <rect class="band" x="30" y="590" width="1694" height="106" rx="16"/>
+            <text class="caption big" x="872" y="634" text-anchor="middle">實戰：2025 年 2 月 zkLend 被駭 950 萬美元，駭客分批嘗試上盾——</text>
+            <text class="caption big" x="872" y="676" text-anchor="middle">拿不到隱私良民證，<tspan class="t-red">只能原地折返到已被標記的地址</tspan>。聯防成功。</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n7">※ 考據</button>
+        <div class="note-pop" id="n7" style="right:0; top:52px;">
+          <p class="np-title">/* 黑名單哪裡來 */</p>
+          <p>Railgun 2021 年上線，Private Proofs of Innocence（PPOI）2023 年部署。黑名單來源：各國制裁名單，加上社群「守望相助」通報的駭案地址。Vitalik 本人多次公開使用並替它說話。</p>
+          <p class="src">開放問題：黑名單誰經營？不服可以 fork，但 fork 出來的小池子，人少就沒隱私。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>05 / railgun</span><span>魔高一丈，且會擋駭客</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 8 · Kohaku ══════════ -->
+  <section data-label="Kohaku" data-anim="s8">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> round_6 <span class="cm">·</span> privacy = default</p>
+          <h2 class="title">Kohaku：把隱私變成錢包預設值</h2>
+        </div>
+        <div class="round-chip"><i>魔</i>＋<b>道</b> 集體防禦</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- wallets -->
+          <g data-step="1"><rect class="nodebox" x="30" y="100" width="250" height="90" rx="14"/><text class="nlabel sm" x="155" y="140">錢包 甲</text><text class="nsub" x="155" y="172">一般使用者</text></g>
+          <g data-step="1"><rect class="nodebox" x="30" y="230" width="250" height="90" rx="14"/><text class="nlabel sm" x="155" y="270">錢包 乙</text><text class="nsub" x="155" y="302">NGO 捐款人</text></g>
+          <g data-step="1"><rect class="nodebox" x="30" y="360" width="250" height="90" rx="14"/><text class="nlabel sm" x="155" y="400">錢包 丙</text><text class="nsub" x="155" y="432">跨境協作者</text></g>
+          <g data-step="1"><rect class="nodebox" x="30" y="490" width="250" height="90" rx="14"/><text class="nlabel sm" x="155" y="530">錢包 丁…</text><text class="nsub" x="155" y="562">越多越好</text></g>
+          <!-- edges to SDK -->
+          <path class="edge c-cyan" data-step="2" d="M280,145 C 380,145 420,240 500,280"/>
+          <path class="edge c-cyan" data-step="2" d="M280,275 C 380,275 420,300 500,320"/>
+          <path class="edge c-cyan" data-step="2" d="M280,405 C 380,405 420,380 500,350"/>
+          <path class="edge c-cyan" data-step="2" d="M280,535 C 380,535 420,440 500,390"/>
+          <!-- SDK panel -->
+          <g data-step="3">
+            <rect x="502" y="140" width="360" height="420" rx="20" fill="var(--panel)" stroke="var(--cyan)" stroke-width="3"/>
+            <text class="nlabel t-cyan" x="682" y="196">Kohaku SDK</text>
+            <text class="nsub" x="682" y="230">錢包套件・隱私模組</text>
+            <rect class="nodebox" x="536" y="258" width="292" height="60" rx="12"/><text class="nsub" x="682" y="296">上盾／隱私池整合</text>
+            <rect class="nodebox" x="536" y="330" width="292" height="60" rx="12"/><text class="nsub" x="682" y="368">隱形地址</text>
+            <rect class="nodebox" x="536" y="402" width="292" height="60" rx="12"/><text class="nsub" x="682" y="440">選擇性揭露</text>
+            <rect class="nodebox" x="536" y="474" width="292" height="60" rx="12"/><text class="nsub" x="682" y="512">使用者完全無感</text>
+          </g>
+          <path class="edge c-purple" data-step="4" d="M862,350 H980"/><polygon class="ah c-purple" data-step="4" points="980,350 960,340 960,360"/>
+          <!-- big pool -->
+          <g data-step="5">
+            <circle id="s8pool" cx="1270" cy="350" r="210" fill="rgba(185,167,255,.09)" stroke="var(--purple)" stroke-width="3"/>
+            <text class="nlabel t-purple" x="1270" y="330">又大又漂亮的池</text>
+            <text class="nsub" x="1270" y="368">big and beautiful!</text>
+          </g>
+          <g data-step="6" id="s8coins">
+            <circle class="token t-cyan" cx="1160" cy="430" r="12"/><circle class="token t-cyan" cx="1220" cy="460" r="12"/>
+            <circle class="token t-cyan" cx="1280" cy="440" r="12"/><circle class="token t-cyan" cx="1340" cy="465" r="12"/>
+            <circle class="token t-cyan" cx="1395" cy="430" r="12"/><circle class="token t-green" cx="1190" cy="255" r="12"/>
+            <circle class="token t-green" cx="1270" cy="235" r="12"/><circle class="token t-green" cx="1350" cy="255" r="12"/>
+          </g>
+          <g data-step="7">
+            <circle cx="1270" cy="350" r="250" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="16 10"/>
+            <text class="ntag t-green" x="1270" y="72">集體防禦：人越多，越隱私，越難欺負</text>
+          </g>
+          <g data-step="8">
+            <text class="caption big" x="30" y="648">隱私從個人的艱難選擇，變成所有錢包的預設值——</text>
+            <text class="caption big" x="30" y="694">眼前的好人越多，壞人越難鎖定任何一個好人。<tspan class="t-purple">這就是「維持現狀加速主義」的護盾。</tspan></text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n8">※ 考據</button>
+        <div class="note-pop" id="n8" style="right:0; top:52px;">
+          <p class="np-title">/* 出處 */</p>
+          <p>以太坊基金會 2025 年 10 月 8 日成立 Privacy Cluster（47 位工程師、研究者與密碼學家）；同年 11 月 Devconnect 布宜諾斯艾利斯由 Vitalik 與 EF 團隊發表 Kohaku：隱私錢包 SDK 與參考實作（瀏覽器擴充錢包，分支自 Ambire）。</p>
+          <p class="src">Kohaku（琥珀）整合 Privacy Pools、Railgun 等既有協定，目標是讓主流錢包內建「上盾」。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>06 / kohaku</span><span>魔道合流</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 9 · 總結疊加 ══════════ -->
+  <section data-label="道高一尺魔高一丈" data-anim="s9">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> recap <span class="cm">·</span> while(true){ 道++; 魔++; }</p>
+          <h2 class="title">道高一尺，魔高一丈</h2>
+        </div>
+        <div class="round-chip">整條攻防梯</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- zigzag ladder: 8 nodes, 攻 left-ish column pairs -->
+          <g class="v-red" data-step="1"><rect class="nodebox" x="30" y="560" width="330" height="96" rx="16"/><text class="nlabel sm t-red" x="195" y="600">魔：洗錢三部曲</text><text class="nsub" x="195" y="634">處置→分層→整合</text></g>
+          <path class="edge c-amber" data-step="2" d="M360,608 C 440,608 460,500 520,478"/><polygon class="ah c-amber" data-step="2" points="520,478 498,478 508,496"/>
+          <g class="v-amber" data-step="2"><rect class="nodebox" x="524" y="430" width="330" height="96" rx="16"/><text class="nlabel sm t-amber" x="689" y="470">道：KYC・申報・FATF</text><text class="nsub" x="689" y="504">銀行體系的防治工事</text></g>
+          <path class="edge c-red" data-step="3" d="M689,430 C 689,380 560,360 460,354"/><polygon class="ah c-red" data-step="3" points="460,354 478,344 478,364"/>
+          <g class="v-red" data-step="3"><rect class="nodebox" x="128" y="306" width="330" height="96" rx="16"/><text class="nlabel sm t-red" x="293" y="346">魔：改用加密貨幣</text><text class="nsub" x="293" y="380">結果帳本全裸</text></g>
+          <path class="edge c-amber" data-step="4" d="M458,354 C 560,354 600,280 660,258"/><polygon class="ah c-amber" data-step="4" points="660,258 638,256 646,276"/>
+          <g class="v-amber" data-step="4"><rect class="nodebox" x="664" y="210" width="330" height="96" rx="16"/><text class="nlabel sm t-amber" x="829" y="250">道：幣流分析</text><text class="nsub" x="829" y="284">標記・凍結・逮捕</text></g>
+          <path class="edge c-red" data-step="5" d="M994,258 C 1080,258 1100,180 1160,158"/><polygon class="ah c-red" data-step="5" points="1160,158 1138,156 1146,176"/>
+          <g class="v-red" data-step="5"><rect class="nodebox" x="1164" y="110" width="330" height="96" rx="16"/><text class="nlabel sm t-red" x="1329" y="150">魔：混幣器斷點</text><text class="nsub" x="1329" y="184">Tornado Cash</text></g>
+          <path class="edge c-amber" data-step="6" d="M1329,206 C 1329,280 1240,300 1160,310"/><polygon class="ah c-amber" data-step="6" points="1160,310 1180,300 1180,320"/>
+          <g class="v-amber" data-step="6"><rect class="nodebox" x="826" y="326" width="330" height="96" rx="16"/><text class="nlabel sm t-amber" x="991" y="366">道：制裁開發者</text><text class="nsub" x="991" y="400">OFAC・美荷兩案</text></g>
+          <path class="edge c-purple" data-step="7" d="M1156,374 C 1260,374 1300,440 1340,460"/><polygon class="ah c-purple" data-step="7" points="1340,460 1318,456 1326,476"/>
+          <g class="v-purple" data-step="7"><rect class="nodebox" x="1344" y="412" width="370" height="96" rx="16"/><text class="nlabel sm t-purple" x="1529" y="452">魔：可驗證的清白</text><text class="nsub" x="1529" y="486">Privacy Pools・Railgun</text></g>
+          <path class="edge c-purple" data-step="8" d="M1529,508 C 1529,580 1440,600 1360,608"/><polygon class="ah c-purple" data-step="8" points="1360,608 1380,598 1380,618"/>
+          <g class="v-green" data-step="8"><rect class="nodebox" x="1010" y="560" width="346" height="96" rx="16"/><text class="nlabel sm t-green" x="1183" y="600">魔道合流：預設隱私</text><text class="nsub" x="1183" y="634">Kohaku・集體防禦</text></g>
+          <!-- final question -->
+          <g data-step="9">
+            <rect x="430" y="120" width="620" height="0" fill="none"/>
+            <rect class="band" x="60" y="60" width="900" height="116" rx="18"/>
+            <text class="caption big t-amber" x="510" y="110" text-anchor="middle">當隱私是治理問題：誰來定義好人與壞人？</text>
+            <text class="caption" x="510" y="152" text-anchor="middle">好壞沒有全球共識——不同的池、不同標準，符合各自的在地脈絡</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; bottom:0;" data-note="n9">※ 考據</button>
+        <div class="note-pop" id="n9" style="right:0; bottom:56px;">
+          <p class="np-title">/* 一句話版本 */</p>
+          <p>每一層的防治都逼出下一層的迴避，每一層的迴避又逼出新的防治。走到 Privacy Pools 與 Railgun 之後，攻防雙方第一次坐上同一張桌子：用密碼學向監管者證明清白，同時保住匿名。</p>
+          <p class="src">獨裁國家的運動人士可能被標成壞蛋；民主國家被貼「恐怖分子」標籤的人，也可能是好人。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>07 / recap</span><span>while(true)</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 10 · 結尾 ══════════ -->
+  <section data-label="結尾" data-anim="s10">
+    <div class="slide">
+      <div class="s10-body">
+        <p class="eyebrow" data-step="1"><span class="cm">//</span> return</p>
+        <h2 class="title-xl" data-step="2" style="font-size:88px;">我不洗錢，<br/>但我需要隱私。</h2>
+        <div class="s10-lines">
+          <div data-step="3">隱私是當然權利，護盾要在需要之前就建好。</div>
+          <div data-step="4">公開帳本上裸奔的，從來都是好人。</div>
+          <div data-step="5"><span class="hl">好人越多，池子越大，大家一起藏樹於林。</span></div>
+        </div>
+        <div class="s10-links" data-step="6">
+          <div>底稿長文　<b>mashbean.net/blog/2026/0123-kel8ff</b></div>
+          <div>共筆　<b>anoni.net</b>（匿名網路社群）</div>
+          <div>黃豆泥 mashbean · 以太坊基金會森友會小組（Silviculture Society）成員</div>
+        </div>
+      </div>
+      <div class="footer-strip"><span>coscup-2026 / privacy-money</span><span>謝謝，歡迎指正</span></div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="./deck-stage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+<script>
+(() => {
+  if (!window.gsap) return;
+  gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Generic builder: elements carry data-step="N"; steps animate in order.
+     .edge → DrawSVG; [data-mp] tokens → MotionPath along the referenced path;
+     everything else pops in. Same step number = together. */
+  function buildTimeline(slide) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+    const stepped = Array.from(slide.querySelectorAll('[data-step]'));
+    const groups = new Map();
+    stepped.forEach((el) => {
+      const k = Number(el.dataset.step);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(el);
+    });
+    const keys = Array.from(groups.keys()).sort((a, b) => a - b);
+    keys.forEach((k, gi) => {
+      const els = groups.get(k);
+      els.forEach((el, i) => {
+        const at = i === 0 ? (gi === 0 ? 0.1 : '+=0.3') : '<';
+        if (el.classList.contains('edge')) {
+          tl.fromTo(el, { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.55, ease: 'power1.inOut' }, at);
+        } else if (el.dataset.mp) {
+          const delay = Number(el.dataset.mpDelay || 0);
+          const dur = Number(el.dataset.mpDur || 1.6);
+          tl.set(el, { opacity: 1 }, delay ? `${at === 0.1 ? 0.1 : at}` : at);
+          tl.to(el, {
+            motionPath: { path: el.dataset.mp, align: el.dataset.mp, alignOrigin: [0.5, 0.5] },
+            duration: dur, delay, ease: 'power1.inOut', immediateRender: false,
+          }, '<');
+          if (el.hasAttribute('data-mp-fade')) tl.to(el, { autoAlpha: 0, duration: 0.3 }, '>-0.05');
+        } else {
+          tl.from(el, { autoAlpha: 0, y: 18, scale: 0.97, transformOrigin: '50% 50%', duration: 0.5 }, at);
+        }
+      });
+    });
+    return tl;
+  }
+
+  /* Per-slide extras. */
+  const extras = {
+    s1(tl, slide) {
+      const p = slide.querySelector('#s1p');
+      const tok = slide.querySelector('#s1tok');
+      if (p) tl.fromTo(p, { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 1.6, ease: 'power1.inOut' }, 0);
+      if (tok && !REDUCED) {
+        tl.set(tok, { opacity: 1 }, 1.2);
+        tl.to(tok, {
+          motionPath: { path: '#s1p', align: '#s1p', alignOrigin: [0.5, 0.5] },
+          duration: 7, ease: 'none', repeat: -1, immediateRender: false,
+        }, 1.2);
+      }
+    },
+    s2(tl, slide) {
+      // coin turns green as it lands on the clean side
+      const coin = slide.querySelector('[data-mp="#s2coin-path"]');
+      if (coin) tl.to(coin, { fill: 'var(--green)', duration: 0.4 }, '-=0.5');
+    },
+    s8(tl, slide) {
+      const pool = slide.querySelector('#s8pool');
+      if (pool) tl.fromTo(pool, { scale: 0.55, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.9, ease: 'back.out(1.4)' }, '<');
+      const coins = slide.querySelectorAll('#s8coins .token');
+      if (coins.length) tl.from(coins, { scale: 0, transformOrigin: '50% 50%', stagger: 0.07, duration: 0.35, ease: 'back.out(2)' }, '>-0.1');
+    },
+  };
+
+  const stage = document.querySelector('deck-stage');
+  const built = new Map();
+  let current = null;
+
+  function playFor(section) {
+    if (!section) return;
+    if (current) current.pause();
+    closeAllNotes();
+    const key = section.dataset.anim;
+    if (!key) { current = null; return; }
+    let tl = built.get(section);
+    if (!tl) {
+      const slideRoot = section;
+      tl = buildTimeline(slideRoot);
+      if (extras[key]) extras[key](tl, slideRoot);
+      built.set(section, tl);
+    }
+    current = tl;
+    if (REDUCED) { tl.progress(1).pause(); } else { tl.restart(); }
+  }
+
+  stage.addEventListener('slidechange', (e) => playFor(e.detail.slide));
+
+  // Click anywhere on a slide (except notes) replays its animation.
+  stage.addEventListener('click', (e) => {
+    if (e.target.closest('.note-btn') || e.target.closest('.note-pop')) return;
+    if (current && !REDUCED) current.restart();
+  });
+
+  /* ── footnote pop-ups ── */
+  function closeAllNotes(except) {
+    document.querySelectorAll('.note-pop').forEach((pop) => {
+      if (pop === except) return;
+      if (pop.dataset.open) {
+        delete pop.dataset.open;
+        gsap.to(pop, { autoAlpha: 0, y: 8, scale: 0.97, duration: 0.22, ease: 'power2.in' });
+      }
+    });
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.note-btn');
+    if (!btn) { if (!e.target.closest('.note-pop')) closeAllNotes(); return; }
+    e.stopPropagation();
+    const pop = document.getElementById(btn.dataset.note);
+    if (!pop) return;
+    if (pop.dataset.open) { closeAllNotes(); return; }
+    closeAllNotes(pop);
+    pop.dataset.open = '1';
+    gsap.fromTo(pop, { autoAlpha: 0, y: 14, scale: 0.96, transformOrigin: '80% 0%' },
+      { autoAlpha: 1, y: 0, scale: 1, duration: 0.32, ease: 'back.out(1.6)' });
+  }, true);
+
+  // The initial slidechange fires before this script attaches; kick it manually.
+  queueMicrotask(() => {
+    const idx = typeof stage.index === 'number' ? stage.index : 0;
+    const sections = stage.querySelectorAll('section');
+    playFor(sections[idx]);
+  });
+})();
+</script>
+</body>
+</html>

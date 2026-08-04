@@ -30,6 +30,14 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "coscup-2026-privacy-money",
+    title: "我不洗錢，為何要理解匿名支付？",
+    event: "COSCUP 2026 · 匿名網路社群 anoni.net",
+    date: "2026-08-08",
+    location: "TR511",
+    lang: "zh-Hant",
+  },
+  {
     slug: "tianjian-2026-0826",
     title: "平台中介者如何成為保護獨立記者的屏障",
     event: "在田間學 · 田間 China Media Project",
