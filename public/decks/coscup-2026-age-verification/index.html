@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>年齡驗證、數位監控、隱私權，討論這些以前，不妨先開源吧 · COSCUP 2026 · MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'jf open 粉圓';
+    src:url('./assets/jf-openhuninn-headings.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  :root{
+    --bg:#0A0E16;
+    --panel:#101a2c;
+    --panel-2:#0D1524;
+    --line:#33445F;
+    --line-dim:#22304A;
+    --txt:#E8EEF9;
+    --dim:#93A1B8;
+    --cyan:#6AE3F9;
+    --green:#A8E64C;
+    --red:#FF6B81;
+    --amber:#FFC53D;
+    --purple:#B9A7FF;
+    --font-display:'jf open 粉圓','Noto Sans TC',sans-serif;
+    --font-body:'Noto Sans TC',sans-serif;
+    --font-mono:'JetBrains Mono','Noto Sans TC',monospace;
+  }
+  html,body{margin:0;padding:0;background:#000;font-family:var(--font-body);}
+  deck-stage{display:block;}
+  section{box-sizing:border-box;overflow:hidden;line-break:strict;overflow-wrap:break-word;}
+
+  .slide{
+    width:100%;height:100%;box-sizing:border-box;position:relative;
+    padding:64px 88px 56px;display:flex;flex-direction:column;
+    background:var(--bg);color:var(--txt);
+    background-image:radial-gradient(circle, rgba(255,255,255,.05) 1.2px, transparent 1.2px);
+    background-size:38px 38px;
+  }
+  .slide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;margin-bottom:8px;}
+  .eyebrow{font-family:var(--font-mono);font-size:24px;letter-spacing:.06em;color:var(--cyan);font-weight:500;margin:0 0 10px;}
+  .eyebrow .cm{color:var(--dim);}
+  h1,h2{font-family:var(--font-display);font-weight:400;margin:0;text-wrap:balance;}
+  .title-xl{font-size:96px;line-height:1.16;letter-spacing:-0.02em;}
+  .title{font-size:56px;line-height:1.2;letter-spacing:-0.01em;}
+  .round-chip{
+    font-family:var(--font-mono);font-size:22px;white-space:nowrap;
+    border:1.5px solid var(--line);border-radius:999px;padding:10px 22px;color:var(--dim);
+    background:rgba(16,26,44,.7);
+  }
+  .round-chip b{color:var(--amber);font-weight:500;}
+  .round-chip i{color:var(--red);font-style:normal;}
+  .round-chip em{color:var(--green);font-style:normal;}
+
+  .fc-wrap{flex:1;position:relative;min-height:0;}
+  svg.fc{width:100%;height:100%;display:block;}
+
+  /* flowchart vocabulary */
+  .edge{stroke:var(--line);stroke-width:3.5;fill:none;}
+  .edge.c-cyan{stroke:var(--cyan);}
+  .edge.c-red{stroke:var(--red);}
+  .edge.c-green{stroke:var(--green);}
+  .edge.c-amber{stroke:var(--amber);}
+  .edge.c-purple{stroke:var(--purple);}
+  .edge.dashed{stroke-dasharray:9 9;}
+  .ah{fill:var(--line);}
+  .ah.c-cyan{fill:var(--cyan);} .ah.c-red{fill:var(--red);} .ah.c-green{fill:var(--green);}
+  .ah.c-amber{fill:var(--amber);} .ah.c-purple{fill:var(--purple);}
+  .nodebox{fill:var(--panel);stroke:var(--line);stroke-width:2.5;}
+  .v-red .nodebox{stroke:var(--red);} .v-green .nodebox{stroke:var(--green);}
+  .v-amber .nodebox{stroke:var(--amber);} .v-purple .nodebox{stroke:var(--purple);}
+  .v-cyan .nodebox{stroke:var(--cyan);}
+  .ghost .nodebox{fill:transparent;stroke-dasharray:10 8;}
+  .nlabel{fill:var(--txt);font-family:var(--font-mono);font-size:29px;font-weight:500;text-anchor:middle;}
+  .nlabel.sm{font-size:25px;}
+  .nsub{fill:var(--dim);font-family:var(--font-body);font-size:22px;text-anchor:middle;}
+  .ntag{fill:var(--dim);font-family:var(--font-mono);font-size:20px;text-anchor:middle;letter-spacing:.08em;}
+  .t-red{fill:var(--red);} .t-green{fill:var(--green);} .t-amber{fill:var(--amber);}
+  .t-purple{fill:var(--purple);} .t-cyan{fill:var(--cyan);} .t-txt{fill:var(--txt);}
+  .token{stroke:#0A0E16;stroke-width:3;}
+  .caption{fill:var(--dim);font-family:var(--font-body);font-size:24px;}
+  .caption.big{font-size:28px;fill:var(--txt);}
+  .mono-cap{font-family:var(--font-mono);}
+
+  /* bottom band */
+  .band{fill:rgba(255,197,61,.08);stroke:var(--amber);stroke-width:2;stroke-dasharray:12 8;}
+  .band-purple{fill:rgba(185,167,255,.08);stroke:var(--purple);stroke-width:2;stroke-dasharray:12 8;}
+  .band-green{fill:rgba(168,230,76,.08);stroke:var(--green);stroke-width:2;stroke-dasharray:12 8;}
+
+  /* footnote pop-ups */
+  .note-btn{
+    position:absolute;z-index:40;appearance:none;cursor:pointer;
+    font-family:var(--font-mono);font-size:21px;color:var(--amber);
+    background:rgba(16,26,44,.9);border:1.5px dashed var(--amber);border-radius:999px;
+    padding:8px 18px;letter-spacing:.05em;
+  }
+  .note-btn:hover{background:rgba(255,197,61,.14);}
+  .note-pop{
+    position:absolute;z-index:50;width:520px;visibility:hidden;opacity:0;
+    background:var(--panel-2);border:1.5px solid var(--line);border-radius:14px;
+    padding:22px 26px;font-size:22px;line-height:1.62;color:var(--txt);
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  .note-pop .np-title{font-family:var(--font-mono);color:var(--amber);font-size:20px;margin:0 0 8px;letter-spacing:.05em;}
+  .note-pop p{margin:0 0 10px;} .note-pop p:last-child{margin:0;}
+  .note-pop .src{color:var(--dim);font-size:19px;}
+
+  .footer-strip{
+    position:absolute;left:88px;right:88px;bottom:26px;display:flex;justify-content:space-between;
+    font-family:var(--font-mono);font-size:19px;color:#5A6A84;letter-spacing:.04em;
+  }
+
+  /* title slide */
+  .s1-bg{position:absolute;inset:0;opacity:.34;pointer-events:none;}
+  .s1-body{position:relative;z-index:2;margin-top:auto;margin-bottom:auto;}
+  .s1-sub{font-size:38px;color:var(--dim);margin:26px 0 0;font-family:var(--font-display);}
+  .s1-meta{margin-top:52px;font-size:27px;line-height:1.7;}
+  .s1-meta .who{color:var(--txt);font-weight:500;}
+  .s1-meta .aff{color:var(--purple);}
+  .s1-meta .where{font-family:var(--font-mono);color:var(--dim);font-size:23px;margin-top:14px;}
+
+  /* end slide */
+  .s7-body{margin-top:auto;margin-bottom:auto;position:relative;z-index:2;}
+  .s7-lines{margin:44px 0 0;font-size:36px;line-height:2.0;font-family:var(--font-display);}
+  .s7-lines .hl{color:var(--green);}
+  .s7-links{margin-top:56px;font-family:var(--font-mono);font-size:25px;line-height:2.1;color:var(--dim);}
+  .s7-links b{color:var(--cyan);font-weight:500;}
+</style>
+</head>
+<body>
+
+<script type="application/json" id="speaker-notes">[
+  "開場：COSCUP 開源人年會，講年齡驗證剛好——因為這題的解方跟開源精神直接相關。自介：黃豆泥，Harvard Kennedy School Allen Lab Fellow 2025/26，前數位發展部，做數位皮夾。今天用正反合三段走：先立法、再看代價、最後看技術怎麼接住。",
+  "正：兒少安全是跨黨派不可反對的議題，所以三年內全球至少 25 個法域完成年齡驗證立法。英國 2025 年 7 月開始強制執法、澳洲 16 歲禁令 2025 年 12 月生效、美國 Paxton 案判合憲後已達 27 州、歐盟出了 blueprint。重點在最下面那條：第一個國際標準 ISO/IEC 27566-1 到 2025 年 12 月才出版——法律全部跑在標準前面。澳洲更誇張：法律 2024 年 12 月批准，技術試驗報告 2025 年 9 月才公布。",
+  "反：法規生效後，平台在時限與罰款壓力下便宜行事——上傳證件、臉部掃描、外包給第三方。集中式證件資料庫變成高價值攻擊目標：Discord 外包商 7 萬張證件照外洩、Tea 7.2 萬張。使用者端：Pornhub 英國流量 -77%（寒蟬）、Proton VPN 註冊 +1,400% 起跳（繞道）、沒證件的人直接被排除。而中國防沉迷研究顯示 77% 未成年人借帳號繞過、澳洲禁令上路後逾八成青少年照用——大人受傷，小孩繞過。",
+  "合：技術其實已經到位。年齡是屬性，不是身分。數位皮夾＋選擇性揭露＋零知識證明：證件只在初始化時驗一次，之後每次出示只回答「滿 18 歲：是／否」，網站不知道你是誰，發證者不知道你去了哪。法國雙重匿名、西班牙 Cartera Digital、Google Wallet ZKP、歐盟 EUDI Wallet 全在往這走。誠實講限制：第一次驗證仍需要一個可信方看到證件（Brave 的批評）。",
+  "開源：這就是講題。歐盟把年齡驗證 app 開源在 GitHub（EUPL-1.2，連授權都是歐盟自己寫的），五國試點已擴為七國，2026 年 4 月宣布技術就緒。開源的意義：公民社會讀得到程式碼，批評才有著力點——依賴 Google Play Integrity、GrapheneOS 過不了、憑證只發給合規名單，「開了源但不自由」——批評變成 issue，issue 變成下一版。台灣這邊：數位憑證皮夾 App 也開源了，PTT 用自然人憑證做 ZK 藍勾勾、g0v Summit 用皮夾發入場券，公民科技社群已經在測。",
+  "結論：把三段疊起來。正反合走完，落點是數位自主：憑證放在自己手上、揭露由自己決定、程式碼所有人可查。給政策的五條底線：最小揭露、不可連結、不回撥、替代路徑與救濟、開源可稽核。台灣正在進行式：兒少權法修正草案第 59 條要課平台年齡驗證義務，司改會已警告實名制風險——今天講的國際經驗，正反兩面都用得上。年齡驗證只是壓力測試，考的是整套數位身分政策。",
+  "結尾三句話：年齡是屬性，證明屬性不需要交出整個人；基礎設施一旦建成，新政策就會搭便車，所以底線要先寫進採購與法規；開源讓監督從喊話變成可以提交的 issue。連結：底稿長文與報告。謝謝。"
+]</script>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ══════════ 1 · 封面 ══════════ -->
+  <section data-label="封面" data-anim="s1">
+    <div class="slide">
+      <svg class="s1-bg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <path id="s1p" class="edge c-cyan" d="M-40,860 C 300,840 380,680 620,700 S 980,880 1240,810 S 1700,620 1980,680" />
+        <g class="v-amber ghost"><rect class="nodebox" x="560" y="660" width="130" height="76" rx="14"/></g>
+        <g class="v-red ghost"><rect class="nodebox" x="1180" y="772" width="130" height="76" rx="14"/></g>
+        <g class="v-green ghost"><rect class="nodebox" x="1660" y="620" width="130" height="76" rx="14"/></g>
+        <circle id="s1tok" class="token t-cyan" r="13" cx="-40" cy="860"/>
+      </svg>
+      <div class="s1-body">
+        <p class="eyebrow" data-step="1"><span class="cm">//</span> coscup_2026 <span class="cm">·</span> open_source_first</p>
+        <h1 class="title-xl" data-step="2">年齡驗證、數位監控、隱私權，<br/>討論這些以前，不妨先開源吧</h1>
+        <p class="s1-sub" data-step="3">年齡驗證與網路自由，一定只能二選一嗎？</p>
+        <div class="s1-meta" data-step="4">
+          <div><span class="who">黃豆泥 mashbean</span>　<span class="aff">Harvard Kennedy School Allen Lab Fellow 2025/26</span></div>
+          <div class="where">2026-08-09 11:30–12:10 · TR209 · 中文</div>
+        </div>
+      </div>
+      <div class="footer-strip"><span>coscup-2026 / age-verification</span><span>mashbean.net</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 2 · 正：立法浪潮 ══════════ -->
+  <section data-label="正：因為兒少安全" data-anim="s2">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> thesis <span class="cm">·</span> child_safety → legislate()</p>
+          <h2 class="title">正：因為兒少安全很重要，所以要立法</h2>
+        </div>
+        <div class="round-chip"><b>正</b> 三年 · 25+ 法域完成立法</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- main chain -->
+          <g data-step="1"><rect class="nodebox" x="20" y="200" width="290" height="120" rx="16"/><text class="nlabel sm" x="165" y="248">兒少網路傷害</text><text class="nsub" x="165" y="288">具體個案・國會聽證</text></g>
+          <path class="edge c-amber" data-step="2" d="M310,260 H400"/><polygon class="ah c-amber" data-step="2" points="400,260 380,250 380,270"/>
+          <g class="v-amber" data-step="2"><rect class="nodebox" x="402" y="200" width="330" height="120" rx="16"/><text class="nlabel sm" x="567" y="248">「保護兒童」政治共識</text><text class="nsub" x="567" y="288">跨黨派・沒有人反對得了</text></g>
+          <path class="edge c-amber" data-step="3" d="M732,260 H822"/><polygon class="ah c-amber" data-step="3" points="822,260 802,250 802,270"/>
+          <g class="v-amber" data-step="3"><rect class="nodebox" x="824" y="200" width="290" height="120" rx="16"/><text class="nlabel sm" x="969" y="248">立法快速推進</text><text class="nsub" x="969" y="288">可見的政治行動</text></g>
+          <!-- fan out to jurisdictions -->
+          <path class="edge c-cyan" data-step="4" d="M1114,230 C 1210,190 1260,130 1330,110"/><polygon class="ah c-cyan" data-step="4" points="1330,110 1308,108 1316,128"/>
+          <g data-step="4"><rect class="nodebox" x="1334" y="52" width="390" height="108" rx="14"/><text class="nlabel sm" x="1529" y="94">🇬🇧 Online Safety Act</text><text class="nsub" x="1529" y="130">2023 立法・2025-07 強制執法</text></g>
+          <path class="edge c-cyan" data-step="5" d="M1114,250 C 1220,250 1260,240 1330,238"/><polygon class="ah c-cyan" data-step="5" points="1330,238 1310,228 1310,248"/>
+          <g data-step="5"><rect class="nodebox" x="1334" y="184" width="390" height="108" rx="14"/><text class="nlabel sm" x="1529" y="226">🇦🇺 16 歲以下社群禁令</text><text class="nsub" x="1529" y="262">2024-11 通過・2025-12-10 生效</text></g>
+          <path class="edge c-cyan" data-step="6" d="M1114,280 C 1220,290 1260,340 1330,360"/><polygon class="ah c-cyan" data-step="6" points="1330,360 1310,352 1314,372"/>
+          <g data-step="6"><rect class="nodebox" x="1334" y="316" width="390" height="108" rx="14"/><text class="nlabel sm" x="1529" y="358">🇺🇸 27 州年齡驗證法</text><text class="nsub" x="1529" y="394">2025-06-27 最高法院判合憲</text></g>
+          <path class="edge c-cyan" data-step="7" d="M1114,300 C 1210,330 1260,440 1330,478"/><polygon class="ah c-cyan" data-step="7" points="1330,478 1310,468 1312,490"/>
+          <g data-step="7"><rect class="nodebox" x="1334" y="448" width="390" height="108" rx="14"/><text class="nlabel sm" x="1529" y="490">🇪🇺 年齡驗證 blueprint</text><text class="nsub" x="1529" y="526">2025-07 發布・多國試點</text></g>
+          <!-- the inversion -->
+          <g class="v-red" data-step="8"><rect class="nodebox" x="240" y="420" width="620" height="130" rx="16"/><text class="nlabel sm t-red" x="550" y="470">「用什麼技術驗年齡？」</text><text class="nsub" x="550" y="512">答案還在測試中，法律已經生效</text></g>
+          <path class="edge c-red dashed" data-step="8" d="M550,420 C 550,370 700,330 824,300"/>
+          <!-- band -->
+          <g data-step="9">
+            <rect class="band" x="20" y="590" width="1704" height="110" rx="18"/>
+            <text class="caption big" x="872" y="636" text-anchor="middle">第一個年齡驗證國際標準 <tspan class="mono-cap t-amber">ISO/IEC 27566-1</tspan> 於 2025 年 12 月出版——</text>
+            <text class="caption big" x="872" y="678" text-anchor="middle">出版之前，美國多州已立法、英國已執法、澳洲法律已生效。<tspan class="t-amber">立法週期跑贏了技術慎議。</tspan></text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n2">※ 考據</button>
+        <div class="note-pop" id="n2" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 時間倒錯的證據 */</p>
+          <p>澳洲《Online Safety Amendment (Social Media Minimum Age) Act 2024》2024 年 12 月獲皇家批准，但負責技術評估的年齡保證技術試驗（Age Assurance Technology Trial）最終報告 2025 年中才出爐——先立法，再測技術。挪威推 15 歲門檻法案時，政府自承「目前沒有完全有效的年齡驗證方案」，仍決定推進。</p>
+          <p>Free Speech Coalition v. Paxton（2025-06-27，6:3）：最高法院維持德州 HB 1181，多數意見稱年齡證明是執行年齡限制的通常且適當手段；Kagan 等三位大法官的異議警告，這套推理可能適用於遠超色情網站的範圍。判決後州法加速通過，2026 年 7 月已達 27 州（最早是 2023-01 生效的路易斯安那州 Act 440）。</p>
+          <p class="src">澳洲 AATT 最終報告（2025-09 公布，測 48 家供應商）的結論兩面都要引：「年齡保證可以私密、有效率、有效地做到」，但「沒有單一通用方案適合所有情境」。加州 AB1043（2025-10 簽署）隨即把年齡訊號寫進作業系統層——異議成真的速度比想像快。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>01 / thesis</span><span>法先於技術</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 3 · 反：代價 ══════════ -->
+  <section data-label="反：平台跟不上" data-anim="s3">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> antithesis <span class="cm">·</span> compliance → cheapest_path → breach</p>
+          <h2 class="title">反：法規上路後，隱私與自由先受傷</h2>
+        </div>
+        <div class="round-chip"><i>反</i> 平台便宜行事的連鎖反應</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- platform chain -->
+          <g data-step="1"><rect class="nodebox" x="20" y="60" width="270" height="110" rx="16"/><text class="nlabel sm" x="155" y="104">法規生效</text><text class="nsub" x="155" y="142">時限＋高額罰款</text></g>
+          <path class="edge c-red" data-step="2" d="M290,115 H380"/><polygon class="ah c-red" data-step="2" points="380,115 360,105 360,125"/>
+          <!-- decision diamond -->
+          <g data-step="2">
+            <polygon points="510,45 650,115 510,185 370,115" fill="var(--panel)" stroke="var(--red)" stroke-width="2.5"/>
+            <text class="nlabel sm t-red" x="510" y="108">平台怎麼辦？</text>
+            <text class="nsub" x="510" y="144">選最便宜的</text>
+          </g>
+          <path class="edge c-red" data-step="3" d="M650,115 H740"/><polygon class="ah c-red" data-step="3" points="740,115 720,105 720,125"/>
+          <g class="v-red" data-step="3"><rect class="nodebox" x="742" y="60" width="330" height="110" rx="16"/><text class="nlabel sm" x="907" y="104">上傳證件・臉部掃描</text><text class="nsub" x="907" y="142">外包給第三方驗證商</text></g>
+          <path class="edge c-red" data-step="4" d="M1072,115 H1162"/><polygon class="ah c-red" data-step="4" points="1162,115 1142,105 1142,125"/>
+          <g class="v-red" data-step="4"><rect class="nodebox" x="1164" y="60" width="330" height="110" rx="16"/><text class="nlabel sm t-red" x="1329" y="104">集中式證件資料庫</text><text class="nsub" x="1329" y="142">高價值攻擊目標</text></g>
+          <!-- breach fallout -->
+          <path class="edge c-red dashed" data-step="5" d="M1250,170 C 1200,230 1150,260 1100,280"/>
+          <path class="edge c-red dashed" data-step="5" d="M1329,170 V282"/>
+          <path class="edge c-red dashed" data-step="5" d="M1410,170 C 1460,230 1510,260 1560,280"/>
+          <g data-step="5"><rect class="nodebox ghost" x="920" y="286" width="360" height="100" rx="14" fill="transparent" stroke="#22304A" stroke-width="2" stroke-dasharray="8 7"/><text class="nlabel sm t-red" x="1100" y="326">Discord 外包商外洩</text><text class="nsub" x="1100" y="360">7 萬張政府證件照（2025-10）</text></g>
+          <g data-step="5"><rect x="1300" y="286" width="424" height="100" rx="14" fill="transparent" stroke="#22304A" stroke-width="2" stroke-dasharray="8 7"/><text class="nlabel sm t-red" x="1512" y="326">Tea App・AU10TIX</text><text class="nsub" x="1512" y="360">7.2 萬張照片外洩・憑證裸露一年</text></g>
+          <!-- user chain -->
+          <g data-step="6"><rect class="nodebox" x="20" y="286" width="270" height="110" rx="16"/><text class="nlabel sm" x="155" y="330">成年使用者</text><text class="nsub" x="155" y="368">不想交出證件</text></g>
+          <path class="edge c-amber" data-step="7" d="M155,396 V470"/><polygon class="ah c-amber" data-step="7" points="155,470 145,450 165,450"/>
+          <g class="v-amber" data-step="7"><rect class="nodebox" x="20" y="474" width="330" height="110" rx="16"/><text class="nlabel sm" x="185" y="516">寒蟬：合法流量崩跌</text><text class="nsub" x="185" y="554">Pornhub 英 -77%・路州 -80%</text></g>
+          <path class="edge c-amber" data-step="8" d="M290,341 C 380,341 420,400 480,430"/><polygon class="ah c-amber" data-step="8" points="480,430 458,426 466,446"/>
+          <g class="v-amber" data-step="8"><rect class="nodebox" x="484" y="404" width="330" height="110" rx="16"/><text class="nlabel sm" x="649" y="446">繞道：VPN 註冊暴增</text><text class="nsub" x="649" y="484">英國 Proton VPN +1,400%</text></g>
+          <path class="edge c-amber" data-step="9" d="M814,500 C 890,520 920,540 960,554"/><polygon class="ah c-amber" data-step="9" points="960,554 938,552 946,570"/>
+          <g class="v-amber" data-step="9"><rect class="nodebox" x="964" y="520" width="330" height="110" rx="16"/><text class="nlabel sm" x="1129" y="562">排除：無證件者出局</text><text class="nsub" x="1129" y="600">難民・無銀行帳戶・偏鄉</text></g>
+          <!-- band -->
+          <g data-step="10">
+            <rect x="1330" y="440" width="394 " height="0" fill="none"/>
+            <rect class="band-purple" x="1330" y="440" width="394" height="260" rx="16" style="fill:rgba(255,107,129,.07);stroke:var(--red);"/>
+            <text class="nlabel sm t-red" x="1527" y="500">而孩子呢？</text>
+            <text class="nsub" x="1527" y="548">中國防沉迷實名制研究：</text>
+            <text class="nsub" x="1527" y="584">77% 未成年人借帳號繞過</text>
+            <text class="nsub" x="1527" y="632">大人受傷，小孩繞過</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n3">※ 考據</button>
+        <div class="note-pop" id="n3" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 事件與數字 */</p>
+          <p>Discord 第三方驗證商 5CA 於 2025 年 10 月遭入侵，約 70,000 張用於年齡申訴的政府證件照外洩；Tea App 2025 年 7 月洩漏 72,000 張圖片（含 1.3 萬張本應審核後刪除的驗證自拍與證件照）；AU10TIX 管理員憑證曝露超過一年。集中式文件上傳架構的固有風險。</p>
+          <p>英國 2025-07-25 執法後：Proton VPN 註冊數分鐘內 +1,400%、其後數日持續 +1,800%；Ofcom 估每日 VPN 使用者從 65 萬升破 140 萬。Pornhub 稱英國流量 -77%，2026 年 1 月底起停收英國新用戶；路易斯安那州 Aylo 自報 -80%。Discord 在英國用 k-ID 臉部估齡，上線不久就被《死亡擱淺》遊戲照片騙過。</p>
+          <p class="src">中國防沉迷：2021 嚴格版上路後，PMC 期刊問卷研究顯示約 77% 未成年人借親屬帳號規避。澳洲禁令生效一週移除 470 萬帳號，2026-08 研究仍顯示逾八成 16 歲以下照用——政策有動作，效果另一回事。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>02 / antithesis</span><span>保護誰？傷到誰？</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 4 · 合：最小證明 ══════════ -->
+  <section data-label="合：最小證明" data-anim="s4">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> synthesis <span class="cm">·</span> prove(age ≥ 18) != reveal(identity)</p>
+          <h2 class="title">合：年齡是屬性，證明屬性不必交出整個人</h2>
+        </div>
+        <div class="round-chip"><em>合</em> 皮夾＋選擇性揭露＋零知識證明</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- compare strip -->
+          <g data-step="1">
+            <rect x="20" y="16" width="1704" height="66" rx="14" fill="rgba(106,227,249,.06)" stroke="#2A4A5F" stroke-width="2"/>
+            <text class="caption big" x="872" y="59" text-anchor="middle">完整身分識別＝<tspan class="t-red">出示出生日期與整張證件</tspan>　vs　最小證明＝<tspan class="t-green">只回答「滿 18 歲：是／否」</tspan></text>
+          </g>
+          <!-- main flow -->
+          <g data-step="2"><rect class="nodebox" x="20" y="170" width="270" height="120" rx="16"/><text class="nlabel sm" x="155" y="218">實體證件</text><text class="nsub" x="155" y="256">護照・身分證</text></g>
+          <path class="edge c-cyan" data-step="3" d="M290,230 H392"/><polygon class="ah c-cyan" data-step="3" points="392,230 372,220 372,240"/>
+          <text class="ntag t-cyan" data-step="3" x="341" y="204">只驗一次</text>
+          <g class="v-cyan" data-step="3"><rect class="nodebox" x="394" y="150" width="330" height="160" rx="16"/><text class="nlabel sm t-cyan" x="559" y="200">數位皮夾</text><text class="nsub" x="559" y="238">憑證放在自己手機</text><text class="nsub" x="559" y="274">持有者控制，離線可用</text></g>
+          <path class="edge c-purple" data-step="4" d="M724,230 H826"/><polygon class="ah c-purple" data-step="4" points="826,230 806,220 806,240"/>
+          <g class="v-purple" data-step="4"><rect class="nodebox" x="828" y="150" width="380" height="160" rx="16"/><text class="nlabel sm t-purple" x="1018" y="200">選擇性揭露 / ZKP</text><text class="nsub" x="1018" y="238">從整張證件只取一個屬性</text><text class="nsub" x="1018" y="274">用數學證明，不出示原件</text></g>
+          <path class="edge c-green" data-step="5" d="M1208,230 H1310"/><polygon class="ah c-green" data-step="5" points="1310,230 1290,220 1290,240"/>
+          <g class="v-green" data-step="5"><rect class="nodebox" x="1312" y="150" width="412" height="160" rx="16"/><text class="nlabel sm t-green" x="1518" y="200">網站收到：✓ 已滿 18</text><text class="nsub" x="1518" y="238">不知道你是誰、生日幾號</text><text class="nsub" x="1518" y="274">拿不到可轉賣的個資</text></g>
+          <!-- blocked flows -->
+          <path class="edge c-red dashed" data-step="6" d="M1420,310 C 1300,400 900,420 620,330"/>
+          <text class="nlabel t-red" data-step="6" x="1000" y="430" style="font-size:38px;">✂</text>
+          <text class="ntag t-red" data-step="6" x="1000" y="474">不回撥：驗證行為不回傳發證者，政府看不到你去了哪</text>
+          <path class="edge c-red dashed" data-step="7" d="M1518,310 C 1560,360 1560,400 1518,440"/>
+          <text class="nlabel t-red" data-step="7" x="1620" y="420" style="font-size:38px;">✂</text>
+          <text class="ntag t-red" data-step="7" x="1520" y="480">不可連結：兩次出示對不起來</text>
+          <!-- token -->
+          <path id="s4flow" d="M155,140 C 400,80 1200,80 1518,140" fill="none" stroke="none"/>
+          <circle class="token t-purple" data-step="8" data-mp="#s4flow" data-mp-dur="2.2" r="14" cx="155" cy="140" opacity="0"/>
+          <!-- examples band -->
+          <g data-step="9">
+            <rect class="band-green" x="20" y="530" width="1704" height="166" rx="18"/>
+            <text class="nlabel sm t-green" x="872" y="584" style="letter-spacing:.08em;">已經在路上的實作</text>
+            <text class="caption big" x="872" y="632" text-anchor="middle">法國 Arcom 雙重匿名｜西班牙 Cartera Digital ZKP｜Google Wallet 零知識證明開源</text>
+            <text class="caption big" x="872" y="674" text-anchor="middle">歐盟 EUDI Wallet：2026 年底前每個成員國至少提供一個，年齡驗證是明定用例</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n4">※ 考據</button>
+        <div class="note-pop" id="n4" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 方案與誠實的限制 */</p>
+          <p>法國 Arcom 2024-10 發布「雙重匿名」標準：銀行或電信商驗年齡，網站只收到成年與否，中介方也不知道你上了哪個網站。西班牙 Cartera Digital Beta 2024-09 起測試 ZKP 年齡驗證，被選為歐盟 white-label app 的基礎。Google 2025 年開源 ZKP 函式庫 longfellow-zk（可對 ISO mDoc 憑證產生零知識證明，已提交 IETF），整合進 Google Wallet，首發合作是 Bumble；2026 年與德國 Sparkassen 推出歐盟第一個 Google Wallet 年齡驗證。Apple 的 iOS 26 Digital ID 走選擇性揭露（只出示 18+），沒用 ZKP——兩條路線剛好可以對照。W3C Digital Credentials API 已隨 Chrome 141 與 Safari 26 出貨。</p>
+          <p>限制也要講：Brave 的分析指出，ZKP 讓後續驗證不再洩漏個資，但「第一次」建立年齡憑證時，仍需要一個可信方看到證件。差別在資料曝露的頻率與範圍——一次初始化，對比每次存取都留一筆完整個資。</p>
+          <p class="src">ISO/IEC 27566-1 明文：取得年齡保證，不必然需要建立完整身分。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>03 / synthesis</span><span>技術已到位</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 5 · 開源 ══════════ -->
+  <section data-label="不妨先開源吧" data-anim="s5">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> open_source <span class="cm">·</span> git clone eu-digital-identity-wallet/av-app</p>
+          <h2 class="title">所以，不妨先開源吧</h2>
+        </div>
+        <div class="round-chip"><em>合</em>＋<b>開源</b>＝可檢驗的政策</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- open source loop -->
+          <g data-step="1"><rect class="nodebox" x="20" y="90" width="300" height="120" rx="16"/><text class="nlabel sm" x="170" y="138">歐盟執委會</text><text class="nsub" x="170" y="176">年齡驗證 app 官方版</text></g>
+          <path class="edge c-cyan" data-step="2" d="M320,150 H420"/><polygon class="ah c-cyan" data-step="2" points="420,150 400,140 400,160"/>
+          <g class="v-cyan" data-step="2"><rect class="nodebox" x="422" y="90" width="380" height="120" rx="16"/><text class="nlabel sm t-cyan" x="612" y="138">程式碼公開在 GitHub</text><text class="nsub" x="612" y="176">eu-digital-identity-wallet</text></g>
+          <path class="edge c-cyan" data-step="3" d="M802,150 H902"/><polygon class="ah c-cyan" data-step="3" points="902,150 882,140 882,160"/>
+          <g data-step="3"><rect class="nodebox" x="904" y="90" width="330" height="120" rx="16"/><text class="nlabel sm" x="1069" y="138">成員國試點</text><text class="nsub" x="1069" y="176">五國起跑，已擴為七國</text></g>
+          <path class="edge c-purple" data-step="4" d="M1234,150 H1334"/><polygon class="ah c-purple" data-step="4" points="1334,150 1314,140 1314,160"/>
+          <g class="v-purple" data-step="4"><rect class="nodebox" x="1336" y="70" width="388" height="160" rx="16"/><text class="nlabel sm t-purple" x="1530" y="120">公民社會讀程式碼</text><text class="nsub" x="1530" y="158">發現：裝置認證依賴</text><text class="nsub" x="1530" y="194">Google／Apple，批評有憑有據</text></g>
+          <!-- loop back -->
+          <path class="edge c-green" data-step="5" d="M1530,230 C 1530,330 1000,360 612,330 C 400,314 260,290 190,232"/><polygon class="ah c-green" data-step="5" points="190,232 196,254 212,240"/>
+          <text class="ntag t-green" data-step="5" x="872" y="392">批評 → issue → 修正 → 下一版：開源把監督做成迴圈</text>
+          <!-- token on loop -->
+          <path id="s5loop" d="M1530,230 C 1530,330 1000,360 612,330 C 400,314 260,290 190,232" fill="none" stroke="none"/>
+          <circle class="token t-green" data-step="5" data-mp="#s5loop" data-mp-dur="2.4" r="13" cx="1530" cy="230" opacity="0"/>
+          <!-- Taiwan row -->
+          <g data-step="6"><rect class="nodebox" x="20" y="450" width="330" height="120" rx="16"/><text class="nlabel sm" x="185" y="498">🇹🇼 數位憑證皮夾</text><text class="nsub" x="185" y="536">App 已開源（2026-04）</text></g>
+          <path class="edge c-cyan" data-step="7" d="M350,510 H450"/><polygon class="ah c-cyan" data-step="7" points="450,510 430,500 430,520"/>
+          <g data-step="7"><rect class="nodebox" x="452" y="450" width="380" height="120" rx="16"/><text class="nlabel sm" x="642" y="498">PTT 零知識藍勾勾</text><text class="nsub" x="642" y="536">自然人憑證 → 匿名唯一性證明</text></g>
+          <path class="edge c-cyan" data-step="8" d="M832,510 H932"/><polygon class="ah c-cyan" data-step="8" points="932,510 912,500 912,520"/>
+          <g data-step="8"><rect class="nodebox" x="934" y="450" width="380" height="120" rx="16"/><text class="nlabel sm" x="1124" y="498">g0v Summit 入場券</text><text class="nsub" x="1124" y="536">皮夾發證，非政府單位驗證</text></g>
+          <g class="v-green" data-step="9"><rect class="nodebox" x="1364" y="450" width="360" height="120" rx="16"/><text class="nlabel sm t-green" x="1544" y="498">公民科技當測試場</text><text class="nsub" x="1544" y="536">先小規模驗證，再談全面上路</text></g>
+          <path class="edge c-green" data-step="9" d="M1314,510 H1364"/><polygon class="ah c-green" data-step="9" points="1364,510 1344,500 1344,520"/>
+          <!-- band -->
+          <g data-step="10">
+            <rect class="band" x="20" y="614" width="1704" height="86" rx="16"/>
+            <text class="caption big" x="872" y="668" text-anchor="middle">閉源的年齡驗證只能「相信我」；開源的年齡驗證可以<tspan class="t-amber">「自己驗」</tspan>——政策的信任，從程式碼開始</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n5">※ 考據</button>
+        <div class="note-pop" id="n5" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 開源的細節 */</p>
+          <p>歐盟年齡驗證 app（white-label）由 T-Scy 聯盟（Scytáles＋T-Systems）依 EUDI Wallet 架構開發，主 repo 是 GitHub eu-digital-identity-wallet 組織的 av-app-android-wallet-ui，授權 EUPL-1.2——連授權條款都是歐盟自己寫的開源授權。2025-07-14 與法、西、義、希、丹五國啟動試點，後加入賽普勒斯與愛爾蘭成七國；2026-04-15 執委會宣布技術就緒。</p>
+          <p>正因為開源，批評才有著力點：技術規格要求硬體綁定認證，Android 端依賴 Google Play Integrity，GrapheneOS 這類去 Google 化系統過不了；發證方只發憑證給執委會維護的「合規 app 名單」——「開了源，但社群自建版本用不了真服務」。EDRi 稱整套做法是「大錘打小釘」，epicenter.works 憂慮身分與年齡驗證被綁死。這些批評全部有程式碼與規格可引用，跟對黑盒子喊話完全兩回事；2026-07 也有公民連署反向要求把這個隱私優先 app 定為法定標準。</p>
+          <p class="src">台灣：數位憑證皮夾 2025-12-17 試營運開放下載，行動 App 2026-04-17 開源；PTT 與 g0v Summit 是 2026 年進行中的公民試驗。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>04 / open-source</span><span>先開源，再談邊界</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 6 · 結論：數位自主 ══════════ -->
+  <section data-label="數位自主" data-anim="s6">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> conclusion <span class="cm">·</span> thesis → antithesis → synthesis → autonomy</p>
+          <h2 class="title">結論：數位自主的數位身分政策</h2>
+        </div>
+        <div class="round-chip">正反合，疊起來</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- dialectic ladder -->
+          <g class="v-amber" data-step="1"><rect class="nodebox" x="30" y="560" width="380" height="100" rx="16"/><text class="nlabel sm t-amber" x="220" y="602">正：為了孩子，快立法</text><text class="nsub" x="220" y="638">25+ 法域・標準還沒出版</text></g>
+          <path class="edge c-red" data-step="2" d="M410,600 C 500,590 540,510 600,486"/><polygon class="ah c-red" data-step="2" points="600,486 578,486 588,504"/>
+          <g class="v-red" data-step="2"><rect class="nodebox" x="604" y="430" width="380" height="100" rx="16"/><text class="nlabel sm t-red" x="794" y="472">反：便宜行事，全民買單</text><text class="nsub" x="794" y="508">外洩・寒蟬・VPN・排除</text></g>
+          <path class="edge c-green" data-step="3" d="M984,470 C 1070,460 1110,380 1170,356"/><polygon class="ah c-green" data-step="3" points="1170,356 1148,356 1158,374"/>
+          <g class="v-green" data-step="3"><rect class="nodebox" x="1174" y="300" width="380" height="100" rx="16"/><text class="nlabel sm t-green" x="1364" y="342">合：最小證明＋開源</text><text class="nsub" x="1364" y="378">皮夾・選擇性揭露・ZKP</text></g>
+          <path class="edge c-purple" data-step="4" d="M1364,300 C 1364,250 1260,224 1164,200"/><polygon class="ah c-purple" data-step="4" points="1164,200 1186,194 1184,214"/>
+          <g class="v-purple" data-step="4"><rect class="nodebox" x="600" y="90" width="540" height="160" rx="16"/><text class="nlabel t-purple" x="870" y="144">數位自主</text><text class="nsub" x="870" y="186">憑證自己持有・揭露自己決定</text><text class="nsub" x="870" y="222">程式碼大家能查</text></g>
+          <!-- policy floor -->
+          <g data-step="5"><rect class="nodebox v-cyan" x="30" y="80" width="250" height="80" rx="40"/><text class="nlabel sm t-cyan" x="155" y="128">最小揭露</text></g>
+          <g data-step="6"><rect class="nodebox v-cyan" x="30" y="180" width="250" height="80" rx="40"/><text class="nlabel sm t-cyan" x="155" y="228">不可連結</text></g>
+          <g data-step="7"><rect class="nodebox v-cyan" x="30" y="280" width="250" height="80" rx="40"/><text class="nlabel sm t-cyan" x="155" y="328">不回撥</text></g>
+          <g data-step="8"><rect class="nodebox v-cyan" x="310" y="130" width="250" height="80" rx="40"/><text class="nlabel sm t-cyan" x="435" y="178">替代路徑・救濟</text></g>
+          <g data-step="9"><rect class="nodebox v-cyan" x="310" y="230" width="250" height="80" rx="40"/><text class="nlabel sm t-cyan" x="435" y="278">開源可稽核</text></g>
+          <path class="edge c-cyan dashed" data-step="10" d="M560,220 C 600,210 620,190 638,180"/>
+          <text class="ntag t-cyan" data-step="10" x="380" y="360">五條底線，先寫進法規與採購，</text>
+          <text class="ntag t-cyan" data-step="10" x="380" y="396">再談上路</text>
+          <!-- band -->
+          <g data-step="11">
+            <rect class="band-purple" x="1090" y="530" width="634" height="170" rx="18"/>
+            <text class="caption big" x="1407" y="586" text-anchor="middle">年齡驗證只是數位身分政策的</text>
+            <text class="caption big" x="1407" y="628" text-anchor="middle"><tspan class="t-purple">壓力測試</tspan>——這套基礎設施蓋好之後，</text>
+            <text class="caption big" x="1407" y="670" text-anchor="middle">下一個政策一定會來搭便車</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n6">※ 考據</button>
+        <div class="note-pop" id="n6" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 結構性滑坡的證據，以及台灣 */</p>
+          <p>加州 AB1043 把年齡驗證從色情網站擴展為作業系統層的年齡訊號，開發者在 app 下載與啟動時就要請求；伊利諾州草案更明言要把年齡驗證「編入數位基礎設施本身」。英國從 Online Safety Act 一路走到 One Login 與 GOV.UK Wallet。基礎設施一旦建成，邊際成本低、投資要回收，新政策自然搭便車。</p>
+          <p>台灣不是局外人：衛福部預告的《兒童及少年福利與權益保障法》修正草案第 59 條，擬課予平台年齡驗證與限制接取義務；司改會等團體已指出，強制年齡驗證等於管制所有使用者，實質走向網路實名制。這波國際經驗的正反兩面，正好是台灣現在要用的。</p>
+          <p class="src">反過來，設計也能約束滑坡：法國雙重匿名在架構上就難以改造成追蹤工具；韓國遊戲宵禁 2011 年實施、2021 年廢除，證明政策可逆。「可問責不需要以實名為前提」——年齡驗證需要的只是屬性證明，四種公民證明裡最輕的一種。</p>
+          <p class="src">「可問責不需要以實名為前提」——公民證明四型：法律身分／屬性證明／唯一性證明／假名式參與，年齡驗證只需要第二種。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>05 / conclusion</span><span>壓力測試</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 7 · 結尾 ══════════ -->
+  <section data-label="結尾" data-anim="s7">
+    <div class="slide">
+      <div class="s7-body">
+        <p class="eyebrow" data-step="1"><span class="cm">//</span> return</p>
+        <h2 class="title-xl" data-step="2" style="font-size:84px;">保護兒少與網路自由，<br/>可以不必二選一。</h2>
+        <div class="s7-lines">
+          <div data-step="3">年齡是屬性——證明屬性，不需要交出整個人。</div>
+          <div data-step="4">基礎設施會被搭便車，底線要先寫進法規與採購。</div>
+          <div data-step="5"><span class="hl">開源讓監督從喊話，變成可以提交的 issue。</span></div>
+        </div>
+        <div class="s7-links" data-step="6">
+          <div>底稿長文　<b>mashbean.net/blog/2026/0417-1trens</b></div>
+          <div>年齡驗證報告　<b>pro.mashbean.net/reports</b></div>
+          <div>黃豆泥 mashbean · Harvard Kennedy School Allen Lab Fellow 2025/26</div>
+        </div>
+      </div>
+      <div class="footer-strip"><span>coscup-2026 / age-verification</span><span>謝謝，歡迎指正</span></div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="./deck-stage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+<script>
+(() => {
+  if (!window.gsap) return;
+  gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Generic builder: elements carry data-step="N"; steps animate in order.
+     .edge → DrawSVG; [data-mp] tokens → MotionPath along the referenced path;
+     everything else pops in. Same step number = together. */
+  function buildTimeline(slide) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+    const stepped = Array.from(slide.querySelectorAll('[data-step]'));
+    const groups = new Map();
+    stepped.forEach((el) => {
+      const k = Number(el.dataset.step);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(el);
+    });
+    const keys = Array.from(groups.keys()).sort((a, b) => a - b);
+    keys.forEach((k, gi) => {
+      const els = groups.get(k);
+      els.forEach((el, i) => {
+        const at = i === 0 ? (gi === 0 ? 0.1 : '+=0.3') : '<';
+        if (el.classList.contains('edge')) {
+          tl.fromTo(el, { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.55, ease: 'power1.inOut' }, at);
+        } else if (el.dataset.mp) {
+          const delay = Number(el.dataset.mpDelay || 0);
+          const dur = Number(el.dataset.mpDur || 1.6);
+          tl.set(el, { opacity: 1 }, delay ? `${at === 0.1 ? 0.1 : at}` : at);
+          tl.to(el, {
+            motionPath: { path: el.dataset.mp, align: el.dataset.mp, alignOrigin: [0.5, 0.5] },
+            duration: dur, delay, ease: 'power1.inOut', immediateRender: false,
+          }, '<');
+          if (el.hasAttribute('data-mp-fade')) tl.to(el, { autoAlpha: 0, duration: 0.3 }, '>-0.05');
+        } else {
+          tl.from(el, { autoAlpha: 0, y: 18, scale: 0.97, transformOrigin: '50% 50%', duration: 0.5 }, at);
+        }
+      });
+    });
+    return tl;
+  }
+
+  /* Per-slide extras. */
+  const extras = {
+    s1(tl, slide) {
+      const p = slide.querySelector('#s1p');
+      const tok = slide.querySelector('#s1tok');
+      if (p) tl.fromTo(p, { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 1.6, ease: 'power1.inOut' }, 0);
+      if (tok && !REDUCED) {
+        tl.set(tok, { opacity: 1 }, 1.2);
+        tl.to(tok, {
+          motionPath: { path: '#s1p', align: '#s1p', alignOrigin: [0.5, 0.5] },
+          duration: 7, ease: 'none', repeat: -1, immediateRender: false,
+        }, 1.2);
+      }
+    },
+  };
+
+  const stage = document.querySelector('deck-stage');
+  const built = new Map();
+  let current = null;
+
+  function playFor(section) {
+    if (!section) return;
+    if (current) current.pause();
+    closeAllNotes();
+    const key = section.dataset.anim;
+    if (!key) { current = null; return; }
+    let tl = built.get(section);
+    if (!tl) {
+      const slideRoot = section;
+      tl = buildTimeline(slideRoot);
+      if (extras[key]) extras[key](tl, slideRoot);
+      built.set(section, tl);
+    }
+    current = tl;
+    if (REDUCED) { tl.progress(1).pause(); } else { tl.restart(); }
+  }
+
+  stage.addEventListener('slidechange', (e) => playFor(e.detail.slide));
+
+  // Click anywhere on a slide (except notes) replays its animation.
+  stage.addEventListener('click', (e) => {
+    if (e.target.closest('.note-btn') || e.target.closest('.note-pop')) return;
+    if (current && !REDUCED) current.restart();
+  });
+
+  /* ── footnote pop-ups ── */
+  function closeAllNotes(except) {
+    document.querySelectorAll('.note-pop').forEach((pop) => {
+      if (pop === except) return;
+      if (pop.dataset.open) {
+        delete pop.dataset.open;
+        gsap.to(pop, { autoAlpha: 0, y: 8, scale: 0.97, duration: 0.22, ease: 'power2.in' });
+      }
+    });
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.note-btn');
+    if (!btn) { if (!e.target.closest('.note-pop')) closeAllNotes(); return; }
+    e.stopPropagation();
+    const pop = document.getElementById(btn.dataset.note);
+    if (!pop) return;
+    if (pop.dataset.open) { closeAllNotes(); return; }
+    closeAllNotes(pop);
+    pop.dataset.open = '1';
+    gsap.fromTo(pop, { autoAlpha: 0, y: 14, scale: 0.96, transformOrigin: '80% 0%' },
+      { autoAlpha: 1, y: 0, scale: 1, duration: 0.32, ease: 'back.out(1.6)' });
+  }, true);
+
+  // The initial slidechange fires before this script attaches; kick it manually.
+  queueMicrotask(() => {
+    const idx = typeof stage.index === 'number' ? stage.index : 0;
+    const sections = stage.querySelectorAll('section');
+    playFor(sections[idx]);
+  });
+})();
+</script>
+</body>
+</html>
