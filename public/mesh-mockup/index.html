@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Mesh Times — 網目時報（mockup）</title>
+<meta name="description" content="以 Mesh MCP 即時新聞為素材的紐約時報風格版面實驗。新聞為真，酸評為虛。">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #121212;
+    --ink-soft: #333;
+    --ink-faint: #5a5a5a;
+    --rule: #dcdcdc;
+    --rule-dark: #121212;
+    --paper: #fdfdf9;
+    --accent: #8b0000;
+    --serif: "Noto Serif TC", Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    line-height: 1.75;
+    padding: 0 1.25rem 4rem;
+  }
+  a { color: inherit; text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .sheet { max-width: 1200px; margin: 0 auto; }
+
+  /* ── top bar ── */
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.72rem; letter-spacing: 0.05em; color: var(--ink-faint);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.5rem 0;
+  }
+  .topbar .badge {
+    border: 1px solid var(--accent); color: var(--accent);
+    padding: 0 0.5em; font-weight: 600; letter-spacing: 0.15em;
+  }
+
+  /* ── masthead ── */
+  .masthead { text-align: center; padding: 1.6rem 0 0.9rem; }
+  .masthead h1 {
+    font-family: "UnifrakturCook", var(--serif);
+    font-size: clamp(2.6rem, 7.5vw, 5.2rem);
+    font-weight: 700; line-height: 1.05; letter-spacing: 0.01em;
+  }
+  .masthead .zh {
+    font-size: 0.95rem; letter-spacing: 1.2em; text-indent: 1.2em;
+    color: var(--ink-soft); margin-top: 0.35rem; font-weight: 600;
+  }
+  .masthead .motto {
+    font-size: 0.75rem; font-style: italic; color: var(--ink-faint); margin-top: 0.4rem;
+  }
+  .dateline {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 2px solid var(--rule-dark); border-bottom: 1px solid var(--rule-dark);
+    font-size: 0.74rem; letter-spacing: 0.08em; padding: 0.3rem 0.2rem;
+    margin-top: 0.9rem;
+  }
+  nav.sections {
+    display: flex; justify-content: center; gap: 2.2em; flex-wrap: wrap;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3em; text-indent: 0.3em;
+    border-bottom: 3px double var(--rule-dark);
+    padding: 0.45rem 0; margin-bottom: 1.6rem;
+  }
+
+  /* ── grid ── */
+  .front {
+    display: grid; gap: 0 1.6rem;
+    grid-template-columns: 1fr 1.9fr 1.15fr;
+  }
+  .front > * + * { border-left: 1px solid var(--rule); padding-left: 1.6rem; }
+  .band {
+    display: grid; gap: 0 1.6rem; grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid var(--rule-dark); margin-top: 2rem; padding-top: 1.3rem;
+  }
+  .band > * + * { border-left: 1px solid var(--rule); padding-left: 1.6rem; }
+  .band-title {
+    grid-column: 1 / -1; font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.35em; text-indent: 0.35em; color: var(--ink-soft);
+    margin-bottom: 0.9rem;
+  }
+
+  /* ── story ── */
+  article.story { margin-bottom: 1.7rem; }
+  .kicker {
+    font-size: 0.68rem; font-weight: 700; letter-spacing: 0.25em;
+    color: var(--accent); margin-bottom: 0.3rem;
+  }
+  .story h2 { font-weight: 900; line-height: 1.42; font-size: 1.22rem; margin-bottom: 0.45rem; }
+  .story.lead h2 { font-size: clamp(1.6rem, 3.2vw, 2.2rem); line-height: 1.38; }
+  .story h2 a:hover { text-decoration-thickness: 2px; }
+  .excerpt { font-size: 0.92rem; color: var(--ink-soft); margin-bottom: 0.55rem; }
+  .byline { font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ink-faint); }
+  .byline a { border-bottom: 1px dotted var(--ink-faint); }
+  figure { margin: 0 0 0.8rem; }
+  figure img { width: 100%; display: block; filter: saturate(0.85); }
+  figcaption { font-size: 0.7rem; color: var(--ink-faint); padding-top: 0.3rem; line-height: 1.6; }
+
+  /* ── snark ── */
+  .snark {
+    border-top: 1px solid var(--rule-dark);
+    margin-top: 0.7rem; padding-top: 0.45rem;
+    font-size: 0.85rem; line-height: 1.8; color: var(--ink);
+  }
+  .snark .label {
+    display: inline-block; font-style: normal; font-weight: 700;
+    font-size: 0.62rem; letter-spacing: 0.28em;
+    color: var(--paper); background: var(--ink);
+    padding: 0.05em 0.6em 0.05em 0.75em; margin-right: 0.55em;
+    transform: translateY(-0.12em);
+  }
+  .snark em { font-style: normal; border-bottom: 3px double var(--rule-dark); }
+
+  /* ── opinion column ── */
+  .opinion h3 {
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.3em; text-indent: 0.3em;
+    text-align: center; border-bottom: 1px solid var(--rule-dark);
+    padding-bottom: 0.4rem; margin-bottom: 0.9rem;
+  }
+  .opinion h2 { font-size: 1.35rem; font-weight: 900; line-height: 1.45; margin-bottom: 0.6rem; }
+  .opinion p { font-size: 0.9rem; margin-bottom: 0.9em; }
+  .opinion .sig { font-size: 0.75rem; color: var(--ink-faint); text-align: right; font-style: italic; }
+  .drop::first-letter {
+    float: left; font-size: 3.2em; line-height: 0.85;
+    padding: 0.08em 0.12em 0 0; font-weight: 900;
+  }
+
+  /* ── footer ── */
+  footer {
+    border-top: 3px double var(--rule-dark); margin-top: 2.5rem; padding-top: 1rem;
+    font-size: 0.76rem; color: var(--ink-faint); line-height: 2;
+  }
+  footer strong { color: var(--ink-soft); }
+
+  @media (max-width: 920px) {
+    .front { grid-template-columns: 1fr 1fr; }
+    .front .col-lead { grid-column: 1 / -1; grid-row: 1; border-left: none; padding-left: 0; border-bottom: 2px solid var(--rule-dark); margin-bottom: 1.3rem; }
+    .front .col-left { border-left: none; padding-left: 0; }
+    .band { grid-template-columns: 1fr; }
+    .band > * + * { border-left: none; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 1.1rem; }
+  }
+  @media (max-width: 600px) {
+    .front { grid-template-columns: 1fr; }
+    .front > * + * { border-left: none; padding-left: 0; }
+    .front .col-op { border-top: 2px solid var(--rule-dark); padding-top: 1.2rem; }
+    nav.sections { gap: 1.1em; letter-spacing: 0.15em; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="topbar">
+    <span>新聞來源：Mesh MCP（鏡週刊・民視）</span>
+    <span class="badge">MOCKUP</span>
+    <span>撈取時間：2026-08-05 12:00 台北</span>
+  </div>
+
+  <header class="masthead">
+    <h1>The Mesh Times</h1>
+    <div class="zh">網目時報</div>
+    <div class="motto">“All the News That's Fit to Scrape.” — 凡撈得到的，皆宜刊印</div>
+    <div class="dateline">
+      <span>第 1 卷 · 第 1 號</span>
+      <span>中華民國一一五年八月五日　星期三</span>
+      <span>定價：一次 API 呼叫</span>
+    </div>
+    <nav class="sections">
+      <span>國際</span><span>財經</span><span>科技</span><span>環境</span><span>娛樂</span><span>冷眼</span>
+    </nav>
+  </header>
+
+  <main class="front">
+
+    <!-- ══ left column ══ -->
+    <section class="col-left">
+
+      <article class="story">
+        <div class="kicker">國際 · 東京</div>
+        <h2><a href="https://www.ftvnews.com.tw/news/detail/2026805W0246" target="_blank" rel="noopener">日本防衛白皮書點名中國為「最大戰略性挑戰」　北京：賊喊捉賊</a></h2>
+        <p class="excerpt">日本政府 4 日發表新版《防衛白皮書》，研判解放軍在台灣周邊的高強度軍演可能是為武力犯台預作準備，並警告中國或以海警在灰色地帶封鎖台灣。中國國防部同晚以官網問答回擊，指日方「炒作中國威脅論」、發展「新型軍國主義」。</p>
+        <div class="byline">民視新聞 · 原題〈中國崩潰了！日本防衛白皮書列「最大挑戰」〉</div>
+        <div class="snark"><span class="label">冷眼</span>原標題宣稱中國「崩潰」。經查，所謂崩潰係指國防部發言人在官網上發表了一段措辭工整、格式完備的書面抗議。若照此標準，世界各國外交部每週崩潰數次，且多半在上班時間內完成。</div>
+      </article>
+
+      <article class="story">
+        <div class="kicker">國際 · 香港</div>
+        <h2><a href="https://www.ftvnews.com.tw/news/detail/2026805W0277" target="_blank" rel="noopener">玩具商深夜聲明「永遠支持一個中國」　書店與物流業寒蟬效應蔓延</a></h2>
+        <p class="excerpt">香港玩具廠商 FEXTHOBBY 無預警發文表態支持一中原則，網友以「笑臉」洗版。同一時間，國安處搜查兩間老牌獨立書店並拘捕 5 人，物流商開始要求「先審書單再託運」，半世紀老店田園書屋宣告熄燈。</p>
+        <div class="byline">民視新聞</div>
+        <div class="snark"><span class="label">冷眼</span>一間玩具公司鄭重承諾塑膠模型的政治立場，彷彿鋼彈即將舉行公投。真正的新聞埋在第八段：書店被搜、物流自我審查、老店關門。玩具只是這場寒蟬效應裡，最容易被笑出聲的道具——而笑聲正是它僅剩的抵抗形式。</div>
+      </article>
+
+      <article class="story">
+        <div class="kicker">國際 · 密西根</div>
+        <h2><a href="https://www.ftvnews.com.tw/news/detail/2026805W0286" target="_blank" rel="noopener">民主黨參院初選開票中　進步派 El-Sayed 以三個百分點微幅領先</a></h2>
+        <p class="excerpt">密西根州民主黨初選開出約四成選票，進步派 Abdul El-Sayed 以 49.8% 對 46.5% 領先建制派支持的 Haley Stevens；勝者將於 11 月對決共和黨的 Mike Rogers。密蘇里州方面，親以色列超級政治行動委員會斥資逾 300 萬美元，成功阻止進步派眾議員 Cori Bush 連任。</p>
+        <div class="byline">民視新聞</div>
+        <div class="snark"><span class="label">冷眼</span>這場初選被稱為「民主黨路線的關鍵測試」——第 N 次。而隔壁州的三百萬美元廣告費再度證明一件事：民主黨最穩定、最有紀律、最捨得花錢對付的敵人，始終是民主黨。</div>
+      </article>
+
+    </section>
+
+    <!-- ══ lead column ══ -->
+    <section class="col-lead">
+
+      <article class="story lead">
+        <div class="kicker">財經 · 頭條</div>
+        <h2><a href="https://www.mirrormedia.mg/story/20260805edi023" target="_blank" rel="noopener">台股盤中狂飆 1,618 點直逼 45,000　台積電大漲、八檔漲停</a></h2>
+        <figure>
+          <img src="https://v3-statics.mirrormedia.mg/images/47968172-4dc8-41b0-a866-240ccc434539-w800.jpg" alt="台股看盤畫面" loading="lazy" onerror="this.parentElement.style.display='none'">
+          <figcaption>證券行情看板一片通紅。分析師事後將提出解釋，解釋將視收盤結果而定。（圖：鏡週刊）</figcaption>
+        </figure>
+        <p class="excerpt">台股今晨跳空開高一路狂奔，盤中最高上漲 1,618.64 點、觸及 44,979.3 點，在 45,000 點大關前震盪。台積電漲 95 元至 2,415 元，聯發科大漲 225 元站上 4,090 元；力積電、台郡、麗臺等多檔漲停鎖死。</p>
+        <div class="byline">鏡週刊 · 2026-08-05 11:20 台北</div>
+        <div class="snark"><span class="label">冷眼</span>指數一天漲出 1,618 點，約等於某些國家一整個股市。當一檔股票漲停的理由是隔壁那檔也漲停，市場便進入了它最誠實的階段：<em>集體不需要理由</em>。本報謹提醒：「大關」是心理學名詞，不是財務學名詞——但在台北，兩者向來難以區分。</div>
+      </article>
+
+      <article class="story">
+        <div class="kicker">財經 · 達卡</div>
+        <h2><a href="https://www.ftvnews.com.tw/news/detail/2026805W0270" target="_blank" rel="noopener">孟加拉成衣業兩年倒閉四百廠　女工一封簡訊失去八年工作</a></h2>
+        <p class="excerpt">占孟加拉出口收入八成的成衣業陷入寒冬：全國約 4,000 家工廠中已有 400 家在兩年內倒閉。27 歲、懷孕三個月的女工 Aklima 深夜收到簡訊，得知服務八年的工廠一口氣裁員 3,000 人。世界銀行指出，相較邁向自動化的越南，孟加拉多數工廠仍依賴勞力密集製程。</p>
+        <div class="byline">民視新聞 · 編譯自法新社</div>
+        <div class="snark"><span class="label">冷眼</span>快時尚的供應鏈以效率聞名，如今連裁員也做到了「一則簡訊、隔日生效」。專家開出的藥方是「轉型先進製造」——這帖藥的價格，恰好等於那四百家工廠付不起的那種。至於歐美消費者，將繼續在結帳頁面勾選「我在乎永續」。</div>
+      </article>
+
+    </section>
+
+    <!-- ══ opinion column ══ -->
+    <section class="col-op opinion">
+      <h3>冷眼 · 本報編輯室</h3>
+      <article>
+        <h2>驚嘆號通膨：本日新聞學觀察</h2>
+        <p class="drop">本報今晨自 Mesh 管線撈取二十則最新新聞，其中十四則標題以驚嘆號收尾或斷句，六則含有「AI」二字，五則出自同一家投顧的「看旺」系列。驚嘆號的功能原是標記罕見的激動；當它出現在七成的標題上，罕見便成了常態，激動便成了格式。</p>
+        <p>同批新聞中，「商機爆發」「一路旺到 2027」「拚出獲利成長」等語，與其說是報導，不如說是禱詞。經濟學有通貨膨脹，新聞學有情緒膨脹——兩者的共同點是：面額越印越大，購買力越來越小。</p>
+        <p>本報無意苛責同業。畢竟在演算法的市集裡，冷靜是一種滯銷品，而驚嘆號是免費的。只是讀者或許值得知道：當每一件事都值得尖叫，就沒有任何事真正值得尖叫。</p>
+        <p class="sig">——網目時報編輯室，由 AI 代筆，酸味經人工校準</p>
+      </article>
+
+      <article class="story" style="border-top:1px solid var(--rule-dark); margin-top:1.2rem; padding-top:1rem;">
+        <div class="kicker">科技 · 投顧文學</div>
+        <h2 style="font-size:1.05rem"><a href="https://www.ftvnews.com.tw/news/detail/2026805W0215" target="_blank" rel="noopener">「AI 首度超車手機」　投顧喊買晶技、目標價 230 元</a></h2>
+        <p class="excerpt">元大投顧預估石英元件廠晶技的 AI 應用營收占比將由 15% 升至 2027 年的 22%，首度超越手機業務，維持「買進」評等，目標價 230 元。</p>
+        <div class="byline">民視新聞</div>
+        <div class="snark"><span class="label">冷眼</span>投顧報告是一種獨特文體：每個數字都精確到小數點後一位，唯獨「買進」二字永遠免費。全文最誠實的一句藏在末尾——「投資人於決策時應審慎評估風險，並就投資結果自行負責」。</div>
+      </article>
+    </section>
+
+  </main>
+
+  <!-- ══ second band ══ -->
+  <section class="band">
+    <div class="band-title">氣象 × 城中軼聞</div>
+
+    <article class="story">
+      <div class="kicker">環境 · 西太平洋</div>
+      <h2><a href="https://www.mirrormedia.mg/story/20260805edi024" target="_blank" rel="noopener">「三颱鼎立」成形中　白海豚、鯨魚、昌鴻同框</a></h2>
+      <p class="excerpt">第 14 號颱風「鯨魚」生成後，第 15 號颱風「昌鴻」也將報到，西太平洋三個熱帶系統並立。氣象專家賈新興指出，白海豚將影響琉球群島、最可能登陸中國溫州至福州；以目前資料，任何一個系統直襲台灣的機率都很低。</p>
+      <div class="byline">鏡週刊</div>
+      <div class="snark"><span class="label">冷眼</span>三個颱風排隊，沒有一個要來台灣——此事仍成功登上頭條，標題並附贈驚嘆號一枚。把「大概不會發生」寫成「預備中！」是一門手藝；在氣象報導這一行，它的正式名稱叫做流量。</div>
+    </article>
+
+    <article class="story">
+      <div class="kicker">人物 · 新豐</div>
+      <h2><a href="https://www.mirrormedia.mg/story/20260805edi015" target="_blank" rel="noopener">吊車大王車站前憶亡父落淚　六十年前的單車與火車</a></h2>
+      <figure>
+        <img src="https://v3-statics.mirrormedia.mg/images/e42aa87d-5708-4ab1-9b61-3ec4795855c5-w800.jpg" alt="胡漢龑於新豐車站旁" loading="lazy" onerror="this.parentElement.style.display='none'">
+        <figcaption>企業家、花襯衫、車站咖啡廳、一段面對鏡頭的獨白。（圖：鏡週刊）</figcaption>
+      </figure>
+      <p class="excerpt">「竹北吊車大王」、啟德機械董事長胡漢龑在父親節前夕發布短片：六十多年前，父親曾騎一個半小時單車，載年幼的他去花蓮火車站看火車。影片引發大批網友留言，分享各自對逝去長輩的思念。</p>
+      <div class="byline">鏡週刊</div>
+      <div class="snark"><span class="label">冷眼</span>一位以財力與霸氣聞名的企業家，在連鎖咖啡廳的落地窗前對著鏡頭紅了眼眶——而全網跟著想起自己的父親。思念是真的，鏡頭也是真的；在內容的年代，真誠與運鏡從來不衝突，只是後者需要腳架。</div>
+    </article>
+
+    <article class="story">
+      <div class="kicker">娛樂 · 幾何學</div>
+      <h2><a href="https://www.mirrormedia.mg/story/20260805-195ent-113347" target="_blank" rel="noopener">Selina 全家福再掀二胎猜測　本人僅稱「順其自然」</a></h2>
+      <p class="excerpt">任容萱曬出替父親慶生的全家福，Selina 一襲寬鬆紅色洋裝依偎在側，再度引發網友對其是否懷上第二胎的討論。當事人自去年底以來從未證實，僅在二月受訪時表示「順其自然」。</p>
+      <div class="byline">鏡週刊</div>
+      <div class="snark"><span class="label">冷眼</span>本則新聞經查核的事實共一項：一位女藝人穿了寬鬆的洋裝。其餘篇幅為網路集體幾何學研究——由剪裁、站姿與拍攝角度推導孕事，樣本數為一張照片。順帶一提，資料源將本文分類為「科技」，想必是指推測所需的技術含量。</div>
+    </article>
+  </section>
+
+  <footer>
+    <p><strong>關於本頁</strong>：這是一個技術展示 mockup。新聞素材於 2026 年 8 月 5 日中午透過 <strong>Mesh MCP</strong> 即時撈取，所有事實、數字、引述均出自原始報導（鏡週刊、民視新聞），標題點入即達原文；摘要為改寫，非原文轉載。</p>
+    <p><strong>關於「冷眼」</strong>：各則附註之評論為 AI 生成的諷刺文字，風格致敬《經濟學人》與《紐約客》的專欄傳統，不代表原媒體、被報導者、或任何理性成年人的立場。版面設計模仿《紐約時報》，僅供風格研究，與該報無任何關聯。</p>
+    <p>The Mesh Times 網目時報 · mashbean.net/mesh-mockup · 手工排版，機器代筆</p>
+  </footer>
+
+</div>
+</body>
+</html>
