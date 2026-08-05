@@ -737,12 +737,6 @@
 
   stage.addEventListener('slidechange', (e) => playFor(e.detail.slide));
 
-  // Click anywhere on a slide (except notes) replays its animation.
-  stage.addEventListener('click', (e) => {
-    if (e.target.closest('.note-btn') || e.target.closest('.note-pop')) return;
-    if (current && !REDUCED) current.restart();
-  });
-
   /* ── footnote pop-ups ── */
   function closeAllNotes(except) {
     document.querySelectorAll('.note-pop').forEach((pop) => {
