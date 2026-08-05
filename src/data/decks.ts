@@ -30,6 +30,13 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "coscup-2026-open-procurement",
+    title: "政府採購如何使用開源？為何開源？",
+    event: "COSCUP 2026",
+    date: "2026-08-09",
+    lang: "zh-Hant",
+  },
+  {
     slug: "coscup-2026-age-verification",
     title: "年齡驗證、數位監控、隱私權，討論這些以前，不妨先開源吧",
     event: "COSCUP 2026",

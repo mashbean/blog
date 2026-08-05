@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>政府採購如何使用開源？為何開源 · COSCUP 2026 · MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'jf open 粉圓';
+    src:url('./assets/jf-openhuninn-headings.woff2') format('woff2');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  :root{
+    --bg:#0A0E16;
+    --panel:#101a2c;
+    --panel-2:#0D1524;
+    --line:#33445F;
+    --line-dim:#22304A;
+    --txt:#E8EEF9;
+    --dim:#93A1B8;
+    --cyan:#6AE3F9;
+    --green:#A8E64C;
+    --red:#FF6B81;
+    --amber:#FFC53D;
+    --purple:#B9A7FF;
+    --font-display:'jf open 粉圓','Noto Sans TC',sans-serif;
+    --font-body:'Noto Sans TC',sans-serif;
+    --font-mono:'JetBrains Mono','Noto Sans TC',monospace;
+  }
+  html,body{margin:0;padding:0;background:#000;font-family:var(--font-body);}
+  deck-stage{display:block;}
+  section{box-sizing:border-box;overflow:hidden;line-break:strict;overflow-wrap:break-word;}
+
+  .slide{
+    width:100%;height:100%;box-sizing:border-box;position:relative;
+    padding:64px 88px 56px;display:flex;flex-direction:column;
+    background:var(--bg);color:var(--txt);
+    background-image:radial-gradient(circle, rgba(255,255,255,.05) 1.2px, transparent 1.2px);
+    background-size:38px 38px;
+  }
+  .slide-head{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;margin-bottom:8px;}
+  .eyebrow{font-family:var(--font-mono);font-size:24px;letter-spacing:.06em;color:var(--cyan);font-weight:500;margin:0 0 10px;}
+  .eyebrow .cm{color:var(--dim);}
+  h1,h2{font-family:var(--font-display);font-weight:400;margin:0;text-wrap:balance;}
+  .title-xl{font-size:96px;line-height:1.16;letter-spacing:-0.02em;}
+  .title{font-size:56px;line-height:1.2;letter-spacing:-0.01em;}
+  .round-chip{
+    font-family:var(--font-mono);font-size:22px;white-space:nowrap;
+    border:1.5px solid var(--line);border-radius:999px;padding:10px 22px;color:var(--dim);
+    background:rgba(16,26,44,.7);
+  }
+  .round-chip b{color:var(--amber);font-weight:500;}
+  .round-chip i{color:var(--purple);font-style:normal;}
+
+  .fc-wrap{flex:1;position:relative;min-height:0;}
+  svg.fc{width:100%;height:100%;display:block;}
+
+  /* flowchart vocabulary */
+  .edge{stroke:var(--line);stroke-width:3.5;fill:none;}
+  .edge.c-cyan{stroke:var(--cyan);}
+  .edge.c-red{stroke:var(--red);}
+  .edge.c-green{stroke:var(--green);}
+  .edge.c-amber{stroke:var(--amber);}
+  .edge.c-purple{stroke:var(--purple);}
+  .edge.dashed{stroke-dasharray:9 9;}
+  .ah{fill:var(--line);}
+  .ah.c-cyan{fill:var(--cyan);} .ah.c-red{fill:var(--red);} .ah.c-green{fill:var(--green);}
+  .ah.c-amber{fill:var(--amber);} .ah.c-purple{fill:var(--purple);}
+  .nodebox{fill:var(--panel);stroke:var(--line);stroke-width:2.5;}
+  .v-red .nodebox{stroke:var(--red);} .v-green .nodebox{stroke:var(--green);}
+  .v-amber .nodebox{stroke:var(--amber);} .v-purple .nodebox{stroke:var(--purple);}
+  .v-cyan .nodebox{stroke:var(--cyan);}
+  .ghost .nodebox{fill:transparent;stroke-dasharray:10 8;}
+  .nlabel{fill:var(--txt);font-family:var(--font-mono);font-size:29px;font-weight:500;text-anchor:middle;}
+  .nlabel.sm{font-size:25px;}
+  .nsub{fill:var(--dim);font-family:var(--font-body);font-size:22px;text-anchor:middle;}
+  .ntag{fill:var(--dim);font-family:var(--font-mono);font-size:20px;text-anchor:middle;letter-spacing:.08em;}
+  .t-red{fill:var(--red);} .t-green{fill:var(--green);} .t-amber{fill:var(--amber);}
+  .t-purple{fill:var(--purple);} .t-cyan{fill:var(--cyan);} .t-txt{fill:var(--txt);}
+  .token{stroke:#0A0E16;stroke-width:3;}
+  .caption{fill:var(--dim);font-family:var(--font-body);font-size:24px;}
+  .caption.big{font-size:28px;fill:var(--txt);}
+  .mono-cap{font-family:var(--font-mono);}
+
+  /* bottom band */
+  .band{fill:rgba(255,197,61,.08);stroke:var(--amber);stroke-width:2;stroke-dasharray:12 8;}
+  .band-purple{fill:rgba(185,167,255,.08);stroke:var(--purple);stroke-width:2;stroke-dasharray:12 8;}
+
+  /* footnote pop-ups */
+  .note-btn{
+    position:absolute;z-index:40;appearance:none;cursor:pointer;
+    font-family:var(--font-mono);font-size:21px;color:var(--amber);
+    background:rgba(16,26,44,.9);border:1.5px dashed var(--amber);border-radius:999px;
+    padding:8px 18px;letter-spacing:.05em;
+  }
+  .note-btn:hover{background:rgba(255,197,61,.14);}
+  .note-pop{
+    position:absolute;z-index:50;width:520px;visibility:hidden;opacity:0;
+    background:var(--panel-2);border:1.5px solid var(--line);border-radius:14px;
+    padding:22px 26px;font-size:22px;line-height:1.62;color:var(--txt);
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+  .note-pop .np-title{font-family:var(--font-mono);color:var(--amber);font-size:20px;margin:0 0 8px;letter-spacing:.05em;}
+  .note-pop p{margin:0 0 10px;} .note-pop p:last-child{margin:0;}
+  .note-pop .src{color:var(--dim);font-size:19px;}
+
+  .footer-strip{
+    position:absolute;left:88px;right:88px;bottom:26px;display:flex;justify-content:space-between;
+    font-family:var(--font-mono);font-size:19px;color:#5A6A84;letter-spacing:.04em;
+  }
+
+  /* title slide */
+  .s1-bg{position:absolute;inset:0;opacity:.34;pointer-events:none;}
+  .s1-body{position:relative;z-index:2;margin-top:auto;margin-bottom:auto;}
+  .s1-sub{font-size:40px;color:var(--dim);margin:26px 0 0;font-family:var(--font-display);}
+  .s1-meta{margin-top:52px;font-size:27px;line-height:1.7;}
+  .s1-meta .who{color:var(--txt);font-weight:500;}
+  .s1-meta .aff{color:var(--purple);}
+  .s1-meta .co{color:var(--dim);}
+  .s1-meta .where{font-family:var(--font-mono);color:var(--dim);font-size:23px;margin-top:14px;}
+</style>
+</head>
+<body>
+
+<script type="application/json" id="speaker-notes">[
+  "開場十分鐘的引言。自介：黃豆泥，California Career Passport 外部技術專家（RFP #1980 技術評審團的一員，只講公開資訊）。今天的任務：把「政府採購為何長成閉源」講成一個流程問題，再看加州怎麼用採購流程本身推開源，最後把台北市這次的決議放進這個框架。之後交棒給 Jack（資訊局視角）與 pofeng（倡議視角）。",
+  "先走一遍資訊服務案的生命週期：需求規格→招標→建置→驗收→維運→續約。三個經濟學名詞各給一句話：資訊不對稱（規格常由最熟悉現況的人影響）、套牢 hold-up（資料轉換與訓練投下去之後議價力反轉）、轉換成本 switching costs（初期低價、後期加價是理性策略）。重點：可重用模組沉在廠商手上，同一個模組可以在不同機關重複計價——閉源是這個迴圈的均衡解，怪單一廠商或單一承辦沒有意義。行政院自己的數字：資訊服務委外每年超過 300 億元。",
+  "PMPC 的精神一句話：公帑產出的程式，模組歸公共，廠商改靠服務獲利。但台灣的現況是條款其實已經在了——工程會契約範本要求交付原始碼與開源清單、雲端契約要 SBOM——卡住的環節在驗收與預算：規格抽象、驗收只收 PDF、預算一次性。賽局表格是這頁的重點：縱軸是政府驗收能力，橫軸是廠商策略。弱驗收＋守專屬＝鎖定均衡；弱驗收＋守規＝守規者先被低價搶標懲罰。所以政策順序上「強驗收」先於「全面開源」，這也是為什麼採購端降鎖定比公共成果開源更急。",
+  "加州 Career Passport 的流程創新：不自建 App，用一份挑戰式採購買生態。時間軸：2023 行政命令命名、2025 預算附帶法案 AB 123 撥 2500 萬美元、RFP #1980 由 FHDA 學區代理發包、41 件投標、四家各 12.5 萬美元並行做十週真人試辦。關鍵是把標準寫成可淘汰的閘門：W3C VC 2.0＋Open Badges 3.0 是必要條件、只有專有協定直接不收、互通性要現場驗證（State 簽發、District 驗證，失敗只有一次補救）。DPI 可取之處：輸入端的政策工具化、付費試辦讓新創與巨頭同場。不可取（或說管不到）之處：產出端的雇主採用寫在廠商範圍之外、經費一次性、pilot 之後還要重跑招標。台灣皮夾對照：數位部自建、去年 12 月試營運、無專法——兩邊風險型態不同，可比較但不能照抄。",
+  "收尾五步：分流兩條線、更新契約範本、驗收改可操作證據、示範案先行、全生命週期成本評選。結論：漸進式的開放政策，或許可以良幣驅逐劣幣——強驗收改變廠商的報酬結構，維護、資安、託管、遷移變成可持續收入，鎖定租金失去優勢。台北市的綜合決議（116 年起開源優先、例外核准、閉源衍生成本由承商吸收）正好落在這個框架的第一、二步，接下來交給 Jack 講資訊局內部怎麼看。"
+]</script>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ══════════ 1 · 封面 ══════════ -->
+  <section data-label="封面" data-anim="s1">
+    <div class="slide">
+      <svg class="s1-bg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <path id="s1p" class="edge c-green" d="M-40,860 C 300,840 380,680 620,700 S 980,880 1240,810 S 1700,620 1980,680" />
+        <g class="v-cyan ghost"><rect class="nodebox" x="560" y="660" width="130" height="76" rx="14"/></g>
+        <g class="v-amber ghost"><rect class="nodebox" x="1180" y="772" width="130" height="76" rx="14"/></g>
+        <g class="v-green ghost"><rect class="nodebox" x="1660" y="620" width="130" height="76" rx="14"/></g>
+        <circle id="s1tok" class="token t-green" r="13" cx="-40" cy="860"/>
+      </svg>
+      <div class="s1-body">
+        <p class="eyebrow" data-step="1"><span class="cm">//</span> coscup_2026 <span class="cm">·</span> 政府採購與開源對談 · 引言</p>
+        <h1 class="title-xl" data-step="2">政府採購如何使用開源？<br/>為何開源？</h1>
+        <p class="s1-sub" data-step="3">從資訊服務案的生命週期，到漸進式的開放政策</p>
+        <div class="s1-meta" data-step="4">
+          <div><span class="who">黃豆泥 mashbean</span>　<span class="aff">California Career Passport 外部技術專家（External Technical Expert）</span></div>
+          <div class="co">與談：pofeng ・ 趙式隆</div>
+          <div class="where">2026-08-09 12:50–13:50 · COSCUP 2026 · 中文</div>
+        </div>
+      </div>
+      <div class="footer-strip"><span>coscup-2026 / open-procurement</span><span>mashbean.net</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 2 · 傳統採購迴圈 ══════════ -->
+  <section data-label="傳統採購迴圈" data-anim="s2">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> stage_1 <span class="cm">·</span> while(true){ procure(); lock_in(); }</p>
+          <h2 class="title">傳統資訊採購：閉源為何成為均衡解</h2>
+        </div>
+        <div class="round-chip">可重用模組在<b>廠商</b>身上</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- lifecycle chain -->
+          <g data-step="1"><rect class="nodebox" x="20" y="170" width="250" height="110" rx="16"/><text class="nlabel" x="145" y="216">需求規格</text><text class="nsub" x="145" y="252">常照著現況系統寫</text></g>
+          <path class="edge c-cyan" data-step="2" d="M270,225 H345"/><polygon class="ah c-cyan" data-step="2" points="345,225 325,215 325,235"/>
+          <g data-step="2"><rect class="nodebox" x="347" y="170" width="230" height="110" rx="16"/><text class="nlabel" x="462" y="216">招標</text><text class="nsub" x="462" y="252">熟門熟路者占優</text></g>
+          <path class="edge c-cyan" data-step="3" d="M577,225 H652"/><polygon class="ah c-cyan" data-step="3" points="652,225 632,215 632,235"/>
+          <g data-step="3"><rect class="nodebox" x="654" y="170" width="230" height="110" rx="16"/><text class="nlabel" x="769" y="216">建置</text><text class="nsub" x="769" y="252">客製開發＋整合</text></g>
+          <path class="edge c-cyan" data-step="4" d="M884,225 H959"/><polygon class="ah c-cyan" data-step="4" points="959,225 939,215 939,235"/>
+          <g data-step="4"><rect class="nodebox" x="961" y="170" width="230" height="110" rx="16"/><text class="nlabel" x="1076" y="216">驗收</text><text class="nsub" x="1076" y="252">看文件與功能</text></g>
+          <path class="edge c-cyan" data-step="5" d="M1191,225 H1266"/><polygon class="ah c-cyan" data-step="5" points="1266,225 1246,215 1246,235"/>
+          <g data-step="5"><rect class="nodebox" x="1268" y="170" width="230" height="110" rx="16"/><text class="nlabel" x="1383" y="216">維運</text><text class="nsub" x="1383" y="252">年年編列、年年續約</text></g>
+          <!-- renewal loop back -->
+          <path class="edge c-red dashed" data-step="6" d="M1383,170 C 1383,80 400,80 160,160"/><polygon class="ah c-red" data-step="6" points="160,160 182,148 188,168"/>
+          <text class="ntag t-red" data-step="6" x="790" y="64">轉換成本太高 → 續約 → 下一輪規格又照著現況寫</text>
+          <!-- vendor module vault -->
+          <g class="v-amber" data-step="7">
+            <rect class="nodebox" x="552" y="380" width="640" height="160" rx="18"/>
+            <text class="nlabel t-amber" x="872" y="428">廠商的可重用模組庫</text>
+            <text class="nsub" x="872" y="466">專屬碼 ・ 部署知識 ・ 文件落差 ・ 續約依賴</text>
+            <circle class="token t-amber" cx="742" cy="504" r="12"/><circle class="token t-amber" cx="872" cy="504" r="12"/><circle class="token t-amber" cx="1002" cy="504" r="12"/>
+          </g>
+          <path class="edge c-amber dashed" data-step="8" d="M769,280 V376"/><polygon class="ah c-amber" data-step="8" points="769,376 759,356 779,356"/>
+          <text class="ntag t-amber" data-step="8" x="660" y="336">模組沉澱在這裡</text>
+          <path class="edge c-amber dashed" data-step="8" d="M1192,440 C 1300,430 1360,340 1383,284"/><polygon class="ah c-amber" data-step="8" points="1383,284 1369,300 1388,306"/>
+          <text class="ntag t-amber" data-step="8" x="1400" y="380">維運也離不開它</text>
+          <!-- module token being re-billed -->
+          <path id="s2mod" d="M 872,500 C 700,560 460,540 340,420 C 300,340 420,300 560,300 C 700,300 820,380 872,500" fill="none" stroke="none"/>
+          <circle class="token t-red" data-step="9" data-mp="#s2mod" data-mp-dur="2.6" r="14" cx="872" cy="500" opacity="0"/>
+          <text class="ntag t-red" data-step="9" x="330" y="330">同一個模組，下一個機關再算一次錢</text>
+          <!-- econ band -->
+          <g data-step="10">
+            <rect class="band" x="20" y="580" width="1704" height="118" rx="18"/>
+            <text class="caption big" x="872" y="628" text-anchor="middle">資訊不對稱：規格偏向既有架構｜套牢：資料與流程投入後，議價力反轉｜轉換成本：初期低價、後期加價</text>
+            <text class="caption big t-amber" x="872" y="674" text-anchor="middle">每個角色各自理性，加總起來就是鎖定——閉源是均衡，怪個人沒有用</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n2">※ 考據</button>
+        <div class="note-pop" id="n2" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 數字與理論出處 */</p>
+          <p>行政院 2023「政府資訊服務採購革新」：政府資訊服務委外採購每年超過新台幣 300 億元。英國 NAO 2025 報告則指出，採購能力不足與合約設計問題會反過來強化既有供應商優勢。</p>
+          <p>三個名詞的譜系：資訊不對稱與誘因設計（Laffont &amp; Tirole 1993）、套牢 hold-up（Klein, Crawford &amp; Alchian 1978）、轉換成本（Klemperer 1995）。</p>
+          <p class="src">依賴集中比支出集中更關鍵：帳面上很多廠商得標，關鍵資料、介面與維運知識仍握在少數人手上。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>01 / lock-in-loop</span><span>迴圈裡沒有壞人，只有結構</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 3 · PMPC 與賽局 ══════════ -->
+  <section data-label="PMPC 與賽局" data-anim="s3">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> stage_2 <span class="cm">·</span> public_money → public_code ? assert(驗收)</p>
+          <h2 class="title">把模組搬回公共側——然後撞牆</h2>
+        </div>
+        <div class="round-chip">開源條款<b>已經在契約裡</b>，卡在驗收</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- PMPC ideal flow -->
+          <g data-step="1"><rect class="nodebox" x="20" y="30" width="190" height="100" rx="16"/><text class="nlabel" x="115" y="72">公帑</text><text class="nsub" x="115" y="106">公共出資</text></g>
+          <path class="edge c-green" data-step="1" d="M210,80 H280"/><polygon class="ah c-green" data-step="1" points="280,80 260,70 260,90"/>
+          <g class="v-green" data-step="1"><rect class="nodebox" x="282" y="30" width="330" height="100" rx="16"/><text class="nlabel sm" x="447" y="72">公共程式（開源）</text><text class="nsub" x="447" y="106">模組歸公共、授權開放</text></g>
+          <path class="edge c-green" data-step="2" d="M612,80 H682"/><polygon class="ah c-green" data-step="2" points="682,80 662,70 662,90"/>
+          <g data-step="2"><rect class="nodebox" x="684" y="30" width="300" height="100" rx="16"/><text class="nlabel sm" x="834" y="72">機關間重用</text><text class="nsub" x="834" y="106">任何廠商都能接手</text></g>
+          <path class="edge c-green" data-step="2" d="M984,80 H1054"/><polygon class="ah c-green" data-step="2" points="1054,80 1034,70 1034,90"/>
+          <g data-step="2"><rect class="nodebox" x="1056" y="30" width="330" height="100" rx="16"/><text class="nlabel sm" x="1221" y="72">廠商靠服務獲利</text><text class="nsub" x="1221" y="106">維護・資安・託管・遷移</text></g>
+          <g class="v-purple ghost" data-step="1"><rect class="nodebox" x="1420" y="30" width="304" height="100" rx="16"/><text class="ntag t-purple" x="1572" y="72">Public Money?</text><text class="ntag t-purple" x="1572" y="102">Public Code!（FSFE）</text></g>
+          <!-- three walls -->
+          <g class="v-red" data-step="3"><rect class="nodebox" x="20" y="180" width="530" height="100" rx="16"/><text class="nlabel sm t-red" x="285" y="222">牆一：規格抽象</text><text class="nsub" x="285" y="256">只寫「應開源、應附 SBOM」</text></g>
+          <g class="v-red" data-step="4"><rect class="nodebox" x="590" y="180" width="530" height="100" rx="16"/><text class="nlabel sm t-red" x="855" y="222">牆二：驗收只看文件</text><text class="nsub" x="855" y="256">一份 PDF 清單就過關、無法重建</text></g>
+          <g class="v-red" data-step="5"><rect class="nodebox" x="1160" y="180" width="564" height="100" rx="16"/><text class="nlabel sm t-red" x="1442" y="222">牆三：預算一次性</text><text class="nsub" x="1442" y="256">維護、遷移、治理沒有編錢</text></g>
+          <!-- game matrix -->
+          <g data-step="6">
+            <text class="ntag t-cyan" x="250" y="336" text-anchor="start">政府驗收能力 × 廠商策略 → 四種均衡</text>
+            <text class="nlabel sm t-txt" x="615" y="386">廠商轉向服務</text>
+            <text class="nsub" x="615" y="414">維護・資安・託管・遷移</text>
+            <text class="nlabel sm t-txt" x="1345" y="386">廠商守住專屬</text>
+            <text class="nsub" x="1345" y="414">專屬碼・資訊不對稱・續約依賴</text>
+          </g>
+          <g data-step="7">
+            <rect class="nodebox" x="20" y="430" width="210" height="120" rx="14"/><text class="nlabel sm t-cyan" x="125" y="480">強驗收</text><text class="nsub" x="125" y="514">可建置・可解析</text>
+          </g>
+          <g class="v-green" data-step="7"><rect class="nodebox" x="250" y="430" width="730" height="120" rx="14"/><text class="nlabel sm t-green" x="615" y="478">良性均衡</text><text class="nsub" x="615" y="514">政府拿回重用與議價力，守規廠商有持續收入</text></g>
+          <g class="v-amber" data-step="8"><rect class="nodebox" x="1000" y="430" width="724" height="120" rx="14"/><text class="nlabel sm t-amber" x="1362" y="478">過渡期</text><text class="nsub" x="1362" y="514">短期爭議升高，長期鎖定下降，仍須編轉換成本</text></g>
+          <g data-step="9">
+            <rect class="nodebox" x="20" y="570" width="210" height="120" rx="14"/><text class="nlabel sm t-red" x="125" y="620">弱驗收</text><text class="nsub" x="125" y="654">只收文件清單</text>
+          </g>
+          <g class="v-amber" data-step="9"><rect class="nodebox" x="250" y="570" width="730" height="120" rx="14"/><text class="nlabel sm t-amber" x="615" y="618">守規者先受罰</text><text class="nsub" x="615" y="654">守規廠商被低價搶標壓迫，政府只拿到形式透明</text></g>
+          <g class="v-red" data-step="10"><rect class="nodebox" x="1000" y="570" width="724" height="120" rx="14"/><text class="nlabel sm t-red" x="1362" y="618">鎖定均衡（現況）</text><text class="nsub" x="1362" y="654">租金歸既有廠商，品質與移轉風險歸使用者</text></g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n3">※ 考據</button>
+        <div class="note-pop" id="n3" style="right:0; top:52px; width:580px;">
+          <p class="np-title">/* 條款其實已經在了 */</p>
+          <p>工程會「資訊服務採購契約範本」：使用開源軟體時應交付執行檔、原始碼與開源軟體清單。「資訊雲端服務採購契約範本」：更新程式時應提供 SBOM 與安全測試報告。政府軟體採購網的共同供應契約投件也要求軟體產品元件表。</p>
+          <p>賽局表格出自〈公共程式的兩種方向〉第六節：弱驗收會把開源與 SBOM 條款轉化成最低成本的文件交付，並懲罰守規廠商；強驗收才會改變廠商的報酬結構。</p>
+          <p class="src">國際對照：GOV.UK Service Standard 第 12 點（新原始碼預設開放）、瑞士聯邦自製或委託軟體原則上公開、數位部 code.gov.tw 2024 上線（目前約百餘筆，是入口而非成熟度指標）。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>02 / pmpc-vs-reality</span><span>順序：強驗收先於全面開源</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 4 · Career Passport ══════════ -->
+  <section data-label="Career Passport" data-anim="s4">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> stage_3 <span class="cm">·</span> rfp.gate(w3c_vc_2.0) → pilot(4) → production?</p>
+          <h2 class="title">加州 Career Passport：用採購流程買生態</h2>
+        </div>
+        <div class="round-chip">標準是<b>閘門</b>，原始碼是<i>元件</i></div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- timeline chain -->
+          <g data-step="1"><rect class="nodebox" x="20" y="60" width="255" height="120" rx="16"/><text class="ntag t-cyan" x="147" y="96">2023.08</text><text class="nlabel sm" x="147" y="130">行政命令</text><text class="nsub" x="147" y="164">N-11-23 命名計畫</text></g>
+          <path class="edge c-cyan" data-step="2" d="M275,120 H310"/><polygon class="ah c-cyan" data-step="2" points="310,120 292,111 292,129"/>
+          <g data-step="2"><rect class="nodebox" x="312" y="60" width="255" height="120" rx="16"/><text class="ntag t-cyan" x="439" y="96">2025</text><text class="nlabel sm" x="439" y="130">AB 123</text><text class="nsub" x="439" y="164">預算附帶法案 $25M</text></g>
+          <path class="edge c-cyan" data-step="3" d="M567,120 H602"/><polygon class="ah c-cyan" data-step="3" points="602,120 584,111 584,129"/>
+          <g class="v-purple" data-step="3"><rect class="nodebox" x="604" y="60" width="255" height="120" rx="16"/><text class="ntag t-purple" x="731" y="96">RFP #1980</text><text class="nlabel sm" x="731" y="130">挑戰式採購</text><text class="nsub" x="731" y="164">FHDA 學區代理發包</text></g>
+          <path class="edge c-purple" data-step="4" d="M859,120 H894"/><polygon class="ah c-purple" data-step="4" points="894,120 876,111 876,129"/>
+          <g data-step="4"><rect class="nodebox" x="896" y="60" width="255" height="120" rx="16"/><text class="ntag t-purple" x="1023" y="96">Phase 1</text><text class="nlabel sm" x="1023" y="130">概念書</text><text class="nsub" x="1023" y="164">41 件投標</text></g>
+          <path class="edge c-purple" data-step="5" d="M1151,120 H1186"/><polygon class="ah c-purple" data-step="5" points="1186,120 1168,111 1168,129"/>
+          <g class="v-amber" data-step="5"><rect class="nodebox" x="1188" y="60" width="255" height="120" rx="16"/><text class="ntag t-amber" x="1315" y="96">Phase 2</text><text class="nlabel sm" x="1315" y="130">十週真人試辦</text><text class="nsub" x="1315" y="164">4 家 × $12.5 萬並行</text></g>
+          <path class="edge c-amber dashed" data-step="6" d="M1443,120 H1478"/><polygon class="ah c-amber" data-step="6" points="1478,120 1460,111 1460,129"/>
+          <g class="ghost v-green" data-step="6"><rect class="nodebox" x="1480" y="60" width="244" height="120" rx="16"/><text class="ntag t-green" x="1602" y="96">Phase 3</text><text class="nlabel sm" x="1602" y="130">正式建置</text><text class="nsub" x="1602" y="164">最長五年、尚未決標</text></g>
+          <!-- gate detail -->
+          <g data-step="7">
+            <rect x="20" y="240" width="1030" height="220" rx="20" fill="rgba(255,197,61,.06)" stroke="var(--amber)" stroke-width="2.5"/>
+            <text class="nlabel sm t-amber" x="535" y="286">評選門檻：寫進 RFP 的可淘汰閘門</text>
+            <text class="nsub" x="535" y="330">必要標準：W3C 可驗證憑證 2.0 ＋ Open Badges 3.0（開放標準剛定案就當硬門檻）</text>
+            <text class="nsub" x="535" y="366">只用專有交換協定的提案：不予考慮</text>
+            <text class="nsub" x="535" y="402">選擇性揭露與不可連結性是門檻條件；無障礙 WCAG 2.1 AA</text>
+            <text class="nsub" x="535" y="438">互通性在試辦現場驗證，走不通只有一次補救機會</text>
+          </g>
+          <!-- interop mini flow -->
+          <g data-step="8"><rect class="nodebox" x="1100" y="252" width="250" height="90" rx="14"/><text class="nlabel sm" x="1225" y="290">State 簽發</text><text class="nsub" x="1225" y="322">真實學習者的憑證</text></g>
+          <path class="edge c-green" data-step="8" d="M1350,297 H1440"/><polygon class="ah c-green" data-step="8" points="1440,297 1420,287 1420,307"/>
+          <g data-step="8"><rect class="nodebox" x="1442" y="252" width="282" height="90" rx="14"/><text class="nlabel sm" x="1583" y="290">District 驗證</text><text class="nsub" x="1583" y="322">現場成功才算通過</text></g>
+          <path class="edge c-red dashed" data-step="9" d="M1583,342 V400"/><polygon class="ah c-red" data-step="9" points="1583,400 1573,382 1593,382"/>
+          <g class="v-red" data-step="9"><rect class="nodebox" x="1370" y="404" width="354" height="56" rx="14"/><text class="nsub t-red" x="1547" y="440">失敗 → 補救一次 → 再失敗出局</text></g>
+          <!-- taiwan comparison band -->
+          <g data-step="10">
+            <rect class="band-purple" x="20" y="500" width="1704" height="196" rx="18"/>
+            <text class="nlabel sm t-purple" x="872" y="548">對照：台灣數位憑證皮夾</text>
+            <text class="caption big" x="872" y="594" text-anchor="middle">台灣：數位部自建 App，2025-12-17 試營運，門號電子卡起步，尚無專法｜加州：政府不自建，用採購讓四家同場競技</text>
+            <text class="caption big" x="872" y="640" text-anchor="middle">可取：輸入端把政策寫成規格與閘門，付費試辦讓新創與巨頭同場｜帶不動：雇主端採用劃在廠商範圍之外、經費一次性</text>
+            <text class="caption" x="872" y="680" text-anchor="middle">同州 DMV 軌道也走開源元件：自營錢包由 SpruceID 開源元件打造，另釋出開源驗證器 OpenCred</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n4">※ 考據</button>
+        <div class="note-pop" id="n4" style="right:0; top:52px; width:580px;">
+          <p class="np-title">/* 出處與其他案例 */</p>
+          <p>RFP #1980 由 CCCCO 掛在 Foothill-De Anza 學區採購權下執行，三階段、合約最長五年、保留任一階段中止之權；四家入選（Auth9/Certree、Infosys、SpruceID、Territorium）由 FHDA 董事會 2026-06-08 議程與媒體具名，試辦合約上限 50 萬美元。W3C VC 2.0 於 2025-05-15 成為正式建議，採購等於在標準剛定案時就以之為門檻。</p>
+          <p>誠實的限定：加州立法分析辦公室（LAO）連兩年以「largely unproven」建議否決相關撥款；LER 文獻十年來的瓶頸都在雇主採用，而 RFP 把採用推廣明文劃為 State 與發證方責任。挑戰式採購另有「pilot purgatory」風險：試辦成功仍要重跑招標。</p>
+          <p class="src">同型案例：加州 2019 行政命令 N-04-19 的 RFI2（先寫問題、再徵解方，首例 CalFire 野火）；烏克蘭 Brave1／DOT-Chain 把前線回饋、供應商市場與付款壓成同一條迭代鏈（交付週期縮短逾五倍）；印度 2015 政策要求排除開源方案時必須說明理由。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>03 / procurement-as-policy</span><span>輸入端很強，產出端未證</span></div>
+    </div>
+  </section>
+
+  <!-- ══════════ 5 · 觀察與建議 ══════════ -->
+  <section data-label="觀察與建議" data-anim="s5">
+    <div class="slide">
+      <div class="slide-head">
+        <div>
+          <p class="eyebrow"><span class="cm">//</span> return <span class="cm">·</span> gradual_open() → 良幣驅逐劣幣</p>
+          <h2 class="title">觀察與建議：漸進式的開放政策</h2>
+        </div>
+        <div class="round-chip">從<b>可驗收</b>開始，讓市場換邊站</div>
+      </div>
+      <div class="fc-wrap">
+        <svg class="fc" viewBox="0 0 1744 720" preserveAspectRatio="xMidYMid meet">
+          <!-- staircase -->
+          <g data-step="1"><rect class="nodebox" x="20" y="470" width="420" height="96" rx="16"/><text class="nlabel sm" x="230" y="510">一、分流兩條線</text><text class="nsub" x="230" y="544">成果開源 ≠ 採購端降鎖定</text></g>
+          <path class="edge c-cyan" data-step="2" d="M440,518 C 510,518 520,438 560,426"/><polygon class="ah c-cyan" data-step="2" points="560,426 540,428 548,445"/>
+          <g data-step="2"><rect class="nodebox" x="290" y="370" width="420" height="96" rx="16"/><text class="nlabel sm" x="500" y="410">二、更新契約範本</text><text class="nsub" x="500" y="444">IP、授權、SBOM、資料可攜、退出</text></g>
+          <path class="edge c-cyan" data-step="3" d="M710,418 C 780,418 790,338 830,326"/><polygon class="ah c-cyan" data-step="3" points="830,326 810,328 818,345"/>
+          <g class="v-amber" data-step="3"><rect class="nodebox" x="560" y="270" width="420" height="96" rx="16"/><text class="nlabel sm t-amber" x="770" y="310">三、驗收改可操作證據</text><text class="nsub" x="770" y="344">可重建、可解析、可演練退出</text></g>
+          <path class="edge c-cyan" data-step="4" d="M980,318 C 1050,318 1060,238 1100,226"/><polygon class="ah c-cyan" data-step="4" points="1100,226 1080,228 1088,245"/>
+          <g data-step="4"><rect class="nodebox" x="830" y="170" width="420" height="96" rx="16"/><text class="nlabel sm" x="1040" y="210">四、示範案先行</text><text class="nsub" x="1040" y="244">低敏感前端、共用元件、文件模板</text></g>
+          <path class="edge c-cyan" data-step="5" d="M1250,218 C 1320,218 1330,138 1370,126"/><polygon class="ah c-cyan" data-step="5" points="1370,126 1350,128 1358,145"/>
+          <g data-step="5"><rect class="nodebox" x="1100" y="70" width="440" height="96" rx="16"/><text class="nlabel sm" x="1320" y="110">五、全生命週期成本評選</text><text class="nsub" x="1320" y="144">把退出成本與授權費算進標價</text></g>
+          <!-- payoff shift -->
+          <g class="v-green" data-step="6">
+            <rect class="nodebox" x="1180" y="380" width="544" height="150" rx="18"/>
+            <text class="nlabel t-green" x="1452" y="436">良幣驅逐劣幣</text>
+            <text class="nsub" x="1452" y="474">強驗收改變報酬結構：維護、資安、託管、</text>
+            <text class="nsub" x="1452" y="506">遷移成為可持續收入，鎖定租金失去優勢</text>
+          </g>
+          <path class="edge c-green" data-step="6" d="M1320,166 C 1360,240 1400,310 1430,376"/><polygon class="ah c-green" data-step="6" points="1430,376 1414,362 1432,354"/>
+          <!-- taipei hook + links -->
+          <g data-step="7">
+            <rect class="band" x="20" y="580" width="1130" height="118" rx="18"/>
+            <text class="caption big" x="585" y="628" text-anchor="middle">台北市 116 年起的決議——開源優先、例外核准、閉源衍生成本由承商吸收——</text>
+            <text class="caption big t-amber" x="585" y="672" text-anchor="middle">正好落在第一、二步。接下來的難題在第三步：驗收。</text>
+          </g>
+          <g data-step="8">
+            <text class="caption mono-cap" x="1180" y="620" style="font-size:22px;">底稿長文</text>
+            <text class="caption mono-cap t-cyan" x="1180" y="654" style="font-size:22px;">pro.mashbean.net/reports</text>
+            <text class="caption mono-cap" x="1180" y="688" style="font-size:22px;">〈公共程式的兩種方向〉〈加州數位身分生態系〉</text>
+          </g>
+        </svg>
+        <button class="note-btn" style="right:0; top:-6px;" data-note="n5">※ 考據</button>
+        <div class="note-pop" id="n5" style="right:0; top:52px; width:560px;">
+          <p class="np-title">/* 五步的完整版 */</p>
+          <p>①定義適用範圍與例外：公共成果開源適用於非機敏、可重用的服務與元件；SaaS 與雲端走降鎖定路線；高敏感系統可受控揭露。②成果開源案明定 IP 歸屬、可建置源碼、部署文件；降鎖定案明定 SPDX／CycloneDX 格式 SBOM、資料匯出、OpenAPI 文件、退出協助。③源碼要能在乾淨環境重建、SBOM 綁定 release 且可被工具解析、資料匯出要能還原、退出要有演練紀錄。④示範案建立市場訊號，維護費、修補費、託管費列為正當支出。⑤評分納入轉換成本、替代供應商接手難度、修補速度。</p>
+          <p class="src">出自〈公共程式的兩種方向〉第七節「台灣的推動順序」。</p>
+        </div>
+      </div>
+      <div class="footer-strip"><span>coscup-2026 / open-procurement</span><span>謝謝，接下來交給 Jack 與 pofeng</span></div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script src="./deck-stage.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+<script>
+(() => {
+  if (!window.gsap) return;
+  gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin);
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Generic builder: elements carry data-step="N"; steps animate in order.
+     .edge → DrawSVG; [data-mp] tokens → MotionPath along the referenced path;
+     everything else pops in. Same step number = together. */
+  function buildTimeline(slide) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'power2.out' } });
+    const stepped = Array.from(slide.querySelectorAll('[data-step]'));
+    const groups = new Map();
+    stepped.forEach((el) => {
+      const k = Number(el.dataset.step);
+      if (!groups.has(k)) groups.set(k, []);
+      groups.get(k).push(el);
+    });
+    const keys = Array.from(groups.keys()).sort((a, b) => a - b);
+    keys.forEach((k, gi) => {
+      const els = groups.get(k);
+      els.forEach((el, i) => {
+        const at = i === 0 ? (gi === 0 ? 0.1 : '+=0.3') : '<';
+        if (el.classList.contains('edge')) {
+          tl.fromTo(el, { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 0.55, ease: 'power1.inOut' }, at);
+        } else if (el.dataset.mp) {
+          const delay = Number(el.dataset.mpDelay || 0);
+          const dur = Number(el.dataset.mpDur || 1.6);
+          tl.set(el, { opacity: 1 }, delay ? `${at === 0.1 ? 0.1 : at}` : at);
+          tl.to(el, {
+            motionPath: { path: el.dataset.mp, align: el.dataset.mp, alignOrigin: [0.5, 0.5] },
+            duration: dur, delay, ease: 'power1.inOut', immediateRender: false,
+          }, '<');
+          if (el.hasAttribute('data-mp-fade')) tl.to(el, { autoAlpha: 0, duration: 0.3 }, '>-0.05');
+        } else {
+          tl.from(el, { autoAlpha: 0, y: 18, scale: 0.97, transformOrigin: '50% 50%', duration: 0.5 }, at);
+        }
+      });
+    });
+    return tl;
+  }
+
+  /* Per-slide extras. */
+  const extras = {
+    s1(tl, slide) {
+      const p = slide.querySelector('#s1p');
+      const tok = slide.querySelector('#s1tok');
+      if (p) tl.fromTo(p, { drawSVG: '0% 0%' }, { drawSVG: '0% 100%', duration: 1.6, ease: 'power1.inOut' }, 0);
+      if (tok && !REDUCED) {
+        tl.set(tok, { opacity: 1 }, 1.2);
+        tl.to(tok, {
+          motionPath: { path: '#s1p', align: '#s1p', alignOrigin: [0.5, 0.5] },
+          duration: 7, ease: 'none', repeat: -1, immediateRender: false,
+        }, 1.2);
+      }
+    },
+    s2(tl, slide) {
+      // the re-billed module keeps circulating: repeat the loop
+      const mod = slide.querySelector('[data-mp="#s2mod"]');
+      if (mod && !REDUCED) {
+        tl.to(mod, {
+          motionPath: { path: '#s2mod', align: '#s2mod', alignOrigin: [0.5, 0.5] },
+          duration: 2.6, ease: 'none', repeat: -1, immediateRender: false,
+        }, '>');
+      }
+    },
+    s5(tl, slide) {
+      const box = slide.querySelector('[data-step="6"] .nodebox');
+      if (box) tl.fromTo(box, { scale: 0.92, transformOrigin: '50% 50%' }, { scale: 1, duration: 0.6, ease: 'back.out(1.5)' }, '>-0.3');
+    },
+  };
+
+  const stage = document.querySelector('deck-stage');
+  const built = new Map();
+  let current = null;
+
+  function playFor(section) {
+    if (!section) return;
+    if (current) current.pause();
+    closeAllNotes();
+    const key = section.dataset.anim;
+    if (!key) { current = null; return; }
+    let tl = built.get(section);
+    if (!tl) {
+      const slideRoot = section;
+      tl = buildTimeline(slideRoot);
+      if (extras[key]) extras[key](tl, slideRoot);
+      built.set(section, tl);
+    }
+    current = tl;
+    if (REDUCED) { tl.progress(1).pause(); } else { tl.restart(); }
+  }
+
+  stage.addEventListener('slidechange', (e) => playFor(e.detail.slide));
+
+  // Click anywhere on a slide (except notes) replays its animation.
+  stage.addEventListener('click', (e) => {
+    if (e.target.closest('.note-btn') || e.target.closest('.note-pop')) return;
+    if (current && !REDUCED) current.restart();
+  });
+
+  /* ── footnote pop-ups ── */
+  function closeAllNotes(except) {
+    document.querySelectorAll('.note-pop').forEach((pop) => {
+      if (pop === except) return;
+      if (pop.dataset.open) {
+        delete pop.dataset.open;
+        gsap.to(pop, { autoAlpha: 0, y: 8, scale: 0.97, duration: 0.22, ease: 'power2.in' });
+      }
+    });
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.note-btn');
+    if (!btn) { if (!e.target.closest('.note-pop')) closeAllNotes(); return; }
+    e.stopPropagation();
+    const pop = document.getElementById(btn.dataset.note);
+    if (!pop) return;
+    if (pop.dataset.open) { closeAllNotes(); return; }
+    closeAllNotes(pop);
+    pop.dataset.open = '1';
+    gsap.fromTo(pop, { autoAlpha: 0, y: 14, scale: 0.96, transformOrigin: '80% 0%' },
+      { autoAlpha: 1, y: 0, scale: 1, duration: 0.32, ease: 'back.out(1.6)' });
+  }, true);
+
+  // The initial slidechange fires before this script attaches; kick it manually.
+  queueMicrotask(() => {
+    const idx = typeof stage.index === 'number' ? stage.index : 0;
+    const sections = stage.querySelectorAll('section');
+    playFor(sections[idx]);
+  });
+})();
+</script>
+</body>
+</html>
