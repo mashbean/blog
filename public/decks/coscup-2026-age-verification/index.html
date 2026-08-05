@@ -129,6 +129,8 @@
   .s7-lines .hl{color:var(--green);}
   .s7-links{margin-top:56px;font-family:var(--font-mono);font-size:25px;line-height:2.1;color:var(--dim);}
   .s7-links b{color:var(--cyan);font-weight:500;}
+  .s7-links a{color:inherit;text-decoration:none;}
+  .s7-links a:hover b{text-decoration:underline;text-underline-offset:6px;}
 </style>
 </head>
 <body>
@@ -138,7 +140,7 @@
   "正：兒少安全是跨黨派不可反對的議題，所以三年內全球至少 25 個法域完成年齡驗證立法。英國 2025 年 7 月開始強制執法、澳洲 16 歲禁令 2025 年 12 月生效、美國 Paxton 案判合憲後已達 27 州、歐盟出了 blueprint。重點在最下面那條：第一個國際標準 ISO/IEC 27566-1 到 2025 年 12 月才出版——法律全部跑在標準前面。澳洲更誇張：法律 2024 年 12 月批准，技術試驗報告 2025 年 9 月才公布。",
   "反：法規生效後，平台在時限與罰款壓力下便宜行事——上傳證件、臉部掃描、外包給第三方。集中式證件資料庫變成高價值攻擊目標：Discord 外包商 7 萬張證件照外洩、Tea 7.2 萬張。使用者端：Pornhub 英國流量 -77%（寒蟬）、Proton VPN 註冊 +1,400% 起跳（繞道）、沒證件的人直接被排除。而中國防沉迷研究顯示 77% 未成年人借帳號繞過、澳洲禁令上路後逾八成青少年照用——大人受傷，小孩繞過。",
   "合：技術其實已經到位。年齡是屬性，不是身分。數位皮夾＋選擇性揭露＋零知識證明：證件只在初始化時驗一次，之後每次出示只回答「滿 18 歲：是／否」，網站不知道你是誰，發證者不知道你去了哪。法國雙重匿名、西班牙 Cartera Digital、Google Wallet ZKP、歐盟 EUDI Wallet 全在往這走。誠實講限制：第一次驗證仍需要一個可信方看到證件（Brave 的批評）。",
-  "開源：這就是講題。歐盟把年齡驗證 app 開源在 GitHub（EUPL-1.2，連授權都是歐盟自己寫的），五國試點已擴為七國，2026 年 4 月宣布技術就緒。開源的意義：公民社會讀得到程式碼，批評才有著力點——依賴 Google Play Integrity、GrapheneOS 過不了、憑證只發給合規名單，「開了源但不自由」——批評變成 issue，issue 變成下一版。台灣這邊：數位憑證皮夾 App 也開源了，PTT 用自然人憑證做 ZK 藍勾勾、g0v Summit 用皮夾發入場券，公民科技社群已經在測。",
+  "開源：這就是講題。歐盟把年齡驗證 app 開源在 GitHub（EUPL-1.2，連授權都是歐盟自己寫的），五國試點已擴為七國，2026 年 4 月宣布技術就緒。開源的意義：公民社會讀得到程式碼，批評才有著力點——依賴 Google Play Integrity、GrapheneOS 過不了、憑證只發給合規名單，「開了源但不自由」——批評變成 issue，issue 變成下一版。台灣這邊：數位憑證皮夾 App 也開源了，公民科技社群拿它當測試場——g0v Summit 用皮夾發入場券、PTT 用自然人憑證做 ZK 藍勾勾，先小規模驗證，再談全面上路。",
   "結論：把三段疊起來。正反合走完，落點是數位自主：憑證放在自己手上、揭露由自己決定、程式碼所有人可查。給政策的五條底線：最小揭露、不可連結、不回撥、替代路徑與救濟、開源可稽核。台灣正在進行式：兒少權法修正草案第 59 條要課平台年齡驗證義務，司改會已警告實名制風險——今天講的國際經驗，正反兩面都用得上。年齡驗證只是壓力測試，考的是整套數位身分政策。",
   "結尾三句話：年齡是屬性，證明屬性不需要交出整個人；基礎設施一旦建成，新政策就會搭便車，所以底線要先寫進採購與法規；開源讓監督從喊話變成可以提交的 issue。連結：底稿長文與報告。謝謝。"
 ]</script>
@@ -362,12 +364,12 @@
           <circle class="token t-green" data-step="5" data-mp="#s5loop" data-mp-dur="2.4" r="13" cx="1530" cy="230" opacity="0"/>
           <!-- Taiwan row -->
           <g data-step="6"><rect class="nodebox" x="20" y="450" width="330" height="120" rx="16"/><text class="nlabel sm" x="185" y="498">🇹🇼 數位憑證皮夾</text><text class="nsub" x="185" y="536">App 已開源（2026-04）</text></g>
-          <path class="edge c-cyan" data-step="7" d="M350,510 H450"/><polygon class="ah c-cyan" data-step="7" points="450,510 430,500 430,520"/>
-          <g data-step="7"><rect class="nodebox" x="452" y="450" width="380" height="120" rx="16"/><text class="nlabel sm" x="642" y="498">PTT 零知識藍勾勾</text><text class="nsub" x="642" y="536">自然人憑證 → 匿名唯一性證明</text></g>
+          <path class="edge c-green" data-step="7" d="M350,510 H450"/><polygon class="ah c-green" data-step="7" points="450,510 430,500 430,520"/>
+          <g class="v-green" data-step="7"><rect class="nodebox" x="452" y="450" width="380" height="120" rx="16"/><text class="nlabel sm t-green" x="642" y="498">公民科技當測試場</text><text class="nsub" x="642" y="536">先小規模驗證，再談全面上路</text></g>
           <path class="edge c-cyan" data-step="8" d="M832,510 H932"/><polygon class="ah c-cyan" data-step="8" points="932,510 912,500 912,520"/>
           <g data-step="8"><rect class="nodebox" x="934" y="450" width="380" height="120" rx="16"/><text class="nlabel sm" x="1124" y="498">g0v Summit 入場券</text><text class="nsub" x="1124" y="536">皮夾發證，非政府單位驗證</text></g>
-          <g class="v-green" data-step="9"><rect class="nodebox" x="1364" y="450" width="360" height="120" rx="16"/><text class="nlabel sm t-green" x="1544" y="498">公民科技當測試場</text><text class="nsub" x="1544" y="536">先小規模驗證，再談全面上路</text></g>
-          <path class="edge c-green" data-step="9" d="M1314,510 H1364"/><polygon class="ah c-green" data-step="9" points="1364,510 1344,500 1344,520"/>
+          <path class="edge c-cyan" data-step="9" d="M1314,510 H1364"/><polygon class="ah c-cyan" data-step="9" points="1364,510 1344,500 1344,520"/>
+          <g data-step="9"><rect class="nodebox" x="1366" y="450" width="358" height="120" rx="16"/><text class="nlabel sm" x="1545" y="498">PTT 零知識藍勾勾</text><text class="nsub" x="1545" y="536">自然人憑證 → 匿名唯一性證明</text></g>
           <!-- band -->
           <g data-step="10">
             <rect class="band" x="20" y="614" width="1704" height="86" rx="16"/>
@@ -448,8 +450,8 @@
           <div data-step="5"><span class="hl">開源讓監督從喊話，變成可以提交的 issue。</span></div>
         </div>
         <div class="s7-links" data-step="6">
-          <div>底稿長文　<b>mashbean.net/blog/2026/0417-1trens</b></div>
-          <div>年齡驗證報告　<b>pro.mashbean.net/reports</b></div>
+          <div>底稿長文　<a href="https://mashbean.net/blog/2026/0417-1trens/" target="_blank" rel="noopener"><b>mashbean.net/blog/2026/0417-1trens</b></a></div>
+          <div>年齡驗證報告　<a href="https://pro.mashbean.net/reports/2026-04-16-age-verification-digital-rights/" target="_blank" rel="noopener"><b>pro.mashbean.net › 年齡驗證與數位權利</b></a></div>
           <div>黃豆泥 mashbean · Harvard Kennedy School Allen Lab Fellow 2025/26</div>
         </div>
       </div>
@@ -543,12 +545,6 @@
   }
 
   stage.addEventListener('slidechange', (e) => playFor(e.detail.slide));
-
-  // Click anywhere on a slide (except notes) replays its animation.
-  stage.addEventListener('click', (e) => {
-    if (e.target.closest('.note-btn') || e.target.closest('.note-pop')) return;
-    if (current && !REDUCED) current.restart();
-  });
 
   /* ── footnote pop-ups ── */
   function closeAllNotes(except) {
