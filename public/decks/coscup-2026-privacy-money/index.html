@@ -437,6 +437,7 @@
           <p class="np-title">/* 論文與上線 */</p>
           <p>2023 年 9 月論文《Blockchain Privacy and Regulatory Compliance》，作者含 Vitalik Buterin、Chainalysis 首席科學家 Jacob Illum、巴塞爾大學 Nadler 與 Schär、Ameen Soleimani——幣流分析公司科學家與以太坊創辦人聯名，本身就是合規與隱私的和解姿態。</p>
           <p>2025 年 3 月 31 日由 0xbow 在以太坊主網上線，Vitalik 是第一批存款人；0xbow 於 2025 年 11 月完成 350 萬美元募資。</p>
+          <p>主網的 ASP 實際上就是 0xbow 自己：比對制裁名單與已知駭案地址，沒中的收進核准集合——白名單是用黑名單過濾出來的。論文同時支援 membership 與 exclusion 兩種證明，「白名單制」是這個實作選的政策，換個 ASP 政策就能跑成黑名單制。</p>
           <p class="src">創辦人在阿根廷演講喊出「沒有恐怖分子的隱私世界」，隨即被問：誰的恐怖分子？獨裁國家的異議者，常常就是名單上的人。</p>
         </div>
       </div>
@@ -459,7 +460,7 @@
           <!-- compare chip -->
           <g data-step="1">
             <rect x="30" y="20" width="1694" height="66" rx="14" fill="rgba(106,227,249,.06)" stroke="#2A4A5F" stroke-width="2"/>
-            <text class="caption big" x="872" y="63" text-anchor="middle">Privacy Pools＝<tspan class="t-green">白名單先驗</tspan>（先審再進池）　vs　Railgun＝<tspan class="t-purple">黑名單後驗</tspan>（先進池，抓到再擋）</text>
+            <text class="caption big" x="872" y="63" text-anchor="middle">Privacy Pools＝<tspan class="t-green">預設拒絕、舉證入池</tspan>（白名單先驗）　vs　Railgun＝<tspan class="t-purple">預設允許、舉證清白</tspan>（黑名單後驗）</text>
           </g>
           <!-- main rail -->
           <g data-step="2"><rect class="nodebox" x="30" y="180" width="220" height="110" rx="16"/><text class="nlabel" x="140" y="226">上盾</text><text class="nsub" x="140" y="262">Shield 進入私域</text></g>
@@ -497,8 +498,8 @@
         <button class="note-btn" style="right:0; top:-6px;" data-note="n7">※ 考據</button>
         <div class="note-pop" id="n7" style="right:0; top:52px;">
           <p class="np-title">/* 黑名單哪裡來 */</p>
-          <p>Railgun 2021 年上線，Private Proofs of Innocence（PPOI）2023 年部署。黑名單來源：各國制裁名單，加上社群「守望相助」通報的駭案地址。Vitalik 本人多次公開使用並替它說話。</p>
-          <p class="src">開放問題：黑名單誰經營？不服可以 fork，但 fork 出來的小池子，人少就沒隱私。</p>
+          <p>Railgun 2021 年上線，Private Proofs of Innocence（PPOI）2023 年部署，治理走 Railgun DAO。名單提供者是現成的鏈上鑑識業者：Chainalysis Sanctions Oracle（OFAC 名單，預設）、Elliptic、SlowMist、ScamSniffer、PureFi；節點軟體開源，任何人可跑自己的名單。Vitalik 本人多次公開使用並替它說話。</p>
+          <p class="src">無論白名單或黑名單，上游情資都來自同一批幣流分析產業——隱私協定把「定義好壞」外包給了原本就在做防治的業者。不服可以 fork，但小池子人少就沒隱私。</p>
         </div>
       </div>
       <div class="footer-strip"><span>05 / railgun</span><span>魔高一丈，且會擋駭客</span></div>
