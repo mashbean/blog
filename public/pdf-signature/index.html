@@ -78,8 +78,26 @@
   <p>
     MyData 的 PDF 是用身分證字號加密的，但 PDF 的標準加密<strong>只加密字串與串流</strong>，
     不加密名稱物件與字典結構。所以 <code>/Type /Sig</code>、<code>/SubFilter</code>、
-    <code>/ByteRange</code> 這些鍵在加密檔裡仍然是明文——而要回答「有沒有簽章」，
-    需要的正好只有這些。放 PKCS#7 的 <code>/Contents</code> 是字串、會被加密，但這裡用不到它。
+    <code>/ByteRange</code> 這些鍵在加密檔裡仍然是明文。
+  </p>
+  <p>
+    放 PKCS#7 的 <code>/Contents</code> 也讀得到——規格明訂簽章的
+    <code>/Contents</code> <strong>不被加密</strong>，否則沒有人能驗證它。
+    這一點在 RC4-128 與 AES-256 的加密檔上都實測過。
+  </p>
+
+  <h2>「有簽章欄位」不等於「簽了」</h2>
+  <p>
+    簽章流程是<strong>先寫佔位符、後回填 CMS</strong>：佔位符裡有一個貨真價實的
+    <code>/ByteRange</code>，和一段用 <code>0</code> 補滿的 <code>/Contents</code>——
+    因為 <code>/Contents</code> 必須落在固定的檔案位移上。流程中斷，或拿到的本來就是
+    「待簽」範本，所有標記都在，簽章卻不存在。
+  </p>
+  <p>
+    所以這一頁除了找標記，還會看 <code>/Contents</code> 裡<strong>有沒有任何非零字元</strong>。
+    長度證明不了什麼——實測一次中途停下的簽章流程留下 2,206 bytes 的
+    <code>/Contents</code>，沒有一個非零字元。
+    這個方向的誤判是最貴的：假的「有簽章」會讓人投入 zkpdf 去驗證幾 KB 的零。
   </p>
 
   <h2>這個答案決定什麼</h2>
@@ -203,10 +221,36 @@
     while ((m = re.exec(text)) !== null) {
       if (subFilters.indexOf(m[1]) === -1) { subFilters.push(m[1]); }
     }
+    // /Type is optional in the spec, so a /ByteRange alone still means a
+    // signature *dictionary*. Under-reporting here would produce a false
+    // "unsigned".
+    var hasDictionary = sigDicts > 0 || byteRanges > 0;
+
+    // But a dictionary is not a signature. Signing writes the placeholder first
+    // — a real /ByteRange and a /Contents padded out with zeros, because
+    // /Contents has to sit at a fixed file offset — and fills in the CMS
+    // afterwards. Interrupt that, or ship a "ready to sign" template, and every
+    // marker this scanner looks for is present while no signature exists.
+    //
+    // Measured on a real interrupted signing run: 2,206 bytes of /Contents,
+    // not one non-zero digit among them. So length proves nothing and only a
+    // non-zero digit does.
+    //
+    // The direction of this error is the expensive one: the whole point of this
+    // page is a fork where "signed" sends someone off to build on zkpdf, and a
+    // false "signed" would send them to verify a few KB of zeros.
+    var contents = [];
+    var cre = /\/Contents\s*<([0-9A-Fa-f\s]*)>/g, cm;
+    while ((cm = cre.exec(text)) !== null) { contents.push(cm[1].replace(/\s/g, "")); }
+    var hasSignatureBytes = contents.some(function (hex) { return /[^0]/.test(hex); });
+
     return {
-      // /Type is optional in the spec, so a /ByteRange alone is still a
-      // signature. Under-reporting here would produce a false "unsigned".
-      isSigned: sigDicts > 0 || byteRanges > 0,
+      isSigned: hasSignatureBytes,
+      hasEmptyDictionary: hasDictionary && !hasSignatureBytes,
+      contentsCount: contents.length,
+      signatureBytes: contents.length
+        ? Math.max.apply(null, contents.map(function (h) { return h.length / 2; }))
+        : 0,
       sigDicts: sigDicts, byteRanges: byteRanges, subFilters: subFilters,
       encrypted: /\/Encrypt\b/.test(text), size: bytes.length
     };
@@ -217,11 +261,15 @@
       "<dt>檔案</dt><dd>" + esc(filename) + "</dd>" +
       "<dt>大小</dt><dd>" + r.size.toLocaleString() + " bytes</dd>" +
       "<dt>加密</dt><dd>" + (r.encrypted ? "是（不影響本判斷）" : "否") + "</dd>" +
-      (r.isSigned
+      (r.isSigned || r.hasEmptyDictionary
         ? "<dt>簽章字典</dt><dd>" + r.sigDicts + " 份</dd>" +
           "<dt>ByteRange</dt><dd>" + r.byteRanges + " 個</dd>" +
           "<dt>SubFilter</dt><dd>" +
-            esc(r.subFilters.length ? r.subFilters.join(", ") : "（未標示）") + "</dd>"
+            esc(r.subFilters.length ? r.subFilters.join(", ") : "（未標示）") + "</dd>" +
+          "<dt>/Contents</dt><dd>" +
+            (r.isSigned
+              ? r.signatureBytes.toLocaleString() + " bytes（有 CMS）"
+              : (r.contentsCount ? "全部補零，沒有 CMS" : "不存在")) + "</dd>"
         : "") +
       "</dl>";
 
@@ -230,6 +278,17 @@
         "<p>這份檔案自己就帶著信任根。<code>zkpdf</code> 這條路可行，而且比行憑代簽更強——" +
         "不需要持卡人每次出示都再簽一次。憑證設計應該改用原始簽章。</p>" +
         facts + "</div>");
+    } else if (r.hasEmptyDictionary) {
+      // Reported as its own outcome rather than folded into either side. It is
+      // *not* a signature — there is nothing to verify — but calling it a plain
+      // "no" would hide that this document was prepared for signing and the
+      // signing did not finish, which is worth knowing about the source.
+      say('<div class="verdict v-no"><h3>有簽章欄位，但裡面是空的</h3>' +
+        "<p>找到了簽章字典（<code>/ByteRange</code> 之類），但 <code>/Contents</code> " +
+        "是一整片補零、沒有 CMS。那是<strong>簽章前的佔位符</strong>，不是簽章——" +
+        "沒有東西可以驗。</p>" +
+        "<p>當成「沒有簽章」處理，行憑代簽是正解；但回報時要講清楚是這一種，" +
+        "別只說「有簽章」。</p>" + facts + "</div>");
     } else {
       say('<div class="verdict v-no"><h3>沒有找到文件級簽章</h3>' +
         "<p>那麼原本的規劃就是正解：拿行憑去簽 MyData 的欄位事實，產出一張 VC。可以放心投入。</p>" +
