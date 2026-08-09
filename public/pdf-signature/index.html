@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PDF 有沒有文件級簽章？ — 有備而來</title>
+<meta name="description" content="檢查一份 PDF（或 MyData 下載的 zip）有沒有 PKCS#7 文件級簽章。全程在瀏覽器裡，檔案不會上傳。" />
+<meta name="robots" content="noindex" />
+<style>
+  :root{
+    --ground:#F6F8F7;--raised:#fff;--ink:#14201E;--soft:#55635F;--faint:#8A9793;
+    --rule:#DDE4E1;--accent:#0F6B63;--accent-soft:#E4EFEC;
+    --yes:#2F6B3A;--yes-soft:#E7F0E7;--no:#7A5B12;--no-soft:#F6EEDA;--bad:#A8442A;--bad-soft:#F7E9E4;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--ground:#0E1615;--raised:#151F1D;--ink:#E8EFEC;--soft:#A2B0AC;--faint:#6E7C78;
+      --rule:#253330;--accent:#5FC5B8;--accent-soft:#16302C;
+      --yes:#86C193;--yes-soft:#16261A;--no:#D9B65E;--no-soft:#2A2211;--bad:#E39176;--bad-soft:#2E1C15;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+    font-size:16.5px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:44rem;margin:0 auto;padding:3rem 1.25rem 5rem}
+  .eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    font-weight:700;margin:0 0 .7rem}
+  h1{font-family:"Songti TC","Source Han Serif TC",Georgia,serif;
+    font-size:clamp(1.8rem,6vw,2.4rem);line-height:1.25;margin:0 0 .8rem;text-wrap:balance}
+  .lede{font-size:1.02rem;color:var(--soft);margin:0 0 2rem;text-wrap:pretty}
+  h2{font-family:"Songti TC","Source Han Serif TC",Georgia,serif;font-size:1.25rem;margin:2.6rem 0 .7rem}
+  p{margin:0 0 1rem}
+  code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.87em;
+    background:var(--accent-soft);padding:.1em .35em;border-radius:3px;word-break:break-all}
+  a{color:var(--accent)}
+  .pick{display:block;width:100%;border:2px dashed var(--rule);border-radius:8px;
+    background:var(--raised);color:inherit;font:inherit;padding:1.8rem 1.2rem;text-align:center;
+    cursor:pointer;transition:border-color .15s,background .15s}
+  .pick:hover,.pick:focus-visible{border-color:var(--accent);background:var(--accent-soft)}
+  .pick:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .pick strong{display:block;font-size:1.05rem;margin-bottom:.25rem}
+  .pick span{color:var(--soft);font-size:.9rem}
+  input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .verdict{border-radius:6px;padding:1.1rem 1.2rem;margin:1.4rem 0;border-left:4px solid var(--rule)}
+  .verdict h3{margin:0 0 .5rem;font-size:1.1rem}
+  .verdict p{margin:0;font-size:.95rem}
+  .verdict p+p{margin-top:.6rem}
+  .v-yes{border-left-color:var(--yes);background:var(--yes-soft)}
+  .v-no{border-left-color:var(--no);background:var(--no-soft)}
+  .v-bad{border-left-color:var(--bad);background:var(--bad-soft)}
+  dl.facts{display:grid;grid-template-columns:auto 1fr;gap:.35rem .9rem;margin:.9rem 0 0;
+    font-size:.88rem}
+  dl.facts dt{color:var(--faint)}
+  dl.facts dd{margin:0;font-variant-numeric:tabular-nums;word-break:break-all}
+  .busy{color:var(--soft);font-size:.95rem;margin:1.2rem 0}
+  .hidden{display:none}
+  footer{margin-top:3rem;padding-top:1.1rem;border-top:1px solid var(--rule);
+    font-size:.85rem;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">有備而來 · 工具</p>
+  <h1>這份 PDF 有沒有文件級簽章？</h1>
+  <p class="lede">
+    選一份 PDF，或直接選 MyData 下載回來的 <code>.zip</code>——不需要解壓、
+    <strong>也不需要密碼</strong>。檔案完全在你的瀏覽器裡處理，不會上傳到任何地方。
+  </p>
+
+  <button class="pick" id="pick" type="button">
+    <strong>選擇檔案</strong>
+    <span>.zip 或 .pdf · 不會上傳</span>
+  </button>
+  <input type="file" id="file" accept=".zip,.pdf,application/zip,application/pdf" />
+
+  <div id="out"></div>
+
+  <h2>為什麼不需要密碼</h2>
+  <p>
+    MyData 的 PDF 是用身分證字號加密的，但 PDF 的標準加密<strong>只加密字串與串流</strong>，
+    不加密名稱物件與字典結構。所以 <code>/Type /Sig</code>、<code>/SubFilter</code>、
+    <code>/ByteRange</code> 這些鍵在加密檔裡仍然是明文——而要回答「有沒有簽章」，
+    需要的正好只有這些。放 PKCS#7 的 <code>/Contents</code> 是字串、會被加密，但這裡用不到它。
+  </p>
+
+  <h2>這個答案決定什麼</h2>
+  <p>
+    「有備而來」目前用<strong>裝置金鑰</strong>重簽 MyData 的欄位，把結果當成憑證。
+    撐住這個繞路的唯一理由，是「MyData 沒有文件級簽章」這句話——而它一直沒被檢查過。
+  </p>
+  <p>
+    若其實<strong>有</strong>簽章，資料本身就帶著權威信任根，
+    <a href="https://github.com/privacy-ethereum/zkpdf">zkpdf</a> 能在不揭露內容的前提下
+    證明其中的陳述，而自簽那一段不只多餘、還比原本收到的更弱。
+    若確定<strong>沒有</strong>，那就照原本規劃走行憑代簽。
+  </p>
+
+  <footer>
+    只回答「有沒有簽章」，<strong>不驗證簽章是否有效</strong>——沒有做鏈結建構、
+    沒有比對摘要、沒有查撤銷。判斷邏輯與 App 內的 <code>PDFSignatureScan</code> 一致。
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var pick = document.getElementById("pick");
+  var input = document.getElementById("file");
+  var out = document.getElementById("out");
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function say(html) { out.innerHTML = html; }
+  function busy(text) { say('<p class="busy">' + esc(text) + "</p>"); }
+
+  // --- ZIP ---------------------------------------------------------------
+  // Hand-rolled rather than a library: the page has to work with nothing
+  // fetched from anywhere, and the only thing needed is "find the one PDF and
+  // hand me its bytes". Inflate comes from DecompressionStream, which Safari
+  // has had since 16.4 — no dependency at all.
+
+  function u16(v, o) { return v.getUint16(o, true); }
+  function u32(v, o) { return v.getUint32(o, true); }
+
+  function findEOCD(view) {
+    // The end-of-central-directory record sits at the end, possibly followed by
+    // a comment of up to 65535 bytes, so it is searched for backwards rather
+    // than assumed to be at a fixed offset.
+    var max = Math.min(view.byteLength, 65557);
+    for (var i = view.byteLength - 22; i >= view.byteLength - max; i--) {
+      if (i >= 0 && u32(view, i) === 0x06054b50) { return i; }
+    }
+    return -1;
+  }
+
+  async function pdfBytesFromZip(buffer) {
+    var view = new DataView(buffer);
+    var eocd = findEOCD(view);
+    if (eocd < 0) { throw new Error("這看起來不是一個 zip 檔"); }
+
+    var count = u16(view, eocd + 10);
+    var offset = u32(view, eocd + 16);
+    var entries = [];
+    var p = offset;
+    for (var i = 0; i < count; i++) {
+      if (u32(view, p) !== 0x02014b50) { break; }
+      var nameLen = u16(view, p + 28);
+      var extraLen = u16(view, p + 30);
+      var commentLen = u16(view, p + 32);
+      var name = new TextDecoder().decode(new Uint8Array(buffer, p + 46, nameLen));
+      entries.push({
+        name: name,
+        method: u16(view, p + 10),
+        compSize: u32(view, p + 20),
+        localOffset: u32(view, p + 42)
+      });
+      p += 46 + nameLen + extraLen + commentLen;
+    }
+
+    var pdfs = entries.filter(function (e) { return /\.pdf$/i.test(e.name); });
+    if (pdfs.length !== 1) {
+      throw new Error("zip 裡有 " + pdfs.length + " 份 PDF，預期剛好一份");
+    }
+    var entry = pdfs[0];
+
+    // The local header repeats the name/extra lengths, and they can differ from
+    // the central directory's, so the data offset is computed from the local
+    // header rather than reused.
+    var lh = entry.localOffset;
+    if (u32(view, lh) !== 0x04034b50) { throw new Error("zip 內部結構讀不懂"); }
+    var dataStart = lh + 30 + u16(view, lh + 26) + u16(view, lh + 28);
+    var raw = buffer.slice(dataStart, dataStart + entry.compSize);
+
+    if (entry.method === 0) { return { bytes: new Uint8Array(raw), name: entry.name }; }
+    if (entry.method !== 8) { throw new Error("不支援的壓縮方式（method " + entry.method + "）"); }
+    if (typeof DecompressionStream === "undefined") {
+      throw new Error("這個瀏覽器沒有 DecompressionStream，請改成先解壓再選 PDF");
+    }
+    var stream = new Blob([raw]).stream().pipeThrough(new DecompressionStream("deflate-raw"));
+    return { bytes: new Uint8Array(await new Response(stream).arrayBuffer()), name: entry.name };
+  }
+
+  // --- PDF ---------------------------------------------------------------
+  // Same two decisions as the app's PDFSignatureScan, and for the same reason:
+  // both guard the direction of error that would quietly confirm "no signature".
+
+  function scan(bytes) {
+    // latin1, not utf-8: a PDF body is byte soup with binary streams, and a
+    // utf-8 decode gives up on the first invalid sequence — which would report
+    // every genuine document as unsigned.
+    var text = new TextDecoder("iso-8859-1").decode(bytes);
+    function count(re) { return (text.match(re) || []).length; }
+
+    // Tolerant of whitespace: /Type/Sig and /Type\n/Sig are both legal, and
+    // matching only the spaced form would report a signed document as unsigned.
+    var sigDicts = count(/\/Type\s*\/Sig\b/g);
+    var byteRanges = count(/\/ByteRange\s*\[/g);
+    var subFilters = [];
+    var re = /\/SubFilter\s*\/([A-Za-z0-9._-]+)/g, m;
+    while ((m = re.exec(text)) !== null) {
+      if (subFilters.indexOf(m[1]) === -1) { subFilters.push(m[1]); }
+    }
+    return {
+      // /Type is optional in the spec, so a /ByteRange alone is still a
+      // signature. Under-reporting here would produce a false "unsigned".
+      isSigned: sigDicts > 0 || byteRanges > 0,
+      sigDicts: sigDicts, byteRanges: byteRanges, subFilters: subFilters,
+      encrypted: /\/Encrypt\b/.test(text), size: bytes.length
+    };
+  }
+
+  function render(r, filename) {
+    var facts = "<dl class='facts'>" +
+      "<dt>檔案</dt><dd>" + esc(filename) + "</dd>" +
+      "<dt>大小</dt><dd>" + r.size.toLocaleString() + " bytes</dd>" +
+      "<dt>加密</dt><dd>" + (r.encrypted ? "是（不影響本判斷）" : "否") + "</dd>" +
+      (r.isSigned
+        ? "<dt>簽章字典</dt><dd>" + r.sigDicts + " 份</dd>" +
+          "<dt>ByteRange</dt><dd>" + r.byteRanges + " 個</dd>" +
+          "<dt>SubFilter</dt><dd>" +
+            esc(r.subFilters.length ? r.subFilters.join(", ") : "（未標示）") + "</dd>"
+        : "") +
+      "</dl>";
+
+    if (r.isSigned) {
+      say('<div class="verdict v-yes"><h3>有文件級簽章</h3>' +
+        "<p>這份檔案自己就帶著信任根。<code>zkpdf</code> 這條路可行，而且比行憑代簽更強——" +
+        "不需要持卡人每次出示都再簽一次。憑證設計應該改用原始簽章。</p>" +
+        facts + "</div>");
+    } else {
+      say('<div class="verdict v-no"><h3>沒有找到文件級簽章</h3>' +
+        "<p>那麼原本的規劃就是正解：拿行憑去簽 MyData 的欄位事實，產出一張 VC。可以放心投入。</p>" +
+        facts + "</div>");
+    }
+  }
+
+  async function handle(file) {
+    if (!file) { return; }
+    busy("讀取中…（檔案沒有離開這支裝置）");
+    try {
+      var buffer = await file.arrayBuffer();
+      var bytes, shown = file.name;
+      if (/\.zip$/i.test(file.name) ||
+          (new DataView(buffer).byteLength > 4 && new DataView(buffer).getUint32(0, true) === 0x04034b50)) {
+        // Report the PDF's own name: showing the zip's name beside the inner
+        // file's size reads as though the zip were 10 KB.
+        var found = await pdfBytesFromZip(buffer);
+        bytes = found.bytes;
+        shown = file.name + " → " + found.name;
+      } else {
+        bytes = new Uint8Array(buffer);
+      }
+      if (bytes.length < 5 ||
+          new TextDecoder("iso-8859-1").decode(bytes.subarray(0, 5)) !== "%PDF-") {
+        say('<div class="verdict v-bad"><h3>這不是一份 PDF</h3><p>檔案開頭不是 <code>%PDF-</code>。</p></div>');
+        return;
+      }
+      render(scan(bytes), shown);
+    } catch (e) {
+      say('<div class="verdict v-bad"><h3>讀不出來</h3><p>' + esc(e.message) + "</p></div>");
+    }
+  }
+
+  pick.addEventListener("click", function () { input.click(); });
+  input.addEventListener("change", function () { handle(input.files[0]); });
+})();
+</script>
+</body>
+</html>
