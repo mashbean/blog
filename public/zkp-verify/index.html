@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ZKP 證明檢視器 — 有備而來</title>
+<meta name="description" content="檢視「有備而來」App 產出的零知識證明封包：裡面有什麼、證明了什麼、以及沒有證明什麼。" />
+<meta name="robots" content="noindex" />
+<style>
+  :root{
+    --ground:#F6F8F7; --raised:#fff; --ink:#14201E; --soft:#55635F; --faint:#8A9793;
+    --rule:#DDE4E1; --accent:#0F6B63; --accent-soft:#E4EFEC;
+    --warn:#7A5B12; --warn-soft:#F6EEDA; --bad:#A8442A; --bad-soft:#F7E9E4;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{--ground:#0E1615;--raised:#151F1D;--ink:#E8EFEC;--soft:#A2B0AC;--faint:#6E7C78;
+      --rule:#253330;--accent:#5FC5B8;--accent-soft:#16302C;
+      --warn:#D9B65E;--warn-soft:#2A2211;--bad:#E39176;--bad-soft:#2E1C15;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+    font-size:16.5px;line-height:1.75;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:48rem;margin:0 auto;padding:3.5rem 1.5rem 6rem}
+  .eyebrow{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    font-weight:700;margin:0 0 .7rem}
+  h1{font-family:"Songti TC","Source Han Serif TC",Georgia,serif;font-size:clamp(1.9rem,5vw,2.6rem);
+    line-height:1.22;margin:0 0 .8rem;text-wrap:balance}
+  .lede{font-size:1.06rem;color:var(--soft);margin:0 0 2.2rem;text-wrap:pretty}
+  h2{font-family:"Songti TC","Source Han Serif TC",Georgia,serif;font-size:1.35rem;
+    margin:2.8rem 0 .8rem;text-wrap:balance}
+  p{margin:0 0 1rem}
+  code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.87em;
+    background:var(--accent-soft);padding:.1em .35em;border-radius:3px}
+  a{color:var(--accent)}
+
+  .drop{border:2px dashed var(--rule);border-radius:8px;background:var(--raised);
+    padding:2.4rem 1.5rem;text-align:center;transition:border-color .15s,background .15s;cursor:pointer}
+  .drop:hover,.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+  .drop strong{display:block;font-size:1.05rem;margin-bottom:.3rem}
+  .drop span{color:var(--soft);font-size:.92rem}
+  .drop:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+
+  .panel{background:var(--raised);border:1px solid var(--rule);border-radius:6px;
+    padding:1.2rem 1.4rem;margin:1.2rem 0}
+  .panel h3{margin:0 0 .8rem;font-size:1rem}
+  .scroll{overflow-x:auto}
+  /* No min-width: the byte counts are the whole point of these tables, and a
+     table that pushed them off the right edge on a phone would hide the one
+     column worth reading. The long artifact names wrap instead. */
+  table{border-collapse:collapse;width:100%;font-size:.9rem}
+  table code{word-break:break-all;background:none;padding:0}
+  th,td{text-align:left;padding:.5rem .7rem;border-bottom:1px solid var(--rule);vertical-align:top}
+  th:first-child,td:first-child{padding-left:0}
+  th:last-child,td:last-child{padding-right:0}
+  th{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700}
+  td.num{font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+  ul.caveats{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.7rem}
+  ul.caveats li{display:grid;grid-template-columns:1.3rem 1fr;gap:.6rem;font-size:.94rem;color:var(--soft)}
+  ul.caveats li::before{content:"—";color:var(--warn);font-weight:700}
+  .verdict{border-left:3px solid var(--warn);background:var(--warn-soft);padding:.9rem 1.1rem;
+    border-radius:0 4px 4px 0;margin:1.2rem 0;font-size:.95rem}
+  .verdict.bad{border-left-color:var(--bad);background:var(--bad-soft)}
+  .verdict strong{display:block;margin-bottom:.25rem;color:var(--ink)}
+  .hidden{display:none}
+  footer{margin-top:3.5rem;padding-top:1.2rem;border-top:1px solid var(--rule);
+    font-size:.85rem;color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">有備而來 · 開發中</p>
+  <h1>ZKP 證明檢視器</h1>
+  <p class="lede">
+    把「有備而來」App 匯出的 <code>.zkproof</code> 檔案拖進來，看看裡面到底有什麼——
+    以及它證明了什麼、沒有證明什麼。檔案完全不會離開你的瀏覽器。
+  </p>
+
+  <div class="drop" id="drop" tabindex="0" role="button"
+       aria-label="選擇或拖放一個 .zkproof 檔案">
+    <strong>把 .zkproof 檔案拖到這裡</strong>
+    <span>或點一下選擇檔案 · 不會上傳到任何地方</span>
+  </div>
+  <input type="file" id="file" accept=".zkproof,application/json" />
+
+  <div id="result" class="hidden"></div>
+
+  <h2>為什麼這一頁不做完整驗證</h2>
+  <p>
+    完整的密碼學驗證需要兩把驗證金鑰，**解壓後共約 968 MB**。那是瀏覽器分頁裝不下的東西，
+    而且實測顯示驗證是<strong>計算受限</strong>而非 I/O 受限——把 968 MB 冷讀進來只要 0.59 秒，
+    但三項檢查要跑約 14 秒。預先載入金鑰救不了。
+  </p>
+  <p>
+    所以這一頁做的是它<em>真的</em>做得到的事：解析封包、列出裡面的東西、
+    把證明自己帶著的但書如實顯示出來。要真正驗證，目前得用 App 裡的「查驗零知識證明」。
+  </p>
+
+  <h2>一份證明有多大</h2>
+  <div class="panel scroll">
+    <table>
+      <thead><tr><th>內容</th><th>用途</th><th class="num">bytes</th></tr></thead>
+      <tbody>
+        <tr><td><code>cert_chain_rs4096_proof</code></td><td>憑證鏈證明</td><td class="num">113,055</td></tr>
+        <tr><td><code>user_sig_rs2048_proof</code></td><td>持有者簽章證明</td><td class="num">77,743</td></tr>
+        <tr><td><code>cert_chain_rs4096_instance</code></td><td>公開輸入（查驗方必須有）</td><td class="num">68,967</td></tr>
+        <tr><td><code>user_sig_rs2048_instance</code></td><td>公開輸入</td><td class="num">34,151</td></tr>
+        <tr><td colspan="2"><strong>合計</strong></td><td class="num"><strong>293,916</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    換算成 QR code 要<strong>約 100 張</strong>（version 40 每張上限 2,953 bytes），
+    所以 ZK 出示走檔案而不是掃碼。這個數字是實測的，不是估的。
+  </p>
+
+  <footer>
+    量測於 2026-08-09，iPhone 17 Pro 模擬器，使用上游 zkID 的測試向量產生真實證明。
+    這是開發中的工具頁，不是正式服務。
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Kept in step with ProofCaveat.localizedDescription in the app. If the two
+  // ever disagree, the app is the source of truth — a web page that softened a
+  // caveat would be the exact failure the caveat list exists to prevent.
+  var CAVEATS = {
+    signatureMaterialIsReplayable:
+      "這份證明所依據的簽章永遠不變、也永不過期。任何拿到過副本的人——包含內政部——都能在你不在場的情況下，用任何裝置繼續產生新的證明。",
+    idNumberDisclosedToIssuer:
+      "每產生一次證明，內政部就會知道你的身分證字號、以及是哪個服務要求的。這隱藏的是查驗你的人，不是內政部。",
+    noGlobalUniqueness:
+      "這份證明無法顯示同一個身分是否已經在別處被使用過。",
+    certificateExpiryNotProven:
+      "這證明的是憑證由誰簽發，不是它今天仍然有效。",
+    revocationRootNotAnchored:
+      "撤銷清單有被套用，但沒有跟權威來源比對過。",
+    challengeNotBoundToVerifier:
+      "沒有任何東西把這份證明綁定到正在查驗的人身上，所以它可能在別處被再次出示。"
+  };
+
+  var EXPECTED = [
+    "cert_chain_rs4096_proof.bin",
+    "user_sig_rs2048_proof.bin",
+    "cert_chain_rs4096_instance.bin",
+    "user_sig_rs2048_instance.bin"
+  ];
+
+  var drop = document.getElementById("drop");
+  var input = document.getElementById("file");
+  var out = document.getElementById("result");
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function bytesOf(base64) {
+    // The package stores each artifact as base64 (Swift's Data encodes that
+    // way). Length is derived rather than decoded: we only need the size, and
+    // decoding ~400 KB of proof data to count it would be work for nothing.
+    var clean = base64.replace(/[^A-Za-z0-9+/=]/g, "");
+    var padding = (clean.match(/=+$/) || [""])[0].length;
+    return Math.max(0, (clean.length * 3) / 4 - padding);
+  }
+
+  function show(html, kind) {
+    out.className = "";
+    out.innerHTML = html;
+    if (kind) { out.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+  }
+
+  function fail(title, detail) {
+    show('<div class="verdict bad"><strong>' + esc(title) + "</strong>" + esc(detail) + "</div>");
+  }
+
+  function render(pkg) {
+    var artifacts = pkg.artifacts || {};
+    var rows = "";
+    var total = 0;
+    var missing = [];
+
+    EXPECTED.forEach(function (name) {
+      var value = artifacts[name];
+      if (typeof value !== "string") { missing.push(name); return; }
+      var size = bytesOf(value);
+      total += size;
+      rows += "<tr><td><code>" + esc(name) + "</code></td><td class='num'>" +
+        size.toLocaleString() + "</td></tr>";
+    });
+
+    // Anything beyond the four named artifacts is reported rather than ignored:
+    // a package carrying an extra file is not a package this build understands.
+    Object.keys(artifacts).forEach(function (name) {
+      if (EXPECTED.indexOf(name) === -1) {
+        rows += "<tr><td><code>" + esc(name) +
+          "</code> <em>（這個檢視器不認得）</em></td><td class='num'>" +
+          bytesOf(artifacts[name]).toLocaleString() + "</td></tr>";
+      }
+    });
+
+    var html = "";
+
+    if (missing.length) {
+      html += '<div class="verdict bad"><strong>這一包不完整</strong>缺少：' +
+        esc(missing.join("、")) +
+        "。少了公開輸入（instance）就無法驗證——但它看起來仍然像一包。</div>";
+    }
+
+    html += '<div class="panel"><h3>封包內容</h3><div class="scroll"><table>' +
+      "<thead><tr><th>檔案</th><th class='num'>bytes</th></tr></thead><tbody>" + rows +
+      "<tr><td><strong>合計</strong></td><td class='num'><strong>" +
+      total.toLocaleString() + "</strong></td></tr></tbody></table></div>" +
+      "<p style='margin:.9rem 0 0;font-size:.9rem;color:var(--soft)'>約 " +
+      Math.ceil(total / 2953).toLocaleString() +
+      " 個 QR frame。格式版本 <code>" + esc(String(pkg.version)) + "</code>。</p></div>";
+
+    // The producing device's own claim, labelled as a claim. It comes from the
+    // party being checked, so it can be a lie; it is worth showing because
+    // "the holder's phone also could not verify this" is worth knowing.
+    var selfCheck = pkg.producerSelfCheckPassed;
+    html += '<div class="verdict"><strong>持證方自述</strong>' +
+      (selfCheck === true
+        ? "產生這份證明的手機說它自己檢查過並通過了。這是<em>被查驗的一方</em>的說法，不是驗證結果——它可能是假的。"
+        : "產生這份證明的手機<strong>沒有</strong>說它檢查通過。這本身不代表證明有問題，但值得注意。") +
+      "</div>";
+
+    var caveats = Array.isArray(pkg.caveats) ? pkg.caveats : [];
+    if (caveats.length) {
+      var items = caveats.map(function (key) {
+        var text = CAVEATS[key];
+        return "<li>" + (text
+          ? esc(text)
+          : "<em>這個檢視器不認得的但書：</em> <code>" + esc(key) + "</code>") + "</li>";
+      }).join("");
+      html += '<div class="panel"><h3>這份證明<em>沒有</em>證明的事（' +
+        caveats.length + "）</h3><ul class='caveats'>" + items + "</ul></div>";
+    }
+
+    show(html, true);
+  }
+
+  function handle(file) {
+    if (!file) { return; }
+    var reader = new FileReader();
+    reader.onerror = function () { fail("讀不到這個檔案", "瀏覽器沒能讀取它。"); };
+    reader.onload = function () {
+      var pkg;
+      try {
+        pkg = JSON.parse(reader.result);
+      } catch (e) {
+        fail("這不是一個 .zkproof 封包", "檔案不是有效的 JSON：" + e.message);
+        return;
+      }
+      if (!pkg || typeof pkg !== "object" || !pkg.artifacts) {
+        fail("這不是一個 .zkproof 封包", "裡面沒有 artifacts 欄位。");
+        return;
+      }
+      render(pkg);
+    };
+    reader.readAsText(file);
+  }
+
+  drop.addEventListener("click", function () { input.click(); });
+  drop.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); }
+  });
+  input.addEventListener("change", function () { handle(input.files[0]); });
+
+  ["dragenter", "dragover"].forEach(function (name) {
+    drop.addEventListener(name, function (e) {
+      e.preventDefault();
+      drop.classList.add("over");
+    });
+  });
+  ["dragleave", "drop"].forEach(function (name) {
+    drop.addEventListener(name, function (e) {
+      e.preventDefault();
+      drop.classList.remove("over");
+    });
+  });
+  drop.addEventListener("drop", function (e) {
+    handle(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]);
+  });
+})();
+</script>
+</body>
+</html>
