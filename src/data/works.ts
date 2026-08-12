@@ -77,6 +77,17 @@ export const works: Work[] = [
     group: "personal",
   },
   {
+    slug: "writing-experiment",
+    title: "讓作品先說話",
+    tagline:
+      "一套可實際進行的 AI 文學創作與匿名互評實驗。參與者完成單次提交寫作、盲式評論、分階段揭露與成果閱讀，研究資料則以匿名編號保存。",
+    url: "https://writing.mashbean.net/",
+    repo: "https://github.com/mashbean/writing-experiment",
+    chips: ["AI 文學創作", "匿名互評"],
+    cover: "images/works/writing-experiment.jpg",
+    group: "personal",
+  },
+  {
     slug: "bonds",
     title: "Bond 有備而來",
     tagline:
