@@ -15,47 +15,77 @@
         <h1>臨床工作者 AI Agent<br />現場互動</h1>
       </div>
       <div class="live-status" data-status><span></span>連線中</div>
+      <nav class="dashboard-tabs" role="tablist" aria-label="儀表板內容">
+        <button
+          class="active"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="dashboard-live"
+          data-dashboard-tab="live"
+        >
+          現場
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="dashboard-polls-panel"
+          data-dashboard-tab="polls"
+        >
+          投票結果 <span data-poll-total>0</span>
+        </button>
+      </nav>
     </header>
     <main class="dashboard-main">
-      <section class="dashboard-section dashboard-difficulty difficulty-card">
-        <div class="dashboard-section-head">
-          <div>
-            <div class="eyebrow">DIFFICULTY</div>
-            <h2>即時難易度</h2>
+      <div id="dashboard-live" class="dashboard-panel" role="tabpanel" data-dashboard-panel="live">
+        <section class="dashboard-section dashboard-difficulty difficulty-card">
+          <div class="dashboard-section-head">
+            <div>
+              <div class="eyebrow">DIFFICULTY</div>
+              <h2>即時難易度</h2>
+            </div>
+            <span data-difficulty-total>等待回報</span>
           </div>
-          <span data-difficulty-total>等待回報</span>
-        </div>
-        <div class="difficulty-chart" aria-label="現場難易度分布" role="img">
-          <svg viewBox="0 0 600 210" preserveAspectRatio="none" aria-hidden="true">
-            <path class="difficulty-grid-line" d="M20 170 H580" />
-            <path data-difficulty-area class="difficulty-area" />
-            <path data-difficulty-line class="difficulty-line" />
-            <g data-difficulty-points></g>
-          </svg>
-          <div class="difficulty-counts" data-difficulty-counts></div>
-        </div>
-      </section>
+          <div class="difficulty-chart" aria-label="現場難易度分布" role="img">
+            <svg viewBox="0 0 600 210" preserveAspectRatio="none" aria-hidden="true">
+              <path class="difficulty-grid-line" d="M30 172 H570" />
+              <path data-difficulty-area class="difficulty-area" />
+              <path data-difficulty-line class="difficulty-line" />
+              <g data-difficulty-points></g>
+            </svg>
+            <div class="difficulty-counts" data-difficulty-counts></div>
+          </div>
+        </section>
 
-      <section class="dashboard-section">
-        <div class="dashboard-section-head">
-          <div>
-            <div class="eyebrow">POLL</div>
-            <h2>投票結果</h2>
+        <section class="dashboard-section">
+          <div class="dashboard-section-head">
+            <div>
+              <div class="eyebrow">Q&A POOL</div>
+              <h2>隨時提問</h2>
+            </div>
+            <span data-question-count>0 題</span>
           </div>
-        </div>
-        <div id="dashboard-polls" class="dashboard-polls"></div>
-      </section>
-
-      <section class="dashboard-section">
-        <div class="dashboard-section-head">
-          <div>
-            <div class="eyebrow">Q&A POOL</div>
-            <h2>隨時提問</h2>
+          <div id="dashboard-questions" class="dashboard-questions"></div>
+        </section>
+      </div>
+      <div
+        id="dashboard-polls-panel"
+        class="dashboard-panel"
+        role="tabpanel"
+        data-dashboard-panel="polls"
+        hidden
+      >
+        <section class="dashboard-section">
+          <div class="dashboard-section-head">
+            <div>
+              <div class="eyebrow">POLL</div>
+              <h2>投票結果</h2>
+            </div>
           </div>
-          <span data-question-count>0 題</span>
-        </div>
-        <div id="dashboard-questions" class="dashboard-questions"></div>
-      </section>
+          <div id="dashboard-polls" class="dashboard-polls"></div>
+        </section>
+      </div>
     </main>
     <a class="dashboard-open" href="/clinical-ai-0814/" target="_blank" rel="noreferrer"
       >開啟參與頁 ↗</a

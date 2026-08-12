@@ -4,6 +4,8 @@ const apiBase = "/api";
 const pollsRoot = document.querySelector("#dashboard-polls");
 const questionsRoot = document.querySelector("#dashboard-questions");
 const statusEl = document.querySelector("[data-status]");
+const tabButtons = [...document.querySelectorAll("[data-dashboard-tab]")];
+const tabPanels = [...document.querySelectorAll("[data-dashboard-panel]")];
 const lensLabels = {
   clarify: "幫我釐清",
   chorus: "我也遇到了",
@@ -13,6 +15,7 @@ const lensLabels = {
 
 function render(state) {
   renderDifficultyChart(document.querySelector(".dashboard-difficulty"), state.difficulty);
+  document.querySelector("[data-poll-total]").textContent = `${state.polls.length} 題`;
   pollsRoot.innerHTML = state.polls
     .map(
       (poll, index) => `
@@ -32,12 +35,15 @@ function render(state) {
     .join("");
 
   document.querySelector("[data-question-count]").textContent = `${state.questions.length} 題`;
-  questionsRoot.innerHTML = state.questions.length
-    ? state.questions
+  const latestQuestions = [...state.questions].sort(
+    (first, second) => Number(second.createdAt) - Number(first.createdAt),
+  );
+  questionsRoot.innerHTML = latestQuestions.length
+    ? latestQuestions
         .map(
           (question, index) => `
             <article>
-              <div class="dashboard-question-head"><b>${String(index + 1).padStart(2, "0")}</b><span>我也想問 ${question.upvotes}</span></div>
+              <div class="dashboard-question-head"><b>${index === 0 ? "NEW" : String(index + 1).padStart(2, "0")}</b><span><time>${formatTime(question.createdAt)}</time> · 我也想問 ${question.upvotes}</span></div>
               <div class="question-tags"><span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span><span class="question-difficulty difficulty-${question.difficulty}">${question.difficulty} · ${escapeHtml(difficultyLabels[question.difficulty - 1] || difficultyLabels[2])}</span></div>
               <p>${escapeHtml(question.text)}</p>
               <small>${escapeHtml(question.nickname)}</small>
@@ -45,6 +51,38 @@ function render(state) {
         )
         .join("")
     : `<div class="empty">等待第一個問題</div>`;
+}
+
+function setDashboardTab(name) {
+  const next = name === "polls" ? "polls" : "live";
+  tabButtons.forEach((button) => {
+    const active = button.dataset.dashboardTab === next;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  tabPanels.forEach((panel) => {
+    panel.hidden = panel.dataset.dashboardPanel !== next;
+  });
+}
+
+tabButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const next = button.dataset.dashboardTab;
+    setDashboardTab(next);
+    history.replaceState(null, "", next === "polls" ? "#polls" : "#live");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
+function formatTime(value) {
+  const date = new Date(Number(value));
+  return Number.isFinite(date.getTime())
+    ? new Intl.DateTimeFormat("zh-TW", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      }).format(date)
+    : "剛剛";
 }
 
 function connect() {
@@ -74,6 +112,12 @@ function escapeHtml(value) {
 }
 
 window.addEventListener("keydown", (event) => {
+  if (
+    event.target instanceof HTMLElement &&
+    event.target.closest("button, a, input, select, textarea")
+  ) {
+    return;
+  }
   if (["ArrowLeft", "ArrowRight", "PageUp", "PageDown", "Home", "End", " "].includes(event.key)) {
     event.preventDefault();
     window.parent.postMessage({ type: "clinical-ai-deck-key", key: event.key }, location.origin);
@@ -84,4 +128,5 @@ fetch(`${apiBase}/state`)
   .then((response) => response.json())
   .then(render)
   .catch(() => {});
+setDashboardTab(location.hash === "#polls" ? "polls" : "live");
 connect();

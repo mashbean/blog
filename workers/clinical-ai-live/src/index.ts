@@ -169,7 +169,7 @@ export class LiveSession extends DurableObject<Env> {
         FROM questions q
         LEFT JOIN question_votes qv ON qv.question_id = q.id
         GROUP BY q.id
-        ORDER BY upvotes DESC, q.created_at ASC
+        ORDER BY q.created_at DESC
         LIMIT 100
       `,
       )

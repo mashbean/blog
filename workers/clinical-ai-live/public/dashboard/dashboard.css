@@ -14,6 +14,7 @@ body.dashboard-page {
   top: 0;
   z-index: 8;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   gap: 14px;
   align-items: start;
@@ -33,6 +34,43 @@ body.dashboard-page {
   flex: 0 0 auto;
   margin-top: 4px;
   font-size: 9px;
+}
+.dashboard-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  flex: 0 0 100%;
+  gap: 4px;
+  margin-top: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #050c1d;
+}
+.dashboard-tabs button {
+  min-width: 0;
+  border: 0;
+  border-radius: 10px;
+  padding: 9px 10px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 850;
+}
+.dashboard-tabs button.active {
+  background: var(--sage);
+  color: var(--forest);
+  box-shadow: 0 8px 24px #35d9ff24;
+}
+.dashboard-tabs button span {
+  margin-left: 3px;
+  font:
+    800 9px/1 ui-monospace,
+    monospace;
+  opacity: 0.72;
+}
+.dashboard-panel[hidden] {
+  display: none;
 }
 .dashboard-main {
   display: block;
@@ -67,18 +105,35 @@ body.dashboard-page {
   text-align: right;
 }
 .dashboard-difficulty.difficulty-card {
-  padding: 16px;
-  border-radius: 18px;
+  padding: 18px;
+  border-color: #35d9ff4d;
+  border-radius: 20px;
+  background: #0b1933f2;
+  box-shadow: 0 20px 60px #02061270;
+}
+.dashboard-difficulty .dashboard-section-head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+}
+.dashboard-difficulty .dashboard-section-head h2 {
+  white-space: nowrap;
+}
+.dashboard-difficulty [data-difficulty-total] {
+  text-align: left;
 }
 .dashboard-difficulty .difficulty-chart {
   margin-top: 12px;
 }
 .dashboard-difficulty .difficulty-chart svg {
-  height: 138px;
+  height: 146px;
 }
 .dashboard-difficulty .difficulty-counts {
-  padding: 0 7px 10px;
-  gap: 2px;
+  gap: 4px;
+  padding: 0 8px 10px;
+}
+.dashboard-difficulty .difficulty-counts span {
+  border-top: 1px solid #a9b8d61f;
 }
 .dashboard-difficulty .difficulty-counts small {
   font-size: 8px;
@@ -150,6 +205,18 @@ body.dashboard-page {
   font-size: 14px;
   line-height: 1.5;
   font-weight: 700;
+}
+.dashboard-questions article:first-child {
+  border-color: #35d9ff80;
+  background: #102343f2;
+  box-shadow: 0 16px 46px #35d9ff12;
+}
+.dashboard-questions article:first-child .dashboard-question-head b {
+  color: var(--sage);
+}
+.dashboard-question-head time {
+  color: var(--sage);
+  font: inherit;
 }
 .dashboard-questions article small {
   color: var(--muted);
