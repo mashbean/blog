@@ -33,6 +33,17 @@ export const workGroups: Record<Work["group"], { title: string }> = {
 
 export const works: Work[] = [
   {
+    slug: "libreoffice-tw-card-signing",
+    title: "LibreOffice 臺灣自然人憑證簽章",
+    tagline:
+      "讓 macOS 與 Linux 的 LibreOffice 直接使用自然人憑證簽署 ODF、OOXML 與 PDF，完成信任鏈、PAdES B-LTA 長期驗證與公證安裝器。",
+    url: "https://github.com/mashbean/libreoffice-tw-card-signing",
+    repo: "https://github.com/mashbean/libreoffice-tw-card-signing",
+    chips: ["自然人憑證", "LibreOffice", "PAdES B-LTA", "開源"],
+    cover: "images/works/libreoffice-tw-card-signing.jpg",
+    group: "personal",
+  },
+  {
     slug: "open-book",
     title: "OpenBook 臺灣開放預算",
     tagline:
@@ -52,6 +63,17 @@ export const works: Work[] = [
     repo: "https://github.com/mashbean/civic-proof-en",
     chips: ["研究站", "中英雙語"],
     cover: "images/works/civic-proof.jpg",
+    group: "personal",
+  },
+  {
+    slug: "roost-zh-hant-tw",
+    title: "ROOST 台灣繁體中文指南",
+    tagline:
+      "把 ROOST 的開放原始碼社群安全資料帶進繁體中文，從偵測、調查、審查到執行，整理小型社群可直接採用的治理流程與工具。",
+    url: "https://roost.mashbean.net/",
+    repo: "https://github.com/open-safety-tw/coop",
+    chips: ["平台治理", "繁中在地化"],
+    cover: "images/works/roost-zh-hant-tw.jpg",
     group: "personal",
   },
   {
