@@ -24,31 +24,58 @@
       </section>
       <section data-panel="questions" class="panel">
         <form id="question-form" class="ask-card">
-          <label for="nickname">稱呼</label>
-          <input
-            id="nickname"
-            name="nickname"
-            maxlength="24"
-            placeholder="可填匿名"
-            autocomplete="nickname"
-          />
-          <label for="lens">你帶來的是</label>
-          <select id="lens" name="lens" required>
-            <option value="clarify">想把問題講清楚</option>
-            <option value="chorus">我也有同樣困擾</option>
-            <option value="bridge">兩種立場都碰到了</option>
-            <option value="keeper">有一件事不能漏掉</option>
-          </select>
-          <label for="question">你的問題</label>
+          <div class="form-step">
+            <span>01</span>
+            <div><b>先寫下問題</b><small>一句話就好，想到時隨時送出</small></div>
+          </div>
+          <label class="sr-only" for="question">你的問題</label>
           <textarea
             id="question"
             name="question"
             minlength="4"
             maxlength="280"
             required
-            placeholder="可在任何時間送出，Q&A 會依主題與支持數整理"
+            placeholder="例如：值班後只剩二十分鐘，我該從哪一個工作流開始？"
           ></textarea>
-          <div class="form-note">每台裝置最多提出三題。Q&A 後會整理問題脈絡與回覆收據。</div>
+
+          <fieldset class="intent-fieldset">
+            <legend class="form-step">
+              <span>02</span>
+              <div><b>你希望大家怎麼接這一題？</b><small>選最接近的用途，方便 Q&A 整理</small></div>
+            </legend>
+            <div class="intent-grid">
+              <label class="intent-option">
+                <input type="radio" name="lens" value="clarify" checked />
+                <span><b>幫我釐清</b><small>我還不熟，想先把概念或做法弄懂</small></span>
+              </label>
+              <label class="intent-option">
+                <input type="radio" name="lens" value="chorus" />
+                <span><b>我也遇到了</b><small>想知道現場是否有人有同樣困擾</small></span>
+              </label>
+              <label class="intent-option">
+                <input type="radio" name="lens" value="bridge" />
+                <span><b>一起拆兩難</b><small>兩個方向都有代價，想把取捨攤開</small></span>
+              </label>
+              <label class="intent-option">
+                <input type="radio" name="lens" value="keeper" />
+                <span><b>別漏掉這點</b><small>有一個條件、風險或現場限制要補上</small></span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="form-step compact">
+            <span>03</span>
+            <div><b>留下稱呼</b><small>選填，也可以保持匿名</small></div>
+          </div>
+          <label class="sr-only" for="nickname">稱呼</label>
+          <input
+            id="nickname"
+            name="nickname"
+            maxlength="24"
+            placeholder="例如：內科 R1、護理師、匿名"
+            autocomplete="nickname"
+          />
+          <div class="form-note">每台裝置最多提出三題。相近問題可以合併討論，原題仍會保留。</div>
           <button class="primary" type="submit">送出問題</button>
           <div class="form-message" data-form-message aria-live="polite"></div>
         </form>

@@ -1,4 +1,5 @@
 const voterKey = "clinical-ai-live-voter";
+const apiBase = "/api";
 const voterId = localStorage.getItem(voterKey) || crypto.randomUUID();
 localStorage.setItem(voterKey, voterId);
 
@@ -10,10 +11,10 @@ const messageEl = document.querySelector("[data-form-message]");
 let state = { polls: [], questions: [] };
 let socket;
 const lensLabels = {
-  clarify: "想把問題講清楚",
-  chorus: "我也有同樣困擾",
-  bridge: "兩種立場都碰到了",
-  keeper: "有一件事不能漏掉",
+  clarify: "幫我釐清",
+  chorus: "我也遇到了",
+  bridge: "一起拆兩難",
+  keeper: "別漏掉這點",
 };
 
 document.querySelectorAll("[data-tab]").forEach((button) => {
@@ -65,7 +66,7 @@ async function upvote(questionId) {
 }
 
 async function post(path, body) {
-  const response = await fetch(path, {
+  const response = await fetch(`${apiBase}${path.slice(4)}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
@@ -134,7 +135,7 @@ function render() {
 
 function connect() {
   const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-  socket = new WebSocket(`${protocol}//${location.host}/api/live`);
+  socket = new WebSocket(`${protocol}//${location.host}${apiBase}/live`);
   socket.addEventListener("open", () => setStatus(true));
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
@@ -167,7 +168,7 @@ function escapeHtml(value) {
   );
 }
 
-fetch("/api/state")
+fetch(`${apiBase}/state`)
   .then((response) => response.json())
   .then((data) => {
     state = data;

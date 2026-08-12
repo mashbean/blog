@@ -1,11 +1,12 @@
 const pollsRoot = document.querySelector("#results-polls");
 const questionsRoot = document.querySelector("#results-questions");
 const statusEl = document.querySelector("[data-status]");
+const apiBase = "/api";
 const lensLabels = {
-  clarify: "想把問題講清楚",
-  chorus: "我也有同樣困擾",
-  bridge: "兩種立場都碰到了",
-  keeper: "有一件事不能漏掉",
+  clarify: "幫我釐清",
+  chorus: "我也遇到了",
+  bridge: "一起拆兩難",
+  keeper: "別漏掉這點",
 };
 
 function render(state) {
@@ -47,7 +48,7 @@ function render(state) {
 
 function connect() {
   const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-  const socket = new WebSocket(`${protocol}//${location.host}/api/live`);
+  const socket = new WebSocket(`${protocol}//${location.host}${apiBase}/live`);
   socket.addEventListener("open", () => setStatus(true));
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
@@ -71,7 +72,7 @@ function escapeHtml(value) {
   );
 }
 
-fetch("/api/state")
+fetch(`${apiBase}/state`)
   .then((response) => response.json())
   .then(render)
   .catch(() => {});
