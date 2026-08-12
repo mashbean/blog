@@ -33,6 +33,17 @@ export const workGroups: Record<Work["group"], { title: string }> = {
 
 export const works: Work[] = [
   {
+    slug: "libreoffice-tw-card-signing",
+    title: "LibreOffice 臺灣自然人憑證簽章",
+    tagline:
+      "讓 macOS 與 Linux 的 LibreOffice 直接使用自然人憑證簽署 ODF、OOXML 與 PDF，完成信任鏈、PAdES B-LTA 長期驗證與公證安裝器。",
+    url: "https://github.com/mashbean/libreoffice-tw-card-signing",
+    repo: "https://github.com/mashbean/libreoffice-tw-card-signing",
+    chips: ["自然人憑證", "LibreOffice", "PAdES B-LTA", "開源"],
+    cover: "images/works/libreoffice-tw-card-signing.jpg",
+    group: "personal",
+  },
+  {
     slug: "open-book",
     title: "OpenBook 臺灣開放預算",
     tagline:
