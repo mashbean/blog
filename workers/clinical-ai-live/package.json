@@ -1,0 +1,18 @@
+{
+  "name": "clinical-ai-live-0814",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "deploy:dry": "wrangler deploy --dry-run",
+    "typecheck": "tsc --noEmit",
+    "types": "wrangler types",
+    "check:startup": "wrangler check startup"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "wrangler": "^4.121.0"
+  }
+}

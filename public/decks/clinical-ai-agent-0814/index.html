@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="description" content="臨床工作者的 AI Agent 第一課。從聊天、研究與驗證工作流，走到互動網站與公共基礎設施。" />
+<title>臨床工作者的 AI Agent 第一課 · MashBean</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+TC:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --forest:#2F3E33;
+    --forest-2:#1F2B23;
+    --moss:#6D7B52;
+    --sage:#A9B18E;
+    --clay:#B85C3D;
+    --ochre:#C8973E;
+    --sand:#D9C4A7;
+    --paper:#F3EEE4;
+    --paper-2:#E8DECF;
+    --ink:#25241F;
+    --line:#C9BCAA;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:#000;color:var(--ink);font-family:'Noto Sans TC',sans-serif}
+  deck-stage{display:block}
+  section{font-family:'Noto Sans TC',sans-serif;line-break:strict;overflow-wrap:break-word}
+  .slide{width:100%;height:100%;padding:86px 94px;position:relative;overflow:hidden;display:flex;flex-direction:column;background:var(--paper)}
+  .bg-forest{background:var(--forest);color:var(--paper)}
+  .bg-deep{background:var(--forest-2);color:var(--paper)}
+  .bg-clay{background:var(--clay);color:var(--paper)}
+  .bg-moss{background:var(--moss);color:var(--paper)}
+  .bg-sand{background:var(--sand);color:var(--ink)}
+  .bg-sage{background:var(--sage);color:var(--ink)}
+  .bg-paper2{background:var(--paper-2);color:var(--ink)}
+  .eyebrow{font:700 22px/1.4 'JetBrains Mono',monospace;letter-spacing:.13em;text-transform:uppercase;opacity:.72}
+  h1,h2,h3,p{margin:0}
+  .display{font-family:'DM Sans','Noto Sans TC',sans-serif;font-size:132px;line-height:.98;letter-spacing:-.055em;font-weight:700;text-wrap:balance}
+  .title{font-family:'DM Sans','Noto Sans TC',sans-serif;font-size:76px;line-height:1.08;letter-spacing:-.035em;font-weight:700;text-wrap:balance}
+  .title-lg{font-family:'DM Sans','Noto Sans TC',sans-serif;font-size:96px;line-height:1.03;letter-spacing:-.04em;font-weight:700;text-wrap:balance}
+  .subtitle{font-size:42px;line-height:1.32;font-weight:650;text-wrap:balance}
+  .body{font-size:31px;line-height:1.55;font-weight:500;text-wrap:pretty}
+  .body-sm{font-size:25px;line-height:1.5;font-weight:500}
+  .mono{font-family:'JetBrains Mono',monospace}
+  .muted{opacity:.68}
+  .accent{color:var(--ochre)}
+  .accent-clay{color:var(--clay)}
+  .line{height:2px;background:currentColor;opacity:.24;width:100%}
+  .footer{position:absolute;left:94px;right:94px;bottom:42px;display:flex;justify-content:space-between;align-items:center;font:600 19px/1 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;opacity:.58}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .card{border:2px solid rgba(37,36,31,.18);padding:36px;border-radius:18px;background:rgba(255,255,255,.34);min-width:0}
+  .bg-forest .card,.bg-deep .card,.bg-clay .card,.bg-moss .card{border-color:rgba(243,238,228,.24);background:rgba(243,238,228,.08)}
+  .card h3{font-size:36px;line-height:1.2;margin-bottom:14px}
+  .card p{font-size:27px;line-height:1.5}
+  .num{font:700 24px/1 'JetBrains Mono',monospace;color:var(--clay);margin-bottom:18px}
+  .bg-forest .num,.bg-deep .num,.bg-clay .num,.bg-moss .num{color:var(--sand)}
+  .pill{display:inline-flex;align-items:center;padding:11px 19px;border:2px solid currentColor;border-radius:999px;font:700 20px/1 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase}
+  .link-card{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:27px 30px;border:2px solid currentColor;border-radius:16px;text-decoration:none;color:inherit;background:rgba(255,255,255,.26)}
+  .link-card strong{display:block;font-size:31px;line-height:1.25}
+  .link-card span{display:block;font:600 19px/1.35 'JetBrains Mono',monospace;margin-top:7px;opacity:.65}
+  .arrow{font:700 44px/1 'JetBrains Mono',monospace;flex:0 0 auto}
+  .flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:stretch}
+  .flow .step{position:relative;padding:30px 26px;border:2px solid currentColor;border-radius:16px;min-width:0}
+  .flow .step:not(:last-child)::after{content:'›';position:absolute;right:-14px;top:50%;transform:translate(50%,-50%);width:30px;height:46px;display:grid;place-items:center;background:var(--paper);color:var(--clay);font-size:40px;z-index:2}
+  .flow .step b{display:block;font-size:30px;line-height:1.2;margin-bottom:11px}
+  .flow .step span{font-size:22px;line-height:1.4;opacity:.72}
+  .timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:60px}
+  .timeline > div{padding:36px 38px;border-left:3px solid currentColor}
+  .timeline .time{font:700 24px/1 'JetBrains Mono',monospace;opacity:.68}
+  .timeline h3{font-size:45px;line-height:1.15;margin:20px 0 12px}
+  .timeline p{font-size:27px;line-height:1.45}
+  .quote{font-family:'DM Sans','Noto Sans TC',sans-serif;font-size:61px;line-height:1.23;font-weight:700;letter-spacing:-.025em;max-width:1540px}
+  .big-number{font:700 260px/.8 'DM Sans',sans-serif;letter-spacing:-.08em;opacity:.12;position:absolute;right:80px;bottom:58px}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:54px;flex:1}
+  .compare > div{padding:42px;border:2px solid currentColor;border-radius:18px;display:flex;flex-direction:column}
+  .compare h3{font-size:48px;line-height:1.12;margin:21px 0 28px}
+  .compare li{font-size:29px;line-height:1.46;margin:13px 0}
+  .compare ul{margin:0;padding-left:28px}
+  .qr-layout{display:grid;grid-template-columns:1fr 560px;gap:70px;align-items:center;flex:1}
+  .qr-box{background:#fff;padding:32px;border-radius:28px;box-shadow:0 24px 70px rgba(19,25,20,.18)}
+  .qr-box img{display:block;width:100%;height:auto}
+  .qr-url{font:700 23px/1.4 'JetBrains Mono',monospace;overflow-wrap:anywhere;margin-top:20px}
+  .tag-list{display:flex;flex-wrap:wrap;gap:16px}
+  .tag-list span{padding:14px 20px;border:2px solid currentColor;border-radius:999px;font-size:25px;font-weight:700}
+  .status{display:inline-flex;align-items:center;gap:10px;font:700 20px/1 'JetBrains Mono',monospace}
+  .status::before{content:'';width:13px;height:13px;border-radius:50%;background:#5B8C62;box-shadow:0 0 0 7px rgba(91,140,98,.15)}
+  .status.pending::before{background:var(--ochre);box-shadow:0 0 0 7px rgba(200,151,62,.17)}
+  .matrix{display:grid;grid-template-columns:250px repeat(4,1fr);border:2px solid currentColor;border-radius:18px;overflow:hidden;margin-top:48px}
+  .matrix > div{min-height:100px;padding:22px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;display:flex;align-items:center;justify-content:center;text-align:center;font-size:24px;line-height:1.3}
+  .matrix > div:nth-child(5n){border-right:0}
+  .matrix .head{font-weight:800;background:rgba(37,36,31,.08)}
+  .matrix .rowhead{justify-content:flex-start;font-size:28px;font-weight:800;background:rgba(37,36,31,.05)}
+  .matrix .filled{background:var(--sage);font-weight:800}
+  .safety-box{border:3px solid var(--clay);border-radius:18px;padding:28px 34px;background:rgba(184,92,61,.08)}
+  .safety-box strong{font-size:30px}
+  .safety-box p{font-size:25px;line-height:1.5;margin-top:10px}
+  .demo-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:42px;flex:1}
+  .demo{border-radius:20px;padding:34px;border:2px solid currentColor;display:flex;flex-direction:column;justify-content:space-between;text-decoration:none;color:inherit}
+  .demo .kicker{font:700 19px/1.3 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;opacity:.64}
+  .demo h3{font-size:43px;line-height:1.1;margin:18px 0}
+  .demo p{font-size:25px;line-height:1.45;opacity:.76}
+  .demo .url{font:700 18px/1.3 'JetBrains Mono',monospace;margin-top:22px;opacity:.75}
+  .role-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:52px}
+  .role{padding:30px 24px;border:2px solid currentColor;border-radius:16px}
+  .role b{font:700 22px/1.2 'JetBrains Mono',monospace;color:var(--clay)}
+  .role h3{font-size:34px;margin:14px 0 12px}
+  .role p{font-size:23px;line-height:1.45}
+  [data-reveal]{will-change:transform,opacity}
+  @media print{[data-reveal]{opacity:1!important;visibility:visible!important;transform:none!important}}
+  @media (prefers-reduced-motion:reduce){[data-reveal]{will-change:auto}}
+</style>
+</head>
+<body>
+<script type="application/json" id="speaker-notes">[]</script>
+<deck-stage width="1920" height="1080">
+
+  <section data-label="封面">
+    <div class="slide bg-forest">
+      <div class="shape" style="position:absolute;width:700px;height:700px;border-radius:50%;background:var(--clay);right:-230px;top:-290px"></div>
+      <div class="shape" style="position:absolute;width:330px;height:330px;border-radius:50%;background:var(--sand);right:250px;bottom:-130px"></div>
+      <div data-reveal class="eyebrow">AI 醫點也不難 · 8/14</div>
+      <div style="margin-top:auto;position:relative;z-index:1">
+        <h1 data-reveal class="display">臨床工作者的<br>AI Agent 第一課</h1>
+        <p data-reveal class="subtitle" style="margin-top:35px;max-width:1320px">讓 AI 提升工作品質，並把驗證設計進流程</p>
+      </div>
+      <div data-reveal class="footer"><span>黃豆泥 黃彥霖 M.D.</span><span>2026.08.14 · 21:00–23:00</span></div>
+    </div>
+  </section>
+
+  <section data-label="今晚路線">
+    <div class="slide bg-paper2">
+      <div data-reveal class="eyebrow">COURSE MAP · 110 MIN + 10 MIN BUFFER</div>
+      <h2 data-reveal class="title" style="margin-top:24px">三段難度，一條可重複的工作流</h2>
+      <div class="timeline" data-reveal>
+        <div><div class="time">00–50</div><h3>簡單版</h3><p>從 Chat 走到 Agent，建立研究、驗證、發布與簡報工作流。</p></div>
+        <div><div class="time">50–70</div><h3>困難版</h3><p>看互動網站、身分證明、聯邦宇宙與社群安全案例。</p></div>
+        <div><div class="time">70–110</div><h3>Q&A</h3><p>全程收題，依題群與支持數回答，最後留下可追查的閉環。</p></div>
+      </div>
+      <div data-reveal class="safety-box" style="margin-top:auto"><strong>另外保留 10 分鐘現場緩衝</strong><p>包含掃碼、裝置切換、示範載入與段落轉場，不壓縮 40 分鐘 Q&A。</p></div>
+      <div class="footer"><span>三段難度</span><span>問題可以全程送出</span></div>
+    </div>
+  </section>
+
+  <section data-label="隨時提問">
+    <div class="slide bg-sand">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">ALWAYS-OPEN QUESTION POOL</div>
+          <h2 data-reveal class="title-lg" style="margin-top:26px">不用等到最後<br>現在就能提問</h2>
+          <p data-reveal class="body" style="margin-top:34px;max-width:1000px">問題會即時進入題庫。看到別人問了你也想問的事，直接按支持。Q&A 會先看題群，再看支持數。</p>
+          <div data-reveal class="safety-box" style="margin-top:38px;max-width:1000px"><strong>請勿輸入可識別醫療資訊</strong><p>不要貼病人姓名、病歷號、影像、檢驗單或未去識別化的臨床敘事。</p></div>
+          <div data-reveal class="qr-url">clinical-ai-live-0814.matters-lab.workers.dev</div>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-live.png" alt="現場投票與隨時提問 QR Code"></div>
+      </div>
+      <div class="footer"><span>隨時提問 · 即時支持</span><span>不收病人資料</span></div>
+    </div>
+  </section>
+
+  <section data-label="開場投票">
+    <div class="slide bg-clay">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">POLL 01 · STARTING POINT</div>
+          <h2 data-reveal class="title-lg" style="margin-top:24px">你現在把 AI<br>用到哪一層？</h2>
+          <div data-reveal class="tag-list" style="margin-top:48px"><span>偶爾聊天</span><span>搜尋與整理</span><span>交付完整任務</span><span>固定工作流</span></div>
+          <p data-reveal class="body" style="margin-top:44px">請選最接近你現在狀態的答案，今晚結尾會再問一次下一步。</p>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-live.png" alt="現場投票 QR Code"></div>
+      </div>
+      <div class="footer"><span>第 1 題 · 開場暖身</span><span>答案可以修改</span></div>
+    </div>
+  </section>
+
+  <section data-label="講者">
+    <div class="slide">
+      <div data-reveal class="eyebrow">WHO I AM</div>
+      <h2 data-reveal class="title" style="margin-top:24px">從臨床、資安制度到公共政策<br>我在意的是如何把風險變成流程</h2>
+      <div class="grid-3" style="margin-top:58px;flex:1" data-reveal>
+        <div class="card"><div class="num">01</div><h3>醫療</h3><p>中國醫藥大學醫學系，從臨床工作理解高風險專業的驗證責任。</p></div>
+        <div class="card"><div class="num">02</div><h3>數位制度</h3><p>數位發展部資安制度工程師，處理邊界、權限、驗收與可追溯性。</p></div>
+        <div class="card"><div class="num">03</div><h3>公共政策</h3><p>牛津大學公共政策碩士 MPP 2026/27，關心技術如何改變制度與能動性。</p></div>
+      </div>
+      <div class="footer"><span>黃彥霖 M.D.</span><span>判斷 · 邊界 · 驗證</span></div>
+    </div>
+  </section>
+
+  <section data-label="問題不是幻覺">
+    <div class="slide bg-deep">
+      <div data-reveal class="eyebrow">AI SLOP · PROFESSIONAL RISK</div>
+      <h2 data-reveal class="display" style="font-size:112px;margin-top:auto;max-width:1600px">未經查證的內容<br>才會變成專業風險</h2>
+      <div data-reveal class="grid-3" style="margin-top:55px">
+        <div><div class="num">01</div><p class="body">引用可能不存在，來源也可能被錯配。</p></div>
+        <div><div class="num">02</div><p class="body">語氣很肯定，不代表證據等級足夠。</p></div>
+        <div><div class="num">03</div><p class="body">高風險決策必須由專業者承擔與簽核。</p></div>
+      </div>
+      <div class="footer"><span>風險來自缺少驗證流程</span><span>高風險用途不自動化決策</span></div>
+    </div>
+  </section>
+
+  <section data-label="Chat 與 Agent">
+    <div class="slide bg-paper2">
+      <div data-reveal class="eyebrow">CHAT ↔ AGENT</div>
+      <h2 data-reveal class="title" style="margin-top:24px">一段對話，或一套會動手做事的工作流程</h2>
+      <div class="compare" data-reveal>
+        <div><span class="pill">CHAT</span><h3>快速來回</h3><ul><li>回答、改寫、腦力激盪</li><li>上下文主要在對話框</li><li>成果常停在一段文字</li></ul></div>
+        <div style="background:var(--forest);color:var(--paper)"><span class="pill">AGENT</span><h3>讀、寫、查、驗收</h3><ul><li>讀取檔案與專案脈絡</li><li>使用工具，留下可檢查成果</li><li>把反覆工作固定成流程</li></ul></div>
+      </div>
+      <div class="footer"><span>對話處理片段</span><span>Agent 處理任務</span></div>
+    </div>
+  </section>
+
+  <section data-label="三個 Aha">
+    <div class="slide bg-moss">
+      <div data-reveal class="eyebrow">THREE AHA MOMENTS</div>
+      <h2 data-reveal class="title" style="margin-top:24px">真正改變的不是速度，是我怎麼工作</h2>
+      <div class="timeline" data-reveal>
+        <div><div class="time">AHA 01</div><h3>資料夾整理好了</h3><p>第一次看懂 Chat 與 Agent 的差別。機器開始碰得到真實工作環境。</p></div>
+        <div><div class="time">AHA 02</div><h3>走路也能工作</h3><p>語音、遠端 Agent 與多裝置協作，讓工作不再被桌面綁住。</p></div>
+        <div><div class="time">AHA 03</div><h3>慢下來，反而做得更好</h3><p>多角色、長推理與查核機制，讓品質超越只求快的答案。</p></div>
+      </div>
+      <div class="footer"><span>mashbean.net/blog/2026/0329-zf8b6g/</span><span>三個啊哈</span></div>
+    </div>
+  </section>
+
+  <section data-label="虛偽全能感">
+    <div class="slide bg-sand">
+      <div data-reveal class="eyebrow">AFTER THE DOPAMINE</div>
+      <div style="margin-top:auto">
+        <p data-reveal class="quote">Agent 會延伸手腳與心智，也會製造一種「我什麼都做得到」的實感。</p>
+        <div data-reveal class="line" style="margin:46px 0 36px"></div>
+        <p data-reveal class="body" style="max-width:1380px">想法落地仍需要規劃、版本控制、驗收與維護。專業者的價值不在於多產生幾千行文字或程式，而在於知道什麼值得做，以及什麼時候該停。</p>
+      </div>
+      <div class="big-number">AHA</div>
+      <div class="footer"><span>能動性需要邊界</span><span>實作仍需驗收</span></div>
+    </div>
+  </section>
+
+  <section data-label="非工程師優勢">
+    <div class="slide bg-clay">
+      <div data-reveal class="eyebrow">NON-CODERS HAVE LEVERAGE</div>
+      <h2 data-reveal class="title-lg" style="margin-top:28px">你需要的三件事<br>判斷、資料、品味</h2>
+      <div class="grid-3" style="margin-top:auto" data-reveal>
+        <div class="card"><div class="num">01</div><h3>判斷</h3><p>知道答案是否符合專業標準，也知道錯了會傷到誰。</p></div>
+        <div class="card"><div class="num">02</div><h3>資料</h3><p>知道可信來源、適用範圍與哪個版本才是現在的依據。</p></div>
+        <div class="card"><div class="num">03</div><h3>品味</h3><p>知道哪些問題值得追，哪些輸出只是看起來很完整。</p></div>
+      </div>
+      <div class="footer"><span>專業不是 prompt 技巧</span><span>保留人類判斷</span></div>
+    </div>
+  </section>
+
+  <section data-label="研究工作流">
+    <div class="slide">
+      <div data-reveal class="eyebrow">MY RESEARCH PIPELINE</div>
+      <h2 data-reveal class="title" style="margin-top:24px">把「請 AI 幫我研究」拆成五個可驗收角色</h2>
+      <div class="flow" style="margin-top:70px;flex:1" data-reveal>
+        <div class="step"><div class="num">01</div><b>研究員</b><span>找來源，建立證據地圖</span></div>
+        <div class="step"><div class="num">02</div><b>事實查核</b><span>驗證引用、數字與適用範圍</span></div>
+        <div class="step"><div class="num">03</div><b>寫作者</b><span>形成論證與初稿</span></div>
+        <div class="step"><div class="num">04</div><b>編輯</b><span>檢查推理、可讀性與語氣</span></div>
+        <div class="step"><div class="num">05</div><b>發布者</b><span>建置、上線、正式網址驗證</span></div>
+      </div>
+      <a data-reveal class="link-card" href="https://github.com/mashbean/research-publishing-pipeline" target="_blank" rel="noreferrer"><div><strong>research-publishing-pipeline</strong><span>github.com/mashbean/research-publishing-pipeline</span></div><div class="arrow">↗</div></a>
+      <div class="footer"><span>證據地圖先行</span><span>每一關都能退回重做</span></div>
+    </div>
+  </section>
+
+  <section data-label="驗證工作流">
+    <div class="slide bg-paper2">
+      <div data-reveal class="eyebrow">VALIDATION GATES</div>
+      <h2 data-reveal class="title" style="margin-top:24px">對醫療工作者，工作流最重要的不是多快</h2>
+      <div class="grid-4" style="margin-top:65px;flex:1" data-reveal>
+        <div class="card"><div class="num">GATE 1</div><h3>任務邊界</h3><p>哪些能做草稿，哪些不得代替臨床判斷。</p></div>
+        <div class="card"><div class="num">GATE 2</div><h3>來源追溯</h3><p>每個關鍵主張回到原文、日期與證據等級。</p></div>
+        <div class="card"><div class="num">GATE 3</div><h3>反方檢查</h3><p>主動找衝突證據、例外條件與最弱假設。</p></div>
+        <div class="card"><div class="num">GATE 4</div><h3>人類簽核</h3><p>由有責任與能力的人確認後再使用或發布。</p></div>
+      </div>
+      <div data-reveal class="safety-box"><strong>病人資訊不上傳到未核准工具</strong><p>教學示範使用公開、合成或完全去識別化資料。實際臨床使用需遵守院內制度與工具授權範圍。</p></div>
+      <div class="footer"><span>品質門檻寫進流程</span><span>臨床判斷不可外包</span></div>
+    </div>
+  </section>
+
+  <section data-label="Release early">
+    <div class="slide bg-forest">
+      <div data-reveal class="eyebrow">RELEASE EARLY · THINK IN PUBLIC</div>
+      <h2 data-reveal class="title-lg" style="margin-top:30px">問題先放上個人網頁<br>讓它有網址、有版本、有回應</h2>
+      <p data-reveal class="body" style="margin-top:38px;max-width:1260px">研究結果不必先假裝成最終答案。先把證據、界線與不確定性公開，讓後續修正有可比對的基準。</p>
+      <a data-reveal class="link-card" style="margin-top:auto" href="https://pro.mashbean.net" target="_blank" rel="noreferrer"><div><strong>pro.mashbean.net</strong><span>研究報告 · 證據與推理鏈</span></div><div class="arrow">↗</div></a>
+      <div class="footer"><span>發布是驗證的一部分</span><span>release early</span></div>
+    </div>
+  </section>
+
+  <section data-label="收網做簡報">
+    <div class="slide bg-sage">
+      <div data-reveal class="eyebrow">SHIP THE TALK</div>
+      <h2 data-reveal class="title-lg" style="margin-top:26px">時間快到了<br>收網做簡報</h2>
+      <div class="grid-2" style="margin-top:auto" data-reveal>
+        <div class="card"><div class="num">CLAUDE DESIGN</div><h3>從內容長出版型</h3><p>先給內容、活動場景與設計限制，再逐頁檢查投影可讀性。</p></div>
+        <div class="card"><div class="num">GSAP SKILLS</div><h3>讓動態服務於節奏</h3><p>使用 timeline、transform、opacity 與 reduced motion，把重點依序帶進來。</p></div>
+      </div>
+      <a data-reveal class="link-card" style="margin-top:32px" href="https://mashbean.net/decks/" target="_blank" rel="noreferrer"><div><strong>簡報也是網頁</strong><span>mashbean.net/decks/</span></div><div class="arrow">↗</div></a>
+      <div class="footer"><span>網頁可投影 · 可分享 · 可更新</span><span>Mashbean.net 簡報區</span></div>
+    </div>
+  </section>
+
+  <section data-label="做成互動網站">
+    <div class="slide bg-sand">
+      <div data-reveal class="eyebrow">WHEN A DECK IS NOT ENOUGH</div>
+      <h2 data-reveal class="title" style="margin-top:24px">更進一步，讓使用者碰到問題本身</h2>
+      <div class="demo-grid" data-reveal>
+        <a class="demo" href="https://governance.matters.town" target="_blank" rel="noreferrer"><div><div class="kicker"><span class="status">LIVE</span></div><h3>平台治理</h3><p>把抽象治理選擇變成可比較、可操作的互動介面。</p></div><div class="url">governance.matters.town ↗</div></a>
+        <a class="demo" href="https://safety.matters.town" target="_blank" rel="noreferrer"><div><div class="kicker"><span class="status">LIVE</span></div><h3>守望相助</h3><p>把社群安全、風險回報與協作流程放進公共介面。</p></div><div class="url">safety.matters.town ↗</div></a>
+        <div class="demo"><div><div class="kicker"><span class="status pending">DNS PENDING</span></div><h3>匿名寫作實驗</h3><p>單次生成、匿名互評與研究分析。正式自訂網域目前尚未解析。</p></div><div class="url">writing.matters.town</div></div>
+        <a class="demo" href="https://mashbean.net" target="_blank" rel="noreferrer"><div><div class="kicker">PERSONAL INFRA</div><h3>個人網站</h3><p>文章、簡報、工具與實驗共用一個可持續累積的入口。</p></div><div class="url">mashbean.net ↗</div></a>
+      </div>
+      <div class="footer"><span>互動是理解的一部分</span><span>live status · 2026.08.12</span></div>
+    </div>
+  </section>
+
+  <section data-label="風險投票">
+    <div class="slide bg-clay">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">POLL 02 · RISK GATE</div>
+          <h2 data-reveal class="title" style="margin-top:25px">專業內容出錯時<br>你最缺哪一道防線？</h2>
+          <div data-reveal class="tag-list" style="margin-top:45px"><span>來源可追溯</span><span>反方查核</span><span>人類最終簽核</span><span>停損邊界</span></div>
+          <p data-reveal class="body" style="margin-top:42px">投票結果會留在即時結果頁，後面 Q&A 可直接回看。</p>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-live.png" alt="驗證流程投票 QR Code"></div>
+      </div>
+      <div class="footer"><span>第 2 題 · 驗證工作流</span><span>先找最弱的一關</span></div>
+    </div>
+  </section>
+
+  <section data-label="Krakauer 分隔">
+    <div class="slide bg-deep">
+      <div data-reveal class="eyebrow">DAVID KRAKAUER · COGNITIVE TOOLS</div>
+      <div style="margin-top:auto">
+        <h2 data-reveal class="display" style="font-size:118px">工具提高能力時<br>也可能削弱智能</h2>
+        <p data-reveal class="subtitle muted" style="margin-top:35px;max-width:1300px">關鍵測試是，工具拿掉後，有什麼能力真正留在你身上。</p>
+      </div>
+      <div class="footer"><span>升級版閱讀 · ai-work-agency-reading-1</span><span>增益或削弱</span></div>
+    </div>
+  </section>
+
+  <section data-label="能力與智能">
+    <div class="slide">
+      <div data-reveal class="eyebrow">CAPABILITY ≠ INTELLIGENCE</div>
+      <h2 data-reveal class="title" style="margin-top:24px">今天完成更多，不等於明天自己更會做</h2>
+      <div class="compare" data-reveal>
+        <div style="background:var(--sand)"><span class="pill">能力</span><h3>工具幫你完成什麼</h3><ul><li>更快找到答案</li><li>更快生成成品</li><li>擴大當下可完成的範圍</li></ul></div>
+        <div style="background:var(--sage)"><span class="pill">智能</span><h3>工具離手後留下什麼</h3><ul><li>更好的問題</li><li>可重建的方法</li><li>能遷移到下一題的判斷</li></ul></div>
+      </div>
+      <div class="footer"><span>能力是完成</span><span>智能是留下</span></div>
+    </div>
+  </section>
+
+  <section data-label="四種暫存器">
+    <div class="slide bg-paper2">
+      <div data-reveal class="eyebrow">WHAT DID THE TOOL TAKE OVER?</div>
+      <h2 data-reveal class="title" style="margin-top:24px">工具一步步接管記憶、操作、路徑與目標</h2>
+      <div class="matrix" data-reveal>
+        <div class="head"></div><div class="head">記憶</div><div class="head">操作</div><div class="head">路徑策略</div><div class="head">目標策略</div>
+        <div class="rowhead">指南針</div><div></div><div class="filled">方向公設</div><div></div><div></div>
+        <div class="rowhead">地圖</div><div class="filled">空間佈局</div><div></div><div></div><div></div>
+        <div class="rowhead">GPS</div><div class="filled">道路地圖</div><div class="filled">定位</div><div class="filled">選路</div><div>由你設定</div>
+        <div class="rowhead">LLM 神諭</div><div class="filled">回想</div><div class="filled">解題</div><div class="filled">選方法</div><div class="filled">設定目標</div>
+      </div>
+      <div class="footer"><span>灰底代表工具承載</span><span>目標也能被外包</span></div>
+    </div>
+  </section>
+
+  <section data-label="對話或神諭">
+    <div class="slide bg-forest">
+      <div data-reveal class="eyebrow">DIALOGUE OR ORACLE</div>
+      <h2 data-reveal class="title" style="margin-top:24px">同一個模型，可以當教練，也可以當思想的 GPS</h2>
+      <div class="compare" data-reveal>
+        <div><span class="pill">對話</span><h3>你保留目標與驗證</h3><ul><li>要求提出證據與反例</li><li>自己選路徑與停損點</li><li>能說明為何接受結論</li></ul></div>
+        <div style="background:var(--clay)"><span class="pill">神諭</span><h3>把答案整段接走</h3><ul><li>只看結論，不看證據</li><li>讓模型決定方法與目的</li><li>錯誤直到後果出現才被看見</li></ul></div>
+      </div>
+      <div class="footer"><span>你決定界線畫在哪裡</span><span>LLM 是可選擇的工具</span></div>
+    </div>
+  </section>
+
+  <section data-label="工具拿掉後">
+    <div class="slide bg-sage">
+      <div data-reveal class="eyebrow">THE REMOVAL TEST</div>
+      <h2 data-reveal class="title-lg" style="margin-top:30px">拿掉 AI 之後<br>什麼留下來？</h2>
+      <div class="grid-4" style="margin-top:auto" data-reveal>
+        <div class="card"><div class="num">01</div><h3>成品</h3><p>報告、簡報、網站或文件。</p></div>
+        <div class="card"><div class="num">02</div><h3>提示詞</h3><p>下一次可以重用的指令片段。</p></div>
+        <div class="card"><div class="num">03</div><h3>方法</h3><p>資料來源、查核步驟與驗收門檻。</p></div>
+        <div class="card"><div class="num">04</div><h3>判斷</h3><p>自己更能辨認好答案與危險答案。</p></div>
+      </div>
+      <div class="footer"><span>越往右越能內化</span><span>工作流要留下方法</span></div>
+    </div>
+  </section>
+
+  <section data-label="Krakauer 投票">
+    <div class="slide bg-moss">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">POLL 03 · REMOVAL TEST</div>
+          <h2 data-reveal class="title" style="margin-top:25px">回想最近一次用 AI<br>它留下了什麼？</h2>
+          <div data-reveal class="tag-list" style="margin-top:45px"><span>只有成品</span><span>可重用提示詞</span><span>可驗證方法</span><span>自己的判斷能力</span></div>
+          <p data-reveal class="body" style="margin-top:42px">沒有標準答案。這題用來看自己的使用方式偏向增益或依賴。</p>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-live.png" alt="Krakauer 移除測試投票 QR Code"></div>
+      </div>
+      <div class="footer"><span>第 3 題 · 工具移除測試</span><span>能力能否帶走</span></div>
+    </div>
+  </section>
+
+  <section data-label="簡單版收束">
+    <div class="slide bg-sand">
+      <div data-reveal class="eyebrow">PHASE 01 · TAKEAWAY</div>
+      <h2 data-reveal class="display" style="font-size:110px;margin-top:auto">讓模型思考<br>讓流程驗證<br>讓人保留判斷</h2>
+      <div data-reveal class="line" style="margin:45px 0 32px"></div>
+      <p data-reveal class="body" style="max-width:1400px">當 Agent 能讀檔案、使用工具與反覆執行，真正的安全感來自可驗收的流程與清楚的責任邊界。</p>
+      <div class="footer"><span>前 50 分鐘完成</span><span>進入困難版</span></div>
+    </div>
+  </section>
+
+  <section data-label="困難版分隔">
+    <div class="slide bg-clay">
+      <div data-reveal class="eyebrow">PHASE 02 · HARD MODE · 20 MIN</div>
+      <h2 data-reveal class="display" style="margin-top:auto">當 Agent 開始碰到<br>媒體、身分與社群</h2>
+      <p data-reveal class="subtitle muted" style="margin-top:35px">問題不只剩下提示詞，而是權限、對手、治理與公共基礎設施。</p>
+      <div class="footer"><span>好玩的案例</span><span>從工具走向制度</span></div>
+    </div>
+  </section>
+
+  <section data-label="Mesh 案例">
+    <div class="slide bg-paper2">
+      <div data-reveal class="eyebrow">CASE 01 · THE MESH TIMES</div>
+      <h2 data-reveal class="title" style="margin-top:24px">如果 Agent 取得新聞網頁<br>它能不能重組成新的閱讀介面？</h2>
+      <div class="grid-2" style="margin-top:60px;flex:1" data-reveal>
+        <div class="card"><div class="num">INPUT</div><h3>多來源資訊</h3><p>不同媒體、不同格式、不同時間點的公開內容。</p></div>
+        <div class="card" style="background:var(--forest);color:var(--paper)"><div class="num">OUTPUT</div><h3>可閱讀的版面</h3><p>Agent 先理解，再依編輯邏輯重排，形成一份可操作的網路報紙。</p></div>
+      </div>
+      <a data-reveal class="link-card" href="https://mashbean.net/mesh-mockup/" target="_blank" rel="noreferrer"><div><strong>The Mesh Times · 網目時報</strong><span>mashbean.net/mesh-mockup/</span></div><div class="arrow">↗</div></a>
+      <div class="footer"><span>Agent 先理解再排版</span><span>好玩的案例</span></div>
+    </div>
+  </section>
+
+  <section data-label="Civic Proof">
+    <div class="slide bg-forest">
+      <div data-reveal class="eyebrow">CASE 02 · CIVIC PROOF</div>
+      <h2 data-reveal class="title" style="margin-top:24px">當身分不是一張卡<br>而是一組最小揭露的證明</h2>
+      <div class="grid-3" style="margin-top:60px;flex:1" data-reveal>
+        <div class="card"><div class="num">01</div><h3>誰發證</h3><p>來源、信任根與撤銷機制要能說清楚。</p></div>
+        <div class="card"><div class="num">02</div><h3>證明什麼</h3><p>只揭露任務所需資訊，避免過度蒐集。</p></div>
+        <div class="card"><div class="num">03</div><h3>誰能驗</h3><p>驗證介面要可理解，也要標示驗證邊界。</p></div>
+      </div>
+      <a data-reveal class="link-card" href="https://civic-proof.mashbean.net" target="_blank" rel="noreferrer"><div><strong>civic-proof.mashbean.net</strong><span>數位身分與公民證明實驗</span></div><div class="arrow">↗</div></a>
+      <div class="footer"><span>資料最小化</span><span>驗證邊界</span></div>
+    </div>
+  </section>
+
+  <section data-label="聯邦宇宙與守望相助">
+    <div class="slide bg-sand">
+      <div data-reveal class="eyebrow">CASE 03 · FEDERATION & COMMUNITY SAFETY</div>
+      <h2 data-reveal class="title" style="margin-top:24px">平台沒有單一中央時<br>誰負責看見風險並協作？</h2>
+      <div class="compare" data-reveal>
+        <div><span class="pill">聯邦宇宙</span><h3>權力被分散</h3><ul><li>跨站互通與不同治理規則</li><li>身分與內容在多個節點流動</li><li>封鎖、信任與責任更難統一</li></ul></div>
+        <div style="background:var(--moss);color:var(--paper)"><span class="pill">守望相助</span><h3>協作需要介面</h3><ul><li>讓使用者回報可疑行為</li><li>保留證據與處理狀態</li><li>把安全工作從黑箱搬到流程</li></ul></div>
+      </div>
+      <div class="footer"><span>Matters 聯邦宇宙</span><span>safety.matters.town</span></div>
+    </div>
+  </section>
+
+  <section data-label="困難版共同點">
+    <div class="slide bg-sage">
+      <div data-reveal class="eyebrow">THE HARD PARTS REPEAT</div>
+      <h2 data-reveal class="title" style="margin-top:24px">困難專案反覆遇到四件事</h2>
+      <div class="grid-4" style="margin-top:auto" data-reveal>
+        <div class="card"><div class="num">01</div><h3>身分</h3><p>誰能做什麼，如何證明與撤回。</p></div>
+        <div class="card"><div class="num">02</div><h3>對手</h3><p>有人會濫用、繞過或刻意污染系統。</p></div>
+        <div class="card"><div class="num">03</div><h3>治理</h3><p>錯誤、申訴、版本與責任歸屬。</p></div>
+        <div class="card"><div class="num">04</div><h3>公共性</h3><p>成果能否被理解、檢查與持續維護。</p></div>
+      </div>
+      <div class="footer"><span>Agent 只是其中一層</span><span>制度決定可用性</span></div>
+    </div>
+  </section>
+
+  <section data-label="下一步投票">
+    <div class="slide bg-moss">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">POLL 04 · NEXT STEP</div>
+          <h2 data-reveal class="title" style="margin-top:25px">回到臨床現場<br>你最想先改造哪一段？</h2>
+          <div data-reveal class="tag-list" style="margin-top:45px"><span>查證與文獻</span><span>文件與簡報</span><span>衛教與溝通</span><span>行政與排程</span></div>
+          <p data-reveal class="body" style="margin-top:42px">選一個兩週內真的會再做一次的任務，先從它開始。</p>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-live.png" alt="下一步投票 QR Code"></div>
+      </div>
+      <div class="footer"><span>第 4 題 · 離場前選擇</span><span>從重複任務開始</span></div>
+    </div>
+  </section>
+
+  <section data-label="Q&A 分隔">
+    <div class="slide bg-deep">
+      <div data-reveal class="eyebrow">PHASE 03 · Q&A · 40 MIN</div>
+      <h2 data-reveal class="display" style="margin-top:auto">把所有問題<br>放進同一張地圖</h2>
+      <p data-reveal class="subtitle muted" style="margin-top:35px">先看共同焦慮與關鍵分歧，再決定回答順序。</p>
+      <div class="footer"><span>全程題庫</span><span>cluster · answer · receipt</span></div>
+    </div>
+  </section>
+
+  <section data-label="Uncommon Ground">
+    <div class="slide">
+      <div data-reveal class="eyebrow">UNCOMMON GROUND · BROAD LISTENING WITH A RECEIPT</div>
+      <h2 data-reveal class="title" style="margin-top:24px">每一題都放進結構<br>沒有被選上台也不等於被丟掉</h2>
+      <div class="role-grid" data-reveal>
+        <div class="role"><b>CRYSTALLISER</b><h3>結晶者</h3><p>把一整群問題說得最清楚。</p></div>
+        <div class="role"><b>CHORUS</b><h3>合聲者</h3><p>讓共同焦慮的份量被看見。</p></div>
+        <div class="role"><b>BRIDGE</b><h3>橋接者</h3><p>連起兩個原本分開的題群。</p></div>
+        <div class="role"><b>KEEPER</b><h3>守門者</h3><p>保留不能被多數題掩蓋的例外。</p></div>
+      </div>
+      <a data-reveal class="link-card" style="margin-top:auto" href="https://github.com/audreyt/uncommon-ground" target="_blank" rel="noreferrer"><div><strong>audreyt/uncommon-ground</strong><span>每題分群、逐題回覆、留下閉環收據</span></div><div class="arrow">↗</div></a>
+      <div class="footer"><span>方法適用於收題後整理</span><span>現場工具負責即時輸入</span></div>
+    </div>
+  </section>
+
+  <section data-label="Q&A 時間配置">
+    <div class="slide bg-paper2">
+      <div data-reveal class="eyebrow">40-MINUTE QUESTION ARC</div>
+      <h2 data-reveal class="title" style="margin-top:24px">Q&A 也有流程，不讓最大聲的人拿走全部時間</h2>
+      <div class="timeline" data-reveal>
+        <div><div class="time">5 MIN</div><h3>掃題與分群</h3><p>把題目聚成 3–5 群，找結晶者、橋接者與守門者。</p></div>
+        <div><div class="time">28 MIN</div><h3>沿主線回答</h3><p>每群先答共同問題，再處理高支持題與關鍵例外。</p></div>
+        <div><div class="time">7 MIN</div><h3>收束與閉環</h3><p>標記已答、待查與後續資源。未能回答的題目不假裝完成。</p></div>
+      </div>
+      <div data-reveal class="safety-box" style="margin-top:auto"><strong>不確定就明確說不確定</strong><p>需要查證的醫療、法規或產品資訊標記為待查，不在現場用流暢語氣補完。</p></div>
+      <div class="footer"><span>5 + 28 + 7</span><span>每題有去向</span></div>
+    </div>
+  </section>
+
+  <section data-label="提問與結果">
+    <div class="slide bg-sand">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">ASK · SUPPORT · FOLLOW</div>
+          <h2 data-reveal class="title-lg" style="margin-top:25px">現在提問<br>或支持你也在意的題目</h2>
+          <p data-reveal class="body" style="margin-top:35px;max-width:980px">結果頁會即時更新，可在投影幕上切換查看四題投票與 Q&A 題庫。</p>
+          <a data-reveal class="link-card" style="margin-top:35px" href="https://clinical-ai-live-0814.matters-lab.workers.dev/results" target="_blank" rel="noreferrer"><div><strong>開啟即時結果頁</strong><span>clinical-ai-live-0814.matters-lab.workers.dev/results</span></div><div class="arrow">↗</div></a>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-live.png" alt="隨時提問 QR Code"></div>
+      </div>
+      <div class="footer"><span>提問頁與投票共用</span><span>即時結果另開分頁</span></div>
+    </div>
+  </section>
+
+  <section data-label="離場行動">
+    <div class="slide bg-clay">
+      <div data-reveal class="eyebrow">START TOMORROW</div>
+      <h2 data-reveal class="title" style="margin-top:24px">明天挑一個重複任務<br>把驗收標準先寫出來</h2>
+      <div class="grid-4" style="margin-top:auto" data-reveal>
+        <div class="card"><div class="num">01</div><h3>選任務</h3><p>兩週內一定會再出現。</p></div>
+        <div class="card"><div class="num">02</div><h3>畫邊界</h3><p>哪些能委任，哪些需人工。</p></div>
+        <div class="card"><div class="num">03</div><h3>加查核</h3><p>來源、反例、簽核與停損。</p></div>
+        <div class="card"><div class="num">04</div><h3>留方法</h3><p>下次不從空白對話開始。</p></div>
+      </div>
+      <div class="footer"><span>從一個閉環開始</span><span>不是從工具清單開始</span></div>
+    </div>
+  </section>
+
+  <section data-label="資源與結尾">
+    <div class="slide bg-forest">
+      <div class="qr-layout">
+        <div>
+          <div data-reveal class="eyebrow">THANK YOU · RESOURCES</div>
+          <h2 data-reveal class="title-lg" style="margin-top:24px">問更好的問題<br>用更好的方法</h2>
+          <div data-reveal style="display:grid;gap:14px;margin-top:48px">
+            <a class="link-card" href="https://mashbean.net/decks/clinical-ai-agent-0814/" target="_blank" rel="noreferrer"><div><strong>本簡報</strong><span>mashbean.net/decks/clinical-ai-agent-0814/</span></div><div class="arrow">↗</div></a>
+            <a class="link-card" href="https://pro.mashbean.net" target="_blank" rel="noreferrer"><div><strong>研究報告</strong><span>pro.mashbean.net</span></div><div class="arrow">↗</div></a>
+            <a class="link-card" href="https://github.com/mashbean/research-publishing-pipeline" target="_blank" rel="noreferrer"><div><strong>研究工作流</strong><span>github.com/mashbean/research-publishing-pipeline</span></div><div class="arrow">↗</div></a>
+          </div>
+        </div>
+        <div data-reveal class="qr-box"><img src="qr-deck.png" alt="本簡報 QR Code"></div>
+      </div>
+      <div class="footer"><span>黃豆泥 · 黃彥霖 M.D.</span><span>2026.08.14</span></div>
+    </div>
+  </section>
+
+</deck-stage>
+<script src="gsap.min.js"></script>
+<script src="/decks/c-lab-0610/deck-stage.js"></script>
+<script>
+(() => {
+  const stage = document.querySelector('deck-stage');
+  if (!stage || !window.gsap) return;
+  let activeTimeline = null;
+  const mm = gsap.matchMedia();
+  mm.add({ reduceMotion: '(prefers-reduced-motion: reduce)' }, (context) => {
+    const reduceMotion = context.conditions.reduceMotion;
+    const animate = (slide) => {
+      if (!slide) return;
+      activeTimeline?.kill();
+      const items = slide.querySelectorAll('[data-reveal]');
+      const shapes = slide.querySelectorAll('.shape');
+      if (reduceMotion) {
+        gsap.set(items, { autoAlpha: 1, x: 0, y: 0, clearProps: 'transform,visibility' });
+        return;
+      }
+      gsap.set(items, { autoAlpha: 0, y: 34 });
+      gsap.set(shapes, { scale: .88, autoAlpha: 0, transformOrigin: '50% 50%' });
+      activeTimeline = gsap.timeline({ defaults: { duration: .62, ease: 'power2.out' } });
+      activeTimeline
+        .to(shapes, { scale: 1, autoAlpha: 1, duration: .9, stagger: .1 }, 0)
+        .to(items, { autoAlpha: 1, y: 0, stagger: .09 }, .08);
+    };
+    const onChange = (event) => animate(event.detail.slide);
+    stage.addEventListener('slidechange', onChange);
+    requestAnimationFrame(() => animate(stage.querySelector('[data-deck-active]') || stage.querySelector('section')));
+    return () => {
+      stage.removeEventListener('slidechange', onChange);
+      activeTimeline?.kill();
+    };
+  });
+})();
+</script>
+</body>
+</html>

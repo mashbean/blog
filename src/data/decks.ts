@@ -30,6 +30,14 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "clinical-ai-agent-0814",
+    title: "臨床工作者的 AI Agent 第一課",
+    event: "AI 醫點也不難 · 醫療人的 AI 實作課",
+    date: "2026-08-14",
+    lang: "zh-Hant",
+    featured: true,
+  },
+  {
     slug: "coscup-2026-open-procurement",
     title: "政府採購如何使用開源？為何開源？",
     event: "COSCUP 2026",
