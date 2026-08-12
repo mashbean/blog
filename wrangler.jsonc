@@ -1,16 +1,43 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "mashbean-blog",
-  "compatibility_date": "2026-01-01",
-  // Pure static Astro output served from dist/ — no Worker script needed.
-  // The Cloudflare "Workers Build" runs `npm run build` then `npx wrangler deploy`,
-  // which uploads ./dist as static assets.
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-08-11",
+  "compatibility_flags": ["nodejs_compat"],
+  // Static Astro output plus a narrow same-origin proxy for the workshop's
+  // Durable Object API. Visitors only interact with mashbean.net URLs.
   "assets": {
     "directory": "./dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/clinical-ai-0814/api/*"],
     // Astro uses trailingSlash: "always" + build.format: "directory", so pages
     // live at /path/index.html — auto-trailing-slash resolves /path -> /path/.
     "html_handling": "auto-trailing-slash",
     // Serve the Astro-generated 404 page for unmatched routes.
-    "not_found_handling": "404-page"
-  }
+    "not_found_handling": "404-page",
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "SESSION",
+        "class_name": "LiveSession",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "clinical-ai-live-v1",
+      "new_sqlite_classes": ["LiveSession"],
+    },
+  ],
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "head_sampling_rate": 1,
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 0.01,
+    },
+  },
 }

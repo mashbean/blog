@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#2f3e33" />
+    <title>8/14 臨床工作者 AI Agent 現場互動</title>
+    <link rel="stylesheet" href="/clinical-ai-0814/style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="eyebrow">8/14 · CLINICAL AI AGENT</div>
+      <h1>現場投票<br />隨時提問</h1>
+      <p>四題快速投票，提問區全程開放。請勿輸入病人姓名、病歷號、影像或任何可識別醫療資訊。</p>
+      <div class="live-status" data-status><span></span>連線中</div>
+    </header>
+    <main>
+      <nav class="tabs" aria-label="互動功能">
+        <button class="active" data-tab="polls">快速投票</button>
+        <button data-tab="questions">隨時提問</button>
+      </nav>
+      <section data-panel="polls" class="panel active">
+        <div id="polls" class="poll-grid" aria-live="polite"></div>
+      </section>
+      <section data-panel="questions" class="panel">
+        <form id="question-form" class="ask-card">
+          <label for="nickname">稱呼</label>
+          <input
+            id="nickname"
+            name="nickname"
+            maxlength="24"
+            placeholder="可填匿名"
+            autocomplete="nickname"
+          />
+          <label for="question">你的問題</label>
+          <textarea
+            id="question"
+            name="question"
+            minlength="4"
+            maxlength="280"
+            required
+            placeholder="可在任何時間送出，Q&A 會依主題與支持數整理"
+          ></textarea>
+          <div class="form-note">每台裝置最多提出三題。請去識別化，不要貼入病人資料。</div>
+          <button class="primary" type="submit">送出問題</button>
+          <div class="form-message" data-form-message aria-live="polite"></div>
+        </form>
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">QUESTION POOL</div>
+            <h2>大家想問的事</h2>
+          </div>
+          <span data-question-count>0 題</span>
+        </div>
+        <div id="questions" class="question-list" aria-live="polite"></div>
+      </section>
+    </main>
+    <footer>
+      <a href="https://mashbean.net/decks/clinical-ai-agent-0814/">回到簡報</a>
+      <a href="https://github.com/htlin222/kahoot-cf">互動架構靈感 · kahoot-cf</a>
+    </footer>
+    <script type="module" src="/clinical-ai-0814/app.js"></script>
+  </body>
+</html>

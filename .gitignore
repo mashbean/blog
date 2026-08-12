@@ -4,6 +4,7 @@ dist
 dist-ipfs
 .astro
 .astro_root_residual
+.wrangler/
 .env
 .env*
 !.env.example
