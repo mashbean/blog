@@ -202,7 +202,7 @@ function setStatus(online) {
 
 function humanError(error) {
   const message = String(error?.message || error);
-  if (message.includes("limit")) return "每台裝置最多提出三題";
+  if (message.includes("limit")) return "目前無法再送出，請先整理現有問題";
   return "送出失敗，請稍後再試";
 }
 

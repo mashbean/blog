@@ -253,7 +253,7 @@ export class LiveSession extends DurableObject<Env> {
         count: number;
       }>("SELECT COUNT(*) AS count FROM questions WHERE voter_id = ?", voterId)
       .one();
-    if (prior.count >= 3) throw new Error("question limit reached");
+    if (prior.count >= 20) throw new Error("question limit reached");
 
     this.ctx.storage.sql.exec(
       `INSERT INTO difficulty_votes (voter_id, score, updated_at)
