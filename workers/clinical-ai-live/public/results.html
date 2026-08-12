@@ -16,15 +16,39 @@
       <div class="live-status" data-status><span></span>連線中</div>
     </header>
     <main class="results-main">
+      <section class="results-difficulty difficulty-card">
+        <div class="difficulty-heading">
+          <div>
+            <div class="eyebrow">LIVE DIFFICULTY</div>
+            <h2>現在聽起來有多難？</h2>
+          </div>
+          <div class="difficulty-note"><span data-difficulty-total>等待第一個回報</span></div>
+        </div>
+        <div class="difficulty-chart" aria-label="現場難易度分布" role="img">
+          <svg viewBox="0 0 600 210" preserveAspectRatio="none" aria-hidden="true">
+            <path class="difficulty-grid-line" d="M20 170 H580" />
+            <path data-difficulty-area class="difficulty-area" />
+            <path data-difficulty-line class="difficulty-line" />
+            <g data-difficulty-points></g>
+          </svg>
+          <div class="difficulty-counts" data-difficulty-counts></div>
+        </div>
+      </section>
       <section>
         <div class="section-head">
-          <div><div class="eyebrow">POLL</div><h2>投票結果</h2></div>
+          <div>
+            <div class="eyebrow">POLL</div>
+            <h2>投票結果</h2>
+          </div>
         </div>
         <div id="results-polls" class="results-polls"></div>
       </section>
       <section>
         <div class="section-head">
-          <div><div class="eyebrow">Q&A POOL</div><h2>隨時提問</h2></div>
+          <div>
+            <div class="eyebrow">Q&A POOL</div>
+            <h2>隨時提問</h2>
+          </div>
           <span data-question-count>0 題</span>
         </div>
         <div id="results-questions" class="results-questions"></div>

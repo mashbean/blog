@@ -3,26 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#2f3e33" />
-    <title>8/14 現場互動結果</title>
+    <meta name="theme-color" content="#081225" />
+    <title>臨床工作者 AI Agent 現場儀表板</title>
     <link rel="stylesheet" href="/clinical-ai-0814/style.css" />
+    <link rel="stylesheet" href="/clinical-ai-0814/dashboard/dashboard.css" />
   </head>
-  <body class="results-page">
-    <header class="results-header">
+  <body class="dashboard-page">
+    <header class="dashboard-header">
       <div>
-        <div class="eyebrow">LIVE RESULTS · 8/14</div>
-        <h1>臨床工作者<br />AI Agent 現場互動</h1>
+        <div class="eyebrow">LIVE · 8/14</div>
+        <h1>臨床工作者 AI Agent<br />現場互動</h1>
       </div>
       <div class="live-status" data-status><span></span>連線中</div>
     </header>
-    <main class="results-main">
-      <section class="results-difficulty difficulty-card">
-        <div class="difficulty-heading">
+    <main class="dashboard-main">
+      <section class="dashboard-section dashboard-difficulty difficulty-card">
+        <div class="dashboard-section-head">
           <div>
-            <div class="eyebrow">LIVE DIFFICULTY</div>
-            <h2>現在聽起來有多難？</h2>
+            <div class="eyebrow">DIFFICULTY</div>
+            <h2>即時難易度</h2>
           </div>
-          <div class="difficulty-note"><span data-difficulty-total>等待第一個回報</span></div>
+          <span data-difficulty-total>等待回報</span>
         </div>
         <div class="difficulty-chart" aria-label="現場難易度分布" role="img">
           <svg viewBox="0 0 600 210" preserveAspectRatio="none" aria-hidden="true">
@@ -34,26 +35,31 @@
           <div class="difficulty-counts" data-difficulty-counts></div>
         </div>
       </section>
-      <section>
-        <div class="section-head">
+
+      <section class="dashboard-section">
+        <div class="dashboard-section-head">
           <div>
             <div class="eyebrow">POLL</div>
             <h2>投票結果</h2>
           </div>
         </div>
-        <div id="results-polls" class="results-polls"></div>
+        <div id="dashboard-polls" class="dashboard-polls"></div>
       </section>
-      <section>
-        <div class="section-head">
+
+      <section class="dashboard-section">
+        <div class="dashboard-section-head">
           <div>
             <div class="eyebrow">Q&A POOL</div>
             <h2>隨時提問</h2>
           </div>
           <span data-question-count>0 題</span>
         </div>
-        <div id="results-questions" class="results-questions"></div>
+        <div id="dashboard-questions" class="dashboard-questions"></div>
       </section>
     </main>
-    <script type="module" src="/clinical-ai-0814/results.js"></script>
+    <a class="dashboard-open" href="/clinical-ai-0814/" target="_blank" rel="noreferrer"
+      >開啟參與頁 ↗</a
+    >
+    <script type="module" src="/clinical-ai-0814/dashboard/dashboard.js"></script>
   </body>
 </html>

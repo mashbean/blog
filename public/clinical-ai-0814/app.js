@@ -1,3 +1,5 @@
+import { difficultyLabels, renderDifficultyChart } from "./difficulty.js";
+
 const voterKey = "clinical-ai-live-voter";
 const apiBase = "/clinical-ai-0814/api";
 const voterId = localStorage.getItem(voterKey) || crypto.randomUUID();
@@ -8,14 +10,49 @@ const questionsRoot = document.querySelector("#questions");
 const form = document.querySelector("#question-form");
 const statusEl = document.querySelector("[data-status]");
 const messageEl = document.querySelector("[data-form-message]");
-let state = { polls: [], questions: [] };
+const difficultyInput = document.querySelector("#difficulty");
+const difficultyValueEl = document.querySelector("[data-difficulty-value]");
+const difficultyLabelEl = document.querySelector("[data-difficulty-label]");
+const difficultyMessageEl = document.querySelector("[data-difficulty-message]");
+let state = {
+  polls: [],
+  difficulty: { counts: [0, 0, 0, 0, 0], total: 0, average: null },
+  questions: [],
+};
 let socket;
+let difficultyTimer;
+const savedDifficulty = Number(localStorage.getItem("difficulty:current"));
+let currentDifficulty =
+  Number.isInteger(savedDifficulty) && savedDifficulty >= 1 && savedDifficulty <= 5
+    ? savedDifficulty
+    : 3;
+difficultyInput.value = String(currentDifficulty);
 const lensLabels = {
   clarify: "幫我釐清",
   chorus: "我也遇到了",
   bridge: "一起拆兩難",
   keeper: "別漏掉這點",
 };
+
+updateDifficultySelection(currentDifficulty);
+difficultyInput.addEventListener("input", () => {
+  currentDifficulty = Number(difficultyInput.value);
+  localStorage.setItem("difficulty:current", String(currentDifficulty));
+  updateDifficultySelection(currentDifficulty);
+  difficultyMessageEl.textContent = "更新中";
+  clearTimeout(difficultyTimer);
+  difficultyTimer = setTimeout(() => {
+    post("/api/difficulty", { score: currentDifficulty, voterId })
+      .then((nextState) => {
+        state = nextState;
+        difficultyMessageEl.textContent = "已同步給講者";
+        render();
+      })
+      .catch(() => {
+        difficultyMessageEl.textContent = "同步失敗，請再調整一次";
+      });
+  }, 220);
+});
 
 document.querySelectorAll("[data-tab]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -41,6 +78,7 @@ form.addEventListener("submit", async (event) => {
       text: String(data.get("question") || ""),
       nickname: String(data.get("nickname") || "匿名"),
       lens: String(data.get("lens") || "clarify"),
+      difficulty: currentDifficulty,
       voterId,
     });
     form.querySelector("textarea").value = "";
@@ -77,6 +115,7 @@ async function post(path, body) {
 }
 
 function render() {
+  renderDifficultyChart(document.querySelector(".difficulty-card"), state.difficulty);
   pollsRoot.innerHTML = state.polls
     .map((poll, index) => {
       const selected = Number(localStorage.getItem(`vote:${poll.id}`));
@@ -120,7 +159,7 @@ function render() {
           (question, index) => `
     <article class="question-card">
       <div class="question-rank">${String(index + 1).padStart(2, "0")}</div>
-      <div><span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span><p>${escapeHtml(question.text)}</p><span>${escapeHtml(question.nickname)}</span></div>
+      <div><div class="question-tags"><span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span><span class="question-difficulty difficulty-${question.difficulty}">${question.difficulty} · ${escapeHtml(difficultyLabels[question.difficulty - 1] || difficultyLabels[2])}</span></div><p>${escapeHtml(question.text)}</p><span>${escapeHtml(question.nickname)}</span></div>
       <button class="upvote ${localStorage.getItem(`upvote:${question.id}`) ? "selected" : ""}" data-upvote="${question.id}" aria-label="我也想問這題">我也想問 <b>${question.upvotes}</b></button>
     </article>`,
         )
@@ -131,6 +170,12 @@ function render() {
       upvote(button.dataset.upvote).catch((error) => alert(humanError(error))),
     );
   });
+}
+
+function updateDifficultySelection(score) {
+  difficultyValueEl.textContent = String(score);
+  difficultyLabelEl.textContent = difficultyLabels[score - 1];
+  difficultyInput.style.setProperty("--difficulty-position", `${((score - 1) / 4) * 100}%`);
 }
 
 function connect() {
@@ -175,4 +220,13 @@ fetch(`${apiBase}/state`)
     render();
   })
   .catch(() => {});
+post("/api/difficulty", { score: currentDifficulty, voterId })
+  .then((data) => {
+    state = data;
+    difficultyMessageEl.textContent = "已同步給講者";
+    render();
+  })
+  .catch(() => {
+    difficultyMessageEl.textContent = "拖動後會自動更新";
+  });
 connect();

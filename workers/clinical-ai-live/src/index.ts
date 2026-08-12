@@ -17,6 +17,7 @@ type AudienceQuestion = {
   text: string;
   nickname: string;
   lens: QuestionLens;
+  difficulty: number;
   createdAt: number;
   upvotes: number;
 };
@@ -26,7 +27,14 @@ type QuestionLens = "clarify" | "chorus" | "bridge" | "keeper";
 type SessionSnapshot = {
   updatedAt: number;
   polls: PollResult[];
+  difficulty: DifficultySnapshot;
   questions: AudienceQuestion[];
+};
+
+type DifficultySnapshot = {
+  counts: number[];
+  total: number;
+  average: number | null;
 };
 
 type QuestionRow = {
@@ -34,6 +42,7 @@ type QuestionRow = {
   text: string;
   nickname: string;
   lens: QuestionLens;
+  difficulty: number;
   created_at: number;
   upvotes: number;
 };
@@ -56,16 +65,16 @@ const POLLS: Poll[] = [
     options: ["行政服務", "教學", "研究", "公關與溝通"],
   },
   {
-    id: "journal-gate",
-    question: "臨床綜述出現不存在的引用，哪一關應該最早擋下？",
-    prompt: "案例討論",
-    options: ["作者逐筆核對", "共同作者覆核", "審稿人抽查", "編輯部自動驗證"],
+    id: "agent-entry",
+    question: "你願意先把哪一步交給 Agent？",
+    prompt: "任務邊界",
+    options: ["找資料與整理來源", "把素材排成結構", "產出可編輯初稿", "執行整套流程並回報"],
   },
   {
-    id: "krakauer",
-    question: "拿掉 AI 之後，這次工作留下了什麼？",
-    prompt: "David Krakauer",
-    options: ["只有成品", "可重用的提示詞", "可驗證的方法", "我自己的判斷能力"],
+    id: "delivery-gate",
+    question: "成果交付前，你最想先守住哪一關？",
+    prompt: "驗收優先順序",
+    options: ["來源找得到", "數字重算得出來", "內容符合現場脈絡", "最後有人簽核"],
   },
 ];
 
@@ -91,7 +100,13 @@ export class LiveSession extends DurableObject<Env> {
           text TEXT NOT NULL,
           nickname TEXT NOT NULL,
           lens TEXT NOT NULL DEFAULT 'clarify',
+          difficulty INTEGER NOT NULL DEFAULT 3,
           created_at INTEGER NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS difficulty_votes (
+          voter_id TEXT PRIMARY KEY,
+          score INTEGER NOT NULL,
+          updated_at INTEGER NOT NULL
         );
         CREATE TABLE IF NOT EXISTS question_votes (
           question_id TEXT NOT NULL,
@@ -111,7 +126,12 @@ export class LiveSession extends DurableObject<Env> {
           "ALTER TABLE questions ADD COLUMN lens TEXT NOT NULL DEFAULT 'clarify'",
         );
       }
-      this.ctx.storage.sql.exec("INSERT OR IGNORE INTO _sql_schema_migrations (id) VALUES (2)");
+      if (!questionColumns.some((column) => column.name === "difficulty")) {
+        this.ctx.storage.sql.exec(
+          "ALTER TABLE questions ADD COLUMN difficulty INTEGER NOT NULL DEFAULT 3",
+        );
+      }
+      this.ctx.storage.sql.exec("INSERT OR IGNORE INTO _sql_schema_migrations (id) VALUES (3)");
     });
   }
 
@@ -143,6 +163,7 @@ export class LiveSession extends DurableObject<Env> {
           q.text,
           q.nickname,
           q.lens,
+          q.difficulty,
           q.created_at,
           COUNT(qv.question_id) AS upvotes
         FROM questions q
@@ -158,11 +179,35 @@ export class LiveSession extends DurableObject<Env> {
         text: row.text,
         nickname: row.nickname,
         lens: row.lens,
+        difficulty: row.difficulty,
         createdAt: row.created_at,
         upvotes: row.upvotes,
       }));
 
-    return { updatedAt: Date.now(), polls, questions };
+    const difficultyCounts = new Array<number>(5).fill(0);
+    const difficultyRows = this.ctx.storage.sql
+      .exec<{
+        score: number;
+        count: number;
+      }>("SELECT score, COUNT(*) AS count FROM difficulty_votes GROUP BY score")
+      .toArray();
+    for (const row of difficultyRows) {
+      if (row.score >= 1 && row.score <= 5) difficultyCounts[row.score - 1] = row.count;
+    }
+    const difficultyTotal = difficultyCounts.reduce((sum, count) => sum + count, 0);
+    const weightedDifficulty = difficultyCounts.reduce(
+      (sum, count, index) => sum + count * (index + 1),
+      0,
+    );
+    const difficulty: DifficultySnapshot = {
+      counts: difficultyCounts,
+      total: difficultyTotal,
+      average: difficultyTotal
+        ? Math.round((weightedDifficulty / difficultyTotal) * 10) / 10
+        : null,
+    };
+
+    return { updatedAt: Date.now(), polls, difficulty, questions };
   }
 
   async vote(pollId: string, optionIndex: number, voterId: string): Promise<SessionSnapshot> {
@@ -193,6 +238,7 @@ export class LiveSession extends DurableObject<Env> {
     text: string,
     nickname: string,
     lens: QuestionLens,
+    difficulty: number,
     voterId: string,
   ): Promise<SessionSnapshot> {
     const cleanedText = cleanText(text, 280);
@@ -200,6 +246,7 @@ export class LiveSession extends DurableObject<Env> {
     assertVoterId(voterId);
     if (cleanedText.length < 4) throw new Error("question too short");
     if (!QUESTION_LENSES.has(lens)) throw new Error("invalid question lens");
+    assertDifficulty(difficulty);
 
     const prior = this.ctx.storage.sql
       .exec<{
@@ -208,20 +255,45 @@ export class LiveSession extends DurableObject<Env> {
       .one();
     if (prior.count >= 3) throw new Error("question limit reached");
 
+    this.ctx.storage.sql.exec(
+      `INSERT INTO difficulty_votes (voter_id, score, updated_at)
+       VALUES (?, ?, ?)
+       ON CONFLICT (voter_id)
+       DO UPDATE SET score = excluded.score, updated_at = excluded.updated_at`,
+      voterId,
+      difficulty,
+      Date.now(),
+    );
     const id = crypto.randomUUID();
     this.ctx.storage.sql.exec(
-      "INSERT INTO questions (id, voter_id, text, nickname, lens, created_at) VALUES (?, ?, ?, ?, ?, ?)",
+      "INSERT INTO questions (id, voter_id, text, nickname, lens, difficulty, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
       id,
       voterId,
       cleanedText,
       cleanedNickname,
       lens,
+      difficulty,
       Date.now(),
     );
     this.ctx.storage.sql.exec(
       "INSERT INTO question_votes (question_id, voter_id, created_at) VALUES (?, ?, ?)",
       id,
       voterId,
+      Date.now(),
+    );
+    return this.broadcastSnapshot();
+  }
+
+  async setDifficulty(score: number, voterId: string): Promise<SessionSnapshot> {
+    assertVoterId(voterId);
+    assertDifficulty(score);
+    this.ctx.storage.sql.exec(
+      `INSERT INTO difficulty_votes (voter_id, score, updated_at)
+       VALUES (?, ?, ?)
+       ON CONFLICT (voter_id)
+       DO UPDATE SET score = excluded.score, updated_at = excluded.updated_at`,
+      voterId,
+      score,
       Date.now(),
     );
     return this.broadcastSnapshot();
@@ -311,6 +383,7 @@ export default {
           typeof body.text !== "string" ||
           typeof body.nickname !== "string" ||
           typeof body.lens !== "string" ||
+          typeof body.difficulty !== "number" ||
           typeof body.voterId !== "string" ||
           !QUESTION_LENSES.has(body.lens as QuestionLens)
         ) {
@@ -318,10 +391,23 @@ export default {
         }
         return cors(
           Response.json(
-            await stub.ask(body.text, body.nickname, body.lens as QuestionLens, body.voterId),
+            await stub.ask(
+              body.text,
+              body.nickname,
+              body.lens as QuestionLens,
+              body.difficulty,
+              body.voterId,
+            ),
           ),
           request,
         );
+      }
+
+      if (url.pathname === "/api/difficulty") {
+        if (typeof body.score !== "number" || typeof body.voterId !== "string") {
+          return cors(jsonError("invalid difficulty", 400), request);
+        }
+        return cors(Response.json(await stub.setDifficulty(body.score, body.voterId)), request);
       }
 
       if (url.pathname === "/api/upvote") {
@@ -363,6 +449,12 @@ function cleanText(value: string, max: number): string {
 
 function assertVoterId(voterId: string): void {
   if (!isUuid(voterId)) throw new Error("invalid voter");
+}
+
+function assertDifficulty(score: number): void {
+  if (!Number.isInteger(score) || score < 1 || score > 5) {
+    throw new Error("invalid difficulty");
+  }
 }
 
 function isUuid(value: string): boolean {

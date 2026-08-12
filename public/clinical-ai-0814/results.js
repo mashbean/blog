@@ -1,3 +1,5 @@
+import { difficultyLabels, renderDifficultyChart } from "./difficulty.js";
+
 const pollsRoot = document.querySelector("#results-polls");
 const questionsRoot = document.querySelector("#results-questions");
 const statusEl = document.querySelector("[data-status]");
@@ -10,6 +12,7 @@ const lensLabels = {
 };
 
 function render(state) {
+  renderDifficultyChart(document.querySelector(".results-difficulty"), state.difficulty);
   pollsRoot.innerHTML = state.polls
     .map(
       (poll, index) => `
@@ -37,7 +40,7 @@ function render(state) {
           (question, index) => `
     <article>
       <div class="question-rank">${String(index + 1).padStart(2, "0")}</div>
-      <span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span>
+      <div class="question-tags"><span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span><span class="question-difficulty difficulty-${question.difficulty}">${question.difficulty} · ${escapeHtml(difficultyLabels[question.difficulty - 1] || difficultyLabels[2])}</span></div>
       <p>${escapeHtml(question.text)}</p>
       <div><span>${escapeHtml(question.nickname)}</span><b>我也想問 ${question.upvotes}</b></div>
     </article>`,
