@@ -16,9 +16,12 @@ type AudienceQuestion = {
   id: string;
   text: string;
   nickname: string;
+  lens: QuestionLens;
   createdAt: number;
   upvotes: number;
 };
+
+type QuestionLens = "clarify" | "chorus" | "bridge" | "keeper";
 
 type SessionSnapshot = {
   updatedAt: number;
@@ -30,12 +33,14 @@ type QuestionRow = {
   id: string;
   text: string;
   nickname: string;
+  lens: QuestionLens;
   created_at: number;
   upvotes: number;
 };
 
 const SESSION_NAME = "clinical-ai-2026-08-14";
 const MAX_BODY_BYTES = 4096;
+const QUESTION_LENSES = new Set<QuestionLens>(["clarify", "chorus", "bridge", "keeper"]);
 
 const POLLS: Poll[] = [
   {
@@ -45,22 +50,22 @@ const POLLS: Poll[] = [
     options: ["偶爾聊天", "搜尋與整理", "交付完整任務", "已有固定工作流"],
   },
   {
-    id: "risk-gate",
-    question: "專業內容出錯時，你最缺哪一道防線？",
-    prompt: "驗證工作流",
-    options: ["來源可追溯", "反方查核", "人類最終簽核", "清楚的停損邊界"],
+    id: "pepper-salt",
+    question: "胡椒鹽四類工作，哪一塊最耗你的時間？",
+    prompt: "服務、教學、研究、公關",
+    options: ["行政服務", "教學", "研究", "公關與溝通"],
+  },
+  {
+    id: "journal-gate",
+    question: "臨床綜述出現不存在的引用，哪一關應該最早擋下？",
+    prompt: "案例討論",
+    options: ["作者逐筆核對", "共同作者覆核", "審稿人抽查", "編輯部自動驗證"],
   },
   {
     id: "krakauer",
     question: "拿掉 AI 之後，這次工作留下了什麼？",
     prompt: "David Krakauer",
     options: ["只有成品", "可重用的提示詞", "可驗證的方法", "我自己的判斷能力"],
-  },
-  {
-    id: "next-step",
-    question: "回到臨床現場，你最想先改造哪一段？",
-    prompt: "離場前",
-    options: ["查證與文獻", "文件與簡報", "衛教與溝通", "行政與排程"],
   },
 ];
 
@@ -69,6 +74,10 @@ export class LiveSession extends DurableObject<Env> {
     super(ctx, env);
     ctx.blockConcurrencyWhile(async () => {
       this.ctx.storage.sql.exec(`
+        CREATE TABLE IF NOT EXISTS _sql_schema_migrations (
+          id INTEGER PRIMARY KEY,
+          applied_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
         CREATE TABLE IF NOT EXISTS votes (
           poll_id TEXT NOT NULL,
           voter_id TEXT NOT NULL,
@@ -81,6 +90,7 @@ export class LiveSession extends DurableObject<Env> {
           voter_id TEXT NOT NULL,
           text TEXT NOT NULL,
           nickname TEXT NOT NULL,
+          lens TEXT NOT NULL DEFAULT 'clarify',
           created_at INTEGER NOT NULL
         );
         CREATE TABLE IF NOT EXISTS question_votes (
@@ -93,6 +103,15 @@ export class LiveSession extends DurableObject<Env> {
         CREATE INDEX IF NOT EXISTS idx_questions_created_at ON questions(created_at);
         CREATE INDEX IF NOT EXISTS idx_question_votes_question_id ON question_votes(question_id);
       `);
+      const questionColumns = this.ctx.storage.sql
+        .exec<{ name: string }>("PRAGMA table_info(questions)")
+        .toArray();
+      if (!questionColumns.some((column) => column.name === "lens")) {
+        this.ctx.storage.sql.exec(
+          "ALTER TABLE questions ADD COLUMN lens TEXT NOT NULL DEFAULT 'clarify'",
+        );
+      }
+      this.ctx.storage.sql.exec("INSERT OR IGNORE INTO _sql_schema_migrations (id) VALUES (2)");
     });
   }
 
@@ -100,7 +119,10 @@ export class LiveSession extends DurableObject<Env> {
     const polls = POLLS.map((poll) => {
       const counts = new Array<number>(poll.options.length).fill(0);
       const rows = this.ctx.storage.sql
-        .exec<{ option_index: number; count: number }>(
+        .exec<{
+          option_index: number;
+          count: number;
+        }>(
           "SELECT option_index, COUNT(*) AS count FROM votes WHERE poll_id = ? GROUP BY option_index",
           poll.id,
         )
@@ -114,11 +136,13 @@ export class LiveSession extends DurableObject<Env> {
     });
 
     const questions = this.ctx.storage.sql
-      .exec<QuestionRow>(`
+      .exec<QuestionRow>(
+        `
         SELECT
           q.id,
           q.text,
           q.nickname,
+          q.lens,
           q.created_at,
           COUNT(qv.question_id) AS upvotes
         FROM questions q
@@ -126,12 +150,14 @@ export class LiveSession extends DurableObject<Env> {
         GROUP BY q.id
         ORDER BY upvotes DESC, q.created_at ASC
         LIMIT 100
-      `)
+      `,
+      )
       .toArray()
       .map((row) => ({
         id: row.id,
         text: row.text,
         nickname: row.nickname,
+        lens: row.lens,
         createdAt: row.created_at,
         upvotes: row.upvotes,
       }));
@@ -141,7 +167,12 @@ export class LiveSession extends DurableObject<Env> {
 
   async vote(pollId: string, optionIndex: number, voterId: string): Promise<SessionSnapshot> {
     const poll = POLLS.find((candidate) => candidate.id === pollId);
-    if (!poll || !Number.isInteger(optionIndex) || optionIndex < 0 || optionIndex >= poll.options.length) {
+    if (
+      !poll ||
+      !Number.isInteger(optionIndex) ||
+      optionIndex < 0 ||
+      optionIndex >= poll.options.length
+    ) {
       throw new Error("invalid vote");
     }
     assertVoterId(voterId);
@@ -158,24 +189,33 @@ export class LiveSession extends DurableObject<Env> {
     return this.broadcastSnapshot();
   }
 
-  async ask(text: string, nickname: string, voterId: string): Promise<SessionSnapshot> {
+  async ask(
+    text: string,
+    nickname: string,
+    lens: QuestionLens,
+    voterId: string,
+  ): Promise<SessionSnapshot> {
     const cleanedText = cleanText(text, 280);
     const cleanedNickname = cleanText(nickname || "匿名", 24);
     assertVoterId(voterId);
     if (cleanedText.length < 4) throw new Error("question too short");
+    if (!QUESTION_LENSES.has(lens)) throw new Error("invalid question lens");
 
     const prior = this.ctx.storage.sql
-      .exec<{ count: number }>("SELECT COUNT(*) AS count FROM questions WHERE voter_id = ?", voterId)
+      .exec<{
+        count: number;
+      }>("SELECT COUNT(*) AS count FROM questions WHERE voter_id = ?", voterId)
       .one();
     if (prior.count >= 3) throw new Error("question limit reached");
 
     const id = crypto.randomUUID();
     this.ctx.storage.sql.exec(
-      "INSERT INTO questions (id, voter_id, text, nickname, created_at) VALUES (?, ?, ?, ?, ?)",
+      "INSERT INTO questions (id, voter_id, text, nickname, lens, created_at) VALUES (?, ?, ?, ?, ?, ?)",
       id,
       voterId,
       cleanedText,
       cleanedNickname,
+      lens,
       Date.now(),
     );
     this.ctx.storage.sql.exec(
@@ -224,7 +264,9 @@ export class LiveSession extends DurableObject<Env> {
       try {
         socket.send(payload);
       } catch (error) {
-        console.error(JSON.stringify({ message: "websocket broadcast failed", error: String(error) }));
+        console.error(
+          JSON.stringify({ message: "websocket broadcast failed", error: String(error) }),
+        );
       }
     }
     return snapshot;
@@ -251,17 +293,35 @@ export default {
       if (!isRecord(body)) return cors(jsonError("invalid request", 400), request);
 
       if (url.pathname === "/api/vote") {
-        if (typeof body.pollId !== "string" || typeof body.optionIndex !== "number" || typeof body.voterId !== "string") {
+        if (
+          typeof body.pollId !== "string" ||
+          typeof body.optionIndex !== "number" ||
+          typeof body.voterId !== "string"
+        ) {
           return cors(jsonError("invalid vote", 400), request);
         }
-        return cors(Response.json(await stub.vote(body.pollId, body.optionIndex, body.voterId)), request);
+        return cors(
+          Response.json(await stub.vote(body.pollId, body.optionIndex, body.voterId)),
+          request,
+        );
       }
 
       if (url.pathname === "/api/question") {
-        if (typeof body.text !== "string" || typeof body.nickname !== "string" || typeof body.voterId !== "string") {
+        if (
+          typeof body.text !== "string" ||
+          typeof body.nickname !== "string" ||
+          typeof body.lens !== "string" ||
+          typeof body.voterId !== "string" ||
+          !QUESTION_LENSES.has(body.lens as QuestionLens)
+        ) {
           return cors(jsonError("invalid question", 400), request);
         }
-        return cors(Response.json(await stub.ask(body.text, body.nickname, body.voterId)), request);
+        return cors(
+          Response.json(
+            await stub.ask(body.text, body.nickname, body.lens as QuestionLens, body.voterId),
+          ),
+          request,
+        );
       }
 
       if (url.pathname === "/api/upvote") {
@@ -275,7 +335,14 @@ export default {
     } catch (error) {
       const message = error instanceof Error ? error.message : "unknown error";
       const status = message.includes("limit") ? 429 : 400;
-      console.error(JSON.stringify({ message: "request failed", requestId, path: url.pathname, error: message }));
+      console.error(
+        JSON.stringify({
+          message: "request failed",
+          requestId,
+          path: url.pathname,
+          error: message,
+        }),
+      );
       return cors(jsonError(message, status), request);
     }
   },
@@ -287,7 +354,11 @@ function isSmallJsonRequest(request: Request): boolean {
 }
 
 function cleanText(value: string, max: number): string {
-  return value.replace(/[\u0000-\u001F\u007F]/g, " ").replace(/\s+/g, " ").trim().slice(0, max);
+  return value
+    .replace(/[\u0000-\u001F\u007F]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, max);
 }
 
 function assertVoterId(voterId: string): void {
@@ -315,5 +386,9 @@ function cors(response: Response, request: Request): Response {
   headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   headers.set("Vary", "Origin");
   headers.set("Cache-Control", "no-store");
-  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+  return new Response(response.body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers,
+  });
 }

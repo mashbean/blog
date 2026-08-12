@@ -428,6 +428,137 @@ footer a {
   color: var(--sand);
   font-size: 13px;
 }
+
+/* 8/14 vivid grid theme */
+:root {
+  --forest: #081225;
+  --moss: #00a9b7;
+  --clay: #ff4f9a;
+  --sand: #ffd84d;
+  --paper: #f4f7ff;
+  --ink: #f4f7ff;
+  --line: #2a4168;
+  --sage: #35d9ff;
+  --panel: #0d1b36e8;
+  --muted: #a9b8d6;
+  background: var(--forest);
+}
+body,
+.results-page {
+  color: var(--ink);
+  background-color: var(--forest);
+  background-image:
+    linear-gradient(#35d9ff15 1px, transparent 1px),
+    linear-gradient(90deg, #35d9ff15 1px, transparent 1px),
+    radial-gradient(circle at 88% 0, #8b5cf642 0, transparent 32rem);
+  background-size:
+    34px 34px,
+    34px 34px,
+    auto;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+.hero h1,
+.results-header h1,
+.section-head h2 {
+  color: var(--ink);
+}
+.hero p,
+.poll-meta,
+.section-head > span,
+.form-note,
+.form-message,
+.question-card span,
+.empty {
+  color: var(--muted);
+}
+.hero p {
+  max-width: 760px;
+}
+.live-status span {
+  background: #7283a6;
+}
+.live-status.online span {
+  background: #b7f34b;
+  box-shadow: 0 0 0 5px #b7f34b22;
+}
+.tabs {
+  background: #081225e8;
+}
+.tabs button.active {
+  background: var(--sage);
+  color: var(--forest);
+}
+.poll-card,
+.ask-card,
+.question-card,
+.result-poll,
+.results-questions article {
+  border-color: var(--line);
+  background: var(--panel);
+  box-shadow: 0 16px 50px #02061255;
+}
+.option,
+.ask-card input,
+.ask-card textarea,
+.ask-card select,
+.upvote {
+  border-color: var(--line);
+  background: #081225;
+  color: var(--ink);
+}
+.option .bar {
+  background: #35d9ff24;
+}
+.option.selected {
+  border-color: var(--sage);
+  box-shadow: inset 0 0 0 1px var(--sage);
+}
+.option.selected .bar {
+  background: #35d9ff45;
+}
+.option-copy b {
+  color: var(--forest);
+}
+.primary {
+  background: var(--clay);
+  color: var(--forest);
+}
+.question-card .question-lens,
+.results-questions .question-lens {
+  display: inline-flex;
+  margin-bottom: 8px;
+  border: 1px solid #35d9ff66;
+  border-radius: 999px;
+  padding: 5px 9px;
+  color: var(--sage);
+  font:
+    800 10px/1 ui-monospace,
+    monospace;
+}
+.upvote {
+  padding: 10px 12px;
+  color: var(--sage);
+  white-space: nowrap;
+}
+.upvote.selected {
+  border-color: var(--sage);
+  background: var(--sage);
+  color: var(--forest);
+}
+footer a {
+  color: var(--sage);
+}
+.result-row > div {
+  background: #f4f7ff19;
+}
+.result-row i {
+  background: linear-gradient(90deg, var(--sage), #8b5cf6);
+}
 @media (max-width: 900px) {
   .results-header {
     padding: 32px 24px;

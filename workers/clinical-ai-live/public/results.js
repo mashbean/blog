@@ -1,25 +1,48 @@
 const pollsRoot = document.querySelector("#results-polls");
 const questionsRoot = document.querySelector("#results-questions");
 const statusEl = document.querySelector("[data-status]");
+const lensLabels = {
+  clarify: "想把問題講清楚",
+  chorus: "我也有同樣困擾",
+  bridge: "兩種立場都碰到了",
+  keeper: "有一件事不能漏掉",
+};
 
 function render(state) {
-  pollsRoot.innerHTML = state.polls.map((poll, index) => `
+  pollsRoot.innerHTML = state.polls
+    .map(
+      (poll, index) => `
     <article class="result-poll">
       <div class="poll-meta"><span>${escapeHtml(poll.prompt)}</span><span>${poll.total} 票</span></div>
       <h3>${String(index + 1).padStart(2, "0")} · ${escapeHtml(poll.question)}</h3>
-      ${poll.options.map((option, optionIndex) => {
-        const percent = poll.total ? Math.round((poll.counts[optionIndex] / poll.total) * 100) : 0;
-        return `<div class="result-row"><span>${escapeHtml(option)}</span><div><i style="--pct:${percent}%"></i></div><b>${percent}%</b></div>`;
-      }).join("")}
-    </article>`).join("");
+      ${poll.options
+        .map((option, optionIndex) => {
+          const percent = poll.total
+            ? Math.round((poll.counts[optionIndex] / poll.total) * 100)
+            : 0;
+          return `<div class="result-row"><span>${escapeHtml(option)}</span><div><i style="--pct:${percent}%"></i></div><b>${percent}%</b></div>`;
+        })
+        .join("")}
+    </article>`,
+    )
+    .join("");
 
-  document.querySelectorAll("[data-question-count]").forEach((el) => { el.textContent = `${state.questions.length} 題`; });
-  questionsRoot.innerHTML = state.questions.length ? state.questions.map((question, index) => `
+  document.querySelectorAll("[data-question-count]").forEach((el) => {
+    el.textContent = `${state.questions.length} 題`;
+  });
+  questionsRoot.innerHTML = state.questions.length
+    ? state.questions
+        .map(
+          (question, index) => `
     <article>
       <div class="question-rank">${String(index + 1).padStart(2, "0")}</div>
+      <span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span>
       <p>${escapeHtml(question.text)}</p>
-      <div><span>${escapeHtml(question.nickname)}</span><b>▲ ${question.upvotes}</b></div>
-    </article>`).join("") : `<div class="empty">等待第一個問題</div>`;
+      <div><span>${escapeHtml(question.nickname)}</span><b>我也想問 ${question.upvotes}</b></div>
+    </article>`,
+        )
+        .join("")
+    : `<div class="empty">等待第一個問題</div>`;
 }
 
 function connect() {
@@ -30,7 +53,10 @@ function connect() {
     const message = JSON.parse(event.data);
     if (message.type === "snapshot") render(message.data);
   });
-  socket.addEventListener("close", () => { setStatus(false); setTimeout(connect, 1500); });
+  socket.addEventListener("close", () => {
+    setStatus(false);
+    setTimeout(connect, 1500);
+  });
 }
 
 function setStatus(online) {
@@ -39,8 +65,14 @@ function setStatus(online) {
 }
 
 function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char]);
+  return String(value).replace(
+    /[&<>"']/g,
+    (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" })[char],
+  );
 }
 
-fetch("/api/state").then((response) => response.json()).then(render).catch(() => {});
+fetch("/api/state")
+  .then((response) => response.json())
+  .then(render)
+  .catch(() => {});
 connect();

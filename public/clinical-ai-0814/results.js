@@ -2,6 +2,12 @@ const pollsRoot = document.querySelector("#results-polls");
 const questionsRoot = document.querySelector("#results-questions");
 const statusEl = document.querySelector("[data-status]");
 const apiBase = "/clinical-ai-0814/api";
+const lensLabels = {
+  clarify: "想把問題講清楚",
+  chorus: "我也有同樣困擾",
+  bridge: "兩種立場都碰到了",
+  keeper: "有一件事不能漏掉",
+};
 
 function render(state) {
   pollsRoot.innerHTML = state.polls
@@ -31,8 +37,9 @@ function render(state) {
           (question, index) => `
     <article>
       <div class="question-rank">${String(index + 1).padStart(2, "0")}</div>
+      <span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span>
       <p>${escapeHtml(question.text)}</p>
-      <div><span>${escapeHtml(question.nickname)}</span><b>▲ ${question.upvotes}</b></div>
+      <div><span>${escapeHtml(question.nickname)}</span><b>我也想問 ${question.upvotes}</b></div>
     </article>`,
         )
         .join("")

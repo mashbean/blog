@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#2f3e33" />
+    <meta name="theme-color" content="#081225" />
     <title>8/14 臨床工作者 AI Agent 現場互動</title>
     <link rel="stylesheet" href="/clinical-ai-0814/style.css" />
   </head>
@@ -11,7 +11,7 @@
     <header class="hero">
       <div class="eyebrow">8/14 · CLINICAL AI AGENT</div>
       <h1>現場投票<br />隨時提問</h1>
-      <p>四題快速投票，提問區全程開放。請勿輸入病人姓名、病歷號、影像或任何可識別醫療資訊。</p>
+      <p>四題快速投票，提問區全程開放。每一題都會留下，整理時可合併相近問題，但不會刪掉原題。</p>
       <div class="live-status" data-status><span></span>連線中</div>
     </header>
     <main>
@@ -32,6 +32,13 @@
             placeholder="可填匿名"
             autocomplete="nickname"
           />
+          <label for="lens">你帶來的是</label>
+          <select id="lens" name="lens" required>
+            <option value="clarify">想把問題講清楚</option>
+            <option value="chorus">我也有同樣困擾</option>
+            <option value="bridge">兩種立場都碰到了</option>
+            <option value="keeper">有一件事不能漏掉</option>
+          </select>
           <label for="question">你的問題</label>
           <textarea
             id="question"
@@ -41,7 +48,7 @@
             required
             placeholder="可在任何時間送出，Q&A 會依主題與支持數整理"
           ></textarea>
-          <div class="form-note">每台裝置最多提出三題。請去識別化，不要貼入病人資料。</div>
+          <div class="form-note">每台裝置最多提出三題。Q&A 後會整理問題脈絡與回覆收據。</div>
           <button class="primary" type="submit">送出問題</button>
           <div class="form-message" data-form-message aria-live="polite"></div>
         </form>
@@ -57,7 +64,10 @@
     </main>
     <footer>
       <a href="https://mashbean.net/decks/clinical-ai-agent-0814/">回到簡報</a>
-      <a href="https://github.com/htlin222/kahoot-cf">互動架構靈感 · kahoot-cf</a>
+      <a href="https://github.com/htlin222/kahoot-cf">即時互動參考 · htlin222/kahoot-cf</a>
+      <a href="https://github.com/audreyt/uncommon-ground"
+        >問題閉環參考 · audreyt/uncommon-ground</a
+      >
     </footer>
     <script type="module" src="/clinical-ai-0814/app.js"></script>
   </body>

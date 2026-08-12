@@ -10,6 +10,12 @@ const statusEl = document.querySelector("[data-status]");
 const messageEl = document.querySelector("[data-form-message]");
 let state = { polls: [], questions: [] };
 let socket;
+const lensLabels = {
+  clarify: "想把問題講清楚",
+  chorus: "我也有同樣困擾",
+  bridge: "兩種立場都碰到了",
+  keeper: "有一件事不能漏掉",
+};
 
 document.querySelectorAll("[data-tab]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -34,6 +40,7 @@ form.addEventListener("submit", async (event) => {
     state = await post("/api/question", {
       text: String(data.get("question") || ""),
       nickname: String(data.get("nickname") || "匿名"),
+      lens: String(data.get("lens") || "clarify"),
       voterId,
     });
     form.querySelector("textarea").value = "";
@@ -113,8 +120,8 @@ function render() {
           (question, index) => `
     <article class="question-card">
       <div class="question-rank">${String(index + 1).padStart(2, "0")}</div>
-      <div><p>${escapeHtml(question.text)}</p><span>${escapeHtml(question.nickname)}</span></div>
-      <button class="upvote ${localStorage.getItem(`upvote:${question.id}`) ? "selected" : ""}" data-upvote="${question.id}" aria-label="支持這題">▲ <b>${question.upvotes}</b></button>
+      <div><span class="question-lens">${escapeHtml(lensLabels[question.lens] || lensLabels.clarify)}</span><p>${escapeHtml(question.text)}</p><span>${escapeHtml(question.nickname)}</span></div>
+      <button class="upvote ${localStorage.getItem(`upvote:${question.id}`) ? "selected" : ""}" data-upvote="${question.id}" aria-label="我也想問這題">我也想問 <b>${question.upvotes}</b></button>
     </article>`,
         )
         .join("")
