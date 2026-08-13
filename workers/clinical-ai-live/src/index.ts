@@ -81,63 +81,58 @@ const POLLS: Poll[] = [
 ];
 
 export class LiveSession extends DurableObject<Env> {
+  private snapshotCache: SessionSnapshot | null = null;
+
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     ctx.blockConcurrencyWhile(async () => {
-      this.ctx.storage.sql.exec(`
-        CREATE TABLE IF NOT EXISTS _sql_schema_migrations (
-          id INTEGER PRIMARY KEY,
-          applied_at TEXT NOT NULL DEFAULT (datetime('now'))
-        );
-        CREATE TABLE IF NOT EXISTS votes (
-          poll_id TEXT NOT NULL,
-          voter_id TEXT NOT NULL,
-          option_index INTEGER NOT NULL,
-          updated_at INTEGER NOT NULL,
-          PRIMARY KEY (poll_id, voter_id)
-        );
-        CREATE TABLE IF NOT EXISTS questions (
-          id TEXT PRIMARY KEY,
-          voter_id TEXT NOT NULL,
-          text TEXT NOT NULL,
-          nickname TEXT NOT NULL,
-          lens TEXT NOT NULL DEFAULT 'clarify',
-          difficulty INTEGER NOT NULL DEFAULT 3,
-          created_at INTEGER NOT NULL
-        );
-        CREATE TABLE IF NOT EXISTS difficulty_votes (
-          voter_id TEXT PRIMARY KEY,
-          score INTEGER NOT NULL,
-          updated_at INTEGER NOT NULL
-        );
-        CREATE TABLE IF NOT EXISTS question_votes (
-          question_id TEXT NOT NULL,
-          voter_id TEXT NOT NULL,
-          created_at INTEGER NOT NULL,
-          PRIMARY KEY (question_id, voter_id),
-          FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
-        );
-        CREATE INDEX IF NOT EXISTS idx_questions_created_at ON questions(created_at);
-        CREATE INDEX IF NOT EXISTS idx_question_votes_question_id ON question_votes(question_id);
-      `);
-      const questionColumns = this.ctx.storage.sql
-        .exec<{ name: string }>("PRAGMA table_info(questions)")
-        .toArray();
-      if (!questionColumns.some((column) => column.name === "lens")) {
-        this.ctx.storage.sql.exec(
-          "ALTER TABLE questions ADD COLUMN lens TEXT NOT NULL DEFAULT 'clarify'",
-        );
-      }
-      if (!questionColumns.some((column) => column.name === "difficulty")) {
-        this.ctx.storage.sql.exec(
-          "ALTER TABLE questions ADD COLUMN difficulty INTEGER NOT NULL DEFAULT 3",
-        );
-      }
-      this.ctx.storage.sql.exec("INSERT OR IGNORE INTO _sql_schema_migrations (id) VALUES (3)");
+      this.initializeCurrentSchema();
     });
   }
 
+  private initializeCurrentSchema(): void {
+    this.ctx.storage.sql.exec(`
+      CREATE TABLE IF NOT EXISTS _sql_schema_migrations (
+        id INTEGER PRIMARY KEY,
+        applied_at TEXT NOT NULL DEFAULT (datetime('now'))
+      );
+      CREATE TABLE IF NOT EXISTS votes (
+        poll_id TEXT NOT NULL,
+        voter_id TEXT NOT NULL,
+        option_index INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL,
+        PRIMARY KEY (poll_id, voter_id)
+      );
+      CREATE TABLE IF NOT EXISTS questions (
+        id TEXT PRIMARY KEY,
+        voter_id TEXT NOT NULL,
+        text TEXT NOT NULL,
+        nickname TEXT NOT NULL,
+        lens TEXT NOT NULL DEFAULT 'clarify',
+        difficulty INTEGER NOT NULL DEFAULT 3,
+        created_at INTEGER NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS difficulty_votes (
+        voter_id TEXT PRIMARY KEY,
+        score INTEGER NOT NULL,
+        updated_at INTEGER NOT NULL
+      );
+      CREATE TABLE IF NOT EXISTS question_votes (
+        question_id TEXT NOT NULL,
+        voter_id TEXT NOT NULL,
+        created_at INTEGER NOT NULL,
+        PRIMARY KEY (question_id, voter_id),
+        FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
+      );
+      CREATE INDEX IF NOT EXISTS idx_questions_created_at ON questions(created_at);
+      CREATE INDEX IF NOT EXISTS idx_questions_voter_id ON questions(voter_id);
+      CREATE INDEX IF NOT EXISTS idx_question_votes_question_id ON question_votes(question_id);
+    `);
+  }
+
   async snapshot(): Promise<SessionSnapshot> {
+    if (this.snapshotCache) return this.snapshotCache;
+
     const polls = POLLS.map((poll) => {
       const counts = new Array<number>(poll.options.length).fill(0);
       const rows = this.ctx.storage.sql
@@ -209,7 +204,8 @@ export class LiveSession extends DurableObject<Env> {
         : null,
     };
 
-    return { updatedAt: Date.now(), polls, difficulty, questions };
+    this.snapshotCache = { updatedAt: Date.now(), polls, difficulty, questions };
+    return this.snapshotCache;
   }
 
   async vote(pollId: string, optionIndex: number, voterId: string): Promise<SessionSnapshot> {
@@ -223,6 +219,14 @@ export class LiveSession extends DurableObject<Env> {
       throw new Error("invalid vote");
     }
     assertVoterId(voterId);
+    const snapshot = await this.snapshot();
+    const previous = this.ctx.storage.sql
+      .exec<{ option_index: number }>(
+        "SELECT option_index FROM votes WHERE poll_id = ? AND voter_id = ?",
+        pollId,
+        voterId,
+      )
+      .toArray()[0];
     this.ctx.storage.sql.exec(
       `INSERT INTO votes (poll_id, voter_id, option_index, updated_at)
        VALUES (?, ?, ?, ?)
@@ -233,7 +237,15 @@ export class LiveSession extends DurableObject<Env> {
       optionIndex,
       Date.now(),
     );
-    return this.broadcastSnapshot();
+    if (previous?.option_index !== optionIndex) {
+      const result = snapshot.polls.find((candidate) => candidate.id === pollId);
+      if (result) {
+        if (previous) result.counts[previous.option_index] -= 1;
+        else result.total += 1;
+        result.counts[optionIndex] += 1;
+      }
+    }
+    return this.broadcastSnapshot(this.touch(snapshot));
   }
 
   async ask(
@@ -250,12 +262,21 @@ export class LiveSession extends DurableObject<Env> {
     if (!QUESTION_LENSES.has(lens)) throw new Error("invalid question lens");
     assertDifficulty(difficulty);
 
+    const snapshot = await this.snapshot();
+
     const prior = this.ctx.storage.sql
       .exec<{
         count: number;
       }>("SELECT COUNT(*) AS count FROM questions WHERE voter_id = ?", voterId)
       .one();
     if (prior.count >= 20) throw new Error("question limit reached");
+
+    const previousDifficulty = this.ctx.storage.sql
+      .exec<{ score: number }>(
+        "SELECT score FROM difficulty_votes WHERE voter_id = ?",
+        voterId,
+      )
+      .toArray()[0];
 
     this.ctx.storage.sql.exec(
       `INSERT INTO difficulty_votes (voter_id, score, updated_at)
@@ -267,6 +288,7 @@ export class LiveSession extends DurableObject<Env> {
       Date.now(),
     );
     const id = crypto.randomUUID();
+    const createdAt = Date.now();
     this.ctx.storage.sql.exec(
       "INSERT INTO questions (id, voter_id, text, nickname, lens, difficulty, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
       id,
@@ -275,20 +297,38 @@ export class LiveSession extends DurableObject<Env> {
       cleanedNickname,
       lens,
       difficulty,
-      Date.now(),
+      createdAt,
     );
     this.ctx.storage.sql.exec(
       "INSERT INTO question_votes (question_id, voter_id, created_at) VALUES (?, ?, ?)",
       id,
       voterId,
-      Date.now(),
+      createdAt,
     );
-    return this.broadcastSnapshot();
+    this.updateDifficultySnapshot(snapshot.difficulty, previousDifficulty?.score, difficulty);
+    snapshot.questions.unshift({
+      id,
+      text: cleanedText,
+      nickname: cleanedNickname,
+      lens,
+      difficulty,
+      createdAt,
+      upvotes: 1,
+    });
+    snapshot.questions = snapshot.questions.slice(0, 100);
+    return this.broadcastSnapshot(this.touch(snapshot));
   }
 
   async setDifficulty(score: number, voterId: string): Promise<SessionSnapshot> {
     assertVoterId(voterId);
     assertDifficulty(score);
+    const snapshot = await this.snapshot();
+    const previous = this.ctx.storage.sql
+      .exec<{ score: number }>(
+        "SELECT score FROM difficulty_votes WHERE voter_id = ?",
+        voterId,
+      )
+      .toArray()[0];
     this.ctx.storage.sql.exec(
       `INSERT INTO difficulty_votes (voter_id, score, updated_at)
        VALUES (?, ?, ?)
@@ -298,23 +338,36 @@ export class LiveSession extends DurableObject<Env> {
       score,
       Date.now(),
     );
-    return this.broadcastSnapshot();
+    this.updateDifficultySnapshot(snapshot.difficulty, previous?.score, score);
+    return this.broadcastSnapshot(this.touch(snapshot));
   }
 
   async upvote(questionId: string, voterId: string): Promise<SessionSnapshot> {
     assertVoterId(voterId);
     if (!isUuid(questionId)) throw new Error("invalid question");
+    const snapshot = await this.snapshot();
     const exists = this.ctx.storage.sql
       .exec<{ count: number }>("SELECT COUNT(*) AS count FROM questions WHERE id = ?", questionId)
       .one();
     if (exists.count === 0) throw new Error("question not found");
+    const priorVote = this.ctx.storage.sql
+      .exec<{ count: number }>(
+        "SELECT COUNT(*) AS count FROM question_votes WHERE question_id = ? AND voter_id = ?",
+        questionId,
+        voterId,
+      )
+      .one();
     this.ctx.storage.sql.exec(
       "INSERT OR IGNORE INTO question_votes (question_id, voter_id, created_at) VALUES (?, ?, ?)",
       questionId,
       voterId,
       Date.now(),
     );
-    return this.broadcastSnapshot();
+    if (priorVote.count === 0) {
+      const question = snapshot.questions.find((candidate) => candidate.id === questionId);
+      if (question) question.upvotes += 1;
+    }
+    return this.broadcastSnapshot(this.touch(snapshot));
   }
 
   async react(kind: ReactionKind, voterId: string): Promise<{ ok: true }> {
@@ -350,9 +403,33 @@ export class LiveSession extends DurableObject<Env> {
     if (typeof message === "string" && message === "ping") socket.send("pong");
   }
 
-  private async broadcastSnapshot(): Promise<SessionSnapshot> {
-    const snapshot = await this.snapshot();
-    const payload = JSON.stringify({ type: "snapshot", data: snapshot });
+  private touch(snapshot: SessionSnapshot): SessionSnapshot {
+    snapshot.updatedAt = Date.now();
+    this.snapshotCache = snapshot;
+    return snapshot;
+  }
+
+  private updateDifficultySnapshot(
+    snapshot: DifficultySnapshot,
+    previousScore: number | undefined,
+    nextScore: number,
+  ): void {
+    if (previousScore === nextScore) return;
+    if (previousScore) snapshot.counts[previousScore - 1] -= 1;
+    else snapshot.total += 1;
+    snapshot.counts[nextScore - 1] += 1;
+    const weighted = snapshot.counts.reduce(
+      (sum, count, index) => sum + count * (index + 1),
+      0,
+    );
+    snapshot.average = snapshot.total
+      ? Math.round((weighted / snapshot.total) * 10) / 10
+      : null;
+  }
+
+  private async broadcastSnapshot(snapshot?: SessionSnapshot): Promise<SessionSnapshot> {
+    const currentSnapshot = snapshot ?? (await this.snapshot());
+    const payload = JSON.stringify({ type: "snapshot", data: currentSnapshot });
     for (const socket of this.ctx.getWebSockets()) {
       try {
         socket.send(payload);
@@ -362,7 +439,7 @@ export class LiveSession extends DurableObject<Env> {
         );
       }
     }
-    return snapshot;
+    return currentSnapshot;
   }
 }
 
