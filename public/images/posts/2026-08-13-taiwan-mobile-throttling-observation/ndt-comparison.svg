@@ -1,34 +1,38 @@
-<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 720">
-  <title id="title">NDT throughput before the drill and after the announced end</title>
-  <desc id="desc">A logarithmic horizontal bar chart. Download fell from 141,998 kilobits per second at 14:16 to 55 kilobits per second at 15:08. Upload fell from 13,982 to 1,400 kilobits per second.</desc>
-  <rect width="1200" height="720" fill="#f7fbfa"/>
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 780">
+  <title id="title">NDT throughput before the drill, after the announced end, and during the later retest</title>
+  <desc id="desc">A logarithmic horizontal bar chart. Download measured 141,998 kilobits per second before the drill, 55 at 15:08, and 30,132 at 17:47. Upload measured 13,982, 1,400, and 20,310 kilobits per second.</desc>
+  <rect width="1200" height="780" fill="#f7fbfa"/>
   <g font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" fill="#163834">
-    <text x="72" y="76" font-size="38" font-weight="700">NDT throughput before and after the drill</text>
+    <text x="72" y="76" font-size="38" font-weight="700">NDT throughput across three observations</text>
     <text x="72" y="116" font-size="22" fill="#496b66">AS24158 · Taipei · 4G hotspot · kbit/s · logarithmic scale</text>
     <g stroke="#c9ddd8" stroke-width="1">
-      <line x1="330" y1="172" x2="330" y2="610"/><line x1="500" y1="172" x2="500" y2="610"/>
-      <line x1="670" y1="172" x2="670" y2="610"/><line x1="840" y1="172" x2="840" y2="610"/>
-      <line x1="1010" y1="172" x2="1010" y2="610"/>
+      <line x1="360" y1="165" x2="360" y2="670"/><line x1="520" y1="165" x2="520" y2="670"/>
+      <line x1="680" y1="165" x2="680" y2="670"/><line x1="840" y1="165" x2="840" y2="670"/>
+      <line x1="1000" y1="165" x2="1000" y2="670"/>
     </g>
     <g font-size="18" fill="#5d7773" text-anchor="middle">
-      <text x="330" y="646">10</text><text x="500" y="646">100</text><text x="670" y="646">1,000</text>
-      <text x="840" y="646">10,000</text><text x="1010" y="646">100,000</text>
+      <text x="360" y="704">10</text><text x="520" y="704">100</text><text x="680" y="704">1,000</text>
+      <text x="840" y="704">10,000</text><text x="1000" y="704">100,000</text>
     </g>
-    <g font-size="25" font-weight="600">
-      <text x="72" y="234">Download</text><text x="72" y="332">Upload</text>
-      <text x="72" y="470">Download</text><text x="72" y="568">Upload</text>
+    <g font-size="19" fill="#496b66">
+      <text x="72" y="196">14:16 pre-drill</text><text x="72" y="366">15:08 post-window</text><text x="72" y="536">17:47 later retest</text>
     </g>
-    <g font-size="20" fill="#496b66">
-      <text x="72" y="190">14:16 pre-drill</text><text x="72" y="426">15:08 post-window</text>
+    <g font-size="23" font-weight="600">
+      <text x="72" y="245">Download</text><text x="72" y="315">Upload</text>
+      <text x="72" y="415">Download</text><text x="72" y="485">Upload</text>
+      <text x="72" y="585">Download</text><text x="72" y="655">Upload</text>
     </g>
-    <rect x="330" y="202" width="705" height="42" rx="5" fill="#168c80"/>
-    <rect x="330" y="300" width="534" height="42" rx="5" fill="#4da99f"/>
-    <rect x="330" y="438" width="126" height="42" rx="5" fill="#d88a2c"/>
-    <rect x="330" y="536" width="365" height="42" rx="5" fill="#e4ad63"/>
-    <g font-size="23" font-weight="700">
-      <text x="1051" y="232">141,998</text><text x="880" y="330">13,982</text>
-      <text x="472" y="468">55</text><text x="711" y="566">1,400</text>
+    <rect x="360" y="216" width="664" height="38" rx="5" fill="#168c80"/>
+    <rect x="360" y="286" width="503" height="38" rx="5" fill="#4da99f"/>
+    <rect x="360" y="386" width="119" height="38" rx="5" fill="#d88a2c"/>
+    <rect x="360" y="456" width="344" height="38" rx="5" fill="#e4ad63"/>
+    <rect x="360" y="556" width="557" height="38" rx="5" fill="#5c79b8"/>
+    <rect x="360" y="626" width="529" height="38" rx="5" fill="#7890c5"/>
+    <g font-size="21" font-weight="700">
+      <text x="1038" y="244">141,998</text><text x="877" y="314">13,982</text>
+      <text x="493" y="414">55</text><text x="718" y="484">1,400</text>
+      <text x="931" y="584">30,132</text><text x="903" y="654">20,310</text>
     </g>
-    <text x="72" y="690" font-size="18" fill="#5d7773">Source: OONI measurements listed in this report. Bars use a log scale; exact values are labelled.</text>
+    <text x="72" y="752" font-size="18" fill="#5d7773">Source: OONI measurements listed in this report. Bars use a log scale; exact values are labelled.</text>
   </g>
 </svg>
