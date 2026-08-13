@@ -14,6 +14,7 @@ interface Props {
   noindex?: boolean;
   structuredData?: Record<string, unknown> | null;
   isArticle?: boolean;
+  lang?: string;
 }
 
 const {
@@ -24,7 +25,8 @@ const {
   ogType = "website",
   noindex = false,
   structuredData = null,
-  isArticle = false
+  isArticle = false,
+  lang = SITE_LANG
 } = Astro.props as Props;
 
 const tabTitle = "mashbean blog";
@@ -83,7 +85,7 @@ const siteStructuredData = {
 ---
 
 <!doctype html>
-<html lang={SITE_LANG}>
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 1200 760">
+  <title id="title">Tor and Snowflake test runtimes across observation phases</title>
+  <desc id="desc">Horizontal bars show Tor runtime of 69 seconds before the drill, 96 seconds near the end of the event, 124 seconds after the event, and 78 seconds in the final early post test. Snowflake runtime was 11 seconds before and 25 seconds after. Snowflake bootstrapped successfully both times.</desc>
+  <rect width="1200" height="760" fill="#f7fbfa"/>
+  <g font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" fill="#163834">
+    <text x="72" y="76" font-size="38" font-weight="700">Tor and Snowflake test runtime</text>
+    <text x="72" y="116" font-size="22" fill="#496b66">AS24158 · elapsed seconds; tests were strictly sequential</text>
+    <g stroke="#c9ddd8" stroke-width="1">
+      <line x1="380" y1="170" x2="380" y2="646"/><line x1="580" y1="170" x2="580" y2="646"/>
+      <line x1="780" y1="170" x2="780" y2="646"/><line x1="980" y1="170" x2="980" y2="646"/>
+    </g>
+    <g font-size="18" fill="#5d7773" text-anchor="middle">
+      <text x="380" y="678">0</text><text x="580" y="678">40</text><text x="780" y="678">80</text><text x="980" y="678">120 seconds</text>
+    </g>
+    <g font-size="21">
+      <text x="72" y="216">Tor · 14:25 pre</text><text x="72" y="292">Tor · 14:53 event</text>
+      <text x="72" y="368">Tor · 15:15 post</text><text x="72" y="444">Tor · 15:21 post</text>
+      <text x="72" y="540">Snowflake · 13:50 pre</text><text x="72" y="616">Snowflake · 15:18 post</text>
+    </g>
+    <rect x="380" y="187" width="345" height="38" rx="5" fill="#168c80"/><text x="741" y="215" font-size="21" font-weight="700">69 s</text>
+    <rect x="380" y="263" width="480" height="38" rx="5" fill="#2e958c"/><text x="876" y="291" font-size="21" font-weight="700">96 s</text>
+    <rect x="380" y="339" width="620" height="38" rx="5" fill="#d88a2c"/><text x="1016" y="367" font-size="21" font-weight="700">124 s</text>
+    <rect x="380" y="415" width="390" height="38" rx="5" fill="#e4ad63"/><text x="786" y="443" font-size="21" font-weight="700">78 s</text>
+    <rect x="380" y="511" width="55" height="38" rx="5" fill="#5c79b8"/><text x="451" y="539" font-size="21" font-weight="700">11 s</text>
+    <rect x="380" y="587" width="125" height="38" rx="5" fill="#7890c5"/><text x="521" y="615" font-size="21" font-weight="700">25 s</text>
+    <text x="72" y="724" font-size="18" fill="#5d7773">Tor directory and authority access remained 10/10; obfs4 was 4/14. Snowflake reached 100% bootstrap in both runs.</text>
+  </g>
+</svg>
