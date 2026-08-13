@@ -113,12 +113,19 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
   </aside>
 
   <div class="home-section-head home-feed-heading">
-    <div>
-      <p class="home-section-kicker">Timeline</p>
-      <h2 class="section-title">最近更新</h2>
-    </div>
-    <p class="home-section-meta">四個來源 · {feedItems.length} 則</p>
+    <h2 class="section-title">最近更新</h2>
   </div>
+  <nav class="home-source-links" aria-label="瀏覽所有內容">
+    <a class="source-link source-link-article" href={withBase("blog/")}>文章</a>
+    <a class="source-link source-link-deck" href={withBase("decks/")}>簡報</a>
+    <a class="source-link source-link-work" href={withBase("works/")}>專題</a>
+    <a
+      class="source-link source-link-pro"
+      href="https://pro.mashbean.net/"
+      target="_blank"
+      rel="noopener noreferrer">難題 ↗</a
+    >
+  </nav>
   {
     feedItems.length === 0 ? (
       <p class="empty-state">目前還沒有更新。</p>
@@ -135,12 +142,6 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     )
   }
 
-  <nav class="home-source-links" aria-label="瀏覽所有內容">
-    <a href={withBase("blog/")}>所有文章</a>
-    <a href={withBase("decks/")}>所有簡報</a>
-    <a href={withBase("works/")}>所有專題</a>
-    <a href="https://pro.mashbean.net/" target="_blank" rel="noopener noreferrer">前往難題 ↗</a>
-  </nav>
 </BaseLayout>
 
 <style>
@@ -161,31 +162,22 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     margin: 0;
   }
 
-  .home-section-kicker {
-    margin: 0;
-    color: var(--color-accent);
-    font-family: "JetBrains Mono", monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
   .home-section-head {
-    margin-top: 1.2rem;
+    margin-top: 1.3rem;
   }
 
   .home-section-head .section-title {
-    margin: 0.12rem 0 0;
+    margin: 0;
+    font-size: 1.16rem;
   }
 
   .home-feed-wrap {
-    margin-top: 0.7rem;
+    margin-top: 0.85rem;
   }
 
   .home-feed-list {
     display: grid;
-    gap: 0.85rem;
+    gap: 0.68rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -198,31 +190,57 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
   .home-source-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.55rem;
-    margin-top: 1.25rem;
+    gap: 0.42rem;
+    margin-top: 0.62rem;
   }
 
-  .home-source-links a {
+  .home-source-links .source-link {
     display: inline-flex;
     align-items: center;
-    min-height: 2.5rem;
-    border: 1px solid var(--color-border-strong);
+    min-height: 2rem;
+    border: 1px solid color-mix(in oklab, var(--source-accent) 28%, white 72%);
     border-radius: var(--radius-pill);
-    padding: 0.28rem 0.78rem;
-    color: var(--color-ink);
-    background: rgba(255, 255, 255, 0.72);
-    font-size: 0.85rem;
+    padding: 0.18rem 0.68rem;
+    color: var(--source-accent);
+    background: var(--source-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
     text-decoration: none;
+    transition:
+      color 0.16s ease,
+      background-color 0.16s ease,
+      border-color 0.16s ease;
   }
 
-  .home-source-links a:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
+  .home-source-links .source-link:hover {
+    border-color: var(--source-accent);
+    color: #fff;
+    background: var(--source-accent);
+  }
+
+  .source-link-article {
+    --source-accent: #0b7d6d;
+    --source-soft: #e7f7f2;
+  }
+
+  .source-link-deck {
+    --source-accent: #a45f16;
+    --source-soft: #fff3dc;
+  }
+
+  .source-link-work {
+    --source-accent: #326b8a;
+    --source-soft: #e9f4fa;
+  }
+
+  .source-link-pro {
+    --source-accent: #7b587d;
+    --source-soft: #f5ecf5;
   }
 
   @media (max-width: 680px) {
     .home-feed-list {
-      gap: 0.75rem;
+      gap: 0.62rem;
     }
 
     .home-source-links {
