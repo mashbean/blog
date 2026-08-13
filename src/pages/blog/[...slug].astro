@@ -209,7 +209,7 @@ const articleStructuredData = !isLegacyPath
       dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
       author: {
         "@type": "Person",
-        name: post.data.author ?? "Mashbean"
+        name: post.data.author ?? "mashbean"
       },
       mainEntityOfPage: pageURL,
       image: coverURL ? [coverURL] : undefined

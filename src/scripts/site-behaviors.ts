@@ -334,6 +334,38 @@ if (isArticle) {
 
   const prose = document.querySelector(".article-prose");
   if (prose) {
+    const tables = prose.querySelectorAll("table");
+    tables.forEach((table, index) => {
+      if (table.closest(".article-table-region")) return;
+
+      const isEnglish = Boolean(table.closest('[lang="en"]'));
+      const region = document.createElement("div");
+      region.className = "article-table-region";
+
+      const hint = document.createElement("p");
+      hint.className = "article-table-hint";
+      hint.setAttribute("aria-hidden", "true");
+      hint.textContent = isEnglish
+        ? "Swipe horizontally to view all columns"
+        : "左右滑動查看完整欄位";
+
+      const scroller = document.createElement("div");
+      scroller.className = "article-table-scroll";
+      scroller.setAttribute("role", "region");
+      scroller.setAttribute(
+        "aria-label",
+        isEnglish
+          ? `Data table ${index + 1}, horizontally scrollable`
+          : `資料表 ${index + 1}，可左右捲動`,
+      );
+      scroller.tabIndex = 0;
+
+      table.insertAdjacentElement("beforebegin", region);
+      region.appendChild(hint);
+      region.appendChild(scroller);
+      scroller.appendChild(table);
+    });
+
     const headings = prose.querySelectorAll("h2[id], h3[id]");
     headings.forEach((heading) => {
       const id = heading.getAttribute("id");
