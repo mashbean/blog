@@ -1,24 +1,105 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostCard from "@/components/PostCard.astro";
-import { getBlogPosts } from "@/utils/blog";
+import HomeFeedItem from "@/components/HomeFeedItem.astro";
+import type { HomeFeedItem as FeedItem } from "@/data/homeFeed";
+import { getDecks } from "@/data/decks";
+import { works } from "@/data/works";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { resolveCoverPath } from "@/utils/cover";
 import { withBase } from "@/utils/paths";
+import { getProFeedEntries } from "@/utils/proFeed";
+import { cleanPostTitle } from "@/utils/title";
 
 const posts = await getBlogPosts();
-const latestPosts = posts.slice(0, 12);
+const now = new Date();
+const today = now.toISOString().slice(0, 10);
+
+const resolveImage = (cover?: string): string | undefined => {
+  const resolved = resolveCoverPath(cover);
+  if (!resolved) return undefined;
+  return /^https?:\/\//.test(resolved.primary) ? resolved.primary : withBase(resolved.primary);
+};
+
+const postItems: FeedItem[] = posts.slice(0, 12).map((post) => ({
+  id: `article-${post.id}`,
+  kind: "article",
+  label: "文章",
+  title: cleanPostTitle(post.data.title),
+  summary: post.data.description,
+  date: post.data.pubDate,
+  url: buildPostUrl(post),
+  detail: post.data.category,
+  image: resolveImage(post.data.cover),
+  imageAlt: post.data.coverAlt ?? cleanPostTitle(post.data.title),
+}));
+
+const deckItems: FeedItem[] = getDecks()
+  .filter((deck) => deck.date <= today)
+  .slice(0, 8)
+  .map((deck) => ({
+    id: `deck-${deck.slug}`,
+    kind: "deck",
+    label: "簡報",
+    title: deck.title,
+    summary: [deck.event, deck.location].filter(Boolean).join(" · "),
+    date: new Date(`${deck.date}T12:00:00+08:00`),
+    url: withBase(deck.url.replace(/^\//, "")),
+    detail: deck.lang === "en" ? "English" : undefined,
+  }));
+
+const workItems: FeedItem[] = works
+  .slice()
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .slice(0, 8)
+  .map((work) => ({
+    id: `work-${work.slug}`,
+    kind: "work",
+    label: "專題",
+    title: work.title,
+    summary: work.tagline,
+    date: new Date(`${work.date}T12:00:00+08:00`),
+    url: work.url,
+    detail: work.chips?.slice(0, 2).join(" · "),
+    image: work.cover ? withBase(work.cover) : undefined,
+    imageAlt: work.title,
+    external: true,
+  }));
+
+const proItems: FeedItem[] = (await getProFeedEntries())
+  .filter((entry) => entry.date <= now)
+  .slice(0, 8)
+  .map((entry) => ({
+    id: `pro-${entry.url}`,
+    kind: "pro",
+    label: "難題",
+    title: entry.title,
+    summary: entry.description,
+    date: entry.date,
+    url: entry.url,
+    detail: "pro.mashbean.net",
+    image: entry.image,
+    imageAlt: entry.title,
+    external: true,
+  }));
+
+const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
+  .sort((a, b) => b.date.getTime() - a.date.getTime())
+  .slice(0, 24);
 ---
 
 <BaseLayout description="站在單向鏡後方觀看世界應對加速科技的方式。">
-  <section class="home-hero-grid" aria-label="首頁引言">
-    <section class="hero">
-      <figure style="margin:0;">
-        <blockquote class="hero-text" style="margin:0;">
-          <p style="margin:0 0 .5rem;">能身處黎明時分，簡直是天賜之福；</p>
-          <p style="margin:0;">若還年輕，更如置身天堂！</p>
-        </blockquote>
-        <figcaption class="hero-kicker" style="margin-top:.75rem;">華茲華斯（Wordsworth）</figcaption>
-      </figure>
-    </section>
+  <section class="home-intro" aria-labelledby="home-intro-title">
+    <div class="home-intro-copy">
+      <p class="home-intro-kicker">mashbean.net</p>
+      <h1 id="home-intro-title">寫作、研究與手作，沿著時間收在一起。</h1>
+      <p>文章、簡報、專題與「難題」研究報告，共用一條更新時間軸。</p>
+    </div>
+    <figure class="home-quote">
+      <blockquote>
+        <p>能身處黎明時分，簡直是天賜之福；若還年輕，更如置身天堂！</p>
+      </blockquote>
+      <figcaption>華茲華斯（Wordsworth）</figcaption>
+    </figure>
   </section>
 
   <aside
@@ -42,29 +123,197 @@ const latestPosts = posts.slice(0, 12);
   </aside>
 
   <div class="home-section-head">
-    <h2 class="section-title">最新文章</h2>
-    <p class="home-section-meta">最近更新 {latestPosts.length} 篇</p>
+    <div>
+      <p class="home-section-kicker">Timeline</p>
+      <h2 class="section-title">最近更新</h2>
+    </div>
+    <p class="home-section-meta">四個來源 · {feedItems.length} 則</p>
   </div>
   {
-    latestPosts.length === 0 ? (
-      <p class="empty-state">目前還沒有文章。</p>
+    feedItems.length === 0 ? (
+      <p class="empty-state">目前還沒有更新。</p>
     ) : (
-      <section class="home-post-grid" aria-label="近期更新">
-        <ul class="post-list post-list-compact-grid">
-          {latestPosts.map((post) => (
+      <section class="home-feed-wrap" aria-label="近期更新時間軸">
+        <ol class="home-feed-list">
+          {feedItems.map((item) => (
             <li>
-              <PostCard post={post} variant="compact" minimal={true} />
+              <HomeFeedItem item={item} />
             </li>
           ))}
-        </ul>
+        </ol>
       </section>
     )
   }
 
-  <p class="home-all-link">
-    <a href={withBase("blog/")}>查看精選文章 -></a>
-  </p>
+  <nav class="home-source-links" aria-label="瀏覽所有內容">
+    <a href={withBase("blog/")}>所有文章</a>
+    <a href={withBase("decks/")}>所有簡報</a>
+    <a href={withBase("works/")}>所有專題</a>
+    <a href="https://pro.mashbean.net/" target="_blank" rel="noopener noreferrer">前往難題 ↗</a>
+  </nav>
 </BaseLayout>
+
+<style>
+  .home-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
+    gap: 1rem;
+    align-items: stretch;
+    margin-bottom: 1.35rem;
+  }
+
+  .home-intro-copy,
+  .home-quote {
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 1.15rem;
+  }
+
+  .home-intro-copy {
+    padding: clamp(1.2rem, 3vw, 2rem);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 228, 168, 0.46), transparent 42%),
+      linear-gradient(135deg, #f1fbf7 0%, #ffffff 72%);
+  }
+
+  .home-intro-kicker,
+  .home-section-kicker {
+    margin: 0;
+    color: var(--color-accent);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .home-intro h1 {
+    max-width: 17em;
+    margin: 0.38rem 0 0;
+    font-size: clamp(1.7rem, 3.4vw, 2.65rem);
+    line-height: 1.2;
+  }
+
+  .home-intro-copy > p:last-child {
+    max-width: 35rem;
+    margin: 0.72rem 0 0;
+    color: var(--color-muted);
+  }
+
+  .home-quote {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 1.2rem 1.25rem;
+    background: rgba(255, 255, 255, 0.68);
+  }
+
+  .home-quote blockquote,
+  .home-quote p {
+    margin: 0;
+  }
+
+  .home-quote p {
+    color: #344f5a;
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .home-quote figcaption {
+    margin-top: 0.65rem;
+    color: var(--color-accent);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+  }
+
+  .home-section-head {
+    margin-top: 1.45rem;
+  }
+
+  .home-section-head .section-title {
+    margin: 0.12rem 0 0;
+  }
+
+  .home-feed-wrap {
+    margin-top: 1rem;
+  }
+
+  .home-feed-list {
+    position: relative;
+    display: grid;
+    gap: 0.78rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .home-feed-list::before {
+    content: "";
+    position: absolute;
+    top: 1.45rem;
+    bottom: 1.45rem;
+    left: 7.75rem;
+    width: 1px;
+    background: linear-gradient(180deg, #bad8d0 0%, #d8e3df 88%, transparent 100%);
+  }
+
+  .home-feed-list > li {
+    min-width: 0;
+  }
+
+  .home-source-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin: 1.25rem 0 0;
+    padding-left: 9.1rem;
+  }
+
+  .home-source-links a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    padding: 0.28rem 0.78rem;
+    color: var(--color-ink);
+    background: rgba(255, 255, 255, 0.72);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+
+  .home-source-links a:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 760px) {
+    .home-intro {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .home-quote {
+      display: none;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .home-feed-list {
+      gap: 1rem;
+    }
+
+    .home-feed-list::before {
+      top: 0.42rem;
+      bottom: 1rem;
+      left: 0.45rem;
+    }
+
+    .home-source-links {
+      padding-left: 1.72rem;
+    }
+  }
+</style>
 
 <script is:inline>
   const section = document.querySelector("#continue-reading-toast");

@@ -23,6 +23,8 @@ export interface Work {
   note?: string;
   /** Card cover, path under public/ (e.g. images/works/qian-dao.jpg). */
   cover?: string;
+  /** Launch or meaningful-update date used by the unified home feed. */
+  date: string;
   group: "personal" | "matters";
 }
 
@@ -41,6 +43,7 @@ export const works: Work[] = [
     repo: "https://github.com/mashbean/libreoffice-tw-card-signing",
     chips: ["自然人憑證", "LibreOffice", "PAdES B-LTA", "開源"],
     cover: "images/works/libreoffice-tw-card-signing.jpg",
+    date: "2026-08-13",
     group: "personal",
   },
   {
@@ -52,6 +55,7 @@ export const works: Work[] = [
     repo: "https://github.com/mashbean/Open-Book",
     chips: ["開放資料", "中英雙語"],
     cover: "images/works/open-book.jpg",
+    date: "2026-07-23",
     group: "personal",
   },
   {
@@ -63,6 +67,7 @@ export const works: Work[] = [
     repo: "https://github.com/mashbean/civic-proof-en",
     chips: ["研究站", "中英雙語"],
     cover: "images/works/civic-proof.jpg",
+    date: "2026-07-23",
     group: "personal",
   },
   {
@@ -74,6 +79,7 @@ export const works: Work[] = [
     repo: "https://github.com/open-safety-tw/coop",
     chips: ["平台治理", "繁中在地化"],
     cover: "images/works/roost-zh-hant-tw.jpg",
+    date: "2026-08-13",
     group: "personal",
   },
   {
@@ -85,38 +91,39 @@ export const works: Work[] = [
     repo: "https://github.com/mashbean/writing-experiment",
     chips: ["AI 文學創作", "匿名互評"],
     cover: "images/works/writing-experiment.jpg",
+    date: "2026-08-13",
     group: "personal",
   },
   {
     slug: "bonds",
     title: "Bond 有備而來",
-    tagline:
-      "也許今天風和日麗，但 BEAR 可能隨時闖入——把身分與證明先備份好，有備而來。",
+    tagline: "也許今天風和日麗，但 BEAR 可能隨時闖入——把身分與證明先備份好，有備而來。",
     url: "https://bonds.tw/",
     chips: ["數位備災"],
     cover: "images/works/bonds.jpg",
+    date: "2026-07-23",
     group: "personal",
   },
   {
     slug: "nanti-pro",
     title: "難題",
-    tagline:
-      "由豆泥提問、AI 代筆作答的研究報告站——許多問題還沒有正解，但是要有人開始問。",
+    tagline: "由豆泥提問、AI 代筆作答的研究報告站——許多問題還沒有正解，但是要有人開始問。",
     url: "https://pro.mashbean.net/",
     repo: "https://github.com/mashbean/blog-pro",
     chips: ["AI 代筆", "研究報告"],
     cover: "images/works/nanti-pro.jpg",
+    date: "2026-07-23",
     group: "personal",
   },
   {
     slug: "fiction",
     title: "小說集《普通人》",
-    tagline:
-      "五篇小說：框架由豆泥設計、文字由 AI 執筆，把還沒有正解的難題寫成故事。",
+    tagline: "五篇小說：框架由豆泥設計、文字由 AI 執筆，把還沒有正解的難題寫成故事。",
     url: "https://pro.mashbean.net/fiction/",
     repo: "https://github.com/mashbean/blog-pro",
     chips: ["小說", "AI 代筆"],
     cover: "images/works/fiction.jpg",
+    date: "2026-07-23",
     group: "personal",
   },
   {
@@ -128,6 +135,7 @@ export const works: Work[] = [
     repo: "https://github.com/mashbean/qian-dao",
     chips: ["純靜態", "WebAudio 合成音效"],
     cover: "images/works/qian-dao.jpg",
+    date: "2026-07-23",
     group: "personal",
   },
   {
@@ -140,6 +148,7 @@ export const works: Work[] = [
     chips: ["Tor", "匿名閱讀"],
     note: "需以 Tor Browser 開啟",
     cover: "images/works/onion-gateway.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
   {
@@ -151,6 +160,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/matters-safety-guide",
     chips: ["數位安全", "獨立記者"],
     cover: "images/works/safety-guide.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
   {
@@ -161,6 +171,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/seven-day-book-landing",
     chips: ["社群書寫"],
     cover: "images/works/seven-day-book-museum.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
   {
@@ -172,6 +183,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/matters-lifeboat",
     chips: ["資料可攜", "IPFS"],
     cover: "images/works/lifeboat.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
   {
@@ -183,6 +195,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/matters-fediverse-gateway",
     chips: ["ActivityPub", "開發中"],
     cover: "images/works/fediverse-gateway.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
   {
@@ -194,6 +207,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/community-watch",
     chips: ["社群治理"],
     cover: "images/works/community-watch.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
   {
@@ -205,6 +219,7 @@ export const works: Work[] = [
     repo: "https://github.com/thematters/matters-governance-site",
     chips: ["治理科普", "TWNIC 計畫"],
     cover: "images/works/governance.jpg",
+    date: "2026-07-23",
     group: "matters",
   },
 ];
