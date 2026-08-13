@@ -175,7 +175,7 @@ body.dashboard-page {
   margin-top: 12px;
 }
 .dashboard-difficulty .difficulty-chart svg {
-  height: 146px;
+  height: auto;
 }
 .dashboard-difficulty .difficulty-counts {
   gap: 4px;
