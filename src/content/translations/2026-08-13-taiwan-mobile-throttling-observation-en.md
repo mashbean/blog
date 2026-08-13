@@ -151,7 +151,7 @@ Official technical guidance should use an unambiguous unit such as kbit/s or kB/
 - [OONI later Tor retest](https://explorer.ooni.org/m/20260813094933.137105_TW_tor_7b4125a3dedb80b5)
 - [OONI later Snowflake retest](https://explorer.ooni.org/m/20260813094949.832048_TW_torsf_4b722809f5e0c27a)
 
-The safe CSV preserves municipality, scheduled and actual times, ASN, operator, test, status, traffic, OONI UID, Measurement URL, and requested result fields. It contains no public IP address. OONI data are cited under the project’s [CC BY-NC-SA 4.0 data licence](https://github.com/ooni/license/blob/master/data/LICENSE.md).
+The safe CSV preserves municipality, scheduled and actual times, ASN, operator, test, status, traffic, and requested result fields. It contains no public IP address, OONI UID, or Measurement URL. OONI data are cited under the project’s [CC BY-NC-SA 4.0 data licence](https://github.com/ooni/license/blob/master/data/LICENSE.md).
 
 ### Principal background sources
 
