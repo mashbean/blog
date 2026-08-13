@@ -19,19 +19,11 @@ coverAlt: "Comparison of NDT download and upload throughput on Taipei 4G before 
 
 ## Executive summary
 
-On 13 August 2026, Taiwan conducted a mobile-network throttling exercise during its civil-resilience drill across seven northern municipalities. The announced window was 14:30–15:00 Asia/Taipei. Voice calls, SMS, text transmission, emergency numbers, and cell broadcast were expected to remain available while high-bandwidth services could be constrained. Taiwan’s [Executive Yuan notice](https://www.ey.gov.tw/Page/9277F759E41CCD91/66c2bed1-6ca3-4c30-ba7c-4fa0f90e00ec) confirms the time and area. An [Anoni.net community measurement guide](https://anoni.net/docs/en/blog/2026/08/ooni-mobile-throttle-drill/) records the published download ceiling as `256KB`. The source notation does not clearly distinguish `KB/s` from `kbit/s`, so this report preserves it as written.
+Taiwan’s mobile-network throttling drill ended at 15:00 on 13 August 2026. At this Taiwan Mobile 4G observation point in Taipei, download still measured 55.2 kbit/s at 15:08, and the streaming test beginning at 15:10 timed out.
 
-OONI stands for the Open Observatory of Network Interference, an open-source project for measuring internet performance and interference. NDT, the Network Diagnostic Test, measures download, upload, and latency. DASH, Dynamic Adaptive Streaming over HTTP, simulates adaptive video streaming. Tor is an anonymity network that routes traffic through multiple relays. Snowflake is a Tor pluggable transport that connects through short-lived proxies run by volunteers. An ASN, or Autonomous System Number, identifies the network operator carrying a measurement.
+A complete retest at 17:47 measured 30.1 Mbit/s down and completed the streaming, Tor, and Snowflake tests. The observation indicates that the slowdown persisted beyond the announced end and that usable transfer capacity returned later.
 
-In Taipei, I connected a laptop to a 4G hotspot using the same Taiwan Mobile SIM and ran every test sequentially. Every included measurement was confirmed as AS24158, Taiwan Mobile.
-
-- Pre-drill NDT at 14:16 measured **141,998 kbit/s** down. At 15:08, download measured only **55.2 kbit/s**, a **99.96% decrease**.
-- DASH beginning at 15:10 ran for 155 seconds, returned a median bitrate of 0, and timed out. Sustained downstream streaming was still unable to complete about ten minutes after the announced end.
-- A complete retest at 17:47 measured **30,132 kbit/s** down, **546 times** the 15:08 result. DASH completed in 31 seconds. The severe throttle-level impairment had cleared.
-- Download at 17:47 was **21%** of the single pre-drill result, while DASH median bitrate was about **42%**. Server path, radio conditions, and single-test variation affect these comparisons, so the evidence does not establish a return to equivalent pre-drill conditions.
-- In five valid Tor measurements, directory ports and directory-authority OR ports remained 10/10 reachable, while obfs4 bridges remained 4/14. Snowflake reached 100% bootstrap in all three runs. Both tools established connections, with longer runtimes near the end of the event and shortly afterward.
-
-The last clearly impaired observation was DASH ending at 15:12:48. The first clearly recovered observation was NDT beginning at 17:47:30. Recovery occurred within that interval of approximately 2 hours 35 minutes. The available measurements cannot locate it more precisely.
+This report covers one SIM, one observation point, and several measurement times. It cannot represent all of Taipei or establish the exact recovery time.
 
 ![NDT download and upload throughput on Taipei 4G before the drill, after the announced end, and during the later retest. The chart uses a logarithmic scale with exact values labelled.](/images/posts/2026-08-13-taiwan-mobile-throttling-observation/ndt-comparison.svg)
 
@@ -40,6 +32,8 @@ The three NDT runs show a clear sequence. Throughput was high before the drill, 
 ## Background and drill design
 
 The Executive Yuan described the exercise as a simulation of constrained communications during natural disasters, large-scale cyberattacks, or compound emergencies. The northern exercise covered Keelung, Taipei, New Taipei, Taoyuan, Hsinchu City, Hsinchu County, and Yilan. Voice, SMS, text transmission, 110/119 emergency calls, and cell broadcasts were expected to remain operational. Video streaming, video calls, mobile payments, and cloud synchronization could be affected.
+
+Taiwan’s [Executive Yuan notice](https://www.ey.gov.tw/Page/9277F759E41CCD91/66c2bed1-6ca3-4c30-ba7c-4fa0f90e00ec) confirms the time and area. An [Anoni.net community measurement guide](https://anoni.net/docs/en/blog/2026/08/ooni-mobile-throttle-drill/) records the published download ceiling as `256KB`. The source notation does not clearly distinguish `KB/s` from `kbit/s`, so this report preserves it as written.
 
 Because the time, geography, and participating operators were announced in advance, the exercise offered an unusual window for community measurement. This observation addressed three questions.
 
@@ -50,6 +44,12 @@ Because the time, geography, and participating operators were announced in advan
 Official information contained a schedule discrepancy. A few earlier local-government pages listed 13:30–14:00, while the 23 July Executive Yuan notice and newer local notices consistently listed 14:30–15:00. This report uses the later schedule.
 
 ## Method
+
+### Measurement tools
+
+OONI stands for the Open Observatory of Network Interference, an open-source project for measuring internet performance and interference. NDT, the Network Diagnostic Test, measures download, upload, and latency. DASH, Dynamic Adaptive Streaming over HTTP, simulates adaptive video streaming.
+
+Tor is an anonymity network that routes traffic through multiple relays. Snowflake is a Tor pluggable transport that connects through short-lived proxies run by volunteers. An ASN, or Autonomous System Number, identifies the network operator carrying a measurement.
 
 ### Vantage point and safety gates
 
