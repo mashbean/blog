@@ -732,6 +732,109 @@ footer a {
   }
 }
 
+/* Realtime audience reactions */
+.reaction-picker {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #35d9ff2e;
+}
+.reaction-picker > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: baseline;
+}
+.reaction-picker > div:first-child b {
+  color: var(--ink);
+  font-size: 14px;
+}
+.reaction-picker > div:first-child small,
+.reaction-message {
+  color: var(--muted);
+  font-size: 11px;
+}
+.reaction-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+.reaction-buttons button {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  min-height: 68px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  background: #081225;
+  color: var(--ink);
+  font-size: 28px;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+.reaction-buttons button span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+}
+.reaction-buttons button:hover,
+.reaction-buttons button:focus-visible {
+  border-color: var(--sage);
+  background: #102343;
+  outline: none;
+  transform: translateY(-2px);
+}
+.reaction-buttons button.sent {
+  animation: reaction-confirm 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reaction-buttons button:disabled {
+  cursor: wait;
+  opacity: 0.78;
+}
+.reaction-message {
+  min-height: 16px;
+  color: var(--sage);
+}
+@keyframes reaction-confirm {
+  0%, 100% { transform: scale(1); }
+  42% { transform: scale(1.13) rotate(-3deg); box-shadow: 0 0 0 8px #35d9ff16; }
+}
+
+/* Give question copy the full card width; keep the upvote as a second-row action. */
+.question-card {
+  grid-template-columns: 38px minmax(0, 1fr);
+  grid-template-areas:
+    "rank copy"
+    ". action";
+}
+.question-rank {
+  grid-area: rank;
+}
+.question-card > div:nth-child(2) {
+  grid-area: copy;
+  min-width: 0;
+}
+.question-card .upvote {
+  grid-area: action;
+  justify-self: start;
+}
+
+@media (max-width: 560px) {
+  .reaction-picker > div:first-child {
+    display: grid;
+    gap: 3px;
+  }
+  .reaction-buttons button {
+    min-height: 62px;
+    font-size: 25px;
+  }
+  .reaction-buttons button span {
+    font-size: 9px;
+  }
+}
+
 /* Live difficulty feedback */
 .difficulty-card {
   margin-bottom: 18px;

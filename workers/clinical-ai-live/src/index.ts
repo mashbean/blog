@@ -23,6 +23,7 @@ type AudienceQuestion = {
 };
 
 type QuestionLens = "clarify" | "chorus" | "bridge" | "keeper";
+type ReactionKind = "applause" | "insight" | "resonate" | "pause";
 
 type SessionSnapshot = {
   updatedAt: number;
@@ -50,6 +51,7 @@ type QuestionRow = {
 const SESSION_NAME = "clinical-ai-2026-08-14";
 const MAX_BODY_BYTES = 4096;
 const QUESTION_LENSES = new Set<QuestionLens>(["clarify", "chorus", "bridge", "keeper"]);
+const REACTION_KINDS = new Set<ReactionKind>(["applause", "insight", "resonate", "pause"]);
 
 const POLLS: Poll[] = [
   {
@@ -315,6 +317,25 @@ export class LiveSession extends DurableObject<Env> {
     return this.broadcastSnapshot();
   }
 
+  async react(kind: ReactionKind, voterId: string): Promise<{ ok: true }> {
+    assertVoterId(voterId);
+    if (!REACTION_KINDS.has(kind)) throw new Error("invalid reaction");
+    const payload = JSON.stringify({
+      type: "reaction",
+      data: { id: crypto.randomUUID(), kind, createdAt: Date.now() },
+    });
+    for (const socket of this.ctx.getWebSockets()) {
+      try {
+        socket.send(payload);
+      } catch (error) {
+        console.error(
+          JSON.stringify({ message: "reaction broadcast failed", error: String(error) }),
+        );
+      }
+    }
+    return { ok: true };
+  }
+
   async fetch(request: Request): Promise<Response> {
     if (request.headers.get("Upgrade")?.toLowerCase() !== "websocket") {
       return new Response("expected websocket", { status: 426 });
@@ -415,6 +436,20 @@ export default {
           return cors(jsonError("invalid upvote", 400), request);
         }
         return cors(Response.json(await stub.upvote(body.questionId, body.voterId)), request);
+      }
+
+      if (url.pathname === "/api/reaction") {
+        if (
+          typeof body.kind !== "string" ||
+          typeof body.voterId !== "string" ||
+          !REACTION_KINDS.has(body.kind as ReactionKind)
+        ) {
+          return cors(jsonError("invalid reaction", 400), request);
+        }
+        return cors(
+          Response.json(await stub.react(body.kind as ReactionKind, body.voterId)),
+          request,
+        );
       }
 
       return cors(jsonError("not found", 404), request);

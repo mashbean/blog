@@ -60,6 +60,19 @@
             <span data-difficulty-total>等待第一個回報</span>
             <span data-difficulty-message>拖動後會自動更新</span>
           </div>
+          <div class="reaction-picker" aria-labelledby="reaction-title">
+            <div>
+              <b id="reaction-title">送一個即時反應</b>
+              <small>會立刻出現在講者的 dashboard</small>
+            </div>
+            <div class="reaction-buttons">
+              <button type="button" data-reaction="applause" aria-label="說得好">👏<span>說得好</span></button>
+              <button type="button" data-reaction="insight" aria-label="有啟發">💡<span>有啟發</span></button>
+              <button type="button" data-reaction="resonate" aria-label="有共鳴">❤️<span>有共鳴</span></button>
+              <button type="button" data-reaction="pause" aria-label="想一下">🤔<span>想一下</span></button>
+            </div>
+            <span class="reaction-message" data-reaction-message aria-live="polite"></span>
+          </div>
         </section>
 
         <form id="question-form" class="ask-card">

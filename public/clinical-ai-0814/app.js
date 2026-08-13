@@ -14,6 +14,7 @@ const difficultyInput = document.querySelector("#difficulty");
 const difficultyValueEl = document.querySelector("[data-difficulty-value]");
 const difficultyLabelEl = document.querySelector("[data-difficulty-label]");
 const difficultyMessageEl = document.querySelector("[data-difficulty-message]");
+const reactionMessageEl = document.querySelector("[data-reaction-message]");
 let state = {
   polls: [],
   difficulty: { counts: [0, 0, 0, 0, 0], total: 0, average: null },
@@ -64,6 +65,27 @@ document.querySelectorAll("[data-tab]").forEach((button) => {
       .forEach((panel) =>
         panel.classList.toggle("active", panel.dataset.panel === button.dataset.tab),
       );
+  });
+});
+
+document.querySelectorAll("[data-reaction]").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const kind = button.dataset.reaction;
+    button.disabled = true;
+    try {
+      await post("/api/reaction", { kind, voterId });
+      reactionMessageEl.textContent = `${button.firstChild.textContent.trim()} 已送到現場`;
+      button.classList.remove("sent");
+      void button.offsetWidth;
+      button.classList.add("sent");
+      setTimeout(() => button.classList.remove("sent"), 700);
+    } catch {
+      reactionMessageEl.textContent = "反應沒有送出去，請再試一次";
+    } finally {
+      setTimeout(() => {
+        button.disabled = false;
+      }, 350);
+    }
   });
 });
 

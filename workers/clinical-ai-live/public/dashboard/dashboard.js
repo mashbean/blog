@@ -4,6 +4,8 @@ const apiBase = "/api";
 const pollsRoot = document.querySelector("#dashboard-polls");
 const questionsRoot = document.querySelector("#dashboard-questions");
 const statusEl = document.querySelector("[data-status]");
+const dashboardHeader = document.querySelector(".dashboard-header");
+const reactionStage = document.querySelector("[data-reaction-stage]");
 const tabButtons = [...document.querySelectorAll("[data-dashboard-tab]")];
 const tabPanels = [...document.querySelectorAll("[data-dashboard-panel]")];
 const lensLabels = {
@@ -92,12 +94,38 @@ function connect() {
   socket.addEventListener("message", (event) => {
     const message = JSON.parse(event.data);
     if (message.type === "snapshot") render(message.data);
+    if (message.type === "reaction") showReaction(message.data);
   });
   socket.addEventListener("close", () => {
     setStatus(false);
     setTimeout(connect, 1500);
   });
 }
+
+function showReaction(reaction) {
+  const emoji = { applause: "👏", insight: "💡", resonate: "❤️", pause: "🤔" }[
+    reaction?.kind
+  ];
+  if (!emoji) return;
+  const burst = document.createElement("div");
+  burst.className = `reaction-popup reaction-${reaction.kind}`;
+  burst.textContent = emoji;
+  burst.style.setProperty("--reaction-x", `${12 + Math.random() * 72}%`);
+  burst.style.setProperty("--reaction-drift", `${-30 + Math.random() * 60}px`);
+  burst.style.setProperty("--reaction-rotate", `${-16 + Math.random() * 32}deg`);
+  reactionStage.append(burst);
+  setTimeout(() => burst.remove(), 2600);
+}
+
+function syncStickyOffset() {
+  document.documentElement.style.setProperty(
+    "--dashboard-header-height",
+    `${Math.ceil(dashboardHeader.getBoundingClientRect().height)}px`,
+  );
+}
+
+new ResizeObserver(syncStickyOffset).observe(dashboardHeader);
+syncStickyOffset();
 
 function setStatus(online) {
   statusEl.classList.toggle("online", online);

@@ -10,11 +10,15 @@
   </head>
   <body class="dashboard-page">
     <header class="dashboard-header">
-      <div>
+      <div class="dashboard-brand">
         <div class="eyebrow">LIVE · 8/14</div>
-        <h1>臨床工作者 AI Agent<br />現場互動</h1>
+        <h1>臨床工作者 AI Agent 現場互動</h1>
       </div>
-      <div class="live-status" data-status><span></span>連線中</div>
+      <a class="dashboard-join" href="/" target="_blank" rel="noreferrer">
+        <img src="https://mashbean.net/decks/clinical-ai-agent-0814/qr-live.png" alt="掃碼進入現場互動" />
+        <span><b>掃碼互動</b><small>難易度 · 提問 · emoji</small></span>
+      </a>
+      <div class="live-status dashboard-connection" data-status><span></span>連線中</div>
       <nav class="dashboard-tabs" role="tablist" aria-label="儀表板內容">
         <button
           class="active"
@@ -56,6 +60,10 @@
             </svg>
             <div class="difficulty-counts" data-difficulty-counts></div>
           </div>
+          <div class="dashboard-reaction-hint" aria-label="即時 emoji 反應">
+            <span>即時反應</span>
+            <div aria-hidden="true"><b>👏</b><b>💡</b><b>❤️</b><b>🤔</b></div>
+          </div>
         </section>
 
         <section class="dashboard-section">
@@ -88,6 +96,7 @@
       </div>
     </main>
     <a class="dashboard-open" href="/" target="_blank" rel="noreferrer">開啟參與頁 ↗</a>
+    <div class="reaction-stage" data-reaction-stage aria-live="polite"></div>
     <script type="module" src="/dashboard/dashboard.js"></script>
   </body>
 </html>
