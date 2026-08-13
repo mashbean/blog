@@ -3,8 +3,8 @@
   <desc id="desc">A logarithmic horizontal bar chart. Download fell from 141,998 kilobits per second at 14:16 to 55 kilobits per second at 15:08. Upload fell from 13,982 to 1,400 kilobits per second.</desc>
   <rect width="1200" height="720" fill="#f7fbfa"/>
   <g font-family="ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" fill="#163834">
-    <text x="72" y="76" font-size="38" font-weight="700">NDT throughput: pre-drill vs post-window</text>
-    <text x="72" y="116" font-size="22" fill="#496b66">AS24158 · New Taipei · 4G hotspot · kbit/s · logarithmic scale</text>
+    <text x="72" y="76" font-size="38" font-weight="700">NDT throughput before and after the drill</text>
+    <text x="72" y="116" font-size="22" fill="#496b66">AS24158 · Taipei · 4G hotspot · kbit/s · logarithmic scale</text>
     <g stroke="#c9ddd8" stroke-width="1">
       <line x1="330" y1="172" x2="330" y2="610"/><line x1="500" y1="172" x2="500" y2="610"/>
       <line x1="670" y1="172" x2="670" y2="610"/><line x1="840" y1="172" x2="840" y2="610"/>
