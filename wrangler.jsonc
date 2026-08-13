@@ -9,7 +9,11 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
-    "run_worker_first": ["/clinical-ai-0814/api/*"],
+    "run_worker_first": [
+      "/clinical-ai-0814/api/*",
+      "/blog/2026/0813-10x9em",
+      "/blog/2026/0813-10x9em/",
+    ],
     // Astro uses trailingSlash: "always" + build.format: "directory", so pages
     // live at /path/index.html — auto-trailing-slash resolves /path -> /path/.
     "html_handling": "auto-trailing-slash",
