@@ -10,13 +10,12 @@ source: mashbean.net
 contentType: observation-report
 era: recent
 lang: en
+translationOf: taiwan-mobile-throttling-observation-zh
 slug: taiwan-mobile-throttling-observation-en
 draft: false
 cover: images/posts/2026-08-13-taiwan-mobile-throttling-observation/ndt-comparison.svg
 coverAlt: "Log-scale comparison of NDT download and upload throughput before and after Taiwan's mobile throttling drill"
 ---
-
-[正體中文版 →](/blog/2026/0813-16xy2v/)
 
 ## Executive summary
 

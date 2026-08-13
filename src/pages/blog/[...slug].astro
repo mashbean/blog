@@ -534,6 +534,7 @@ const articleStructuredData = !isLegacyPath
 
         const setLang = (lang, updateUrl) => {
           article.setAttribute("data-active-lang", lang);
+          document.documentElement.lang = lang === "en" ? "en" : "zh-TW";
           buttons.forEach((btn) => {
             const isActive = btn.getAttribute("data-lang-btn") === lang;
             btn.classList.toggle("is-active", isActive);
