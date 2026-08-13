@@ -736,9 +736,11 @@ footer a {
 .reaction-picker {
   display: grid;
   gap: 12px;
-  margin-top: 18px;
-  padding-top: 16px;
-  border-top: 1px solid #35d9ff2e;
+  margin: 18px 0 6px;
+  padding: 14px;
+  border: 1px solid #35d9ff2e;
+  border-radius: 18px;
+  background: #061025b8;
 }
 .reaction-picker > div:first-child {
   display: flex;
@@ -827,8 +829,9 @@ footer a {
     gap: 3px;
   }
   .reaction-buttons button {
-    min-height: 62px;
-    font-size: 25px;
+    min-height: 54px;
+    border-radius: 13px;
+    font-size: 22px;
   }
   .reaction-buttons button span {
     font-size: 9px;
