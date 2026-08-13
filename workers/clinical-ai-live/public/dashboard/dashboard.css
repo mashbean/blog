@@ -154,9 +154,6 @@ body.dashboard-page {
   text-align: right;
 }
 .dashboard-difficulty.difficulty-card {
-  position: sticky;
-  top: calc(var(--dashboard-header-height, 136px) + 12px);
-  z-index: 7;
   padding: 18px;
   border-color: #35d9ff4d;
   border-radius: 20px;

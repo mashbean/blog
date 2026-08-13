@@ -24,7 +24,7 @@ function render(state) {
           const percent = poll.total
             ? Math.round((poll.counts[optionIndex] / poll.total) * 100)
             : 0;
-          return `<div class="result-row"><span>${escapeHtml(option)}</span><div><i style="--pct:${percent}%"></i></div><b>${percent}%</b></div>`;
+          return `<div class="result-row"><span>${escapeHtml(option)}</span><div><i style="--pct:${percent}%"></i></div><b>${poll.counts[optionIndex]} 票</b></div>`;
         })
         .join("")}
     </article>`,

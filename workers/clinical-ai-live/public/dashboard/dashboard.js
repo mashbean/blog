@@ -4,7 +4,6 @@ const apiBase = "/api";
 const pollsRoot = document.querySelector("#dashboard-polls");
 const questionsRoot = document.querySelector("#dashboard-questions");
 const statusEl = document.querySelector("[data-status]");
-const dashboardHeader = document.querySelector(".dashboard-header");
 const reactionStage = document.querySelector("[data-reaction-stage]");
 const tabButtons = [...document.querySelectorAll("[data-dashboard-tab]")];
 const tabPanels = [...document.querySelectorAll("[data-dashboard-panel]")];
@@ -29,7 +28,7 @@ function render(state) {
               const percent = poll.total
                 ? Math.round((poll.counts[optionIndex] / poll.total) * 100)
                 : 0;
-              return `<div class="dashboard-result-row"><span>${escapeHtml(option)}</span><div><i style="--pct:${percent}%"></i></div><b>${percent}%</b></div>`;
+              return `<div class="dashboard-result-row"><span>${escapeHtml(option)}</span><div><i style="--pct:${percent}%"></i></div><b>${poll.counts[optionIndex]} 票</b></div>`;
             })
             .join("")}
         </article>`,
@@ -116,16 +115,6 @@ function showReaction(reaction) {
   reactionStage.append(burst);
   setTimeout(() => burst.remove(), 2600);
 }
-
-function syncStickyOffset() {
-  document.documentElement.style.setProperty(
-    "--dashboard-header-height",
-    `${Math.ceil(dashboardHeader.getBoundingClientRect().height)}px`,
-  );
-}
-
-new ResizeObserver(syncStickyOffset).observe(dashboardHeader);
-syncStickyOffset();
 
 function setStatus(online) {
   statusEl.classList.toggle("online", online);

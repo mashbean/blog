@@ -155,7 +155,7 @@ function render() {
               return `<button class="option ${hasVote && selected === optionIndex ? "selected" : ""}" data-poll="${poll.id}" data-option="${optionIndex}">
               <span class="bar" style="--pct:${percent}%"></span>
               <span class="option-copy"><b>${String.fromCharCode(65 + optionIndex)}</b>${escapeHtml(option)}</span>
-              <span class="percent">${percent}%</span>
+              <span class="percent">${poll.counts[optionIndex]} 票</span>
             </button>`;
             })
             .join("")}
