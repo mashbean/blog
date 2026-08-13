@@ -88,19 +88,9 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
 ---
 
 <BaseLayout description="站在單向鏡後方觀看世界應對加速科技的方式。">
-  <section class="home-intro" aria-labelledby="home-intro-title">
-    <div class="home-intro-copy">
-      <p class="home-intro-kicker">mashbean.net</p>
-      <h1 id="home-intro-title">寫作、研究與手作，沿著時間收在一起。</h1>
-      <p>文章、簡報、專題與「難題」研究報告，共用一條更新時間軸。</p>
-    </div>
-    <figure class="home-quote">
-      <blockquote>
-        <p>能身處黎明時分，簡直是天賜之福；若還年輕，更如置身天堂！</p>
-      </blockquote>
-      <figcaption>華茲華斯（Wordsworth）</figcaption>
-    </figure>
-  </section>
+  <header class="home-heading">
+    <h1 class="section-title">mashbean.net 是黃豆泥的部落格</h1>
+  </header>
 
   <aside
     id="continue-reading-toast"
@@ -122,7 +112,7 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     </a>
   </aside>
 
-  <div class="home-section-head">
+  <div class="home-section-head home-feed-heading">
     <div>
       <p class="home-section-kicker">Timeline</p>
       <h2 class="section-title">最近更新</h2>
@@ -154,28 +144,23 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
 </BaseLayout>
 
 <style>
-  .home-intro {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(17rem, 0.75fr);
-    gap: 1rem;
-    align-items: stretch;
-    margin-bottom: 1.35rem;
+  .home-heading,
+  .home-feed-heading,
+  .home-feed-wrap,
+  .home-source-links {
+    width: min(100%, 46rem);
+    margin-inline: auto;
   }
 
-  .home-intro-copy,
-  .home-quote {
-    border: 1px solid var(--color-border-subtle);
-    border-radius: 1.15rem;
+  .home-heading {
+    padding: 0.2rem 0 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
   }
 
-  .home-intro-copy {
-    padding: clamp(1.2rem, 3vw, 2rem);
-    background:
-      radial-gradient(circle at 100% 0%, rgba(255, 228, 168, 0.46), transparent 42%),
-      linear-gradient(135deg, #f1fbf7 0%, #ffffff 72%);
+  .home-heading .section-title {
+    margin: 0;
   }
 
-  .home-intro-kicker,
   .home-section-kicker {
     margin: 0;
     color: var(--color-accent);
@@ -186,49 +171,8 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     text-transform: uppercase;
   }
 
-  .home-intro h1 {
-    max-width: 17em;
-    margin: 0.38rem 0 0;
-    font-size: clamp(1.7rem, 3.4vw, 2.65rem);
-    line-height: 1.2;
-  }
-
-  .home-intro-copy > p:last-child {
-    max-width: 35rem;
-    margin: 0.72rem 0 0;
-    color: var(--color-muted);
-  }
-
-  .home-quote {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 1.2rem 1.25rem;
-    background: rgba(255, 255, 255, 0.68);
-  }
-
-  .home-quote blockquote,
-  .home-quote p {
-    margin: 0;
-  }
-
-  .home-quote p {
-    color: #344f5a;
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    line-height: 1.75;
-  }
-
-  .home-quote figcaption {
-    margin-top: 0.65rem;
-    color: var(--color-accent);
-    font-size: 0.78rem;
-    letter-spacing: 0.04em;
-  }
-
   .home-section-head {
-    margin-top: 1.45rem;
+    margin-top: 1.2rem;
   }
 
   .home-section-head .section-title {
@@ -236,26 +180,15 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
   }
 
   .home-feed-wrap {
-    margin-top: 1rem;
+    margin-top: 0.7rem;
   }
 
   .home-feed-list {
-    position: relative;
     display: grid;
-    gap: 0.78rem;
+    gap: 0.85rem;
     margin: 0;
     padding: 0;
     list-style: none;
-  }
-
-  .home-feed-list::before {
-    content: "";
-    position: absolute;
-    top: 1.45rem;
-    bottom: 1.45rem;
-    left: 7.75rem;
-    width: 1px;
-    background: linear-gradient(180deg, #bad8d0 0%, #d8e3df 88%, transparent 100%);
   }
 
   .home-feed-list > li {
@@ -266,8 +199,7 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     display: flex;
     flex-wrap: wrap;
     gap: 0.55rem;
-    margin: 1.25rem 0 0;
-    padding-left: 9.1rem;
+    margin-top: 1.25rem;
   }
 
   .home-source-links a {
@@ -288,29 +220,13 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     color: var(--color-accent);
   }
 
-  @media (max-width: 760px) {
-    .home-intro {
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .home-quote {
-      display: none;
-    }
-  }
-
   @media (max-width: 680px) {
     .home-feed-list {
-      gap: 1rem;
-    }
-
-    .home-feed-list::before {
-      top: 0.42rem;
-      bottom: 1rem;
-      left: 0.45rem;
+      gap: 0.75rem;
     }
 
     .home-source-links {
-      padding-left: 1.72rem;
+      gap: 0.45rem;
     }
   }
 </style>
