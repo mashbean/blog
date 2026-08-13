@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "toda-metagov-2026",
+    title: "Taiwan's present, after touching the future",
+    event: "Interoperable Deliberative Tools in the Asia Pacific · TODA Peace Institute × MetaGov",
+    date: "2026-08-14",
+    location: "Japan",
+    lang: "en",
+    featured: true,
+  },
+  {
     slug: "clinical-ai-agent-0814",
     title: "臨床工作者的 AI Agent 第一課",
     event: "AI 醫點也不難 · 醫療人的 AI 實作課",

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <title>Taiwan's present, after touching the future · mashbean</title>
+    <meta
+      name="description"
+      content="Slides by Yen-Lin Huang for the TODA Peace Institute and MetaGov workshop, Interoperable Deliberative Tools in the Asia Pacific."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Taiwan's present, after touching the future" />
+    <meta
+      property="og:description"
+      content="Interoperable Deliberative Tools in the Asia Pacific · TODA Peace Institute × MetaGov"
+    />
+    <meta property="og:url" content="https://mashbean.net/decks/toda-metagov-2026/" />
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #f4f3f1;
+        --ink: #252322;
+        --muted: #6f6c69;
+        --line: #d8d5d1;
+        --blue: #007da5;
+        --blue-dark: #005f7e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      body {
+        font-family:
+          Inter,
+          ui-sans-serif,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .shell {
+        width: min(1440px, 100%);
+        margin: 0 auto;
+        padding: clamp(18px, 3vw, 42px);
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--blue-dark);
+        font-size: 0.76rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        line-height: 1.4;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 980px;
+        margin: 0;
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: clamp(2rem, 4.5vw, 4.6rem);
+        letter-spacing: -0.035em;
+        line-height: 0.98;
+      }
+
+      .meta {
+        max-width: 840px;
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+        font-size: clamp(1rem, 1.55vw, 1.25rem);
+        line-height: 1.45;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 24px 0;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 42px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 9px 15px;
+        background: rgba(255, 255, 255, 0.55);
+        font-size: 0.9rem;
+        font-weight: 650;
+        text-decoration: none;
+        transition:
+          border-color 150ms ease,
+          color 150ms ease,
+          transform 150ms ease;
+      }
+
+      .button:hover,
+      .button:focus-visible {
+        border-color: var(--blue);
+        color: var(--blue-dark);
+        transform: translateY(-1px);
+      }
+
+      .button.primary {
+        border-color: var(--blue);
+        background: var(--blue);
+        color: white;
+      }
+
+      .button.primary:hover,
+      .button.primary:focus-visible {
+        background: var(--blue-dark);
+        color: white;
+      }
+
+      .viewer {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: white;
+        box-shadow: 0 24px 70px rgba(37, 35, 34, 0.12);
+      }
+
+      .viewer object {
+        display: block;
+        width: 100%;
+        height: min(78vh, 850px);
+        min-height: 520px;
+      }
+
+      .fallback {
+        display: grid;
+        min-height: 520px;
+        place-items: center;
+        padding: 32px;
+        text-align: center;
+      }
+
+      .footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.82rem;
+      }
+
+      @media (max-width: 680px) {
+        .viewer object {
+          height: 68vh;
+          min-height: 420px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <p class="eyebrow">Interoperable Deliberative Tools in the Asia Pacific · 2026</p>
+      <h1>Taiwan's present, after touching the future</h1>
+      <p class="meta">
+        Yen-Lin Huang · TODA Peace Institute × MetaGov workshop · Taiwan civic tech, government,
+        platform governance, and digital identity
+      </p>
+
+      <nav class="actions" aria-label="Presentation actions">
+        <a class="button primary" href="slides.pdf" target="_blank" rel="noopener">Open PDF</a>
+        <a class="button" href="slides.pdf" download>Download PDF · 6 slides</a>
+        <a class="button" href="slides.pptx" download>Download PowerPoint</a>
+        <a class="button" href="/decks/">All decks</a>
+      </nav>
+
+      <section class="viewer" aria-label="Presentation preview">
+        <object data="slides.pdf#view=FitH" type="application/pdf">
+          <div class="fallback">
+            <p>
+              This browser cannot display the embedded PDF.<br />
+              <a href="slides.pdf">Open the six-slide deck</a>.
+            </p>
+          </div>
+        </object>
+      </section>
+
+      <footer class="footer">
+        <span>English with Japanese section labels</span>
+        <span>mashbean · 2026</span>
+      </footer>
+    </main>
+  </body>
+</html>
