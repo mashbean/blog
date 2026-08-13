@@ -9,12 +9,6 @@ interface Props {
 const { item } = Astro.props as Props;
 const imageErrorHandler =
   "this.closest('.home-feed-card')?.classList.remove('home-feed-card-with-image');this.closest('.home-feed-media')?.remove()";
-const kindMark: Record<HomeFeedItem["kind"], string> = {
-  article: "文",
-  deck: "簡",
-  work: "專",
-  pro: "難",
-};
 ---
 
 <article class="home-feed-entry" data-kind={item.kind}>
@@ -25,12 +19,11 @@ const kindMark: Record<HomeFeedItem["kind"], string> = {
     rel={item.external ? "noopener noreferrer" : undefined}
   >
     <header class="home-feed-header">
-      <span class="home-feed-avatar" aria-hidden="true">{kindMark[item.kind]}</span>
       <p class="home-feed-meta">
+        <time class="home-feed-date" datetime={item.date.toISOString()}>{formatDate(item.date)}</time>
+        <span class="home-feed-separator" aria-hidden="true">·</span>
         <strong class="home-feed-kind">{item.label}</strong>
         {item.detail && <span class="home-feed-detail">{item.detail}</span>}
-        <span class="home-feed-separator" aria-hidden="true">·</span>
-        <time class="home-feed-date" datetime={item.date.toISOString()}>{formatDate(item.date)}</time>
       </p>
     </header>
     <div class="home-feed-body">
@@ -66,7 +59,22 @@ const kindMark: Record<HomeFeedItem["kind"], string> = {
 
 <style>
   .home-feed-entry {
+    position: relative;
     min-width: 0;
+  }
+
+  .home-feed-entry::before {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 1.14rem;
+    left: -1.48rem;
+    width: 0.72rem;
+    height: 0.72rem;
+    border: 2px solid var(--feed-accent, var(--color-accent));
+    border-radius: 50%;
+    background: var(--color-paper);
+    box-shadow: 0 0 0 0.25rem var(--color-paper);
   }
 
   .home-feed-card {
@@ -104,23 +112,8 @@ const kindMark: Record<HomeFeedItem["kind"], string> = {
   .home-feed-header {
     display: flex;
     align-items: center;
-    gap: 0.48rem;
     min-width: 0;
     margin-bottom: 0.58rem;
-  }
-
-  .home-feed-avatar {
-    display: grid;
-    flex: 0 0 auto;
-    width: 1.62rem;
-    height: 1.62rem;
-    place-items: center;
-    border: 1px solid color-mix(in oklab, var(--feed-accent) 28%, white 72%);
-    border-radius: 0.42rem;
-    color: var(--feed-accent, var(--color-accent));
-    background: var(--feed-soft, var(--color-accent-soft));
-    font-size: 0.7rem;
-    font-weight: 800;
   }
 
   .home-feed-body {
@@ -174,9 +167,11 @@ const kindMark: Record<HomeFeedItem["kind"], string> = {
 
   .home-feed-date {
     flex: 0 0 auto;
-    color: color-mix(in oklab, var(--color-muted) 84%, white 16%);
+    color: var(--feed-accent, var(--color-accent));
     font-family: "JetBrains Mono", monospace;
-    font-size: 0.68rem;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.01em;
   }
 
   .home-feed-title {
@@ -275,6 +270,10 @@ const kindMark: Record<HomeFeedItem["kind"], string> = {
 
     .home-feed-header {
       margin-bottom: 0.5rem;
+    }
+
+    .home-feed-entry::before {
+      top: 1.02rem;
     }
 
     .home-feed-summary {

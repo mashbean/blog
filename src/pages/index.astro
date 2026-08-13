@@ -176,11 +176,23 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
   }
 
   .home-feed-list {
+    position: relative;
     display: grid;
     gap: 0.68rem;
     margin: 0;
-    padding: 0;
+    padding: 0 0 0 1.65rem;
     list-style: none;
+  }
+
+  .home-feed-list::before {
+    content: "";
+    position: absolute;
+    top: 1.1rem;
+    bottom: 1.1rem;
+    left: 0.5rem;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #9bc9bd 0%, #bad4ce 48%, #d8dfdc 100%);
   }
 
   .home-feed-list > li {
@@ -245,6 +257,14 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
 
     .home-source-links {
       gap: 0.45rem;
+    }
+
+    .home-feed-list {
+      padding-left: 1.45rem;
+    }
+
+    .home-feed-list::before {
+      left: 0.4rem;
     }
   }
 </style>
