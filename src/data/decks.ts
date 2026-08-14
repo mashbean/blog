@@ -33,7 +33,7 @@ export const decks: Deck[] = [
     slug: "toda-metagov-2026",
     title: "Taiwan's present, after touching the future",
     event: "Interoperable Deliberative Tools in the Asia Pacific · TODA Peace Institute × MetaGov",
-    date: "2026-08-14",
+    date: "2026-07-29",
     location: "Japan",
     lang: "en",
     featured: true,
