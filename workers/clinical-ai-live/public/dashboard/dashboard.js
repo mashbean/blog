@@ -3,8 +3,6 @@ import { difficultyLabels, renderDifficultyChart } from "../difficulty.js";
 const apiBase = "/api";
 const pollsRoot = document.querySelector("#dashboard-polls");
 const questionsRoot = document.querySelector("#dashboard-questions");
-const statusEl = document.querySelector("[data-status]");
-const reactionStage = document.querySelector("[data-reaction-stage]");
 const tabButtons = [...document.querySelectorAll("[data-dashboard-tab]")];
 const tabPanels = [...document.querySelectorAll("[data-dashboard-panel]")];
 const lensLabels = {
@@ -86,41 +84,6 @@ function formatTime(value) {
     : "剛剛";
 }
 
-function connect() {
-  const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-  const socket = new WebSocket(`${protocol}//${location.host}${apiBase}/live`);
-  socket.addEventListener("open", () => setStatus(true));
-  socket.addEventListener("message", (event) => {
-    const message = JSON.parse(event.data);
-    if (message.type === "snapshot") render(message.data);
-    if (message.type === "reaction") showReaction(message.data);
-  });
-  socket.addEventListener("close", () => {
-    setStatus(false);
-    setTimeout(connect, 1500);
-  });
-}
-
-function showReaction(reaction) {
-  const emoji = { applause: "👏", insight: "💡", resonate: "❤️", pause: "🤔" }[
-    reaction?.kind
-  ];
-  if (!emoji) return;
-  const burst = document.createElement("div");
-  burst.className = `reaction-popup reaction-${reaction.kind}`;
-  burst.textContent = emoji;
-  burst.style.setProperty("--reaction-x", `${12 + Math.random() * 72}%`);
-  burst.style.setProperty("--reaction-drift", `${-30 + Math.random() * 60}px`);
-  burst.style.setProperty("--reaction-rotate", `${-16 + Math.random() * 32}deg`);
-  reactionStage.append(burst);
-  setTimeout(() => burst.remove(), 2600);
-}
-
-function setStatus(online) {
-  statusEl.classList.toggle("online", online);
-  statusEl.lastChild.textContent = online ? "即時連線" : "重新連線中";
-}
-
 function escapeHtml(value) {
   return String(value).replace(
     /[&<>"']/g,
@@ -142,8 +105,10 @@ window.addEventListener("keydown", (event) => {
 });
 
 fetch(`${apiBase}/state`)
-  .then((response) => response.json())
+  .then((response) => {
+    if (!response.ok) throw new Error("activity archive unavailable");
+    return response.json();
+  })
   .then(render)
   .catch(() => {});
 setDashboardTab(location.hash === "#polls" ? "polls" : "live");
-connect();

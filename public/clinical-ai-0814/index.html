@@ -3,158 +3,61 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta name="theme-color" content="#081225" />
-    <title>8/14 臨床工作者 AI Agent 現場互動</title>
-    <link rel="stylesheet" href="/clinical-ai-0814/style.css?v=9" />
+    <meta name="theme-color" content="#2f3e33" />
+    <title>8/14 現場互動紀錄</title>
+    <link rel="stylesheet" href="/clinical-ai-0814/style.css?v=10" />
   </head>
-  <body>
-    <header class="hero">
-      <div class="eyebrow">8/14 · CLINICAL AI AGENT</div>
-      <h1>來都來了，<br />問倒豆泥</h1>
-      <p>請掃 QR Code，跟我說你聽不聽得懂，提問，或給我拍拍手。</p>
-      <div class="live-status" data-status><span></span>連線中</div>
+  <body class="results-page">
+    <header class="results-header">
+      <div>
+        <div class="eyebrow">SESSION ARCHIVE · 8/14</div>
+        <h1>現場互動<br />活動紀錄</h1>
+        <p class="results-intro">活動已結束，保留投票結果、難易度分布與建設性提問。</p>
+      </div>
+      <div class="live-status closed-status" data-status><span></span>活動已結束</div>
     </header>
-    <main>
-      <nav class="tabs" aria-label="互動功能">
-        <button class="active" data-tab="questions">隨時提問</button>
-        <button data-tab="polls">快速投票</button>
-      </nav>
-      <section data-panel="polls" class="panel">
-        <div id="polls" class="poll-grid" aria-live="polite"></div>
+    <main class="results-main">
+      <section class="results-difficulty difficulty-card">
+        <div class="difficulty-heading">
+          <div>
+            <div class="eyebrow">DIFFICULTY</div>
+            <h2>課堂難易度分布</h2>
+          </div>
+          <div class="difficulty-note"><span data-difficulty-total>讀取紀錄中</span></div>
+        </div>
+        <div class="difficulty-chart" aria-label="現場難易度分布" role="img">
+          <svg viewBox="0 0 600 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <path class="difficulty-grid-line" d="M20 170 H580" />
+            <path data-difficulty-area class="difficulty-area" />
+            <path data-difficulty-line class="difficulty-line" />
+            <g data-difficulty-points></g>
+          </svg>
+          <div class="difficulty-counts" data-difficulty-counts></div>
+        </div>
       </section>
-      <section data-panel="questions" class="panel active">
-        <section class="difficulty-card" aria-labelledby="difficulty-title">
-          <div class="difficulty-heading">
-            <div>
-              <div class="eyebrow">LIVE DIFFICULTY</div>
-              <h2 id="difficulty-title">現在聽起來有多難？</h2>
-            </div>
-            <div class="difficulty-current">
-              <b data-difficulty-value>3</b>
-              <span data-difficulty-label>OK</span>
-            </div>
-          </div>
-          <label class="sr-only" for="difficulty">目前的聽講難易度</label>
-          <input
-            id="difficulty"
-            name="difficulty"
-            type="range"
-            min="1"
-            max="5"
-            step="1"
-            value="3"
-          />
-          <div class="difficulty-scale" aria-hidden="true">
-            <span>太簡單</span><span>簡單</span><span>OK</span><span>困難</span><span>聽不懂</span>
-          </div>
-          <div class="reaction-picker" aria-labelledby="reaction-title">
-            <div>
-              <b id="reaction-title">送一個即時反應</b>
-              <small>會立刻出現在講者的 dashboard</small>
-            </div>
-            <div class="reaction-buttons">
-              <button type="button" data-reaction="applause" aria-label="說得好">👏<span>說得好</span></button>
-              <button type="button" data-reaction="insight" aria-label="有啟發">💡<span>有啟發</span></button>
-              <button type="button" data-reaction="resonate" aria-label="有共鳴">❤️<span>有共鳴</span></button>
-              <button type="button" data-reaction="pause" aria-label="想一下">🤔<span>想一下</span></button>
-            </div>
-            <span class="reaction-message" data-reaction-message aria-live="polite"></span>
-          </div>
-          <div class="difficulty-chart" aria-label="現場難易度分布" role="img">
-            <svg viewBox="0 0 600 210" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-              <path class="difficulty-grid-line" d="M20 170 H580" />
-              <path data-difficulty-area class="difficulty-area" />
-              <path data-difficulty-line class="difficulty-line" />
-              <g data-difficulty-points></g>
-            </svg>
-            <div class="difficulty-counts" data-difficulty-counts></div>
-          </div>
-          <div class="difficulty-note">
-            <span data-difficulty-total>等待第一個回報</span>
-            <span data-difficulty-message>拖動後會自動更新</span>
-          </div>
-        </section>
-
-        <form id="question-form" class="ask-card">
-          <div class="form-step">
-            <span>01</span>
-            <div><b>先調整上方難易度</b><small>你的最新分數會和問題一起留下</small></div>
-          </div>
-
-          <div class="form-step">
-            <span>02</span>
-            <div>
-              <b>寫下卡住或想追問的地方</b><small>太難、太簡單或剛好想深入，都可以直接問</small>
-            </div>
-          </div>
-          <label class="sr-only" for="question">你的問題</label>
-          <textarea
-            id="question"
-            name="question"
-            minlength="4"
-            maxlength="280"
-            required
-            placeholder="例如：值班後只剩二十分鐘，我該從哪一個工作流開始？"
-          ></textarea>
-
-          <fieldset class="intent-fieldset">
-            <legend class="form-step">
-              <span>03</span>
-              <div><b>你希望大家怎麼接這一題？</b><small>選最接近的用途，方便 Q&A 整理</small></div>
-            </legend>
-            <div class="intent-grid">
-              <label class="intent-option">
-                <input type="radio" name="lens" value="clarify" checked />
-                <span><b>幫我釐清</b><small>我還不熟，想先把概念或做法弄懂</small></span>
-              </label>
-              <label class="intent-option">
-                <input type="radio" name="lens" value="chorus" />
-                <span><b>我也遇到了</b><small>想知道現場是否有人有同樣困擾</small></span>
-              </label>
-              <label class="intent-option">
-                <input type="radio" name="lens" value="bridge" />
-                <span><b>一起拆兩難</b><small>兩個方向都有代價，想把取捨攤開</small></span>
-              </label>
-              <label class="intent-option">
-                <input type="radio" name="lens" value="keeper" />
-                <span><b>別漏掉這點</b><small>有一個條件、風險或現場限制要補上</small></span>
-              </label>
-            </div>
-          </fieldset>
-
-          <div class="form-step compact">
-            <span>04</span>
-            <div><b>留下稱呼</b><small>選填，也可以保持匿名</small></div>
-          </div>
-          <label class="sr-only" for="nickname">稱呼</label>
-          <input
-            id="nickname"
-            name="nickname"
-            maxlength="24"
-            placeholder="例如：內科 R1、護理師、匿名"
-            autocomplete="nickname"
-          />
-          <div class="form-note">相近問題可以合併討論，原題仍會保留。</div>
-          <button class="primary" type="submit">送出問題</button>
-          <div class="form-message" data-form-message aria-live="polite"></div>
-        </form>
+      <section>
         <div class="section-head">
           <div>
-            <div class="eyebrow">QUESTION POOL</div>
-            <h2>大家想問的事</h2>
+            <div class="eyebrow">POLL</div>
+            <h2>投票結果</h2>
+          </div>
+        </div>
+        <div id="results-polls" class="results-polls"></div>
+      </section>
+      <section>
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">Q&A ARCHIVE</div>
+            <h2>保留的提問與建議</h2>
           </div>
           <span data-question-count>0 題</span>
         </div>
-        <div id="questions" class="question-list" aria-live="polite"></div>
+        <div id="results-questions" class="results-questions"></div>
       </section>
     </main>
     <footer>
       <a href="https://mashbean.net/decks/clinical-ai-agent-0814/">回到簡報</a>
-      <a href="https://github.com/htlin222/kahoot-cf">即時互動參考 · htlin222/kahoot-cf</a>
-      <a href="https://github.com/audreyt/uncommon-ground"
-        >問題閉環參考 · audreyt/uncommon-ground</a
-      >
     </footer>
-    <script type="module" src="/clinical-ai-0814/app.js?v=7"></script>
+    <script type="module" src="/clinical-ai-0814/results.js?v=10"></script>
   </body>
 </html>

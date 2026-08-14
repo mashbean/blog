@@ -26,6 +26,7 @@ type QuestionLens = "clarify" | "chorus" | "bridge" | "keeper";
 type ReactionKind = "applause" | "insight" | "resonate" | "pause";
 
 type SessionSnapshot = {
+  closed: boolean;
   updatedAt: number;
   polls: PollResult[];
   difficulty: DifficultySnapshot;
@@ -49,6 +50,7 @@ type QuestionRow = {
 };
 
 const SESSION_NAME = "clinical-ai-2026-08-14";
+const SESSION_CLOSED = true;
 const MAX_BODY_BYTES = 4096;
 const QUESTION_LENSES = new Set<QuestionLens>(["clarify", "chorus", "bridge", "keeper"]);
 const REACTION_KINDS = new Set<ReactionKind>(["applause", "insight", "resonate", "pause"]);
@@ -131,7 +133,17 @@ export class LiveSession extends DurableObject<Env> {
   }
 
   async snapshot(): Promise<SessionSnapshot> {
-    if (this.snapshotCache) return this.snapshotCache;
+    if (!SESSION_CLOSED && this.snapshotCache) return this.snapshotCache;
+
+    if (SESSION_CLOSED) {
+      for (const socket of this.ctx.getWebSockets()) {
+        try {
+          socket.close(1000, "event ended");
+        } catch {
+          // The socket may already be closed.
+        }
+      }
+    }
 
     const polls = POLLS.map((poll) => {
       const counts = new Array<number>(poll.options.length).fill(0);
@@ -204,8 +216,15 @@ export class LiveSession extends DurableObject<Env> {
         : null,
     };
 
-    this.snapshotCache = { updatedAt: Date.now(), polls, difficulty, questions };
-    return this.snapshotCache;
+    const snapshot = {
+      closed: SESSION_CLOSED,
+      updatedAt: Date.now(),
+      polls,
+      difficulty,
+      questions,
+    };
+    if (!SESSION_CLOSED) this.snapshotCache = snapshot;
+    return snapshot;
   }
 
   async vote(pollId: string, optionIndex: number, voterId: string): Promise<SessionSnapshot> {
@@ -221,11 +240,9 @@ export class LiveSession extends DurableObject<Env> {
     assertVoterId(voterId);
     const snapshot = await this.snapshot();
     const previous = this.ctx.storage.sql
-      .exec<{ option_index: number }>(
-        "SELECT option_index FROM votes WHERE poll_id = ? AND voter_id = ?",
-        pollId,
-        voterId,
-      )
+      .exec<{
+        option_index: number;
+      }>("SELECT option_index FROM votes WHERE poll_id = ? AND voter_id = ?", pollId, voterId)
       .toArray()[0];
     this.ctx.storage.sql.exec(
       `INSERT INTO votes (poll_id, voter_id, option_index, updated_at)
@@ -272,10 +289,7 @@ export class LiveSession extends DurableObject<Env> {
     if (prior.count >= 20) throw new Error("question limit reached");
 
     const previousDifficulty = this.ctx.storage.sql
-      .exec<{ score: number }>(
-        "SELECT score FROM difficulty_votes WHERE voter_id = ?",
-        voterId,
-      )
+      .exec<{ score: number }>("SELECT score FROM difficulty_votes WHERE voter_id = ?", voterId)
       .toArray()[0];
 
     this.ctx.storage.sql.exec(
@@ -324,10 +338,7 @@ export class LiveSession extends DurableObject<Env> {
     assertDifficulty(score);
     const snapshot = await this.snapshot();
     const previous = this.ctx.storage.sql
-      .exec<{ score: number }>(
-        "SELECT score FROM difficulty_votes WHERE voter_id = ?",
-        voterId,
-      )
+      .exec<{ score: number }>("SELECT score FROM difficulty_votes WHERE voter_id = ?", voterId)
       .toArray()[0];
     this.ctx.storage.sql.exec(
       `INSERT INTO difficulty_votes (voter_id, score, updated_at)
@@ -351,7 +362,9 @@ export class LiveSession extends DurableObject<Env> {
       .one();
     if (exists.count === 0) throw new Error("question not found");
     const priorVote = this.ctx.storage.sql
-      .exec<{ count: number }>(
+      .exec<{
+        count: number;
+      }>(
         "SELECT COUNT(*) AS count FROM question_votes WHERE question_id = ? AND voter_id = ?",
         questionId,
         voterId,
@@ -418,13 +431,8 @@ export class LiveSession extends DurableObject<Env> {
     if (previousScore) snapshot.counts[previousScore - 1] -= 1;
     else snapshot.total += 1;
     snapshot.counts[nextScore - 1] += 1;
-    const weighted = snapshot.counts.reduce(
-      (sum, count, index) => sum + count * (index + 1),
-      0,
-    );
-    snapshot.average = snapshot.total
-      ? Math.round((weighted / snapshot.total) * 10) / 10
-      : null;
+    const weighted = snapshot.counts.reduce((sum, count, index) => sum + count * (index + 1), 0);
+    snapshot.average = snapshot.total ? Math.round((weighted / snapshot.total) * 10) / 10 : null;
   }
 
   private async broadcastSnapshot(snapshot?: SessionSnapshot): Promise<SessionSnapshot> {
@@ -452,12 +460,16 @@ export default {
       if (!url.pathname.startsWith("/api/")) return env.ASSETS.fetch(request);
 
       const stub = env.SESSION.getByName(SESSION_NAME);
-      if (url.pathname === "/api/live") return stub.fetch(request);
+      if (url.pathname === "/api/live") {
+        if (SESSION_CLOSED) return cors(jsonError("interaction closed", 410), request);
+        return stub.fetch(request);
+      }
       if (url.pathname === "/api/state" && request.method === "GET") {
         return cors(Response.json(await stub.snapshot()), request);
       }
 
       if (request.method !== "POST") return cors(jsonError("method not allowed", 405), request);
+      if (SESSION_CLOSED) return cors(jsonError("interaction closed", 410), request);
       if (!isSmallJsonRequest(request)) return cors(jsonError("request too large", 413), request);
       const body: unknown = await request.json();
       if (!isRecord(body)) return cors(jsonError("invalid request", 400), request);

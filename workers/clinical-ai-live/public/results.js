@@ -2,7 +2,6 @@ import { difficultyLabels, renderDifficultyChart } from "./difficulty.js";
 
 const pollsRoot = document.querySelector("#results-polls");
 const questionsRoot = document.querySelector("#results-questions");
-const statusEl = document.querySelector("[data-status]");
 const apiBase = "/api";
 const lensLabels = {
   clarify: "幫我釐清",
@@ -49,25 +48,6 @@ function render(state) {
     : `<div class="empty">等待第一個問題</div>`;
 }
 
-function connect() {
-  const protocol = location.protocol === "https:" ? "wss:" : "ws:";
-  const socket = new WebSocket(`${protocol}//${location.host}${apiBase}/live`);
-  socket.addEventListener("open", () => setStatus(true));
-  socket.addEventListener("message", (event) => {
-    const message = JSON.parse(event.data);
-    if (message.type === "snapshot") render(message.data);
-  });
-  socket.addEventListener("close", () => {
-    setStatus(false);
-    setTimeout(connect, 1500);
-  });
-}
-
-function setStatus(online) {
-  statusEl.classList.toggle("online", online);
-  statusEl.lastChild.textContent = online ? "即時連線" : "重新連線中";
-}
-
 function escapeHtml(value) {
   return String(value).replace(
     /[&<>"']/g,
@@ -76,7 +56,9 @@ function escapeHtml(value) {
 }
 
 fetch(`${apiBase}/state`)
-  .then((response) => response.json())
+  .then((response) => {
+    if (!response.ok) throw new Error("activity archive unavailable");
+    return response.json();
+  })
   .then(render)
   .catch(() => {});
-connect();

@@ -5,20 +5,18 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="theme-color" content="#081225" />
     <title>臨床工作者 AI Agent 現場儀表板</title>
-    <link rel="stylesheet" href="/clinical-ai-0814/style.css?v=8" />
-    <link rel="stylesheet" href="/clinical-ai-0814/dashboard/dashboard.css?v=8" />
+    <link rel="stylesheet" href="/clinical-ai-0814/style.css?v=10" />
+    <link rel="stylesheet" href="/clinical-ai-0814/dashboard/dashboard.css?v=10" />
   </head>
   <body class="dashboard-page">
     <header class="dashboard-header">
       <div class="dashboard-brand">
-        <div class="eyebrow">LIVE · 8/14</div>
-        <h1>臨床工作者 AI Agent 現場互動</h1>
+        <div class="eyebrow">SESSION ARCHIVE · 8/14</div>
+        <h1>臨床工作者 AI Agent 活動紀錄</h1>
       </div>
-      <a class="dashboard-join" href="/clinical-ai-0814/" target="_blank" rel="noreferrer">
-        <img src="/decks/clinical-ai-agent-0814/qr-live.png" alt="掃碼進入現場互動" />
-        <span><b>掃碼互動</b><small>難易度 · 提問 · emoji</small></span>
-      </a>
-      <div class="live-status dashboard-connection" data-status><span></span>連線中</div>
+      <div class="live-status dashboard-connection closed-status" data-status>
+        <span></span>活動已結束
+      </div>
       <nav class="dashboard-tabs" role="tablist" aria-label="儀表板內容">
         <button
           class="active"
@@ -28,7 +26,7 @@
           aria-controls="dashboard-live"
           data-dashboard-tab="live"
         >
-          現場
+          提問紀錄
         </button>
         <button
           type="button"
@@ -47,7 +45,7 @@
           <div class="dashboard-section-head">
             <div>
               <div class="eyebrow">DIFFICULTY</div>
-              <h2>即時難易度</h2>
+              <h2>課堂難易度分布</h2>
             </div>
             <span data-difficulty-total>等待回報</span>
           </div>
@@ -60,17 +58,13 @@
             </svg>
             <div class="difficulty-counts" data-difficulty-counts></div>
           </div>
-          <div class="dashboard-reaction-hint" aria-label="即時 emoji 反應">
-            <span>即時反應</span>
-            <div aria-hidden="true"><b>👏</b><b>💡</b><b>❤️</b><b>🤔</b></div>
-          </div>
         </section>
 
         <section class="dashboard-section">
           <div class="dashboard-section-head">
             <div>
-              <div class="eyebrow">Q&A POOL</div>
-              <h2>隨時提問</h2>
+              <div class="eyebrow">Q&A ARCHIVE</div>
+              <h2>保留的提問與建議</h2>
             </div>
             <span data-question-count>0 題</span>
           </div>
@@ -95,10 +89,6 @@
         </section>
       </div>
     </main>
-    <a class="dashboard-open" href="/clinical-ai-0814/" target="_blank" rel="noreferrer"
-      >開啟參與頁 ↗</a
-    >
-    <div class="reaction-stage" data-reaction-stage aria-live="polite"></div>
-    <script type="module" src="/clinical-ai-0814/dashboard/dashboard.js?v=7"></script>
+    <script type="module" src="/clinical-ai-0814/dashboard/dashboard.js?v=10"></script>
   </body>
 </html>

@@ -75,6 +75,17 @@ button {
   background: #4d8f58;
   box-shadow: 0 0 0 5px #4d8f5822;
 }
+.live-status.closed-status span {
+  background: var(--sand);
+  box-shadow: 0 0 0 5px #d9c4a722;
+}
+.results-intro {
+  max-width: 680px;
+  margin: -4px 0 20px;
+  color: var(--sand);
+  font-size: 17px;
+  line-height: 1.7;
+}
 main {
   max-width: 1040px;
   margin: 0 auto;
@@ -774,7 +785,10 @@ footer a {
   font-size: 28px;
   cursor: pointer;
   touch-action: manipulation;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 .reaction-buttons button span {
   color: var(--muted);
@@ -800,8 +814,14 @@ footer a {
   color: var(--sage);
 }
 @keyframes reaction-confirm {
-  0%, 100% { transform: scale(1); }
-  42% { transform: scale(1.13) rotate(-3deg); box-shadow: 0 0 0 8px #35d9ff16; }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.13) rotate(-3deg);
+    box-shadow: 0 0 0 8px #35d9ff16;
+  }
 }
 
 /* Give question copy the full card width; keep the upvote as a second-row action. */
