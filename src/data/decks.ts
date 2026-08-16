@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "eacs-2026-agentic-ai-dci",
+    title: "Democratizing Taiwan’s Digital Civic Infrastructure with Agentic AI",
+    event: "2026 East Asia Civil Society Conference",
+    date: "2026-08-19",
+    location: "Seoul, South Korea",
+    lang: "en",
+    featured: true,
+  },
+  {
     slug: "toda-metagov-2026",
     title: "Taiwan's present, after touching the future",
     event: "Interoperable Deliberative Tools in the Asia Pacific · TODA Peace Institute × MetaGov",

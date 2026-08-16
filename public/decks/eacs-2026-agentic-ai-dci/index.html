@@ -1,0 +1,1203 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f3f2f2" />
+    <title>Democratizing Taiwan’s Digital Civic Infrastructure with Agentic AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="viewport" aria-label="Presentation viewport">
+      <div class="deck" id="deck" aria-live="polite">
+        <article
+          class="slide slide-cover is-active"
+          id="slide-1"
+          data-slide="1"
+          aria-labelledby="title-1"
+        >
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">AI × DEMOCRACY · TAIWAN</p>
+            <p class="korean reveal" lang="ko">시민의 손에 남는 인공지능</p>
+          </header>
+
+          <div class="cover-copy">
+            <h1 id="title-1" class="slide-title">
+              <span>Democratizing Taiwan’s</span>
+              <span>Digital Civic Infrastructure</span>
+              <span class="cyan-line">with Agentic AI</span>
+            </h1>
+            <p class="cover-thesis reveal">
+              Lower the cost of collective action without lowering the right to understand, contest,
+              stop, and maintain.
+            </p>
+          </div>
+
+          <div
+            class="cover-route"
+            aria-label="Speaker’s path from civic technology through public infrastructure to civic infrastructure"
+          >
+            <svg
+              viewBox="0 0 1600 250"
+              role="img"
+              aria-label="Civic tech to government to digital public infrastructure to digital civic infrastructure"
+            >
+              <defs>
+                <marker
+                  id="s1-arrow-cyan"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                >
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                </marker>
+              </defs>
+              <path
+                class="route-path"
+                data-draw
+                d="M60 124 C260 124, 300 124, 440 124 S670 124, 820 124 S1080 124, 1230 124 S1435 124, 1535 124"
+                marker-end="url(#s1-arrow-cyan)"
+              ></path>
+              <g class="node diagram-node" transform="translate(60 124)">
+                <circle r="34"></circle>
+                <text y="7">01</text>
+                <text class="node-label" x="0" y="78">CIVIC TECH</text>
+              </g>
+              <g class="node diagram-node" transform="translate(440 124)">
+                <circle r="34"></circle>
+                <text y="7">02</text>
+                <text class="node-label" x="0" y="78">GOVERNMENT</text>
+              </g>
+              <g class="node diagram-node" transform="translate(820 124)">
+                <circle r="34"></circle>
+                <text y="7">03</text>
+                <text class="node-label" x="0" y="78">DPI</text>
+              </g>
+              <g class="node diagram-node" transform="translate(1230 124)">
+                <circle r="34"></circle>
+                <text y="7">04</text>
+                <text class="node-label" x="0" y="78">DCI</text>
+              </g>
+              <g class="agent-gate" transform="translate(1440 36)">
+                <path d="M0 0 L0 176" class="gate-line"></path>
+                <text x="24" y="92">AGENTIC</text>
+                <text x="24" y="122">AI</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="speaker-id reveal">
+            <strong>Yen-Lin Huang · mashbean</strong>
+            <span>civic tech → MODA → platform governance → digital identity</span>
+          </div>
+
+          <footer class="slide-footer">
+            <span>01</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>Good afternoon. I’m Yen-Lin Huang, but most people call me mashbean.</p>
+            <p>
+              I began in Taiwan’s civic-tech community. Then I joined the Ministry of Digital
+              Affairs, where Audrey Tang was my boss, and worked on some of Taiwan’s early
+              digital-identity and digital public infrastructure projects. After leaving government,
+              I moved in the opposite direction, toward digital civic infrastructure, especially
+              anti-censorship, privacy, and public deliberation.
+            </p>
+            <p>
+              I have ten minutes, and I have a habit of saying too much. So yes, I wrote a script.
+              This is my first governance mechanism today.
+            </p>
+            <p>
+              My argument is simple. Agentic AI can democratize civic infrastructure when it lowers
+              the cost of collective action without lowering citizens’ right to understand, contest,
+              stop, and maintain the system.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://talks.campaigns.do/goals/eacsconference<br />
+              https://ash.harvard.edu/resources/a-framework-for-digital-civic-infrastructure/
+            </div>
+          </template>
+        </article>
+
+        <article class="slide" id="slide-2" data-slide="2" aria-labelledby="title-2">
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">CONTEXT · THREE FORCES</p>
+            <p class="korean reveal" lang="ko">세 가지 힘이 동시에 작동한다</p>
+          </header>
+          <h2 id="title-2" class="slide-title">AI sharpens all three forces at once</h2>
+
+          <div class="forces-layout">
+            <div class="forces-diagram">
+              <svg
+                viewBox="0 0 720 650"
+                role="img"
+                aria-label="Triangle showing polarization, external pressure, and civic capacity acting on Taiwan"
+              >
+                <defs>
+                  <marker
+                    id="s2-arrow-magenta"
+                    markerWidth="11"
+                    markerHeight="11"
+                    refX="9"
+                    refY="5.5"
+                    orient="auto"
+                  >
+                    <path d="M0,0 L11,5.5 L0,11 Z" fill="#d6006c"></path>
+                  </marker>
+                  <marker
+                    id="s2-arrow-cyan"
+                    markerWidth="11"
+                    markerHeight="11"
+                    refX="9"
+                    refY="5.5"
+                    orient="auto"
+                  >
+                    <path d="M0,0 L11,5.5 L0,11 Z" fill="#0088b0"></path>
+                  </marker>
+                </defs>
+                <path
+                  data-draw
+                  class="force-line danger"
+                  d="M128 150 L335 338"
+                  marker-end="url(#s2-arrow-magenta)"
+                ></path>
+                <path
+                  data-draw
+                  class="force-line danger"
+                  d="M590 150 L385 338"
+                  marker-end="url(#s2-arrow-magenta)"
+                ></path>
+                <path
+                  data-draw
+                  class="force-line hope"
+                  d="M360 570 L360 408"
+                  marker-end="url(#s2-arrow-cyan)"
+                ></path>
+                <path data-draw class="triangle-frame" d="M128 150 L590 150 L360 570 Z"></path>
+                <g class="node force-node force-a" transform="translate(128 150)">
+                  <circle r="68"></circle>
+                  <text class="big-no" y="12">1</text>
+                  <text class="force-label" y="110">POLARIZATION</text>
+                </g>
+                <g class="node force-node force-b" transform="translate(590 150)">
+                  <circle r="68"></circle>
+                  <text class="big-no" y="12">2</text>
+                  <text class="force-label" y="110">EXTERNAL PRESSURE</text>
+                </g>
+                <g class="node force-node force-c" transform="translate(360 570)">
+                  <circle r="68"></circle>
+                  <text class="big-no" y="12">3</text>
+                  <text class="force-label" y="112">CIVIC CAPACITY</text>
+                </g>
+                <g class="taiwan-core node" transform="translate(360 365)">
+                  <circle r="82"></circle>
+                  <text y="10">TAIWAN</text>
+                  <text class="micro">
+                    <tspan x="0" y="39">AI AMPLIFIES</tspan>
+                    <tspan x="0" y="56">ALL THREE</tspan>
+                  </text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="forces-copy">
+              <section class="force-story reveal danger-rule">
+                <span class="story-index">01</span>
+                <div>
+                  <h3>Competing partisan frames</h3>
+                  <p>
+                    One safety failure can become two incompatible realities. Distrust arrives
+                    before deliberation.
+                  </p>
+                </div>
+              </section>
+              <section class="force-story reveal danger-rule">
+                <span class="story-index">02</span>
+                <div>
+                  <h3>Attack, manipulation, suspicion</h3>
+                  <p>
+                    <strong>4 days · 85 accounts.</strong> The original disclosure named neither
+                    country nor operator. Attribution remains unconfirmed.
+                  </p>
+                </div>
+              </section>
+              <section class="force-story reveal hope-rule">
+                <span class="story-index">03</span>
+                <div>
+                  <h3>A small community that builds fast</h3>
+                  <p>
+                    g0v, civic hackers, deliberation experiments, and AI-assisted public-interest
+                    tools.
+                  </p>
+                </div>
+              </section>
+              <p class="evidence-strip reveal">
+                MATTERS OPERATING ESTIMATE · 70–80% OF HANDLED CONTENT IS SPAM OR SCAMS · THE
+                PLATFORM EXISTS FOR THE FRAGILE REMAINDER
+              </p>
+            </div>
+          </div>
+
+          <footer class="slide-footer">
+            <span>02</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>
+              For people less familiar with Taiwan, our digital environment is shaped by three
+              forces at the same time.
+            </p>
+            <p>
+              First, political discourse is highly polarized. In July, tens of thousands protested
+              after soybean oil containing benzo[a]pyrene above Taiwan’s legal limit entered the
+              supply chain. The supplier had detected it, but reporting was delayed. The safety
+              failure was real. But depending on which political camp you followed, you could see
+              two almost incompatible versions of the same event.
+            </p>
+            <p>
+              Second, Taiwan faces sustained cyberattacks and information manipulation. The effect
+              is not only false information. It is distrust of other people’s authenticity. A
+              genuine advocate can suddenly be recoded as a coordinated operator.
+            </p>
+            <p>
+              A security firm recently described a four-day AI-driven campaign against unnamed Asian
+              government entities that compromised 85 accounts. Secondary reporting connected the
+              story to Taiwan, but the original disclosure named neither the country nor the
+              operator. Attribution remains unconfirmed. At Matters, the anti-censorship platform
+              where I worked, our own estimate was that 70 to 80 percent of the content we handled
+              was spam or scams. We released a de-identified labeled research dataset because
+              moderation needs evidence, not mythology.
+            </p>
+            <p>
+              Third, Taiwan also has unusually capable civic technologists. This small community can
+              now build tools very quickly. AI strengthens all three forces. It can widen
+              participation, automate defense, and also industrialize attack.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://www.pewresearch.org/global/2021/10/13/diversity-and-division-in-advanced-economies/<br />
+              https://www.fda.gov.tw/TC/site13712.aspx<br />
+              https://dreamgroup.com/blog/governments-are-not-ready-for-autonomous-ai-attacks<br />
+              https://governance.matters.town/en/reading/transparency-method/<br />
+              https://github.com/thematters/matters-spam-dataset/blob/main/DATACARD.md
+            </div>
+          </template>
+        </article>
+
+        <article class="slide" id="slide-3" data-slide="3" aria-labelledby="title-3">
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">CIVIC TECH · NEW GAME+</p>
+            <p class="korean reveal" lang="ko">두 번째 플레이스루</p>
+          </header>
+          <h2 id="title-3" class="slide-title">Taiwan civic tech has entered New Game+</h2>
+          <p class="lead-copy reveal">
+            Professionalization built durable capacity. It also raised the fixed cost of
+            participation. Agentic tools are opening a second, more distributed playthrough.
+          </p>
+
+          <div class="timeline-wrap">
+            <div class="playthrough-label playthrough-one reveal">
+              <span>01</span> FIRST PLAYTHROUGH · 2014–2025
+            </div>
+            <div class="playthrough-label playthrough-two reveal">
+              <span>02</span> NEW GAME+ · 2026–
+            </div>
+            <svg
+              viewBox="0 0 1680 440"
+              role="img"
+              aria-label="Timeline from Taiwan’s first civic-tech playthrough to a distributed second playthrough"
+            >
+              <defs>
+                <marker
+                  id="s3-arrow-cyan"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                >
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                </marker>
+              </defs>
+              <path
+                data-draw
+                class="timeline-main"
+                d="M70 235 L1570 235"
+                marker-end="url(#s3-arrow-cyan)"
+              ></path>
+              <path
+                data-draw
+                class="timeline-dip"
+                d="M930 235 C980 235 980 340 1040 340 C1100 340 1100 235 1160 235"
+              ></path>
+              <text x="1055" y="205" class="dip-note">
+                funding uncertainty · concentrated capacity
+              </text>
+
+              <g class="node year-node" transform="translate(90 235)">
+                <circle r="24"></circle>
+                <text y="-54">2014</text>
+                <text class="event">
+                  <tspan x="0" y="74">Sunflower</tspan>
+                  <tspan x="0" dy="28">movement</tspan>
+                </text>
+              </g>
+              <g class="node year-node" transform="translate(390 235)">
+                <circle r="24"></circle>
+                <text y="-54">2016</text>
+                <text class="event">
+                  <tspan x="0" y="74">open-government</tspan>
+                  <tspan x="0" dy="28">uptake</tspan>
+                </text>
+              </g>
+              <g class="node year-node" transform="translate(720 235)">
+                <circle r="24"></circle>
+                <text y="-54">2018–24</text>
+                <text class="event">
+                  <tspan x="0" y="74">government · NGOs</tspan>
+                  <tspan x="0" dy="28">firms · foundations</tspan>
+                </text>
+              </g>
+              <g class="node year-node crisis" transform="translate(1040 340)">
+                <circle r="28"></circle>
+                <text y="-54">2025</text>
+                <text class="event">
+                  <tspan x="0" y="74">budget shocks</tspan>
+                  <tspan x="0" dy="28">fragile institutions</tspan>
+                </text>
+              </g>
+
+              <g class="node sprout-node" transform="translate(1260 168)">
+                <circle r="18"></circle>
+                <text x="30" y="8">new entrants</text>
+              </g>
+              <g class="node sprout-node" transform="translate(1375 270)">
+                <circle r="18"></circle>
+                <text x="30" y="8">small local tools</text>
+              </g>
+              <g class="node sprout-node" transform="translate(1510 150)">
+                <circle r="18"></circle>
+                <text x="30" y="8">open challengers</text>
+              </g>
+            </svg>
+          </div>
+
+          <blockquote class="game-quote reveal">
+            “Same map. Harder enemies. Better tools. Fewer hit points.”
+          </blockquote>
+
+          <footer class="slide-footer">
+            <span>03</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>
+              I call the period from the 2014 Sunflower Movement to 2025 the first playthrough of
+              Taiwanese civic tech.
+            </p>
+            <p>
+              Many active contributors became professionals. They joined government, founded
+              companies and foundations, or worked full-time in NGOs. Taiwan gained open-government
+              practices, digital-rights projects, anti-disinformation research, and an international
+              civic-tech reputation.
+            </p>
+            <p>
+              Professionalization also increased the fixed cost of participation. Organizations
+              needed grants, procurement, staff, and long-term institutional access. The 2025 budget
+              battles in Taiwan and cuts to democracy assistance from the United States exposed how
+              fragile that model could be.
+            </p>
+            <p>
+              Now we are in New Game+. Same map. Harder enemies. Better tools. Fewer hit points.
+            </p>
+            <p>
+              The new projects are not all emerging from the old civic-tech core. Some builders do
+              not know the history of g0v. Some do not call themselves civic hackers. That is
+              exactly why they matter.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://summit.g0v.tw/2026/en/<br />
+              https://www.cna.com.tw/news/asoc/202501230239.aspx<br />
+              https://ggr.hias.hit-u.ac.jp/wp-content/uploads/2026/04/GGR_Issue_Briefing_No._112_Impact_of_US_Democracy_Funding_Cuts_on_Democratic_Resilience_in_Asia.pdf<br />
+              https://meichunlee.com/
+            </div>
+          </template>
+        </article>
+
+        <article class="slide slide-guangfu" id="slide-4" data-slide="4" aria-labelledby="title-4">
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">CASE · DISASTER COLLABORATION</p>
+            <p class="korean reveal" lang="ko">누가 임명하기 전에 시작된 인프라</p>
+          </header>
+          <h2 id="title-4" class="slide-title">
+            Shovel Supermen built a civic stack before anyone appointed them
+          </h2>
+
+          <div class="guangfu-grid">
+            <figure class="evidence-photo evidence-main reveal">
+              <img
+                src="assets/guangfu-home.png"
+                alt="Guangfu Hero public recovery platform showing subsidy, repair, mental health, and recovery-site services"
+              />
+              <figcaption>
+                GUANGFU HERO · RECOVERY SERVICES · PUBLIC SITE CAPTURE 17 AUG 2026
+              </figcaption>
+            </figure>
+            <figure class="evidence-photo evidence-secondary reveal">
+              <img
+                src="assets/guangfu-platform.png"
+                alt="About page describing remote volunteers who built an information system for local residents"
+              />
+              <figcaption>REMOTE VOLUNTEERS · INFORMATION AS CARE</figcaption>
+            </figure>
+
+            <div
+              class="cla-flow"
+              aria-label="Connect, Learn, Act flow for the Guangfu volunteer response"
+            >
+              <svg
+                viewBox="0 0 1010 530"
+                role="img"
+                aria-label="Guangfu disaster collaboration moving from connect to learn to act, surrounded by maintenance"
+              >
+                <defs>
+                  <marker
+                    id="s4-arrow-cyan"
+                    markerWidth="12"
+                    markerHeight="12"
+                    refX="10"
+                    refY="6"
+                    orient="auto"
+                  >
+                    <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                  </marker>
+                </defs>
+                <path
+                  data-draw
+                  class="cla-path"
+                  d="M130 265 C250 265 250 265 370 265 S610 265 690 265 S820 265 900 265"
+                  marker-end="url(#s4-arrow-cyan)"
+                ></path>
+                <path
+                  data-draw
+                  class="maintain-loop"
+                  d="M895 178 C830 40 190 40 125 178 M125 355 C190 485 830 485 895 355"
+                ></path>
+
+                <g class="node cla-node" transform="translate(130 265)">
+                  <circle r="92"></circle>
+                  <text class="phase" y="-4">CONNECT</text>
+                  <text class="detail" y="31">people · needs</text>
+                </g>
+                <g class="node cla-node" transform="translate(505 265)">
+                  <circle r="92"></circle>
+                  <text class="phase" y="-4">LEARN</text>
+                  <text class="detail" y="31">maps · guides</text>
+                </g>
+                <g class="node cla-node" transform="translate(880 265)">
+                  <circle r="92"></circle>
+                  <text class="phase" y="-4">ACT</text>
+                  <text class="detail" y="31">match · recover</text>
+                </g>
+
+                <text class="maintain-label" x="505" y="77">MAINTAIN · CLEAN · REUSE</text>
+                <text class="maintain-label" x="505" y="474">
+                  EMERGENCY FEATURES SUNSET · RECOVERY TOOLS CONTINUE
+                </text>
+              </svg>
+            </div>
+          </div>
+
+          <p class="guangfu-takeaway reveal">
+            AI can accelerate the first weekend. Democracy still has to fund the second year.
+          </p>
+
+          <footer class="slide-footer">
+            <span>04</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>
+              After the 2025 Matai’an River disaster, mud buried communities around Guangfu in
+              Hualien. Volunteers arrived from across Taiwan carrying shovels, and people called
+              them the “shovel supermen.”
+            </p>
+            <p>
+              But they did more than move mud. Remote volunteers built maps, matching systems,
+              resident guides, and shared information layers. One spontaneous platform connected
+              people to repair information, subsidies, mental-health support, and recovery sites.
+              During the emergency, other tools matched volunteers and supplies. Later, the Open
+              Culture Foundation helped preserve and reuse parts of this tool ecosystem.
+            </p>
+            <p>
+              This is civic infrastructure before anyone appoints an infrastructure provider. People
+              connect around a need. They learn through shared information. They act through
+              coordination.
+            </p>
+            <p>
+              Not every tool was built with AI, and not every tool survived. That is also the
+              lesson. AI can accelerate the first weekend. Democracy still has to fund the second
+              year.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://www.ey.gov.tw/Page/9277F759E41CCD91/e9ac85c7-43c1-449a-809a-783dee04e3ae<br />
+              https://gf250923.org/<br />
+              https://gf250923.org/volunteer/about-us<br />
+              https://ocf.tw/p/guangfu/<br />
+              https://geothings.tw/usecases/guangfu/
+            </div>
+          </template>
+        </article>
+
+        <article
+          class="slide slide-nightshift"
+          id="slide-5"
+          data-slide="5"
+          aria-labelledby="title-5"
+        >
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">CASE SET · THE CIVIC-TECH NIGHT SHIFT</p>
+            <p class="korean reveal" lang="ko">작은 팀에 기관급 레버리지</p>
+          </header>
+          <h2 id="title-5" class="slide-title">
+            Agentic AI gives the civic-tech night shift institutional-grade leverage
+          </h2>
+
+          <div
+            class="project-river"
+            aria-label="Three projects flowing from human intent through agentic work to public outcomes"
+          >
+            <div class="river-label human-label reveal">
+              <strong>HUMAN INTENT</strong><span>problem · values · accountability</span>
+            </div>
+            <div class="river-label agent-label reveal">
+              <strong>AGENTIC WORKBENCH</strong><span>inspect · build · test · document</span>
+            </div>
+            <div class="river-label judgment-label reveal">
+              <strong>HUMAN JUDGMENT</strong><span>reconcile · verify · release</span>
+            </div>
+            <svg viewBox="0 0 1680 150" aria-hidden="true">
+              <defs>
+                <marker
+                  id="s5-arrow-cyan"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                >
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                </marker>
+              </defs>
+              <path
+                data-draw
+                class="river-path"
+                d="M100 75 C360 75 360 75 650 75 S1080 75 1380 75 S1510 75 1600 75"
+                marker-end="url(#s5-arrow-cyan)"
+              ></path>
+              <path class="gate-line gate-small" d="M1110 10 L1110 140"></path>
+            </svg>
+          </div>
+
+          <div class="project-plates">
+            <figure class="project-plate reveal">
+              <div class="project-image">
+                <img
+                  src="assets/live-deck-kit.jpg"
+                  alt="Live Deck Kit presenter and audience interfaces on laptop and phone"
+                />
+              </div>
+              <figcaption>
+                <span class="plate-no">01</span>
+                <h3>LIVE DECK KIT</h3>
+                <p>
+                  <strong>49 hours</strong> from repository creation to an outside fork and a
+                  field-tested contribution.
+                </p>
+              </figcaption>
+            </figure>
+            <figure class="project-plate reveal">
+              <div class="project-image">
+                <img
+                  src="assets/openbook-home.png"
+                  alt="OpenBook public budget transparency interface"
+                />
+              </div>
+              <figcaption>
+                <span class="plate-no">02</span>
+                <h3>OPENBOOK × OPEN DATA</h3>
+                <p>
+                  <strong>22 local governments.</strong> Agents made source inspection affordable.
+                  Official reconciliation still decided what shipped.
+                </p>
+              </figcaption>
+            </figure>
+            <figure class="project-plate reveal">
+              <div class="project-image signing-crop">
+                <img
+                  src="assets/open-signing-test.png"
+                  alt="Test PDF signed with a Taiwan citizen-certificate card through an open signing workflow"
+                />
+              </div>
+              <figcaption>
+                <span class="plate-no">03</span>
+                <h3>OPEN SIGNING PATH</h3>
+                <p>
+                  Working LibreOffice and PDF flows over one weekend. Technically verified, not
+                  government-certified.
+                </p>
+              </figcaption>
+            </figure>
+          </div>
+
+          <p class="nightshift-quote reveal">
+            Very good news for people who already have a civic-tech night shift.
+          </p>
+
+          <footer class="slide-footer">
+            <span>05</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>Agentic AI changes who can build and how much a small team can do.</p>
+            <p>
+              Digital anthropologist Mei-Chun Lee calls her book about g0v The Nobody Movement. My
+              own reading of Taiwan’s civic-tech history is that it has often been an after-work
+              movement. This is very good news for people who already have a civic-tech night shift.
+            </p>
+            <p>I will give you three small examples from my own orbit.</p>
+            <p>
+              First, I built Live Deck Kit so an audience can report difficulty, ask questions,
+              react, and vote during a presentation. About forty-nine hours after the repository was
+              created, an outside contributor had forked it and submitted improvements tested at a
+              real screening. Small infrastructure can travel fast.
+            </p>
+            <p>
+              Second, OpenBook combines official local-government budgets with OpenFun’s public-data
+              work and TwinkleAI’s MCP interfaces. Agents helped inspect sources across twenty-two
+              local governments. But only two of eight machine-readable candidates reconciled
+              exactly with the official totals. The lesson is not that AI solved open data. The
+              lesson is that AI made rigorous reconciliation affordable for a tiny team.
+            </p>
+            <p>
+              Third, a friend wrote an independent PKCS#11 implementation for Taiwan’s
+              citizen-certificate cards. With AI agents, I turned that into working LibreOffice and
+              PDF signing flows over one weekend. It is not government-certified software, and legal
+              effect still depends on the certificate, document, consent, timestamp, and workflow.
+              But it creates an open path through infrastructure that used to feel proprietary and
+              immovable.
+            </p>
+            <p>
+              AI did not replace expertise in any of these cases. It gave experienced people more
+              leverage, and gave newcomers a shorter path to a testable prototype.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://meichunlee.com/<br />
+              https://github.com/mashbean/live-deck-kit<br />
+              https://github.com/mashbean/live-deck-kit/pull/2<br />
+              https://github.com/mashbean/Open-Book<br />
+              https://openfun.tw/<br />
+              https://hub.twinkleai.tw/en<br />
+              https://github.com/chouhsiang/open-gpki-pkcs11<br />
+              https://github.com/mashbean/libreoffice-tw-card-signing
+            </div>
+          </template>
+        </article>
+
+        <article class="slide slide-dualuse" id="slide-6" data-slide="6" aria-labelledby="title-6">
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">EXPECTATIONS × FEARS</p>
+            <p class="korean reveal" lang="ko">같은 엔진, 다른 권력</p>
+          </header>
+          <h2 id="title-6" class="slide-title">
+            The cheaper it is to build, the cheaper it is to abuse
+          </h2>
+          <p class="lead-copy reveal">
+            Taiwan’s civil society sees the same capability widening civic agency and
+            industrializing attack.
+          </p>
+
+          <div class="dualuse-diagram">
+            <svg
+              viewBox="0 0 1680 560"
+              role="img"
+              aria-label="A shared agentic AI engine branching toward civic hopes and democratic risks"
+            >
+              <defs>
+                <marker
+                  id="s6-arrow-cyan"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                >
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                </marker>
+                <marker
+                  id="s6-arrow-magenta"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                >
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#d6006c"></path>
+                </marker>
+              </defs>
+              <g class="node engine-node" transform="translate(840 280)">
+                <circle r="108"></circle>
+                <text y="-12">AGENTIC</text>
+                <text y="28">AI</text>
+                <text class="micro" y="65">SAME ENGINE</text>
+              </g>
+              <path
+                data-draw
+                class="branch hope"
+                d="M730 280 C610 280 610 110 450 110 L205 110"
+                marker-end="url(#s6-arrow-cyan)"
+              ></path>
+              <path
+                data-draw
+                class="branch hope"
+                d="M730 280 C610 280 610 280 420 280 L205 280"
+                marker-end="url(#s6-arrow-cyan)"
+              ></path>
+              <path
+                data-draw
+                class="branch hope"
+                d="M730 280 C610 280 610 450 450 450 L205 450"
+                marker-end="url(#s6-arrow-cyan)"
+              ></path>
+              <path
+                data-draw
+                class="branch danger"
+                d="M950 280 C1070 280 1070 110 1230 110 L1475 110"
+                marker-end="url(#s6-arrow-magenta)"
+              ></path>
+              <path
+                data-draw
+                class="branch danger"
+                d="M950 280 C1070 280 1070 280 1260 280 L1475 280"
+                marker-end="url(#s6-arrow-magenta)"
+              ></path>
+              <path
+                data-draw
+                class="branch danger"
+                d="M950 280 C1070 280 1070 450 1230 450 L1475 450"
+                marker-end="url(#s6-arrow-magenta)"
+              ></path>
+
+              <g class="node outcome hope-node" transform="translate(205 110)">
+                <circle r="64"></circle>
+                <text y="-7">SMALLER</text>
+                <text y="23">TEAMS</text>
+                <text class="detail" x="94" y="-12">local tools</text>
+                <text class="detail" x="94" y="22">vendors ignore</text>
+              </g>
+              <g class="node outcome hope-node" transform="translate(205 280)">
+                <circle r="64"></circle>
+                <text y="-7">LANGUAGE</text>
+                <text y="23">BRIDGES</text>
+                <text class="detail" x="94" y="-12">37 ROOST</text>
+                <text class="detail" x="94" y="22">resources localized</text>
+              </g>
+              <g class="node outcome hope-node" transform="translate(205 450)">
+                <circle r="64"></circle>
+                <text y="-7">OPEN</text>
+                <text y="23">PATHS</text>
+                <text class="detail" x="94" y="-12">portable tools</text>
+                <text class="detail" x="94" y="22">less lock-in</text>
+              </g>
+
+              <g class="node outcome risk-node" transform="translate(1475 110)">
+                <circle r="64"></circle>
+                <text y="-7">CYBER</text>
+                <text y="23">OPS</text>
+                <text class="detail left-detail" x="-94" y="-12">autonomy</text>
+                <text class="detail left-detail" x="-94" y="22">at machine speed</text>
+              </g>
+              <g class="node outcome risk-node" transform="translate(1475 280)">
+                <circle r="64"></circle>
+                <text y="-7">SPAM +</text>
+                <text y="23">SYNTHETICS</text>
+                <text class="detail left-detail" x="-94" y="-12">persuasion</text>
+                <text class="detail left-detail" x="-94" y="22">identity fraud</text>
+              </g>
+              <g class="node outcome risk-node" transform="translate(1475 450)">
+                <circle r="64"></circle>
+                <text y="-7">ABANDONED</text>
+                <text y="23">TOOLS</text>
+                <text class="detail left-detail" x="-94" y="-12">launch is cheap</text>
+                <text class="detail left-detail" x="-94" y="22">maintenance is not</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="rights-question reveal">
+            <span>THE DEMOCRATIC TEST</span> Can citizens understand it, contest it, stop it, and
+            maintain it?
+          </div>
+
+          <footer class="slide-footer">
+            <span>06</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>The cheaper it is to build, the cheaper it is to abuse.</p>
+            <p>
+              Taiwan’s aggregate data does not yet show mass AI unemployment. Its semiconductor
+              economy is growing quickly. But aggregate growth does not answer who captures the
+              gains, whose work intensifies, or who becomes disposable inside an AI-assisted
+              workflow.
+            </p>
+            <p>
+              Civil society sees real hope. Small organizations can translate more, analyze more,
+              and build local tools that vendors would never prioritize. I recently localized
+              thirty-seven public-interest platform-safety resources from ROOST much faster than a
+              traditional workflow would allow.
+            </p>
+            <p>
+              Civil society also sees real fear. Autonomous cyber operations, synthetic persuasion,
+              identity fraud, spam, and critical prototypes abandoned after launch all grow cheaper
+              too.
+            </p>
+            <p>
+              So the democratic question is not whether AI is powerful. It is whether citizens
+              retain the ability to understand it, contest it, stop it, and maintain what becomes
+              important.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://eng.dgbas.gov.tw/News_Content.aspx?n=4438&amp;s=236529<br />
+              https://eng.stat.gov.tw/<br />
+              https://www.dgbas.gov.tw/News_Content.aspx?n=3602&amp;s=235209<br />
+              https://roost.mashbean.net/<br />
+              https://100-democracy.parti.coop/ko/11-ai-future.html
+            </div>
+          </template>
+        </article>
+
+        <article class="slide slide-dci" id="slide-7" data-slide="7" aria-labelledby="title-7">
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">FRAMEWORK · DIGITAL CIVIC INFRASTRUCTURE</p>
+            <p class="korean reveal" lang="ko">연결하고, 배우고, 행동한다</p>
+          </header>
+          <h2 id="title-7" class="slide-title">DCI is the test · Connect → Learn → Act</h2>
+          <p class="lead-copy reveal">
+            DPI and DCI work best in concert. Public rails make services possible. Civic paths turn
+            digital capacity into collective agency.
+          </p>
+
+          <div class="dci-landscape">
+            <svg
+              viewBox="0 0 1680 590"
+              role="img"
+              aria-label="Government service rails beneath a civic path connecting people through learning to action, all crossed by maintenance"
+            >
+              <defs>
+                <marker
+                  id="s7-arrow-cyan"
+                  markerWidth="12"
+                  markerHeight="12"
+                  refX="10"
+                  refY="6"
+                  orient="auto"
+                >
+                  <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                </marker>
+              </defs>
+              <g class="dpi-rails reveal">
+                <text x="65" y="448" class="rail-label">DPI · PUBLIC SERVICE RAILS</text>
+                <path d="M330 410 L1580 410"></path>
+                <path d="M330 470 L1580 470"></path>
+                <path d="M330 530 L1580 530"></path>
+                <text x="380" y="397">identity</text>
+                <text x="790" y="457">payments</text>
+                <text x="1190" y="517">data exchange</text>
+              </g>
+
+              <path
+                data-draw
+                class="dci-path"
+                d="M90 250 C240 250 260 115 445 115 C625 115 650 305 835 305 C1035 305 1050 120 1245 120 C1430 120 1460 250 1590 250"
+                marker-end="url(#s7-arrow-cyan)"
+              ></path>
+              <path
+                data-draw
+                class="maintenance-wave"
+                d="M100 352 C260 315 350 385 510 352 S820 315 980 352 S1290 385 1580 352"
+              ></path>
+              <rect x="925" y="366" width="710" height="34" fill="#f3f2f2"></rect>
+              <text x="1280" y="386" class="maintenance-caption">
+                MAINTAIN CROSSES EVERY STAGE · SPEAKER’S EXTENSION
+              </text>
+
+              <g class="node dci-node" transform="translate(445 115)">
+                <circle r="92"></circle>
+                <text class="phase" y="-12">CONNECT</text>
+                <text class="detail" y="27">people · needs</text>
+                <text class="example" y="135">Guangfu · ROOST</text>
+              </g>
+              <g class="node dci-node" transform="translate(835 305)">
+                <circle r="92"></circle>
+                <text class="phase" y="-12">LEARN</text>
+                <text class="detail" y="27">evidence · tradeoffs</text>
+                <text class="example" y="135">OpenBook · civic-talk</text>
+              </g>
+              <g class="node dci-node" transform="translate(1245 120)">
+                <circle r="92"></circle>
+                <text class="phase" y="-12">ACT</text>
+                <text class="detail" y="27">decide · coordinate</text>
+                <text class="example" y="135">open signing · live tools</text>
+              </g>
+
+              <g class="people-cloud node" transform="translate(90 250)">
+                <circle r="42"></circle>
+                <circle cx="54" cy="-30" r="26"></circle>
+                <circle cx="61" cy="37" r="30"></circle>
+                <text x="0" y="88">COMMUNITY</text>
+              </g>
+            </svg>
+          </div>
+
+          <p class="framework-credit reveal">
+            Cynthia Garcia + Sarah Hubbard · Allen Lab · Connect–Learn–Act adapted by Partners in
+            Democracy from New_Public
+          </p>
+
+          <footer class="slide-footer">
+            <span>07</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>This is where digital civic infrastructure gives us a useful test.</p>
+            <p>
+              During my 2025–26 fellowship at the Allen Lab for Democracy Renovation, I worked with
+              a framework presented by Cynthia Garcia and Sarah Hubbard. It describes digital civic
+              infrastructure as the connective tissue that helps people connect, learn, and act on
+              shared problems.
+            </p>
+            <p>
+              Connect means finding people, needs, and trustworthy channels. Learn means
+              understanding evidence, tradeoffs, and disagreement. Act means deciding, coordinating,
+              and changing something together.
+            </p>
+            <p>
+              Digital public infrastructure and digital civic infrastructure are partners. DPI
+              provides rails such as identity, payments, and data exchange. DCI creates civic paths
+              across those rails.
+            </p>
+            <p>
+              I add one question across all three stages: can people maintain it? Guangfu shows
+              connection. OpenBook supports learning. Open signing and deliberation tools enable
+              action. None becomes infrastructure merely because the code exists. It becomes
+              infrastructure when a community can govern, repair, and reuse it.
+            </p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://ash.harvard.edu/resources/a-framework-for-digital-civic-infrastructure/
+            </div>
+          </template>
+        </article>
+
+        <article class="slide slide-close" id="slide-8" data-slide="8" aria-labelledby="title-8">
+          <div class="press-marks" aria-hidden="true"></div>
+          <header class="slide-header">
+            <p class="kicker reveal">EAST ASIA · CIVIC SOLIDARITY</p>
+            <p class="korean reveal" lang="ko">위험만 공유하지 말고 기반을 공유하자</p>
+          </header>
+          <h2 id="title-8" class="slide-title">
+            East Asia’s civic answer · give nobody a better toolbox
+          </h2>
+
+          <div class="commons-layout">
+            <div class="commons-network">
+              <svg
+                viewBox="0 0 920 700"
+                role="img"
+                aria-label="Regional civic communities connected to a shared civic commons"
+              >
+                <defs>
+                  <marker
+                    id="s8-arrow-cyan"
+                    markerWidth="12"
+                    markerHeight="12"
+                    refX="10"
+                    refY="6"
+                    orient="auto"
+                  >
+                    <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                  </marker>
+                </defs>
+                <path
+                  data-draw
+                  class="network-path"
+                  d="M170 130 C270 195 320 250 420 330"
+                  marker-end="url(#s8-arrow-cyan)"
+                ></path>
+                <path
+                  data-draw
+                  class="network-path"
+                  d="M750 130 C650 195 600 250 500 330"
+                  marker-end="url(#s8-arrow-cyan)"
+                ></path>
+                <path
+                  data-draw
+                  class="network-path"
+                  d="M170 570 C270 505 320 450 420 370"
+                  marker-end="url(#s8-arrow-cyan)"
+                ></path>
+                <path
+                  data-draw
+                  class="network-path"
+                  d="M750 570 C650 505 600 450 500 370"
+                  marker-end="url(#s8-arrow-cyan)"
+                ></path>
+                <path
+                  data-draw
+                  class="network-loop"
+                  d="M170 130 C80 310 80 390 170 570 M750 130 C840 310 840 390 750 570"
+                ></path>
+
+                <g class="node region-node" transform="translate(170 130)">
+                  <circle r="70"></circle>
+                  <text y="8">TAIWAN</text>
+                </g>
+                <g class="node region-node" transform="translate(750 130)">
+                  <circle r="70"></circle>
+                  <text y="8">KOREA</text>
+                </g>
+                <g class="node region-node" transform="translate(170 570)">
+                  <circle r="70"></circle>
+                  <text y="8">JAPAN</text>
+                </g>
+                <g class="node region-node" transform="translate(750 570)">
+                  <circle r="70"></circle>
+                  <text y="-8">CHINESE-</text>
+                  <text y="24">LANGUAGE</text>
+                </g>
+                <g class="node commons-node" transform="translate(460 350)">
+                  <circle r="126"></circle>
+                  <text y="-18">CIVIC</text>
+                  <text y="24">COMMONS</text>
+                  <text class="micro">
+                    <tspan x="0" y="60">TOOLS · DATA</tspan>
+                    <tspan x="0" y="78">MAINTAINERS</tspan>
+                  </text>
+                </g>
+              </svg>
+            </div>
+
+            <div class="commitments">
+              <section class="commitment reveal">
+                <span>01</span>
+                <div>
+                  <h3>Audit political censorship and model bias</h3>
+                  <p>Across Chinese, Korean, and Japanese language systems.</p>
+                </div>
+              </section>
+              <section class="commitment reveal">
+                <span>02</span>
+                <div>
+                  <h3>Share interoperable data and open civic tools</h3>
+                  <p>Make local prototypes portable without erasing context.</p>
+                </div>
+              </section>
+              <section class="commitment reveal">
+                <span>03</span>
+                <div>
+                  <h3>Build cross-border maintainer networks</h3>
+                  <p>Move during disasters, elections, and democratic emergencies.</p>
+                </div>
+              </section>
+              <section class="commitment reveal">
+                <span>04</span>
+                <div>
+                  <h3>Hold a common democratic line</h3>
+                  <p>Explainability · participatory consensus · the right to stop.</p>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <blockquote class="closing-quote reveal">
+            Agentic AI should not replace nobody.<br /><em
+              >It should give nobody a better toolbox.</em
+            >
+          </blockquote>
+
+          <footer class="slide-footer">
+            <span>08</span><span>mashbean · East Asia Civil Society Conference · Seoul · 2026</span>
+          </footer>
+          <template class="speaker-notes">
+            <p>What could East Asian civil society build together?</p>
+            <p>
+              First, shared audits of political censorship and model bias across Chinese, Korean,
+              and Japanese language systems. Second, interoperable public data and reusable civic
+              tools. Third, cross-border maintainer networks that can move during disasters,
+              elections, and democratic emergencies. Fourth, common guardrails.
+            </p>
+            <p>
+              Parti’s principles are a good place to start: explainability, citizen participation in
+              forming consensus, and the right to stop or correct an AI system.
+            </p>
+            <p>
+              In g0v, we say, “Ask not why nobody is doing this. You are that nobody.” The phrase
+              has always contained both freedom and responsibility.
+            </p>
+            <p>Agentic AI should not replace nobody. It should give nobody a better toolbox.</p>
+            <p>Thank you.</p>
+            <div class="sources">
+              <strong>[Sources]</strong><br />
+              https://100-democracy.parti.coop/ko/11-ai-future.html<br />
+              https://fto.asia/events/seoul-2026.html<br />
+              https://summit.g0v.tw/2026/en/<br />
+              https://www.nature.com/articles/s41586-026-10506-7
+            </div>
+          </template>
+        </article>
+      </div>
+    </main>
+
+    <nav class="deck-controls" aria-label="Slide controls">
+      <a
+        class="pdf-link"
+        href="https://mashbean.net/decks/eacs-2026-agentic-ai-dci/slides.pdf"
+        aria-label="Download the PDF deck"
+        >PDF</a
+      >
+      <button type="button" id="prev" aria-label="Previous slide">←</button>
+      <div class="slide-counter">
+        <span id="current-slide">1</span><span class="counter-rule"></span><span>8</span>
+      </div>
+      <button type="button" id="next" aria-label="Next slide">→</button>
+      <button type="button" id="notes-toggle" aria-label="Toggle speaker notes">N</button>
+      <button type="button" id="fullscreen" aria-label="Toggle fullscreen">F</button>
+    </nav>
+
+    <aside class="notes-panel" id="notes-panel" aria-label="Speaker notes" aria-hidden="true">
+      <div class="notes-heading">
+        <strong>Speaker notes</strong
+        ><button type="button" id="notes-close" aria-label="Close speaker notes">×</button>
+      </div>
+      <div id="notes-body"></div>
+    </aside>
+
+    <script src="vendor/gsap.min.js"></script>
+    <script src="deck.js"></script>
+  </body>
+</html>
