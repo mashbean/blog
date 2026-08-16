@@ -32,6 +32,25 @@
     }
   }
 
+  function primeDrawPaths(slide) {
+    const paths = Array.from(slide.querySelectorAll("[data-draw]"));
+    paths.forEach((path) => {
+      const length = Number(path.dataset.pathLength) || pathLength(path);
+      path.dataset.pathLength = String(length);
+      path.classList.remove("draw-complete");
+      gsap.set(path, {
+        strokeDasharray: `${length} ${length}`,
+        strokeDashoffset: length,
+      });
+    });
+  }
+
+  function finalizeDrawPaths(slide) {
+    const paths = Array.from(slide.querySelectorAll("[data-draw]"));
+    paths.forEach((path) => path.classList.add("draw-complete"));
+    if (paths.length) gsap.set(paths, { clearProps: "strokeDasharray,strokeDashoffset" });
+  }
+
   function buildTimeline(slide) {
     const tl = gsap.timeline({
       paused: true,
@@ -47,10 +66,9 @@
     const drawPaths = Array.from(slide.querySelectorAll("[data-draw]"));
 
     drawPaths.forEach((path) => {
-      const length = pathLength(path);
-      path.dataset.pathLength = String(length);
-      gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+      path.dataset.pathLength = String(pathLength(path));
     });
+    primeDrawPaths(slide);
 
     tl.addLabel("title", 0)
       .fromTo(
@@ -62,7 +80,16 @@
       .addLabel("diagram", 0.22);
 
     if (drawPaths.length) {
-      tl.to(drawPaths, { strokeDashoffset: 0, duration: 0.78, stagger: 0.035 }, "diagram");
+      tl.to(
+        drawPaths,
+        {
+          strokeDashoffset: 0,
+          duration: 0.78,
+          stagger: 0.035,
+          onComplete: () => finalizeDrawPaths(slide),
+        },
+        "diagram",
+      );
     }
     if (nodes.length) {
       tl.fromTo(
@@ -114,7 +141,7 @@
     const positionedTargets = slide.querySelectorAll(
       ".reveal:not(svg):not(g), .slide-title, .slide-title > span",
     );
-    if (paths.length) gsap.set(paths, { strokeDashoffset: 0 });
+    if (paths.length) finalizeDrawPaths(slide);
     if (visibleTargets.length) gsap.set(visibleTargets, { autoAlpha: 1 });
     if (positionedTargets.length) gsap.set(positionedTargets, { x: 0, y: 0 });
   }
@@ -190,6 +217,7 @@
 
     const pageTl = timelines.get(newSlide);
     pageTl.pause(0);
+    primeDrawPaths(newSlide);
     transition = gsap.timeline({ defaults: { ease: "power2.out" } });
     transition
       .to(oldSlide, { autoAlpha: 0, x: -travel * 30, duration: 0.24 }, 0)

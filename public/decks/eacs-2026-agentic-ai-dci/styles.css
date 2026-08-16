@@ -103,6 +103,10 @@ button {
   z-index: 1;
 }
 
+.slide marker {
+  overflow: visible;
+}
+
 .slide-header {
   display: flex;
   align-items: baseline;
@@ -796,15 +800,20 @@ svg circle {
 }
 
 .human-label {
-  left: 72px;
+  left: 0;
+  padding-left: 0;
 }
 .agent-label {
-  left: 610px;
+  left: 50%;
   color: var(--cyan);
+  text-align: center;
+  transform: translateX(-50%);
 }
 .judgment-label {
-  right: 40px;
+  right: 0;
+  padding-right: 0;
   color: var(--magenta);
+  text-align: right;
 }
 
 .gate-small {
@@ -820,7 +829,7 @@ svg circle {
 
 .project-plates-two {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 56px;
+  gap: var(--layout-gap);
 }
 
 .project-plates-two .project-image {
@@ -952,7 +961,7 @@ svg circle {
 .signing-hope-grid {
   display: grid;
   grid-template-columns: 590px 1fr;
-  gap: 50px;
+  gap: var(--layout-gap);
   height: 560px;
   margin-top: 14px;
 }
@@ -997,16 +1006,17 @@ svg circle {
 }
 
 .signing-flow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 28px 1.25fr 28px 1fr;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
   padding: 12px 13px;
   border: 1.5px solid var(--cyan);
   background: var(--cyan-soft);
   color: var(--cyan-ink);
   font-size: 16px;
   letter-spacing: 0.035em;
+  text-align: center;
 }
 
 .signing-flow i {
@@ -1068,7 +1078,7 @@ svg circle {
   position: absolute;
   z-index: 2;
   width: 350px;
-  min-height: 156px;
+  height: 156px;
   padding: 17px 19px;
   border-top: 3px solid;
 }
@@ -1192,6 +1202,10 @@ svg circle {
   right: 120px;
   bottom: 82px;
   left: 120px;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  align-items: center;
+  gap: 20px;
   padding: 14px 20px;
   color: var(--paper);
   background: var(--ink);
@@ -1200,7 +1214,7 @@ svg circle {
 }
 
 .rights-question span {
-  margin-right: 20px;
+  margin-right: 0;
   color: #77d1e4;
   font-size: 17px;
   font-weight: 700;
@@ -1332,9 +1346,9 @@ svg circle {
 }
 
 .armor-flow {
-  display: flex;
+  display: grid;
+  grid-template-columns: 128px 1fr 128px 1fr 128px 1fr 128px;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
 }
 
@@ -1367,6 +1381,7 @@ svg circle {
 }
 
 .armor-flow i {
+  justify-self: center;
   color: var(--magenta);
   font-size: 24px;
   font-style: normal;
@@ -1551,7 +1566,7 @@ svg circle {
   right: 120px;
   top: 820px;
   bottom: auto;
-  left: 888px;
+  left: 928px;
   margin: 0;
   padding-top: 20px;
   border-top: 2px solid var(--cyan);
