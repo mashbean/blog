@@ -6,11 +6,19 @@
     <meta name="theme-color" content="#f3f2f2" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>Democratizing Taiwan’s Digital Civic Infrastructure with Agentic AI</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      href="vendor/fonts/source-serif-4-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="vendor/fonts/noto-serif-kr-deck-subset.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -65,7 +73,7 @@
               <path
                 class="route-path"
                 data-draw
-                d="M60 124 C260 124, 300 124, 440 124 S670 124, 820 124 S1080 124, 1230 124 S1435 124, 1535 124"
+                d="M60 124 C260 124, 300 124, 440 124 S670 124, 820 124 S1080 124, 1230 124 S1340 124, 1395 124"
                 marker-end="url(#s1-arrow-cyan)"
               ></path>
               <g class="node diagram-node" transform="translate(60 124)">
@@ -185,7 +193,7 @@
                   d="M360 570 L360 408"
                   marker-end="url(#s2-arrow-cyan)"
                 ></path>
-                <path data-draw class="triangle-frame" d="M128 150 L590 150 L360 570 Z"></path>
+                <path class="triangle-frame reveal" d="M128 150 L590 150 L360 570 Z"></path>
                 <g class="node force-node force-a" transform="translate(128 150)">
                   <circle r="68"></circle>
                   <text class="big-no" y="12">1</text>
@@ -213,13 +221,30 @@
             </div>
 
             <div class="forces-copy">
+              <figure class="attack-clipping reveal">
+                <img
+                  class="attack-headline"
+                  src="assets/mirrordaily-police-camera-breach-20260815.png"
+                  alt="Mirror Daily article reporting a separate claimed breach of police camera systems in Taiwan"
+                />
+                <img
+                  class="attack-detail"
+                  src="assets/mirrordaily-police-camera-breach-20260815.png"
+                  alt=""
+                  aria-hidden="true"
+                />
+                <figcaption>
+                  <strong>A separate breach report</strong>
+                  <span>Mirror Daily · 15 Aug 2026 · police-camera access claim</span>
+                </figcaption>
+              </figure>
               <section class="force-story reveal danger-rule">
                 <span class="story-index">01</span>
                 <div>
                   <h3>Competing partisan frames</h3>
                   <p>
-                    One safety failure can become two incompatible realities. Distrust arrives
-                    before deliberation.
+                    One safety failure, two incompatible realities. Distrust arrives before
+                    deliberation.
                   </p>
                 </div>
               </section>
@@ -228,8 +253,8 @@
                 <div>
                   <h3>Attack, manipulation, suspicion</h3>
                   <p>
-                    <strong>4 days · 85 accounts.</strong> The original disclosure named neither
-                    country nor operator. Attribution remains unconfirmed.
+                    <strong>4 days · 85 accounts.</strong> Country and operator remained unnamed.
+                    Attribution unconfirmed.
                   </p>
                 </div>
               </section>
@@ -238,14 +263,13 @@
                 <div>
                   <h3>A small community that builds fast</h3>
                   <p>
-                    g0v, civic hackers, deliberation experiments, and AI-assisted public-interest
-                    tools.
+                    A small civic-tech community can now build public-interest tools unusually fast.
                   </p>
                 </div>
               </section>
               <p class="evidence-strip reveal">
-                MATTERS OPERATING ESTIMATE · 70–80% OF HANDLED CONTENT IS SPAM OR SCAMS · THE
-                PLATFORM EXISTS FOR THE FRAGILE REMAINDER
+                MATTERS OPERATING ESTIMATE · <strong>70–80%</strong> OF HANDLED CONTENT IS SPAM OR
+                SCAMS · THE PLATFORM EXISTS FOR THE FRAGILE REMAINDER
               </p>
             </div>
           </div>
@@ -290,7 +314,9 @@
               https://www.fda.gov.tw/TC/site13712.aspx<br />
               https://dreamgroup.com/blog/governments-are-not-ready-for-autonomous-ai-attacks<br />
               https://governance.matters.town/en/reading/transparency-method/<br />
-              https://github.com/thematters/matters-spam-dataset/blob/main/DATACARD.md
+              https://github.com/thematters/matters-spam-dataset/blob/main/DATACARD.md<br />
+              User-provided capture of a separate Mirror Daily report, 15 August 2026 ·
+              https://www.mirrordaily.news/
             </div>
           </template>
         </article>
@@ -449,19 +475,13 @@
           <div class="guangfu-grid">
             <figure class="evidence-photo evidence-main reveal">
               <img
-                src="assets/guangfu-home.png"
-                alt="Guangfu Hero public recovery platform showing subsidy, repair, mental health, and recovery-site services"
+                src="assets/guangfu-volunteers-taichung.jpg"
+                alt="Shovel volunteers and heavy machinery clearing mud together in Guangfu, Hualien"
               />
               <figcaption>
-                GUANGFU HERO · RECOVERY SERVICES · PUBLIC SITE CAPTURE 17 AUG 2026
+                450,000 VOLUNTEER VISITS · EXECUTIVE YUAN RECORD | PHOTO · TAICHUNG CITY GOVT · 29
+                SEP 2025
               </figcaption>
-            </figure>
-            <figure class="evidence-photo evidence-secondary reveal">
-              <img
-                src="assets/guangfu-platform.png"
-                alt="About page describing remote volunteers who built an information system for local residents"
-              />
-              <figcaption>REMOTE VOLUNTEERS · INFORMATION AS CARE</figcaption>
             </figure>
 
             <div
@@ -492,8 +512,7 @@
                   marker-end="url(#s4-arrow-cyan)"
                 ></path>
                 <path
-                  data-draw
-                  class="maintain-loop"
+                  class="maintain-loop reveal"
                   d="M895 178 C830 40 190 40 125 178 M125 355 C190 485 830 485 895 355"
                 ></path>
 
@@ -519,6 +538,16 @@
                 </text>
               </svg>
             </div>
+
+            <figure class="evidence-photo evidence-secondary reveal">
+              <img
+                src="assets/guangfu-home.jpg"
+                alt="Guangfu Hero recovery platform connecting residents to subsidies, repairs, mental-health support, and recovery sites"
+              />
+              <figcaption>
+                GUANGFU HERO · A RECOVERY INFORMATION LAYER BUILT BY REMOTE VOLUNTEERS
+              </figcaption>
+            </figure>
           </div>
 
           <p class="guangfu-takeaway reveal">
@@ -557,7 +586,9 @@
               https://gf250923.org/<br />
               https://gf250923.org/volunteer/about-us<br />
               https://ocf.tw/p/guangfu/<br />
-              https://geothings.tw/usecases/guangfu/
+              https://geothings.tw/usecases/guangfu/<br />
+              https://www.ey.gov.tw/Page/9277F759E41CCD91/e9ac85c7-43c1-449a-809a-783dee04e3ae<br />
+              https://www.taichung.gov.tw/3105447/post
             </div>
           </template>
         </article>
@@ -574,7 +605,7 @@
             <p class="korean reveal" lang="ko">작은 팀에 기관급 레버리지</p>
           </header>
           <h2 id="title-5" class="slide-title">
-            Agentic AI gives the civic-tech night shift institutional-grade leverage
+            Agentic AI gives the civic-tech night shift more leverage
           </h2>
 
           <div
@@ -615,7 +646,7 @@
 
           <div class="project-plates">
             <figure class="project-plate reveal">
-              <div class="project-image">
+              <div class="project-image project-image-visual">
                 <img
                   src="assets/live-deck-kit.jpg"
                   alt="Live Deck Kit presenter and audience interfaces on laptop and phone"
@@ -631,10 +662,10 @@
               </figcaption>
             </figure>
             <figure class="project-plate reveal">
-              <div class="project-image">
+              <div class="project-image project-image-interface">
                 <img
-                  src="assets/openbook-home.png"
-                  alt="OpenBook public budget transparency interface"
+                  src="assets/openbook-national.png"
+                  alt="OpenBook national overview comparing the official budgets and data maturity of Taiwan's 22 local governments"
                 />
               </div>
               <figcaption>
@@ -647,11 +678,18 @@
               </figcaption>
             </figure>
             <figure class="project-plate reveal">
-              <div class="project-image signing-crop">
+              <div class="project-image signing-evidence">
                 <img
-                  src="assets/open-signing-test.png"
-                  alt="Test PDF signed with a Taiwan citizen-certificate card through an open signing workflow"
+                  src="assets/citizen-card-reader-mol.png"
+                  alt="Taiwan citizen digital certificate cards being used with a smart-card reader"
                 />
+                <div
+                  class="signature-proof"
+                  aria-label="Local interoperability test using the PAdES Baseline B-B profile and a Taiwan citizen certificate signing key"
+                >
+                  <strong>PAdES B-B</strong>
+                  <span>CITIZEN CERTIFICATE · LOCAL INTEROP TEST</span>
+                </div>
               </div>
               <figcaption>
                 <span class="plate-no">03</span>
@@ -710,10 +748,12 @@
               https://github.com/mashbean/live-deck-kit<br />
               https://github.com/mashbean/live-deck-kit/pull/2<br />
               https://github.com/mashbean/Open-Book<br />
+              https://mashbean.github.io/Open-Book/?lang=en<br />
               https://openfun.tw/<br />
               https://hub.twinkleai.tw/en<br />
               https://github.com/chouhsiang/open-gpki-pkcs11<br />
-              https://github.com/mashbean/libreoffice-tw-card-signing
+              https://github.com/mashbean/libreoffice-tw-card-signing<br />
+              https://english.mol.gov.tw/21139/40790/52901/
             </div>
           </template>
         </article>
@@ -935,17 +975,16 @@
               <path
                 data-draw
                 class="dci-path"
-                d="M90 250 C240 250 260 115 445 115 C625 115 650 305 835 305 C1035 305 1050 120 1245 120 C1430 120 1460 250 1590 250"
+                d="M90 250 C240 250 260 115 445 115 C625 115 650 275 835 275 C1035 275 1050 120 1245 120 C1430 120 1460 250 1590 250"
                 marker-end="url(#s7-arrow-cyan)"
               ></path>
               <path
-                data-draw
-                class="maintenance-wave"
+                class="maintenance-wave reveal"
                 d="M100 352 C260 315 350 385 510 352 S820 315 980 352 S1290 385 1580 352"
               ></path>
               <rect x="925" y="366" width="710" height="34" fill="#f3f2f2"></rect>
               <text x="1280" y="386" class="maintenance-caption">
-                MAINTAIN CROSSES EVERY STAGE · SPEAKER’S EXTENSION
+                MAINTENANCE IS PART OF EVERY STAGE
               </text>
 
               <g class="node dci-node" transform="translate(445 115)">
@@ -954,11 +993,11 @@
                 <text class="detail" y="27">people · needs</text>
                 <text class="example" y="135">Guangfu · ROOST</text>
               </g>
-              <g class="node dci-node" transform="translate(835 305)">
+              <g class="node dci-node" transform="translate(835 275)">
                 <circle r="92"></circle>
                 <text class="phase" y="-12">LEARN</text>
                 <text class="detail" y="27">evidence · tradeoffs</text>
-                <text class="example" y="135">OpenBook · civic-talk</text>
+                <text class="example" y="116">OpenBook · civic-talk</text>
               </g>
               <g class="node dci-node" transform="translate(1245 120)">
                 <circle r="92"></circle>
@@ -1021,86 +1060,81 @@
             <p class="kicker reveal">EAST ASIA · CIVIC SOLIDARITY</p>
             <p class="korean reveal" lang="ko">위험만 공유하지 말고 기반을 공유하자</p>
           </header>
-          <h2 id="title-8" class="slide-title">
-            East Asia’s civic answer · give nobody a better toolbox
-          </h2>
+          <h2 id="title-8" class="slide-title">East Asia can build a civic commons together</h2>
 
           <div class="commons-layout">
-            <div class="commons-network">
-              <svg
-                viewBox="0 0 920 700"
-                role="img"
-                aria-label="Regional civic communities connected to a shared civic commons"
-              >
-                <defs>
-                  <marker
-                    id="s8-arrow-cyan"
-                    markerWidth="12"
-                    markerHeight="12"
-                    refX="10"
-                    refY="6"
-                    orient="auto"
-                  >
-                    <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
-                  </marker>
-                </defs>
-                <path
-                  data-draw
-                  class="network-path"
-                  d="M170 130 C270 195 320 250 420 330"
-                  marker-end="url(#s8-arrow-cyan)"
-                ></path>
-                <path
-                  data-draw
-                  class="network-path"
-                  d="M750 130 C650 195 600 250 500 330"
-                  marker-end="url(#s8-arrow-cyan)"
-                ></path>
-                <path
-                  data-draw
-                  class="network-path"
-                  d="M170 570 C270 505 320 450 420 370"
-                  marker-end="url(#s8-arrow-cyan)"
-                ></path>
-                <path
-                  data-draw
-                  class="network-path"
-                  d="M750 570 C650 505 600 450 500 370"
-                  marker-end="url(#s8-arrow-cyan)"
-                ></path>
-                <path
-                  data-draw
-                  class="network-loop"
-                  d="M170 130 C80 310 80 390 170 570 M750 130 C840 310 840 390 750 570"
-                ></path>
+            <div class="commons-visual">
+              <figure class="solidarity-photo reveal">
+                <img
+                  src="assets/facing-the-ocean-2025.jpg"
+                  alt="Taiwanese, Japanese, and Korean civic technologists and public servants gathered at Facing the Ocean in Kaohsiung"
+                />
+                <figcaption>FACING THE OCEAN · TAIWAN × JAPAN × KOREA · KAOHSIUNG 2025</figcaption>
+              </figure>
 
-                <g class="node region-node" transform="translate(170 130)">
-                  <circle r="70"></circle>
-                  <text y="8">TAIWAN</text>
-                </g>
-                <g class="node region-node" transform="translate(750 130)">
-                  <circle r="70"></circle>
-                  <text y="8">KOREA</text>
-                </g>
-                <g class="node region-node" transform="translate(170 570)">
-                  <circle r="70"></circle>
-                  <text y="8">JAPAN</text>
-                </g>
-                <g class="node region-node" transform="translate(750 570)">
-                  <circle r="70"></circle>
-                  <text y="-8">CHINESE-</text>
-                  <text y="24">LANGUAGE</text>
-                </g>
-                <g class="node commons-node" transform="translate(460 350)">
-                  <circle r="126"></circle>
-                  <text y="-18">CIVIC</text>
-                  <text y="24">COMMONS</text>
-                  <text class="micro">
-                    <tspan x="0" y="60">TOOLS · DATA</tspan>
-                    <tspan x="0" y="78">MAINTAINERS</tspan>
+              <div class="commons-network">
+                <svg
+                  viewBox="0 0 720 240"
+                  role="img"
+                  aria-label="Taiwan, Korea, and Japan contributing tools, data, and maintainers to a shared civic commons"
+                >
+                  <defs>
+                    <marker
+                      id="s8-arrow-cyan"
+                      markerWidth="12"
+                      markerHeight="12"
+                      refX="10"
+                      refY="6"
+                      orient="auto"
+                    >
+                      <path d="M0,0 L12,6 L0,12 Z" fill="#0088b0"></path>
+                    </marker>
+                  </defs>
+                  <path
+                    data-draw
+                    class="network-path"
+                    d="M132 48 C250 48 286 120 415 120"
+                    marker-end="url(#s8-arrow-cyan)"
+                  ></path>
+                  <path
+                    data-draw
+                    class="network-path"
+                    d="M132 120 C260 120 300 120 415 120"
+                    marker-end="url(#s8-arrow-cyan)"
+                  ></path>
+                  <path
+                    data-draw
+                    class="network-path"
+                    d="M132 192 C250 192 286 120 415 120"
+                    marker-end="url(#s8-arrow-cyan)"
+                  ></path>
+
+                  <g class="node region-node" transform="translate(90 48)">
+                    <circle r="39"></circle>
+                    <text y="7">TAIWAN</text>
+                  </g>
+                  <g class="node region-node" transform="translate(90 120)">
+                    <circle r="39"></circle>
+                    <text y="7">KOREA</text>
+                  </g>
+                  <g class="node region-node" transform="translate(90 192)">
+                    <circle r="39"></circle>
+                    <text y="7">JAPAN</text>
+                  </g>
+                  <g class="node commons-node" transform="translate(530 120)">
+                    <circle r="92"></circle>
+                    <text y="-10">CIVIC</text>
+                    <text y="27">COMMONS</text>
+                    <text class="micro">
+                      <tspan x="0" y="57">TOOLS · DATA</tspan>
+                      <tspan x="0" y="76">MAINTAINERS</tspan>
+                    </text>
+                  </g>
+                  <text class="language-line" x="360" y="235">
+                    CHINESE · KOREAN · JAPANESE SYSTEMS
                   </text>
-                </g>
-              </svg>
+                </svg>
+              </div>
             </div>
 
             <div class="commitments">
@@ -1166,6 +1200,7 @@
               <strong>[Sources]</strong><br />
               https://100-democracy.parti.coop/ko/11-ai-future.html<br />
               https://fto.asia/events/seoul-2026.html<br />
+              https://www.ocac.gov.tw/OCAC/Eng/Pages/Detail.aspx?nodeid=329&amp;pid=79628073<br />
               https://summit.g0v.tw/2026/en/<br />
               https://www.nature.com/articles/s41586-026-10506-7
             </div>

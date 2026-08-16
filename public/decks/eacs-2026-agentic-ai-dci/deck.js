@@ -138,7 +138,11 @@
     slides.forEach((slide, i) => {
       const active = i === currentIndex;
       slide.classList.toggle("is-active", active);
-      gsap.set(slide, { display: active ? "block" : "none", autoAlpha: active ? 1 : 0, x: 0 });
+      gsap.set(slide, {
+        display: active ? "block" : "none",
+        autoAlpha: active ? 1 : 0,
+        x: 0,
+      });
       if (active) setSlideEndState(slide);
     });
     updateChrome();
@@ -146,14 +150,25 @@
 
   function goTo(index, direction = 0) {
     const nextIndex = clampIndex(index);
-    if (nextIndex === currentIndex && direction !== 0) return;
+    if (nextIndex === currentIndex) return;
+
+    if (transition) {
+      transition.progress(1).kill();
+      transition = null;
+    }
 
     const oldSlide = slides[currentIndex];
     const newSlide = slides[nextIndex];
     const travel = direction || (nextIndex > currentIndex ? 1 : -1);
     currentIndex = nextIndex;
 
-    if (transition) transition.kill();
+    slides.forEach((slide) => {
+      if (slide !== oldSlide && slide !== newSlide) {
+        slide.classList.remove("is-active");
+        gsap.set(slide, { display: "none", autoAlpha: 0, x: 0 });
+      }
+    });
+
     timelines.forEach((tl, slide) => {
       if (slide !== newSlide) tl.pause();
     });
@@ -183,7 +198,10 @@
         oldSlide.classList.remove("is-active");
         gsap.set(oldSlide, { display: "none", x: 0 });
       }, 0.35)
-      .add(() => pageTl.restart(), 0.12);
+      .add(() => pageTl.restart(), 0.12)
+      .eventCallback("onComplete", () => {
+        transition = null;
+      });
 
     updateChrome();
   }
@@ -216,7 +234,11 @@
     slides.forEach((slide, i) => {
       const active = i === currentIndex;
       slide.classList.toggle("is-active", active);
-      gsap.set(slide, { display: active ? "block" : "none", autoAlpha: active ? 1 : 0, x: 0 });
+      gsap.set(slide, {
+        display: active ? "block" : "none",
+        autoAlpha: active ? 1 : 0,
+        x: 0,
+      });
     });
   }
 
@@ -288,9 +310,19 @@
     updateScale();
     if (document.fonts?.ready) await document.fonts.ready;
 
-    gsap.matchMedia().add({ reduceMotion: "(prefers-reduced-motion: reduce)" }, (context) => {
-      reducedMotion = context.conditions.reduceMotion;
-    });
+    const motionMedia = gsap.matchMedia();
+    motionMedia.add(
+      {
+        reduceMotion: "(prefers-reduced-motion: reduce)",
+        allowMotion: "(prefers-reduced-motion: no-preference)",
+      },
+      (context) => {
+        reducedMotion = Boolean(context.conditions.reduceMotion);
+        return () => {
+          reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        };
+      },
+    );
 
     slides.forEach(buildTimeline);
     bindEvents();
@@ -299,7 +331,11 @@
     slides.forEach((slide, i) => {
       const active = i === currentIndex;
       slide.classList.toggle("is-active", active);
-      gsap.set(slide, { display: active ? "block" : "none", autoAlpha: active ? 1 : 0, x: 0 });
+      gsap.set(slide, {
+        display: active ? "block" : "none",
+        autoAlpha: active ? 1 : 0,
+        x: 0,
+      });
     });
 
     if (reducedMotion || new URLSearchParams(window.location.search).has("static")) {

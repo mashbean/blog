@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "Source Serif 4";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("vendor/fonts/source-serif-4-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Serif KR";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("vendor/fonts/noto-serif-kr-deck-subset.woff2") format("woff2");
+}
+
 :root {
   --paper: #f3f2f2;
   --paper-deep: #e8e6e3;
@@ -5,6 +21,7 @@
   --muted: #6d6966;
   --line: #aaa5a0;
   --cyan: #0088b0;
+  --cyan-ink: #006f91;
   --cyan-soft: #d8edf2;
   --magenta: #d6006c;
   --magenta-soft: #f2d5e4;
@@ -12,6 +29,9 @@
   --font-serif: "Source Serif 4", "Iowan Old Style", Georgia, serif;
   --font-kr: "Noto Serif KR", "Apple SD Gothic Neo", serif;
   --deck-scale: 1;
+  --slide-x: 120px;
+  --layout-gap: 48px;
+  --content-gap: 24px;
 }
 
 * {
@@ -58,7 +78,7 @@ button {
   width: 1920px;
   height: 1080px;
   overflow: hidden;
-  padding: 88px 120px 64px;
+  padding: 88px var(--slide-x) 64px;
   background:
     radial-gradient(circle at 17% 21%, rgb(0 0 0 / 0.018) 0 1px, transparent 1.4px) 0 0 / 7px 7px,
     linear-gradient(110deg, rgb(255 255 255 / 0.42), transparent 44%),
@@ -100,7 +120,7 @@ button {
 }
 
 .kicker {
-  color: var(--cyan);
+  color: var(--cyan-ink);
   font-weight: 700;
 }
 
@@ -137,9 +157,9 @@ figure {
 
 .slide-footer {
   position: absolute !important;
-  right: 120px;
+  right: var(--slide-x);
   bottom: 34px;
-  left: 120px;
+  left: var(--slide-x);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -281,9 +301,9 @@ svg circle {
 
 .cover-route {
   position: absolute !important;
-  right: 145px;
+  right: var(--slide-x);
   bottom: 200px;
-  left: 145px;
+  left: var(--slide-x);
   height: 250px;
 }
 
@@ -326,14 +346,15 @@ svg circle {
 
 .forces-layout {
   display: grid;
-  grid-template-columns: 680px 1fr;
-  gap: 74px;
+  grid-template-columns: 620px 1fr;
+  gap: var(--layout-gap);
   height: 690px;
-  margin-top: 24px;
+  margin-top: 22px;
 }
 
 .forces-diagram {
-  height: 650px;
+  height: 620px;
+  align-self: center;
 }
 
 .force-line,
@@ -403,15 +424,70 @@ svg circle {
 }
 
 .forces-copy {
-  padding-top: 24px;
+  padding-top: 0;
+}
+
+.attack-clipping {
+  position: relative;
+  height: 238px;
+  overflow: hidden;
+  margin: 0 0 12px;
+  border-top: 3px solid var(--magenta);
+  border-bottom: 1.5px solid var(--ink);
+  background: white;
+}
+
+.attack-clipping img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+}
+
+.attack-headline {
+  left: 0;
+  width: 58% !important;
+  object-position: 50% 27% !important;
+}
+
+.attack-detail {
+  right: 0;
+  width: 42% !important;
+  border-left: 3px solid var(--magenta);
+  object-position: 50% 70% !important;
+}
+
+.attack-clipping figcaption {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 10px 14px;
+  color: white;
+  background: rgb(32 30 29 / 0.92);
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: 0.035em;
+}
+
+.attack-clipping figcaption span {
+  color: #f5c9de;
+  text-align: right;
 }
 
 .force-story {
   display: grid;
-  grid-template-columns: 68px 1fr;
-  gap: 22px;
-  padding: 24px 0 25px;
-  border-top: 3px solid var(--ink);
+  grid-template-columns: 50px 1fr;
+  gap: 16px;
+  padding: 11px 0 12px;
+  border-top: 2px solid var(--ink);
 }
 
 .force-story.danger-rule {
@@ -424,31 +500,37 @@ svg circle {
 
 .story-index {
   color: var(--muted);
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 700;
 }
 
 .force-story h3 {
-  margin: 0 0 8px;
-  font-size: 31px;
+  margin: 0 0 4px;
+  font-size: 26px;
   line-height: 1.08;
 }
 
 .force-story p {
   margin: 0;
-  font-size: 25px;
-  line-height: 1.26;
+  font-size: 20px;
+  line-height: 1.2;
 }
 
 .evidence-strip {
-  margin-top: 12px;
-  padding: 15px 18px 13px;
+  margin-top: 8px;
+  padding: 12px 16px;
   color: var(--paper);
   background: var(--ink);
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 650;
   line-height: 1.2;
   letter-spacing: 0.055em;
+}
+
+.evidence-strip strong {
+  color: #8ee0ef;
+  font-size: 32px;
+  line-height: 0;
 }
 
 /* Slide 3 */
@@ -557,16 +639,16 @@ svg circle {
 
 .slide-guangfu .slide-title {
   max-width: 1660px;
-  font-size: 58px;
+  font-size: 60px;
 }
 
 .guangfu-grid {
   display: grid;
-  grid-template-columns: 590px 1fr;
-  grid-template-rows: 290px 340px;
-  gap: 20px 42px;
-  height: 650px;
-  margin-top: 26px;
+  grid-template-columns: 760px 1fr;
+  grid-template-rows: 360px 250px;
+  gap: 22px var(--layout-gap);
+  height: 632px;
+  margin-top: 22px;
 }
 
 .evidence-photo {
@@ -600,30 +682,36 @@ svg circle {
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 10px 12px;
+  padding: 11px 14px;
   color: white;
   background: rgb(32 30 29 / 0.92);
-  font-size: 14px;
+  font-size: 18px;
   font-weight: 650;
+  line-height: 1.15;
   letter-spacing: 0.045em;
 }
 
 .evidence-main {
-  grid-row: 1;
+  grid-row: 1 / span 2;
+}
+
+.evidence-main img {
+  object-position: center;
 }
 
 .evidence-secondary {
+  grid-column: 2;
   grid-row: 2;
 }
 
 .evidence-secondary img {
-  object-position: top left;
+  object-position: top center;
 }
 
 .cla-flow {
   grid-column: 2;
-  grid-row: 1 / span 2;
-  height: 650px;
+  grid-row: 1;
+  height: 360px;
 }
 
 .maintain-loop {
@@ -653,7 +741,7 @@ svg circle {
 
 .maintain-label {
   fill: var(--magenta);
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 700;
   letter-spacing: 0.075em;
   text-anchor: middle;
@@ -674,19 +762,19 @@ svg circle {
 
 .slide-nightshift .slide-title {
   max-width: 1680px;
-  font-size: 57px;
+  font-size: 62px;
 }
 
 .project-river {
   position: relative;
-  height: 132px;
-  margin-top: 20px;
+  height: 112px;
+  margin-top: 14px;
 }
 
 .project-river svg {
   position: absolute;
   inset: 0;
-  height: 132px;
+  height: 112px;
 }
 
 .river-label {
@@ -726,8 +814,8 @@ svg circle {
 .project-plates {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 42px;
-  margin-top: 6px;
+  gap: var(--layout-gap);
+  margin-top: 2px;
 }
 
 .project-plate {
@@ -739,29 +827,60 @@ svg circle {
 
 .project-image {
   position: relative;
-  height: 250px;
+  height: 300px;
   overflow: hidden;
   border: 1.5px solid var(--ink);
   background: white;
 }
 
-.project-plate:nth-child(1) .project-image img {
+.project-image-visual img {
   object-position: center;
 }
 
-.project-plate:nth-child(2) .project-image img {
+.project-image-interface img {
   object-position: top center;
 }
 
-.signing-crop img {
-  object-position: 50% 80%;
-  transform: scale(1.23);
+.signing-evidence > img:first-child {
+  object-position: 62% center;
+}
+
+.signature-proof {
+  position: absolute !important;
+  z-index: 3;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  width: 220px;
+  height: 112px;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 7px;
+  padding: 13px 15px;
+  border: 3px solid white;
+  border-top-color: var(--magenta);
+  color: white;
+  background: rgb(32 30 29 / 0.94);
+  box-shadow: 0 10px 26px rgb(0 0 0 / 0.28);
+}
+
+.signature-proof strong {
+  color: #8ee0ef;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.signature-proof span {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.055em;
 }
 
 .project-plate figcaption {
   position: relative;
-  min-height: 165px;
-  padding: 18px 0 0 54px;
+  min-height: 150px;
+  padding: 16px 0 0 54px;
 }
 
 .plate-no {
@@ -775,15 +894,15 @@ svg circle {
 
 .project-plate h3 {
   margin: 0 0 8px;
-  font-size: 24px;
+  font-size: 26px;
   line-height: 1.05;
   letter-spacing: 0.035em;
 }
 
 .project-plate p {
   margin: 0;
-  font-size: 20px;
-  line-height: 1.25;
+  font-size: 22px;
+  line-height: 1.23;
 }
 
 .nightshift-quote {
@@ -843,12 +962,12 @@ svg circle {
 }
 
 .outcome > text:not(.detail) {
-  font-size: 18px;
+  font-size: 22px;
   letter-spacing: 0.025em;
 }
 
 .outcome .detail {
-  font-size: 19px;
+  font-size: 21px;
   font-weight: 500;
   text-anchor: start;
 }
@@ -916,7 +1035,7 @@ svg circle {
 
 .maintenance-caption {
   fill: var(--magenta);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-anchor: middle;
@@ -950,7 +1069,7 @@ svg circle {
 .framework-credit {
   position: absolute !important;
   right: 120px;
-  bottom: 84px;
+  bottom: 96px;
   margin: 0;
   color: var(--muted);
   font-size: 18px;
@@ -965,28 +1084,57 @@ svg circle {
 
 .commons-layout {
   display: grid;
-  grid-template-columns: 920px 1fr;
-  gap: 56px;
+  grid-template-columns: 720px 1fr;
+  gap: var(--layout-gap);
   height: 660px;
-  margin-top: 12px;
+  margin-top: 18px;
+}
+
+.commons-visual {
+  height: 640px;
+}
+
+.solidarity-photo {
+  position: relative;
+  height: 390px;
+  overflow: hidden;
+  margin: 0;
+  border: 2px solid var(--ink);
+  background: white;
+}
+
+.solidarity-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 46%;
+}
+
+.solidarity-photo figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 11px 14px;
+  color: white;
+  background: rgb(32 30 29 / 0.92);
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.15;
+  letter-spacing: 0.045em;
 }
 
 .commons-network {
-  height: 660px;
+  height: 240px;
+  margin-top: 12px;
 }
 
-.network-path,
-.network-loop {
+.network-path {
   fill: none;
   stroke: var(--cyan);
   stroke-linecap: round;
   stroke-width: 3px;
-}
-
-.network-loop {
-  stroke: rgb(0 136 176 / 0.4);
-  stroke-dasharray: 7 9;
-  stroke-width: 2px;
 }
 
 .region-node circle {
@@ -996,7 +1144,7 @@ svg circle {
 }
 
 .region-node text {
-  font-size: 20px;
+  font-size: 17px;
   letter-spacing: 0.05em;
 }
 
@@ -1007,19 +1155,27 @@ svg circle {
 
 .commons-node text {
   fill: var(--paper);
-  font-size: 29px;
+  font-size: 26px;
   letter-spacing: 0.05em;
 }
 
+.language-line {
+  fill: var(--magenta);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-anchor: middle;
+}
+
 .commitments {
-  padding-top: 24px;
+  padding-top: 0;
 }
 
 .commitment {
   display: grid;
   grid-template-columns: 54px 1fr;
   gap: 18px;
-  padding: 19px 0 18px;
+  padding: 16px 0 15px;
   border-top: 2px solid var(--ink);
 }
 
@@ -1037,18 +1193,21 @@ svg circle {
 
 .commitment p {
   margin: 0;
-  font-size: 20px;
+  font-size: 22px;
   line-height: 1.22;
 }
 
 .closing-quote {
   position: absolute !important;
   right: 120px;
-  bottom: 76px;
-  left: 850px;
+  top: 820px;
+  bottom: auto;
+  left: 888px;
   margin: 0;
+  padding-top: 20px;
+  border-top: 2px solid var(--cyan);
   color: var(--ink);
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 600;
   line-height: 1.1;
   text-align: right;
@@ -1074,6 +1233,10 @@ svg circle {
   background: rgb(20 19 18 / 0.86);
   box-shadow: 0 12px 35px rgb(0 0 0 / 0.28);
   backdrop-filter: blur(12px);
+}
+
+:fullscreen .deck-controls {
+  display: none;
 }
 
 .deck-controls button,
@@ -1175,9 +1338,8 @@ svg circle {
   font-size: 14px;
 }
 
-.reveal,
-.node,
-[data-draw] {
+.slide.is-active .reveal:not(svg),
+.slide.is-active .node {
   will-change: transform, opacity;
 }
 
@@ -1205,6 +1367,13 @@ svg circle {
 }
 
 @media print {
+  html,
+  body,
+  .slide {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
   html,
   body {
     width: 13.333333in;
