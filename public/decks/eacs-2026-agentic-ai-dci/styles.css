@@ -572,7 +572,7 @@ svg circle {
 
 .timeline-wrap svg {
   position: absolute;
-  inset: 60px 0 0;
+  inset: -30px 0 0;
   height: 440px;
 }
 
@@ -818,6 +818,19 @@ svg circle {
   margin-top: 2px;
 }
 
+.project-plates-two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px;
+}
+
+.project-plates-two .project-image {
+  height: 330px;
+}
+
+.project-plates-two .project-plate figcaption {
+  min-height: 132px;
+}
+
 .project-plate {
   position: relative;
   margin: 0;
@@ -839,6 +852,24 @@ svg circle {
 
 .project-image-interface img {
   object-position: top center;
+}
+
+.openfun-media img {
+  object-position: center 45%;
+}
+
+.media-proof {
+  position: absolute;
+  z-index: 3;
+  right: 16px;
+  bottom: 16px;
+  padding: 9px 12px;
+  border-top: 3px solid var(--cyan);
+  color: white;
+  background: rgb(32 30 29 / 0.94);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.065em;
 }
 
 .signing-evidence > img:first-child {
@@ -917,6 +948,186 @@ svg circle {
 }
 
 /* Slide 6 */
+
+.signing-hope-grid {
+  display: grid;
+  grid-template-columns: 590px 1fr;
+  gap: 50px;
+  height: 560px;
+  margin-top: 14px;
+}
+
+.signing-case {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 3px solid var(--ink);
+}
+
+.signing-case-image {
+  position: relative;
+  height: 270px;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  background: white;
+}
+
+.signing-case-image > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 61% center;
+}
+
+.signing-case figcaption {
+  padding-top: 18px;
+}
+
+.signing-case figcaption > span {
+  color: var(--magenta);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.signing-case h3 {
+  margin: 8px 0 14px;
+  font-size: 29px;
+  line-height: 1;
+}
+
+.signing-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 13px;
+  border: 1.5px solid var(--cyan);
+  background: var(--cyan-soft);
+  color: var(--cyan-ink);
+  font-size: 16px;
+  letter-spacing: 0.035em;
+}
+
+.signing-flow i {
+  color: var(--magenta);
+  font-size: 21px;
+  font-style: normal;
+}
+
+.signing-case figcaption p {
+  margin: 14px 0 0;
+  font-size: 21px;
+  line-height: 1.22;
+}
+
+.capability-matrix {
+  position: relative;
+  height: 560px;
+}
+
+.capability-links {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.capability-engine {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 172px;
+  height: 172px;
+  place-content: center;
+  border-radius: 50%;
+  color: var(--paper);
+  background: var(--ink);
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.capability-engine strong {
+  font-size: 25px;
+  line-height: 1.02;
+  letter-spacing: 0.045em;
+}
+
+.capability-engine span {
+  margin-top: 10px;
+  color: #8ee0ef;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.capability-card {
+  position: absolute;
+  z-index: 2;
+  width: 350px;
+  min-height: 156px;
+  padding: 17px 19px;
+  border-top: 3px solid;
+}
+
+.capability-card:nth-of-type(1) {
+  top: 26px;
+  left: 0;
+}
+
+.capability-card:nth-of-type(2) {
+  bottom: 26px;
+  left: 0;
+}
+
+.capability-card:nth-of-type(3) {
+  top: 26px;
+  right: 0;
+}
+
+.capability-card:nth-of-type(4) {
+  right: 0;
+  bottom: 26px;
+}
+
+.hope-card {
+  border-color: var(--cyan);
+  background: var(--cyan-soft);
+}
+
+.risk-card {
+  border-color: var(--magenta);
+  background: var(--magenta-soft);
+}
+
+.capability-card > span {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.hope-card > span {
+  color: var(--cyan-ink);
+}
+
+.risk-card > span {
+  color: var(--magenta);
+}
+
+.capability-card h3 {
+  margin: 9px 0 6px;
+  font-size: 25px;
+  line-height: 1;
+}
+
+.capability-card p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+}
 
 .dualuse-diagram {
   height: 560px;
@@ -1080,6 +1291,144 @@ svg circle {
 
 .slide-close .slide-title {
   max-width: 1640px;
+}
+
+.horizon-layout {
+  display: grid;
+  grid-template-columns: 760px 1fr;
+  gap: var(--layout-gap);
+  height: 620px;
+  margin-top: 18px;
+}
+
+.armor-lab {
+  position: relative;
+  height: 600px;
+  padding: 28px 30px;
+  border: 2px solid var(--ink);
+  background:
+    linear-gradient(135deg, rgb(0 136 176 / 0.06), transparent 46%),
+    var(--paper);
+}
+
+.armor-kicker {
+  margin: 0;
+  color: var(--magenta);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.armor-kicker span {
+  font-family: "Noto Serif KR", "Source Serif 4", serif;
+  font-size: 24px;
+}
+
+.armor-lab h3 {
+  max-width: 650px;
+  margin: 16px 0 30px;
+  font-size: 37px;
+  line-height: 1.02;
+}
+
+.armor-flow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.armor-flow div {
+  display: grid;
+  width: 128px;
+  height: 104px;
+  padding: 12px 10px;
+  align-content: space-between;
+  border: 2px solid var(--cyan);
+  background: var(--cyan-soft);
+}
+
+.armor-flow div:nth-of-type(4) {
+  border-color: var(--magenta);
+  background: var(--magenta-soft);
+}
+
+.armor-flow span {
+  color: var(--magenta);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.armor-flow b {
+  color: var(--ink);
+  font-size: 18px;
+  line-height: 1.08;
+  letter-spacing: 0.04em;
+}
+
+.armor-flow i {
+  color: var(--magenta);
+  font-size: 24px;
+  font-style: normal;
+}
+
+.armor-copy {
+  margin: 25px 0 0;
+  font-size: 23px;
+  line-height: 1.28;
+}
+
+.strait-note {
+  position: absolute !important;
+  right: 30px;
+  bottom: 26px;
+  left: 30px;
+  margin: 0;
+  padding: 14px 16px;
+  border-left: 5px solid var(--magenta);
+  background: var(--magenta-soft);
+  font-size: 20px;
+  line-height: 1.23;
+}
+
+.strait-note strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--magenta);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+}
+
+.watchlist {
+  height: 600px;
+}
+
+.watch-item {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  gap: 16px;
+  min-height: 92px;
+  padding: 11px 0 9px;
+  border-top: 2px solid var(--ink);
+}
+
+.watch-item > span {
+  color: var(--magenta);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.watch-item h3 {
+  margin: 0 0 5px;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.025em;
+}
+
+.watch-item p {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
 }
 
 .commons-layout {
