@@ -114,48 +114,35 @@
     <div class="frame">
       <div class="eyebrow"><span class="num">05</span>2025 年事件的完整通路</div>
       <h2 class="title xcompact">一則文章檢舉，走到 DNS 封鎖前經過哪些單位？</h2>
-      <div class="incident-pipeline">
-        <div class="pipeline-node">
-          <span class="step">01</span>
-          <strong>民眾／情資來源</strong>
-          <p>貼上 Matters 站內文章網址</p>
+      <div class="incident-map">
+        <div class="incident-stage intake-stage">
+          <div class="stage-label"><span>01</span>發現與分案</div>
+          <div class="incident-node"><b>民眾／情資來源</b><span>貼上 Matters 站內文章網址</span></div>
+          <div class="down-arrow">↓</div>
+          <div class="incident-node primary"><b>網路詐騙通報查詢網</b><span>數位產業署收件、去重、分案</span></div>
         </div>
-        <div class="pipeline-node">
-          <span class="step">02</span>
-          <strong>網路詐騙通報查詢網</strong>
-          <p>數位產業署收件、去重與分案</p>
+        <div class="incident-stage review-stage">
+          <div class="stage-label"><span>02</span>審查與處分</div>
+          <div class="incident-node"><b>相關部會</b><span>目的事業主管機關查證詐騙</span></div>
+          <div class="scope-jump"><span>通報標的</span><b>文章 URL　→　matters.town</b></div>
+          <div class="incident-node warning"><b>主管機關</b><span>作成停止解析處分</span></div>
         </div>
-        <div class="pipeline-node warning">
-          <span class="step">03</span>
-          <strong>相關部會審查</strong>
-          <p>目的事業主管機關確認詐騙</p>
-        </div>
-        <div class="pipeline-node warning">
-          <span class="step">04</span>
-          <strong>主管機關作成處分</strong>
-          <p>標的從文章網址轉成 matters.town</p>
-        </div>
-        <div class="pipeline-node">
-          <span class="step">05</span>
-          <strong>TWNIC</strong>
-          <p>形式審查、更新 RPZ 區域</p>
-        </div>
-        <div class="pipeline-node">
-          <span class="step">06</span>
-          <strong>IASP／遞迴 DNS</strong>
-          <p>14 家直連、61 家沿用上游</p>
-        </div>
-        <div class="pipeline-node dark">
-          <span class="step">07</span>
-          <strong>台灣使用者</strong>
-          <p>警示頁或整站無法連線</p>
+        <div class="incident-stage execution-stage">
+          <div class="stage-label"><span>03</span>技術執行</div>
+          <div class="execution-line">
+            <div class="incident-node"><b>TWNIC</b><span>形式審查、更新 RPZ 區域</span></div>
+            <div class="right-arrow">→</div>
+            <div class="incident-node"><b>IASP／遞迴 DNS</b><span>14 家直連，61 家沿用上游</span></div>
+            <div class="right-arrow">→</div>
+            <div class="incident-node dark"><b>台灣使用者</b><span>警示頁或整站無法連線</span></div>
+          </div>
         </div>
       </div>
       <div class="warning-branch">
-        <span class="branch-tag">2026 新增：封鎖完成前的即時警示</span>
-        <span>數產署確認名單</span><b>→</b><span>中華電信、台灣大哥大、遠傳</span><b>＋</b><span>趨勢科技、走著瞧</span><b>→</b><span>指定方案／App 使用者先看到警示</span>
+        <span class="branch-tag">2026 即時警示支線</span>
+        <span>數產署確認名單</span><b>→</b><span>中華電信／台灣大哥大／遠傳</span><b>＋</b><span>趨勢科技／走著瞧</span><b>→</b><span>指定方案與 App 使用者先看到警示</span>
       </div>
-      <div class="pipeline-gap">Matters 沒有出現在公開受文鏈上；從文章網址擴大到整個網域的判斷，也缺少可查核的公開紀錄。</div>
+      <div class="pipeline-gap"><b>斷點</b><span>Matters 不在公開受文鏈上；標的擴大到整個網域，也沒有可查核的公開紀錄。</span></div>
       <p class="source">來源：數產署詐騙網站即時警示說明；DNS-RPZ 治理研究；Matters 事件紀錄</p>
     </div>
   </section>
@@ -233,17 +220,29 @@
 
   <section data-label="08 程序缺口">
     <div class="frame">
-      <div class="eyebrow"><span class="num">08</span>現行參考程序怎麼走</div>
-      <h2 class="title xcompact">公開程序寫了五步，網站經營者仍沒在通知名單裡</h2>
-      <div class="current-process">
-        <div class="process-head"><span>順序</span><span>誰來處理</span><span>應該留下什麼紀錄</span></div>
-        <div class="process-row"><b>1　使用平台申訴管道</b><span>主管機關 → 平台／內容服務商</span><span>送達時間、案件編號、回覆與結果</span></div>
-        <div class="process-row"><b>2　通知限制瀏覽或移除</b><span>法規主管機關 → 網路業者</span><span>法源、特定 URL、改善期限與履行結果</span></div>
-        <div class="process-row"><b>3　請註冊服務鏈協助</b><span>主管機關 → Registrar／Registry</span><span>請求內容、送達與回覆</span></div>
-        <div class="process-row"><b>4　重大國際犯罪司法互助</b><span>檢警／司法機關 → 境外機關</span><span>受理編號、範圍與進度</span></div>
-        <div class="process-row last"><b>5　停止 DNS 解析</b><span>主管機關 → TWNIC → IASP</span><span>網域、理由、期限、處分書與救濟資訊</span></div>
+      <div class="eyebrow"><span class="num">08</span>現行參考程序</div>
+      <h2 class="title xcompact">五步程序走完，Matters 仍沒收到通知</h2>
+      <div class="procedure-layout">
+        <div class="procedure-steps">
+          <div class="procedure-step"><span class="step-no">1</span><div><b>先走平台申訴管道</b><span>主管機關 → 平台／內容服務商</span></div></div>
+          <div class="procedure-step"><span class="step-no">2</span><div><b>通知限制瀏覽或移除</b><span>法規主管機關 → 網路業者</span></div></div>
+          <div class="procedure-step"><span class="step-no">3</span><div><b>請註冊服務鏈協助</b><span>主管機關 → Registrar／Registry</span></div></div>
+          <div class="procedure-step"><span class="step-no">4</span><div><b>重大國際犯罪走司法互助</b><span>檢警／司法機關 → 境外機關</span></div></div>
+          <div class="procedure-step last"><span class="step-no">5</span><div><b>停止 DNS 解析</b><span>主管機關 → TWNIC → IASP</span></div></div>
+        </div>
+        <div class="evidence-rail">
+          <div class="rail-title">每一步都該留紀錄</div>
+          <div><b>01</b><span>送達時間、案件編號、回覆與結果</span></div>
+          <div><b>02</b><span>法源、特定 URL、改善期限、履行結果</span></div>
+          <div><b>03</b><span>請求內容、送達與回覆</span></div>
+          <div><b>04</b><span>受理編號、範圍與進度</span></div>
+          <div class="last"><b>05</b><span>網域、理由、期限、處分書、救濟資訊</span></div>
+        </div>
       </div>
-      <div class="process-gaps"><span>現行處分書必填：對象、依據、標的、效果、受文者</span><strong>沒有欄位證明前四步已執行；受文者也沒有網域持有人或網站經營者。</strong></div>
+      <div class="procedure-findings">
+        <div><span>處分書必填</span><b>對象、依據、標的、效果、受文者</b></div>
+        <div class="gap"><span>本案缺口</span><b>前四步沒有可查核的執行紀錄；受文者名單也沒有 Matters。</b></div>
+      </div>
       <p class="source">來源：《運用 DNS RPZ 自律機制停止解析違法網站處理參考程序》與研究整理</p>
     </div>
   </section>
@@ -420,20 +419,27 @@
     </div>
   </section>
 
-  <section data-label="17 處置光譜">
-    <img class="art-corner spectrum-corner" src="assets/platform-cleaner-spectrum.jpg" alt="平台清道夫處置光譜插畫">
+  <section data-label="17 處置光譜" class="spectrum-slide">
     <div class="frame">
       <div class="eyebrow"><span class="num">17</span>處置光譜</div>
-      <h2 class="title compact">從標記到凍結，先選擇能回復的處置</h2>
-      <div class="spectrum">
-        <div class="spectrum-item"><span class="order">01</span><strong>標記</strong>留下風險訊號，不影響內容</div>
-        <div class="spectrum-item"><span class="order">02</span><strong>降權</strong>不進推薦與搜尋</div>
-        <div class="spectrum-item"><span class="order">03</span><strong>摺疊</strong>仍可展開閱讀</div>
-        <div class="spectrum-item"><span class="order">04</span><strong>小黑屋</strong>離開公共入口</div>
-        <div class="spectrum-item"><span class="order">05</span><strong>凍結</strong>限制帳號行動</div>
-        <div class="spectrum-item"><span class="order">06</span><strong>移除</strong>最高強度、需更強理由</div>
+      <h2 class="title compact">處置先從標記、降權開始，再視證據逐步加重</h2>
+      <div class="spectrum-layout">
+        <figure class="spectrum-art">
+          <img src="assets/platform-cleaner-spectrum.jpg" alt="平台清道夫處置光譜插畫">
+          <figcaption>風險訊號逐步累積，處置強度也逐步提高。</figcaption>
+        </figure>
+        <div class="severity-ladder">
+          <div class="severity-band reversible">可回復處置</div>
+          <div class="severity-step"><span>01</span><b>標記</b><em>留下風險訊號，不影響內容</em></div>
+          <div class="severity-step"><span>02</span><b>降權</b><em>不進推薦與搜尋</em></div>
+          <div class="severity-step"><span>03</span><b>摺疊</b><em>仍可展開閱讀</em></div>
+          <div class="severity-step"><span>04</span><b>小黑屋</b><em>離開公共入口</em></div>
+          <div class="severity-band restrictive">限制與移除</div>
+          <div class="severity-step dark"><span>05</span><b>凍結</b><em>限制帳號行動</em></div>
+          <div class="severity-step black"><span>06</span><b>移除</b><em>最高強度，需要更強理由</em></div>
+        </div>
       </div>
-      <p class="lead" style="margin-top:36px">原則：<strong>先用可回復的手段，讓處置強度跟證據強度一起上升。</strong></p>
+      <div class="spectrum-principle"><span>處置原則</span><b>先用可回復的手段，讓處置強度跟證據強度一起上升。</b></div>
     </div>
   </section>
 
@@ -524,43 +530,51 @@
   <section data-label="23 四種流程">
     <div class="frame">
       <div class="eyebrow"><span class="num">23</span>四條處置流水線</div>
-      <h2 class="title xcompact">從一個網址到一項處置，四條流程各有分工</h2>
+      <h2 class="title xcompact">同樣一個通報，四套機制怎麼接手？</h2>
       <div class="lane-details">
         <div class="lane-detail dns-lane">
-          <span class="lane-name">DNS-RPZ</span>
-          <span><b>發現</b>民眾、情資或機關提出網域／網址</span>
-          <span><b>確認</b>數產署分案；法規主管機關查證</span>
-          <span><b>決定</b>主管機關作成停止解析處分</span>
-          <span><b>轉送</b>TWNIC 形式審查並更新 RPZ</span>
-          <span><b>執行</b>IASP 遞迴 DNS 停止整域解析</span>
-          <span><b>救濟</b>警示頁找主管機關；站方未必先獲知</span>
+          <div class="lane-head"><span class="lane-name">DNS-RPZ</span><em>整域停止解析 · 站方未必先獲知</em></div>
+          <div class="lane-steps">
+            <span><i>1</i><b>發現</b>民眾、情資或機關提出網域／網址</span>
+            <span><i>2</i><b>確認</b>數產署分案，法規主管機關查證</span>
+            <span><i>3</i><b>決定</b>主管機關作成停止解析處分</span>
+            <span><i>4</i><b>轉送</b>TWNIC 形式審查並更新 RPZ</span>
+            <span><i>5</i><b>執行</b>IASP 遞迴 DNS 停止整域解析</span>
+            <span><i>6</i><b>救濟</b>警示頁找主管機關，站方可能事後才知道</span>
+          </div>
         </div>
         <div class="lane-detail iwin-lane">
-          <span class="lane-name">iWIN</span>
-          <span><b>收件</b>民眾提供 URL、畫面與內容說明</span>
-          <span><b>分類</b>依兒少權益與內容類型建案</span>
-          <span><b>判斷</b>判讀法規與自律規範適用範圍</span>
-          <span><b>分流</b>通知業者改善、轉權責機關或黑名單</span>
-          <span><b>回覆</b>業者處理並回報結果</span>
-          <span><b>結案</b>案件狀態與季報統計留存</span>
+          <div class="lane-head"><span class="lane-name">iWIN</span><em>依內容分流 · 業者回覆可留存</em></div>
+          <div class="lane-steps">
+            <span><i>1</i><b>收件</b>民眾提供 URL、畫面與內容說明</span>
+            <span><i>2</i><b>分類</b>依兒少權益與內容類型建案</span>
+            <span><i>3</i><b>判斷</b>判讀法規與自律規範適用範圍</span>
+            <span><i>4</i><b>分流</b>通知業者改善、轉權責機關或黑名單</span>
+            <span><i>5</i><b>回覆</b>業者處理並回報結果</span>
+            <span><i>6</i><b>結案</b>案件狀態與季報統計留存</span>
+          </div>
         </div>
         <div class="lane-detail ecom-lane">
-          <span class="lane-name">電商防詐雷達</span>
-          <span><b>掃描</b>數產署巡查電商平台商品</span>
-          <span><b>辨識</b>關鍵字與風險樣態挑出候選</span>
-          <span><b>查核</b>彙整高風險商品與賣場訊號</span>
-          <span><b>通知</b>清單送交合作電商平台</span>
-          <span><b>處置</b>平台複核、預防性下架或限制</span>
-          <span><b>追蹤</b>週報公布掃描與處理量</span>
+          <div class="lane-head"><span class="lane-name">電商防詐雷達</span><em>商品／賣場層級 · 由平台複核處置</em></div>
+          <div class="lane-steps">
+            <span><i>1</i><b>掃描</b>數產署巡查電商平台商品</span>
+            <span><i>2</i><b>辨識</b>關鍵字與風險樣態挑出候選</span>
+            <span><i>3</i><b>查核</b>彙整高風險商品與賣場訊號</span>
+            <span><i>4</i><b>通知</b>清單送交合作電商平台</span>
+            <span><i>5</i><b>處置</b>平台複核、預防性下架或限制</span>
+            <span><i>6</i><b>追蹤</b>週報公布掃描與處理量</span>
+          </div>
         </div>
         <div class="lane-detail matters-lane">
-          <span class="lane-name">Matters</span>
-          <span><b>偵測</b>模型、使用者檢舉與站務巡查</span>
-          <span><b>聚合</b>文字、行為、帳號與集團訊號</span>
-          <span><b>覆核</b>規則門檻加人工判斷灰區</span>
-          <span><b>處置</b>標記、降權、摺疊、小黑屋或凍結</span>
-          <span><b>留痕</b>處理者、理由、時間與證據進稽核</span>
-          <span><b>申訴</b>維持、改判、恢復並回寫規則</span>
+          <div class="lane-head"><span class="lane-name">Matters</span><em>內容與帳號層級 · 申訴結果回寫規則</em></div>
+          <div class="lane-steps">
+            <span><i>1</i><b>偵測</b>模型、使用者檢舉與站務巡查</span>
+            <span><i>2</i><b>聚合</b>文字、行為、帳號與集團訊號</span>
+            <span><i>3</i><b>覆核</b>規則門檻加人工判斷灰區</span>
+            <span><i>4</i><b>處置</b>標記、降權、摺疊、小黑屋或凍結</span>
+            <span><i>5</i><b>留痕</b>處理者、理由、時間與證據進稽核</span>
+            <span><i>6</i><b>申訴</b>維持、改判、恢復並回寫規則</span>
+          </div>
         </div>
       </div>
       <p class="source">來源：DNS-RPZ 研究；iWIN 2025 Q2 統計；數產署電商防詐雷達；平台清道夫</p>
@@ -684,14 +698,20 @@
       <div class="eyebrow"><span class="num">29</span>海外也長出相似的工具鏈</div>
       <h2 class="title xcompact">ROOST 已經整理出一套開放的安全工具鏈</h2>
       <div class="roost-proof">
-        <a class="roost-shot" href="https://roost.mashbean.net/matters-roost.html" target="_blank" rel="noopener">
-          <img src="assets/roost-matters-page.png" alt="Matters 與 ROOST 架構盤點網頁截圖">
-        </a>
+        <figure class="roost-visual">
+          <a class="roost-shot" href="https://roost.mashbean.net/matters-roost.html" target="_blank" rel="noopener">
+            <img src="assets/roost-matters-page.png" alt="Matters 與 ROOST 架構盤點網頁截圖">
+          </a>
+          <figcaption>Matters × ROOST 架構盤點網頁　↗</figcaption>
+        </figure>
         <div class="roost-summary">
-          <div class="roost-stat"><strong>37 / 37</strong><span>上游文件完成繁中第一輪翻譯</span></div>
-          <div><b>Model Community</b><span>模型、政策套件與評估資源</span></div>
-          <div><b>Osprey</b><span>事件、實體、規則與調查能力</span></div>
-          <div><b>Coop</b><span>Queue、Decision、Action 與 Appeal 工作流</span></div>
+          <div class="roost-stat"><span class="count">37 / 37</span><span>上游文件完成繁中第一輪翻譯</span></div>
+          <div class="roost-chain">
+            <div><b>Model Community</b><span>模型、政策套件與評估資源</span></div>
+            <div><b>Osprey</b><span>事件、實體、規則與調查能力</span></div>
+            <div><b>Coop</b><span>Queue、Decision、Action 與 Appeal 工作流</span></div>
+          </div>
+          <div class="roost-keep"><span>Matters 保留</span><b>政策判斷、社群角色、最終處置</b></div>
         </div>
       </div>
       <p class="source">來源：roost.mashbean.net；roost.mashbean.net/matters-roost.html</p>
