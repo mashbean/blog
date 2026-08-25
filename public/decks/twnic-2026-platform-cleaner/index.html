@@ -15,36 +15,36 @@
   <script src="../twigf-2026-matters/deck-stage.js"></script>
   <script type="application/json" id="speaker-notes">
   [
-    "開場只說題目與場次。這不是個人簡介，而是一個從事故長出來的治理故事。\n\n[Sources]\n- TWNIC 網路社群計畫成果發表會任務說明（2026-08-25）",
-    "核心命題：平台在 DNS-RPZ 事件中變成被治理者，才具體感受到通知、理由、申訴與救濟不是附加功能。\n\n[Sources]\n- 使用者提供的 2025 春節事件紀錄\n- https://mashbean.net/decks/twigf-2026-matters/",
+    "開場只說題目與場次，接著直接進入 2025 春節的誤封事件。\n\n[Sources]\n- TWNIC 網路社群計畫成果發表會任務說明（2026-08-25）",
+    "核心命題：平台輪到自己被 DNS-RPZ 封鎖後，通知、理由、申訴與救濟突然變得非常具體。\n\n[Sources]\n- 使用者提供的 2025 春節事件紀錄\n- https://mashbean.net/decks/twigf-2026-matters/",
     "本章聚焦基礎設施治理：一則內容如何沿著行政與 DNS 流程，放大成整站不可達。\n\n[Sources]\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
     "先把可確認的時間線說清楚：台灣用戶零星回報、規模擴大、警示頁指向 TWNIC、春節期間找不到承辦、私下聯繫後恢復。整體中斷約三天。\n\n[Sources]\n- 使用者提供的 2025 春節事件紀錄",
-    "這張圖刻意把『檢舉到處分』標成未公開細節。公開資料沒有證明最後決定完全由機器自動作成。可以確認的是主管機關作成處分、TWNIC 形式審查、IASP 執行。\n\n[Sources]\n- 使用者提供的事件紀錄\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
-    "DNS-RPZ 的治理單位是網域，不是單篇 URL。這是風險放大的核心：站內一篇二次詐騙文，最後造成整個 matters.town 在台灣預設 DNS 下不可達。\n\n[Sources]\n- 使用者提供的事件紀錄\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
-    "2026 上半年 38,417 筆請求；99.95% 是主管機關命令。NCC 統計顯示 83 家登記 IASP 中，14 家直接加入、61 家指向已加入者、8 家尚未提供服務，實際營運者效果上全數涵蓋。\n\n[Sources]\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
-    "參考程序說 DNS 停止解析是最後手段，但沒有公開查核前四階是否真的用盡。處分受文者包含 IASP、TWNIC 與機關，不包含網域持有人或網站經營者。\n\n[Sources]\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
-    "形式上有申訴信箱與電話，不等於假日也能啟動救濟。事件中的實際恢復依賴私人關係，顯示管道可見與管道可用是兩件事。\n\n[Sources]\n- 使用者提供的 2025 春節事件紀錄",
+    "依公開資料可確認：民眾把網址送進網詐通報查詢網，案件由數產署分案，相關部會確認後由主管機關作成處分，TWNIC 做形式審查並更新 RPZ，IASP 最後執行。2026 年新增的即時警示另由三家電信與兩家科技業者提供。\n\n[Sources]\n- 使用者提供的事件紀錄\n- https://www.gov.tw/News_Content_13_891666\n- https://web.moda.gov.tw/ADI/news/latest-news/20326\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
+    "通報服務的公開輸入是一筆可疑訊息網址；LINE ID 也得先轉成 URL。Matters 文章內容符合官方提醒的二次詐騙樣態，爭點落在後續處置：文章網址如何擴張成 matters.town，以及站方為何沒有收到通知。\n\n[Sources]\n- 使用者提供的事件紀錄\n- https://www.gov.tw/News_Content_13_891666\n- https://moda.gov.tw/ADI/antifraud/af-toolbox/19932\n- https://moda.gov.tw/ADI/news/latest-news/17342\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
+    "2026 上半年有 38,417 筆停止解析請求，99.95% 來自主管機關命令。83 家登記 IASP 中，14 家直接接收 RPZ、61 家沿用已加入機制的上游 DNS、8 家尚未提供服務；所以 75 家營運者全數涵蓋。\n\n[Sources]\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
+    "參考程序依序列出平台申訴、作用法通知、註冊服務鏈協助、國際司法互助與 DNS 停止解析。處分書必填欄位沒有前四步的執行證明，公開受文者也缺少網域持有人與網站經營者。\n\n[Sources]\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
+    "警示頁上有申訴信箱與電話；春節期間沒有承辦回應，Matters 最後透過私人聯繫才恢復解析。這是可見管道與實際處理能力之間的落差。\n\n[Sources]\n- 使用者提供的 2025 春節事件紀錄",
     "這個倫理鏡像把故事接回平台內部：平台要求外部治理者先通知、給理由、可申訴、可回復；平台對自己的使用者也必須做到同一套。\n\n[Sources]\n- 使用者提供的事件紀錄\n- https://governance.matters.town/",
     "第二章從基礎設施往下走，進入平台每天怎麼處理文章、留言、帳號與集團。\n\n[Sources]\n- https://governance.matters.town/",
     "大型平台的障礙是商業機密與攻防風險；中小平台的障礙是人力、資料與法遵成本。公共討論需要第三條路：可分層開放的工具與流程。\n\n[Sources]\n- https://governance.matters.town/\n- https://mashbean.net/decks/twigf-2026-matters/",
-    "平台清道夫不是公開一個模型而已，而是把規則、工具、資料與誤判／申訴一起攤開。只有這四者同時存在，外部才有可能檢驗。\n\n[Sources]\n- https://governance.matters.town/\n- https://github.com/thematters/spam-detection-scaffold\n- https://huggingface.co/datasets/thematters/matters-spam",
-    "治理至少跨六層。真正的問題往往不是某層完全沒有規則，而是規則跨層時失去通知、語境或比例。\n\n[Sources]\n- https://governance.matters.town/\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
+    "平台清道夫同時公開規則、工具、資料、誤判與申訴；外部才能看到治理如何發生，也能找到仍待補齊的地方。\n\n[Sources]\n- https://governance.matters.town/\n- https://github.com/thematters/spam-detection-scaffold\n- https://huggingface.co/datasets/thematters/matters-spam",
+    "治理至少跨六層。每一層可能都有自己的規則；通知、語境與比例常在跨層時遺失。\n\n[Sources]\n- https://governance.matters.town/\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/",
     "里長室代表的是營運視角：把分散的文章、留言、帳號、模型分數、集團訊號與申訴狀態放進同一個可操作流程。\n\n[Sources]\n- https://governance.matters.town/\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
-    "垃圾不是單一文字分類問題。文章、留言、集團與偽裝詐騙，各需要不同的證據與處置單位。\n\n[Sources]\n- https://governance.matters.town/\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
-    "處置不是只有刪與不刪。Matters 把可見度與可逆性拆開，優先用標記、降權、摺疊、小黑屋等較可回復的手段，再進到凍結。\n\n[Sources]\n- https://governance.matters.town/\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
+    "文章、留言、集團與偽裝詐騙呈現不同樣態，各自需要相應的證據與處置單位。\n\n[Sources]\n- https://governance.matters.town/\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
+    "Matters 把可見度與可逆性拆開，處置從標記、降權、摺疊、小黑屋逐步走到凍結與移除，優先保留回復空間。\n\n[Sources]\n- https://governance.matters.town/\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
     "單一模型不夠。語義、行為、信任、人工覆核與申訴形成一個循環，閾值也必須隨誤傷與漏接持續校準。\n\n[Sources]\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/MODEL_UPDATE_REPORT.md\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
-    "守望相助的建置順序很重要：先有稽核、透明與申訴，再放出處置權。程序不是事後補丁，而是權力授予的前提。\n\n[Sources]\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/MODEL_UPDATE_REPORT.md\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
-    "以 Hugging Face 公開搜尋作為可重現的盤點：常見中文 spam 語料約一萬筆，且多是對話或 SMS；繁中大型語料多屬一般語料或事實查核。沒有現成資料同時命中台灣語境、長文平台與 spam 標註。這是公開檢索結論，不宣稱涵蓋所有私有資料。\n\n[Sources]\n- https://huggingface.co/datasets?other=traditional-chinese\n- https://huggingface.co/datasets?search=spam&sort=trending\n- https://huggingface.co/datasets/thematters/matters-spam",
-    "三個 split 合計 425,689 筆。spam 406,850，ham 18,839。加權平均長度 2,630 字，各 split 中位數 1,543–1,564 字。只有 2,322 筆有 spam 子類，分類欄位覆蓋 0.545%。這是一份真實營運資料，不是平衡過的教科書資料集。\n\n[Sources]\n- Hugging Face dataset-server statistics API，擷取 2026-08-25\n- https://huggingface.co/datasets/thematters/matters-spam",
-    "第三章把四種治理機制放在同一張桌上。目的不是排排名，而是看決策單位、影響範圍與程序保障如何跟著層級改變。\n\n[Sources]\n- DNS-RPZ、iWIN、數產署電商防詐雷達與 Matters 公開資料",
+    "守望相助先建稽核、透明與申訴，再開放有限處置權；這個順序讓每次授權都有可查核的護欄。\n\n[Sources]\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/MODEL_UPDATE_REPORT.md\n- /Users/mashbean/Developer/repos/spam-detection-scaffold/docs/PROGRESS_REPORT.md",
+    "公開盤點中，Chinese conversation + spam 來自中文 Telegram 對話與反垃圾機器人紀錄；Chinese spam 10k 有 train、dev、test 三個 CSV，但資料卡未交代來源與標註方法。這兩份都未涵蓋台灣長文平台的完整語境。\n\n[Sources]\n- https://huggingface.co/datasets/paulkm/chinese_conversation_and_spam\n- https://huggingface.co/datasets/reatiny/chinese-spam-10000\n- https://huggingface.co/datasets/thematters/matters-spam",
+    "三個 split 合計 425,689 筆。spam 406,850，ham 18,839。加權平均長度 2,630 字，各 split 中位數 1,543–1,564 字。只有 2,322 筆有 spam 子類，分類欄位覆蓋 0.545%。資料保留了真實營運分布，也帶著明顯類別失衡。\n\n[Sources]\n- Hugging Face dataset-server statistics API，擷取 2026-08-25\n- https://huggingface.co/datasets/thematters/matters-spam",
+    "第三章把四種治理機制放在同一張桌上，比較決策單位、影響範圍與程序保障如何跟著層級改變。\n\n[Sources]\n- DNS-RPZ、iWIN、數產署電商防詐雷達與 Matters 公開資料",
     "四條流程分別代表基礎設施阻擋、中介通知、商品預防性下架與平台內部治理。iWIN 也有轉權責機關與轉黑名單等分流；電商案例採數產署防詐雷達的公開流程。\n\n[Sources]\n- https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/\n- https://i.win.org.tw/upload/data/114_%E7%AC%AC2%E5%AD%A3_%E5%AE%98%E7%B6%B2%E7%89%88.pdf\n- https://moda.gov.tw/ADI/antifraud/af-bulletin/goods/20422\n- https://governance.matters.town/",
-    "比較的是公開可見的典型流程，不是法律合規分數。尤其電商平台與 iWIN 的實際通知、救濟會依案件與業者而異。\n\n[Sources]\n- 同上一頁四組公開資料",
-    "概念圖把影響範圍與可逆性放在一起。DNS-RPZ 位於整個網域、較難回復的一端；Matters 的摺疊／降權偏向單一內容、較可回復。這不是數據量測。\n\n[Sources]\n- 根據前頁流程作成的概念比較",
+    "本頁整理公開可見的典型流程。電商平台與 iWIN 的實際通知、救濟會依案件與業者而異。\n\n[Sources]\n- 同上一頁四組公開資料",
+    "概念圖同時放入影響範圍與可逆性。DNS-RPZ 位於整個網域、較難回復的一端；Matters 的摺疊與降權偏向單一內容、較可回復。圖中位置屬概念比較，沒有量化分數。\n\n[Sources]\n- 根據前頁流程整理的概念比較",
     "NCC 兩份自律指引：透明度報告與申訴救濟。公開自評拆成四類各七項，共 28 項；落地工作稿再拆成 41 個可檢核細項。\n\n[Sources]\n- https://api.ncc.gov.tw/chncc/app/data/doc?detailNo=1455828244677791744&id=50&module=news&type=s\n- https://governance.matters.town/reading/ncc-41-checklist/\n- /Users/mashbean/Developer/output/matters-ncc-compliance/",
     "Matters 的四類自評全部是部分達成。已建透明度中心、H1 報告、申訴中心、模型與推薦說明，也清楚揭露舊制 email 與歷史案件未完整回填。\n\n[Sources]\n- https://governance.matters.town/reading/ncc-41-checklist/\n- /Users/mashbean/Developer/output/matters-ncc-compliance/proofreading-handoff-2026-07-24/01_繁中公開文字.md",
-    "本地備忘中的模組藍圖：平台無關處置事件 schema、透明度報告產生器、申訴救濟頁樣板與對照檢核表。關鍵是把法遵工作變成中小平台可安裝的公共基礎設施。\n\n[Sources]\n- /Users/mashbean/Developer/output/twnic-next-cycle-roost/下一期提案前期研究備忘.md\n- https://github.com/open-safety-tw/moderation-audit-toolkit",
+    "本地備忘中的模組藍圖包含平台無關的處置事件 schema、透明度報告產生器、申訴救濟頁樣板與對照檢核表，目標是讓中小平台直接安裝與沿用。\n\n[Sources]\n- /Users/mashbean/Developer/output/twnic-next-cycle-roost/下一期提案前期研究備忘.md\n- https://github.com/open-safety-tw/moderation-audit-toolkit",
     "ROOST 繁中站已完成 37/37 份上游文件第一輪翻譯。Model Community、Osprey、Coop 分別對應模型資源、事件調查與審查／申訴工作流；平台仍保留自己的政策與最終處置。\n\n[Sources]\n- https://roost.mashbean.net/\n- https://roost.mashbean.net/matters-roost.html",
-    "結尾不是感謝頁，而是三個可行動方向：平台間水平共享、治理層級垂直互學、ROOST 等全球工具的在地化。邀請現場把程序保障做成可重用的公共財。\n\n[Sources]\n- 綜合本簡報所有來源"
+    "結尾提出三個可行動方向：業者與使用者的水平合作、不同治理議題的方法共享，以及 ROOST 等國際工具的在地化。邀請現場從風險訊號、資料格式與申訴介面開始合作。\n\n[Sources]\n- https://governance.matters.town/\n- https://huggingface.co/datasets/thematters/matters-spam\n- https://roost.mashbean.net/"
   ]
   </script>
 </head>
@@ -55,7 +55,7 @@
     <div class="frame">
       <p class="cover-kicker">TWNIC 網路社群計畫成果發表會 ／ 2026.08.28</p>
       <h1 class="cover-title">敝帚自珍的<br><span>平台清道夫</span></h1>
-      <p class="cover-subtitle">從 DNS-RPZ 誤封，層層走向開放治理的公共基礎設施</p>
+      <p class="cover-subtitle">從 Matters 誤封事件，談平台、基礎設施與公共治理</p>
       <div class="cover-meta">
         <span>治理 × 平台安全 × 開放資料</span>
         <span>mashbean.net/decks/twnic-2026-platform-cleaner</span>
@@ -65,24 +65,25 @@
 
   <section data-label="02 核心命題" class="inverse">
     <div class="frame">
-      <div class="eyebrow"><span class="num">02</span>OPENING THESIS</div>
-      <p class="thesis">平台成為<span class="mark">被治理者</span>時，<br>才真正看見自己欠使用者的<br><span class="mark">通知、理由、申訴與救濟</span>。</p>
+      <div class="eyebrow"><span class="num">02</span>事情發生在自己身上</div>
+      <p class="thesis">輪到 Matters 被封鎖，<br>我們才知道一封通知<br><span class="mark">會不會真的抵達</span>。</p>
     </div>
   </section>
 
-  <section data-label="03 第一章" class="section-divider">
+  <section data-label="03 第一章" class="section-divider art-divider dns-divider">
+    <img class="divider-art" src="assets/platform-cleaner-dns-rpz.jpg" alt="平台清道夫 DNS-RPZ 插畫">
     <div class="frame">
       <div class="section-number">01</div>
       <div class="section-label">INFRASTRUCTURE GOVERNANCE</div>
-      <h2 class="section-title">一切始於<br>網路治理的漏洞</h2>
-      <p class="section-subtitle">一篇二次詐騙文，為什麼變成整個平台下架？</p>
+      <h2 class="section-title">一篇詐騙文，<br>為何讓整個 Matters 消失？</h2>
+      <p class="section-subtitle">2025 年春節，台灣使用者連續三天無法連線</p>
     </div>
   </section>
 
   <section data-label="04 三天誤封時間線">
     <div class="frame">
       <div class="eyebrow"><span class="num">04</span>2025 春節事件</div>
-      <h2 class="title">零星回報變成整站中斷，<strong>三天後</strong>才恢復</h2>
+      <h2 class="title">三天找不到承辦，解封最後靠私人聯繫</h2>
       <div class="timeline">
         <div class="timeline-step">
           <span class="date">DAY 0</span>
@@ -111,60 +112,97 @@
 
   <section data-label="05 誤封流程圖">
     <div class="frame">
-      <div class="eyebrow"><span class="num">05</span>事件如何放大</div>
-      <h2 class="title compact">一則檢舉，經過四個治理節點，變成整站不可達</h2>
-      <div class="flow-row">
-        <div class="flow-node">
-          <span class="step">01 / CONTENT</span>
-          <strong>二次詐騙文</strong><br>表面教人追回詐款，實際誘導再次受騙
+      <div class="eyebrow"><span class="num">05</span>2025 年事件的完整通路</div>
+      <h2 class="title xcompact">一則文章檢舉，走到 DNS 封鎖前經過哪些單位？</h2>
+      <div class="incident-pipeline">
+        <div class="pipeline-node">
+          <span class="step">01</span>
+          <strong>民眾／情資來源</strong>
+          <p>貼上 Matters 站內文章網址</p>
         </div>
-        <div class="flow-node">
-          <span class="step">02 / REPORT</span>
-          <strong>民眾檢舉</strong><br>案件進入數位產業署打詐通報流程
+        <div class="pipeline-node">
+          <span class="step">02</span>
+          <strong>網路詐騙通報查詢網</strong>
+          <p>數位產業署收件、去重與分案</p>
         </div>
-        <div class="flow-node warning">
-          <span class="step">03 / UNDISCLOSED</span>
-          <strong>確認與處分</strong><br>自動化到哪一步？公開資料沒有說清楚
+        <div class="pipeline-node warning">
+          <span class="step">03</span>
+          <strong>相關部會審查</strong>
+          <p>目的事業主管機關確認詐騙</p>
         </div>
-        <div class="flow-node">
-          <span class="step">04 / FORMAL REVIEW</span>
-          <strong>TWNIC 形式審查</strong><br>檢查處分與法源，不審內容事實
+        <div class="pipeline-node warning">
+          <span class="step">04</span>
+          <strong>主管機關作成處分</strong>
+          <p>標的從文章網址轉成 matters.town</p>
         </div>
-        <div class="flow-node">
-          <span class="step">05 / EXECUTION</span>
-          <strong>IASP 停止解析</strong><br>台灣預設 DNS 使用者無法進入整個網域
+        <div class="pipeline-node">
+          <span class="step">05</span>
+          <strong>TWNIC</strong>
+          <p>形式審查、更新 RPZ 區域</p>
+        </div>
+        <div class="pipeline-node">
+          <span class="step">06</span>
+          <strong>IASP／遞迴 DNS</strong>
+          <p>14 家直連、61 家沿用上游</p>
+        </div>
+        <div class="pipeline-node dark">
+          <span class="step">07</span>
+          <strong>台灣使用者</strong>
+          <p>警示頁或整站無法連線</p>
         </div>
       </div>
-      <div class="callout" style="margin-top:34px">平台業者不在這條公開受文鏈上；<strong>也就沒有一個可驗證的通知交付點</strong>。</div>
-      <p class="source">來源：DNS-RPZ 治理研究；本次任務提供的事件紀錄</p>
+      <div class="warning-branch">
+        <span class="branch-tag">2026 新增：封鎖完成前的即時警示</span>
+        <span>數產署確認名單</span><b>→</b><span>中華電信、台灣大哥大、遠傳</span><b>＋</b><span>趨勢科技、走著瞧</span><b>→</b><span>指定方案／App 使用者先看到警示</span>
+      </div>
+      <div class="pipeline-gap">Matters 沒有出現在公開受文鏈上；從文章網址擴大到整個網域的判斷，也缺少可查核的公開紀錄。</div>
+      <p class="source">來源：數產署詐騙網站即時警示說明；DNS-RPZ 治理研究；Matters 事件紀錄</p>
     </div>
   </section>
 
   <section data-label="06 DNS 的放大效應">
     <div class="frame">
-      <div class="eyebrow"><span class="num">06</span>治理單位錯位</div>
-      <h2 class="title">內容問題在一篇文章，處置單位卻是<strong>整個網域</strong></h2>
-      <div class="magnify">
-        <div class="single-content">
-          <div class="mono purple" style="font-size:21px;margin-bottom:20px">ONE ARTICLE URL</div>
-          「協助追回詐款」的二次詐騙文<br><br>
-          <span class="muted">平台可以隱藏、降權、通知作者、接受申訴</span>
+      <div class="eyebrow"><span class="num">06</span>通報規則與實際處置</div>
+      <h2 class="title xcompact">打詐通報收的是網址，DNS-RPZ 擋的是網域</h2>
+      <div class="rule-cases">
+        <div class="rule-case official">
+          <span class="case-label">公開規則</span>
+          <h3>一筆可疑訊息網址</h3>
+          <ul>
+            <li>貼上網址，查詢是否已通報或確認</li>
+            <li>尚無紀錄時，可以送出通報</li>
+            <li>LINE ID 也要先轉成可識別網址</li>
+            <li>案件分送相關部會審查後確認</li>
+          </ul>
         </div>
-        <div class="domain-block">
-          <span class="domain">matters.town</span>
-          首頁、文章、作者頁、登入、申訴入口<br>一起從台灣預設 DNS 消失
+        <div class="rule-case incident">
+          <span class="case-label">Matters 個案</span>
+          <h3>一篇二次詐騙文章</h3>
+          <ul>
+            <li>以「協助追回詐款」吸引受害者</li>
+            <li>數產署週報也把這類手法列為詐騙</li>
+            <li>文章內容具通報與處理的正當理由</li>
+          </ul>
+        </div>
+        <div class="rule-case gap">
+          <span class="case-label">流程落差</span>
+          <h3>處置擴大到 matters.town</h3>
+          <ul>
+            <li>文章網址如何轉成整個網域，未公開</li>
+            <li>站方沒有收到文章下架通知</li>
+            <li>首頁、登入與申訴入口一併受影響</li>
+          </ul>
         </div>
       </div>
-      <div class="magnify-arrow">→</div>
-      <div class="callout" style="margin-top:42px">DNS 無法只擋單一頁面。<strong>技術粒度越粗，程序保障就應該越強。</strong></div>
-      <p class="source">來源：台灣 DNS RPZ 治理機制研究；Matters 事件紀錄</p>
+      <div class="callout" style="margin-top:30px">治理問題集中在通報後：<strong>處置範圍如何擴大、是否先通知站方、頁面層級手段是否已經嘗試。</strong></div>
+      <p class="source">來源：我的 E 政府服務說明；數產署 LINE 通報規則與 2025/08/24–30 週報；Matters 事件紀錄</p>
     </div>
   </section>
 
   <section data-label="07 DNS-RPZ 規模">
     <div class="frame">
-      <div class="eyebrow"><span class="num">07</span>不是邊緣機制</div>
-      <h2 class="title">DNS-RPZ 是一條大規模、以行政處分為主的基礎設施</h2>
+      <div class="eyebrow"><span class="num">07</span>覆蓋到每一家營運中的接取業者</div>
+      <h2 class="title xcompact">75 家營運中的 IASP，全都會執行 RPZ</h2>
       <div class="metrics">
         <div class="metric">
           <span class="value">38,417</span>
@@ -184,40 +222,41 @@
         <div class="indirect">61 指向具 RPZ 的 IASP</div>
         <div class="inactive">8 尚未營運</div>
       </div>
+      <div class="coverage-notes">
+        <div><b>14 家直接加入</b><span>自行接收 TWNIC RPZ 清單，並在自家 DNS 解析器執行。</span></div>
+        <div><b>61 家沿用具 RPZ 的上游</b><span>自己的 DNS 指向已加入機制的 IASP；客戶仍會受到相同封鎖。</span></div>
+        <div><b>8 家尚未提供服務</b><span>已有 IASP 登記，但統計時沒有實際對外營運，因此不列入 75 家有效母數。</span></div>
+      </div>
       <p class="source">來源：TWNIC 2026H1 透明度報告與 NCC IASP 統計，整理見 pro.mashbean.net DNS-RPZ 研究</p>
     </div>
   </section>
 
   <section data-label="08 程序缺口">
     <div class="frame">
-      <div class="eyebrow"><span class="num">08</span>LAST RESORT?</div>
-      <h2 class="title compact">文件說「最後手段」，公開流程卻沒有<strong>最後一道查核</strong></h2>
-      <div class="recipient-list">
-        <div class="steps-vertical">
-          <div class="step-line">1　先用平台自己的申訴管道</div>
-          <div class="step-line">2　依作用法通知限制瀏覽或移除</div>
-          <div class="step-line">3　請註冊機構／註冊管理機構協助</div>
-          <div class="step-line">4　重大國際犯罪走司法互助</div>
-          <div class="step-line">5　最後才停止解析</div>
-        </div>
-        <div>
-          <div class="missing-box">處分書沒有一個欄位，要求證明前四步真的做過。</div>
-          <div class="callout" style="margin-top:28px">公開受文者有 IASP、TWNIC、數發部等機關；<strong>沒有網域持有人，也沒有網站經營者。</strong></div>
-        </div>
+      <div class="eyebrow"><span class="num">08</span>現行參考程序怎麼走</div>
+      <h2 class="title xcompact">公開程序寫了五步，網站經營者仍沒在通知名單裡</h2>
+      <div class="current-process">
+        <div class="process-head"><span>順序</span><span>誰來處理</span><span>應該留下什麼紀錄</span></div>
+        <div class="process-row"><b>1　使用平台申訴管道</b><span>主管機關 → 平台／內容服務商</span><span>送達時間、案件編號、回覆與結果</span></div>
+        <div class="process-row"><b>2　通知限制瀏覽或移除</b><span>法規主管機關 → 網路業者</span><span>法源、特定 URL、改善期限與履行結果</span></div>
+        <div class="process-row"><b>3　請註冊服務鏈協助</b><span>主管機關 → Registrar／Registry</span><span>請求內容、送達與回覆</span></div>
+        <div class="process-row"><b>4　重大國際犯罪司法互助</b><span>檢警／司法機關 → 境外機關</span><span>受理編號、範圍與進度</span></div>
+        <div class="process-row last"><b>5　停止 DNS 解析</b><span>主管機關 → TWNIC → IASP</span><span>網域、理由、期限、處分書與救濟資訊</span></div>
       </div>
+      <div class="process-gaps"><span>現行處分書必填：對象、依據、標的、效果、受文者</span><strong>沒有欄位證明前四步已執行；受文者也沒有網域持有人或網站經營者。</strong></div>
       <p class="source">來源：《運用 DNS RPZ 自律機制停止解析違法網站處理參考程序》與研究整理</p>
     </div>
   </section>
 
   <section data-label="09 通知與救濟">
     <div class="frame">
-      <div class="eyebrow"><span class="num">09</span>程序不是放一個電話</div>
-      <h2 class="title">管道「看得到」，不代表救濟「用得到」</h2>
+      <div class="eyebrow"><span class="num">09</span>申訴管道的假日測試</div>
+      <h2 class="title">春節期間，正式管道沒有發揮作用</h2>
       <div class="cols-2" style="margin-top:14px">
         <div>
           <span class="big-number">0</span>
           <span class="number-label">Matters 收到的事前通知</span>
-          <p class="body" style="margin-top:32px">站方平常會處理詐騙檢舉；這次卻沒有收到可追蹤、可驗證的移除通知。</p>
+          <p class="body" style="margin-top:32px">站方平常會處理詐騙檢舉；這次沒有收到可追蹤、可驗證的移除通知。</p>
         </div>
         <div>
           <span class="big-number">3 天</span>
@@ -232,8 +271,8 @@
 
   <section data-label="10 倫理鏡像">
     <div class="frame">
-      <div class="eyebrow"><span class="num">10</span>THE GOVERNANCE MIRROR</div>
-      <h2 class="title">被治理一次，才看懂治理者的責任</h2>
+      <div class="eyebrow"><span class="num">10</span>同一份程序保障</div>
+      <h2 class="title">我們向外部要求的程序，使用者也有權向平台要求</h2>
       <div class="mirror">
         <div class="mirror-side">
           <div class="mono purple" style="font-size:19px;margin-bottom:18px">PLATFORM → USER</div>
@@ -245,16 +284,17 @@
           國家與基礎設施限制平台，也應提供同樣的程序保障。
         </div>
       </div>
-      <p class="lead" style="margin-top:54px"><strong>程序正義不是平台向政府要的特權，是每一層治理都要往下傳遞的共同介面。</strong></p>
+      <p class="lead" style="margin-top:54px"><strong>通知、理由、申訴與回復，應該出現在每一層治理。</strong></p>
     </div>
   </section>
 
-  <section data-label="11 第二章" class="section-divider">
+  <section data-label="11 第二章" class="section-divider art-divider platform-cleaner-divider">
+    <img class="divider-art" src="assets/platform-cleaner-hero.jpg" alt="平台清道夫原始插畫">
     <div class="frame">
       <div class="section-number">02</div>
       <div class="section-label">PLATFORM GOVERNANCE IN PRACTICE</div>
-      <h2 class="section-title">平台清道夫<br>到底在清什麼？</h2>
-      <p class="section-subtitle">從一篇內容，走進文章、留言、帳號與集團的治理現場</p>
+      <h2 class="section-title">平台清道夫<br><span>來敝帚自珍</span></h2>
+      <p class="section-subtitle">文章、留言、帳號與集團的治理現場</p>
     </div>
   </section>
 
@@ -279,7 +319,7 @@
   <section data-label="13 專案起點">
     <div class="frame">
       <div class="eyebrow"><span class="num">13</span>平台清道夫的起點</div>
-      <h2 class="title compact">不是公開一個分類器，是公開<strong>治理如何發生</strong></h2>
+      <h2 class="title compact">公開規則、工具、資料，也公開做錯的地方</h2>
       <div class="outputs">
         <div class="output-item">
           <span class="index">01 / RULES</span>
@@ -309,7 +349,7 @@
   <section data-label="14 六層治理">
     <div class="frame">
       <div class="eyebrow"><span class="num">14</span>把治理拉開來看</div>
-      <h2 class="title compact">同一個「下架」，其實可能發生在六個不同層次</h2>
+      <h2 class="title compact">一個「下架」，可能動到文章、帳號、平台或整個網域</h2>
       <div class="layer-stack">
         <div class="layer"><span class="level">L1</span><span class="name">內容</span><span>標記、降權、摺疊、限制瀏覽</span></div>
         <div class="layer"><span class="level">L2</span><span class="name">帳號</span><span>信任評分、小黑屋、凍結、恢復</span></div>
@@ -318,14 +358,14 @@
         <div class="layer"><span class="level">L5</span><span class="name">基礎設施</span><span>DNS、註冊商、雲端、接取服務</span></div>
         <div class="layer"><span class="level">L6</span><span class="name">公共治理</span><span>法律、行政處分、指引與多方協作</span></div>
       </div>
-      <div class="callout" style="margin-top:26px">跨層時最容易遺失的，不是技術，而是<strong>語境、比例與救濟</strong>。</div>
+      <div class="callout" style="margin-top:26px">處置跨層後，<strong>語境、比例與救濟</strong>最容易失落。</div>
     </div>
   </section>
 
   <section data-label="15 里長室">
     <div class="frame">
       <div class="eyebrow"><span class="num">15</span>平台治理實務大揭露</div>
-      <h2 class="title">「里長室」把分散訊號變成可處理的治理佇列</h2>
+      <h2 class="title compact">里長室每天處理一條混著人與機器判斷的工作流</h2>
       <div class="ops-layout">
         <div class="ops-queue">
           <h3>案件從哪裡來？</h3>
@@ -336,6 +376,7 @@
             <li>守望相助處置紀錄</li>
             <li>站外通知與法律請求</li>
           </ul>
+          <img class="ops-art" src="assets/platform-cleaner-broom.png" alt="平台清道夫掃帚插畫">
         </div>
         <div class="ops-actions">
           <div class="ops-action"><span class="state">候選</span><span>分數高，但單一訊號不足</span><span class="owner">人工覆核</span></div>
@@ -351,8 +392,8 @@
 
   <section data-label="16 垃圾樣態">
     <div class="frame">
-      <div class="eyebrow"><span class="num">16</span>垃圾不是一種東西</div>
-      <h2 class="title compact">文字、行為、關係與意圖，會產生四種不同的垃圾樣態</h2>
+      <div class="eyebrow"><span class="num">16</span>四種垃圾樣態</div>
+      <h2 class="title compact">垃圾內容長得不一樣，證據和處置也得分開</h2>
       <div class="spam-forms">
         <div class="spam-form">
           <span class="icon">A</span>
@@ -380,9 +421,10 @@
   </section>
 
   <section data-label="17 處置光譜">
+    <img class="art-corner spectrum-corner" src="assets/platform-cleaner-spectrum.jpg" alt="平台清道夫處置光譜插畫">
     <div class="frame">
-      <div class="eyebrow"><span class="num">17</span>MODERATION SPECTRUM</div>
-      <h2 class="title compact">治理不是「刪或不刪」，而是一條可見度與可逆性的光譜</h2>
+      <div class="eyebrow"><span class="num">17</span>處置光譜</div>
+      <h2 class="title compact">從標記到凍結，先選擇能回復的處置</h2>
       <div class="spectrum">
         <div class="spectrum-item"><span class="order">01</span><strong>標記</strong>留下風險訊號，不影響內容</div>
         <div class="spectrum-item"><span class="order">02</span><strong>降權</strong>不進推薦與搜尋</div>
@@ -397,8 +439,8 @@
 
   <section data-label="18 偵測迴路">
     <div class="frame">
-      <div class="eyebrow"><span class="num">18</span>MODEL ≠ GOVERNANCE</div>
-      <h2 class="title compact">模型只是一個訊號；治理必須把人、程序與回饋接回來</h2>
+      <div class="eyebrow"><span class="num">18</span>從偵測走到處置</div>
+      <h2 class="title compact">模型提出疑點，人與程序決定後果</h2>
       <div class="loop">
         <div class="loop-node"><span class="name">語義</span>文字像不像已知垃圾？</div>
         <div class="loop-node"><span class="name">行為</span>帳號、頻率、模板是否成群？</div>
@@ -411,17 +453,17 @@
     </div>
   </section>
 
-  <section data-label="19 程序建置順序">
+  <section data-label="19 程序建置順序" class="crowd-slide">
     <div class="frame">
       <div class="eyebrow"><span class="num">19</span>權力先有護欄</div>
-      <h2 class="title compact">守望相助的關鍵，不是把權力分出去；是先把問責做出來</h2>
+      <h2 class="title compact">先備好稽核、透明與申訴，再把處置權交出去</h2>
       <div class="build-order">
         <div class="build-step"><span class="n">1</span><h3>稽核</h3><p>每次處置寫入事件、理由、時間與證據。</p></div>
         <div class="build-step"><span class="n">2</span><h3>透明</h3><p>公開可理解的處置紀錄與彙整數據。</p></div>
         <div class="build-step"><span class="n">3</span><h3>申訴</h3><p>可還原、可推翻，並把覆核事件分離保存。</p></div>
         <div class="build-step"><span class="n">4</span><h3>授權</h3><p>最後才把有限處置權交給社群成員。</p></div>
       </div>
-      <p class="lead" style="margin-top:40px"><strong>程序不是事後補救，而是權力授予的前提。</strong></p>
+      <p class="lead" style="margin-top:40px"><strong>稽核、透明與申訴先上線，社群授權才進場。</strong></p>
       <p class="source">來源：spam-detection-scaffold Community Watch 建置紀錄</p>
     </div>
   </section>
@@ -429,19 +471,19 @@
   <section data-label="20 繁中資料缺口">
     <div class="frame">
       <div class="eyebrow"><span class="num">20</span>台灣正體中文，有沒有現成訓練資料？</div>
-      <h2 class="title compact">有中文資料，但找不到同時命中<strong>台灣 × 長文 × spam</strong>的替代品</h2>
+      <h2 class="title compact">繁中語料很多，台灣長文平台的 spam 語料仍然稀少</h2>
       <table class="dataset-landscape">
         <thead>
-          <tr><th>公開資料</th><th>規模</th><th>中文</th><th>台灣／繁中語境</th><th>Spam 標註</th><th>長文平台</th></tr>
+          <tr><th>公開資料</th><th>內容與標註</th><th>規模</th><th>台灣繁中</th><th>長文平台</th></tr>
         </thead>
         <tbody>
-          <tr><td><strong>Matters Spam</strong></td><td>425,689</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td><td class="yes">●</td></tr>
-          <tr><td>Chinese conversation + spam</td><td>約 10,000</td><td class="yes">●</td><td class="no">—</td><td class="yes">●</td><td class="no">—</td></tr>
-          <tr><td>Chinese spam 10k</td><td>約 10,000</td><td class="yes">●</td><td class="no">—</td><td class="yes">●</td><td class="no">—</td></tr>
-          <tr><td>Cofacts 台灣查核訊息</td><td>1,790 萬</td><td class="yes">●</td><td class="yes">●</td><td class="no">不同任務</td><td class="no">訊息</td></tr>
+          <tr><td><a href="https://huggingface.co/datasets/thematters/matters-spam" target="_blank" rel="noopener"><strong>Matters Spam</strong></a></td><td>去識別平台文章；spam／ham 與部分子類</td><td>425,689</td><td class="yes">●</td><td class="yes">●</td></tr>
+          <tr><td><a href="https://huggingface.co/datasets/paulkm/chinese_conversation_and_spam" target="_blank" rel="noopener">Chinese conversation + spam</a></td><td>中文 Telegram 對話與反垃圾機器人紀錄；0／1 二元分類</td><td>約 1 萬</td><td class="no">—</td><td class="no">對話</td></tr>
+          <tr><td><a href="https://huggingface.co/datasets/reatiny/chinese-spam-10000" target="_blank" rel="noopener">Chinese spam 10k</a></td><td>train／dev／test 三個 CSV；資料卡未交代來源與標註方法</td><td>約 1 萬</td><td class="no">未說明</td><td class="no">未說明</td></tr>
+          <tr><td><a href="https://cofacts.tw/" target="_blank" rel="noopener">Cofacts 台灣查核訊息</a></td><td>群眾協作查核訊息；任務是查核與回應</td><td>1,790 萬</td><td class="yes">●</td><td class="no">訊息</td></tr>
         </tbody>
       </table>
-      <div class="callout" style="margin-top:30px">這份資料的價值不是「中文很多」，而是<strong>真實平台治理語境與長文垃圾樣態</strong>同時存在。</div>
+      <div class="callout" style="margin-top:30px">Matters 補上公開資料中少見的組合：<strong>台灣繁中、平台長文、真實營運 spam 標記。</strong></div>
       <p class="source">來源：Hugging Face 公開資料檢索（2026-08-25）；此表為代表性比較，不宣稱涵蓋私有資料</p>
     </div>
   </section>
@@ -449,7 +491,7 @@
   <section data-label="21 垃圾資料初步分析">
     <div class="frame">
       <div class="eyebrow"><span class="num">21</span>42 萬筆初步分析</div>
-      <h2 class="title compact">這是一份真實營運資料：很大、很偏、也很長</h2>
+      <h2 class="title compact">42.6 萬筆資料，先看到失衡與標註缺口</h2>
       <div class="dataset-summary">
         <div class="dataset-count">
           <span class="value">425,689</span>
@@ -465,7 +507,7 @@
         <div><b>2,630 字</b>平均長度；各 split 中位數 1,543–1,564</div>
         <div><b>0.545%</b>具有 spam 子類；仍需補強細分類標註</div>
       </div>
-      <div class="callout" style="margin-top:30px">治理含義：<strong>這份資料適合研究真實分布與長文樣態，但不能把它當成無偏差的標準答案。</strong></div>
+      <div class="callout" style="margin-top:30px">可用來研究真實分布與長文樣態；模型訓練仍需處理<strong>類別失衡、歷史選樣與子類標註不足</strong>。</div>
       <p class="source">來源：Hugging Face dataset-server 全部三個 split 統計，擷取 2026-08-25</p>
     </div>
   </section>
@@ -474,7 +516,7 @@
     <div class="frame">
       <div class="section-number">03</div>
       <div class="section-label">COMPARE THE GOVERNANCE LAYERS</div>
-      <h2 class="section-title">同樣叫下架，<br>治理邏輯完全不同</h2>
+      <h2 class="section-title">四種下架機制，<br>各自處理不同的對象</h2>
       <p class="section-subtitle">DNS、iWIN、電商與 Matters 的四種處置模式</p>
     </div>
   </section>
@@ -482,12 +524,44 @@
   <section data-label="23 四種流程">
     <div class="frame">
       <div class="eyebrow"><span class="num">23</span>四條處置流水線</div>
-      <h2 class="title compact">差別從第一步就開始：誰發現、誰判斷、誰執行？</h2>
-      <div class="lanes">
-        <div class="lane"><span class="lane-name">DNS-RPZ</span><span>機關／檢舉確認</span><span class="arrow">→</span><span>TWNIC 形式審查</span><span class="arrow">→</span><span>IASP 停止整個網域解析</span></div>
-        <div class="lane"><span class="lane-name">iWIN</span><span>民眾申訴</span><span class="arrow">→</span><span>分類與判斷</span><span class="arrow">→</span><span>通知業者改善／轉案／黑名單</span></div>
-        <div class="lane"><span class="lane-name">電商防詐雷達</span><span>掃描商品</span><span class="arrow">→</span><span>辨識高風險</span><span class="arrow">→</span><span>提供平台預防性下架</span></div>
-        <div class="lane"><span class="lane-name">Matters</span><span>模型／社群／站務</span><span class="arrow">→</span><span>人工與規則覆核</span><span class="arrow">→</span><span>降權／摺疊／小黑屋／恢復</span></div>
+      <h2 class="title xcompact">從一個網址到一項處置，四條流程各有分工</h2>
+      <div class="lane-details">
+        <div class="lane-detail dns-lane">
+          <span class="lane-name">DNS-RPZ</span>
+          <span><b>發現</b>民眾、情資或機關提出網域／網址</span>
+          <span><b>確認</b>數產署分案；法規主管機關查證</span>
+          <span><b>決定</b>主管機關作成停止解析處分</span>
+          <span><b>轉送</b>TWNIC 形式審查並更新 RPZ</span>
+          <span><b>執行</b>IASP 遞迴 DNS 停止整域解析</span>
+          <span><b>救濟</b>警示頁找主管機關；站方未必先獲知</span>
+        </div>
+        <div class="lane-detail iwin-lane">
+          <span class="lane-name">iWIN</span>
+          <span><b>收件</b>民眾提供 URL、畫面與內容說明</span>
+          <span><b>分類</b>依兒少權益與內容類型建案</span>
+          <span><b>判斷</b>判讀法規與自律規範適用範圍</span>
+          <span><b>分流</b>通知業者改善、轉權責機關或黑名單</span>
+          <span><b>回覆</b>業者處理並回報結果</span>
+          <span><b>結案</b>案件狀態與季報統計留存</span>
+        </div>
+        <div class="lane-detail ecom-lane">
+          <span class="lane-name">電商防詐雷達</span>
+          <span><b>掃描</b>數產署巡查電商平台商品</span>
+          <span><b>辨識</b>關鍵字與風險樣態挑出候選</span>
+          <span><b>查核</b>彙整高風險商品與賣場訊號</span>
+          <span><b>通知</b>清單送交合作電商平台</span>
+          <span><b>處置</b>平台複核、預防性下架或限制</span>
+          <span><b>追蹤</b>週報公布掃描與處理量</span>
+        </div>
+        <div class="lane-detail matters-lane">
+          <span class="lane-name">Matters</span>
+          <span><b>偵測</b>模型、使用者檢舉與站務巡查</span>
+          <span><b>聚合</b>文字、行為、帳號與集團訊號</span>
+          <span><b>覆核</b>規則門檻加人工判斷灰區</span>
+          <span><b>處置</b>標記、降權、摺疊、小黑屋或凍結</span>
+          <span><b>留痕</b>處理者、理由、時間與證據進稽核</span>
+          <span><b>申訴</b>維持、改判、恢復並回寫規則</span>
+        </div>
       </div>
       <p class="source">來源：DNS-RPZ 研究；iWIN 2025 Q2 統計；數產署電商防詐雷達；平台清道夫</p>
     </div>
@@ -496,7 +570,7 @@
   <section data-label="24 治理比較矩陣">
     <div class="frame">
       <div class="eyebrow"><span class="num">24</span>同一張桌上的六個問題</div>
-      <h2 class="title compact">治理品質，藏在影響範圍與程序細節裡</h2>
+      <h2 class="title compact">同樣是下架，差別落在粒度、通知與救濟</h2>
       <table class="compare">
         <thead>
           <tr><th>面向</th><th>DNS-RPZ</th><th>iWIN</th><th>電商防詐雷達</th><th>Matters</th></tr>
@@ -510,14 +584,14 @@
           <tr><td>透明度</td><td>半年統計，缺駁回與通知欄位</td><td>月／季案件統計</td><td>週報公開掃描與高風險數</td><td>公開稽核、模型與 H1 報告</td></tr>
         </tbody>
       </table>
-      <p class="source">註：典型公開流程比較，不是法遵分數；個案程序仍依機關與業者而異</p>
+      <p class="source">比較範圍：典型公開流程；個案程序仍依機關與業者而異</p>
     </div>
   </section>
 
   <section data-label="25 影響範圍比較">
     <div class="frame">
-      <div class="eyebrow"><span class="num">25</span>GRANULARITY × REVERSIBILITY</div>
-      <h2 class="title compact">處置越粗、越難回復，越不能省略程序</h2>
+      <div class="eyebrow"><span class="num">25</span>影響範圍與可回復性</div>
+      <h2 class="title compact">處置範圍越大，越需要清楚的通知與回復</h2>
       <div class="plot">
         <span class="plot-y-label">較可回復　→　較難回復</span>
         <div class="bubble dns">DNS-RPZ<br>整個網域</div>
@@ -525,14 +599,14 @@
         <div class="bubble ecom">電商雷達<br>單一商品</div>
         <div class="bubble matters">Matters<br>摺疊／降權</div>
       </div>
-      <p class="source">概念比較：位置代表程序特性，不是量化評分</p>
+      <p class="source">概念比較：位置顯示程序特性，未做量化評分</p>
     </div>
   </section>
 
   <section data-label="26 NCC 兩份指引">
     <div class="frame">
       <div class="eyebrow"><span class="num">26</span>試著照 NCC 指引走一遍</div>
-      <h2 class="title compact">兩份自律指引，把「好治理」翻成平台可以檢查的工作</h2>
+      <h2 class="title compact">NCC 指引列出平台應該留下的紀錄</h2>
       <div class="ncc-context">
         <div class="guide">
           <h3>透明度報告指引</h3>
@@ -547,7 +621,7 @@
       <div class="ncc-counts">
         <div class="count-chip"><strong>28 項</strong>　公開自評面向</div>
         <div class="count-chip"><strong>41 點</strong>　內部落地檢核</div>
-        <div class="count-chip"><strong>自律</strong>　不是罰則，但能照出缺口</div>
+        <div class="count-chip"><strong>自律規範</strong>　可以照出缺口</div>
       </div>
       <p class="source">來源：NCC 兩指引；平台清道夫逐條合規自評；本地 41 點工作稿</p>
     </div>
@@ -556,7 +630,7 @@
   <section data-label="27 Matters NCC 自評">
     <div class="frame">
       <div class="eyebrow"><span class="num">27</span>自評結果</div>
-      <h2 class="title compact">做完一輪，四個類別仍然都是「部分達成」</h2>
+      <h2 class="title compact">逐條自評後，四個類別都還有缺口</h2>
       <div class="self-audit">
         <div class="audit-bars">
           <div class="audit-row"><span>透明度・基礎 7 項</span><span class="audit-status">部分達成</span></div>
@@ -572,7 +646,7 @@
           <div class="built-item"><strong>缺口</strong>　無法穩定產出成立率、處理時間與改判統計</div>
         </div>
       </div>
-      <div class="callout" style="margin-top:28px">合規的價值不是拿滿分，而是讓平台不能再用「我們有處理」遮住<strong>資料缺口與程序斷點</strong>。</div>
+      <div class="callout" style="margin-top:28px">逐項自評會逼平台說清楚<strong>缺哪些資料、哪一段程序會斷、下一次怎麼補</strong>。</div>
       <p class="source">來源：governance.matters.town/reading/ncc-41-checklist；Matters 2026 H1 公開文字</p>
     </div>
   </section>
@@ -580,7 +654,7 @@
   <section data-label="28 NCC 合規模組藍圖">
     <div class="frame">
       <div class="eyebrow"><span class="num">28</span>從自評走向可重用工具</div>
-      <h2 class="title compact">把一次性的合規工作，做成中小平台可以安裝的模組</h2>
+      <h2 class="title compact">中小平台可以直接沿用哪些合規模組？</h2>
       <div class="blueprint">
         <div class="schema">
           <h3>共同事件 Schema</h3>
@@ -608,17 +682,16 @@
   <section data-label="29 ROOST 對照">
     <div class="frame">
       <div class="eyebrow"><span class="num">29</span>海外也長出相似的工具鏈</div>
-      <h2 class="title compact">做完才發現，ROOST 也在把安全能力拆成開放積木</h2>
-      <div class="roost-layout">
-        <div class="roost-count">
-          <span class="value">37 / 37</span>
-          <p>上游文件完成繁中第一輪翻譯<br><br><span style="color:rgba(255,255,255,.66)">讓小型社群能直接讀懂、評估與導入。</span></p>
-        </div>
-        <div class="roost-map">
-          <div class="roost-row"><strong>Model Community</strong><span class="arrow">→</span><span>模型、政策套件與評估資源</span></div>
-          <div class="roost-row"><strong>Osprey</strong><span class="arrow">→</span><span>事件、實體、規則與調查能力</span></div>
-          <div class="roost-row"><strong>Coop</strong><span class="arrow">→</span><span>Queue、Decision、Action 與 Appeal 工作流</span></div>
-          <div class="roost-row"><strong>Matters 保留</strong><span class="arrow">→</span><span>平台規則、社群角色、最終處置與抗審查發布</span></div>
+      <h2 class="title xcompact">ROOST 已經整理出一套開放的安全工具鏈</h2>
+      <div class="roost-proof">
+        <a class="roost-shot" href="https://roost.mashbean.net/matters-roost.html" target="_blank" rel="noopener">
+          <img src="assets/roost-matters-page.png" alt="Matters 與 ROOST 架構盤點網頁截圖">
+        </a>
+        <div class="roost-summary">
+          <div class="roost-stat"><strong>37 / 37</strong><span>上游文件完成繁中第一輪翻譯</span></div>
+          <div><b>Model Community</b><span>模型、政策套件與評估資源</span></div>
+          <div><b>Osprey</b><span>事件、實體、規則與調查能力</span></div>
+          <div><b>Coop</b><span>Queue、Decision、Action 與 Appeal 工作流</span></div>
         </div>
       </div>
       <p class="source">來源：roost.mashbean.net；roost.mashbean.net/matters-roost.html</p>
@@ -627,23 +700,23 @@
 
   <section data-label="30 行動倡議">
     <div class="frame">
-      <div class="eyebrow"><span class="num">30</span>NEXT ACTIONS</div>
-      <h2 class="title compact">下一步，把程序保障做成可以共用的公共財</h2>
+      <div class="eyebrow"><span class="num">30</span>下一步</div>
+      <h2 class="title compact">三條合作路徑，從今天就能開始</h2>
       <div class="action-grid">
         <div class="action">
           <span class="n">1</span>
           <h3>水平治理</h3>
-          <p>平台打開規則、資料格式與工具介面，交換可攜的風險訊號；集體安全不能靠每家重造輪子。</p>
+          <p><strong>業者之間、使用者之間如何合作</strong><br>先共用風險訊號、處置資料格式與申訴介面。</p>
         </div>
         <div class="action">
           <span class="n">2</span>
           <h3>垂直治理</h3>
-          <p>把內容層的通知、理由、申訴與恢復，往帳號、平台、DNS 與公共政策逐層對齊。</p>
+          <p><strong>不同的治理議題能否共享方法</strong><br>內容、帳號、平台與 DNS 都需要通知、理由、申訴與回復。</p>
         </div>
         <div class="action">
           <span class="n">3</span>
-          <h3>全球在地化</h3>
-          <p>讓 ROOST 等國際工具進入繁中語境，也把台灣的 spam、詐騙與多方治理經驗回貢全球。</p>
+          <h3>國際合作</h3>
+          <p><strong>哪些東西可以博採眾長？</strong><br>繁中化 ROOST，也讓國際社群看見台灣處理 spam、詐騙與多方治理的經驗。</p>
         </div>
       </div>
       <p class="source">公開成果：governance.matters.town　·　huggingface.co/datasets/thematters/matters-spam　·　roost.mashbean.net</p>
@@ -651,5 +724,54 @@
   </section>
 
 </deck-stage>
+<script>
+  const slideLinks = [
+    [["平台清道夫", "https://governance.matters.town/"], ["公開資料集", "https://huggingface.co/datasets/thematters/matters-spam"]],
+    [["Matters 誤封與治理研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["台灣 DNS-RPZ 治理研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["Matters 治理編年史", "https://governance.matters.town/history"], ["DNS-RPZ 研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["網詐通報查詢網", "https://www.gov.tw/News_Content_13_891666"], ["2026 即時警示", "https://web.moda.gov.tw/ADI/news/latest-news/20326"], ["DNS-RPZ 研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["通報服務說明", "https://www.gov.tw/News_Content_13_891666"], ["LINE 網址通報規則", "https://moda.gov.tw/ADI/antifraud/af-toolbox/19932"], ["二次詐騙週報", "https://moda.gov.tw/ADI/news/latest-news/17342"]],
+    [["IASP 覆蓋率與統計", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/#2026-08-06-taiwan-dns-rpz-governance"]],
+    [["DNS-RPZ 五階程序", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["DNS-RPZ 申訴與救濟", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["平台清道夫：申訴與救濟", "https://governance.matters.town/false-positive"]],
+    [["平台清道夫", "https://governance.matters.town/"]],
+    [["平台清道夫：方法與授權", "https://governance.matters.town/about"]],
+    [["平台清道夫", "https://governance.matters.town/"], ["Matters Spam", "https://huggingface.co/datasets/thematters/matters-spam"]],
+    [["平台治理編年史", "https://governance.matters.town/history"], ["DNS-RPZ 研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["平台清道夫體驗", "https://governance.matters.town/start"]],
+    [["垃圾偵測與集團", "https://governance.matters.town/detection"], ["公開資料", "https://governance.matters.town/data"]],
+    [["處置光譜", "https://governance.matters.town/moderation"]],
+    [["垃圾偵測", "https://governance.matters.town/detection"], ["誤判與申訴", "https://governance.matters.town/false-positive"]],
+    [["守望相助", "https://governance.matters.town/crowd"]],
+    [["Matters Spam", "https://huggingface.co/datasets/thematters/matters-spam"], ["Chinese conversation + spam", "https://huggingface.co/datasets/paulkm/chinese_conversation_and_spam"], ["Chinese spam 10k", "https://huggingface.co/datasets/reatiny/chinese-spam-10000"]],
+    [["Matters Spam 資料集", "https://huggingface.co/datasets/thematters/matters-spam"], ["平台清道夫資料說明", "https://governance.matters.town/data"]],
+    [["平台清道夫", "https://governance.matters.town/"], ["DNS-RPZ 研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"]],
+    [["DNS-RPZ", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"], ["iWIN", "https://i.win.org.tw/"], ["電商防詐雷達", "https://moda.gov.tw/ADI/antifraud/af-bulletin/goods/20422"], ["Matters", "https://governance.matters.town/"]],
+    [["iWIN 統計", "https://i.win.org.tw/upload/data/114_%E7%AC%AC2%E5%AD%A3_%E5%AE%98%E7%B6%B2%E7%89%88.pdf"], ["電商防詐雷達", "https://moda.gov.tw/ADI/antifraud/af-bulletin/goods/20422"], ["平台清道夫", "https://governance.matters.town/"]],
+    [["DNS-RPZ 研究", "https://pro.mashbean.net/reports/2026-08-06-taiwan-dns-rpz-governance/"], ["處置與救濟", "https://governance.matters.town/moderation"]],
+    [["NCC 41 項檢核", "https://governance.matters.town/reading/ncc-41-checklist/"], ["NCC 指引", "https://api.ncc.gov.tw/chncc/app/data/doc?detailNo=1455828244677791744&id=50&module=news&type=s"]],
+    [["Matters NCC 自評", "https://governance.matters.town/reading/ncc-41-checklist/"], ["透明度中心", "https://governance.matters.town/ncc"]],
+    [["NCC 檢核", "https://governance.matters.town/reading/ncc-41-checklist/"], ["moderation-audit-toolkit", "https://github.com/open-safety-tw/moderation-audit-toolkit"]],
+    [["ROOST 繁中站", "https://roost.mashbean.net/"], ["Matters × ROOST 架構盤點", "https://roost.mashbean.net/matters-roost.html"]],
+    [["平台清道夫", "https://governance.matters.town/"], ["Matters Spam", "https://huggingface.co/datasets/thematters/matters-spam"], ["ROOST 繁中站", "https://roost.mashbean.net/"]]
+  ];
+
+  document.querySelectorAll("deck-stage > section").forEach((slide, index) => {
+    const links = slideLinks[index] || [];
+    const rail = document.createElement("p");
+    rail.className = "page-links";
+    links.forEach(([label, url]) => {
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.target = "_blank";
+      anchor.rel = "noopener";
+      anchor.textContent = label + " ↗";
+      rail.appendChild(anchor);
+    });
+    slide.appendChild(rail);
+  });
+</script>
 </body>
 </html>
