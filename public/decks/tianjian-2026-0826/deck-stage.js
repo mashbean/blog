@@ -276,6 +276,7 @@
       this._notes = [];
       this._hideTimer = null;
       this._mouseIdleTimer = null;
+      this._resizeObserver = null;
 
       this._onKey = this._onKey.bind(this);
       this._onResize = this._onResize.bind(this);
@@ -299,6 +300,8 @@
       window.addEventListener('keydown', this._onKey);
       window.addEventListener('resize', this._onResize);
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
+      this._resizeObserver = new ResizeObserver(this._onResize);
+      this._resizeObserver.observe(this);
       // Initial collection + layout happens via slotchange, which fires on mount.
       queueMicrotask(() => this._onSlotChange());
     }
@@ -307,6 +310,8 @@
       window.removeEventListener('keydown', this._onKey);
       window.removeEventListener('resize', this._onResize);
       window.removeEventListener('mousemove', this._onMouseMove);
+      this._resizeObserver?.disconnect();
+      this._resizeObserver = null;
       if (this._hideTimer) clearTimeout(this._hideTimer);
       if (this._mouseIdleTimer) clearTimeout(this._mouseIdleTimer);
     }
@@ -534,8 +539,8 @@
         this._canvas.style.transform = 'none';
         return;
       }
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
+      const vw = this.clientWidth || window.innerWidth;
+      const vh = this.clientHeight || window.innerHeight;
       const s = Math.min(vw / this.designWidth, vh / this.designHeight);
       this._canvas.style.transform = `scale(${s})`;
     }
