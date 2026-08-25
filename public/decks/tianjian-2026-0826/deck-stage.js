@@ -366,18 +366,18 @@
       const overlay = document.createElement('div');
       overlay.className = 'overlay export-hidden';
       overlay.setAttribute('role', 'toolbar');
-      overlay.setAttribute('aria-label', 'Deck controls');
+      overlay.setAttribute('aria-label', '簡報控制');
       overlay.setAttribute('data-noncommentable', '');
       overlay.innerHTML = `
-        <button class="btn prev" type="button" aria-label="Previous slide" title="Previous (←)">
+        <button class="btn prev" type="button" aria-label="上一頁" title="上一頁（←）">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
         </button>
         <span class="count" aria-live="polite"><span class="current">1</span><span class="sep">/</span><span class="total">1</span></span>
-        <button class="btn next" type="button" aria-label="Next slide" title="Next (→)">
+        <button class="btn next" type="button" aria-label="下一頁" title="下一頁（→）">
           <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
         </button>
         <span class="divider"></span>
-        <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+        <button class="btn reset" type="button" aria-label="回到第一頁" title="回到第一頁（R）">重設<span class="kbd">R</span></button>
       `;
 
       overlay.querySelector('.prev').addEventListener('click', () => this._go(this._index - 1, 'click'));
