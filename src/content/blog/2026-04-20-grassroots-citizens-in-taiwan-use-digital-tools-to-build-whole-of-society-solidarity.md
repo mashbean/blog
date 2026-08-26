@@ -1,7 +1,7 @@
 ---
 title: "Grassroots Citizens in Taiwan Use Digital Tools to Build Whole-of-Society Solidarity"
 description: "How Taiwan's civic tech communities turn digital tools into infrastructure for mutual aid, disaster response, public deliberation, and whole-of-society solidarity."
-pubDate: "2026-04-20T00:00:00+01:00"
+pubDate: "2026-04-20T12:00:00+01:00"
 tags: ["Taiwan", "civic tech", "civil society", "digital solidarity", "technology"]
 category: blog
 author: mashbean
