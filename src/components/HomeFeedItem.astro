@@ -82,15 +82,21 @@ const imageErrorHandler =
     display: block;
     min-width: 0;
     overflow: hidden;
-    border: 1px solid var(--color-border-subtle);
+    border: 1px solid
+      color-mix(
+        in oklab,
+        var(--feed-accent, var(--color-accent)) 10%,
+        var(--color-border-subtle)
+      );
     border-radius: 0.82rem;
     padding: 0.88rem 0.94rem 0.92rem;
     color: var(--color-ink);
-    background: rgba(255, 255, 255, 0.88);
+    background: color-mix(in oklab, var(--feed-soft, var(--color-surface-muted)) 68%, white 32%);
     box-shadow: 0 2px 9px rgba(29, 55, 61, 0.04);
     text-decoration: none;
     transition:
       border-color 0.16s ease,
+      background-color 0.16s ease,
       box-shadow 0.16s ease,
       transform 0.16s ease;
   }
@@ -101,6 +107,7 @@ const imageErrorHandler =
       var(--feed-accent, var(--color-accent)) 24%,
       var(--color-border-subtle)
     );
+    background: color-mix(in oklab, var(--feed-soft, var(--color-surface-muted)) 82%, white 18%);
     box-shadow: 0 6px 18px rgba(29, 55, 61, 0.075);
     transform: translateY(-1px);
   }
