@@ -35,6 +35,18 @@ export const workGroups: Record<Work["group"], { title: string }> = {
 
 export const works: Work[] = [
   {
+    slug: "call-in",
+    title: "Call-in 簡單叩應",
+    tagline:
+      "把簡報、觀眾 QR Code 與即時回應放進同一個講者畫面。支援 PDF、Google 簡報與公開網址，也能自行託管的開源互動工具。",
+    url: "https://call-in.mashbean.net/",
+    repo: "https://github.com/mashbean/call-in",
+    chips: ["現場互動", "數位公共基礎設施", "開源"],
+    cover: "images/works/call-in.jpg",
+    date: "2026-08-27",
+    group: "personal",
+  },
+  {
     slug: "libreoffice-tw-card-signing",
     title: "LibreOffice 臺灣自然人憑證簽章",
     tagline:
