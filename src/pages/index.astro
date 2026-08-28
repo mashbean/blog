@@ -13,6 +13,9 @@ import { cleanPostTitle } from "@/utils/title";
 const posts = await getBlogPosts();
 const now = new Date();
 const today = now.toISOString().slice(0, 10);
+const INITIAL_FEED_COUNT = 24;
+const FEED_BATCH_SIZE = 12;
+const MAX_FEED_COUNT = 120;
 
 const resolveImage = (cover?: string): string | undefined => {
   const resolved = resolveCoverPath(cover);
@@ -20,7 +23,7 @@ const resolveImage = (cover?: string): string | undefined => {
   return /^https?:\/\//.test(resolved.primary) ? resolved.primary : withBase(resolved.primary);
 };
 
-const postItems: FeedItem[] = posts.slice(0, 12).map((post) => ({
+const postItems: FeedItem[] = posts.map((post) => ({
   id: `article-${post.id}`,
   kind: "article",
   label: "文章",
@@ -35,7 +38,6 @@ const postItems: FeedItem[] = posts.slice(0, 12).map((post) => ({
 
 const deckItems: FeedItem[] = getDecks()
   .filter((deck) => deck.date <= today)
-  .slice(0, 8)
   .map((deck) => ({
     id: `deck-${deck.slug}`,
     kind: "deck",
@@ -50,7 +52,6 @@ const deckItems: FeedItem[] = getDecks()
 const workItems: FeedItem[] = works
   .slice()
   .sort((a, b) => b.date.localeCompare(a.date))
-  .slice(0, 8)
   .map((work) => ({
     id: `work-${work.slug}`,
     kind: "work",
@@ -67,7 +68,6 @@ const workItems: FeedItem[] = works
 
 const proItems: FeedItem[] = (await getProFeedEntries())
   .filter((entry) => entry.date <= now)
-  .slice(0, 8)
   .map((entry) => ({
     id: `pro-${entry.url}`,
     kind: "pro",
@@ -84,7 +84,7 @@ const proItems: FeedItem[] = (await getProFeedEntries())
 
 const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
   .sort((a, b) => b.date.getTime() - a.date.getTime())
-  .slice(0, 24);
+  .slice(0, MAX_FEED_COUNT);
 ---
 
 <BaseLayout description="站在單向鏡後方觀看世界應對加速科技的方式。">
@@ -131,17 +131,35 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
       <p class="empty-state">目前還沒有更新。</p>
     ) : (
       <section class="home-feed-wrap" aria-label="近期更新時間軸">
-        <ol class="home-feed-list">
-          {feedItems.map((item) => (
-            <li>
+        <ol class="home-feed-list" id="home-feed-list">
+          {feedItems.map((item, index) => (
+            <li data-feed-item data-feed-id={item.id} hidden={index >= INITIAL_FEED_COUNT}>
               <HomeFeedItem item={item} />
             </li>
           ))}
         </ol>
+        {feedItems.length > INITIAL_FEED_COUNT && (
+          <div class="home-feed-more" data-feed-more-wrap>
+            <button
+              class="home-feed-more-button"
+              type="button"
+              aria-controls="home-feed-list"
+              data-feed-more
+              data-feed-batch={FEED_BATCH_SIZE}
+            >
+              <span>觀看更多</span>
+              <span class="home-feed-more-arrow" aria-hidden="true">
+                ↓
+              </span>
+            </button>
+            <p class="home-feed-more-status" aria-live="polite" data-feed-status>
+              已顯示 {Math.min(INITIAL_FEED_COUNT, feedItems.length)} / {feedItems.length} 則更新
+            </p>
+          </div>
+        )}
       </section>
     )
   }
-
 </BaseLayout>
 
 <style>
@@ -197,6 +215,61 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
 
   .home-feed-list > li {
     min-width: 0;
+    scroll-margin-top: 5rem;
+  }
+
+  .home-feed-more {
+    display: grid;
+    justify-items: center;
+    gap: 0.45rem;
+    margin-top: 1.05rem;
+    padding-left: 1.65rem;
+  }
+
+  .home-feed-more-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-width: 9rem;
+    min-height: 2.65rem;
+    border: 1px solid color-mix(in oklab, var(--color-accent) 28%, var(--color-border-subtle));
+    border-radius: var(--radius-pill);
+    padding: 0.45rem 1.1rem;
+    color: var(--color-accent);
+    background: color-mix(in oklab, var(--color-accent) 7%, var(--color-paper));
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      color 0.16s ease,
+      background-color 0.16s ease,
+      border-color 0.16s ease,
+      transform 0.16s ease;
+  }
+
+  .home-feed-more-button:hover {
+    border-color: var(--color-accent);
+    color: #fff;
+    background: var(--color-accent);
+    transform: translateY(-1px);
+  }
+
+  .home-feed-more-button:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--color-accent) 52%, white);
+    outline-offset: 3px;
+  }
+
+  .home-feed-more-arrow {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .home-feed-more-status {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.72rem;
   }
 
   .home-source-links {
@@ -266,8 +339,54 @@ const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
     .home-feed-list::before {
       left: 0.4rem;
     }
+
+    .home-feed-more {
+      padding-left: 1.45rem;
+    }
   }
 </style>
+
+<script is:inline>
+  const feedItems = Array.from(document.querySelectorAll("[data-feed-item]"));
+  const feedMoreButton = document.querySelector("[data-feed-more]");
+  const feedMoreWrap = document.querySelector("[data-feed-more-wrap]");
+  const feedStatus = document.querySelector("[data-feed-status]");
+
+  const updateFeedStatus = () => {
+    const visibleCount = feedItems.filter(
+      (item) => item instanceof HTMLElement && !item.hidden,
+    ).length;
+    const remainingCount = feedItems.length - visibleCount;
+
+    if (feedStatus instanceof HTMLElement) {
+      feedStatus.textContent = remainingCount
+        ? `已顯示 ${visibleCount} / ${feedItems.length} 則更新`
+        : `已顯示全部 ${feedItems.length} 則更新`;
+    }
+    if (feedMoreWrap instanceof HTMLElement && remainingCount === 0) {
+      feedMoreWrap.hidden = true;
+    }
+  };
+
+  feedMoreButton?.addEventListener("click", () => {
+    if (!(feedMoreButton instanceof HTMLButtonElement)) return;
+    const batchSize = Number.parseInt(feedMoreButton.dataset.feedBatch || "12", 10);
+    const nextItems = feedItems
+      .filter((item) => item instanceof HTMLElement && item.hidden)
+      .slice(0, Number.isFinite(batchSize) ? batchSize : 12);
+
+    nextItems.forEach((item) => {
+      if (item instanceof HTMLElement) item.hidden = false;
+    });
+    updateFeedStatus();
+
+    const firstNewItem = nextItems[0];
+    if (firstNewItem instanceof HTMLElement) {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      firstNewItem.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    }
+  });
+</script>
 
 <script is:inline>
   const section = document.querySelector("#continue-reading-toast");
