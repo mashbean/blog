@@ -31,10 +31,18 @@ export interface Deck {
 export const decks: Deck[] = [
   {
     slug: "ntu-ai-literature-workshop",
-    title: "台灣的文學社會學之基礎建設",
+    title: "我們距離機器會夢見電子羊的時代有多近？",
     event: "臺大文學院 · AI 文學創作工作坊",
     date: "2026-09-02",
     location: "臺文所 530 教室",
+    lang: "zh-Hant",
+    featured: true,
+  },
+  {
+    slug: "tsmc-literature-award-analysis",
+    title: "兩次投票之間，評審換了什麼問題？",
+    event: "台積電文學獎評審爭議｜四方地圖與評審分析",
+    date: "2026-08-29",
     lang: "zh-Hant",
     featured: true,
   },
