@@ -484,7 +484,7 @@
     number: 41,
     label: "結語",
     className: "inverse",
-    content: `${eyebrow(41, "文學制度面對合成文本的三項基礎工作")}<p class="thesis">讓工具介入有紀錄，<br>讓文學判斷有理由，<br><span class="mark">讓受影響的人有申復與修正的空間。</span></p><div class="closing-links"><span>文學獎分析｜研究文章｜創作入口｜即時儀表板</span><span class="mono purple">mashbean.net</span></div>`,
+    content: `${eyebrow(41, "文學制度面對合成文本的三項基礎工作")}<p class="thesis">在進行工具批判之前，<br>不妨先透過操作理解技術真實影響，<br><span class="mark">以及反思技術帶來的競賽、創作與品味文化的改變。</span></p><div class="closing-links"><span>文學獎分析｜研究文章｜創作入口｜即時儀表板</span><span class="mono purple">mashbean.net</span></div>`,
     cue: "結語回到作品、工具與程序三層。",
     sources: [URL.tsmc, URL.article, URL.writing, URL.dashboard],
   });
