@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "ntu-ai-literature-workshop",
+    title: "台灣的文學社會學之基礎建設",
+    event: "臺大文學院 · AI 文學創作工作坊",
+    date: "2026-09-02",
+    location: "臺文所 530 教室",
+    lang: "zh-Hant",
+    featured: true,
+  },
+  {
     slug: "twnic-2026-platform-cleaner",
     title: "敝帚自珍的平台清道夫",
     event: "TWNIC 網路社群計畫成果發表會",
