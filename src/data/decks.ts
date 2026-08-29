@@ -39,14 +39,6 @@ export const decks: Deck[] = [
     featured: true,
   },
   {
-    slug: "tsmc-literature-award-analysis",
-    title: "兩次投票之間，評審換了什麼問題？",
-    event: "台積電文學獎評審爭議｜四方地圖與評審分析",
-    date: "2026-08-29",
-    lang: "zh-Hant",
-    featured: true,
-  },
-  {
     slug: "twnic-2026-platform-cleaner",
     title: "敝帚自珍的平台清道夫",
     event: "TWNIC 網路社群計畫成果發表會",
