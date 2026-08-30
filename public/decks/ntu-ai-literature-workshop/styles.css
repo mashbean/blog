@@ -1675,7 +1675,7 @@ section.cover::after {
 .matrix-head {
   background: var(--ink);
   color: #fff;
-  font: 700 17px/1 var(--font-mono);
+  font: 700 19px/1 var(--font-mono);
 }
 
 .matrix-head span,
@@ -1694,13 +1694,13 @@ section.cover::after {
 }
 
 .design-matrix article h3 {
-  font-size: 22px;
+  font-size: 23px;
   line-height: 1.35;
 }
 
 .design-matrix article p {
   color: #4b4b4b;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.42;
 }
 
@@ -2061,7 +2061,7 @@ section.cover::after {
 .reach-head {
   background: var(--ink);
   color: #fff;
-  font: 700 17px/1 var(--font-mono);
+  font: 700 19px/1 var(--font-mono);
 }
 
 .reach-head span,
@@ -2069,7 +2069,7 @@ section.cover::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70px;
+  min-height: 78px;
   padding: 9px 13px;
   box-sizing: border-box;
   border-right: 1px solid var(--rule);
@@ -2082,7 +2082,7 @@ section.cover::after {
 .tool-reach article strong {
   justify-content: flex-start;
   gap: 9px;
-  font-size: 23px;
+  font-size: 25px;
 }
 
 .tool-reach article strong .icon {
@@ -2095,7 +2095,7 @@ section.cover::after {
   justify-content: flex-start;
   margin: 0;
   color: var(--muted);
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.35;
 }
 
@@ -2129,13 +2129,13 @@ section.cover::after {
 
 .reach-legend span {
   padding: 8px 12px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .reach-legend p {
   margin: 0 0 0 auto;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 19px;
 }
 
 .internal-main {
@@ -2351,7 +2351,7 @@ section.cover::after {
 .tool-compare-head {
   background: var(--ink);
   color: #fff;
-  font: 700 16px/1 var(--font-mono);
+  font: 700 18px/1 var(--font-mono);
 }
 
 .research-head > *,
@@ -2370,12 +2370,12 @@ section.cover::after {
 }
 
 .research-landscape h3 {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .research-landscape p {
   color: #4c4c4c;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1.4;
 }
 
@@ -2646,13 +2646,13 @@ section.cover::after {
 
 .tool-compare h3 {
   color: var(--purple);
-  font-size: 20px;
+  font-size: 23px;
 }
 
 .tool-compare p {
   color: #454545;
-  font-size: 17px;
-  line-height: 1.4;
+  font-size: 21px;
+  line-height: 1.35;
 }
 
 .dashboard-redesign {
