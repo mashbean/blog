@@ -63,9 +63,9 @@
     [URL.skills, "Anthropic Docs｜Agent Skills"],
     [URL.sudowrite, "Sudowrite｜官方文件"],
     [URL.novelai, "NovelAI｜Lorebook 文件"],
-    [URL.writing, "writing.mashbean.net｜正式研究"],
-    [URL.workshop, "writing.mashbean.net/workshop｜現場練習"],
-    [URL.dashboard, "writing.mashbean.net｜即時儀表板"],
+    [URL.writing, "writing.mashbean.net｜課堂創作原型"],
+    [URL.workshop, "writing.mashbean.net/workshop｜300 字試玩"],
+    [URL.dashboard, "writing.mashbean.net｜全班作品牆"],
   ]);
 
   const notes = (cue, sources) =>
@@ -133,7 +133,7 @@
     number: 1,
     label: "封面",
     className: "cover",
-    content: `<p class="cover-kicker">AI 文學創作工作坊 ／ 2026.09.02・09.09</p><h1 class="cover-title">我們距離機器會夢見<span>電子羊</span>的時代有多近？</h1><p class="cover-subtitle">文學獎評選爭議、合成工具賞析、匿名同儕審查實驗</p><p class="cover-author">黃豆泥 M.D.</p><div class="cover-meta"><span>臺文所 530 教室｜16:00–18:00</span><span>案例分析 × 研究方法 × 創作實驗</span></div>`,
+    content: `<p class="cover-kicker">AI 文學創作工作坊 ／ 2026.09.02・09.09</p><h1 class="cover-title">我們距離機器會夢見<span>電子羊</span>的時代有多近？</h1><p class="cover-subtitle">文學獎評選爭議、合成工具賞析、匿名共讀原型</p><p class="cover-author">黃豆泥 M.D.</p><div class="cover-meta"><span>臺文所 530 教室｜16:00–18:00</span><span>案例分析 × 研究方法 × 創作試玩</span></div>`,
     cue: "封面。電子羊連到文學想像、合成文本與判斷制度三個部分。",
     sources: [URL.tsmc, URL.article, URL.writing],
   });
@@ -143,7 +143,7 @@
     label: "疑惑與追尋",
     className: "inverse dense",
     content: `${heading(2, "我的疑惑與追尋的倉鼠輪", "四個問題反覆把我帶回作品、制度與知識生產", true)}<div class="question-wheel"><div class="wheel-track" aria-hidden="true"><span class="wheel-arrow a">→</span><span class="wheel-arrow b">→</span><span class="wheel-arrow c">→</span><span class="wheel-arrow d">→</span><div class="wheel-center">${icon("memory")}<strong>操作</strong><span>閱讀／創作／研究／制度</span></div></div><article class="wheel-q q1"><span>01</span><p>合成創作是什麼？</p></article><article class="wheel-q q2"><span>02</span><p>真正的品味與美學是什麼？</p></article><article class="wheel-q q3"><span>03</span><p>如何界定有邊界的競爭？</p></article><article class="wheel-q q4"><span>04</span><p>知識生產機構的永續模式如何受到影響？</p></article></div>`,
-    cue: "這四個問題會在文學獎、工具使用、研究比較與課堂實驗裡反覆出現。",
+    cue: "這四個問題會在文學獎、工具使用、研究比較與課堂原型裡反覆出現。",
     sources: [URL.tsmc, URL.article, URL.writing],
   });
 
@@ -155,7 +155,7 @@
       ["01", "文學獎爭議", "四方地圖、三次會議、五位評審的判準移動，以及公開紀錄的證據邊界。"],
       ["02", "我的 AI 使用", "從 Chat、Agent、研究生產線，到小說書架與審議民主互動工具。"],
       ["03", "合成工具賞析", "比較文本判讀、共同創作、長篇結構、集體趨同，以及 Skill、診斷工具與套裝產品。"],
-      ["04", "匿名同儕實驗", "現場 300 字練習、帶回家創作、提示揭露、評分改變與版本保存。"],
+      ["04", "課堂創作原型", "現場 300 字練習、即時作品牆、共同閱讀，以及可選的一句話交換。"],
     ]
       .map(([n, t, b], index) =>
         card({ kicker: n, title: t, body: b, className: index === 3 ? "purple-card" : "" }),
@@ -297,7 +297,7 @@
     number: 23,
     label: "審議民主研究者",
     className: "dense",
-    content: `${heading(23, "作為審議民主研究者與開發者", "我用 AI 強化互動工具，研究重點放在發言如何被看見、分配與回到討論", true)}<div class="product-split reverse"><div class="product-copy"><p>Call-in 將簡報、現場提問、主持節奏與觀眾回應放進同一個事件。AI 可以協助整理與歸納，工具仍要保留原始輸入、異議、主持人控制和可回到來源的路徑。</p><p>這次工作坊借用它的事件觀念：每台裝置有代號，系統顯示分配與進度，作品和評論以事件為單位同步；文學研究需要的資料欄位則留在 writing 服務。</p><div class="callout">互動效率只是其中一項指標；少數意見、匿名安全與主持權力也要進入設計。</div></div><figure class="image-panel"><img src="assets/call-in.png" alt="Call-in 即時簡報互動工具"><figcaption>call-in.mashbean.net｜現場提問與回應</figcaption></figure></div>`,
+    content: `${heading(23, "作為審議民主研究者與開發者", "我用 AI 強化互動工具，研究重點放在發言如何被看見、分配與回到討論", true)}<div class="product-split reverse"><div class="product-copy"><p>Call-in 將簡報、現場提問、主持節奏與觀眾回應放進同一個事件。AI 可以協助整理與歸納，工具仍要保留原始輸入、異議、主持人控制和可回到來源的路徑。</p><p>這次工作坊借用它的事件觀念：每台裝置有代號，作品與進度即時同步；提示、模型與原始輸出留在 writing 服務，供創作者和課堂回看。</p><div class="callout">互動效率只是其中一項指標；少數意見、匿名安全與主持權力也要進入設計。</div></div><figure class="image-panel"><img src="assets/call-in.png" alt="Call-in 即時簡報互動工具"><figcaption>call-in.mashbean.net｜現場提問與回應</figcaption></figure></div>`,
     cue: "審議民主案例獨立成頁，說明和文學工作坊的技術關係。",
     sources: [URL.callin, URL.workshop, URL.dashboard],
   });
@@ -388,7 +388,7 @@
     number: 34,
     label: "創作工具光譜",
     className: "dense",
-    content: `${heading(34, "從一段提示到完整寫作環境：工具控制的單位逐步擴大", "比較工具時，核心問題是它記得什麼、能改哪一層、誰看得見中間過程，以及作者能否拒絕", true)}<div class="tool-spectrum"><article><span>01</span>${icon("chat")}<h3>單次提示</h3><p>對話內提供續寫或改寫；上下文與控制單位最小。</p><small>例｜一般 Chat</small></article><i>→</i><article><span>02</span>${icon("folder")}<h3>Skill</h3><p>以說明、腳本與資源封裝可重複的工作方法，依任務載入。</p><small>例｜Agent Skills</small></article><i>→</i><article><span>03</span>${icon("compass")}<h3>診斷／修訂程序</h3><p>把研究差異轉成閱讀鏡頭或修訂清單；規則透明，成效仍需另測。</p><small>例｜Sepia</small></article><i>→</i><article><span>04</span>${icon("layers")}<h3>套裝創作環境</h3><p>管理角色、世界、情節與長期上下文，提供專門的生成與改寫操作。</p><small>例｜Sudowrite／NovelAI</small></article><i>→</i><article><span>05</span>${icon("agent")}<h3>階層式／研究平台</h3><p>串接多步生成、版本、評讀與揭露；可以研究控制與讀者反應。</p><small>例｜Dramatron／本次實驗</small></article></div><div class="sepia-passes"><span><b>Sepia Pass 1</b>敘事架構</span><span><b>Pass 2</b>篇章流動</span><span><b>Pass 3</b>表面語言</span><p>每篇只挑 3–5 個動作；全套套用可能形成另一種穩定指紋。</p></div>`,
+    content: `${heading(34, "從一段提示到完整寫作環境：工具控制的單位逐步擴大", "比較工具時，核心問題是它記得什麼、能改哪一層、誰看得見中間過程，以及作者能否拒絕", true)}<div class="tool-spectrum"><article><span>01</span>${icon("chat")}<h3>單次提示</h3><p>對話內提供續寫或改寫；上下文與控制單位最小。</p><small>例｜一般 Chat</small></article><i>→</i><article><span>02</span>${icon("folder")}<h3>Skill</h3><p>以說明、腳本與資源封裝可重複的工作方法，依任務載入。</p><small>例｜Agent Skills</small></article><i>→</i><article><span>03</span>${icon("compass")}<h3>診斷／修訂程序</h3><p>把研究差異轉成閱讀鏡頭或修訂清單；規則透明，成效仍需另測。</p><small>例｜Sepia</small></article><i>→</i><article><span>04</span>${icon("layers")}<h3>套裝創作環境</h3><p>管理角色、世界、情節與長期上下文，提供專門的生成與改寫操作。</p><small>例｜Sudowrite／NovelAI</small></article><i>→</i><article><span>05</span>${icon("agent")}<h3>階層式／活動平台</h3><p>串接多步生成、版本與共讀；也能先做一個可操作的課堂原型。</p><small>例｜Dramatron／本次原型</small></article></div><div class="sepia-passes"><span><b>Sepia Pass 1</b>敘事架構</span><span><b>Pass 2</b>篇章流動</span><span><b>Pass 3</b>表面語言</span><p>每篇只挑 3–5 個動作；全套套用可能形成另一種穩定指紋。</p></div>`,
     cue: "把 Sepia、Skill、套裝工具與研究平台放進同一條控制光譜。",
     sources: [URL.sepia, URL.skills, URL.sudowrite, URL.novelai, URL.dramatron],
   });
@@ -397,18 +397,18 @@
     number: 35,
     label: "創作工具比較",
     className: "dense",
-    content: `${heading(35, "六種工具的研究比較：記憶、控制、紀錄與證據", "產品功能豐富不等於研究資料完整；選擇工具要回到創作目的與可回答的問題", true)}<div class="tool-compare"><div class="tool-compare-head"><span>工具／形式</span><span>長期記憶</span><span>控制單位</span><span>過程紀錄</span><span>目前最適用途</span></div><article><h3>Sepia</h3><p>依使用方式</p><p>三層診斷與 3–5 項修訂</p><p>規則公開；缺獨立成效研究</p><p>近讀、修訂討論</p></article><article><h3>Agent Skill</h3><p>資料夾內說明、腳本、資源</p><p>可封裝完整流程</p><p>可版本控制；執行紀錄另設計</p><p>重複方法與團隊規範</p></article><article><h3>Sudowrite</h3><p>Story Bible 作為持續脈絡</p><p>場景、段落、選取文字與畫布</p><p>偏創作工作流，研究欄位需外接</p><p>商業小說發想與長篇維護</p></article><article><h3>NovelAI</h3><p>Memory／Author’s Note／Lorebook</p><p>依啟動詞把設定注入上下文</p><p>可見記憶規則；研究事件需另存</p><p>世界觀與角色知識維持</p></article><article><h3>Dramatron</h3><p>階層式故事結構</p><p>logline → 人物／地點 → 場景／對話</p><p>研究原型與共同創作者訪談</p><p>劇本式由上而下發展</p></article><article class="highlight"><h3>writing.mashbean.net</h3><p>提示、模型與每次輸出封存</p><p>版本、閱讀鏡頭、匿名評論</p><p>正式／測試分流與揭露順序</p><p>課堂實驗與同儕評讀</p></article></div>`,
-    cue: "以記憶、控制單位、紀錄與用途比較 Sepia、Skill、兩個套裝產品、Dramatron 與本次研究平台。",
+    content: `${heading(35, "六種工具的研究比較：記憶、控制、紀錄與證據", "產品功能豐富不等於研究資料完整；選擇工具要回到創作目的與可回答的問題", true)}<div class="tool-compare"><div class="tool-compare-head"><span>工具／形式</span><span>長期記憶</span><span>控制單位</span><span>過程紀錄</span><span>目前最適用途</span></div><article><h3>Sepia</h3><p>依使用方式</p><p>三層診斷與 3–5 項修訂</p><p>規則公開；缺獨立成效研究</p><p>近讀、修訂討論</p></article><article><h3>Agent Skill</h3><p>資料夾內說明、腳本、資源</p><p>可封裝完整流程</p><p>可版本控制；執行紀錄另設計</p><p>重複方法與團隊規範</p></article><article><h3>Sudowrite</h3><p>Story Bible 作為持續脈絡</p><p>場景、段落、選取文字與畫布</p><p>偏創作工作流，研究欄位需外接</p><p>商業小說發想與長篇維護</p></article><article><h3>NovelAI</h3><p>Memory／Author’s Note／Lorebook</p><p>依啟動詞把設定注入上下文</p><p>可見記憶規則；研究事件需另存</p><p>世界觀與角色知識維持</p></article><article><h3>Dramatron</h3><p>階層式故事結構</p><p>logline → 人物／地點 → 場景／對話</p><p>研究原型與共同創作者訪談</p><p>劇本式由上而下發展</p></article><article class="highlight"><h3>writing.mashbean.net</h3><p>提示、模型、代號與輸出</p><p>一段補充＋兩個結構提醒</p><p>送出後進入即時作品牆</p><p>課堂試玩與共同閱讀</p></article></div>`,
+    cue: "以記憶、控制單位、紀錄與用途比較 Sepia、Skill、兩個套裝產品、Dramatron 與本次課堂原型。",
     sources: [URL.sepia, URL.skills, URL.sudowrite, URL.novelai, URL.dramatron, URL.writing],
   });
 
   divider(
     35,
     "04",
-    "ANONYMOUS PEER REVIEW",
-    "匿名同儕審查實驗",
-    "現場極短篇提供完整操作流程；返家創作保留版本、揭露順序與評分改變",
-    "第四部分進入正式系統、現場練習與隔週研究。",
+    "CLASSROOM PROTOTYPE",
+    "課堂創作與共讀原型",
+    "現場極短篇接上即時作品牆；這一輪用操作經驗調整下一版活動",
+    "第四部分進入可在教室跑完的原型，不把試玩包裝成正式實驗。",
     [URL.writing, URL.workshop, URL.dashboard],
   );
 
@@ -416,26 +416,26 @@
     number: 36,
     label: "創作系統",
     className: "dense",
-    content: `${heading(36, "研究網站要保存作品，也要保存作品如何出現", "模型、提示層、版本、測試標記、匿名分配與揭露順序都屬研究材料", true)}<div class="architecture"><div class="architecture-list"><div class="architecture-item"><strong>強模型與版本</strong><span>使用當下可用的強模型；保存實際模型名稱、回應 ID、成功與失敗狀態。</span></div><div class="architecture-item"><strong>兩層提示可修改</strong><span>developer 與 user prompt 可編輯；生成時全文封存，避免事後以目前設定重建。</span></div><div class="architecture-item"><strong>正式／測試分流</strong><span>正式樣本、測試 cohort、評讀介面測試與課堂裝置使用不同標記與統計。</span></div><div class="architecture-item"><strong>匿名揭露順序</strong><span>作品與評論先建立關係；提示、評論來源與作者資訊依研究階段開放。</span></div></div><img src="assets/writing-home.png" alt="AI 文學創作工作坊首頁"></div>`,
-    cue: "說明資料欄位與研究目的，避免把網站理解成單純生成器。",
+    content: `${heading(36, "原型網站保留足夠紀錄，讓操作經驗可以回看", "模型、提示與原始輸出留在系統裡；作品送出後直接成為全班共讀材料", true)}<div class="architecture"><div class="architecture-list"><div class="architecture-item"><strong>強模型與受控重試</strong><span>極短篇使用低推理與足夠輸出餘裕；沒有正文時只重試一次，不建立空白作品。</span></div><div class="architecture-item"><strong>創作選擇保持可見</strong><span>共同題目、創作者補充與最多兩個結構提醒都在畫面上，生成時保存實際內容。</span></div><div class="architecture-item"><strong>動物代號降低現場負擔</strong><span>一台裝置取得一個代號，不填姓名；代號服務課堂辨識，並不宣稱正式研究匿名。</span></div><div class="architecture-item"><strong>作品牆立即承接閱讀</strong><span>作品送出後就顯示全文。早完成的人可以直接閱讀，討論不必等所有流程完成。</span></div></div><img src="assets/writing-home.png" alt="AI 文學創作工作坊課堂原型首頁"></div>`,
+    cue: "說明原型保留哪些技術紀錄，以及作品牆如何接住現場節奏。",
     sources: [URL.writing, URL.article],
   });
 
   add({
     number: 37,
-    label: "現場完整流程",
+    label: "現場原型流程",
     className: "dense",
-    content: `${heading(37, "九月二日：一堂課內完成的極短篇流程", "裝置代號、300 字生成、匿名短評與全班讀回都在 120 分鐘內發生", true)}<div class="flow workshop-flow">${flowNode("01", "取得動物代號", "裝置為單位，不輸入姓名")}${flowNode("02", "設定作品方向", "共同題目＋創作者補充")}${flowNode("03", "選 0–2 個鏡頭", "結構提醒保持可見")}${flowNode("04", "交換匿名短評", "一個分數、一句具體回應")}${flowNode("05", "全班讀回", "儀表板呈現進度、作品與評論", "accent-node")}</div><div class="grid grid-2 mini-cards"><p><strong>系統記錄｜</strong>動物代號、提示、選取鏡頭、完整輸出、字數、模型與評論。</p><p><strong>課堂觀察｜</strong>創作者採用哪些提醒；讀者是否在作品中感受到相對應的差異。</p></div>`,
-    cue: "現場完整流程用臺灣用語呈現。",
+    content: `${heading(37, "九月二日：一堂課內跑完的極短篇原型", "裝置代號、300 字生成、即時作品牆與共同閱讀在 120 分鐘內發生", true)}<div class="flow workshop-flow">${flowNode("01", "取得動物代號", "裝置為單位，不輸入姓名")}${flowNode("02", "設定作品方向", "共同題目＋創作者補充")}${flowNode("03", "選 0–2 個提醒", "結構選擇保持可見")}${flowNode("04", "作品進入牆面", "送出後立刻顯示全文")}${flowNode("05", "全班共同閱讀", "選具體段落談效果與疑問", "accent-node")}</div><div class="grid grid-2 mini-cards"><p><strong>系統留下｜</strong>動物代號、提示、選取提醒、完整輸出、字數與模型；一句話交換可以依現場時間選用。</p><p><strong>課堂要談｜</strong>創作者如何描述方向；不同提示帶來哪些語氣、情節、視角與收尾差異。</p></div>`,
+    cue: "這輪採課堂原型；作品牆是必要環節，一句話交換是可選延伸。",
     sources: [URL.workshop, URL.dashboard, URL.article],
   });
 
   add({
     number: 38,
-    label: "動物代號與儀表板",
+    label: "動物代號與作品牆",
     className: "dense",
-    content: `${heading(38, "用狀態模型取代空白儀表板截圖", "投影片呈現課堂當下會看到的資訊關係；數字與代號是教學示意，不使用正式研究或測試資料", true)}<div class="dashboard-redesign"><article class="participant-console"><div class="console-top"><span>參與者端</span><small>裝置匿名</small></div><div class="animal-id"><span class="animal">獺</span><div><small>你的代號</small><strong>水獺－07</strong></div></div><div class="participant-steps"><p class="done"><b>✓</b><span><strong>極短篇已送出</strong>318 字・1 個閱讀鏡頭</span></p><p class="active"><b>2</b><span><strong>匿名評讀中</strong>分配到：山羌－04</span></p><p><b>3</b><span><strong>等待全班讀回</strong>作品與評論維持代號顯示</span></p></div><div class="privacy-note">不輸入姓名；代號隔開文本與身分。小班可識別性仍由主持規範處理。</div></article><article class="live-dashboard"><div class="dashboard-top"><div><small>LIVE CLASSROOM</small><strong>極短篇交換狀態</strong></div><span class="live-dot">● 即時</span></div><div class="dashboard-metrics"><p><strong>24</strong><span>裝置</span></p><p><strong>19</strong><span>作品完成</span></p><p><strong>17</strong><span>評論完成</span></p><p><strong>71%</strong><span>整體進度</span></p></div><div class="dashboard-bars"><p><span>創作</span><i><b style="width:79%"></b></i><strong>19 / 24</strong></p><p><span>分配</span><i><b style="width:92%"></b></i><strong>22 / 24</strong></p><p><span>評論</span><i><b style="width:71%"></b></i><strong>17 / 24</strong></p></div><div class="status-list"><div><span class="status-animal">獺</span><strong>水獺－07</strong><em class="green">評論中</em><small>14:32 更新</small></div><div><span class="status-animal">羌</span><strong>山羌－04</strong><em class="purple">已完成</em><small>14:31 更新</small></div><div><span class="status-animal">鯨</span><strong>虎鯨－12</strong><em class="amber">創作中</em><small>14:30 更新</small></div></div><div class="illustrative-label">課堂介面示意｜不含真實參與者資料</div></article></div>`,
-    cue: "撤掉空白測試截圖，改用可讀的狀態模型說明參與者端與主持端；數字均為教學示意。",
+    content: `${heading(38, "作品牆本身就是早完成者的下一個任務", "送出後直接看見全班小說；閱讀、比較與選段討論可以立刻開始", true)}<div class="dashboard-redesign"><article class="participant-console"><div class="console-top"><span>創作者端</span><small>裝置代號</small></div><div class="animal-id"><span class="animal">獺</span><div><small>你的代號</small><strong>水獺－07</strong></div></div><div class="participant-steps"><p class="done"><b>✓</b><span><strong>極短篇已送出</strong>318 字・1 個結構提醒</span></p><p class="active"><b>2</b><span><strong>打開全班作品牆</strong>不必等待其他人完成</span></p><p><b>3</b><span><strong>挑一個具體位置</strong>記下效果、疑問或想改之處</span></p></div><div class="privacy-note">代號降低登入負擔，也讓投影時不直接出現姓名；作品內容仍會公開給同一場活動閱讀。</div></article><article class="live-dashboard"><div class="dashboard-top"><div><small>LIVE STORY WALL</small><strong>全班極短篇</strong></div><span class="live-dot">● 每 2 秒更新</span></div><div class="dashboard-metrics"><p><strong>24</strong><span>裝置</span></p><p><strong>19</strong><span>篇作品</span></p><p><strong>318</strong><span>本篇字數</span></p><p><strong>1</strong><span>結構提醒</span></p></div><div class="status-list"><div><span class="status-animal">獺</span><strong>借來的一天</strong><em class="green">全文可讀</em><small>水獺－07</small></div><div><span class="status-animal">羌</span><strong>沒有刻度的木盒</strong><em class="purple">全文可讀</em><small>山羌－04</small></div><div><span class="status-animal">鯨</span><strong>凌晨三點十七分</strong><em class="amber">全文可讀</em><small>虎鯨－12</small></div></div><div class="illustrative-label">課堂介面示意｜作品送出後即時進入牆面</div></article></div>`,
+    cue: "作品牆顯示全文，能直接承接早完成者的閱讀與全班討論。",
     sources: [URL.workshop, URL.dashboard, URL.callin],
   });
 
@@ -443,17 +443,17 @@
     number: 39,
     label: "現場開始",
     className: "dense",
-    content: `${heading(39, "九月二日現場操作", "完成一篇 300 字極短篇，交換一句匿名短評，最後回到全班閱讀", true)}<div class="cta-grid"><div><img class="qr" src="assets/qr-workshop.png" alt="writing.mashbean.net/workshop QR code"><p class="mono purple qr-label">writing.mashbean.net/workshop</p></div><div class="schedule"><div class="schedule-row"><time>16:00–17:25</time><strong>創作</strong><span>共同題目、創作者補充、最多兩個結構提醒；每台裝置送出一篇。</span></div><div class="schedule-row"><time>17:25–17:45</time><strong>評論</strong><span>系統匿名分配另一篇作品；選閱讀角度，留下具體短評。</span></div><div class="schedule-row"><time>17:45–18:00</time><strong>讀回</strong><span>查看儀表板，討論提醒、文本差異、評論品質與規則。</span></div></div></div>`,
-    cue: "現場可調整時間；投影片顯示目前建議節奏。",
+    content: `${heading(39, "九月二日現場操作", "完成一篇 300 字極短篇，直接進入作品牆閱讀，最後回到全班討論", true)}<div class="cta-grid"><div><img class="qr" src="assets/qr-workshop.png" alt="writing.mashbean.net/workshop QR code"><p class="mono purple qr-label">writing.mashbean.net/workshop</p></div><div class="schedule"><div class="schedule-row"><time>16:00–17:10</time><strong>創作</strong><span>共同題目、創作者補充、最多兩個結構提醒；每台裝置送出一篇。</span></div><div class="schedule-row"><time>完成後即可</time><strong>作品牆</strong><span>閱讀已經送出的全文，挑一篇記下具體的效果、疑問或修改方向。</span></div><div class="schedule-row"><time>17:30–18:00</time><strong>共讀</strong><span>從作品與提示差異談語氣、情節、品味和工具限制；一句話交換視時間選用。</span></div></div></div>`,
+    cue: "時間是現場節奏建議；作品牆在有人送出後就能使用。",
     sources: [URL.workshop, URL.dashboard],
   });
 
   add({
     number: 40,
-    label: "返家創作與正式研究",
+    label: "返家創作與第二週共讀",
     className: "dense",
-    content: `${heading(40, "九月九日：返家創作、匿名評讀與分階段揭露", "截止時間、原始評論、提示揭露後評分與來源判斷都會分開保存", true)}<div class="deadline-grid"><article class="deadline"><span class="letter">A</span><time>09 / 07 23:59</time><h3>創作截止</h3><p>完成較長作品；最多五次成功生成。每一版保存實際提示、模型與輸出。</p></article><article class="deadline"><span class="letter">B</span><time>09 / 09 15:30</time><h3>評論截止</h3><p>只看匿名作品；每篇保存一個分數與一句短評，送出後封存。</p></article><article class="deadline highlight"><span class="letter">C</span><time>09 / 09 16:00</time><h3>提示揭露</h3><p>畫面保留第一輪評論與分數，同時顯示完整提示，記錄評分是否改變。</p></article><article class="deadline"><span class="letter">D</span><time>課堂／課後</time><h3>來源與方法回收</h3><p>比較人類與 AI 評論；討論控制感、平滑度、修訂用途與研究限制。</p></article></div><p class="method-foot">正式樣本、測試 cohort 與評讀介面測試分開計數。既有三則測試評論仍保存在遠端資料庫。</p>`,
-    cue: "說明正式研究的時間、揭露順序與資料保存。",
+    content: `${heading(40, "九月九日：把較長創作與操作經驗帶回來", "第二週以作品、提示與修改選擇為材料，不要求每個人走完同一套正式實驗程序", true)}<div class="deadline-grid"><article class="deadline"><span class="letter">A</span><time>課後</time><h3>延伸一篇作品</h3><p>可從極短篇擴寫，也可另開題目；篇幅與工具由創作者依自己的目標決定。</p></article><article class="deadline"><span class="letter">B</span><time>過程</time><h3>留下幾個關鍵版本</h3><p>保留一段提示、一次接受或拒絕，以及最想回看的修改，方便說明選擇如何發生。</p></article><article class="deadline highlight"><span class="letter">C</span><time>09 / 09</time><h3>帶作品回來共讀</h3><p>挑出一個自己仍拿不準的位置，讓讀者從文字提出具體反應。</p></article><article class="deadline"><span class="letter">D</span><time>討論</time><h3>回看控制與品味</h3><p>哪些方向由人提出，哪些由模型展開；作品變順之後，有沒有失去原本想保留的東西。</p></article></div><p class="method-foot">這一輪是活動雛形。作品、提示與討論可以幫助下一版設計，暫時不做正式樣本、控制變項與因果推論。</p>`,
+    cue: "第二週改為較長創作的共讀與經驗回看，不使用正式研究的截止、分組與揭露程序。",
     sources: [URL.writing, URL.article],
   });
 
@@ -461,7 +461,7 @@
     number: 41,
     label: "結語",
     className: "inverse",
-    content: `${eyebrow(41, "文學制度面對合成文本的三項基礎工作")}<p class="thesis">在進行工具批判之前，<br>不妨先透過操作理解技術真實影響，<br><span class="mark">以及反思技術帶來的競賽、創作與品味文化的改變。</span></p><div class="closing-links"><span>文學獎分析｜研究文章｜創作入口｜即時儀表板</span><span class="mono purple">mashbean.net</span></div>`,
+    content: `${eyebrow(41, "文學制度面對合成文本的三項基礎工作")}<p class="thesis">在進行工具批判之前，<br>不妨先透過操作理解技術真實影響，<br><span class="mark">以及反思技術帶來的競賽、創作與品味文化的改變。</span></p><div class="closing-links"><span>文學獎分析｜研究文章｜創作入口｜全班作品牆</span><span class="mono purple">mashbean.net</span></div>`,
     cue: "結語回到作品、工具與程序三層。",
     sources: [URL.tsmc, URL.article, URL.writing, URL.dashboard],
   });
