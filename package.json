@@ -66,6 +66,10 @@
     "tailwindcss": "^4.1.13",
     "yaml": "^2.8.1"
   },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.2.0",
+    "lightningcss-linux-x64-gnu": "^1.31.1"
+  },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^11.10.1",
     "@types/node": "^22.18.0",
