@@ -35,6 +35,8 @@
     writing: "https://writing.mashbean.net/",
     workshop: "https://writing.mashbean.net/workshop",
     dashboard: "https://writing.mashbean.net/workshop/dashboard",
+    judgeApology: "assets/tsmc-judge-apology-zhou-fenling.jpg",
+    awardStatement: "assets/tsmc-award-statement.jpg",
   };
 
   const sourceName = new Map([
@@ -66,6 +68,8 @@
     [URL.writing, "writing.mashbean.net｜課堂創作原型"],
     [URL.workshop, "writing.mashbean.net/workshop｜300 字試玩"],
     [URL.dashboard, "writing.mashbean.net｜全班作品牆"],
+    [URL.judgeApology, "周芬伶 Facebook 貼文截圖｜使用者提供"],
+    [URL.awardStatement, "台積電青年學生文學獎聲明截圖｜使用者提供"],
   ]);
 
   const notes = (cue, sources) =>
@@ -218,6 +222,15 @@
     content: `${heading(11, "從爭議紀要走到下一屆規則", "四個爭點同時對照可確認的證據與可事前寫下的制度條件", true)}<div class="design-matrix"><div class="matrix-head"><span>爭議問題</span><span>公開材料能確認</span><span>下一屆規則要回答</span></div><article><h3>成熟完整能否成為 AI 線索？</h3><p>同一特徵曾構成高分理由；後來成為懷疑來源，線索與結論間沒有公開查核步驟。</p><p><strong>啟動門檻＋證據分量</strong><br>文風直覺只能啟動詢問，或可以影響名次？</p></article><article><h3>AI 協作當年如何規範？</h3><p>辦法沒有生成式 AI 條款；抄襲、代筆、倫理與教育理念被拿來補足，責任條件並不相同。</p><p><strong>允許範圍＋揭露內容</strong><br>構想、查找、修辭、翻譯、生成、重寫如何處理？</p></article><article><h3>獎勵文本、控制或過程？</h3><p>三次會議把文學評價、制度處理與信任審查放進同一個分數，沒有公開加權方式。</p><p><strong>評選標的＋查核權限</strong><br>誰可要求版本、提示或口頭答辯？用途與保存多久？</p></article><article><h3>作者說明如何成為證據？</h3><p>回答語氣進入分數；具體問題、期限、可接受材料與複核程序沒有事前列明。</p><p><strong>申復程序＋資料保護</strong><br>指控、回應、複核、利益迴避與刪除方式如何落實？</p></article></div><div class="design-chips"><span>允許範圍</span><span>揭露內容</span><span>啟動門檻</span><span>證據分量</span><span>資料保護</span><span>申復程序</span></div>`,
     cue: "把三頁整合成爭點、證據邊界與制度設計的對照表；不越過公開材料判定生成方式。",
     sources: [URL.tsmc, URL.minutes, URL.rules, URL.author],
+  });
+
+  add({
+    number: 12,
+    label: "爭議後續聲明",
+    className: "dense",
+    content: `${heading(12, "爭議後續", "評審道歉，主辦方補發聲明：事件的責任歸屬再次移動", true)}<div class="postscript-images"><figure><a class="postscript-shot" href="${URL.judgeApology}" target="_blank" rel="noreferrer"><img src="${URL.judgeApology}" alt="周芬伶在 Facebook 發布道歉文字的截圖"></a><figcaption><strong>評審個人回應</strong><span>周芬伶表示抱歉，並稱今後謝絕所有文學獎。點圖可看原尺寸。</span></figcaption></figure><figure><a class="postscript-shot" href="${URL.awardStatement}" target="_blank" rel="noreferrer"><img src="${URL.awardStatement}" alt="台積電青年學生文學獎發布聲明啟事的截圖"></a><figcaption><strong>主辦方制度收尾</strong><span>聲明修正紀錄文字、重申證據界線，並新增「評審團獎」給《實白》。點圖可看原尺寸。</span></figcaption></figure></div>`,
+    cue: "兩份事後文字分別處理評審個人感受與主辦方的制度收尾；這是公開聲明的內容，不等於新增作品生成證據。",
+    sources: [URL.judgeApology, URL.awardStatement],
   });
 
   divider(
