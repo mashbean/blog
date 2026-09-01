@@ -35,6 +35,18 @@ export const workGroups: Record<Work["group"], { title: string }> = {
 
 export const works: Work[] = [
   {
+    slug: "pocket-polis",
+    title: "Pocket Polis 口袋審議",
+    tagline:
+      "不用架伺服器的輕量版 Polis：一鍵發起線上審議，意見地圖即時顯示分歧與跨群共識。想要自己的版本，一句話交給 AI Agent 加一個 Cloudflare 帳號就能部署。",
+    url: "https://polis.mashbean.net/",
+    repo: "https://github.com/mashbean/pocket-polis",
+    chips: ["審議工具", "數位公共基礎設施", "中英雙語", "開源"],
+    cover: "images/works/pocket-polis.jpg",
+    date: "2026-09-01",
+    group: "personal",
+  },
+  {
     slug: "call-in",
     title: "Call-in 簡單叩應",
     tagline:
