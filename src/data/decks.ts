@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "platform-escape-room-2026",
+    title: "來一場關於社群平台的密室逃脫！",
+    event: "荷事生非",
+    date: "2026-09-06",
+    location: "新創無界 NEXT.X",
+    lang: "zh-Hant",
+    featured: true,
+  },
+  {
     slug: "ntu-ai-literature-workshop",
     title: "我們距離機器會夢見電子羊的時代有多近？",
     event: "臺大文學院 · AI 文學創作工作坊",

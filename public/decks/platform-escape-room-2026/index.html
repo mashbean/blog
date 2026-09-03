@@ -1,0 +1,1106 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#16120f" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>來一場關於社群平台的密室逃脫！</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="viewport" aria-label="來一場關於社群平台的密室逃脫簡報">
+      <div class="deck" id="deck" aria-live="polite">
+        <article class="slide cover is-active" id="slide-1" data-room="入口" data-slide="1">
+          <img
+            class="hero-image"
+            src="assets/escape-room-hero.png"
+            alt="賣場貨架延伸成社群迷宮，遠方有一處聯邦網路出口"
+          />
+          <div class="hero-shade"></div>
+          <div class="cover-copy">
+            <p class="tape reveal">荷事生非 · 2026.09.06</p>
+            <h1 class="display reveal">來一場關於<br />社群平台的<br /><span>密室逃脫</span></h1>
+            <p class="cover-lead reveal">
+              我們早已住進平台。今天練習辨認門鎖、找回鑰匙，還有決定要和誰一起出去。
+            </p>
+            <p class="byline reveal">黃豆泥 mashbean · 新創無界 NEXT.X</p>
+          </div>
+          <div class="price-sticker reveal" aria-hidden="true">
+            <b>NT$ 0</b><small>使用者特價</small>
+          </div>
+          <footer class="sourcebar dark">
+            <span>01 / 30</span
+            ><a href="https://mashbean.net/facebook/2026/0113-ybhhvr/"
+              >mashbean.net · 給 Z 世代的末日寶懺</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這是一場概念上的密室逃脫。房間裡沒有機關師，只有我們每天打開的
+              App、逐漸消失的朋友名單、說不清楚的推薦，以及一張從來沒有拿到手的合約。
+            </p>
+            <p>
+              我會從洛文克的《困在社群平台》出發，也會把自己從網友、使用者、平台工作者到密碼龐克實驗者的經驗放進來。四十分鐘內不求交出萬用解法，先把門鎖看清楚。
+            </p></template
+          >
+        </article>
+
+        <article class="slide receipt-paper" id="slide-2" data-room="入口" data-slide="2">
+          <header>
+            <p class="room-tag">入場檢查 01</p>
+            <h2>你以為自己是消費者</h2>
+          </header>
+          <div class="split receipt-layout">
+            <div class="copy-block reveal">
+              <p class="big-copy">請出示刷卡明細、載具或發票。</p>
+              <p>
+                都沒有的話，平台沒有把服務賣給你。平台把你的時間、關係、偏好與可預測行為包裝成另一種商品。
+              </p>
+              <button class="action-btn" data-action="print-receipt">列印我的平台收據</button>
+            </div>
+            <div class="receipt" id="platform-receipt" aria-live="polite">
+              <div class="receipt-head">SOCIAL MART</div>
+              <p>今日上架品項</p>
+              <div class="receipt-lines">
+                <span>停留時間</span><b>02:47:31</b><span>關係圖譜</span><b>已收集</b
+                ><span>情緒波動</span><b>可分群</b><span>退出成本</span><b>未標價</b>
+              </div>
+              <hr />
+              <strong>應付金額　0</strong><small>你就是貨架上的品項</small>
+            </div>
+          </div>
+          <button class="note-btn" data-note="n2">補充　資料商品化</button>
+          <aside class="note-pop" id="n2">
+            <button aria-label="關閉">×</button>
+            <h3>商品不只是一包個資</h3>
+            <p>
+              平台真正需要的是可操作的預測。誰會停留、點擊、憤怒、購買、離開，以及誰能把另一個人帶回來。關係本身也被納入計算。
+            </p>
+          </aside>
+          <footer class="sourcebar">
+            <span>02 / 30</span
+            ><a href="https://mashbean.net/facebook/2026/0113-ybhhvr/"
+              >mashbean.net · 你顯然是架上的產品</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              「使用者是商品」已經說了很多年，說久了容易變成空話。我想把它改造成一個很具體的入場檢查。若你付了錢，可以要求帳目、退貨與契約。免費服務裡的權利關係完全不同。
+            </p>
+            <p>
+              更麻煩的是，我們交出去的並非孤立資料。平台得到的是人與人之間的關係，以及讓這些關係繼續運轉的控制面板。
+            </p></template
+          >
+        </article>
+
+        <article class="slide grid-paper" id="slide-3" data-room="入口" data-slide="3">
+          <header>
+            <p class="room-tag">入場檢查 02</p>
+            <h2>平台明天消失，什麼會一起消失</h2>
+          </header>
+          <p class="lead reveal">點一張卡，把它暫時從房間裡拿走。</p>
+          <div class="inventory" data-action="inventory">
+            <button class="inventory-card reveal"><b>朋友名單</b><span>誰還找得到誰</span></button
+            ><button class="inventory-card reveal">
+              <b>共同記憶</b><span>貼文、留言、照片</span></button
+            ><button class="inventory-card reveal">
+              <b>社團治理</b><span>規則、管理員、黑名單</span></button
+            ><button class="inventory-card reveal"><b>公共討論</b><span>議題與可見度</span></button
+            ><button class="inventory-card reveal">
+              <b>創作者收入</b><span>會員、分潤、觸及</span></button
+            ><button class="inventory-card reveal">
+              <b>登入身分</b><span>跨站授權與信任</span>
+            </button>
+          </div>
+          <div class="inventory-result" id="inventory-result">
+            平台保存的同時，也取得了刪除、降權、改價與改規則的能力。
+          </div>
+          <footer class="sourcebar">
+            <span>03 / 30</span
+            ><a href="https://mashbean.net/blog/2025/1230-27sdpg/"
+              >mashbean.net · 我眼中的 Matters</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這頁請現場一起回答。真正被困住的原因，通常不在手機本身。朋友名單、社團分工、共同記憶與收入都住在同一個地方。刪除
+              App 很容易，搬走一個共同體很難。
+            </p>
+            <p>
+              平台退出問題因此具有集體行動的結構。每個人單獨離開都會失去其他人，而所有人一起遷移又需要協調成本。
+            </p></template
+          >
+        </article>
+
+        <article class="slide official-paper" id="slide-4" data-room="入口" data-slide="4">
+          <header>
+            <p class="room-tag">本次演練須知</p>
+            <h2>逃脫要練的是集體能力</h2>
+          </header>
+          <div class="rule-grid">
+            <div class="rule reveal">
+              <span>01</span>
+              <h3>數位排毒</h3>
+              <p>可以讓個人喘一口氣，社群關係仍留在原平台。</p>
+            </div>
+            <div class="rule reveal">
+              <span>02</span>
+              <h3>斷線求生</h3>
+              <p>停電與斷網屬於韌性議題，今天處理正常連線下的權力。</p>
+            </div>
+            <div class="rule reveal">
+              <span>03</span>
+              <h3>代際訓話</h3>
+              <p>每一代都有自己的平台，也都曾把上一代看成網路笨蛋。</p>
+            </div>
+            <div class="rule reveal accent">
+              <span>04</span>
+              <h3>共同遷移</h3>
+              <p>資料能帶走、關係能重連、規則能共定、資源能續命。</p>
+            </div>
+          </div>
+          <footer class="sourcebar">
+            <span>04 / 30</span
+            ><a href="https://mashbean.net/facebook/2026/0113-ybhhvr/">mashbean.net · 活動序文</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              今天不會叫大家關機，也不會把問題歸咎於缺乏自制力。個人習慣當然重要，可是公共討論、社群治理與收入分配都在平台上時，個人退出只是把位置空出來。
+            </p>
+            <p>
+              演練的對象是四種能力。資料搬得走，關係接得回來，規則能被共同理解與修改，最後還要有資源讓新空間活下去。
+            </p></template
+          >
+        </article>
+
+        <article class="slide orange-paper" id="slide-5" data-room="房間一" data-slide="5">
+          <header>
+            <p class="room-tag">房間一 · 平台現實主義</p>
+            <h2>大家好，我也長期困在網路</h2>
+          </header>
+          <div class="split profile-slide">
+            <div class="copy-block reveal">
+              <p class="big-copy">
+                從醫師工作離職以後，我沒有離開成癮現場，只是從螢幕外走進系統裡。
+              </p>
+              <ul>
+                <li>早期網路社群與部落格文化</li>
+                <li>數位政府與公民科技</li>
+                <li>Matters 平台營運與治理</li>
+                <li>聯邦宇宙、密碼龐克與金流實驗</li>
+              </ul>
+            </div>
+            <img class="photo torn reveal" src="assets/image2.jpg" alt="講者與 Geert Lovink 合照" />
+          </div>
+          <footer class="sourcebar">
+            <span>05 / 30</span
+            ><a href="https://mashbean.net/blog/2026/0806-ls5lmz/">mashbean.net · 離職回顧與展望</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              我沒有一個站在平台外面的純潔位置。很早就沈迷
+              IRC、BBS、部落格，後來又進政府、進平台、進區塊鏈社群。這份經驗讓我對簡單答案一直保持懷疑。
+            </p>
+            <p>
+              照片裡是 Geert
+              Lovink。讀他的書時，對平台的控訴固然尖銳，「我們已經知道很多，卻仍然走不了」的困境更讓我有感。
+            </p></template
+          >
+        </article>
+
+        <article class="slide orange-paper" id="slide-6" data-room="房間一" data-slide="6">
+          <header>
+            <p class="room-tag">平台現實主義</p>
+            <h2>開放網路被包進幾個熟悉的按鈕</h2>
+          </header>
+          <div class="network-machine reveal" data-action="network-machine">
+            <div class="wild-net">
+              <b>網路</b><span>網站</span><span>郵件</span><span>論壇</span><span>RSS</span
+              ><span>IRC</span><span>部落格</span>
+            </div>
+            <svg viewBox="0 0 360 120" aria-hidden="true">
+              <path data-draw d="M10 60 C100 60 120 60 180 60 S270 60 345 60" />
+              <path data-draw d="M270 35 L345 60 L270 85" />
+            </svg>
+            <div class="platform-box">
+              <b>平台</b><button>讚</button><button>追蹤</button><button>分享</button
+              ><button>滑下一則</button>
+            </div>
+          </div>
+          <div class="callout reveal">
+            <strong>平台的成功</strong>
+            <p>它替使用者藏起網路的複雜，也把所有關係改寫成自己的資料結構。</p>
+          </div>
+          <footer class="sourcebar">
+            <span>06 / 30</span
+            ><a href="https://networkcultures.org/blog/publication/stuck-on-the-platform/"
+              >Geert Lovink · Stuck on the Platform</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              網路原本充滿協議、網站、入口與歧義。平台把這些東西包成一套順手介面。這份便利是真實的，不能靠懷舊取消。
+            </p>
+            <p>
+              代價也很清楚。當按鈕與資料結構都由同一家公司決定，網友能做什麼、關係能長成什麼樣子，就被壓縮在產品設計裡。
+            </p></template
+          >
+        </article>
+
+        <article class="slide orange-paper" id="slide-7" data-room="房間一" data-slide="7">
+          <header>
+            <p class="room-tag">平台情緒工廠</p>
+            <h2>三條輸送帶餵飽無限捲動</h2>
+          </header>
+          <div class="poison-cards">
+            <button class="poison reveal" data-note="rage">
+              <img src="assets/image14.png" alt="Rage bait 新聞截圖" /><b>Rage Bait</b
+              ><span>憤怒誘餌</span>
+            </button>
+            <button class="poison reveal" data-note="slop">
+              <img src="assets/image15.png" alt="AI slop 新聞截圖" /><b>AI Slop</b
+              ><span>低成本內容泥</span>
+            </button>
+            <button class="poison reveal" data-note="para">
+              <img src="assets/image22.png" alt="社群平台互動截圖" /><b>Parasocial</b
+              ><span>擬社會關係</span>
+            </button>
+          </div>
+          <aside class="note-pop" id="rage">
+            <button aria-label="關閉">×</button>
+            <h3>憤怒誘餌</h3>
+            <p>把可預測的情緒反應包成內容。爭議越容易辨認，傳播成本越低。</p>
+          </aside>
+          <aside class="note-pop" id="slop">
+            <button aria-label="關閉">×</button>
+            <h3>內容泥</h3>
+            <p>生成成本下降，供給暴增。平台的推薦與清理能力成為新的瓶頸。</p>
+          </aside>
+          <aside class="note-pop" id="para">
+            <button aria-label="關閉">×</button>
+            <h3>擬社會關係</h3>
+            <p>大量單向親密感讓創作者與觀眾互相需要，也把可見度變成勞動。</p>
+          </aside>
+          <p class="bottom-thesis reveal">
+            這三者共享同一座工廠。它把情緒密度換成停留時間，再把停留時間換成收入。
+          </p>
+          <footer class="sourcebar">
+            <span>07 / 30</span
+            ><a href="https://mashbean.net/facebook/2026/0113-ybhhvr/"
+              >mashbean.net · 給 Z 世代的末日寶懺</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              牛津年度詞彙把 Rage Bait、AI Slop 與 Parasocial
+              帶進了大眾討論。放在同一頁看，它們剛好構成平台的內容、情緒與關係三角。
+            </p>
+            <p>
+              內容可以大量生產，憤怒可以迅速分發，親密感則讓大家持續回來。使用者感覺自己在看世界，平台看到的是可穩定運轉的供應鏈。
+            </p></template
+          >
+        </article>
+
+        <article class="slide orange-paper" id="slide-8" data-room="房間一" data-slide="8">
+          <header>
+            <p class="room-tag">每一代都有自己的籠子</p>
+            <h2>平台名稱一直換，遷移難題留了下來</h2>
+          </header>
+          <div class="conveyor reveal" data-action="conveyor">
+            <div><b>BBS</b><small>帳號與看板</small></div>
+            <div><b>部落格</b><small>連結與訂閱</small></div>
+            <div><b>Facebook</b><small>真實社交圖譜</small></div>
+            <div><b>Instagram</b><small>視覺身分</small></div>
+            <div><b>Threads</b><small>公共談話</small></div>
+            <div><b>下一個</b><small>尚未命名</small></div>
+          </div>
+          <p class="lead reveal">
+            我們曾經會自己架站、換站、搬家。平台世代學會了追蹤與被追蹤，也把離開理解成失聯。
+          </p>
+          <footer class="sourcebar">
+            <span>08 / 30</span
+            ><a href="https://mashbean.net/blog/2023/0602-9qt3wq/"
+              >mashbean.net · Elixus 與早期網絡文化</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              不要把問題簡化成 Z
+              世代沈迷。每一代都在不同技術裡長出歸屬，也都付出退出成本。差異在於，早期網路的搬家能力比較常見，平台世代則把社交圖譜交給同一套產品。
+            </p>
+            <p>
+              「下一個平台」看起來像出口，歷史常常只是把同一批關係搬進另一間更漂亮的房間。
+            </p></template
+          >
+        </article>
+
+        <article class="slide orange-paper" id="slide-9" data-room="房間一" data-slide="9">
+          <header>
+            <p class="room-tag">房間一出口</p>
+            <h2>共同生活被拆成可計價的零件</h2>
+          </header>
+          <div class="conversion-flow reveal">
+            <div><b>關係</b><span>朋友、同事、讀者</span></div>
+            <i>→</i>
+            <div><b>互動</b><span>讚、留言、轉發</span></div>
+            <i>→</i>
+            <div><b>指標</b><span>觸及、留存、轉換</span></div>
+            <i>→</i>
+            <div><b>價格</b><span>廣告、訂閱、估值</span></div>
+          </div>
+          <blockquote class="poster reveal">我們困住的地方，原本叫做社會生活。</blockquote>
+          <p class="lead reveal">平台讓關係可見、可管理、可放大，也讓它更容易被交易與排名。</p>
+          <footer class="sourcebar">
+            <span>09 / 30</span
+            ><a href="https://networkcultures.org/blog/publication/stuck-on-the-platform/"
+              >《困在社群平台》· Platform Realism</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這一條轉換鏈並非陰謀論。平台需要衡量互動才能運作，社群也需要工具才能治理。問題發生在所有價值都被壓進單一指標，所有資源又由指標反過來分配。
+            </p>
+            <p>
+              社會生活因此帶上產品迭代的節奏。關係要更快，內容要更多，創作者要一直在線。
+            </p></template
+          >
+        </article>
+
+        <article class="slide blue-paper" id="slide-10" data-room="房間二" data-slide="10">
+          <header>
+            <p class="room-tag">房間二 · 社群到底是什麼</p>
+            <h2>社群是一群人反覆完成事情</h2>
+          </header>
+          <div class="community-orbit reveal">
+            <div class="orbit-center">共同目的</div>
+            <span style="--a: 0deg">記憶</span><span style="--a: 60deg">照顧</span
+            ><span style="--a: 120deg">衝突</span><span style="--a: 180deg">分工</span
+            ><span style="--a: 240deg">規則</span><span style="--a: 300deg">資源</span>
+          </div>
+          <div class="copy-block right-copy reveal">
+            <p class="big-copy">人數、追蹤與流量只能描出外框。</p>
+            <p>真正維持社群的是可重複的合作、爭議處理、共同記憶，以及下一次還願意回來的理由。</p>
+          </div>
+          <footer class="sourcebar">
+            <span>10 / 30</span
+            ><a href="https://mashbean.net/blog/2025/1230-27sdpg/"
+              >mashbean.net · 平台還在，社群可能已經離開</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              社群常被平台化約成使用者數與互動率。換一個角度，它是一群人能否反覆完成某些事情。一起寫作、維護知識、照顧新人、處理衝突、募款或辦活動。
+            </p>
+            <p>
+              只要這些能力存在，社群可以換工具。能力若全都鎖在產品功能裡，平台還在，社群也可能慢慢消失。
+            </p></template
+          >
+        </article>
+
+        <article class="slide blue-paper" id="slide-11" data-room="房間二" data-slide="11">
+          <header>
+            <p class="room-tag">網路曾經長得比較亂</p>
+            <h2>Elixus 留下的不是懷舊，是組織方法</h2>
+          </header>
+          <div class="image-wall">
+            <img
+              class="torn reveal"
+              src="assets/elixus-01.jpeg"
+              alt="Elixus 早期網路社群畫面"
+            /><img
+              class="torn reveal"
+              src="assets/elixus-02.jpeg"
+              alt="Elixus 網絡空間相關歷史圖像"
+            />
+          </div>
+          <div class="caption-card reveal">
+            <b>網絡空間</b>
+            <p>
+              網站、IRC、實體聚會、共同創作與開源工具交錯。每個入口都不完整，因此每個人都要學會連接。
+            </p>
+          </div>
+          <footer class="sourcebar">
+            <span>11 / 30</span><a href="https://mashbean.net/blog/2023/0602-9qt3wq/">Elixus 上篇</a
+            ><a href="https://mashbean.net/blog/2023/0621-1wb5ca/">Elixus 下篇</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這裡不主張回到撥接時代。Elixus
+              的價值在於提醒我們，社群可以跨越很多媒介存在。網站只是門面，聊天室負責即時對話，實體聚會建立信任，共同作品又把人帶回來。
+            </p>
+            <p>當入口很多，維護較辛苦，權力也比較難集中在單一推薦演算法裡。</p></template
+          >
+        </article>
+
+        <article class="slide blue-paper" id="slide-12" data-room="房間二" data-slide="12">
+          <header>
+            <p class="room-tag">公共廣場的租約</p>
+            <h2>Threads 同時像廣場、商場與新聞台</h2>
+          </header>
+          <div class="split threads-slide">
+            <img
+              class="phone-shot reveal"
+              src="assets/threads-01.jpeg"
+              alt="Threads 與公共領域文章配圖"
+            />
+            <div class="meter-panel reveal">
+              <label>朋友的談話 <input type="range" min="0" max="100" value="78" /></label
+              ><label>政治內容 <input type="range" min="0" max="100" value="34" /></label
+              ><label>品牌與網紅 <input type="range" min="0" max="100" value="66" /></label>
+              <p>我們可以說話，房東仍握著擴音器、動線與租約。</p>
+            </div>
+          </div>
+          <button class="note-btn" data-note="n12">補充　公共領域與服務型社交</button>
+          <aside class="note-pop" id="n12">
+            <button aria-label="關閉">×</button>
+            <h3>滑脆作為問題意識</h3>
+            <p>
+              平台提供新的公共談話感，也能隨時調整政治內容與推薦。社交資本被轉換成服務、身分與可見度。
+            </p>
+          </aside>
+          <footer class="sourcebar">
+            <span>12 / 30</span
+            ><a href="https://mashbean.net/blog/2024/0520-5jw9x0/"
+              >mashbean.net · 滑脆作為一種問題意識</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              Threads
+              的吸引力真實存在。很多人重新感到網路上有人說話，公共議題也找到新的流動方式。與此同時，政治內容的可見性、推薦節奏與帳號連動都由
+              Meta 決定。
+            </p>
+            <p>公共領域如果住在商業產品裡，使用者擁有發言空間，卻沒有同等的制度權力。</p></template
+          >
+        </article>
+
+        <article class="slide blue-paper" id="slide-13" data-room="房間二" data-slide="13">
+          <header>
+            <p class="room-tag">假出口測試</p>
+            <h2>有些門可以打開，走出去仍在同一棟樓</h2>
+          </header>
+          <div class="fake-exits" data-action="fake-exits">
+            <button>刪除 App</button><button>換一個平台</button><button>買會員</button
+            ><button>全部上鏈</button><button>交給 AI 管理</button>
+          </div>
+          <div class="door-message" id="door-message">請選一扇門</div>
+          <p class="lead reveal">
+            個人可以短暫離場，社交圖譜、治理規則與經濟依賴仍然需要搬遷方案。
+          </p>
+          <footer class="sourcebar">
+            <span>13 / 30</span
+            ><a href="https://networkcultures.org/blog/publication/stuck-on-the-platform/"
+              >《困在社群平台》· Platform Exodus</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              五個選項都有用途。刪 App 能休息，換平台能改善體驗，會員費可支持服務，區塊鏈和 AI
+              也能處理部分問題。它們單獨出現時，很容易把權力關係留在原地。
+            </p>
+            <p>完整出口需要同時處理人、資料、規則與錢。少一項，搬家就會在半路停下。</p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-14" data-room="房間三" data-slide="14">
+          <header>
+            <p class="room-tag">房間三 · 走進平台機房</p>
+            <h2>在 Matters，我從使用者走到營運現場</h2>
+          </header>
+          <div class="split profile-slide">
+            <img
+              class="photo torn reveal"
+              src="assets/matters-community.jpg"
+              alt="Matters 社群成員聚會"
+            />
+            <div class="copy-block reveal">
+              <p class="big-copy">
+                使用平台時看見內容與朋友。營運平台時，還會看見預算、濫用、客服、基礎建設與每天出現的新例外。
+              </p>
+              <div class="role-switch" data-action="role-switch">
+                <button class="active">使用者</button><button>營運者</button
+                ><button>共同治理者</button>
+              </div>
+            </div>
+          </div>
+          <footer class="sourcebar">
+            <span>14 / 30</span
+            ><a href="https://mashbean.net/blog/2026/0806-ls5lmz/">mashbean.net · 離職回顧與展望</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              我在 Matters
+              經歷了角色轉換。作為使用者，我在意能否寫作、讀到好文章、遇到有趣的人。進入營運團隊後，每一個功能背後都連著成本與衝突。
+            </p>
+            <p>
+              這也讓我不再把平台治理想成一道規則題。它同時牽涉市場、技術、社群與制度，而且每天會冒出新的例外。
+            </p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-15" data-room="房間三" data-slide="15">
+          <header>
+            <p class="room-tag">同一座城市的四張地圖</p>
+            <h2>平台問題會在四個宇宙同時發生</h2>
+          </header>
+          <div class="quadrants" data-action="quadrants">
+            <button><b>市場</b><span>收入、成長、資本</span><small>誰付錢</small></button
+            ><button><b>平台</b><span>排序、介面、資料</span><small>誰能看見</small></button
+            ><button><b>社群</b><span>規範、信任、文化</span><small>誰願留下</small></button
+            ><button><b>架構</b><span>協議、主機、權限</span><small>誰能接管</small></button>
+          </div>
+          <p class="bottom-thesis reveal">只修一張地圖，問題會從另外三張繞回來。</p>
+          <footer class="sourcebar">
+            <span>15 / 30</span
+            ><a href="https://mashbean.net/blog/2026/0806-ls5lmz/">mashbean.net · 四個平行宇宙</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這是我在 Matters
+              最常用的分析框架。市場要求可持續，產品決定互動形狀，社群形成實際規範，架構則決定資料和權限能否移動。
+            </p>
+            <p>
+              很多改革停在其中一格。開源沒有處理營運費，非營利沒有自動帶來社群治理，去中心化也可能保留投機市場。
+            </p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-16" data-room="房間三" data-slide="16">
+          <header>
+            <p class="room-tag">內容治理輸送帶</p>
+            <h2>每一則垃圾背後都需要一條程序</h2>
+          </header>
+          <div class="moderation-flow reveal">
+            <div><b>偵測</b><span>訊號與回報</span></div>
+            <i>→</i>
+            <div><b>分類</b><span>垃圾、詐騙、騷擾</span></div>
+            <i>→</i>
+            <div><b>處置</b><span>降權、封鎖、移除</span></div>
+            <i>→</i>
+            <div><b>通知</b><span>理由與影響</span></div>
+            <i>→</i>
+            <div><b>申訴</b><span>重新檢視</span></div>
+          </div>
+          <div class="copy-block reveal">
+            <p class="big-copy">清理內容很容易被想成掃地。真正困難的是證據、尺度、透明度與救濟。</p>
+          </div>
+          <footer class="sourcebar">
+            <span>16 / 30</span
+            ><a href="https://governance.matters.town/">governance.matters.town</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              平台清道夫不是拿著掃把看見垃圾就刪。自動偵測會誤判，使用者檢舉會被濫用，同一段文字放在不同脈絡也可能完全不同。
+            </p>
+            <p>
+              因此治理必須是一條程序。從訊號、分類、處置到通知與申訴，每一段都需要留下理由，才能被檢視與修正。
+            </p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-17" data-room="房間三" data-slide="17">
+          <header>
+            <p class="room-tag">平台清道夫實驗</p>
+            <h2>先讓正常內容重新被看見</h2>
+          </header>
+          <div class="cleaner-gallery">
+            <figure class="reveal">
+              <img src="assets/platform-cleaner-spectrum.jpg" alt="平台清道夫專案頻譜視覺" />
+              <figcaption>濫用行為不是二分法</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/platform-cleaner-dns-rpz.jpg" alt="DNS RPZ 類比平台清理" />
+              <figcaption>共享清單與本地決策</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/platform-cleaner-result.jpg" alt="清理垃圾內容後正常內容恢復可見" />
+              <figcaption>清理後的公共空間</figcaption>
+            </figure>
+          </div>
+          <footer class="sourcebar">
+            <span>17 / 30</span
+            ><a href="https://mashbean.net/decks/twnic-2026-platform-cleaner/"
+              >敝帚自珍的平台清道夫</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              平台清道夫借用 DNS RPZ
+              的想像。社群可以共享可疑訊號，每個服務仍保留自己的政策與最終決定。這樣做把情報合作和治理權分開。
+            </p>
+            <p>
+              專案的目標很樸素。大量詐騙與垃圾不該壟斷人的注意力，正常內容應該有重新被看見的機會。
+            </p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-18" data-room="房間三" data-slide="18">
+          <header>
+            <p class="room-tag">程序就是公共介面</p>
+            <h2>治理要能回答五個問題</h2>
+          </header>
+          <div class="five-questions reveal">
+            <button data-answer="誰制定規則">誰制定</button
+            ><button data-answer="誰提出證據">誰舉證</button
+            ><button data-answer="誰執行處置">誰執行</button
+            ><button data-answer="誰可以申訴">誰申訴</button
+            ><button data-answer="誰檢視結果">誰監督</button>
+          </div>
+          <div class="answer-screen" id="answer-screen">點一個問題查看治理責任</div>
+          <p class="lead reveal">
+            透明度報告只能看見結果。可問責治理還要讓程序、權限與救濟路徑可理解。
+          </p>
+          <footer class="sourcebar">
+            <span>18 / 30</span><a href="https://governance.matters.town/">Matters Governance</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              貼出一份規則只是起點，治理還要回答責任如何分配。誰制定、誰舉證、誰執行、誰能申訴、最後由誰監督。
+            </p>
+            <p>
+              這五個問題也能用來檢查任何平台。答案如果全部指向公司內部，我們擁有的是服務條款。答案若能讓社群參與、權限可替換、程序可申訴，才開始接近共同治理。
+            </p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-19" data-room="房間三" data-slide="19">
+          <header>
+            <p class="room-tag">非營利平台的生存題</p>
+            <h2>拿掉股東抽取，帳單仍會寄來</h2>
+          </header>
+          <div class="balance reveal" data-action="balance">
+            <div class="balance-arm">
+              <span class="pan users">公共使命</span><span class="pivot">◆</span
+              ><span class="pan money">持續收入</span>
+            </div>
+            <input
+              id="balance-range"
+              type="range"
+              min="0"
+              max="100"
+              value="50"
+              aria-label="使命與收入平衡"
+            />
+          </div>
+          <div class="funding-cards">
+            <div><b>捐款</b><span>信任密集，波動也大</span></div>
+            <div><b>會員</b><span>關係較穩，規模有限</span></div>
+            <div><b>基金與公帑</b><span>可支持公共品，也帶來專案週期</span></div>
+            <div><b>服務收入</b><span>需要清楚界定誰是客戶</span></div>
+          </div>
+          <footer class="sourcebar">
+            <span>19 / 30</span
+            ><a href="https://pro.mashbean.net/reports/2026-03-30-nonprofit-platform-sustainability"
+              >非營利的社群平台能活下去嗎</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              非營利可以移除一部分股東回報壓力，卻不會讓伺服器、人力、安全與客服免費。Wikipedia
+              的捐款模型非常強，也很難直接複製。
+            </p>
+            <p>
+              真正的題目是收入來源能否和公共使命相容。錢從哪裡來，治理就會聽見哪一種聲音。多元收入通常比單一救世主可靠。
+            </p></template
+          >
+        </article>
+
+        <article class="slide purple-paper" id="slide-20" data-room="房間三" data-slide="20">
+          <header>
+            <p class="room-tag">去中心化服務墓園</p>
+            <h2>協議能活著，產品仍可能關門</h2>
+          </header>
+          <div class="case-strip" data-action="case-strip">
+            <button>
+              <img src="assets/image6.png" alt="Mirror 與 Paragraph 整併公告" /><b>Mirror</b
+              ><span>資本與產品整併</span></button
+            ><button>
+              <img src="assets/image9.png" alt="Lens 網站" /><b>Lens</b
+              ><span>協議與使用體驗</span></button
+            ><button>
+              <img src="assets/image7.png" alt="Liker Social 公告" /><b>Liker Social</b
+              ><span>社群與收入</span></button
+            ><button>
+              <img src="assets/image17.png" alt="跨平台社交身分圖" /><b>可攜身分</b
+              ><span>節點仍需維護</span>
+            </button>
+          </div>
+          <p class="bottom-thesis reveal">
+            去中心化降低單點控制，營運、治理與資源問題依然每天報到。
+          </p>
+          <footer class="sourcebar">
+            <span>20 / 30</span
+            ><a href="https://mashbean.net/blog/2026/0420-1des7o/"
+              >mashbean.net · 去中心社群網路服務又死了一批</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這頁故意做成墓園，並不是嘲笑失敗。每一個停止、併購與轉型的案例都在告訴我們，技術協議只是生存條件之一。
+            </p>
+            <p>
+              使用體驗、開發者生態、資金週期與社群治理都會決定產品能否留下。去中心化最珍貴的地方，是服務關閉時，資料與關係還有沒有下一條路。
+            </p></template
+          >
+        </article>
+
+        <article class="slide green-paper" id="slide-21" data-room="房間四" data-slide="21">
+          <header>
+            <p class="room-tag">房間四 · 逃脫工具桌</p>
+            <h2>五把鑰匙必須一起工作</h2>
+          </header>
+          <div class="escape-map" data-action="escape-map">
+            <svg viewBox="0 0 900 520" role="img" aria-label="五條逃脫路徑連到共同出口">
+              <path data-draw d="M110 90 C330 90 330 250 450 260" />
+              <path data-draw d="M110 180 C300 180 320 250 450 260" />
+              <path data-draw d="M110 270 C290 270 320 260 450 260" />
+              <path data-draw d="M110 360 C300 360 320 280 450 260" />
+              <path data-draw d="M110 450 C330 450 330 280 450 260" />
+              <path data-draw d="M450 260 C610 260 650 260 810 260" />
+            </svg>
+            <button style="--y: 8%" data-key="協議">01 協議</button
+            ><button style="--y: 25%" data-key="結社">02 結社</button
+            ><button style="--y: 42%" data-key="治理">03 治理</button
+            ><button style="--y: 59%" data-key="金流">04 金流</button
+            ><button style="--y: 76%" data-key="抗審查">05 抗審查</button>
+            <div class="exit-node">共同出口<br /><small>可搬、可管、可活</small></div>
+          </div>
+          <footer class="sourcebar">
+            <span>21 / 30</span
+            ><a href="https://networkcultures.org/blog/publication/stuck-on-the-platform/"
+              >《困在社群平台》· Configuring the Techno-Social</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              從這一頁開始進入工具桌。五把鑰匙分別處理技術互通、集體組織、規則權力、資源續命與高壓環境下的可用性。
+            </p>
+            <p>
+              它們沒有固定順序。不同社群會從不同位置開始，最後仍要把五條路接在一起。只有協議，沒有人組織；只有社群，沒有資源；只有錢，沒有治理，都會卡住。
+            </p></template
+          >
+        </article>
+
+        <article class="slide green-paper" id="slide-22" data-room="房間四" data-slide="22">
+          <header>
+            <p class="room-tag">鑰匙 01 · 協議</p>
+            <h2>聯邦宇宙讓不同房東仍能互相通話</h2>
+          </header>
+          <div class="fediverse" data-action="fediverse">
+            <svg viewBox="0 0 900 560" aria-hidden="true">
+              <path data-draw d="M180 160 Q450 40 720 160" />
+              <path data-draw d="M180 160 Q450 280 720 160" />
+              <path data-draw d="M180 160 Q260 420 450 420" />
+              <path data-draw d="M720 160 Q650 420 450 420" /></svg
+            ><button class="node n1">Mastodon</button><button class="node n2">Pixelfed</button
+            ><button class="node n3">WriteFreely</button><button class="node n4">本地社群</button
+            ><span class="packet">✦</span>
+          </div>
+          <div class="copy-block side-copy reveal">
+            <p class="big-copy">選擇服務，不必放棄跨站關係。</p>
+            <p>ActivityPub 把互通放在協議層。節點可以有自己的管理方式，也能彼此追蹤與交換內容。</p>
+          </div>
+          <footer class="sourcebar">
+            <span>22 / 30</span
+            ><a href="https://mashbean.net/blog/2026/0320-4pwvru/">台灣 Fediverse 聯邦宇宙知識庫</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              聯邦宇宙很像電子郵件。不同服務商可以互寄，使用者不必全部住在同一家公司。這讓社群有選擇房東、自己架站或遷移的可能。
+            </p>
+            <p>
+              它也沒有消滅治理。每個節點都需要管理、金錢與信任。互通只是把「非得所有人在同一平台」這把鎖打開。
+            </p></template
+          >
+        </article>
+
+        <article class="slide green-paper" id="slide-23" data-room="房間四" data-slide="23">
+          <header>
+            <p class="room-tag">鑰匙 02 · 數位結社</p>
+            <h2>先組織人，再挑工具</h2>
+          </header>
+          <div class="association-flow reveal">
+            <div><b>共同問題</b><span>我們要解決什麼</span></div>
+            <i>→</i>
+            <div><b>成員邊界</b><span>誰能加入與代表</span></div>
+            <i>→</i>
+            <div><b>分工承諾</b><span>誰做什麼</span></div>
+            <i>→</i>
+            <div><b>工具組合</b><span>聊天室、論壇、金庫、網站</span></div>
+          </div>
+          <div class="copy-block reveal">
+            <p class="big-copy">App 不會自動長出共同體。結社先決定承諾與責任，再讓工具支援它。</p>
+          </div>
+          <footer class="sourcebar">
+            <span>23 / 30</span
+            ><a href="https://mashbean.net/blog/2023/0621-1wb5ca/"
+              >Elixus 下篇 · 網絡空間與底層迷因</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              數位結社與建立群組很不一樣。群組只要一個按鈕，結社需要回答共同問題、成員邊界、分工與承諾。
+            </p>
+            <p>
+              工具應該在後面出場。當組織先成形，大家可以混用聊天室、論壇、雲端文件、網站與金庫。任何一個工具退出，社群仍保有重新連接的能力。
+            </p></template
+          >
+        </article>
+
+        <article class="slide green-paper" id="slide-24" data-room="房間四" data-slide="24">
+          <header>
+            <p class="room-tag">鑰匙 03 · 可問責治理</p>
+            <h2>把管理員權力改造成看得見的制度</h2>
+          </header>
+          <div class="governance-loop reveal">
+            <div>提案</div>
+            <i>→</i>
+            <div>討論</div>
+            <i>→</i>
+            <div>決定</div>
+            <i>→</i>
+            <div>執行</div>
+            <i>→</i>
+            <div>檢視</div>
+          </div>
+          <div class="governance-checks">
+            <span>權限有期限</span><span>決策有紀錄</span><span>少數有救濟</span
+            ><span>管理者可替換</span>
+          </div>
+          <p class="lead reveal">治理的目標不只在做出決定，也要讓不同意的人知道下一步怎麼走。</p>
+          <footer class="sourcebar">
+            <span>24 / 30</span><a href="https://governance.matters.town/">Matters Governance</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              很多社群靠幾位可信任的管理員撐起來。規模變大後，個人信任需要轉成制度。權限多久、決策怎麼留下、申訴去哪裡、管理者如何更換。
+            </p>
+            <p>
+              制度不必一開始就很重。先讓權力可見，再逐步把高風險決定放進可討論、可追蹤的流程。
+            </p></template
+          >
+        </article>
+
+        <article class="slide green-paper" id="slide-25" data-room="房間四" data-slide="25">
+          <header>
+            <p class="room-tag">鑰匙 04 · 金流自由</p>
+            <h2>能收錢、能分配、能退出，才有經濟自主</h2>
+          </header>
+          <div class="money-ring reveal" data-action="money-ring">
+            <button>會員</button><button>捐款</button><button>訂閱</button><button>公共資助</button
+            ><button>授權</button><button>協作分潤</button>
+            <div>社群<br />金庫</div>
+          </div>
+          <div class="copy-block side-copy reveal">
+            <p class="big-copy">分潤只是其中一條路。</p>
+            <p>
+              真正重要的是收入來源多元、規則可理解、分配可檢查，社群也保有離開單一支付中介的能力。
+            </p>
+          </div>
+          <footer class="sourcebar">
+            <span>25 / 30</span
+            ><a href="https://pro.mashbean.net/reports/2026-04-21-media-revenue-experiments/"
+              >分潤之外的分潤 · 媒體營收實驗</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              平台分潤很方便，也會把創作者收入綁在流量與政策上。世界各地的媒體正在測試會員、打包訂閱、議價、授權、公共資助與小額支付。
+            </p>
+            <p>
+              金流自由不是每個人都用加密貨幣。它要求社群能選擇收款管道、看懂分配規則，並在中介封鎖或改價時保有替代路徑。
+            </p></template
+          >
+        </article>
+
+        <article class="slide green-paper" id="slide-26" data-room="房間四" data-slide="26">
+          <header>
+            <p class="room-tag">鑰匙 05 · 抗審查</p>
+            <h2>自由需要多層備援，不靠單一英雄</h2>
+          </header>
+          <div class="defense-stack" data-action="defense-stack">
+            <button><b>內容</b><span>備份、鏡像、可驗證來源</span></button
+            ><button><b>傳輸</b><span>代理、替代路徑、聯邦交換</span></button
+            ><button><b>身分</b><span>可攜帳號、金鑰、社群背書</span></button
+            ><button><b>金流</b><span>多元收款與自主保管</span></button
+            ><button><b>組織</b><span>分散分工與復原演練</span></button>
+          </div>
+          <p class="bottom-thesis reveal">韌性來自替代路徑的數量，也來自大家是否知道怎麼切換。</p>
+          <footer class="sourcebar">
+            <span>26 / 30</span
+            ><a href="https://mashbean.net/blog/2025/0118-1vwga8/">戍衛轉型指南</a>
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              抗審查不能只靠某一個神奇協議。內容有備份，傳輸有替代路徑，身分能重建，金流不被單點卡住，組織也要知道誰在什麼情況下接手。
+            </p>
+            <p>
+              這就是戍衛轉型的精神。自由需要落在一組具體能力裡，而且能在壓力來臨前持續練習。
+            </p></template
+          >
+        </article>
+
+        <article class="slide security-paper" id="slide-27" data-room="房間四" data-slide="27">
+          <header>
+            <p class="room-tag">Stacktivism</p>
+            <h2>每一層都能成為行動現場</h2>
+          </header>
+          <div class="stack-layers" data-action="stack-layers">
+            <button><b>介面</b><span>避免操弄，提供篩選與脈絡</span></button
+            ><button><b>討論</b><span>論壇、審議、共同編輯</span></button
+            ><button><b>資料</b><span>可攜、可驗證、公共資料庫</span></button
+            ><button><b>協議</b><span>互通標準與自由軟體</span></button
+            ><button><b>基礎設施</b><span>分散主機、儲存與網路</span></button
+            ><button><b>經濟</b><span>點對點支付與貢獻分配</span></button>
+          </div>
+          <button class="note-btn" data-note="n27">補充　洛文克書末的技術社會配置</button>
+          <aside class="note-pop" id="n27">
+            <button aria-label="關閉">×</button>
+            <h3>Stacktivism</h3>
+            <p>
+              把行動放進整個技術堆疊。公共資料庫、分散基礎設施、自由作業系統、非操弄介面、篩選器、審議論壇與貢獻經濟彼此支援。
+            </p>
+          </aside>
+          <footer class="sourcebar">
+            <span>27 / 30</span
+            ><a href="https://networkcultures.org/blog/publication/stuck-on-the-platform/"
+              >《困在社群平台》· Stacktivism</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              洛文克在書末提出 Stacktivism。與其等待一個取代平台的完美
+              App，不如把整個技術堆疊都看成行動現場。
+            </p>
+            <p>
+              介面可以拒絕操弄，資料可以設計成可攜，協議可以互通，基礎設施可以分散，金流也能承認實際貢獻。任何一層的改善都能打開空間，層與層連起來才形成出口。
+            </p></template
+          >
+        </article>
+
+        <article class="slide security-paper" id="slide-28" data-room="出口前室" data-slide="28">
+          <header>
+            <p class="room-tag">實驗紀錄</p>
+            <h2>把案例當路標，不當成功神話</h2>
+          </header>
+          <div class="experiment-grid">
+            <figure class="reveal">
+              <img src="assets/image18.png" alt="聯邦宇宙上的 mashbean 帳號" />
+              <figcaption>聯邦社交與身分遷移</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/image20.png" alt="平台金流紀錄" />
+              <figcaption>貢獻紀錄與社群分配</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/image13.png" alt="Wikidata Taiwan 社群頁面" />
+              <figcaption>公共知識與共同維護</figcaption>
+            </figure>
+            <figure class="reveal">
+              <img src="assets/image26.png" alt="自主新聞讀者的新時代平台圖像" />
+              <figcaption>媒體營收與讀者關係</figcaption>
+            </figure>
+          </div>
+          <p class="bottom-thesis reveal">每個實驗都交出一小塊答案，也留下新的維護工作。</p>
+          <footer class="sourcebar">
+            <span>28 / 30</span
+            ><a href="https://mashbean.net/blog/2026/0320-4pwvru/">聯邦宇宙知識庫</a
+            ><a href="https://pro.mashbean.net/reports/2026-04-21-media-revenue-experiments/"
+              >媒體營收實驗</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              我想避免把任何案例包成勝利故事。聯邦宇宙解開互通，仍需要營運節點。鏈上紀錄提高可驗證性，仍要處理分配正當性。公共知識能共同維護，也需要長期編輯勞動。
+            </p>
+            <p>實驗的價值在於把風險變成可觀察的問題，讓下一個社群不用從零開始。</p></template
+          >
+        </article>
+
+        <article class="slide checklist-paper" id="slide-29" data-room="出口測試" data-slide="29">
+          <header>
+            <p class="room-tag">出口測試 · 五題全亮</p>
+            <h2>這個社群真的搬得走嗎</h2>
+          </header>
+          <div class="escape-checklist" data-action="escape-checklist">
+            <label><input type="checkbox" /><span>資料能匯出，也能在別處重新使用</span></label
+            ><label><input type="checkbox" /><span>成員能重新找到彼此</span></label
+            ><label><input type="checkbox" /><span>規則、權限與申訴路徑能被理解</span></label
+            ><label><input type="checkbox" /><span>收入來源足以維持必要工作</span></label
+            ><label><input type="checkbox" /><span>服務受阻時有替代路徑與接手者</span></label>
+          </div>
+          <div class="lock-meter">
+            <div id="lock-fill"></div>
+            <span id="lock-label">0 / 5　出口上鎖</span>
+          </div>
+          <footer class="sourcebar">
+            <span>29 / 30</span
+            ><a href="https://mashbean.net/facebook/2026/0113-ybhhvr/"
+              >mashbean.net · 從捕蠅紙上下來</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              這五題可以直接帶回自己的社群使用。不需要一次全部做到，也不要把勾選當認證。它是一張用來發現單點依賴的檢查表。
+            </p>
+            <p>
+              如果資料能帶走，人卻找不到彼此，仍然搬不成。規則很透明，卻沒有收入，空間也撐不久。出口是一組相互支援的條件。
+            </p></template
+          >
+        </article>
+
+        <article class="slide final-slide" id="slide-30" data-room="出口" data-slide="30">
+          <div class="final-grid">
+            <div>
+              <p class="tape reveal">選一把今天帶走的鑰匙</p>
+              <h2 class="display reveal">從捕蠅紙上<br />一起下來</h2>
+              <p class="cover-lead reveal">
+                協議、結社、治理、金流、抗審查。你最想先打開哪一把鎖？
+              </p>
+              <div class="final-keys" data-action="final-keys">
+                <button>協議</button><button>結社</button><button>治理</button><button>金流</button
+                ><button>抗審查</button>
+              </div>
+              <p class="byline reveal">黃豆泥 mashbean · 感謝參與密室逃脫演練</p>
+            </div>
+            <div class="flypaper-exit reveal">
+              <div class="tear-hole"><span>EXIT</span></div>
+              <p id="final-choice">出口等你命名</p>
+            </div>
+          </div>
+          <footer class="sourcebar dark">
+            <span>30 / 30</span><a href="https://mashbean.net/">mashbean.net</a
+            ><a href="https://networkcultures.org/blog/publication/stuck-on-the-platform/"
+              >Stuck on the Platform</a
+            >
+          </footer>
+          <template class="speaker-notes"
+            ><p>
+              最後請大家選一把最想帶走的鑰匙。選擇不代表另外四把不重要，只是給下一個行動一個起點。
+            </p>
+            <p>
+              我們不必等到完美替代品降臨。先把關係保存下來，把權力說清楚，把資源接起來。平台仍會存在，我們也能逐步找回搬家與共同建造的能力。
+            </p></template
+          >
+        </article>
+      </div>
+    </main>
+
+    <nav class="controls" aria-label="簡報控制列">
+      <button id="prev" aria-label="上一頁">←</button><span><b id="current-slide">1</b> / 30</span
+      ><button id="next" aria-label="下一頁">→</button
+      ><button id="notes-toggle" aria-label="講者備忘">N</button
+      ><button id="fullscreen" aria-label="全螢幕">F</button>
+    </nav>
+    <aside class="notes-panel" id="notes-panel" aria-hidden="true">
+      <div class="notes-head">
+        <strong>講者備忘</strong><button id="notes-close" aria-label="關閉講者備忘">×</button>
+      </div>
+      <div id="notes-body"></div>
+    </aside>
+    <div class="progress" aria-hidden="true"><div id="progress-fill"></div></div>
+    <script src="vendor/gsap.min.js"></script>
+    <script src="deck.js"></script>
+  </body>
+</html>
