@@ -35,6 +35,18 @@ export const workGroups: Record<Work["group"], { title: string }> = {
 
 export const works: Work[] = [
   {
+    slug: "twdiw-vp-verifier-lite",
+    title: "請出示皮夾",
+    tagline:
+      "輕量化查驗數位憑證。支援數位發展部數位憑證皮夾與有備而來，從用途、最少揭露欄位、個資告知到 Cloudflare 一鍵部署都可公開檢查。",
+    url: "https://verifier.mashbean.net/",
+    repo: "https://github.com/mashbean/twdiw-vp-verifier-lite",
+    chips: ["數位身分", "OpenID4VP", "隱私設計", "開源"],
+    cover: "images/works/twdiw-vp-verifier-lite.jpg",
+    date: "2026-09-03",
+    group: "personal",
+  },
+  {
     slug: "pocket-polis",
     title: "Pocket Polis 口袋審議",
     tagline:
