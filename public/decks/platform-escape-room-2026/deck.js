@@ -193,9 +193,9 @@
   }
 
   function playAmbient(slide) {
-    gsap.killTweensOf(slide.querySelectorAll(".packet, .conveyor"));
-    if (reducedMotion) return;
     const packet = slide.querySelector(".packet");
+    const conveyor = slide.querySelector(".conveyor");
+    if (reducedMotion) return;
     if (packet) {
       gsap.to(packet, {
         keyframes: [
@@ -208,9 +208,20 @@
         ease: "none",
       });
     }
-    const conveyor = slide.querySelector(".conveyor");
-    if (conveyor)
-      gsap.to(conveyor, { x: -120, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+    if (conveyor) {
+      gsap.delayedCall(0.8, () => {
+        if (!slide.classList.contains("is-active")) return;
+        gsap.killTweensOf(conveyor);
+        gsap.set(conveyor, { autoAlpha: 1, x: 0, y: 0, rotate: 0 });
+        gsap.to(conveyor, {
+          x: -120,
+          duration: 4,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut",
+        });
+      });
+    }
   }
 
   function setActive(index, direction = 1) {
@@ -220,6 +231,7 @@
     closePops();
     const oldSlide = slides[currentIndex];
     const newSlide = slides[next];
+    gsap.killTweensOf(oldSlide.querySelectorAll(".packet, .conveyor"));
     if (oldSlide.dataset.room !== newSlide.dataset.room)
       playRoomWipe(newSlide.dataset.room, direction);
     currentIndex = next;

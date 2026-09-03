@@ -154,6 +154,25 @@ header h2 {
 .sourcebar a:hover {
   text-decoration: underline;
 }
+.sourcebar .highlight-tab {
+  flex: 0 0 auto;
+  margin-left: auto;
+  margin-right: 360px;
+  padding: 5px 11px;
+  color: var(--ink);
+  background: var(--acid);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--orange);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transform: rotate(-0.7deg);
+}
+.sourcebar .highlight-tab:hover,
+.sourcebar .highlight-tab:focus-visible {
+  transform: translateY(-2px) rotate(0.3deg);
+}
 .sourcebar.dark {
   color: #f8efd8;
   border-color: #f8efd8;
@@ -326,6 +345,23 @@ header h2 {
   margin: 0;
   font-size: 22px;
   line-height: 1.5;
+}
+.note-pop blockquote {
+  margin: 20px 0 0;
+  padding: 15px 17px;
+  color: var(--ink);
+  background: var(--acid);
+  font-family: "Songti TC", serif;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+.note-pop blockquote cite {
+  display: block;
+  margin-top: 8px;
+  font-family: "PingFang TC", sans-serif;
+  font-size: 13px;
+  font-style: normal;
 }
 .note-pop > button {
   position: absolute;
@@ -593,25 +629,43 @@ header h2 {
   background: repeating-linear-gradient(90deg, #17130f 0 28px, #423a30 29px 58px);
   border: 6px solid var(--ink);
 }
-.conveyor > div {
-  width: 250px;
+.conveyor-stage {
+  width: 100%;
+}
+.conveyor > button {
+  width: 258px;
   min-height: 270px;
-  padding: 26px;
+  padding: 22px;
+  color: var(--ink);
   background: #f7efd6;
   border: 3px solid var(--ink);
   box-shadow: 6px 6px 0 var(--blue);
+  text-align: left;
+  cursor: pointer;
 }
 .conveyor b,
-.conveyor small {
+.conveyor small,
+.conveyor span {
   display: block;
 }
 .conveyor b {
-  margin-top: 50px;
-  font-size: 38px;
+  margin-top: 8px;
+  font-size: 35px;
 }
 .conveyor small {
   margin-top: 16px;
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 850;
+  line-height: 1.4;
+}
+.conveyor span {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 2px dashed var(--ink);
+  color: #614e3d;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.45;
 }
 .conversion-flow,
 .association-flow,
@@ -1959,7 +2013,6 @@ header h2 {
   width: 850px;
   text-align: right;
 }
-#slide-8 .quote-corner,
 #slide-13 .quote-corner,
 #slide-15 .quote-corner,
 #slide-20 .quote-corner,
@@ -1967,6 +2020,60 @@ header h2 {
 #slide-28 .quote-corner,
 #slide-29 .quote-corner {
   width: 620px;
+}
+#slide-8 header {
+  margin-bottom: 24px;
+}
+#slide-8 header h2 {
+  max-width: 1460px;
+  font-size: 54px;
+}
+#slide-8 .conveyor {
+  padding: 24px;
+}
+#slide-8 .lead {
+  max-width: 1680px;
+  margin: 18px 0 0;
+  font-size: 24px;
+  line-height: 1.45;
+}
+#slide-8 .migration-ledger {
+  position: absolute;
+  left: 100px;
+  bottom: 84px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+  width: 890px;
+  padding: 17px 20px;
+  color: var(--ink);
+  background: var(--acid);
+  border: 3px solid var(--ink);
+  box-shadow: 7px 7px 0 var(--blue);
+  transform: rotate(-0.4deg);
+}
+#slide-8 .migration-ledger b,
+#slide-8 .migration-ledger q {
+  grid-column: 1 / -1;
+}
+#slide-8 .migration-ledger b {
+  font-size: 24px;
+}
+#slide-8 .migration-ledger span {
+  font-size: 16px;
+  font-weight: 850;
+}
+#slide-8 .migration-ledger q {
+  padding-top: 8px;
+  border-top: 2px dashed var(--ink);
+  font-family: "Songti TC", serif;
+  font-size: 17px;
+  font-weight: 800;
+}
+#slide-8 .quote-corner {
+  right: 100px;
+  bottom: 86px;
+  width: 720px;
 }
 #slide-9 .poster {
   margin-top: 55px;
