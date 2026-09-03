@@ -6,9 +6,14 @@
   const progressEl = document.getElementById("progress-fill");
   const notesPanel = document.getElementById("notes-panel");
   const notesBody = document.getElementById("notes-body");
+  const clueModal = document.getElementById("clue-modal");
+  const roomTransition = document.getElementById("room-transition");
+  const escapeHud = document.getElementById("escape-hud");
   const timelines = new Map();
+  const collectedKeys = new Set();
   let currentIndex = 0;
   let transition = null;
+  let roomWipe = null;
   let reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let touchStartX = 0;
 
@@ -78,7 +83,105 @@
     progressEl.style.width = `${((currentIndex + 1) / slides.length) * 100}%`;
     history.replaceState(null, "", `#slide-${currentIndex + 1}`);
     document.title = `${currentIndex + 1}/30 · 社群平台密室逃脫`;
+    escapeHud.dataset.visible = currentIndex >= 20 ? "1" : "";
     renderNotes();
+  }
+
+  function updateHud() {
+    document.querySelectorAll("[data-key-slot]").forEach((slot) => {
+      slot.classList.toggle("collected", collectedKeys.has(slot.dataset.keySlot));
+    });
+    document.getElementById("hud-count").textContent = `${collectedKeys.size} / 5`;
+  }
+
+  function awardKey(name, trigger) {
+    if (!name) return;
+    const isNew = !collectedKeys.has(name);
+    collectedKeys.add(name);
+    updateHud();
+    const slot = document.querySelector(`[data-key-slot="${name}"]`);
+    if (trigger) trigger.classList.add("collected");
+    if (slot && isNew)
+      gsap.fromTo(
+        slot,
+        { scale: 0.2, rotate: -160 },
+        { scale: 1, rotate: 0, duration: reducedMotion ? 0 : 0.65, ease: "back.out(2.4)" },
+      );
+  }
+
+  function closeClue() {
+    clueModal.setAttribute("aria-hidden", "true");
+    gsap.to(clueModal, {
+      autoAlpha: 0,
+      x: 28,
+      duration: reducedMotion ? 0 : 0.2,
+      onComplete: () => {
+        clueModal.style.visibility = "hidden";
+      },
+    });
+  }
+
+  function openClue(trigger) {
+    document.getElementById("clue-title").textContent = trigger.dataset.clueTitle || "線索";
+    document.getElementById("clue-body").textContent = trigger.dataset.clueBody || "";
+    document.getElementById("clue-source").textContent = trigger.dataset.clueSource || "";
+    clueModal.setAttribute("aria-hidden", "false");
+    clueModal.style.visibility = "visible";
+    gsap.fromTo(
+      clueModal,
+      { autoAlpha: 0, x: 34, rotate: 2.5 },
+      {
+        autoAlpha: 1,
+        x: 0,
+        rotate: 0.8,
+        duration: reducedMotion ? 0 : 0.34,
+        ease: "back.out(1.7)",
+      },
+    );
+  }
+
+  function playRoomWipe(room, direction) {
+    if (reducedMotion) return;
+    if (roomWipe) roomWipe.progress(1).kill();
+    document.getElementById("transition-room").textContent = room;
+    const left = roomTransition.querySelector(".left");
+    const right = roomTransition.querySelector(".right");
+    const stamp = roomTransition.querySelector(".transition-stamp");
+    roomWipe = gsap
+      .timeline()
+      .set(roomTransition, { autoAlpha: 1, visibility: "visible" })
+      .fromTo(
+        left,
+        { xPercent: direction > 0 ? -105 : 0 },
+        { xPercent: 0, duration: 0.34, ease: "power3.in" },
+      )
+      .fromTo(
+        right,
+        { xPercent: direction > 0 ? 105 : 0 },
+        { xPercent: 0, duration: 0.34, ease: "power3.in" },
+        "<",
+      )
+      .fromTo(
+        stamp,
+        { scale: 1.8, autoAlpha: 0, rotate: -9 },
+        { scale: 1, autoAlpha: 1, rotate: -2, duration: 0.3, ease: "back.out(2)" },
+        ">-0.02",
+      )
+      .to(stamp, { autoAlpha: 0, scale: 0.9, duration: 0.2, delay: 0.18 })
+      .to(
+        left,
+        { xPercent: direction > 0 ? -105 : 105, duration: 0.42, ease: "power3.inOut" },
+        ">-0.02",
+      )
+      .to(
+        right,
+        { xPercent: direction > 0 ? 105 : -105, duration: 0.42, ease: "power3.inOut" },
+        "<",
+      )
+      .set(roomTransition, { autoAlpha: 0, visibility: "hidden" })
+      .eventCallback("onComplete", () => {
+        roomWipe = null;
+      });
   }
 
   function closePops(except) {
@@ -117,6 +220,8 @@
     closePops();
     const oldSlide = slides[currentIndex];
     const newSlide = slides[next];
+    if (oldSlide.dataset.room !== newSlide.dataset.room)
+      playRoomWipe(newSlide.dataset.room, direction);
     currentIndex = next;
     slides.forEach((slide) => {
       if (slide !== oldSlide && slide !== newSlide) {
@@ -178,6 +283,11 @@
 
   function bindInteractions() {
     document.addEventListener("click", (event) => {
+      const clueTrigger = event.target.closest("[data-clue-title]");
+      if (clueTrigger) {
+        openClue(clueTrigger);
+        return;
+      }
       const noteTrigger = event.target.closest("[data-note]");
       if (noteTrigger) {
         const pop = document.getElementById(noteTrigger.dataset.note);
@@ -205,7 +315,10 @@
         return;
       }
       if (!event.target.closest(".note-pop")) closePops();
+      if (!event.target.closest(".clue-modal")) closeClue();
     });
+
+    document.getElementById("clue-close")?.addEventListener("click", closeClue);
 
     document.querySelector('[data-action="print-receipt"]')?.addEventListener("click", () => {
       gsap.to("#platform-receipt", {
@@ -226,6 +339,20 @@
         ? `已移除 ${gone} 項。共同生活少了一塊，平台的退出成本浮現了。`
         : "平台保存的同時，也取得了刪除、降權、改價與改規則的能力。";
       gsap.fromTo("#inventory-result", { scale: 0.98 }, { scale: 1, duration: 0.25 });
+    });
+
+    document.querySelector('[data-action="rule-cards"]')?.addEventListener("click", (event) => {
+      const card = event.target.closest(".rule");
+      if (!card) return;
+      card.parentElement
+        .querySelectorAll(".rule")
+        .forEach((item) => item.classList.toggle("selected", item === card));
+      document.getElementById("rule-result").textContent = card.dataset.result;
+      gsap.fromTo(
+        card,
+        { y: 0, rotate: 0 },
+        { y: -12, rotate: -0.5, duration: reducedMotion ? 0 : 0.35, ease: "back.out(1.8)" },
+      );
     });
 
     document.querySelector('[data-action="fake-exits"]')?.addEventListener("click", (event) => {
@@ -265,17 +392,23 @@
       button.querySelector("small").textContent = "還要看另外三格";
     });
 
-    document.querySelector(".five-questions")?.addEventListener("click", (event) => {
+    document.querySelector(".case-console .five-questions")?.addEventListener("click", (event) => {
       const button = event.target.closest("button");
       if (!button) return;
       const details = {
-        誰制定規則: "規則來源、修訂程序與參與者要公開。",
-        誰提出證據: "使用者回報、自動訊號與外部情報需要標示來源。",
-        誰執行處置: "權限範圍、處置尺度與執行紀錄要能追查。",
-        誰可以申訴: "受影響者需要明確期限、窗口與重新檢視。",
-        誰檢視結果: "社群、獨立機構或多方治理需要看見整體影響。",
+        規則: "範圍先鎖定色情與濫用廣告。明確類型讓志工知道哪裡可以出手，爭議內容留在原程序。",
+        證據: "每次打掃都指向原留言、操作者與時間。四個帳號產生七成違規內容，重複樣態也能被檢查。",
+        權限: "隊員取得隱藏垃圾留言的有限權限，沒有同時取得凍結帳號或改寫規則的能力。",
+        申訴: "被處置者保有申訴與復原路徑。這一週零申訴是觀察結果，還不能當成永遠正確的證明。",
+        稽核: "公開布告欄讓社群看見誰處理了什麼。304 次高度集中因而浮現，可以討論輪替、負荷與誤判。",
       };
       document.getElementById("answer-screen").textContent = details[button.dataset.answer];
+      button.classList.add("checked");
+      const count = document.querySelectorAll(".case-console .five-questions .checked").length;
+      document.getElementById("case-verdict").textContent =
+        count === 5
+          ? "5 / 5　程序、邊界與救濟都能被追查"
+          : `${count} / 5　案件仍有 ${5 - count} 處黑箱`;
       gsap.fromTo(
         "#answer-screen",
         { rotateX: 80, transformOrigin: "50% 0" },
@@ -287,6 +420,32 @@
       const angle = (Number(event.target.value) - 50) / 5;
       gsap.to(".balance-arm", { rotate: angle, duration: 0.22, transformOrigin: "50% 50%" });
     });
+
+    document
+      .querySelector('[data-action="sustainability-cases"]')
+      ?.addEventListener("click", (event) => {
+        const button = event.target.closest("button");
+        if (!button) return;
+        const details = {
+          Wikipedia:
+            "捐款能支撐 25 年，前提是全球品牌、公眾信任與清楚的公共財定位同時存在。這條路很強，也很難複製。",
+          Signal:
+            "加密通訊創造巨大公共價值，近期財務仍靠既有資產與大額支持消耗。使命清楚，收入結構還在找出口。",
+          Mozilla:
+            "基金會加商業子公司提供規模，超過八成收入依賴 Google 搜尋合約，又形成新的單點風險。",
+          Cohost:
+            "工人所有、無廣告、每月 5 美元訂閱仍無法覆蓋每月成本。高度認同與奉獻沒能支付完整帳單。",
+        };
+        button.parentElement
+          .querySelectorAll("button")
+          .forEach((item) => item.classList.toggle("active", item === button));
+        document.getElementById("funding-answer").textContent = details[button.dataset.case];
+        gsap.fromTo(
+          "#funding-answer",
+          { y: 9, autoAlpha: 0.4 },
+          { y: 0, autoAlpha: 1, duration: 0.28 },
+        );
+      });
 
     document.querySelector('[data-action="case-strip"]')?.addEventListener("click", (event) => {
       const card = event.target.closest("button");
@@ -302,23 +461,67 @@
       const key = event.target.closest("button");
       if (!key) return;
       key.classList.toggle("active");
+      awardKey(key.dataset.key, key);
       gsap.fromTo(".exit-node", { scale: 0.92 }, { scale: 1, duration: 0.35, ease: "back.out(2)" });
     });
 
     document.querySelector('[data-action="fediverse"]')?.addEventListener("click", (event) => {
-      const node = event.target.closest("button");
-      if (!node) return;
-      gsap.fromTo(node, { scale: 0.86 }, { scale: 1, duration: 0.38, ease: "elastic.out(1,.45)" });
+      const button = event.target.closest("button");
+      if (!button) return;
+      const details = {
+        互通: "ActivityPub 把貼文、追蹤與回覆放進共享語言，不同站台因此能互相投遞。",
+        治理: "每個節點保有自己的管理政策。房東不同，禁令、審核與社群文化也會不同。",
+        遷移: "帳號與關係有較多出口，實際可攜程度仍取決於服務支援、資料格式與社群協調。",
+        維護: "協議活著不等於節點免費。主機、審核、安全、備份與管理員接班每天都要有人處理。",
+      };
+      button.parentElement
+        .querySelectorAll("button")
+        .forEach((item) => item.classList.toggle("active", item === button));
+      document.getElementById("fedi-answer").textContent = details[button.dataset.fedi];
+      awardKey("協議", button);
+      gsap.fromTo(
+        button,
+        { scale: 0.86 },
+        { scale: 1, duration: 0.38, ease: "elastic.out(1,.45)" },
+      );
+    });
+
+    document.querySelectorAll("[data-key-pickup]").forEach((button) => {
+      button.addEventListener("click", () => {
+        awardKey(button.dataset.keyPickup, button);
+        button.textContent = `已取得「${button.dataset.keyPickup}」`;
+      });
+    });
+
+    document.querySelector('[data-action="admin-locks"]')?.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-lock]");
+      if (!button) return;
+      const details = {
+        規則: "公開一份有版本的規則。誰能修改、何時生效、舊規則去哪裡，都有地址可查。",
+        處置: "高風險權限拆開，設定期限與最小範圍。每一次出手都進公開紀錄。",
+        申訴: "受影響者有另一個窗口，能補充上下文、要求重審，也能在誤判後復原。",
+        交接: "網域、主機、金庫與管理權各自有替補角色。接班演練完成後，社群不用等英雄回來。",
+      };
+      button.classList.add("unlocked");
+      document.getElementById("admin-answer").textContent = details[button.dataset.lock];
+      const count = document.querySelectorAll(".admin-locks .unlocked").length;
+      gsap.to("#admin-fill", { width: `${count * 25}%`, duration: reducedMotion ? 0 : 0.38 });
+      document.getElementById("admin-label").textContent =
+        count === 4 ? "4 / 4　第八天照常開門" : `${count} / 4　還有 ${4 - count} 扇門上鎖`;
+      if (count === 4) awardKey("治理", button);
     });
 
     document.querySelector('[data-action="money-ring"]')?.addEventListener("click", (event) => {
       const button = event.target.closest("button");
       if (!button) return;
-      gsap.fromTo(
-        button,
-        { backgroundColor: "#b9d63c", color: "#17130f", scale: 1.15 },
-        { backgroundColor: "#1e5b41", color: "#f7efdc", scale: 1, duration: 0.6 },
-      );
+      button.classList.add("active");
+      const count = document.querySelectorAll(".money-ring button.active").length;
+      document.getElementById("money-status").textContent =
+        count >= 2
+          ? `${count} / 2　替代收入已接通，金流鑰匙入袋`
+          : `${count} / 2　再接一條收入，解除單點斷炊`;
+      if (count >= 2) awardKey("金流", button);
+      gsap.fromTo(button, { scale: 1.15 }, { scale: 1, duration: 0.6, ease: "back.out(2)" });
       gsap.fromTo(
         ".money-ring div",
         { scale: 0.9 },
@@ -331,9 +534,26 @@
         const button = event.target.closest("button");
         if (!button) return;
         button.classList.toggle("active");
+        if (name === "defense-stack") awardKey("抗審查", button);
         gsap.fromTo(button, { x: -15 }, { x: 0, duration: 0.28 });
       });
     });
+
+    document
+      .querySelector('[data-action="experiment-grid"]')
+      ?.addEventListener("click", (event) => {
+        const card = event.target.closest("figure[data-experiment]");
+        if (!card) return;
+        card.parentElement
+          .querySelectorAll("figure")
+          .forEach((item) => item.classList.toggle("active", item === card));
+        document.getElementById("experiment-answer").textContent = card.dataset.experiment;
+        gsap.fromTo(
+          card,
+          { y: 0 },
+          { y: -13, duration: reducedMotion ? 0 : 0.32, ease: "back.out(1.7)" },
+        );
+      });
 
     document.querySelector('[data-action="escape-checklist"]')?.addEventListener("change", () => {
       const count = document.querySelectorAll(".escape-checklist input:checked").length;
@@ -365,7 +585,7 @@
         .querySelectorAll("button")
         .forEach((b) => b.classList.toggle("active", b === button));
       document.getElementById("final-choice").textContent =
-        `你帶走了「${button.textContent}」這把鑰匙`;
+        `你帶走了「${button.textContent}」這把鑰匙 · 工具袋已有 ${collectedKeys.size} / 5`;
       gsap.fromTo(
         ".tear-hole",
         { scale: 0.72, rotate: -5 },
@@ -420,6 +640,7 @@
       else if (event.key === "Escape") {
         toggleNotes(false);
         closePops();
+        closeClue();
       }
     });
     addEventListener(
@@ -444,6 +665,46 @@
     });
   }
 
+  function bindSceneParallax() {
+    document
+      .querySelectorAll(".case-file img, .fedi-visual img, .admin-visual img, .stack-visual img")
+      .forEach((image) => {
+        const frame = image.parentElement;
+        frame.addEventListener("pointermove", (event) => {
+          if (reducedMotion) return;
+          const rect = frame.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width - 0.5) * 18;
+          const y = ((event.clientY - rect.top) / rect.height - 0.5) * 14;
+          gsap.to(image, {
+            x,
+            y,
+            scale: 1.025,
+            duration: 0.45,
+            ease: "power2.out",
+            overwrite: true,
+          });
+        });
+        frame.addEventListener("pointerleave", () => {
+          gsap.to(image, {
+            x: 0,
+            y: 0,
+            scale: 1,
+            duration: reducedMotion ? 0 : 0.55,
+            ease: "power3.out",
+            overwrite: true,
+          });
+        });
+      });
+    document.querySelectorAll('[tabindex="0"][data-experiment]').forEach((card) => {
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          card.click();
+        }
+      });
+    });
+  }
+
   async function init() {
     updateScale();
     if (document.fonts?.ready) await document.fonts.ready;
@@ -463,6 +724,8 @@
     slides.forEach(buildTimeline);
     bindNavigation();
     bindInteractions();
+    bindSceneParallax();
+    updateHud();
     currentIndex = requestedIndex();
     slides.forEach((slide, i) => {
       const active = i === currentIndex;
