@@ -1181,6 +1181,18 @@
     border: 1px solid #d7e7e1;
     border-radius: 0.9rem;
     overflow: hidden;
+    text-align: center;
+    background: #f4f8f6;
+  }
+  /* 直式手機截圖當封面時，全寬會撐得很高；限高並置中，
+     橫式封面（自然高度低於上限）維持原本的滿版顯示。 */
+  .article-cover img {
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+    max-width: 100%;
+    max-height: 460px;
+    object-fit: contain;
   }
 
   .article-prose {
