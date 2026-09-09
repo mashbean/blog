@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-label="數位憑證皮夾生態系監測儀表板封面">
+  <defs>
+    <style>
+      .cjk { font-family: "PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif; }
+      .mono { font-family: "SF Mono","JetBrains Mono",ui-monospace,monospace; }
+    </style>
+  </defs>
+  <rect width="1200" height="600" fill="#f3f6f2"/>
+  <rect x="0" y="0" width="1200" height="10" fill="#1b4332"/>
+
+  <text x="72" y="120" class="mono" font-size="24" letter-spacing="4" fill="#2d6a4f">ECOSYSTEM MONITOR</text>
+  <text x="70" y="210" class="cjk" font-size="78" font-weight="800" fill="#111a15">數位憑證皮夾生態系監測</text>
+  <text x="72" y="270" class="cjk" font-size="34" font-weight="700" fill="#2d3a33">每天掃描一次，記錄變化</text>
+
+  <!-- 五格指標，對齊儀表板的官方生態系摘要 -->
+  <g>
+    <!-- tile 1 -->
+    <rect x="72" y="332" width="200" height="176" rx="16" fill="#ffffff" stroke="#d9e2dc"/>
+    <circle cx="98" cy="368" r="6" fill="#2d6a4f"/>
+    <text x="118" y="374" class="cjk" font-size="24" font-weight="700" fill="#111a15">官方 API</text>
+    <text x="96" y="440" class="mono" font-size="52" font-weight="800" fill="#1b4332">4</text>
+    <text x="96" y="474" class="cjk" font-size="20" fill="#57645c">個端點正常</text>
+
+    <!-- tile 2 -->
+    <rect x="290" y="332" width="200" height="176" rx="16" fill="#ffffff" stroke="#d9e2dc"/>
+    <circle cx="316" cy="368" r="6" fill="#2d6a4f"/>
+    <text x="336" y="374" class="cjk" font-size="24" font-weight="700" fill="#111a15">撤銷清單</text>
+    <text x="314" y="440" class="mono" font-size="52" font-weight="800" fill="#1b4332">14,604</text>
+    <text x="314" y="474" class="cjk" font-size="20" fill="#57645c">張撤銷 · 60 份</text>
+
+    <!-- tile 3 -->
+    <rect x="508" y="332" width="200" height="176" rx="16" fill="#ffffff" stroke="#d9e2dc"/>
+    <circle cx="534" cy="368" r="6" fill="#2d6a4f"/>
+    <text x="554" y="374" class="cjk" font-size="24" font-weight="700" fill="#111a15">信任清單</text>
+    <text x="532" y="440" class="mono" font-size="52" font-weight="800" fill="#1b4332">43</text>
+    <text x="532" y="474" class="cjk" font-size="20" fill="#57645c">個登記 DID</text>
+
+    <!-- tile 4 -->
+    <rect x="726" y="332" width="200" height="176" rx="16" fill="#ffffff" stroke="#d9e2dc"/>
+    <circle cx="752" cy="368" r="6" fill="#2d6a4f"/>
+    <text x="772" y="374" class="cjk" font-size="24" font-weight="700" fill="#111a15">區塊鏈</text>
+    <text x="750" y="440" class="mono" font-size="52" font-weight="800" fill="#1b4332">41</text>
+    <text x="750" y="474" class="cjk" font-size="20" fill="#57645c">筆鏈上一致</text>
+
+    <!-- tile 5 -->
+    <rect x="944" y="332" width="184" height="176" rx="16" fill="#1b4332"/>
+    <circle cx="970" cy="368" r="6" fill="#95d5b2"/>
+    <text x="990" y="374" class="cjk" font-size="24" font-weight="700" fill="#e9f5ef">原始碼</text>
+    <text x="968" y="440" class="cjk" font-size="30" font-weight="800" fill="#ffffff">GPL-3.0</text>
+    <text x="968" y="474" class="cjk" font-size="20" fill="#b7cec3">每日開源掃描</text>
+  </g>
+
+  <text x="72" y="556" class="cjk" font-size="20" fill="#57645c">API 健康度 · 信任清單 · 撤銷清單 · Arbitrum 鏈上同步 · 官方原始碼活躍度</text>
+</svg>
