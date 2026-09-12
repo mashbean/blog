@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "mentor-madness-2026",
+    title: "A Good Excuse — Hacktivism, inside and outside government",
+    event: "Mentor Madness · SPRIND",
+    date: "2026-09-14",
+    location: "Munich, Germany",
+    lang: "en",
+    featured: true,
+  },
+  {
     slug: "platform-escape-room-2026",
     title: "來一場關於社群平台的密室逃脫！",
     event: "荷事生非",

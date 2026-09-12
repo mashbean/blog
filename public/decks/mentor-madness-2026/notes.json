@@ -1,0 +1,134 @@
+{
+  "en": [
+    {
+      "title": "1. Inside / outside",
+      "paragraphs": [
+        "Good morning, everyone. I'm Yen-Lin Huang, from Taiwan. You can also call me mashbean.",
+        "I'm a medical doctor, and I've also been contributing to Taiwan's civic tech community, g0v. So I'm quite familiar with bureaucratic culture, as well as hacker culture.",
+        "Perhaps because of this, I had the chance to work with Audrey Tang at Taiwan's Ministry of Digital Affairs. I worked on digital public infrastructure and proposed a Digital Identity Wallet project. SPRIND has been working on a European wallet, so this may sound familiar.",
+        "After leaving government, I returned to civic tech and research. Honestly, I couldn't wait to hack on the open-source projects I had worked on inside government. There was still so much I wanted to try, especially around privacy and censorship resistance.",
+        "Today, I'd like to share some personal observations about how cooperation between government and citizens can become more interesting."
+      ]
+    },
+    {
+      "title": "2. You're being very naive",
+      "paragraphs": [
+        "When I joined, the ministry had just been established. Many civil servants applied because they wanted to change things. Outsiders like me joined with much the same idea.",
+        "One day, we were discussing changes to an old system. I said, “This doesn't look that difficult. One engineer could probably fix it in a week or two.”",
+        "My colleagues looked at me in horror.",
+        "“Mashbean, you're being very naive. Government doesn't work like that.”",
+        "[Pause.]",
+        "I really didn't get it. We were changing one or two small things. Why did it need so much time and money?",
+        "Eventually, of course, I understood. Government needs paperwork to establish accountability, so someone can answer when things go wrong. Procurement rules are also meant to prevent corruption and make sure suppliers can deliver.",
+        "But all of this takes work. Some technical colleagues spent so much time managing contracts that they barely had time to touch the systems they were responsible for. Even making a small change themselves could be almost impossible.",
+        "AI doesn't really solve that problem. The code was never the only thing they were waiting for.",
+        "For someone from g0v, this was quite a culture shock. I was used to “release early” and “show me the code.” If I wanted to change my own open-source service, I could just start. We call this do-ocracy.",
+        "I'm less naive now. I still want to change things, but I've become much more interested in what would make a civil servant feel able to try."
+      ]
+    },
+    {
+      "title": "3. An excuse to work together",
+      "paragraphs": [
+        "I've spent roughly four years exploring digital procurement, talking to people with very different interests, including the large suppliers who dominate the market.",
+        "My conclusion is that hacktivism gives people inside and outside government an excuse to step outside their usual constraints.",
+        "Taiwan's Presidential Hackathon is a good example.",
+        "In 2019, President Tsai Ing-wen explained that civil servants could identify a need and form a team with people outside government, instead of immediately starting with a budget and a tender.",
+        "The interesting part, for me, is what happens when people who normally cannot work together finally get to do so.",
+        "Take two government departments. Usually, it's easier to pass a problem to each other than to start a joint project. A hackathon gives them a reason to sit down together. Someone from outside can join that conversation without already having won a government contract.",
+        "And something else matters a lot: a junior colleague can get their boss to pay attention to a problem they've been seeing on the frontline for years.",
+        "The rules haven't disappeared. But suddenly, there's room to do something."
+      ]
+    },
+    {
+      "title": "4. What happened afterwards?",
+      "paragraphs": [
+        "The case I'm most impressed by is “One-Stop Emergency Care,” a winner from the first hackathon in 2018.",
+        "It tried to connect emergency-care information that was scattered across different organisations. As a doctor, I find that very easy to appreciate.",
+        "It didn't stop at a prototype. The National Fire Agency worked with the health ministry and Taiwan's disaster research centre to continue it. Their report on 2024 records automated data transfers in twenty cities and counties, connecting ambulance care with hospital information and patient outcomes.",
+        "A hackathon proposal had become part of a much larger infrastructure effort.",
+        "There's also “Feng Cha,” a water-refill map by CircuPlus. If you have an empty bottle, it helps you find somewhere to fill it.",
+        "I want to be clear: this was already a civic project before it won in 2020. It had around six thousand refill points. The team later reported more than fifteen thousand. The hackathon was one way to help an existing service grow through wider cooperation.",
+        "LASS, an open-source environmental sensing community, is another case I like. It was already working with the Water Resources Agency before winning in 2021. Around the Touqian River, they continued sharing maps and local knowledge through regular collaboration meetings.",
+        "That continued relationship is what interests me. Winning a prize is nice, but do people still work together afterwards?"
+      ]
+    },
+    {
+      "title": "5. Back outside",
+      "paragraphs": [
+        "These cases make it difficult to talk about government as if it were one solid block. There are people inside with a lot of experience and creativity. Quite often, they already know what needs fixing.",
+        "For me, a government hackathon becomes really interesting when it makes that knowledge easier to act on. I think of this as institutionalized hacktivism. An exception can gradually become a new way of working; the institution can move from an old equilibrium to a new one.",
+        "That's why I see hackathons as a possible path into innovation procurement. And it's why I still want to work on public code and digital wallets after leaving government. There is no reason the work should end when my job does.",
+        "I've been following SPRIND from Taiwan for years. My own unit was called the “Section of Plurality.” I thought that was already quite an unusual name for a government office. Then I came across the “Federal Agency for Disruptive Innovation.”",
+        "Okay. That's even better.",
+        "[Pause.]",
+        "I hope you have a great day. If there's anything I can help with, please don't hesitate to find me. Thank you."
+      ]
+    }
+  ],
+  "zh": [
+    {
+      "title": "1. 政府裡，政府外",
+      "paragraphs": [
+        "大家早安，我是來自台灣的 Yen-Lin Huang，也可以叫我 mashbean。",
+        "我是一名醫師，同時也在台灣的公民科技社群 g0v 貢獻。所以我對科層文化和駭客文化，都滿熟悉的。",
+        "可能也是因為這樣，過去有機會在台灣的數位發展部與 Audrey Tang 一起工作。我參與數位公共基礎建設，也提出了數位身分皮夾專案。SPRIND 也在做歐洲的數位皮夾，所以大家可能不陌生。",
+        "後來離開政府，回到公民科技社群與研究工作。老實說，我實在等不及繼續 hack 自己在政府時期參與的開源專案。還有好多東西想試，尤其是隱私保護與抗審查。",
+        "所以今天，我想以個人的觀察，來分享政府與公民之間的合作，怎麼做會比較有趣。"
+      ]
+    },
+    {
+      "title": "2. 豆泥，你太天真了",
+      "paragraphs": [
+        "我加入的時候，數位部才剛成立。許多想要改變事情的公務員申請加入，像我這樣的外部人士，也是抱著差不多的想法進來。",
+        "有一天，我們討論一個舊系統可以怎麼修改。我說：「這個沒有很困難吧，一個工程師一兩週應該就可以修好。」",
+        "我的同事很驚恐地看著我。",
+        "「豆泥，你太天真了。政府不是這樣運作的。」",
+        "［停一下。］",
+        "我當時真的想不通。明明只改一兩個小東西，為什麼需要這麼多時間跟錢？",
+        "後來的我當然明白了。政府需要透過文書流程確定問責關係，確保出了事有人能負責。採購制度也要防弊，確認承接的廠商有能力交付。",
+        "但這些事情都需要人做。有些具備技術能力的同事，光是管理合約就花掉了大部分時間，幾乎沒空碰自己負責的系統。連自己動手改一點東西，都可能很困難。",
+        "AI 其實也沒有解決這個問題。他們在等的，本來就不只是那幾行程式碼。",
+        "對參與 g0v 的我而言，這是很大的文化衝擊。我習慣的是 release early、show me the code。如果想改自己的開源服務，就可以直接動手。我們把這叫作 do-ocracy。",
+        "現在我沒有那麼天真了。我還是想改變事情，但我開始更在意：怎麼樣，才能讓一個公務員覺得自己可以試試看？"
+      ]
+    },
+    {
+      "title": "3. 一個可以一起做事的藉口",
+      "paragraphs": [
+        "這大約四年來，我持續研究數位採購，跟利益與立場很不一樣的人討論，也包含那些主導市場的大型廠商。",
+        "我的結論是，Hacktivism 讓政府裡外的人，都有藉口跳脫日常限制。",
+        "台灣的總統盃黑客松就是一個好例子。",
+        "蔡英文總統在 2019 年就提到，公務員可以先找出需求，跟政府外的人組成團隊，而不是馬上從編預算、發包開始。",
+        "我覺得最有趣的地方，是平常根本沒機會一起工作的人，終於可以一起做事了。",
+        "譬如兩個政府單位，平常互踢皮球，往往比啟動一個共同計畫容易。黑客松給了他們坐下來談的理由。外面的人也可以加入，不需要先拿到一個政府標案。",
+        "還有一件事很重要：第一線的同事，有機會讓長官認真看看，那個已經困擾自己好多年的問題。",
+        "規則沒有消失，但忽然就有了一點做事的空間。"
+      ]
+    },
+    {
+      "title": "4. 得獎之後呢？",
+      "paragraphs": [
+        "我最佩服的案例，是第一屆、2018 年得獎的「救急救難一站通」。",
+        "它想把散落在不同組織的緊急醫療資訊接起來。身為醫師，我很能理解這件事的重要性。",
+        "它後來沒有停留在 prototype。消防署與衛福部、國家災害防救科技中心繼續合作。2024 年成果資料記錄，已有 20 個縣市完成資料自動化傳送，讓院前救護能串接醫院資訊與病人預後。",
+        "一個黑客松提案，後來成為更大規模基礎建設的一部分。",
+        "還有 CircuPlus 原點社企做的「奉茶行動」飲水地圖。身上有一個空水壺，就可以用它找地方裝水。",
+        "這裡要說清楚：它在 2020 年得獎以前，就已經是民間專案了，當時大約有六千個接水點。後來團隊公布的規模超過一萬五千個。黑客松讓這個既有服務，有機會透過更廣泛的合作繼續成長。",
+        "另一個我很喜歡的案例是 LASS，開源公益環境感測社群。在 2021 年得獎以前，他們就已經跟水利署合作了。後來在頭前溪，透過定期協作會議，繼續共享地圖與在地知識。",
+        "我在意的是這段關係有沒有繼續。得獎當然很好，可是，之後大家還有沒有一起做事？"
+      ]
+    },
+    {
+      "title": "5. 回到政府外面",
+      "paragraphs": [
+        "看了這些案例，就很難再把政府當成一整塊鐵板。裡頭有很多充滿經驗與創意的同事，而且，他們往往早就知道問題在哪裡。",
+        "對我來說，政府黑客松真正有趣的時候，是讓這些人有機會把自己知道的事情做出來。我把這叫作 institutionalized hacktivism，制度化的駭客行動主義。一個例外，慢慢變成新的做事方法，讓制度從舊均衡走向新均衡。",
+        "所以，我認為黑客松可以是創新採購的前置路徑。這也是為什麼，離開政府以後，我還是想繼續做公共程式跟數位皮夾。沒有道理我的工作結束了，這些事情就要跟著結束。",
+        "我在台灣關注 SPRIND 好多年了。我自己以前的單位叫做「多元宇宙科」，Section of Plurality。我當時覺得，政府單位叫這個名字，已經滿奇怪了。結果後來看到「聯邦突破性創新署」。",
+        "好吧，這個更酷。",
+        "［停一下。］",
+        "真心祝福大家今天活動順利。如果有我能幫上忙的地方，請別客氣。謝謝大家。"
+      ]
+    }
+  ]
+}
