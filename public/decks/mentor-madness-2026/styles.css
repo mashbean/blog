@@ -831,14 +831,22 @@ button {
 }
 .skip-link {
   position: fixed;
-  top: -100px;
+  top: 10px;
   left: 15px;
   z-index: 100;
   background: var(--lime);
-  padding: 10px;
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  white-space: nowrap;
 }
 .skip-link:focus {
-  top: 10px;
+  clip-path: none;
+  width: auto;
+  height: auto;
+  padding: 10px;
 }
 dialog {
   background: var(--paper);
@@ -1276,7 +1284,7 @@ body:not(.enhanced) br {
   }
   .reading .bureaucracy-flow strong br,
   body:not(.enhanced) .bureaucracy-flow strong br {
-    display: none;
+    display: initial;
   }
   .reading .flow-arrow,
   body:not(.enhanced) .flow-arrow {
