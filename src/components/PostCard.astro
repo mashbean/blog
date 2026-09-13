@@ -5,15 +5,19 @@ import { resolveCoverPath } from "@/utils/cover";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import { cleanPostTitle } from "@/utils/title";
+import { useTranslations } from "@/i18n/ui";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
 
 interface Props {
   post: CollectionEntry<"blog">;
   variant?: "default" | "feature" | "compact";
   minimal?: boolean;
+  lang?: Locale;
 }
 
-const { post, variant = "default", minimal = false } = Astro.props as Props;
-const url = buildPostUrl(post);
+const { post, variant = "default", minimal = false, lang = DEFAULT_LOCALE } = Astro.props as Props;
+const t = useTranslations(lang);
+const url = buildPostUrl(post, { locale: lang });
 const resolvedCover = resolveCoverPath(post.data.cover);
 const coverSrc = resolvedCover
   ? /^https?:\/\//.test(resolvedCover.primary)
@@ -25,7 +29,7 @@ const coverFallbackSrc = resolvedCover?.fallback
     ? resolvedCover.fallback
     : withBase(resolvedCover.fallback)
   : undefined;
-const fallbackLabel = post.data.category ?? "文章";
+const fallbackLabel = post.data.category ?? t.postCard.fallbackCategory;
 const postTitle = cleanPostTitle(post.data.title);
 const imageFallbackHandler =
   "if(this.dataset.fallback){this.src=this.dataset.fallback;this.removeAttribute('data-fallback');}";
@@ -69,17 +73,16 @@ const readingMinutes = (() => {
     )}
   </a>
   <p class="post-card-meta">
-    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-    {" · 約 "}
-    {readingMinutes}
-    {" 分鐘"}
+    <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, lang)}</time>
+    {" "}
+    {t.postCard.readingMinutes(readingMinutes)}
     {!minimal && post.data.category && <>{" · "}{post.data.category}</>}
     {!minimal &&
       post.data.updatedDate && (
         <>
-          {" · 更新 "}
+          {` · ${t.postCard.updated} `}
           <time datetime={post.data.updatedDate.toISOString()}>
-            {formatDate(post.data.updatedDate)}
+            {formatDate(post.data.updatedDate, lang)}
           </time>
         </>
       )}
@@ -89,7 +92,7 @@ const readingMinutes = (() => {
   </h2>
   <p class="post-card-desc">{post.data.description}</p>
   {!minimal && post.data.tags.length > 0 && (
-    <ul class="tag-list" aria-label="文章標籤">
+    <ul class="tag-list" aria-label={t.postCard.tagsAria}>
       {post.data.tags.map((tag) => <li class="tag-list-item">{tag}</li>)}
     </ul>
   )}

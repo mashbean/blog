@@ -2,17 +2,22 @@
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
 import type { ResolvedDeck } from "@/data/decks";
+import { useTranslations } from "@/i18n/ui";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
 
 interface Props {
   deck: ResolvedDeck;
+  lang?: Locale;
 }
 
-const { deck } = Astro.props as Props;
+const { deck, lang = DEFAULT_LOCALE } = Astro.props as Props;
+const t = useTranslations(lang);
 
 const isExternal = /^https?:\/\//.test(deck.url);
 const href = isExternal ? deck.url : withBase(deck.url);
-const dateLabel = formatDate(new Date(`${deck.date}T00:00:00`));
-const langLabel = deck.lang === "en" ? "EN" : "中文";
+const dateLabel = formatDate(new Date(`${deck.date}T00:00:00`), lang);
+// 徽章顯示的是「這份簡報本身」的語言，而非頁面語言。
+const langLabel = deck.lang === "en" ? t.deckCard.en : t.deckCard.zh;
 ---
 
 <a class="deck-row" href={href} target="_blank" rel="noopener">

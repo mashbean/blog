@@ -1,0 +1,194 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getBlogPosts, buildPostUrl, getPostCanonicalPathSegment } from "@/utils/blog";
+import { formatDate } from "@/utils/date";
+import { withBase } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
+import { resolveCoverPath } from "@/utils/cover";
+import { buildAlternatesFor } from "@/utils/alternates";
+
+// 英文文章頁：只為「有英譯」的文章產生 /en/blog/<canonical>/，
+// 以 translations collection（translationOf → 原文 id）為主內容，
+// 沿用原文的 canonical path segment，使 zh ↔ en 網址一一對應。
+export async function getStaticPaths() {
+  const posts = await getBlogPosts({
+    includeDrafts: !import.meta.env.PROD,
+    includeFuture: !import.meta.env.PROD
+  });
+  const postById = new Map(posts.map((post) => [post.id, post]));
+  const translations = await getCollection("translations");
+
+  return translations.flatMap((translation) => {
+    const post = postById.get(translation.data.translationOf);
+    if (!post) return [];
+    return [
+      {
+        params: { slug: getPostCanonicalPathSegment(post) },
+        props: { post, translation }
+      }
+    ];
+  });
+}
+
+const { post, translation } = Astro.props as {
+  post: CollectionEntry<"blog">;
+  translation: CollectionEntry<"translations">;
+};
+
+const { Content } = await render(translation);
+
+const title = cleanPostTitle(translation.data.title);
+const description = translation.data.description;
+
+const zhPath = `blog/${getPostCanonicalPathSegment(post)}/`;
+const zhUrl = withBase(zhPath);
+const enUrl = buildPostUrl(post, { locale: "en" });
+const alternates = buildAlternatesFor(zhPath, "en");
+const canonicalURL = Astro.site ? new URL(enUrl, Astro.site).toString() : enUrl;
+
+const resolvedCover = resolveCoverPath(post.data.cover);
+const coverSrc = resolvedCover
+  ? /^https?:\/\//.test(resolvedCover.primary)
+    ? resolvedCover.primary
+    : withBase(resolvedCover.primary)
+  : undefined;
+const coverFallbackSrc = resolvedCover?.fallback
+  ? /^https?:\/\//.test(resolvedCover.fallback)
+    ? resolvedCover.fallback
+    : withBase(resolvedCover.fallback)
+  : undefined;
+const imageFallbackHandler =
+  "if(this.dataset.fallback){this.src=this.dataset.fallback;this.removeAttribute('data-fallback');}";
+
+const readingMinutes = (() => {
+  const plain = (translation.body ?? "")
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/`[^`]*`/g, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\[(.*?)\]\((.*?)\)/g, "$1 ");
+  const latinWords = (plain.match(/[A-Za-z0-9_]+/g) ?? []).length;
+  const cjkChars = (plain.match(/[一-鿿㐀-䶿぀-ヿ]/g) ?? []).length;
+  return Math.max(1, Math.round((latinWords + cjkChars / 2) / 220));
+})();
+
+const coverURL = coverSrc
+  ? /^https?:\/\//.test(coverSrc)
+    ? coverSrc
+    : Astro.site
+      ? new URL(coverSrc, Astro.site).toString()
+      : coverSrc
+  : undefined;
+
+const articleStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: title,
+  description,
+  inLanguage: "en",
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  author: {
+    "@type": "Person",
+    name: post.data.author ?? "mashbean"
+  },
+  mainEntityOfPage: canonicalURL,
+  image: coverURL ? [coverURL] : undefined
+};
+
+const tags = translation.data.tags ?? [];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  canonicalURL={canonicalURL}
+  ogImage={resolvedCover?.primary ?? post.data.cover}
+  ogType="article"
+  structuredData={articleStructuredData}
+  isArticle={true}
+  lang="en"
+  alternates={alternates}
+>
+  <article class="article-layout" data-active-lang="en">
+    <div class="article-main">
+      <header class="article-header">
+        <h1 class="article-title" lang="en">{title}</h1>
+        <div class="article-meta-row">
+          <p class="article-meta">
+            {"Published: "}
+            <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate, "en")}</time>
+            {` · ${readingMinutes} min read`}
+            {
+              post.data.updatedDate && (
+                <>
+                  {" · Updated: "}
+                  <time datetime={post.data.updatedDate.toISOString()}>
+                    {formatDate(post.data.updatedDate, "en")}
+                  </time>
+                </>
+              )
+            }
+          </p>
+        </div>
+        <p class="article-translation-note">
+          Translated from the Chinese original — <a href={zhUrl}>read in 中文 →</a>
+        </p>
+        {translation.data.lead && (
+          <p class="article-lead" lang="en">{translation.data.lead}</p>
+        )}
+        {tags.length > 0 && (
+          <ul class="tag-list" lang="en">
+            {tags.map((tag) => (
+              <li class="tag-list-item">{tag}</li>
+            ))}
+          </ul>
+        )}
+        <div class="reading-tools" role="group" aria-label="Reading preferences">
+          <span class="reading-tools-label">Text size</span>
+          <button id="reading-font-dec" type="button" class="reading-tool-btn" aria-label="Decrease text size">
+            A-
+          </button>
+          <button id="reading-font-inc" type="button" class="reading-tool-btn" aria-label="Increase text size">
+            A+
+          </button>
+        </div>
+      </header>
+
+      {coverSrc && (
+        <figure class="article-cover">
+          <img
+            src={coverSrc}
+            data-fallback={coverFallbackSrc}
+            onerror={imageFallbackHandler}
+            alt={post.data.coverAlt ?? title}
+            loading="lazy"
+          />
+        </figure>
+      )}
+
+      <div class="article-prose" lang="en">
+        <Content />
+      </div>
+
+      <nav class="article-pagination" aria-label="Article navigation">
+        <div>
+          <small>Original</small>
+          <a href={zhUrl}>Read the Chinese version →</a>
+        </div>
+        <div>
+          <small>More</small>
+          <a href={withBase("en/blog/")}>All English writing</a>
+        </div>
+      </nav>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-translation-note {
+    margin: 0.35rem 0 0.6rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+</style>

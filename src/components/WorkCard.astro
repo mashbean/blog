@@ -1,12 +1,21 @@
 ---
 import { withBase } from "@/utils/paths";
 import type { Work } from "@/data/works";
+import { useTranslations } from "@/i18n/ui";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
 
 interface Props {
   work: Work;
+  lang?: Locale;
 }
 
-const { work } = Astro.props as Props;
+const { work, lang = DEFAULT_LOCALE } = Astro.props as Props;
+const t = useTranslations(lang);
+const isEn = lang === "en";
+const title = isEn ? work.titleEn ?? work.title : work.title;
+const tagline = isEn ? work.taglineEn ?? work.tagline : work.tagline;
+const chips = isEn ? work.chipsEn ?? work.chips : work.chips;
+const note = isEn ? work.noteEn ?? work.note : work.note;
 ---
 
 <article class="work-card" id={work.slug}>
@@ -27,18 +36,18 @@ const { work } = Astro.props as Props;
   <div class="work-card-body">
     <h3 class="work-card-title">
       <a href={work.url} target="_blank" rel="noopener noreferrer">
-        {work.title}
+        {title}
         <span class="work-card-arrow" aria-hidden="true">↗</span>
       </a>
     </h3>
-    <p class="work-card-tagline">{work.tagline}</p>
+    <p class="work-card-tagline">{tagline}</p>
     <p class="work-card-meta">
-      {work.chips?.map((chip) => <span class="work-card-chip">{chip}</span>)}
-      {work.note && <span class="work-card-note">{work.note}</span>}
+      {chips?.map((chip) => <span class="work-card-chip">{chip}</span>)}
+      {note && <span class="work-card-note">{note}</span>}
       {
         work.repo && (
           <a class="work-card-repo" href={work.repo} target="_blank" rel="noopener noreferrer">
-            原始碼
+            {t.workCard.sourceCode}
           </a>
         )
       }

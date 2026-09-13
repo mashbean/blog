@@ -1,0 +1,478 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import HomeFeedItem from "@/components/HomeFeedItem.astro";
+import type { HomeFeedItem as FeedItem } from "@/data/homeFeed";
+import { getDecks } from "@/data/decks";
+import { works } from "@/data/works";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { resolveCoverPath } from "@/utils/cover";
+import { localizePath, withBase } from "@/utils/paths";
+import { getProFeedEntries } from "@/utils/proFeed";
+import { cleanPostTitle } from "@/utils/title";
+import { useTranslations } from "@/i18n/ui";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
+
+interface Props {
+  lang?: Locale;
+}
+const { lang = DEFAULT_LOCALE } = Astro.props as Props;
+const t = useTranslations(lang);
+const isEn = lang === "en";
+
+const posts = await getBlogPosts();
+const now = new Date();
+const today = now.toISOString().slice(0, 10);
+const INITIAL_FEED_COUNT = 24;
+const FEED_BATCH_SIZE = 12;
+const MAX_FEED_COUNT = 120;
+
+// 英文文章對應：translationOf → 翻譯條目。有翻譯者，英文動態改用英文標題/摘要，
+// 並連到 /en/blog/…；沒有翻譯者則沿用中文標題並連到中文文章。
+const translationByPostId = new Map<string, CollectionEntry<"translations">>();
+if (isEn) {
+  for (const entry of await getCollection("translations")) {
+    translationByPostId.set(entry.data.translationOf, entry);
+  }
+}
+
+const resolveImage = (cover?: string): string | undefined => {
+  const resolved = resolveCoverPath(cover);
+  if (!resolved) return undefined;
+  return /^https?:\/\//.test(resolved.primary) ? resolved.primary : withBase(resolved.primary);
+};
+
+const postItems: FeedItem[] = posts.map((post) => {
+  const translation = isEn ? translationByPostId.get(post.id) : undefined;
+  const title = translation ? cleanPostTitle(translation.data.title) : cleanPostTitle(post.data.title);
+  return {
+    id: `article-${post.id}`,
+    kind: "article",
+    label: t.home.labelArticle,
+    title,
+    summary: translation ? translation.data.description : post.data.description,
+    date: post.data.pubDate,
+    url: translation ? buildPostUrl(post, { locale: "en" }) : buildPostUrl(post),
+    detail: post.data.category,
+    image: resolveImage(post.data.cover),
+    imageAlt: post.data.coverAlt ?? title,
+  };
+});
+
+const deckItems: FeedItem[] = getDecks()
+  .filter((deck) => deck.date <= today)
+  .map((deck) => ({
+    id: `deck-${deck.slug}`,
+    kind: "deck",
+    label: t.home.labelDeck,
+    title: deck.title,
+    summary: [deck.event, deck.location].filter(Boolean).join(" · "),
+    date: new Date(`${deck.date}T12:00:00+08:00`),
+    url: withBase(deck.url.replace(/^\//, "")),
+    detail: deck.lang === "en" ? t.home.deckEnglishTag : undefined,
+  }));
+
+const workItems: FeedItem[] = works
+  .slice()
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .map((work) => ({
+    id: `work-${work.slug}`,
+    kind: "work",
+    label: t.home.labelWork,
+    title: isEn ? work.titleEn ?? work.title : work.title,
+    summary: isEn ? work.taglineEn ?? work.tagline : work.tagline,
+    date: new Date(`${work.date}T12:00:00+08:00`),
+    url: work.url,
+    detail: (isEn ? work.chipsEn ?? work.chips : work.chips)?.slice(0, 2).join(" · "),
+    image: work.cover ? withBase(work.cover) : undefined,
+    imageAlt: isEn ? work.titleEn ?? work.title : work.title,
+    external: true,
+  }));
+
+const proItems: FeedItem[] = (await getProFeedEntries())
+  .filter((entry) => entry.date <= now)
+  .map((entry) => ({
+    id: `pro-${entry.url}`,
+    kind: "pro",
+    label: t.home.labelPro,
+    title: entry.title,
+    summary: entry.description,
+    date: entry.date,
+    url: entry.url,
+    detail: "pro.mashbean.net",
+    image: entry.image,
+    imageAlt: entry.title,
+    external: true,
+  }));
+
+const feedItems = [...postItems, ...deckItems, ...workItems, ...proItems]
+  .sort((a, b) => b.date.getTime() - a.date.getTime())
+  .slice(0, MAX_FEED_COUNT);
+
+// JS 用的字串模板（含占位符），避免在腳本內硬寫某一語言。
+const shownTpl = isEn ? "Showing {v} / {total} updates" : "已顯示 {v} / {total} 則更新";
+const allTpl = isEn ? "Showing all {total} updates" : "已顯示全部 {total} 則更新";
+const continueTpl = isEn ? "Continue reading | {title}" : "繼續閱讀｜{title}";
+const progressTpl = isEn ? "{pct}% read" : "進度 {pct}%";
+const blogHref = localizePath("blog/", lang);
+---
+
+<BaseLayout description={t.home.metaDescription} lang={lang}>
+  <header class="home-heading">
+    <h1 class="section-title">{t.home.heading}</h1>
+  </header>
+
+  <aside
+    id="continue-reading-toast"
+    class="continue-reading-toast"
+    hidden
+    aria-label={t.home.continueAria}
+    data-continue-tpl={continueTpl}
+    data-progress-tpl={progressTpl}
+  >
+    <button
+      id="continue-reading-close"
+      class="continue-reading-close"
+      type="button"
+      aria-label={t.home.continueCloseAria}
+    >
+      {t.nav.close}
+    </button>
+    <a id="continue-reading-link" class="continue-reading-link" href={blogHref}>
+      <strong id="continue-reading-title">{t.home.continueReading}</strong>
+      <span id="continue-reading-meta">{t.home.progress(0)}</span>
+    </a>
+  </aside>
+
+  <div class="home-section-head home-feed-heading">
+    <h2 class="section-title">{t.home.recentUpdates}</h2>
+  </div>
+  <nav class="home-source-links" aria-label={t.home.browseAllAria}>
+    <a class="source-link source-link-article" href={localizePath("blog/", lang)}>{t.home.sourceArticle}</a>
+    <a class="source-link source-link-deck" href={localizePath("decks/", lang)}>{t.home.sourceDeck}</a>
+    <a class="source-link source-link-work" href={localizePath("works/", lang)}>{t.home.sourceWork}</a>
+    <a
+      class="source-link source-link-pro"
+      href="https://pro.mashbean.net/"
+      target="_blank"
+      rel="noopener noreferrer">{t.home.sourcePro} ↗</a
+    >
+  </nav>
+  {
+    feedItems.length === 0 ? (
+      <p class="empty-state">{t.home.empty}</p>
+    ) : (
+      <section class="home-feed-wrap" aria-label={t.home.feedAria}>
+        <ol class="home-feed-list" id="home-feed-list">
+          {feedItems.map((item, index) => (
+            <li data-feed-item data-feed-id={item.id} hidden={index >= INITIAL_FEED_COUNT}>
+              <HomeFeedItem item={item} />
+            </li>
+          ))}
+        </ol>
+        {feedItems.length > INITIAL_FEED_COUNT && (
+          <div class="home-feed-more" data-feed-more-wrap>
+            <button
+              class="home-feed-more-button"
+              type="button"
+              aria-controls="home-feed-list"
+              data-feed-more
+              data-feed-batch={FEED_BATCH_SIZE}
+              data-shown-tpl={shownTpl}
+              data-all-tpl={allTpl}
+            >
+              <span>{t.home.viewMore}</span>
+              <span class="home-feed-more-arrow" aria-hidden="true">
+                ↓
+              </span>
+            </button>
+            <p class="home-feed-more-status" aria-live="polite" data-feed-status>
+              {t.home.statusShown(Math.min(INITIAL_FEED_COUNT, feedItems.length), feedItems.length)}
+            </p>
+          </div>
+        )}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .home-heading,
+  .home-feed-heading,
+  .home-feed-wrap,
+  .home-source-links {
+    width: min(100%, 46rem);
+    margin-inline: auto;
+  }
+
+  .home-heading {
+    padding: 0.2rem 0 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .home-heading .section-title {
+    margin: 0;
+  }
+
+  .home-section-head {
+    margin-top: 1.3rem;
+  }
+
+  .home-section-head .section-title {
+    margin: 0;
+    font-size: 1.16rem;
+  }
+
+  .home-feed-wrap {
+    margin-top: 0.85rem;
+  }
+
+  .home-feed-list {
+    position: relative;
+    display: grid;
+    gap: 0.68rem;
+    margin: 0;
+    padding: 0 0 0 1.65rem;
+    list-style: none;
+  }
+
+  .home-feed-list::before {
+    content: "";
+    position: absolute;
+    top: 1.1rem;
+    bottom: 1.1rem;
+    left: 0.5rem;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #9bc9bd 0%, #bad4ce 48%, #d8dfdc 100%);
+  }
+
+  .home-feed-list > li {
+    min-width: 0;
+    scroll-margin-top: 5rem;
+  }
+
+  .home-feed-more {
+    display: grid;
+    justify-items: center;
+    gap: 0.45rem;
+    margin-top: 1.05rem;
+    padding-left: 1.65rem;
+  }
+
+  .home-feed-more-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-width: 9rem;
+    min-height: 2.65rem;
+    border: 1px solid color-mix(in oklab, var(--color-accent) 28%, var(--color-border-subtle));
+    border-radius: var(--radius-pill);
+    padding: 0.45rem 1.1rem;
+    color: var(--color-accent);
+    background: color-mix(in oklab, var(--color-accent) 7%, var(--color-paper));
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+      color 0.16s ease,
+      background-color 0.16s ease,
+      border-color 0.16s ease,
+      transform 0.16s ease;
+  }
+
+  .home-feed-more-button:hover {
+    border-color: var(--color-accent);
+    color: #fff;
+    background: var(--color-accent);
+    transform: translateY(-1px);
+  }
+
+  .home-feed-more-button:focus-visible {
+    outline: 2px solid color-mix(in oklab, var(--color-accent) 52%, white);
+    outline-offset: 3px;
+  }
+
+  .home-feed-more-arrow {
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .home-feed-more-status {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 0.72rem;
+  }
+
+  .home-source-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.42rem;
+    margin-top: 0.62rem;
+  }
+
+  .home-source-links .source-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    border: 1px solid color-mix(in oklab, var(--source-accent) 28%, white 72%);
+    border-radius: var(--radius-pill);
+    padding: 0.18rem 0.68rem;
+    color: var(--source-accent);
+    background: var(--source-soft);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      color 0.16s ease,
+      background-color 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .home-source-links .source-link:hover {
+    border-color: var(--source-accent);
+    color: #fff;
+    background: var(--source-accent);
+  }
+
+  .source-link-article {
+    --source-accent: #0b7d6d;
+    --source-soft: #e7f7f2;
+  }
+
+  .source-link-deck {
+    --source-accent: #a45f16;
+    --source-soft: #fff3dc;
+  }
+
+  .source-link-work {
+    --source-accent: #326b8a;
+    --source-soft: #e9f4fa;
+  }
+
+  .source-link-pro {
+    --source-accent: #7b587d;
+    --source-soft: #f5ecf5;
+  }
+
+  @media (max-width: 680px) {
+    .home-feed-list {
+      gap: 0.62rem;
+    }
+
+    .home-source-links {
+      gap: 0.45rem;
+    }
+
+    .home-feed-list {
+      padding-left: 1.45rem;
+    }
+
+    .home-feed-list::before {
+      left: 0.4rem;
+    }
+
+    .home-feed-more {
+      padding-left: 1.45rem;
+    }
+  }
+</style>
+
+<script is:inline>
+  const feedItems = Array.from(document.querySelectorAll("[data-feed-item]"));
+  const feedMoreButton = document.querySelector("[data-feed-more]");
+  const feedMoreWrap = document.querySelector("[data-feed-more-wrap]");
+  const feedStatus = document.querySelector("[data-feed-status]");
+
+  const shownTpl = feedMoreButton?.dataset.shownTpl || "{v} / {total}";
+  const allTpl = feedMoreButton?.dataset.allTpl || "{total}";
+
+  const updateFeedStatus = () => {
+    const visibleCount = feedItems.filter(
+      (item) => item instanceof HTMLElement && !item.hidden,
+    ).length;
+    const remainingCount = feedItems.length - visibleCount;
+
+    if (feedStatus instanceof HTMLElement) {
+      feedStatus.textContent = remainingCount
+        ? shownTpl.replace("{v}", String(visibleCount)).replace("{total}", String(feedItems.length))
+        : allTpl.replace("{total}", String(feedItems.length));
+    }
+    if (feedMoreWrap instanceof HTMLElement && remainingCount === 0) {
+      feedMoreWrap.hidden = true;
+    }
+  };
+
+  feedMoreButton?.addEventListener("click", () => {
+    if (!(feedMoreButton instanceof HTMLButtonElement)) return;
+    const batchSize = Number.parseInt(feedMoreButton.dataset.feedBatch || "12", 10);
+    const nextItems = feedItems
+      .filter((item) => item instanceof HTMLElement && item.hidden)
+      .slice(0, Number.isFinite(batchSize) ? batchSize : 12);
+
+    nextItems.forEach((item) => {
+      if (item instanceof HTMLElement) item.hidden = false;
+    });
+    updateFeedStatus();
+
+    const firstNewItem = nextItems[0];
+    if (firstNewItem instanceof HTMLElement) {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      firstNewItem.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    }
+  });
+</script>
+
+<script is:inline>
+  const section = document.querySelector("#continue-reading-toast");
+  const closeButton = document.querySelector("#continue-reading-close");
+  const link = document.querySelector("#continue-reading-link");
+  const title = document.querySelector("#continue-reading-title");
+  const meta = document.querySelector("#continue-reading-meta");
+  const continueTpl =
+    (section instanceof HTMLElement && section.dataset.continueTpl) || "{title}";
+  const progressTpl =
+    (section instanceof HTMLElement && section.dataset.progressTpl) || "{pct}%";
+  const key = "mashbean.blog.lastReading";
+  const dismissPrefix = "mashbean.blog.lastReading.dismissed.";
+
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) throw new Error("empty");
+    const data = JSON.parse(raw);
+    if (!data || typeof data.url !== "string" || typeof data.title !== "string") {
+      throw new Error("invalid");
+    }
+
+    if (link instanceof HTMLAnchorElement) {
+      link.href = data.url;
+    }
+    if (title instanceof HTMLElement) {
+      title.textContent = continueTpl.replace("{title}", data.title);
+    }
+    if (meta instanceof HTMLElement) {
+      const progress =
+        typeof data.progress === "number" ? Math.max(0, Math.min(100, data.progress)) : 0;
+      meta.textContent = progressTpl.replace("{pct}", String(progress));
+    }
+    const dismissKey = `${dismissPrefix}${data.url}::${data.title}`;
+    const dismissed = localStorage.getItem(dismissKey) === "1";
+    if (section instanceof HTMLElement && !dismissed) {
+      section.hidden = false;
+      section.dataset.dismissKey = dismissKey;
+    }
+  } catch {
+    if (section instanceof HTMLElement) section.hidden = true;
+  }
+
+  closeButton?.addEventListener("click", () => {
+    if (!(section instanceof HTMLElement)) return;
+    section.hidden = true;
+    const dismissKey = section.dataset.dismissKey;
+    if (dismissKey) {
+      localStorage.setItem(dismissKey, "1");
+    }
+  });
+</script>

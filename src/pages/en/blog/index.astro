@@ -1,0 +1,129 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getBlogPosts, buildPostUrl } from "@/utils/blog";
+import { getCollection } from "astro:content";
+import { formatDate } from "@/utils/date";
+import { cleanPostTitle } from "@/utils/title";
+
+// 英文文章列表：只納入已有英譯的文章。日後在 translations/ 新增檔案即自動出現。
+const posts = await getBlogPosts();
+const postById = new Map(posts.map((post) => [post.id, post]));
+const translations = await getCollection("translations");
+
+type ArchiveEntry = {
+  id: string;
+  url: string;
+  title: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  topics: string[];
+};
+
+const entries: ArchiveEntry[] = translations
+  .flatMap((translation) => {
+    const post = postById.get(translation.data.translationOf);
+    if (!post) return [];
+    return [
+      {
+        id: `en:${post.id}`,
+        url: buildPostUrl(post, { locale: "en" }),
+        title: cleanPostTitle(translation.data.title),
+        pubDate: post.data.pubDate,
+        updatedDate: post.data.updatedDate,
+        topics: translation.data.tags ?? []
+      }
+    ];
+  })
+  .sort((a, b) => b.pubDate.getTime() - a.pubDate.getTime());
+
+const toYearBucket = (date: Date) => {
+  const year = date.getFullYear();
+  if (year <= 2020) return "pre2020";
+  return String(year);
+};
+const toYearLabel = (bucket: string) => (bucket === "pre2020" ? "Before 2020" : bucket);
+
+const yearMap = new Map<string, ArchiveEntry[]>();
+for (const entry of entries) {
+  const key = toYearBucket(entry.pubDate);
+  const bucket = yearMap.get(key);
+  if (bucket) bucket.push(entry);
+  else yearMap.set(key, [entry]);
+}
+
+const yearSections = Array.from(yearMap.entries())
+  .map(([yearBucket, yearPosts]) => ({
+    yearBucket,
+    yearLabel: toYearLabel(yearBucket),
+    sortYear: yearBucket === "pre2020" ? 2020 : Number(yearBucket),
+    posts: yearPosts,
+    count: yearPosts.length
+  }))
+  .sort((a, b) => b.sortYear - a.sortYear);
+
+const RECENT_UPDATED_DAYS = 90;
+const recentThreshold = Date.now() - RECENT_UPDATED_DAYS * 24 * 60 * 60 * 1000;
+const isRecentlyUpdated = (pubDate: Date, updatedDate?: Date) => {
+  const reference = updatedDate ?? pubDate;
+  return reference.getTime() >= recentThreshold;
+};
+---
+
+<BaseLayout title="Writing" description="Selected articles available in English, newest first." lang="en">
+  <h1 class="section-title">Writing</h1>
+
+  {
+    entries.length === 0 ? (
+      <p class="empty-state">No English articles yet.</p>
+    ) : (
+      <div class="archive-accordion-list" aria-label="Articles by year">
+        {yearSections.map((section, index) => (
+          <details class="archive-accordion" open={index === 0}>
+            <summary class="archive-accordion-summary">
+              <span class="archive-accordion-title">
+                <span class="tag-chip-icon" aria-hidden="true">
+                  🗓️
+                </span>
+                {section.yearLabel}
+              </span>
+              <span class="archive-accordion-count" data-count data-total={section.count}>
+                {section.count} posts
+              </span>
+            </summary>
+            <div class="archive-accordion-body">
+              <div class="archive-accordion-body-inner">
+                <ul class="archive-list">
+                  {section.posts.map((post) => (
+                    <li class="archive-item">
+                      <time class="archive-date" datetime={post.pubDate.toISOString()}>
+                        {formatDate(post.pubDate, "en")}
+                      </time>
+                      <div class="archive-main">
+                        <a class="archive-link" href={post.url}>
+                          {post.title}
+                        </a>
+                        {post.topics.length > 0 && (
+                          <p class="archive-meta">
+                            <span class="archive-meta-topics">Topics: {post.topics.join(" · ")}</span>
+                            {isRecentlyUpdated(post.pubDate, post.updatedDate) && (
+                              <span
+                                class="archive-update-badge"
+                                title={`Updated within the last ${RECENT_UPDATED_DAYS} days`}
+                              >
+                                Recently updated
+                              </span>
+                            )}
+                          </p>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    )
+  }
+</BaseLayout>

@@ -9,6 +9,7 @@ import {
 import { cleanPostTitle } from "@/utils/title";
 import { formatDate } from "@/utils/date";
 import { withBase } from "@/utils/paths";
+import { buildAlternatesFor } from "@/utils/alternates";
 import { type ClassifiedTags } from "@/utils/blogTags";
 import { buildFacebookPageData } from "@/utils/facebookPageData";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
@@ -149,6 +150,11 @@ const relatedPosts = !isLegacyPath
   : [];
 
 const pageURL = Astro.site ? new URL(buildFacebookPostUrl(post), Astro.site).toString() : buildFacebookPostUrl(post);
+
+// 臉書文沒有英文版，只宣告 zh，避免 hreflang 指向不存在的 /en 頁。
+const fbAlternates = !isLegacyPath
+  ? buildAlternatesFor(`facebook/${getFacebookCanonicalPathSegment(post)}/`, "zh-TW", ["zh-TW"])
+  : undefined;
 ---
 
 {
@@ -161,6 +167,7 @@ const pageURL = Astro.site ? new URL(buildFacebookPostUrl(post), Astro.site).toS
       canonicalURL={post.data.canonicalURL}
       ogType="article"
       isArticle={true}
+      alternates={fbAlternates}
     >
       <article class="article-layout">
         <div class="article-main">

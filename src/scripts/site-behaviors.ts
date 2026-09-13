@@ -143,10 +143,14 @@ if (isArticle) {
   fontScale = Math.min(1.2, Math.max(0.92, fontScale));
   body.style.setProperty("--article-font-scale", String(fontScale));
 
+  const isEnPage = document.documentElement.lang === "en";
+  const focusLabels = isEnPage
+    ? { on: "Exit focus", off: "Focus mode" }
+    : { on: "結束聚焦", off: "聚焦閱讀" };
   const setFocusMode = (enabled: boolean) => {
     body.classList.toggle("focus-reading", enabled);
     if (focusButton instanceof HTMLButtonElement) {
-      focusButton.textContent = enabled ? "結束聚焦" : "聚焦閱讀";
+      focusButton.textContent = enabled ? focusLabels.on : focusLabels.off;
       focusButton.setAttribute("aria-pressed", enabled ? "true" : "false");
     }
     localStorage.setItem(`${storagePrefix}.focusMode`, enabled ? "1" : "0");

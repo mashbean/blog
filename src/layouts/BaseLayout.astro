@@ -2,8 +2,29 @@
 import "@/styles/global.css";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import { DEFAULT_OG_IMAGE, SITE_DESCRIPTION, SITE_LANG, SITE_TITLE } from "@/site.config";
+import {
+  DEFAULT_LOCALE,
+  DEFAULT_OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_DESCRIPTION_EN,
+  SITE_LANG,
+  SITE_TITLE,
+  SITE_TITLE_EN,
+  type Locale
+} from "@/site.config";
 import { withBase } from "@/utils/paths";
+import {
+  getAlternatesFromPathname,
+  getSwitchTarget,
+  getXDefaultHref,
+  type AlternateInfo
+} from "@/utils/alternates";
+import { useTranslations } from "@/i18n/ui";
+
+const HREFLANG_MAP: Record<Locale, string> = {
+  "zh-TW": "zh-Hant",
+  en: "en"
+};
 
 interface Props {
   title?: string;
@@ -15,22 +36,37 @@ interface Props {
   structuredData?: Record<string, unknown> | null;
   isArticle?: boolean;
   lang?: string;
+  /** 明確指定各語言對應網址；未提供時由目前 pathname 推導（適用一般靜態頁）。 */
+  alternates?: AlternateInfo;
 }
 
 const {
   title,
-  description = SITE_DESCRIPTION,
+  description,
   canonicalURL,
   ogImage,
   ogType = "website",
   noindex = false,
   structuredData = null,
   isArticle = false,
-  lang = SITE_LANG
+  lang = SITE_LANG,
+  alternates: alternatesProp
 } = Astro.props as Props;
 
-const tabTitle = "mashbean blog";
-const seoTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const locale: Locale = lang === "en" ? "en" : DEFAULT_LOCALE;
+const t = useTranslations(locale);
+const siteTitle = locale === "en" ? SITE_TITLE_EN : SITE_TITLE;
+const resolvedDescription =
+  description ?? (locale === "en" ? SITE_DESCRIPTION_EN : SITE_DESCRIPTION);
+
+const alternates = alternatesProp ?? getAlternatesFromPathname(Astro.url.pathname);
+const switchTarget = getSwitchTarget(alternates);
+const xDefaultHref = getXDefaultHref(alternates);
+const toAbsolute = (href: string): string =>
+  Astro.site ? new URL(href, Astro.site).toString() : new URL(href, Astro.url).toString();
+
+const tabTitle = siteTitle;
+const seoTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
 const canonical =
   canonicalURL ??
@@ -90,21 +126,29 @@ const siteStructuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{tabTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={resolvedDescription} />
     <link rel="canonical" href={canonical} />
     <meta name="generator" content={Astro.generator} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+    {
+      alternates.alternates.map((alt) => (
+        <link rel="alternate" hreflang={HREFLANG_MAP[alt.locale]} href={toAbsolute(alt.href)} />
+      ))
+    }
+    {xDefaultHref && <link rel="alternate" hreflang="x-default" href={toAbsolute(xDefaultHref)} />}
+
     <meta property="og:type" content={ogType} />
-    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:site_name" content={siteTitle} />
+    <meta property="og:locale" content={locale === "en" ? "en_US" : "zh_TW"} />
     <meta property="og:title" content={seoTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={resolvedDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageURL} />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={seoTitle} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:description" content={resolvedDescription} />
     <meta name="twitter:image" content={ogImageURL} />
     {plausibleDomain && (
       <script is:inline defer data-domain={plausibleDomain} src={plausibleScriptSrc}></script>
@@ -126,14 +170,17 @@ const siteStructuredData = {
       rel="stylesheet"
     />
   </head>
-  <body data-is-article={isArticle ? "1" : "0"} data-search-path={withBase("search/")}>
-    <a class="skip-link" href="#main-content">跳到主要內容</a>
+  <body
+    data-is-article={isArticle ? "1" : "0"}
+    data-search-path={locale === "en" ? withBase("en/search/") : withBase("search/")}
+  >
+    <a class="skip-link" href="#main-content">{t.layout.skipToContent}</a>
     {isArticle && (
       <div class="reading-progress" aria-hidden="true">
         <span id="reading-progress-bar"></span>
       </div>
     )}
-    <Header />
+    <Header lang={locale} switchTarget={switchTarget} />
     <main id="main-content" class="container page-shell">
       <slot />
     </main>
@@ -144,10 +191,10 @@ const siteStructuredData = {
         class="reading-focus-fab"
         aria-pressed="false"
       >
-        聚焦閱讀
+        {t.layout.focusReading}
       </button>
     )}
-    <Footer />
+    <Footer lang={locale} />
     <script>
       import "@/scripts/site-behaviors";
     </script>
