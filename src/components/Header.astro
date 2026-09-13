@@ -1,49 +1,60 @@
 ---
-import { SITE_TITLE } from "@/site.config";
-import { withBase } from "@/utils/paths";
+import { SITE_TITLE, SITE_TITLE_EN, DEFAULT_LOCALE, type Locale } from "@/site.config";
+import { withBase, localizePath } from "@/utils/paths";
+import { useTranslations } from "@/i18n/ui";
+import type { LocaleAlternate } from "@/utils/alternates";
 import Web3IdentityCard from "@/components/Web3IdentityCard.astro";
+
+interface Props {
+  lang?: Locale;
+  switchTarget?: LocaleAlternate | null;
+}
+const { lang = DEFAULT_LOCALE, switchTarget = null } = Astro.props as Props;
+const t = useTranslations(lang);
+const L = (path: string): string => localizePath(path, lang);
+const brandTitle = lang === "en" ? SITE_TITLE_EN : SITE_TITLE;
 
 const pathname = Astro.url.pathname;
 const links = [
-  { href: withBase("about/"), label: "關於" },
-  { href: withBase("blog/"), label: "文章" },
-  { href: withBase("decks/"), label: "簡報" },
-  { href: withBase("works/"), label: "作品" },
-  { href: withBase("tags/"), label: "標籤" },
-  { href: withBase("search/"), label: "搜尋" }
+  { href: L("about/"), label: t.nav.about },
+  { href: L("blog/"), label: t.nav.blog },
+  { href: L("decks/"), label: t.nav.decks },
+  { href: L("works/"), label: t.nav.works },
+  { href: L("tags/"), label: t.nav.tags },
+  { href: L("search/"), label: t.nav.search }
 ];
 const socialLinks = [
   {
     href: "https://www.facebook.com/mashbean",
     label: "Facebook",
-    note: "長文與廢文",
+    note: lang === "en" ? "Essays and asides" : "長文與廢文",
     iconPath:
       "M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.78-3.88 1.1 0 2.25.2 2.25.2v2.46H15.2c-1.25 0-1.64.78-1.64 1.57V12h2.8l-.45 2.89h-2.35v6.99A10 10 0 0 0 22 12z"
   },
   {
     href: "mailto:mashbean@gmail.com",
     label: "Email",
-    note: "工作會回信",
+    note: lang === "en" ? "I reply to work mail" : "工作會回信",
     iconPath: "M2 5h20v14H2zm10 7L4 7v10h16V7z"
   },
   {
     href: "https://x.com/mashbean",
     label: "Twitter/X",
-    note: "web3 回覆",
+    note: lang === "en" ? "Web3 replies" : "web3 回覆",
     iconPath:
       "M18.9 2H22l-6.78 7.75L23 22h-6.1l-4.77-6.22L6.68 22H3.56l7.25-8.29L2 2h6.25l4.3 5.68L18.9 2zm-1.07 18h1.69L7.33 3.9H5.51z"
   },
   {
     href: "https://www.linkedin.com/in/mashbean/",
     label: "LinkedIn",
-    note: "穿西裝",
+    note: lang === "en" ? "In a suit" : "穿西裝",
     iconPath:
       "M20.45 20.45h-3.56v-5.58c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.95v5.67H9.33V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77A1.77 1.77 0 0 0 0 1.77v20.46C0 23.2.8 24 1.77 24h20.46A1.77 1.77 0 0 0 24 22.23V1.77A1.77 1.77 0 0 0 22.23 0z"
   },
   {
     href: "https://matters.town/@mashbean",
     label: "Matters",
-    note: "認真收長文",
+    note: lang === "en" ? "Long reads, seriously" : "認真收長文",
     iconPath: "M3 5h3.2l3.8 6.7L13.8 5H17v14h-3V11l-3.2 5.6h-1.6L6 11v8H3z"
   }
 ];
@@ -73,9 +84,7 @@ const identityLinks = [
     iconSrc: "https://api.iconify.design/simple-icons:threads.svg?color=%23ffffff"
   }
 ];
-const subscribeLinks = [
-  { href: withBase("subscribe/"), label: "RSS 訂閱" }
-];
+const subscribeLinks = [{ href: L("subscribe/"), label: t.footer.subscribe }];
 const web3Card = {
   name: "mashbean 黃豆泥",
   avatarSrc: withBase("images/favicon-512.png"),
@@ -83,17 +92,28 @@ const web3Card = {
   graphHref: "https://web3.bio/mashbean.eth",
   socialHubHref: "https://firefly.social/"
 };
+const federationLinks = [
+  {
+    href: web3Card.graphHref,
+    label: lang === "en" ? "web3.bio · on-chain social graph" : "web3.bio · 鏈上社群圖譜"
+  },
+  {
+    href: web3Card.socialHubHref,
+    label: lang === "en" ? "Firefly · cross-platform hub" : "Firefly · 跨平台入口"
+  }
+];
 
+const homeHref = L("");
 const isActive = (href: string): boolean => {
-  return pathname === href || (href !== withBase("") && pathname.startsWith(href));
+  return pathname === href || (href !== homeHref && pathname.startsWith(href));
 };
 ---
 
 <header class="site-header">
   <div class="container site-header-inner">
-    <a class="brand-link" href={withBase("")}>{SITE_TITLE}</a>
+    <a class="brand-link" href={homeHref}>{brandTitle}</a>
     <div class="site-nav-wrap">
-      <nav class="site-nav" aria-label="主選單">
+      <nav class="site-nav" aria-label={t.nav.menu}>
         <ul class="nav-list">
           {
             links.map((item) => (
@@ -112,6 +132,18 @@ const isActive = (href: string): boolean => {
           }
         </ul>
       </nav>
+      {
+        switchTarget && (
+          <a
+            class="nav-lang-switch"
+            href={switchTarget.href}
+            aria-label={t.switchToAria}
+            hreflang={switchTarget.locale === "en" ? "en" : "zh-Hant"}
+          >
+            {t.switchToLabel}
+          </a>
+        )
+      }
       <span class="nav-social-divider" aria-hidden="true"></span>
       <div class="nav-social-item">
         <button
@@ -120,14 +152,14 @@ const isActive = (href: string): boolean => {
           aria-expanded="false"
           aria-controls="header-social-drawer"
         >
-          加我好友
+          {t.nav.addFriend}
         </button>
         <div class="nav-social-backdrop" hidden></div>
         <div id="header-social-drawer" class="nav-social-drawer" hidden>
         <div class="nav-social-drawer-head">
-          <p>加我好友</p>
-          <button type="button" class="nav-social-close" aria-label="關閉抽屜">
-            關閉
+          <p>{t.nav.addFriend}</p>
+          <button type="button" class="nav-social-close" aria-label={t.nav.closeDrawer}>
+            {t.nav.close}
           </button>
         </div>
         <Web3IdentityCard
@@ -135,8 +167,8 @@ const isActive = (href: string): boolean => {
           avatarSrc={web3Card.avatarSrc}
           ens={web3Card.ens}
         />
-        <section class="nav-social-section" aria-label="社群平台">
-          <h3 class="nav-social-title">社群平台</h3>
+        <section class="nav-social-section" aria-label={t.nav.sectionSocial}>
+          <h3 class="nav-social-title">{t.nav.sectionSocial}</h3>
           <ul class="nav-social-list">
             {
               socialLinks.map((item) => {
@@ -165,8 +197,8 @@ const isActive = (href: string): boolean => {
             }
           </ul>
         </section>
-        <section class="nav-social-section" aria-label="WEB3 聯邦宇宙">
-          <h3 class="nav-social-title">WEB3 聯邦宇宙</h3>
+        <section class="nav-social-section" aria-label={t.nav.sectionWeb3}>
+          <h3 class="nav-social-title">{t.nav.sectionWeb3}</h3>
           <ul class="nav-social-list">
             {
               identityLinks.map((item) => (
@@ -185,8 +217,8 @@ const isActive = (href: string): boolean => {
             }
           </ul>
         </section>
-        <section class="nav-social-section" aria-label="訂閱">
-          <h3 class="nav-social-title">訂閱</h3>
+        <section class="nav-social-section" aria-label={t.nav.sectionSubscribe}>
+          <h3 class="nav-social-title">{t.nav.sectionSubscribe}</h3>
           <ul class="nav-social-list nav-social-list-compact">
             {
               subscribeLinks.map((item) => (
@@ -201,23 +233,20 @@ const isActive = (href: string): boolean => {
             }
           </ul>
         </section>
-        <section class="nav-social-section" aria-label="聯邦入口">
-          <h3 class="nav-social-title">聯邦入口</h3>
+        <section class="nav-social-section" aria-label={t.nav.sectionFederation}>
+          <h3 class="nav-social-title">{t.nav.sectionFederation}</h3>
           <ul class="nav-social-list nav-social-list-compact">
-            <li>
-              <a href={web3Card.graphHref} target="_blank" rel="noopener noreferrer" class="nav-social-link nav-social-link-compact">
-                <span class="nav-social-link-copy">
-                  <strong>web3.bio · 鏈上社群圖譜</strong>
-                </span>
-              </a>
-            </li>
-            <li>
-              <a href={web3Card.socialHubHref} target="_blank" rel="noopener noreferrer" class="nav-social-link nav-social-link-compact">
-                <span class="nav-social-link-copy">
-                  <strong>Firefly · 跨平台入口</strong>
-                </span>
-              </a>
-            </li>
+            {
+              federationLinks.map((item) => (
+                <li>
+                  <a href={item.href} target="_blank" rel="noopener noreferrer" class="nav-social-link nav-social-link-compact">
+                    <span class="nav-social-link-copy">
+                      <strong>{item.label}</strong>
+                    </span>
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </section>
         </div>
@@ -273,3 +302,23 @@ const isActive = (href: string): boolean => {
     closeDrawer();
   }
 </script>
+
+<style>
+  .nav-lang-switch {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.55rem;
+    margin-inline: 0.35rem;
+    border: 1px solid currentColor;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    text-decoration: none;
+    opacity: 0.85;
+    white-space: nowrap;
+  }
+  .nav-lang-switch:hover,
+  .nav-lang-switch:focus-visible {
+    opacity: 1;
+  }
+</style>

@@ -8,6 +8,10 @@ export const GET: APIRoute = ({ site }) => {
   const llmsURL = site ? new URL(llmsPath, site).toString() : llmsPath;
   const contentIndexPath = withBase("content-index.json");
   const contentIndexURL = site ? new URL(contentIndexPath, site).toString() : contentIndexPath;
+  const llmsEnPath = withBase("en/llms.txt");
+  const llmsEnURL = site ? new URL(llmsEnPath, site).toString() : llmsEnPath;
+  const contentIndexEnPath = withBase("en/content-index.json");
+  const contentIndexEnURL = site ? new URL(contentIndexEnPath, site).toString() : contentIndexEnPath;
 
   const body = `User-agent: *
 Allow: /
@@ -16,6 +20,9 @@ Sitemap: ${sitemapURL}
 # Machine-readable entry points
 AI-Index: ${llmsURL}
 Content-Index: ${contentIndexURL}
+# English
+AI-Index: ${llmsEnURL}
+Content-Index: ${contentIndexEnURL}
 `;
 
   return new Response(body, {

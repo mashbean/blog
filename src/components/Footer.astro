@@ -1,34 +1,51 @@
 ---
-import { SITE_DESCRIPTION, SITE_TITLE } from "@/site.config";
-import { withBase } from "@/utils/paths";
+import {
+  SITE_DESCRIPTION,
+  SITE_DESCRIPTION_EN,
+  SITE_TITLE,
+  SITE_TITLE_EN,
+  DEFAULT_LOCALE,
+  type Locale
+} from "@/site.config";
+import { localizePath } from "@/utils/paths";
+import { useTranslations } from "@/i18n/ui";
+
+interface Props {
+  lang?: Locale;
+}
+const { lang = DEFAULT_LOCALE } = Astro.props as Props;
+const t = useTranslations(lang);
+const isEn = lang === "en";
+const title = isEn ? SITE_TITLE_EN : SITE_TITLE;
+const description = isEn ? SITE_DESCRIPTION_EN : SITE_DESCRIPTION;
+const ccHref = isEn
+  ? "https://creativecommons.org/licenses/by-nc/4.0/"
+  : "https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hant";
+const ccLabel = isEn
+  ? "CC BY-NC 4.0 (Attribution-NonCommercial)"
+  : "CC BY-NC 4.0（姓名標示-非商業性）";
 
 const year = new Date().getFullYear();
-const links = [
-  { href: withBase("subscribe/"), label: "RSS 訂閱" }
-];
+const links = [{ href: localizePath("subscribe/", lang), label: t.footer.subscribe }];
 ---
 
 <footer class="site-footer">
   <div class="container">
     <p>
-      <strong>{SITE_TITLE}</strong> · {SITE_DESCRIPTION}
+      <strong>{title}</strong> · {description}
     </p>
     <div class="footer-meta-row">
       <p class="footer-links">
         {links.map((item) => <a href={item.href}>{item.label}</a>)}
       </p>
       <p class="footer-license">
-        本站文章皆採
+        {isEn ? "All articles on this site are licensed under " : "本站文章皆採"}
         {" "}
-        <a
-          href="https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hant"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          CC BY-NC 4.0（姓名標示-非商業性）
+        <a href={ccHref} target="_blank" rel="noopener noreferrer">
+          {ccLabel}
         </a>
         {" "}
-        授權。
+        {isEn ? "." : "授權。"}
       </p>
     </div>
     <p>© {year} mashbean. Some rights reserved.</p>

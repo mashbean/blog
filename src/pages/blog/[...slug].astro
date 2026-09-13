@@ -10,6 +10,7 @@ import { type ClassifiedTags } from "@/utils/blogTags";
 import { buildBlogPageData } from "@/utils/blogPageData";
 import { topicToRouteSegment } from "@/utils/topicRoutes";
 import { verifyArticleSignature } from "@/utils/articleSignature";
+import { buildAlternatesFor } from "@/utils/alternates";
 import { isWeb3FeatureEnabled, requireWeb3PublicConfig } from "@/utils/web3Config";
 import { resolveConfiguredEnsProfile } from "@/utils/ens";
 import Web3TipJar from "@/components/Web3TipJar.astro";
@@ -67,21 +68,15 @@ if (!isLegacyPath) {
 }
 
 // 對應的翻譯版本（translations collection 以 translationOf 指回本文 id）。
-// 翻譯與原文共用同一網址，由前端切換顯示，不另外產生頁面。
+// 是否存在英譯：僅用來決定 hreflang 與「English version」連結。
+// 英文內容本身於獨立的 /en/blog/<slug>/ 頁渲染，這裡不再頁內雙語呈現。
 let translation: CollectionEntry<"translations"> | null = null;
-let TranslationContent: any = null;
-let translationHeadings: { depth: number; slug: string; text: string }[] = [];
 if (!isLegacyPath) {
   const translationEntries = await getCollection(
     "translations",
     (entry: CollectionEntry<"translations">) => entry.data.translationOf === post.id
   );
   translation = translationEntries[0] ?? null;
-  if (translation) {
-    const renderedTranslation = await render(translation);
-    TranslationContent = renderedTranslation.Content;
-    translationHeadings = renderedTranslation.headings;
-  }
 }
 const postTitle = cleanPostTitle(post.data.title);
 const signatureCheck = !isLegacyPath
@@ -181,14 +176,11 @@ const computeReadingMinutes = (body: string): number => {
 };
 
 const readingMinutes = !isLegacyPath ? computeReadingMinutes(post.body ?? "") : 0;
-const translationReadingMinutes = translation
-  ? computeReadingMinutes(translation.body ?? "")
-  : 0;
 
 const tocHeadings = headings.filter((item) => item.depth === 2 || item.depth === 3);
-const translationTocHeadings = translationHeadings.filter(
-  (item) => item.depth === 2 || item.depth === 3
-);
+
+// 英文版網址（若有英譯）：供頁面上的「English version」連結使用。
+const enUrl = translation ? buildPostUrl(post, { locale: "en" }) : null;
 
 const newerPost = !isLegacyPath && newerPostId ? postsById.get(newerPostId) ?? null : null;
 const olderPost = !isLegacyPath && olderPostId ? postsById.get(olderPostId) ?? null : null;
@@ -197,6 +189,15 @@ const relatedPosts = !isLegacyPath
       .map((itemId) => postsById.get(itemId))
       .filter((item): item is CollectionEntry<"blog"> => Boolean(item))
   : [];
+
+// hreflang：僅在該文有英譯時才宣告 en 對應網址，否則只宣告 zh，避免指向不存在的 /en 頁。
+const postAlternates = !isLegacyPath
+  ? buildAlternatesFor(
+      `blog/${getPostCanonicalPathSegment(post)}/`,
+      "zh-TW",
+      translation ? ["zh-TW", "en"] : ["zh-TW"]
+    )
+  : undefined;
 
 const articleStructuredData = !isLegacyPath
   ? {
@@ -230,45 +231,22 @@ const articleStructuredData = !isLegacyPath
       structuredData={articleStructuredData}
       isArticle={true}
       lang={post.data.lang ?? "zh-TW"}
+      alternates={postAlternates}
     >
-  <article class="article-layout" data-active-lang="zh">
+  <article class="article-layout">
     <div class="article-main">
       <header class="article-header">
-        <h1 class="article-title">
-          {translation ? (
-            <>
-              <span class="lang-variant lang-zh">{postTitle}</span>
-              <span class="lang-variant lang-en" lang="en">{cleanPostTitle(translation.data.title)}</span>
-            </>
-          ) : (
-            postTitle
-          )}
-        </h1>
-        {translation && (
-          <div class="lang-toggle" role="group" aria-label="切換語言 Switch language">
-            <button type="button" class="lang-toggle-btn is-active" data-lang-btn="zh">中文</button>
-            <button type="button" class="lang-toggle-btn" data-lang-btn="en">English</button>
-          </div>
+        <h1 class="article-title">{postTitle}</h1>
+        {enUrl && (
+          <p class="article-translation-note">
+            <a href={enUrl} hreflang="en">Also available in English →</a>
+          </p>
         )}
         <div class="article-meta-row">
           <p class="article-meta">
-            {translation ? (
-              <>
-                <span class="lang-variant lang-zh">發布：</span>
-                <span class="lang-variant lang-en">Published: </span>
-              </>
-            ) : (
-              "發布："
-            )}
+            {"發布："}
             <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
-            {translation ? (
-              <>
-                <span class="lang-variant lang-zh">{` · 約 ${readingMinutes} 分鐘閱讀`}</span>
-                <span class="lang-variant lang-en">{` · ${translationReadingMinutes} min read`}</span>
-              </>
-            ) : (
-              ` · 約 ${readingMinutes} 分鐘閱讀`
-            )}
+            {` · 約 ${readingMinutes} 分鐘閱讀`}
             {
               post.data.updatedDate && (
                 <>
@@ -357,14 +335,7 @@ const articleStructuredData = !isLegacyPath
           </details>
         )}
         {post.data.author && <p class="article-author">作者：{post.data.author}</p>}
-        {post.data.lead && (
-          <p class:list={{ "article-lead": true, "lang-variant": Boolean(translation), "lang-zh": Boolean(translation) }}>
-            {post.data.lead}
-          </p>
-        )}
-        {translation?.data.lead && (
-          <p class="article-lead lang-variant lang-en" lang="en">{translation.data.lead}</p>
-        )}
+        {post.data.lead && <p class="article-lead">{post.data.lead}</p>}
 
         {classifiedCurrent.topics.length > 0 && (
           <ul class="tag-list" aria-label="文章標籤">
@@ -402,18 +373,7 @@ const articleStructuredData = !isLegacyPath
       )}
 
       <div class="article-prose">
-        {translation ? (
-          <>
-            <div class="lang-variant lang-zh">
-              <Content />
-            </div>
-            <div class="lang-variant lang-en" lang="en">
-              <TranslationContent />
-            </div>
-          </>
-        ) : (
-          <Content />
-        )}
+        <Content />
       </div>
 
       <nav class="article-pagination" aria-label="文章導覽">
@@ -458,32 +418,14 @@ const articleStructuredData = !isLegacyPath
       <div class="toc-card">
         {tocHeadings.length > 0 && (
           <>
-            <h2>
-              {translation ? (
-                <>
-                  <span class="lang-variant lang-zh">目錄</span>
-                  <span class="lang-variant lang-en" lang="en">Contents</span>
-                </>
-              ) : (
-                "目錄"
-              )}
-            </h2>
-            <ol class:list={{ "toc-list": true, "lang-variant": Boolean(translation), "lang-zh": Boolean(translation) }}>
+            <h2>目錄</h2>
+            <ol class="toc-list">
               {tocHeadings.map((item) => (
                 <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
                   <a href={`#${item.slug}`}>{item.text}</a>
                 </li>
               ))}
             </ol>
-            {translation && translationTocHeadings.length > 0 && (
-              <ol class="toc-list lang-variant lang-en" lang="en">
-                {translationTocHeadings.map((item) => (
-                  <li class:list={{ "toc-item": true, "toc-item-depth-3": item.depth === 3 }}>
-                    <a href={`#${item.slug}`}>{item.text}</a>
-                  </li>
-                ))}
-              </ol>
-            )}
           </>
         )}
         <div class="toc-share-card">
@@ -525,50 +467,6 @@ const articleStructuredData = !isLegacyPath
 }
 
 {
-  !isLegacyPath && translation && (
-    <script is:inline>
-      (() => {
-        const article = document.querySelector(".article-layout");
-        const buttons = Array.from(document.querySelectorAll("[data-lang-btn]"));
-        if (!article || buttons.length === 0) return;
-
-        const setLang = (lang, updateUrl) => {
-          article.setAttribute("data-active-lang", lang);
-          document.documentElement.lang = lang === "en" ? "en" : "zh-TW";
-          buttons.forEach((btn) => {
-            const isActive = btn.getAttribute("data-lang-btn") === lang;
-            btn.classList.toggle("is-active", isActive);
-            btn.setAttribute("aria-pressed", isActive ? "true" : "false");
-          });
-          if (updateUrl) {
-            const url = new URL(window.location.href);
-            if (lang === "en") {
-              url.searchParams.set("lang", "en");
-            } else {
-              url.searchParams.delete("lang");
-            }
-            window.history.replaceState(null, "", url);
-          }
-        };
-
-        buttons.forEach((btn) => {
-          btn.addEventListener("click", () => {
-            const lang = btn.getAttribute("data-lang-btn") || "zh";
-            setLang(lang, true);
-            if (typeof window.mbTrack === "function") {
-              window.mbTrack("Article Language Switched", { lang });
-            }
-          });
-        });
-
-        const params = new URLSearchParams(window.location.search);
-        if (params.get("lang") === "en") setLang("en", false);
-      })();
-    </script>
-  )
-}
-
-{
   !isLegacyPath && (
     <script is:inline>
       const signatureDisclosures = Array.from(document.querySelectorAll(".signature-disclosure"));
@@ -583,3 +481,11 @@ const articleStructuredData = !isLegacyPath
     </script>
   )
 }
+
+<style>
+  .article-translation-note {
+    margin: 0.35rem 0 0.6rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+</style>

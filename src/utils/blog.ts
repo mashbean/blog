@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { withBase } from "@/utils/paths";
+import { localizePath, withBase } from "@/utils/paths";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
 
 export type BlogEntry = CollectionEntry<"blog">;
 
@@ -105,6 +106,12 @@ export function getPostPathCandidates(post: BlogEntry, options: PostPathCandidat
   return [...new Set(candidates)];
 }
 
-export function buildPostUrl(post: BlogEntry): string {
-  return withBase(`blog/${getPostCanonicalPathSegment(post)}/`);
+interface BuildPostUrlOptions {
+  locale?: Locale;
+}
+
+export function buildPostUrl(post: BlogEntry, options: BuildPostUrlOptions = {}): string {
+  const locale = options.locale ?? DEFAULT_LOCALE;
+  const segment = `blog/${getPostCanonicalPathSegment(post)}/`;
+  return locale === DEFAULT_LOCALE ? withBase(segment) : localizePath(segment, locale);
 }

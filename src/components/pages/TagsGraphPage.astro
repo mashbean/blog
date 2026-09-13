@@ -1,0 +1,2244 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { buildPostUrl, getBlogPosts } from "@/utils/blog";
+import { buildFacebookPostUrl, getFacebookPosts } from "@/utils/facebook";
+import { classifyPostTags, getTopicCatalog } from "@/utils/blogTags";
+import { withBase, localizePath } from "@/utils/paths";
+import { cleanPostTitle } from "@/utils/title";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
+
+interface Props {
+  lang?: Locale;
+}
+const { lang = DEFAULT_LOCALE } = Astro.props as Props;
+const isEn = lang === "en";
+
+const featuredPosts = await getBlogPosts();
+const facebookPosts = await getFacebookPosts();
+const topics = getTopicCatalog();
+const GRAPH_GENERIC_KEYWORD_PENALTY: Record<string, number> = {
+  nft: 0.46,
+  web3: 0.62,
+  區塊鏈: 0.7,
+  加密: 0.7,
+};
+const MAX_FB_GRAPH_POSTS = 500;
+const MAX_TOTAL_POST_NODES = 1000;
+const MAX_GLOBAL_KEYWORDS = 56;
+const MAX_TOPIC_KEYWORDS = 12;
+const GRAPH_KEYWORD_EXCLUDE = new Set(["fb-archive", "臉書"]);
+
+type GraphItem = {
+  id: string;
+  title: string;
+  url: string;
+  source: "featured" | "facebook";
+  topics: string[];
+  keywords: string[];
+  secondaryKeywords: string[];
+  keywordScores: Array<{ keyword: string; score: number; tier: "primary" | "secondary" }>;
+  charCount: number;
+};
+
+const featuredItems: GraphItem[] = featuredPosts.map((post) => {
+  const classified = classifyPostTags({
+    title: cleanPostTitle(post.data.title),
+    description: post.data.description,
+    body: post.body,
+    tags: post.data.tags,
+  });
+  const charCount = (post.body ?? "").replace(/\s+/g, "").length;
+  return {
+    id: `post:${post.id}`,
+    title: cleanPostTitle(post.data.title),
+    url: buildPostUrl(post),
+    source: "featured",
+    topics: classified.topics,
+    keywords: classified.keywords.slice(0, 6),
+    secondaryKeywords: classified.secondaryKeywords.slice(0, 10),
+    keywordScores: classified.keywordScores.slice(0, 20),
+    charCount,
+  };
+});
+
+const facebookItems: GraphItem[] = facebookPosts.map((post) => {
+  const classified = classifyPostTags({
+    title: cleanPostTitle(post.data.title),
+    description: post.data.description,
+    body: post.body,
+    tags: post.data.tags,
+  });
+  const charCount = (post.body ?? "").replace(/\s+/g, "").length;
+  return {
+    id: `facebook:${post.id}`,
+    title: cleanPostTitle(post.data.title),
+    url: buildFacebookPostUrl(post),
+    source: "facebook",
+    topics: classified.topics,
+    keywords: classified.keywords.slice(0, 6),
+    secondaryKeywords: classified.secondaryKeywords.slice(0, 10),
+    keywordScores: classified.keywordScores.slice(0, 20),
+    charCount,
+  };
+});
+
+const allItems = [...featuredItems, ...facebookItems];
+
+const scoreGraphItem = (item: GraphItem): number => {
+  const keywordSignal = item.keywordScores.reduce(
+    (sum, entry) => sum + entry.score * (entry.tier === "primary" ? 1.35 : 0.72),
+    0,
+  );
+  const topicSignal = item.topics.length * 1.1;
+  const lengthSignal = Math.min(4, Math.log(1 + item.charCount / 260));
+  return keywordSignal + topicSignal + lengthSignal;
+};
+
+const pickFacebookGraphItems = (items: GraphItem[]): GraphItem[] => {
+  const groups = new Map<string, GraphItem[]>();
+  for (const item of items) {
+    const key = item.topics[0] ?? "_other";
+    const bucket = groups.get(key);
+    if (bucket) {
+      bucket.push(item);
+    } else {
+      groups.set(key, [item]);
+    }
+  }
+
+  const perTopicCap = MAX_FB_GRAPH_POSTS;
+  const orderedGroups = Array.from(groups.entries()).map(([topic, bucket]) => ({
+    topic,
+    items: bucket.sort((a, b) => scoreGraphItem(b) - scoreGraphItem(a)).slice(0, perTopicCap),
+  }));
+
+  const out: GraphItem[] = [];
+  let progressed = true;
+  while (out.length < MAX_FB_GRAPH_POSTS && progressed) {
+    progressed = false;
+    for (const group of orderedGroups) {
+      if (group.items.length === 0) continue;
+      out.push(group.items.shift()!);
+      progressed = true;
+      if (out.length >= MAX_FB_GRAPH_POSTS) break;
+    }
+  }
+  return out;
+};
+
+const selectedFacebookItems = pickFacebookGraphItems(facebookItems);
+const items = [...featuredItems, ...selectedFacebookItems].slice(0, MAX_TOTAL_POST_NODES);
+
+const keywordCounter = new Map<string, { label: string; score: number; df: number }>();
+for (const item of allItems) {
+  const seenKeywords = new Set<string>();
+  for (const keyword of item.keywordScores) {
+    const key = keyword.keyword.trim().toLocaleLowerCase("zh-TW");
+    if (!key) continue;
+    const bucket = keywordCounter.get(key) ?? { label: keyword.keyword, score: 0, df: 0 };
+    const tierBonus = keyword.tier === "primary" ? 1.12 : 0.9;
+    bucket.score += keyword.score * tierBonus;
+    if (keyword.keyword.length > bucket.label.length) bucket.label = keyword.keyword;
+    if (!seenKeywords.has(key)) {
+      bucket.df += 1;
+      seenKeywords.add(key);
+    }
+    keywordCounter.set(key, bucket);
+  }
+}
+
+const topKeywords = Array.from(keywordCounter.entries())
+  .filter(([, stat]) => stat.df >= 3)
+  .map(([norm, stat]) => {
+    const idf = Math.log(1 + allItems.length / (1 + stat.df));
+    const overlyCommonPenalty = stat.df / allItems.length > 0.36 ? 0.42 : 1;
+    const genericPenalty = GRAPH_GENERIC_KEYWORD_PENALTY[norm] ?? 1;
+    const raritySmoothing = Math.sqrt(stat.df);
+    const weighted = stat.score * idf * raritySmoothing * overlyCommonPenalty * genericPenalty;
+    return [stat.label, weighted] as const;
+  })
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, MAX_GLOBAL_KEYWORDS)
+  .map(([keyword]) => keyword)
+  .filter((keyword) => !GRAPH_KEYWORD_EXCLUDE.has(keyword));
+
+const keywordSet = new Set(topKeywords);
+const topicKeywordStats = new Map<string, Map<string, number>>();
+for (const item of allItems) {
+  for (const topic of item.topics) {
+    const topicMap = topicKeywordStats.get(topic) ?? new Map<string, number>();
+    for (const entry of item.keywordScores) {
+      if (!keywordSet.has(entry.keyword)) continue;
+      const prev = topicMap.get(entry.keyword) ?? 0;
+      const weight = entry.tier === "primary" ? entry.score * 1.25 : entry.score * 0.76;
+      topicMap.set(entry.keyword, prev + weight);
+    }
+    topicKeywordStats.set(topic, topicMap);
+  }
+}
+
+const topicTopKeywords = new Map<string, string[]>();
+for (const topic of topics) {
+  const entries = Array.from(topicKeywordStats.get(topic.key)?.entries() ?? [])
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, MAX_TOPIC_KEYWORDS)
+    .map(([keyword]) => keyword);
+  topicTopKeywords.set(topic.key, entries);
+}
+
+const searchIndexUrl = isEn ? withBase("en/search-index.json") : withBase("search-index.json");
+
+const nodes: Array<{
+  id: string;
+  type: "topic" | "keyword" | "post";
+  label: string;
+  url?: string;
+  topic?: string;
+  source?: "featured" | "facebook";
+  priority?: number;
+}> = [];
+const links: Array<{
+  source: string;
+  target: string;
+  kind: "topic" | "keyword" | "topic_keyword";
+  weight: number;
+}> = [];
+
+for (const topic of topics) {
+  nodes.push({ id: `topic:${topic.key}`, type: "topic", label: topic.title, topic: topic.key });
+}
+
+for (const keyword of topKeywords) {
+  nodes.push({ id: `keyword:${keyword}`, type: "keyword", label: keyword });
+}
+
+for (const topic of topics) {
+  for (const keyword of topicTopKeywords.get(topic.key) ?? []) {
+    const weighted = topicKeywordStats.get(topic.key)?.get(keyword) ?? 1;
+    const linkWeight = Math.min(2.2, Math.max(0.65, weighted / 9));
+    links.push({
+      source: `topic:${topic.key}`,
+      target: `keyword:${keyword}`,
+      kind: "topic_keyword",
+      weight: Number(linkWeight.toFixed(3)),
+    });
+  }
+}
+
+for (const item of items) {
+  nodes.push({
+    id: item.id,
+    type: "post",
+    label: item.title,
+    url: item.url,
+    topic: item.topics[0],
+    source: item.source,
+    priority: Number(scoreGraphItem(item).toFixed(3)),
+  });
+  for (const topic of item.topics) {
+    links.push({ source: item.id, target: `topic:${topic}`, kind: "topic", weight: 1 });
+  }
+  for (const keywordEntry of item.keywordScores) {
+    if (keywordSet.has(keywordEntry.keyword)) {
+      const linkWeight =
+        keywordEntry.tier === "primary"
+          ? Math.min(1.8, Math.max(0.55, keywordEntry.score / 2.2))
+          : Math.min(1.3, Math.max(0.35, keywordEntry.score / 2.8));
+      links.push({
+        source: item.id,
+        target: `keyword:${keywordEntry.keyword}`,
+        kind: "keyword",
+        weight: Number(linkWeight.toFixed(3)),
+      });
+    }
+  }
+}
+
+const graph = { nodes, links };
+
+// 顯示字串（模板用 s、client script 用 g）。主題/關鍵字比對用的常數維持中文（那是資料鍵）。
+const s = isEn
+  ? {
+      metaTitle: "Explore mashbean's brain",
+      metaDescription:
+        "An interactive map of years of articles and keywords — feel mashbean's logic through what sits near and far.",
+      intro:
+        "An interactive map of years of articles and keywords — feel mashbean's logic through what sits near and far.",
+      graphAria: "Relationship graph",
+      filterTopic: "Filter topic",
+      allTopics: "All topics",
+      filterKeyword: "Filter keyword",
+      allKeywords: "All keywords",
+      searchContent: "Search content",
+      searchPlaceholder: "Search and see what turns up",
+      fullscreen: "⛶ Fullscreen",
+      backToSearchAria: "Back to the regular search page",
+      backToSearch: "↩ Back to search",
+      guideAria: "How to use",
+      searchResultAll: "Results: all nodes",
+      nodeTypeAria: "Node type display",
+      topic: "Topics",
+      keyword: "Keywords",
+      featured: "Featured",
+      facebook: "Facebook posts",
+      exitFullscreen: "Exit fullscreen",
+      graphAppAria: "Interactive graph",
+      inspectorAria: "Node info panel",
+      nodeInfo: "Node info",
+      closePanelAria: "Close info panel",
+      close: "Close",
+      clickNode: "Click any node to see details."
+    }
+  : {
+      metaTitle: "與豆泥的大腦互動",
+      metaDescription: "歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。",
+      intro: "歷年文章與歷年關鍵字的互動地圖，不妨在親疏遠近，感受豆泥的邏輯。",
+      graphAria: "關聯圖",
+      filterTopic: "篩選主題",
+      allTopics: "全部主題",
+      filterKeyword: "篩選關鍵字",
+      allKeywords: "全部關鍵字",
+      searchContent: "搜尋內容",
+      searchPlaceholder: "查查看？說不定有",
+      fullscreen: "⛶ 全螢幕",
+      backToSearchAria: "回一般搜尋頁面",
+      backToSearch: "↩ 回一般搜尋",
+      guideAria: "使用說明",
+      searchResultAll: "搜尋結果：全部節點",
+      nodeTypeAria: "節點類型顯示",
+      topic: "主題",
+      keyword: "關鍵字",
+      featured: "精選",
+      facebook: "臉書文",
+      exitFullscreen: "離開全螢幕",
+      graphAppAria: "互動圖譜",
+      inspectorAria: "節點資訊面板",
+      nodeInfo: "節點資訊",
+      closePanelAria: "關閉資訊面板",
+      close: "關閉",
+      clickNode: "點擊任一節點查看詳細資訊。"
+    };
+
+// client script 用的字串（含占位符）。
+const g = isEn
+  ? {
+      untitled: "(untitled)",
+      clickNodeHtml: "<p>Click any node to see details.</p>",
+      uncategorized: "<span>Uncategorized</span>",
+      typeTopic: "Topic",
+      typeKeyword: "Keyword",
+      typeFacebook: "Facebook post",
+      typeArticle: "Article",
+      allKeywordsOption: `<option value="all">All keywords</option>`,
+      noPosts: '<p class="graph-info-empty">No matching articles yet.</p>',
+      moreCount: (n: number) => `More ${n} articles`,
+      searchSupplement: "Search extras",
+      inGraphCount: (n: number) => `${n} articles in this node`,
+      inGraph: "In graph",
+      relatedCount: (n: number) => `${n} related articles`,
+      sourceFacebook: "Facebook post",
+      sourceFeatured: "Article",
+      noKeywords: '<p class="graph-post-card-empty">No keywords yet.</p>',
+      articleInfo: "Article info",
+      source: "Source",
+      topic: "Topic",
+      keyword: "Keyword",
+      resultAllCount: (n: number) => `Results: all nodes (${n})`,
+      resultMatch: (m: number, n: number) => `Results: ${m} / ${n}`,
+      fullscreenOn: "⛶ Exit fullscreen",
+      fullscreenOff: "⛶ Fullscreen"
+    }
+  : {
+      untitled: "(無標題)",
+      clickNodeHtml: "<p>點擊任一節點查看詳細資訊。</p>",
+      uncategorized: "<span>未分類</span>",
+      typeTopic: "主題",
+      typeKeyword: "關鍵字",
+      typeFacebook: "臉書文",
+      typeArticle: "文章",
+      allKeywordsOption: `<option value="all">全部關鍵字</option>`,
+      noPosts: '<p class="graph-info-empty">目前沒有對應文章。</p>',
+      moreCount: (n: number) => `還有更多 ${n} 篇`,
+      searchSupplement: "搜尋補充",
+      inGraphCount: (n: number) => `節點內文章 ${n} 篇`,
+      inGraph: "圖譜內",
+      relatedCount: (n: number) => `關聯文章 ${n} 篇`,
+      sourceFacebook: "臉書文",
+      sourceFeatured: "精選文章",
+      noKeywords: '<p class="graph-post-card-empty">目前沒有關鍵字。</p>',
+      articleInfo: "文章資訊",
+      source: "來源",
+      topic: "主題",
+      keyword: "關鍵字",
+      resultAllCount: (n: number) => `搜尋結果：全部節點（${n}）`,
+      resultMatch: (m: number, n: number) => `搜尋結果：${m} / ${n}`,
+      fullscreenOn: "⛶ 離開全螢幕",
+      fullscreenOff: "⛶ 全螢幕"
+    };
+---
+
+<BaseLayout title={s.metaTitle} description={s.metaDescription} lang={lang}>
+  <h1 class="section-title graph-page-title">{s.metaTitle}</h1>
+  <p class="graph-intro">{s.intro}</p>
+
+  <section class="graph-panel" aria-label={s.graphAria}>
+    <div class="graph-toolbar">
+      <label>
+        {s.filterTopic}
+        <select id="graph-topic-filter">
+          <option value="all">{s.allTopics}</option>
+          {topics.map((t) => <option value={t.key}>{isEn ? (t.titleEn ?? t.title) : t.title}</option>)}
+        </select>
+      </label>
+      <label>
+        {s.filterKeyword}
+        <select id="graph-keyword-filter">
+          <option value="all">{s.allKeywords}</option>
+        </select>
+      </label>
+      <label>
+        {s.searchContent}
+        <input id="graph-search" type="search" placeholder={s.searchPlaceholder} />
+      </label>
+      <button id="graph-fullscreen-toggle" type="button" class="graph-toolbar-action">{s.fullscreen}</button>
+      <a href={localizePath("search/", lang)} class="graph-toolbar-link graph-toolbar-action" aria-label={s.backToSearchAria}>
+        {s.backToSearch}
+      </a>
+    </div>
+    <div class="graph-guide" aria-label={s.guideAria}>
+      <p id="graph-search-status" class="graph-search-status" aria-live="polite">
+        {s.searchResultAll}
+      </p>
+      <div class="graph-type-toggle" role="group" aria-label={s.nodeTypeAria}>
+        <label>
+          <input type="checkbox" data-node-type="topic" checked />
+          <span class="graph-legend-dot graph-legend-dot-topic"></span>
+          {s.topic}
+        </label>
+        <label>
+          <input type="checkbox" data-node-type="keyword" checked />
+          <span class="graph-legend-dot graph-legend-dot-keyword"></span>
+          {s.keyword}
+        </label>
+        <label>
+          <input type="checkbox" data-node-type="post" checked />
+          <span class="graph-legend-dot graph-legend-dot-post"></span>
+          {s.featured}
+        </label>
+        <label>
+          <input type="checkbox" id="graph-facebook-toggle" data-source-filter="facebook" />
+          <span class="graph-legend-dot graph-legend-dot-facebook"></span>
+          {s.facebook}
+        </label>
+      </div>
+    </div>
+    <div class="graph-main">
+      <button
+        id="graph-fullscreen-close"
+        type="button"
+        class="graph-fullscreen-close"
+        aria-label={s.exitFullscreen}
+        hidden
+      >
+        ✕
+      </button>
+      <div
+        id="graph-stage"
+        class="graph-stage"
+        role="application"
+        aria-label={s.graphAppAria}
+        tabindex="0"
+      >
+      </div>
+      <aside
+        id="graph-inspector"
+        class="graph-inspector"
+        aria-live="polite"
+        aria-label={s.inspectorAria}
+      >
+        <div class="graph-inspector-head">
+          <h2>{s.nodeInfo}</h2>
+          <button
+            id="graph-inspector-close"
+            type="button"
+            class="graph-inspector-close"
+            aria-label={s.closePanelAria}>{s.close}</button
+          >
+        </div>
+        <div id="graph-inspector-content" class="graph-inspector-content">
+          <p>{s.clickNode}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ graph, searchIndexUrl, g }}>
+  const graphPanel = document.querySelector(".graph-panel");
+  const stage = document.querySelector("#graph-stage");
+  const inspector = document.querySelector("#graph-inspector");
+  const inspectorContent = document.querySelector("#graph-inspector-content");
+  const inspectorClose = document.querySelector("#graph-inspector-close");
+  const topicFilter = document.querySelector("#graph-topic-filter");
+  const keywordFilter = document.querySelector("#graph-keyword-filter");
+  const searchInput = document.querySelector("#graph-search");
+  const searchStatus = document.querySelector("#graph-search-status");
+  const fullscreenToggle = document.querySelector("#graph-fullscreen-toggle");
+  const fullscreenClose = document.querySelector("#graph-fullscreen-close");
+  const facebookToggle = document.querySelector("#graph-facebook-toggle");
+  const typeCheckboxes = Array.from(
+    document.querySelectorAll(".graph-type-toggle input[data-node-type]"),
+  );
+
+  if (!(stage instanceof HTMLElement)) throw new Error("graph stage missing");
+  if (!(graphPanel instanceof HTMLElement)) throw new Error("graph panel missing");
+
+  const nodes = graph.nodes.map((n, idx) => ({
+    ...n,
+    i: idx,
+    x: (Math.random() - 0.5) * 640,
+    y: (Math.random() - 0.5) * 420,
+    z: (Math.random() - 0.5) * 340,
+    vx: 0,
+    vy: 0,
+    vz: 0,
+  }));
+  const NODE_SPACE_LIMIT = 460;
+  const NODE_MAX_SPEED = 18;
+
+  const byId = new Map(nodes.map((n) => [n.id, n]));
+  const links = graph.links
+    .map((link) => ({ ...link, s: byId.get(link.source), t: byId.get(link.target) }))
+    .filter((link) => link.s && link.t);
+  const nodeDegree = new Map();
+  for (const link of links) {
+    nodeDegree.set(link.s.id, (nodeDegree.get(link.s.id) ?? 0) + 1);
+    nodeDegree.set(link.t.id, (nodeDegree.get(link.t.id) ?? 0) + 1);
+  }
+
+  const topicToPosts = new Map();
+  const keywordToPosts = new Map();
+  const postToTopics = new Map();
+  const postToKeywords = new Map();
+  const postToKeywordWeights = new Map();
+  const topicToKeywords = new Map();
+  const keywordToTopics = new Map();
+  const adjacency = new Map();
+  const postSearchCorpus = new Map();
+  const externalSearchEntries = [];
+
+  function pushMapSet(map, key, value) {
+    const set = map.get(key);
+    if (set) {
+      set.add(value);
+      return;
+    }
+    map.set(key, new Set([value]));
+  }
+
+  function pushKeywordWeight(postId, keywordId, weight) {
+    const bucket = postToKeywordWeights.get(postId);
+    if (bucket) {
+      bucket.set(keywordId, Math.max(weight, bucket.get(keywordId) ?? 0));
+      return;
+    }
+    postToKeywordWeights.set(postId, new Map([[keywordId, weight]]));
+  }
+
+  function pushAdjacency(a, b) {
+    const setA = adjacency.get(a);
+    if (setA) setA.add(b);
+    else adjacency.set(a, new Set([b]));
+    const setB = adjacency.get(b);
+    if (setB) setB.add(a);
+    else adjacency.set(b, new Set([a]));
+  }
+
+  for (const link of links) {
+    pushAdjacency(link.s.id, link.t.id);
+    if (link.kind === "topic" && link.s.type === "post" && link.t.type === "topic") {
+      pushMapSet(topicToPosts, link.t.id, link.s);
+      pushMapSet(postToTopics, link.s.id, link.t.id);
+    }
+    if (link.kind === "topic_keyword" && link.s.type === "topic" && link.t.type === "keyword") {
+      pushMapSet(topicToKeywords, link.s.id, link.t.id);
+      pushMapSet(keywordToTopics, link.t.id, link.s.id);
+    }
+    if (link.kind === "keyword" && link.s.type === "post" && link.t.type === "keyword") {
+      pushMapSet(postToKeywords, link.s.id, link.t.id);
+      pushMapSet(keywordToPosts, link.t.id, link.s);
+      pushKeywordWeight(link.s.id, link.t.id, Number(link.weight ?? 1));
+    }
+  }
+
+  async function loadSearchCorpus() {
+    try {
+      const response = await fetch(searchIndexUrl, { credentials: "same-origin" });
+      if (!response.ok) return;
+      const docs = await response.json();
+      if (!Array.isArray(docs)) return;
+      for (const doc of docs) {
+        if (
+          !doc ||
+          !["post", "facebook_post"].includes(doc.type) ||
+          typeof doc.id !== "string"
+        ) {
+          continue;
+        }
+        const text = [
+          typeof doc.title === "string" ? doc.title : "",
+          typeof doc.description === "string" ? doc.description : "",
+          typeof doc.content === "string" ? doc.content : "",
+          Array.isArray(doc.tags) ? doc.tags.join(" ") : "",
+          Array.isArray(doc.topics) ? doc.topics.join(" ") : "",
+        ]
+          .join(" ")
+          .toLocaleLowerCase("zh-TW");
+        const nodeId = doc.id.startsWith("post:") || doc.id.startsWith("facebook:") ? doc.id : `${doc.type === "facebook_post" ? "facebook" : "post"}:${doc.id}`;
+        if (!text) continue;
+        postSearchCorpus.set(nodeId, text);
+        if (!byId.has(nodeId)) {
+          externalSearchEntries.push({
+            id: nodeId,
+            title: typeof doc.title === "string" ? doc.title : g.untitled,
+            url: typeof doc.url === "string" ? doc.url : "",
+            text,
+            type: doc.type,
+          });
+        }
+      }
+      applyFilters();
+    } catch {
+      // Keep graph search functional even if index request fails.
+    }
+  }
+
+  const svgNS = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(svgNS, "svg");
+  svg.classList.add("graph-links");
+  stage.appendChild(svg);
+
+  const nodesLayer = document.createElement("div");
+  nodesLayer.className = "graph-nodes";
+  stage.appendChild(nodesLayer);
+
+  const linkEls = links.map((link) => {
+    const el = document.createElementNS(svgNS, "line");
+    el.setAttribute("class", `graph-link graph-link-${link.kind}`);
+    const weight = Number(link.weight ?? 1);
+    if (link.kind === "keyword") {
+      el.style.strokeWidth = `${(0.8 + weight * 0.9).toFixed(2)}`;
+      el.style.strokeOpacity = `${Math.min(0.82, 0.28 + weight * 0.28)}`;
+    } else {
+      el.style.strokeWidth = "1.35";
+    }
+    svg.appendChild(el);
+    return el;
+  });
+
+  const nodeEls = nodes.map((node) => {
+    const el = document.createElement("button");
+    el.type = "button";
+    el.className = `graph-node graph-node-${node.type}`;
+    if (node.type === "post" && node.source === "facebook") {
+      el.classList.add("graph-node-post-facebook");
+    }
+    el.textContent = node.type === "post" ? "" : node.label;
+    el.title = node.label;
+    const typeLabel =
+      node.type === "topic"
+        ? g.typeTopic
+        : node.type === "keyword"
+          ? g.typeKeyword
+          : node.source === "facebook"
+            ? g.typeFacebook
+            : g.typeArticle;
+    el.setAttribute("aria-label", `${typeLabel}：${node.label}`);
+    el.setAttribute("aria-pressed", "false");
+
+    nodesLayer.appendChild(el);
+    return el;
+  });
+
+  function escapeHtml(text) {
+    return text
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#39;");
+  }
+
+  let selectedNodeId = "";
+  let lastSelectedNodeId = "";
+  let lastSelectedAt = 0;
+  let centerNodeId = "";
+  let viewOffsetX = 0;
+  let viewOffsetY = 0;
+  let centerSnapPending = false;
+  let lastLayoutSignature = "";
+  let lastCenterTargetId = "";
+  let inspectorPinnedBySearch = false;
+  const visibleTypes = new Set(["topic", "keyword", "post"]);
+  let includeFacebookNodes = false;
+  let visibleNodeIds = new Set(nodes.map((n) => n.id));
+  let visibleLinkFlags = links.map(() => true);
+  let focusNodeIds = new Set();
+  const defaultInspectorHtml = g.clickNodeHtml;
+  const POST_NODE_CAP = 800;
+  const CENTER_PRIORITY_CANONICAL = [
+    "公共網路",
+    "治理與民主",
+    "臉書",
+    "AI 與科技",
+    "web3",
+    "數位藝術",
+    "FB Archive",
+  ];
+  const CENTER_PRIORITY_LABELS = new Set([
+    "公共網路",
+    "治理與民主",
+    "臉書",
+    "AI 與科技",
+    "AI與科技",
+    "web3",
+    "Web3",
+    "數位藝術",
+    "FB Archive",
+    "fb-archive",
+    "Fb Archive",
+  ]);
+  const EXTRA_CENTER_LABELS = new Set(["治理與民主", "數位藝術", "公共網路", "AI 與科技", "AI與科技", "web3", "Web3"]);
+  const EXTRA_CENTER_KEYWORDS = new Set(["fb-archive", "FB Archive", "Fb Archive", "臉書"]);
+  const FACEBOOK_TOPIC_KEYWORDS = new Set([
+    "啟蒙",
+    "當兵",
+    "臨床",
+    "文化書寫",
+    "公共治理",
+    "數位身分",
+    "科技社會",
+  ]);
+  const toCenterCanonical = (label) => {
+    if (label === "AI與科技") return "AI 與科技";
+    if (label === "Web3") return "web3";
+    if (label === "fb-archive" || label === "Fb Archive") return "FB Archive";
+    return label;
+  };
+
+  function setSelectedNode(nodeId) {
+    selectedNodeId = nodeId;
+    centerNodeId = nodeId;
+    centerSnapPending = Boolean(nodeId);
+    if (nodeId) inspectorPinnedBySearch = false;
+    nodeEls.forEach((el, i) => {
+      const selected = nodes[i].id === nodeId;
+      el.classList.toggle("graph-node-selected", selected);
+      el.setAttribute("aria-pressed", selected ? "true" : "false");
+    });
+    inspector?.classList.toggle("graph-inspector-open", Boolean(nodeId));
+  }
+
+  function renderRelatedPostCards(posts) {
+    if (posts.length === 0) return g.noPosts;
+    return `<ul class="graph-inspector-card-list">${posts
+      .slice(0, 80)
+      .map(
+        (post) => `
+          <li class="graph-inspector-card-item">
+            <button type="button" class="graph-inspector-card-link" data-focus-node-id="${escapeHtml(post.id)}">${escapeHtml(post.label)}</button>
+          </li>
+        `,
+      )
+      .join("")}</ul>`;
+  }
+
+  function renderExternalSearchHits(hits) {
+    if (hits.length === 0) return "";
+    return `
+      <section class="graph-info-card graph-search-extra-card">
+        <div class="graph-info-head">
+          <h3>${g.moreCount(hits.length)}</h3>
+          <span class="graph-info-type">${g.searchSupplement}</span>
+        </div>
+        <ul class="graph-inspector-card-list">
+          ${hits
+            .slice(0, 10)
+            .map(
+              (item) =>
+                `<li class="graph-inspector-card-item"><a class="graph-inspector-card-link" href="${escapeHtml(
+                  item.url || "#",
+                )}">${escapeHtml(item.title)}</a></li>`,
+            )
+            .join("")}
+        </ul>
+      </section>
+    `;
+  }
+
+  function renderSearchSplitView(inGraphPosts, externalHits) {
+    const inGraphHtml = `
+      <section class="graph-info-card graph-search-local-card">
+        <div class="graph-info-head">
+          <h3>${g.inGraphCount(inGraphPosts.length)}</h3>
+          <span class="graph-info-type">${g.inGraph}</span>
+        </div>
+        ${renderRelatedPostCards(inGraphPosts)}
+      </section>
+    `;
+    const externalHtml = renderExternalSearchHits(externalHits);
+    return `<div class="graph-search-stack">${inGraphHtml}${externalHtml}</div>`;
+  }
+
+  const nodeTypeEnabled = (node) => {
+    if (node.type !== "post") return visibleTypes.has(node.type);
+    if (node.source === "facebook") return includeFacebookNodes;
+    return visibleTypes.has("post");
+  };
+
+  function renderInspector(node) {
+    if (!(inspectorContent instanceof HTMLElement)) return;
+
+    if (node.type === "topic") {
+      const posts = Array.from(topicToPosts.get(node.id) ?? [])
+        .sort((a, b) => a.label.localeCompare(b.label, "zh-Hant"));
+      const listHtml = renderRelatedPostCards(posts);
+      inspectorContent.innerHTML = `
+        <article class="graph-info-card">
+          <div class="graph-info-head">
+            <h3>${escapeHtml(node.label)}</h3>
+            <span class="graph-info-type">${g.topic}</span>
+          </div>
+          <p class="graph-info-count">${g.relatedCount(posts.length)}</p>
+          ${listHtml}
+        </article>
+      `;
+      return;
+    }
+
+    if (node.type === "post") {
+      const topicItems = Array.from(postToTopics.get(node.id) ?? [])
+        .map((topicId) => byId.get(topicId))
+        .filter((topicNode) => topicNode && topicNode.type === "topic")
+        .map((topicNode) => ({ id: topicNode.id, label: topicNode.label }));
+      const keywordLabels = Array.from(postToKeywords.get(node.id) ?? [])
+        .map((keywordId) => {
+          const keywordNode = byId.get(keywordId);
+          const weight = postToKeywordWeights.get(node.id)?.get(keywordId) ?? 0;
+          return keywordNode && keywordNode.type === "keyword"
+            ? { id: keywordId, label: keywordNode.label, weight }
+            : null;
+        })
+        .filter((item) => item !== null)
+        .sort((a, b) => b.weight - a.weight || a.label.localeCompare(b.label, "zh-Hant"))
+        .slice(0, 16);
+
+      const topicHtml =
+        topicItems.length > 0
+          ? `<ul class="graph-tag-chip-list">${topicItems
+              .map(
+                (item) =>
+                  `<li><button type="button" class="graph-tag-chip graph-tag-chip-btn" data-focus-node-id="${escapeHtml(item.id)}">${escapeHtml(item.label)}</button></li>`,
+              )
+              .join("")}</ul>`
+          : g.uncategorized;
+      const sourceText = node.source === "facebook" ? g.sourceFacebook : g.sourceFeatured;
+      const keywordHtml =
+        keywordLabels.length > 0
+          ? `<ul class="graph-tag-chip-list">${keywordLabels
+              .map(
+                (item) =>
+                  `<li><button type="button" class="graph-tag-chip graph-tag-chip-btn" data-focus-node-id="${escapeHtml(item.id)}">${escapeHtml(item.label)}</button></li>`,
+              )
+              .join("")}</ul>`
+          : g.noKeywords;
+
+      inspectorContent.innerHTML = `
+        <article class="graph-post-card">
+          <div class="graph-post-card-head">
+            <span class="graph-post-card-type">${g.articleInfo}</span>
+          </div>
+          <a class="graph-post-card-link" href="${node.url}">${escapeHtml(node.label)}</a>
+          <dl class="graph-post-meta-grid">
+            <div>
+              <dt>${g.source}</dt>
+              <dd>${escapeHtml(sourceText)}</dd>
+            </div>
+            <div>
+              <dt>${g.topic}</dt>
+              <dd>${topicHtml}</dd>
+            </div>
+            <div>
+              <dt>${g.keyword}</dt>
+              <dd>${keywordHtml}</dd>
+            </div>
+          </dl>
+        </article>
+      `;
+      return;
+    }
+
+    const posts = Array.from(keywordToPosts.get(node.id) ?? [])
+      .sort((a, b) => a.label.localeCompare(b.label, "zh-Hant"));
+    const listHtml = renderRelatedPostCards(posts);
+    inspectorContent.innerHTML = `
+      <article class="graph-info-card">
+        <div class="graph-info-head">
+          <h3>${escapeHtml(node.label)}</h3>
+          <span class="graph-info-type">${g.keyword}</span>
+        </div>
+        <p class="graph-info-count">${g.relatedCount(posts.length)}</p>
+        ${listHtml}
+      </article>
+    `;
+  }
+
+  inspectorContent?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const button = target.closest("[data-focus-node-id]");
+    if (!(button instanceof HTMLElement)) return;
+    const nodeId = button.getAttribute("data-focus-node-id");
+    if (!nodeId) return;
+    const node = byId.get(nodeId);
+    if (!node) return;
+    event.preventDefault();
+    setSelectedNode(node.id);
+    renderInspector(node);
+    applyFilters();
+  });
+
+  function clearSelection() {
+    setSelectedNode("");
+    focusNodeIds = new Set();
+    if (inspectorContent instanceof HTMLElement) inspectorContent.innerHTML = defaultInspectorHtml;
+  }
+
+  function nodeMatchesQuery(node, q, terms) {
+    if (!q) return true;
+    const base = node.label.toLocaleLowerCase("zh-TW");
+    if (node.type !== "post") return terms.every((term) => base.includes(term));
+    const corpus = `${base} ${postSearchCorpus.get(node.id) ?? ""}`;
+    return terms.every((term) => corpus.includes(term));
+  }
+
+  function applyFilters() {
+    const selectedTopicValue = topicFilter instanceof HTMLSelectElement ? topicFilter.value : "all";
+    const selectedTopicId = selectedTopicValue !== "all" ? `topic:${selectedTopicValue}` : "all";
+    const selectedKeywordValue =
+      keywordFilter instanceof HTMLSelectElement ? keywordFilter.value : "all";
+    const selectedKeywordId =
+      selectedKeywordValue !== "all" ? `keyword:${selectedKeywordValue}` : "all";
+    const hasScopedFilter = selectedTopicId !== "all" || selectedKeywordId !== "all";
+    const q = (searchInput instanceof HTMLInputElement ? searchInput.value : "")
+      .trim()
+      .toLocaleLowerCase("zh-TW");
+    const terms = q.split(/\s+/).filter(Boolean);
+    const layoutSignature = [
+      selectedTopicId,
+      selectedKeywordId,
+      includeFacebookNodes ? "fb:on" : "fb:off",
+      Array.from(visibleTypes).sort().join("|"),
+      selectedNodeId || "_none",
+    ].join("::");
+    const layoutChanged = layoutSignature !== lastLayoutSignature;
+
+    const visiblePostIds = new Set();
+    const visibleKeywordIds = new Set();
+    const visibleTopicIds = new Set();
+
+    if (selectedTopicId === "all") {
+      for (const n of nodes) {
+        if (n.type === "post") visiblePostIds.add(n.id);
+        if (n.type === "keyword") visibleKeywordIds.add(n.id);
+        if (n.type === "topic") visibleTopicIds.add(n.id);
+      }
+    } else {
+      visibleTopicIds.add(selectedTopicId);
+      const posts = topicToPosts.get(selectedTopicId) ?? new Set();
+      for (const postNode of posts) {
+        visiblePostIds.add(postNode.id);
+        for (const keywordId of postToKeywords.get(postNode.id) ?? []) {
+          visibleKeywordIds.add(keywordId);
+        }
+      }
+    }
+
+    if (selectedKeywordId !== "all") {
+      const linkedPosts = keywordToPosts.get(selectedKeywordId) ?? new Set();
+      const linkedTopics = keywordToTopics.get(selectedKeywordId) ?? new Set();
+      for (const postId of Array.from(visiblePostIds)) {
+        if (!linkedPosts.has(byId.get(postId))) visiblePostIds.delete(postId);
+      }
+      visibleKeywordIds.clear();
+      visibleKeywordIds.add(selectedKeywordId);
+      if (selectedTopicId === "all") {
+        visibleTopicIds.clear();
+        for (const topicId of linkedTopics) visibleTopicIds.add(topicId);
+      }
+    }
+
+    if (visiblePostIds.size > POST_NODE_CAP) {
+      const sortedIds = Array.from(visiblePostIds).sort((a, b) => {
+        const na = byId.get(a);
+        const nb = byId.get(b);
+        return (nb?.priority ?? 0) - (na?.priority ?? 0);
+      });
+      visiblePostIds.clear();
+      for (const id of sortedIds.slice(0, POST_NODE_CAP)) {
+        visiblePostIds.add(id);
+      }
+    }
+
+    visibleNodeIds = new Set();
+    focusNodeIds = selectedNodeId
+      ? new Set([selectedNodeId, ...(adjacency.get(selectedNodeId) ?? [])])
+      : new Set();
+    let matchCount = 0;
+
+    nodeEls.forEach((el, i) => {
+      const n = nodes[i];
+      const forcedSelected = selectedNodeId === n.id;
+      let topicVisible = true;
+      if (!forcedSelected && hasScopedFilter) {
+        if (n.type === "topic") topicVisible = visibleTopicIds.has(n.id);
+        if (n.type === "post") topicVisible = visiblePostIds.has(n.id);
+        if (n.type === "keyword") topicVisible = visibleKeywordIds.has(n.id);
+      }
+      const typeVisible = forcedSelected || nodeTypeEnabled(n);
+
+      if (!topicVisible || !typeVisible) {
+        el.style.opacity = "0";
+        el.style.pointerEvents = "none";
+        el.classList.remove("graph-node-match");
+        el.classList.remove("graph-node-focus");
+        return;
+      }
+
+      visibleNodeIds.add(n.id);
+      const matched = forcedSelected || nodeMatchesQuery(n, q, terms);
+      el.classList.toggle("graph-node-match", Boolean(q) && matched);
+      const inFocus = focusNodeIds.size > 0 && focusNodeIds.has(n.id);
+      el.classList.toggle("graph-node-focus", inFocus);
+      if (matched) matchCount += 1;
+      let opacity = q && !matched ? 0.22 : 1;
+      if (focusNodeIds.size > 0 && !inFocus) opacity = Math.min(opacity, 0.12);
+      el.style.opacity = String(opacity);
+      el.style.pointerEvents = "auto";
+    });
+
+    visibleLinkFlags = links.map(() => true);
+    linkEls.forEach((el, i) => {
+      const link = links[i];
+      let topicVisible = true;
+      if (hasScopedFilter) {
+        if (link.kind === "topic") {
+          topicVisible = visibleTopicIds.has(link.t.id) && visiblePostIds.has(link.s.id);
+        } else if (link.kind === "topic_keyword") {
+          topicVisible =
+            visibleTopicIds.has(link.s.id) &&
+            visibleKeywordIds.has(link.t.id) &&
+            (selectedKeywordId === "all" || link.t.id === selectedKeywordId);
+        } else {
+          topicVisible = visiblePostIds.has(link.s.id) && visibleKeywordIds.has(link.t.id);
+        }
+      }
+      const typeVisible = nodeTypeEnabled(link.s) && nodeTypeEnabled(link.t);
+      if (!topicVisible || !typeVisible) {
+        visibleLinkFlags[i] = false;
+        el.style.display = "none";
+        return;
+      }
+      el.style.display = "block";
+      const weight = Number(link.weight ?? 1);
+      const baseOpacity = link.kind === "keyword" ? Math.min(0.82, 0.28 + weight * 0.28) : 0.72;
+      const inFocusLink =
+        focusNodeIds.size === 0 || (focusNodeIds.has(link.s.id) && focusNodeIds.has(link.t.id));
+      if (!q) {
+        el.style.strokeOpacity = String(inFocusLink ? baseOpacity : 0.08);
+        return;
+      }
+      const srcMatched = nodeMatchesQuery(link.s, q, terms);
+      const tarMatched = nodeMatchesQuery(link.t, q, terms);
+      const searchOpacity = srcMatched || tarMatched ? baseOpacity : 0.1;
+      el.style.strokeOpacity = String(inFocusLink ? searchOpacity : Math.min(searchOpacity, 0.08));
+    });
+
+    if (selectedNodeId && !visibleNodeIds.has(selectedNodeId)) {
+      clearSelection();
+      applyFilters();
+      return;
+    }
+
+    if (searchStatus instanceof HTMLElement) {
+      if (!q) {
+        searchStatus.textContent = g.resultAllCount(visibleNodeIds.size);
+      } else {
+        searchStatus.textContent = g.resultMatch(matchCount, visibleNodeIds.size);
+      }
+    }
+
+    const extraMatches =
+      q && terms.length > 0
+        ? externalSearchEntries.filter((item) => terms.every((term) => item.text.includes(term)))
+        : [];
+    if (!selectedNodeId && extraMatches.length > 0) {
+      if (inspectorContent instanceof HTMLElement) {
+        const matchedInGraphPosts = nodes
+          .filter(
+            (node) =>
+              node.type === "post" &&
+              visibleNodeIds.has(node.id) &&
+              nodeMatchesQuery(node, q, terms),
+          )
+          .sort((a, b) => a.label.localeCompare(b.label, "zh-Hant"));
+        inspectorContent.innerHTML = renderSearchSplitView(matchedInGraphPosts, extraMatches);
+      }
+      inspector?.classList.add("graph-inspector-open");
+      inspectorPinnedBySearch = true;
+    } else if (!selectedNodeId && inspectorPinnedBySearch) {
+      if (inspectorContent instanceof HTMLElement) inspectorContent.innerHTML = defaultInspectorHtml;
+      inspector?.classList.remove("graph-inspector-open");
+      inspectorPinnedBySearch = false;
+    }
+
+    let nextCenterTargetId = "";
+    if (selectedNodeId && visibleNodeIds.has(selectedNodeId)) {
+      nextCenterTargetId = selectedNodeId;
+    } else if (selectedKeywordId !== "all" && visibleNodeIds.has(selectedKeywordId)) {
+      nextCenterTargetId = selectedKeywordId;
+    } else if (selectedTopicId !== "all" && visibleNodeIds.has(selectedTopicId)) {
+      nextCenterTargetId = selectedTopicId;
+    }
+    if (nextCenterTargetId) {
+      centerNodeId = nextCenterTargetId;
+      if (layoutChanged || nextCenterTargetId !== lastCenterTargetId) {
+        centerSnapPending = true;
+      }
+      lastCenterTargetId = nextCenterTargetId;
+    }
+
+    // Keep visible graph near center only when layout-related filters changed.
+    if (layoutChanged && visibleNodeIds.size > 0) {
+      let sx = 0;
+      let sy = 0;
+      let sz = 0;
+      let sw = 0;
+      for (const id of visibleNodeIds) {
+        const node = byId.get(id);
+        if (!node) continue;
+        const w = Math.max(1, nodeDegree.get(id) ?? 1);
+        sx += node.x * w;
+        sy += node.y * w;
+        sz += node.z * w;
+        sw += w;
+      }
+      if (sw > 0) {
+        const cx = sx / sw;
+        const cy = sy / sw;
+        const cz = sz / sw;
+        const shift = 0.46;
+        for (const id of visibleNodeIds) {
+          const node = byId.get(id);
+          if (!node) continue;
+          node.x -= cx * shift;
+          node.y -= cy * shift;
+          node.z -= cz * shift;
+          clampNode(node);
+        }
+
+        // Keep priority hubs in the center area, but separated on a loose ring.
+        const priorityNodes = [];
+        for (const id of visibleNodeIds) {
+          const node = byId.get(id);
+          if (!node || !CENTER_PRIORITY_LABELS.has(node.label)) continue;
+          priorityNodes.push(node);
+        }
+        if (priorityNodes.length > 0) {
+          priorityNodes.sort((a, b) => {
+            const ia = CENTER_PRIORITY_CANONICAL.indexOf(toCenterCanonical(a.label));
+            const ib = CENTER_PRIORITY_CANONICAL.indexOf(toCenterCanonical(b.label));
+            const ra = ia >= 0 ? ia : Number.MAX_SAFE_INTEGER;
+            const rb = ib >= 0 ? ib : Number.MAX_SAFE_INTEGER;
+            if (ra !== rb) return ra - rb;
+            return a.label.localeCompare(b.label, "zh-Hant");
+          });
+          const ringR = 150;
+          const zSpread = 42;
+          for (let i = 0; i < priorityNodes.length; i += 1) {
+            const node = priorityNodes[i];
+            const t = (Math.PI * 2 * i) / priorityNodes.length - Math.PI / 2;
+            const tx = Math.cos(t) * ringR;
+            const ty = Math.sin(t) * ringR * 0.74;
+            const tz = Math.sin(t * 1.5) * zSpread;
+            const blend = 0.42;
+            node.x += (tx - node.x) * blend;
+            node.y += (ty - node.y) * blend;
+            node.z += (tz - node.z) * blend;
+            clampNode(node);
+          }
+        }
+
+        // Keep the six main topic hubs closer to the center area.
+        for (const id of visibleNodeIds) {
+          const node = byId.get(id);
+          if (!node || node.type !== "topic") continue;
+          const topicPull = 0.32;
+          node.x *= 1 - topicPull;
+          node.y *= 1 - topicPull;
+          node.z *= 1 - topicPull;
+          if (EXTRA_CENTER_LABELS.has(node.label)) {
+            const extraPull = 0.2;
+            node.x *= 1 - extraPull;
+            node.y *= 1 - extraPull;
+            node.z *= 1 - extraPull;
+          }
+          clampNode(node);
+        }
+
+        // Important keyword hubs should not drift too far.
+        for (const id of visibleNodeIds) {
+          const node = byId.get(id);
+          if (!node || node.type !== "keyword" || !EXTRA_CENTER_KEYWORDS.has(node.label)) continue;
+          const pull = 0.34;
+          node.x *= 1 - pull;
+          node.y *= 1 - pull;
+          node.z *= 1 - pull;
+          clampNode(node);
+        }
+
+        // Facebook topic keyword labels should stay in a more central ring.
+        for (const id of visibleNodeIds) {
+          const node = byId.get(id);
+          if (!node || node.type !== "keyword" || !FACEBOOK_TOPIC_KEYWORDS.has(node.label)) continue;
+          const pull = 0.28;
+          node.x *= 1 - pull;
+          node.y *= 1 - pull;
+          node.z *= 1 - pull;
+          clampNode(node);
+        }
+
+        // Facebook post nodes are denser; spread them outward a bit for readability.
+        for (const id of visibleNodeIds) {
+          const node = byId.get(id);
+          if (!node || node.type !== "post" || node.source !== "facebook") continue;
+          const outward = 1.45;
+          node.x *= outward;
+          node.y *= outward;
+          node.z *= outward;
+          clampNode(node);
+        }
+      }
+    }
+    lastLayoutSignature = layoutSignature;
+    redrawSoon();
+  }
+
+  function refreshKeywordFilterOptions() {
+    if (!(keywordFilter instanceof HTMLSelectElement)) return;
+    const selectedTopicValue = topicFilter instanceof HTMLSelectElement ? topicFilter.value : "all";
+    const selectedTopicId = selectedTopicValue !== "all" ? `topic:${selectedTopicValue}` : "all";
+    const current = keywordFilter.value || "all";
+    const options = ["all"];
+    if (selectedTopicId === "all") {
+      for (const n of nodes) {
+        if (n.type === "keyword") options.push(n.label);
+      }
+    } else {
+      const keywordIds = Array.from(topicToKeywords.get(selectedTopicId) ?? []);
+      for (const keywordId of keywordIds) {
+        const node = byId.get(keywordId);
+        if (node?.type === "keyword") options.push(node.label);
+      }
+    }
+    const unique = Array.from(new Set(options));
+    keywordFilter.innerHTML = unique
+      .map((label) =>
+        label === "all"
+          ? g.allKeywordsOption
+          : `<option value="${escapeHtml(label)}">${escapeHtml(label)}</option>`,
+      )
+      .join("");
+    keywordFilter.value = unique.includes(current) ? current : "all";
+  }
+
+  let suppressClickUntil = 0;
+  nodeEls.forEach((el, i) => {
+    const node = nodes[i];
+    let nodePointerMoved = false;
+    let nodeStartX = 0;
+    let nodeStartY = 0;
+
+    el.addEventListener("pointerdown", (event) => {
+      nodePointerMoved = false;
+      nodeStartX = event.clientX;
+      nodeStartY = event.clientY;
+    });
+
+    el.addEventListener("pointermove", (event) => {
+      if (nodePointerMoved) return;
+      const moved = Math.hypot(event.clientX - nodeStartX, event.clientY - nodeStartY);
+      if (moved >= 5) nodePointerMoved = true;
+    });
+
+    el.addEventListener("pointerup", () => {
+      if (nodePointerMoved) suppressClickUntil = performance.now() + 260;
+    });
+
+    el.addEventListener("click", () => {
+      if (performance.now() < suppressClickUntil) return;
+      const wasSelected = selectedNodeId === node.id;
+      const rapidSecondTap =
+        wasSelected && lastSelectedNodeId === node.id && performance.now() - lastSelectedAt < 950;
+      setSelectedNode(node.id);
+      renderInspector(node);
+      applyFilters();
+      lastSelectedNodeId = node.id;
+      lastSelectedAt = performance.now();
+      if (node.url && rapidSecondTap) window.location.href = node.url;
+    });
+  });
+
+  inspectorClose?.addEventListener("click", () => {
+    clearSelection();
+    applyFilters();
+    stage.focus();
+  });
+
+  let yaw = 0;
+  let pitch = 0;
+  let zoom = 1;
+  let dragging = false;
+  let pointerMoved = false;
+  let dragPointerId = -1;
+  const dragThreshold = 6;
+  let lx = 0;
+  let ly = 0;
+
+  function project(n, w, h) {
+    const cy = Math.cos(yaw);
+    const sy = Math.sin(yaw);
+    const cp = Math.cos(pitch);
+    const sp = Math.sin(pitch);
+
+    const x1 = n.x * cy - n.z * sy;
+    const z1 = n.x * sy + n.z * cy;
+    const y1 = n.y * cp - z1 * sp;
+    const z2 = n.y * sp + z1 * cp;
+
+    const p = (760 / (760 + z2)) * zoom;
+    return {
+      x: w / 2 + x1 * p,
+      y: h / 2 + y1 * p,
+      s: Math.max(0.3, p),
+      z: z2,
+    };
+  }
+
+  function applyForces(activeNodes, activeNodeIdSet) {
+    for (let i = 0; i < activeNodes.length; i += 1) {
+      for (let j = i + 1; j < activeNodes.length; j += 1) {
+        const a = activeNodes[i];
+        const b = activeNodes[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dz = a.z - b.z;
+        const d2 = Math.max(28, dx * dx + dy * dy + dz * dz);
+        const f = 720 / d2;
+        const inv = 1 / Math.sqrt(d2);
+        const fx = dx * inv * f;
+        const fy = dy * inv * f;
+        const fz = dz * inv * f;
+        a.vx += fx;
+        a.vy += fy;
+        a.vz += fz;
+        b.vx -= fx;
+        b.vy -= fy;
+        b.vz -= fz;
+      }
+    }
+
+    for (let i = 0; i < links.length; i += 1) {
+      if (!visibleLinkFlags[i]) continue;
+      const link = links[i];
+      const a = link.s;
+      const b = link.t;
+      if (!activeNodeIdSet.has(a.id) || !activeNodeIdSet.has(b.id)) continue;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const dz = b.z - a.z;
+      const d = Math.sqrt(dx * dx + dy * dy + dz * dz) || 1;
+      const weight = Number(link.weight ?? 1);
+      const target = link.kind === "topic" ? 140 : Math.max(128, 230 - weight * 52);
+      const k = link.kind === "topic" ? 0.03 : 0.01 + weight * 0.013;
+      const f = (d - target) * k;
+      const fx = (dx / d) * f;
+      const fy = (dy / d) * f;
+      const fz = (dz / d) * f;
+      a.vx += fx;
+      a.vy += fy;
+      a.vz += fz;
+      b.vx -= fx;
+      b.vy -= fy;
+      b.vz -= fz;
+    }
+
+    for (const n of activeNodes) {
+      const degree = nodeDegree.get(n.id) ?? 1;
+      const centerK = Math.min(0.0058, 0.0015 + degree * 0.00022);
+      n.vx += -n.x * centerK;
+      n.vy += -n.y * centerK;
+      n.vz += -n.z * centerK;
+    }
+  }
+
+  function clampNode(node) {
+    if (!Number.isFinite(node.x) || !Number.isFinite(node.y) || !Number.isFinite(node.z)) {
+      node.x = (Math.random() - 0.5) * 480;
+      node.y = (Math.random() - 0.5) * 360;
+      node.z = (Math.random() - 0.5) * 320;
+      node.vx = 0;
+      node.vy = 0;
+      node.vz = 0;
+      return;
+    }
+    node.x = Math.max(-NODE_SPACE_LIMIT, Math.min(NODE_SPACE_LIMIT, node.x));
+    node.y = Math.max(-NODE_SPACE_LIMIT, Math.min(NODE_SPACE_LIMIT, node.y));
+    node.z = Math.max(-NODE_SPACE_LIMIT, Math.min(NODE_SPACE_LIMIT, node.z));
+    node.vx = Math.max(-NODE_MAX_SPEED, Math.min(NODE_MAX_SPEED, Number.isFinite(node.vx) ? node.vx : 0));
+    node.vy = Math.max(-NODE_MAX_SPEED, Math.min(NODE_MAX_SPEED, Number.isFinite(node.vy) ? node.vy : 0));
+    node.vz = Math.max(-NODE_MAX_SPEED, Math.min(NODE_MAX_SPEED, Number.isFinite(node.vz) ? node.vz : 0));
+  }
+
+  function integrate(activeNodeIdSet) {
+    for (const n of nodes) {
+      if (!activeNodeIdSet.has(n.id)) {
+        n.vx *= 0.7;
+        n.vy *= 0.7;
+        n.vz *= 0.7;
+        continue;
+      }
+      n.vx *= 0.88;
+      n.vy *= 0.88;
+      n.vz *= 0.88;
+      n.x += n.vx;
+      n.y += n.vy;
+      n.z += n.vz;
+      clampNode(n);
+    }
+  }
+
+  function settleLayout() {
+    const rounds = Math.min(520, Math.max(180, Math.round(nodes.length * 1.25)));
+    const activeNodeIdSet = new Set(nodes.map((n) => n.id));
+    for (let i = 0; i < rounds; i += 1) {
+      applyForces(nodes, activeNodeIdSet);
+      integrate(activeNodeIdSet);
+    }
+    for (const n of nodes) {
+      n.vx = 0;
+      n.vy = 0;
+      n.vz = 0;
+    }
+  }
+
+  function draw() {
+    const rect = stage.getBoundingClientRect();
+    if (rect.width < 24 || rect.height < 24) return;
+    svg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+    const p = nodes.map((n) => project(n, rect.width, rect.height));
+
+    if (centerNodeId && !dragging) {
+      const focusNode = byId.get(centerNodeId);
+      const projectedFocus = focusNode ? p[focusNode.i] : null;
+      if (projectedFocus) {
+        const targetOffsetX = rect.width / 2 - projectedFocus.x;
+        const targetOffsetY = rect.height / 2 - projectedFocus.y;
+        if (centerSnapPending) {
+          viewOffsetX = targetOffsetX;
+          viewOffsetY = targetOffsetY;
+          centerSnapPending = false;
+        } else {
+          viewOffsetX += (targetOffsetX - viewOffsetX) * 0.18;
+          viewOffsetY += (targetOffsetY - viewOffsetY) * 0.18;
+        }
+      } else {
+        viewOffsetX += (0 - viewOffsetX) * 0.18;
+        viewOffsetY += (0 - viewOffsetY) * 0.18;
+      }
+    } else {
+      viewOffsetX += (0 - viewOffsetX) * 0.18;
+      viewOffsetY += (0 - viewOffsetY) * 0.18;
+    }
+
+    links.forEach((link, i) => {
+      const el = linkEls[i];
+      if (!visibleLinkFlags[i]) return;
+      const a = p[link.s.i];
+      const b = p[link.t.i];
+      el.setAttribute("x1", String(a.x + viewOffsetX));
+      el.setAttribute("y1", String(a.y + viewOffsetY));
+      el.setAttribute("x2", String(b.x + viewOffsetX));
+      el.setAttribute("y2", String(b.y + viewOffsetY));
+    });
+
+    nodes.forEach((_, i) => {
+      const el = nodeEls[i];
+      const pp = p[i];
+      el.style.left = `${pp.x + viewOffsetX}px`;
+      el.style.top = `${pp.y + viewOffsetY}px`;
+      el.style.transform = `translate(-50%, -50%) scale(${pp.s})`;
+      el.style.zIndex = String(Math.round(100000 - pp.z));
+    });
+  }
+
+  let drawScheduled = false;
+  const redrawSoon = () => {
+    if (drawScheduled) return;
+    drawScheduled = true;
+    requestAnimationFrame(() => {
+      drawScheduled = false;
+      draw();
+    });
+  };
+
+  const isPanelFullscreen = () => document.fullscreenElement === graphPanel;
+
+  const syncFullscreenUI = () => {
+    const on = isPanelFullscreen();
+    graphPanel.classList.toggle("graph-panel-fullscreen", on);
+    if (fullscreenToggle instanceof HTMLButtonElement) {
+      fullscreenToggle.textContent = on ? g.fullscreenOn : g.fullscreenOff;
+      fullscreenToggle.setAttribute("aria-pressed", on ? "true" : "false");
+    }
+    if (fullscreenClose instanceof HTMLButtonElement) {
+      fullscreenClose.hidden = !on;
+    }
+    redrawSoon();
+  };
+
+  const enterFullscreen = async () => {
+    if (isPanelFullscreen()) return;
+    if (graphPanel.requestFullscreen) {
+      await graphPanel.requestFullscreen();
+      return;
+    }
+    const webkitRequest = graphPanel.webkitRequestFullscreen;
+    if (typeof webkitRequest === "function") webkitRequest.call(graphPanel);
+  };
+
+  const exitFullscreen = async () => {
+    if (!document.fullscreenElement) return;
+    if (document.exitFullscreen) {
+      await document.exitFullscreen();
+      return;
+    }
+    const webkitExit = document.webkitExitFullscreen;
+    if (typeof webkitExit === "function") webkitExit.call(document);
+  };
+
+  stage.addEventListener("pointerdown", (e) => {
+    if (e.target instanceof HTMLElement && e.target.closest(".graph-node")) return;
+    dragging = true;
+    pointerMoved = false;
+    dragPointerId = e.pointerId;
+    lx = e.clientX;
+    ly = e.clientY;
+    stage.setPointerCapture(e.pointerId);
+  });
+
+  stage.addEventListener("pointermove", (e) => {
+    if (!dragging || e.pointerId !== dragPointerId) return;
+    const dx = e.clientX - lx;
+    const dy = e.clientY - ly;
+    if (!pointerMoved && Math.hypot(dx, dy) >= dragThreshold) pointerMoved = true;
+    if (!pointerMoved) return;
+    yaw += dx * 0.004;
+    pitch += dy * 0.003;
+    lx = e.clientX;
+    ly = e.clientY;
+    redrawSoon();
+  });
+
+  stage.addEventListener("pointerup", (e) => {
+    if (e.pointerId !== dragPointerId) return;
+    if (pointerMoved) suppressClickUntil = performance.now() + 200;
+    dragging = false;
+    pointerMoved = false;
+    dragPointerId = -1;
+    stage.releasePointerCapture(e.pointerId);
+  });
+
+  stage.addEventListener("pointercancel", (e) => {
+    if (e.pointerId !== dragPointerId) return;
+    dragging = false;
+    pointerMoved = false;
+    dragPointerId = -1;
+  });
+
+  stage.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      zoom = Math.min(2.2, Math.max(0.55, zoom + (e.deltaY < 0 ? 0.08 : -0.08)));
+      redrawSoon();
+    },
+    { passive: false },
+  );
+  window.addEventListener("resize", redrawSoon);
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver(redrawSoon);
+    ro.observe(stage);
+  }
+
+  stage.addEventListener("click", (e) => {
+    if (e.target instanceof HTMLElement && e.target.closest(".graph-node")) return;
+    clearSelection();
+    applyFilters();
+  });
+
+  topicFilter?.addEventListener("change", () => {
+    refreshKeywordFilterOptions();
+    applyFilters();
+  });
+
+  keywordFilter?.addEventListener("change", applyFilters);
+
+  searchInput?.addEventListener("input", applyFilters);
+
+  typeCheckboxes.forEach((input) => {
+    input.addEventListener("change", () => {
+      const checkedTypes = typeCheckboxes
+        .filter((item) => item instanceof HTMLInputElement && item.checked)
+        .map((item) => item.getAttribute("data-node-type"))
+        .filter(Boolean);
+      if (checkedTypes.length === 0) {
+        if (input instanceof HTMLInputElement) input.checked = true;
+        return;
+      }
+      visibleTypes.clear();
+      checkedTypes.forEach((type) => visibleTypes.add(type));
+      applyFilters();
+    });
+  });
+
+  facebookToggle?.addEventListener("change", () => {
+    includeFacebookNodes =
+      facebookToggle instanceof HTMLInputElement ? facebookToggle.checked : false;
+    applyFilters();
+  });
+
+  stage.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      clearSelection();
+      applyFilters();
+      return;
+    }
+    if (e.key === "+" || e.key === "=") {
+      e.preventDefault();
+      zoom = Math.min(2.2, zoom + 0.08);
+      redrawSoon();
+      return;
+    }
+    if (e.key === "-" || e.key === "_") {
+      e.preventDefault();
+      zoom = Math.max(0.55, zoom - 0.08);
+      redrawSoon();
+      return;
+    }
+    if (e.key === "f" || e.key === "F") {
+      e.preventDefault();
+      if (isPanelFullscreen()) {
+        exitFullscreen();
+      } else {
+        enterFullscreen();
+      }
+    }
+  });
+
+  fullscreenToggle?.addEventListener("click", () => {
+    if (isPanelFullscreen()) {
+      exitFullscreen();
+    } else {
+      enterFullscreen();
+    }
+  });
+
+  fullscreenClose?.addEventListener("click", () => {
+    exitFullscreen();
+  });
+
+  document.addEventListener("fullscreenchange", syncFullscreenUI);
+  document.addEventListener("webkitfullscreenchange", syncFullscreenUI);
+
+  settleLayout();
+  refreshKeywordFilterOptions();
+  applyFilters();
+  loadSearchCorpus();
+  syncFullscreenUI();
+  draw();
+</script>
+
+<style>
+  .graph-panel {
+    border: 1px solid #d8e6e1;
+    border-radius: 1rem;
+    background: #fff;
+    padding: 0.9rem;
+  }
+  .graph-panel.graph-panel-fullscreen {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+    border: 0;
+    padding: 0.9rem;
+    background: #fff;
+    overflow: auto;
+  }
+  .graph-page-title {
+    font-family: var(--font-sans);
+    font-weight: 500;
+  }
+  .graph-intro {
+    margin: 0 0 1.14rem;
+  }
+  .graph-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 0.6rem;
+    margin-bottom: 0.72rem;
+  }
+  .graph-toolbar label {
+    display: grid;
+    gap: 0.24rem;
+    font-size: 0.84rem;
+    color: #39525d;
+  }
+  .graph-toolbar input,
+  .graph-toolbar select,
+  .graph-toolbar button {
+    border: 1px solid #c8ddd7;
+    border-radius: 0.72rem;
+    background: #f8fcfa;
+    color: #1f3c49;
+    min-height: 2rem;
+    padding: 0.24rem 0.58rem;
+    font-size: 0.88rem;
+  }
+  .graph-toolbar select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 1.7rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23526a73' d='M2.2 4.2a.75.75 0 0 1 1.06 0L6 6.94 8.74 4.2a.75.75 0 1 1 1.06 1.06L6.53 8.53a.75.75 0 0 1-1.06 0L2.2 5.26a.75.75 0 0 1 0-1.06z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 0.78rem 0.78rem;
+    background-position: right 0.62rem center;
+  }
+  .graph-toolbar .graph-toolbar-link {
+    text-decoration: none;
+  }
+  .graph-toolbar .graph-toolbar-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c8ddd7;
+    border-radius: 0.72rem;
+    background: #f8fcfa;
+    color: #1f3c49;
+    min-height: 2rem;
+    height: 2rem;
+    padding: 0.24rem 0.58rem;
+    font-size: 0.88rem;
+    font-weight: 500;
+    font-family: inherit;
+    line-height: 1;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+  .graph-toolbar .graph-toolbar-action:hover {
+    border-color: #b5d7cd;
+    color: #15404f;
+    background: #eef8f4;
+  }
+  .graph-guide {
+    display: grid;
+    gap: 0.38rem;
+    margin: 0 0 0.7rem;
+    padding: 0.56rem 0.64rem;
+    border-radius: 0.76rem;
+    background: #f3faf7;
+    border: 1px solid #d6ebe3;
+  }
+  .graph-guide-text,
+  .graph-search-status {
+    margin: 0;
+    font-size: 0.82rem;
+    color: #345260;
+  }
+  .graph-search-status {
+    font-weight: 600;
+    color: #1f4c62;
+  }
+  .graph-type-toggle {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.44rem 0.78rem;
+    font-size: 0.8rem;
+    color: #2f4b57;
+  }
+  .graph-type-toggle label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.14rem 0.4rem;
+    border: 1px solid #d5e9e2;
+    border-radius: 999px;
+    background: #ffffff;
+  }
+  .graph-type-toggle input {
+    accent-color: #0b7d6d;
+  }
+  .graph-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.58rem 0.9rem;
+    font-size: 0.79rem;
+    color: #31515f;
+  }
+  .graph-legend li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.32rem;
+  }
+  .graph-legend-dot {
+    width: 0.58rem;
+    height: 0.58rem;
+    border-radius: 999px;
+    border: 1px solid #accfc4;
+    background: #f9fcfb;
+  }
+  .graph-legend-dot-topic {
+    background: #eef9f5;
+    border-color: #9fcec3;
+  }
+  .graph-legend-dot-keyword {
+    background: #f9fcfb;
+    border-color: #d2e4de;
+  }
+  .graph-legend-dot-post {
+    background: #28a18c;
+    border-color: #92ccc0;
+  }
+  .graph-legend-dot-facebook {
+    background: #f4f7fb;
+    border-color: #b9c6d9;
+  }
+  .graph-main {
+    position: relative;
+  }
+  .graph-fullscreen-close {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+    right: auto;
+    z-index: 30;
+    border: 1px solid #b7cfc7;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.94);
+    color: #1f3c49;
+    min-width: 2rem;
+    min-height: 2rem;
+    padding: 0;
+    line-height: 1;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .graph-fullscreen-close:hover {
+    background: #f0f8f5;
+    border-color: #97c1b4;
+  }
+  .graph-stage {
+    position: relative;
+    height: min(72vh, 740px);
+    border: 1px solid #d8e6e1;
+    border-radius: 0.85rem;
+    background: radial-gradient(circle at 20% 10%, #f0faf6, #ffffff 60%);
+    overflow: hidden;
+    touch-action: none;
+    z-index: 0;
+  }
+  :global(.graph-links) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  :global(.graph-link) {
+    stroke: #c9ddd8;
+    stroke-opacity: 0.72;
+    stroke-width: 1.2;
+  }
+  :global(.graph-link-topic) {
+    stroke: #95c8bb;
+  }
+  :global(.graph-nodes) {
+    position: absolute;
+    inset: 0;
+  }
+  :global(.graph-node) {
+    position: absolute;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #fff;
+    color: #20404d;
+    padding: 0.15rem 0.44rem;
+    font-size: 0.74rem;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(25, 56, 52, 0.08);
+  }
+  :global(.graph-node:focus-visible) {
+    outline: 2px solid #1f79a4;
+    outline-offset: 2px;
+  }
+  :global(.graph-node-post) {
+    width: 0.56rem;
+    height: 0.56rem;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    text-indent: -9999px;
+    border-radius: 999px;
+    border-color: #92ccc0;
+    background: #28a18c;
+  }
+  :global(.graph-node-post-facebook) {
+    border-color: #a7b8d4;
+    background: #6c7ea0;
+  }
+  :global(.graph-node-topic) {
+    background: #eef9f5;
+    border-color: #9fcec3;
+    font-weight: 600;
+  }
+  :global(.graph-node-keyword) {
+    background: #f9fcfb;
+    border-color: #d2e4de;
+    color: #40606a;
+  }
+  :global(.graph-node-match) {
+    outline: 2px solid #ffc766;
+    outline-offset: 1px;
+  }
+  :global(.graph-node-selected) {
+    outline: 2px solid #5ab6a4;
+    outline-offset: 1px;
+  }
+  :global(.graph-node-focus) {
+    outline: 2px solid #ffc766;
+    outline-offset: 1px;
+  }
+  .graph-inspector {
+    position: absolute;
+    top: 0.72rem;
+    right: 0.72rem;
+    width: min(22rem, calc(100% - 1.44rem));
+    max-height: calc(100% - 1.44rem);
+    overflow: auto;
+    border: 1px solid #d8e6e1;
+    border-radius: 0.82rem;
+    background: #f8fcfa;
+    padding: 0.65rem 0.72rem;
+    min-height: 0;
+    z-index: 20;
+    box-shadow: 0 8px 24px rgba(16, 48, 55, 0.14);
+    overscroll-behavior: contain;
+    display: none;
+  }
+  .graph-inspector.graph-inspector-open {
+    display: block;
+  }
+  .graph-inspector-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    margin: 0 0 0.4rem;
+  }
+  .graph-inspector h2 {
+    margin: 0;
+    font-size: 0.96rem;
+  }
+  .graph-inspector h3 {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #143645;
+  }
+  .graph-inspector p {
+    margin: 0.34rem 0 0;
+    color: #40606a;
+    font-size: 0.86rem;
+  }
+  .graph-inspector-close {
+    border: 1px solid #b8d6cd;
+    border-radius: 0.6rem;
+    background: #ffffff;
+    color: #2e5462;
+    font-size: 0.78rem;
+    line-height: 1;
+    min-height: 1.75rem;
+    padding: 0.2rem 0.52rem;
+    cursor: pointer;
+  }
+  .graph-inspector-content {
+    min-height: 0;
+    display: grid;
+    gap: 0.52rem;
+  }
+  .graph-inspector :global(.graph-info-card) {
+    border: 1px solid #d8e6e1;
+    border-radius: 0.72rem;
+    background: #ffffff;
+    padding: 0.58rem 0.64rem;
+  }
+  .graph-inspector :global(.graph-info-head) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.52rem;
+  }
+  .graph-inspector :global(.graph-info-type) {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #f3faf7;
+    color: #2f5963;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.18rem 0.46rem;
+    white-space: nowrap;
+  }
+  .graph-inspector :global(.graph-info-count) {
+    margin: 0.36rem 0 0;
+    color: #47616b;
+    font-size: 0.8rem;
+    line-height: 1.65;
+  }
+  .graph-inspector :global(.graph-info-empty) {
+    margin: 0.34rem 0 0;
+    color: #5b737c;
+    font-size: 0.8rem;
+    line-height: 1.65;
+  }
+  .graph-inspector :global(.graph-inspector-card-list) {
+    margin: 0.46rem 0 0;
+    padding: 0;
+    list-style: none;
+    max-height: min(42vh, 18rem);
+    overflow: auto;
+    display: grid;
+    gap: 0.46rem;
+  }
+  .graph-inspector :global(.graph-search-stack) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.52rem;
+  }
+  .graph-inspector :global(.graph-inspector-card-item) {
+    margin: 0;
+    border: 1px solid #d8e6e1;
+    border-radius: 0.68rem;
+    background: #fff;
+    padding: 0.42rem 0.56rem;
+  }
+  .graph-inspector :global(.graph-inspector-card-link) {
+    display: inline-block;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    text-align: left;
+    color: #1f5f86;
+    text-decoration: underline;
+    line-height: 1.72;
+    font-size: 0.87rem;
+    cursor: pointer;
+  }
+  .graph-inspector :global(.graph-post-card) {
+    border: 1px solid #d8e6e1;
+    border-radius: 0.72rem;
+    background: #ffffff;
+    padding: 0.58rem 0.64rem;
+  }
+  .graph-inspector :global(.graph-post-card-head) {
+    margin: 0 0 0.3rem;
+  }
+  .graph-inspector :global(.graph-post-card-type) {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #9fcec3;
+    border-radius: 999px;
+    background: #eef9f5;
+    color: #0d6f61;
+    font-size: 0.72rem;
+    line-height: 1;
+    padding: 0.18rem 0.46rem;
+  }
+  .graph-inspector :global(.graph-post-card-link) {
+    display: inline-block;
+    color: #1f3f4d;
+    text-decoration: none;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    font-weight: 600;
+  }
+  .graph-inspector :global(.graph-post-card-link:hover) {
+    color: #0b7d6d;
+  }
+  .graph-inspector :global(.graph-post-card-meta) {
+    margin: 0.28rem 0 0;
+    color: #47616b;
+    font-size: 0.82rem;
+  }
+  .graph-inspector :global(.graph-post-meta-grid) {
+    margin: 0.38rem 0 0;
+    display: grid;
+    gap: 0.32rem;
+  }
+  .graph-inspector :global(.graph-post-meta-grid div) {
+    margin: 0;
+  }
+  .graph-inspector :global(.graph-post-meta-grid dt) {
+    margin: 0;
+    color: #3f5e69;
+    font-size: 0.74rem;
+    line-height: 1.2;
+  }
+  .graph-inspector :global(.graph-post-meta-grid dd) {
+    margin: 0.14rem 0 0;
+    color: #1f3f4d;
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+  .graph-inspector :global(.graph-post-card-empty) {
+    margin: 0.3rem 0 0;
+    color: #5b737c;
+    font-size: 0.8rem;
+  }
+  .graph-inspector :global(.graph-tag-chip-list) {
+    list-style: none;
+    margin: 0.14rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.34rem;
+  }
+  .graph-inspector :global(.graph-tag-chip-list li) {
+    margin: 0;
+  }
+  .graph-inspector :global(.graph-tag-chip) {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #c8ddd7;
+    border-radius: 999px;
+    background: #f3faf7;
+    color: #2f5963;
+    font-size: 0.74rem;
+    line-height: 1;
+    padding: 0.2rem 0.44rem;
+  }
+  .graph-inspector :global(.graph-tag-chip-btn) {
+    cursor: pointer;
+    font: inherit;
+  }
+  .graph-inspector :global(.graph-tag-chip-btn:hover) {
+    border-color: #92ccc0;
+    background: #e9f8f2;
+    color: #0d6f61;
+  }
+  @media (max-width: 760px) {
+    .graph-main {
+      display: block;
+      position: relative;
+    }
+    .graph-stage {
+      height: min(66vh, 560px);
+    }
+    .graph-guide {
+      gap: 0.34rem;
+    }
+    .graph-legend {
+      gap: 0.4rem 0.7rem;
+    }
+    .graph-inspector {
+      position: fixed;
+      left: 0.55rem;
+      right: 0.55rem;
+      top: auto;
+      bottom: 0.5rem;
+      width: auto;
+      max-height: min(74vh, 36rem);
+      border-radius: 0.9rem;
+      box-shadow: 0 10px 32px rgba(10, 27, 35, 0.24);
+      transform: translateY(calc(100% + 1rem));
+      opacity: 0;
+      pointer-events: none;
+      z-index: 45;
+      transition:
+        transform 0.2s ease,
+        opacity 0.2s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      touch-action: pan-y;
+    }
+    .graph-inspector.graph-inspector-open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .graph-inspector-content {
+      min-height: 0;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+    }
+    .graph-inspector-close {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .graph-inspector-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f8fcfa;
+      padding-bottom: 0.34rem;
+      border-bottom: 1px solid #e0ede8;
+    }
+    .graph-inspector :global(.graph-search-stack) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+  .graph-panel.graph-panel-fullscreen .graph-inspector {
+    top: 0.55rem;
+    bottom: 0.55rem;
+    max-height: none;
+    width: min(30rem, calc(100% - 1.1rem));
+    padding-bottom: 0.72rem;
+  }
+  .graph-panel.graph-panel-fullscreen .graph-inspector-content {
+    height: calc(100% - 2.15rem);
+    overflow: auto;
+  }
+  .graph-panel.graph-panel-fullscreen .graph-inspector :global(.graph-inspector-card-list) {
+    max-height: none;
+    overflow: visible;
+  }
+</style>

@@ -1,11 +1,13 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { withBase } from "@/utils/paths";
+import { buildAlternatesFor } from "@/utils/alternates";
 
 const target = withBase("tags/?source=facebook");
+const alternates = buildAlternatesFor("blog/facebook/", "zh-TW", ["zh-TW"]);
 ---
 
-<BaseLayout title="臉書文" description="臉書文已整合到精選文章與標籤頁。">
+<BaseLayout title="臉書文" description="臉書文已整合到精選文章與標籤頁。" alternates={alternates}>
   <section class="subscribe-panel">
     <h1 class="section-title" style="margin-top: 0;">臉書文已整合到精選文章</h1>
     <p>臉書文精選已合併到「精選文章」，來源篩選請在標籤頁操作。</p>

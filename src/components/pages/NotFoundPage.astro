@@ -1,0 +1,22 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { localizePath } from "@/utils/paths";
+import { useTranslations } from "@/i18n/ui";
+import { DEFAULT_LOCALE, type Locale } from "@/site.config";
+
+interface Props {
+  lang?: Locale;
+}
+const { lang = DEFAULT_LOCALE } = Astro.props as Props;
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t.notFound.metaTitle} description={t.notFound.metaDescription} noindex={true} lang={lang}>
+  <h1 class="section-title">404</h1>
+  <p>{t.notFound.body}</p>
+  <p>
+    <a href={localizePath("", lang)}>{t.notFound.home}</a>
+    {" · "}
+    <a href={localizePath("blog/", lang)}>{t.notFound.blog}</a>
+  </p>
+</BaseLayout>
