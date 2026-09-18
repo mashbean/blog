@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "borderless-nomadism-2026",
+    title: "無國界的遊牧：那些數位流動者的落地生根實驗",
+    event: "飛地台灣季｜在世界之間 Taiwan Across Cities",
+    date: "2026-09-20",
+    location: "一頁舟圖書館 · London",
+    lang: "zh-Hant",
+    featured: true,
+  },
+  {
     slug: "mentor-madness-2026",
     title: "A Good Excuse — Hacktivism, inside and outside government",
     event: "Mentor Madness · SPRIND",
