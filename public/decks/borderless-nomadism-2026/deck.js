@@ -33,43 +33,67 @@
     if (window.gsap) gsap.set(slides, { clearProps: "opacity,visibility,transform" });
   }
   function finishContent(s) {
-    if (window.gsap)
-      gsap.set(s.querySelectorAll(".flow-step,.flow-arrow,header,.slide-body>*"), {
-        clearProps: "opacity,visibility,transform",
-      });
+    if (!window.gsap) return;
+    gsap.set(s.querySelectorAll(".flow-step,header,.slide-body>*,.engraving,.ornament-rule"), {
+      clearProps: "opacity,visibility,transform",
+    });
+    gsap.set(s.querySelectorAll(".route"), {
+      clearProps: "strokeDasharray,strokeDashoffset,opacity",
+    });
   }
   function animateFlow(s) {
     process?.kill();
     const nodes = [...s.querySelectorAll(".flow-step")];
+    const paths = [...s.querySelectorAll(".route")];
     if (!nodes.length || reading || reduced.matches || !window.gsap) {
       finishContent(s);
       return;
     }
-    gsap.set(nodes, { autoAlpha: 1, y: 0 });
-    gsap.set(s.querySelectorAll(".flow-arrow"), { autoAlpha: 1, scaleX: 1 });
-    process = gsap.timeline({ defaults: { duration: 0.45, ease: "power2.out" } });
-    nodes.forEach((el, i) => {
-      process.addLabel("step-" + i);
-      process.fromTo(el, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0 }, "step-" + i);
-      const arrow = el.querySelector(".flow-arrow");
-      if (arrow)
-        process.fromTo(
-          arrow,
-          { autoAlpha: 0, scaleX: 0 },
-          { autoAlpha: 1, scaleX: 1, duration: 0.32 },
-          ">",
-        );
+    gsap.set(nodes, { autoAlpha: 1, x: 0, y: 0 });
+    paths.forEach((p) => {
+      const length = p.getTotalLength();
+      gsap.set(p, { strokeDasharray: length, strokeDashoffset: length, opacity: 1 });
     });
+    process = gsap.timeline({ defaults: { duration: 0.42, ease: "power2.out" } });
+    const kind = s.querySelector("[data-diagram]")?.dataset.diagram;
+    if (s.querySelector("[data-parallel]")) {
+      paths.forEach((p, i) =>
+        process.to(p, { strokeDashoffset: 0, duration: 0.65, ease: "power1.inOut" }, i * 0.08),
+      );
+      process.fromTo(nodes, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, stagger: 0.11 }, 0.36);
+    } else {
+      nodes.forEach((node, i) => {
+        const t = i * 0.58;
+        const dy = kind === "up" ? 20 : kind === "cycle" ? (i === 0 ? -12 : i === 2 ? 12 : 0) : 14;
+        const dx = kind === "cycle" ? (i === 1 ? 15 : i === 3 ? -15 : 0) : 0;
+        process.fromTo(node, { autoAlpha: 0, x: dx, y: dy }, { autoAlpha: 1, x: 0, y: 0 }, t);
+        if (paths[i])
+          process.to(
+            paths[i],
+            { strokeDashoffset: 0, duration: 0.54, ease: "power1.inOut" },
+            t + 0.18,
+          );
+      });
+    }
   }
   function animateEntry(s) {
     entry?.kill();
     finishContent(s);
     if (reading || reduced.matches || !window.gsap) return;
-    const targets = [...s.querySelectorAll("header,.slide-body> :not(.flow-wrap)")];
-    if (targets.length)
-      entry = gsap
-        .timeline({ defaults: { duration: 0.55, ease: "power2.out" } })
-        .fromTo(targets, { autoAlpha: 0, y: 17 }, { autoAlpha: 1, y: 0, stagger: 0.055 });
+    const heading = s.querySelector("header");
+    const body = [...s.querySelectorAll(".slide-body> :not(.flow-wrap)")];
+    entry = gsap.timeline({ defaults: { duration: 0.65, ease: "power2.out" } });
+    if (heading) entry.fromTo(heading, { autoAlpha: 0, y: -8 }, { autoAlpha: 1, y: 0 }, 0);
+    if (body.length)
+      entry.fromTo(body, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, stagger: 0.06 }, 0.1);
+    const rules = [...s.querySelectorAll(".ornament-rule")];
+    if (rules.length)
+      entry.fromTo(
+        rules,
+        { scaleX: 0.7, autoAlpha: 0 },
+        { scaleX: 1, autoAlpha: 1, stagger: 0.08 },
+        0.25,
+      );
     animateFlow(s);
   }
   function updateUI() {
@@ -107,10 +131,11 @@
     if (!reduced.matches && window.gsap && old !== next) {
       transition = gsap.fromTo(
         next,
-        { autoAlpha: 0, x: direction * 25 },
+        { autoAlpha: 0, x: n % 2 ? direction * 18 : 0, y: n % 2 ? 0 : direction * 14 },
         {
           autoAlpha: 1,
           x: 0,
+          y: 0,
           duration: 0.4,
           ease: "power2.out",
           clearProps: "opacity,visibility,transform",

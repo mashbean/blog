@@ -31,6 +31,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png" />
     <link rel="stylesheet" href="fonts.css" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="controls.css" />
     <script defer src="vendor/gsap.min.js"></script>
     <script defer src="deck.js"></script>
   </head>
@@ -43,7 +44,7 @@
     <main id="stage" tabindex="-1" aria-label="無國界的遊牧簡報">
       <div id="deck">
         <section
-          class="slide cover"
+          class="slide plate-1 cover"
           id="slide-1"
           data-slide="1"
           data-chapter="序"
@@ -52,9 +53,10 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>序章</span></div>
           <div class="slide-body special" id="title-1">
             <div class="cover-copy">
-              <p class="edition">飛地・台灣季　｜　在世界之間</p>
-              <h1>無國界的<br /><em>遊牧</em></h1>
-              <p class="cover-sub">那些數位流動者的<br />落地生根實驗</p>
+              <p class="eyebrow">飛地・台灣季　｜　在世界之間</p>
+              <h1>無國界的<span>遊牧</span></h1>
+              <p class="cover-sub">那些數位流動者的落地生根實驗</p>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
               <p class="cover-topics">人・勞動・社群・空間・世界</p>
               <p class="byline">
                 黃豆泥 Yen-Lin (mashbean) Huang<br /><span>London · 20 September 2026</span>
@@ -73,7 +75,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-2 contents-plate"
           id="slide-2"
           data-slide="2"
           data-chapter="序"
@@ -82,21 +84,37 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>序章</span></div>
           <header><h2 id="title-2">人、勞動、社群、空間、世界</h2></header>
           <div class="slide-body">
-            <ol class="contents">
-              <li>
-                <a href="#3"><span>一</span>兩種在清邁遊牧的人<small>↗</small></a>
-              </li>
-              <li>
-                <a href="#7"><span>二</span>故鄉可能是排他的，也可能是排擠的<small>↗</small></a>
-              </li>
-              <li>
-                <a href="#11"><span>三</span>數位避秦<small>↗</small></a>
-              </li>
-              <li>
-                <a href="#27"><span>四</span>何處是故鄉<small>↗</small></a>
-              </li>
-            </ol>
-            <p class="afterword">番外篇　AI 對人類的影響：人類與工作</p>
+            <div class="contents-emblem">
+              <div class="engraving">
+                <img
+                  src="assets/tree-roots.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <p class="eyebrow">一份還在寫的田野筆記</p>
+            </div>
+            <div class="contents-copy">
+              <ol class="contents">
+                <li>
+                  <a href="#3"><span>一</span><b>兩種在清邁遊牧的人</b><small>↗</small></a>
+                </li>
+                <li>
+                  <a href="#7"
+                    ><span>二</span><b>故鄉可能是排他的<br />也可能是排擠的</b><small>↗</small></a
+                  >
+                </li>
+                <li>
+                  <a href="#11"><span>三</span><b>數位避秦</b><small>↗</small></a>
+                </li>
+                <li>
+                  <a href="#27"><span>四</span><b>何處是故鄉</b><small>↗</small></a>
+                </li>
+              </ol>
+              <a class="afterword" href="#32">番外篇　AI、人類與工作 ↗</a>
+            </div>
           </div>
           <footer>
             <span class="folio">02<i> / 43</i></span
@@ -107,7 +125,7 @@
           >
         </section>
         <section
-          class="slide comparison"
+          class="slide plate-3 specimen-pair"
           id="slide-3"
           data-slide="3"
           data-chapter="一"
@@ -116,19 +134,39 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第一章</span></div>
           <header><h2 id="title-3">兩種在清邁遊牧的人</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
+            <div class="specimens">
               <div>
+                <div class="engraving">
+                  <img
+                    src="assets/snail-house.webp"
+                    alt=""
+                    width="1100"
+                    height="1100"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="eyebrow">I · 暫時離開</p>
                 <h3>躺平主義的遊牧</h3>
-                <p>離開高壓工作與生活，暫時換一種節奏。</p>
+                <p>換個地方喘口氣，過一陣子再說。</p>
               </div>
               <div>
+                <div class="engraving">
+                  <img
+                    src="assets/fox-path.webp"
+                    alt=""
+                    width="1100"
+                    height="1100"
+                    loading="lazy"
+                  />
+                </div>
+                <p class="eyebrow">II · 動手重做</p>
                 <h3>身體力行的遊牧</h3>
-                <p>帶著理念、技術與關係，嘗試組織另一種生活。</p>
+                <p>帶著一群人，試著把想要的生活做出來。</p>
               </div>
             </div>
-            <p class="lead">
-              同樣是<button class="term" data-term="nomad">數位遊牧<sup>註</sup></button
-              >，<br />有人想休息，有人想把社會重新做一次。
+            <p class="marginal">
+              這裡講的<button class="term" data-term="nomad">數位遊牧<sup>註</sup></button
+              >，是我在清邁遇見的兩種人。
             </p>
           </div>
           <footer>
@@ -141,49 +179,108 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-4 cycle-plate"
           id="slide-4"
           data-slide="4"
           data-chapter="一"
           aria-labelledby="title-4"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第一章</span></div>
-          <header><h2 id="title-4">躺平主義的遊牧</h2></header>
+          <header><h2 id="title-4">躺一躺，然後呢？</h2></header>
           <div class="slide-body">
-            <div class="flow-wrap">
-              <ol class="flow">
-                <li class="flow-step">
-                  <span class="step-no">01</span>
-                  <h3>高壓日常</h3>
-                  <p>工作、房價、內卷</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">02</span>
-                  <h3>移動到清邁</h3>
-                  <p>較低生活成本、短暫喘息</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">03</span>
-                  <h3>消耗積蓄</h3>
-                  <p>生活體驗仍需要收入</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">04</span>
-                  <h3>重返職場</h3>
-                  <p>下一次再出發</p>
-                </li>
-              </ol>
-              <p class="flow-caption">一種可能反覆發生的生活循環</p>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+            <div class="cycle-layout">
+              <div class="flow-wrap diagram cycle" data-diagram="cycle">
+                <svg
+                  class="route-svg"
+                  viewBox="0 0 1000 600"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <marker
+                      id="route-arrow-1"
+                      viewBox="0 0 10 10"
+                      refX="8"
+                      refY="5"
+                      markerWidth="7"
+                      markerHeight="7"
+                      orient="auto-start-reverse"
+                    >
+                      <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                    </marker>
+                  </defs>
+                  <path
+                    class="route route-0"
+                    d="M570 60 Q845 70 880 235"
+                    fill="none"
+                    marker-end="url(#route-arrow-1)"
+                  />
+                  <path
+                    class="route route-1"
+                    d="M920 350 Q850 520 590 520"
+                    fill="none"
+                    marker-end="url(#route-arrow-1)"
+                  />
+                  <path
+                    class="route route-2"
+                    d="M415 520 Q145 520 110 350"
+                    fill="none"
+                    marker-end="url(#route-arrow-1)"
+                  />
+                  <path
+                    class="route route-3"
+                    d="M110 230 Q155 80 415 60"
+                    fill="none"
+                    marker-end="url(#route-arrow-1)"
+                  />
+                </svg>
+                <div class="diagram-center">
+                  <div class="engraving">
+                    <img
+                      src="assets/snail-house.webp"
+                      alt=""
+                      width="1100"
+                      height="1100"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span>清邁 ⇄ 職場</span>
+                </div>
+                <ol class="flow">
+                  <li class="flow-step" style="--x: 50%; --y: 10%">
+                    <span class="step-no">01</span>
+                    <h3>高壓日常</h3>
+                    <p>工作、房價、內卷</p>
+                  </li>
+                  <li class="flow-step" style="--x: 84%; --y: 50%">
+                    <span class="step-no">02</span>
+                    <h3>清邁躺一躺</h3>
+                    <p>換一種生活節奏</p>
+                  </li>
+                  <li class="flow-step" style="--x: 50%; --y: 90%">
+                    <span class="step-no">03</span>
+                    <h3>積蓄見底</h3>
+                    <p>生活還是要花錢</p>
+                  </li>
+                  <li class="flow-step" style="--x: 16%; --y: 50%">
+                    <span class="step-no">04</span>
+                    <h3>回去當牛馬</h3>
+                    <p>存到錢，下次再來</p>
+                  </li>
+                </ol>
+                <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
+              </div>
+              <aside>
+                <p class="eyebrow">清邁筆記・之一</p>
+                <h3>躺平也有<br />它的產業鏈</h3>
+                <p>微信、抖音、小紅書上的遊民大會，賣的正是這種生活想像。</p>
+                <p class="marginal">
+                  原文裡，我把這叫做精神上的<button class="term" data-term="lie">
+                    Copium<sup>註</sup></button
+                  >。
+                </p>
+              </aside>
             </div>
-            <p>
-              微信、抖音、小紅書上的數位遊民大會：<button class="term" data-term="lie">
-                躺平與 Copium<sup>註</sup></button
-              >，也可能成為可消費的生活想像。
-            </p>
           </div>
           <footer>
             <span class="folio">04<i> / 43</i></span
@@ -196,50 +293,89 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-5 migration-plate"
           id="slide-5"
           data-slide="5"
           data-chapter="一"
           aria-labelledby="title-5"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第一章</span></div>
-          <header><h2 id="title-5">身體力行的遊牧</h2></header>
+          <header><h2 id="title-5">從大理，流動到清邁</h2></header>
           <div class="slide-body">
-            <div class="flow-wrap">
+            <div class="flow-wrap diagram river" data-diagram="river">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-2"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M290 108 L380 108"
+                  fill="none"
+                  marker-end="url(#route-arrow-2)"
+                />
+                <path
+                  class="route route-1"
+                  d="M490 170 L490 385"
+                  fill="none"
+                  marker-end="url(#route-arrow-2)"
+                />
+                <path
+                  class="route route-2"
+                  d="M610 468 L725 468"
+                  fill="none"
+                  marker-end="url(#route-arrow-2)"
+                />
+              </svg>
+              <div class="diagram-center">
+                <div class="tributary">
+                  <button class="term" data-term="seven">706 青年空間<sup>註</sup></button
+                  ><small>另一批成員，也來到清邁 ↙</small>
+                </div>
+              </div>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 17%; --y: 18%">
                   <span class="step-no">01</span>
                   <h3>
-                    <button class="term" data-term="dali">大理／瓦貓之夏<sup>註</sup></button>
+                    <button class="term" data-term="dali">瓦貓之夏<sup>註</sup></button>
                   </h3>
-                  <p>2022・活動受阻</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>2022・大理的活動被清場</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 49%; --y: 18%">
                   <span class="step-no">02</span>
-                  <h3>去中心的聚會</h3>
-                  <p>沒有單一大台，仍繼續相遇</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <h3>沒有大台，也繼續辦</h3>
+                  <p>聚會改用去中心的方式進行</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 49%; --y: 78%">
                   <span class="step-no">03</span>
-                  <h3>清邁</h3>
-                  <p>一部分人移動、留下</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <h3>一部分人來到清邁</h3>
+                  <p>有人就這樣定居下來</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 84%; --y: 78%">
                   <span class="step-no">04</span>
-                  <h3>多中心群落</h3>
-                  <p>空間、合作與產業鏈</p>
+                  <h3>多中心的群落</h3>
+                  <p>有衝突，也長出了產業鏈</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>
-              <button class="term" data-term="seven">706 青年空間<sup>註</sup></button
-              >的部分成員，也在環境變動中來到清邁。<br /><button class="term" data-term="web3">
-                Web3 加密遊牧者<sup>註</sup></button
-              >帶走的不只有電腦，還有組織生活的經驗。
+            <p class="marginal">
+              <button class="term" data-term="web3">Web3 加密遊牧者<sup>註</sup></button
+              >彼此也不見得熟；有些人反而更常與各自的西方社群往來。
             </p>
           </div>
           <footer>
@@ -253,31 +389,35 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-6 field-spread"
           id="slide-6"
           data-slide="6"
           data-chapter="一"
           aria-labelledby="title-6"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第一章</span></div>
-          <header><h2 id="title-6">留下來之後，生活開始變厚</h2></header>
+          <header><h2 id="title-6">人留下來，事情就多了</h2></header>
           <div class="slide-body">
-            <blockquote>
-              「甚至還建造了多中心的群落，有了點衝突，也有相應的產業鏈出現。」<cite
-                >黃豆泥・清邁的遊牧觀察</cite
-              >
-            </blockquote>
-            <div class="columns c2">
-              <div>
-                <h3>人與勞動</h3>
-                <p>工作、收入、互助、合作</p>
-              </div>
-              <div>
-                <h3>社群與空間</h3>
-                <p>共居、聚會、分歧、規則</p>
-              </div>
+            <div class="field-quote">
+              <p class="eyebrow">清邁的遊牧觀察</p>
+              <blockquote>
+                「甚至還建造了多中心的群落，有了點衝突，也有相應的產業鏈出現。」<cite>黃豆泥</cite>
+              </blockquote>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <p>我反而覺得這一群更有意思。<br />有了衝突，才知道大家究竟想怎麼一起生活。</p>
             </div>
-            <p>社群不只供人歇腳；它也開始分配機會、形成邊界。</p>
+            <div class="field-figure">
+              <div class="engraving">
+                <img
+                  src="assets/swallow-colony.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <p class="marginal">共居・聚會・合作・分歧</p>
+            </div>
           </div>
           <footer>
             <span class="folio">06<i> / 43</i></span
@@ -287,19 +427,32 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide chapter"
+          class="slide plate-7 threshold-chapter"
           id="slide-7"
           data-slide="7"
           data-chapter="二"
           aria-labelledby="title-7"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第二章</span></div>
-          <div class="slide-body special" id="title-7">
-            <p class="chapter-number">第二章</p>
-            <h2 class="chapter-title">故鄉可能是排他的<br />也可能是<em>排擠的</em></h2>
+          <header>
+            <h2 id="title-7">故鄉可能是排他的<br />也可能是排擠的</h2>
+          </header>
+          <div class="slide-body">
+            <p class="eyebrow">第二章　/　HOME & ELSEWHERE</p>
+            <div class="engraving chapter-art">
+              <img src="assets/moon-birds.webp" alt="" width="1100" height="1100" loading="lazy" />
+            </div>
             <div class="chapter-pair">
-              <p>千里共嬋娟<br /><small>不同地方，共享同一個空間</small></p>
-              <p>神遊於物外<br /><small>同樣空間，尋找逃離的地方</small></p>
+              <div>
+                <span>I</span>
+                <h3>千里共嬋娟</h3>
+                <p>不同地方，共享同一個空間</p>
+              </div>
+              <div>
+                <span>II</span>
+                <h3>神遊於物外</h3>
+                <p>同樣空間，尋找逃離的地方</p>
+              </div>
             </div>
           </div>
           <footer>
@@ -310,7 +463,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-8 moon-plate"
           id="slide-8"
           data-slide="8"
           data-chapter="二"
@@ -319,17 +472,28 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第二章</span></div>
           <header><h2 id="title-8">千里共嬋娟</h2></header>
           <div class="slide-body">
-            <p class="lead">在不同的地方，<br />共享同一個空間</p>
-            <div class="columns c2">
-              <div>
-                <h3>在海外，還是使用微信的中國人</h3>
-                <p class="keywords">語言　熟人　資訊　共同時間</p>
+            <div class="moon-triptych">
+              <div class="shore">
+                <p class="eyebrow">遠方之一</p>
+                <h3>人在海外<br />還是使用微信</h3>
+                <p>語言・熟人<br />資訊・共同時間</p>
               </div>
-              <div>
-                <h3>在波士頓，罵罵咧咧的計程車司機</h3>
-                <p class="keywords">移居　日常　故鄉　情緒</p>
+              <div class="engraving">
+                <img
+                  src="assets/moon-birds.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <div class="shore">
+                <p class="eyebrow">遠方之二</p>
+                <h3>波士頓<br />罵罵咧咧的司機</h3>
+                <p>移居・日常<br />故鄉・情緒</p>
               </div>
             </div>
+            <p class="lead">在不同的地方，共享同一個空間。</p>
           </div>
           <footer>
             <span class="folio">08<i> / 43</i></span
@@ -341,7 +505,7 @@
           >
         </section>
         <section
-          class="slide sparse"
+          class="slide plate-9 inner-world"
           id="slide-9"
           data-slide="9"
           data-chapter="二"
@@ -350,9 +514,16 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第二章</span></div>
           <header><h2 id="title-9">神遊於物外</h2></header>
           <div class="slide-body">
-            <div class="big-word">雲林的女兒<br /><em>穆斯林的信仰</em></div>
-            <p class="lead">在同樣的空間，尋找逃離的地方</p>
-            <p class="keywords">地方　家庭　信仰　歸屬　精神空間</p>
+            <div class="engraving window-art">
+              <img src="assets/moth-window.webp" alt="" width="1100" height="1100" loading="lazy" />
+            </div>
+            <div class="inner-copy">
+              <p class="eyebrow">另一種遠方</p>
+              <div class="big-word">雲林的女兒<br /><em>穆斯林的信仰</em></div>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <p class="lead">在同樣的空間，<br />尋找逃離的地方。</p>
+              <p class="marginal">地方・家庭・信仰・歸屬</p>
+            </div>
           </div>
           <footer>
             <span class="folio">09<i> / 43</i></span
@@ -364,51 +535,55 @@
           >
         </section>
         <section
-          class="slide case-with-photo"
+          class="slide plate-10 cabinet-plate"
           id="slide-10"
           data-slide="10"
           data-chapter="二"
           aria-labelledby="title-10"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第二章</span></div>
-          <header><h2 id="title-10">次文化的遠方，也在日常裡</h2></header>
+          <header><h2 id="title-10">次文化的遠方</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
+            <div class="cabinet-photo">
+              <figure class="">
+                <button
+                  class="image-zoom"
+                  data-image="assets/radio.webp"
+                  data-caption="DLØDM 電台，2022。圖／Deutsches Museum, München"
+                  aria-label="放大：德意志博物館 DLØDM 電台"
+                >
+                  <img
+                    src="assets/radio.webp"
+                    alt="德意志博物館 DLØDM 電台"
+                    loading="lazy"
+                    width="1200"
+                    height="800"
+                  />
+                </button>
+                <figcaption>DLØDM 電台，2022。圖／Deutsches Museum, München</figcaption>
+              </figure>
+              <p class="eyebrow">德意志博物館・火腿族志工爺爺</p>
+            </div>
+            <div class="cabinet-labels">
+              <div class="panel">
                 <h3>
                   <button class="term" data-term="scp">SCP 基金會<sup>註</sup></button>
                 </h3>
-                <p>協作寫作，共同虛構一個世界。</p>
+                <p>一起把不存在的世界寫出來。</p>
+              </div>
+              <div class="panel">
                 <h3>
                   <button class="term" data-term="haitang">海棠論壇<sup>註</sup></button>
                 </h3>
-                <p>閱讀與創作，找到自己的語言。</p>
-                <h3>
-                  <button class="term" data-term="ham">火腿族志工爺爺<sup>註</sup></button>
-                </h3>
-                <p>德意志博物館，把訊號送往遠方。</p>
+                <p>在閱讀與創作裡找到同類。</p>
               </div>
-              <div>
-                <figure class="">
-                  <button
-                    class="image-zoom"
-                    data-image="assets/radio.webp"
-                    data-caption="DLØDM 電台，2022。圖／Deutsches Museum, München"
-                    aria-label="放大：德意志博物館 DLØDM 電台"
-                  >
-                    <img
-                      src="assets/radio.webp"
-                      alt="德意志博物館 DLØDM 電台"
-                      loading="lazy"
-                      width="1200"
-                      height="800"
-                    />
-                  </button>
-                  <figcaption>DLØDM 電台，2022。圖／Deutsches Museum, München</figcaption>
-                </figure>
+              <div class="panel">
+                <h3>
+                  <button class="term" data-term="ham">業餘無線電<sup>註</sup></button>
+                </h3>
+                <p>訊號先抵達，人未必要見面。</p>
               </div>
             </div>
-            <p class="lead">人用不同的媒介，尋找同類。</p>
           </div>
           <footer>
             <span class="folio">10<i> / 43</i></span
@@ -421,19 +596,24 @@
           >
         </section>
         <section
-          class="slide chapter"
+          class="slide plate-11 exodus-chapter"
           id="slide-11"
           data-slide="11"
           data-chapter="三"
           aria-labelledby="title-11"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <div class="slide-body special" id="title-11">
-            <p class="chapter-number">第三章</p>
-            <h2 class="chapter-title">數位<em>避秦</em></h2>
-            <p class="lead">人、資料、關係與制度，能搬到哪裡？</p>
-            <div class="era-line">
-              <span>戶籍與邊境</span><span>1990s</span><span>2000–2010s</span><span>2020s</span>
+          <header><h2 id="title-11">數位避秦</h2></header>
+          <div class="slide-body">
+            <p class="eyebrow">第三章　/　EXODUS</p>
+            <div class="engraving chapter-art">
+              <img src="assets/raven-book.webp" alt="" width="1100" height="1100" loading="lazy" />
+            </div>
+            <div class="era-stack">
+              <div><b>戶籍</b><span>故鄉、邊境與名冊</span></div>
+              <div><b>1990s</b><span>把加密工具傳出去</span></div>
+              <div><b>2000–10s</b><span>從平台手裡搬走</span></div>
+              <div><b>2020s</b><span>真的去蓋一個地方</span></div>
             </div>
           </div>
           <footer>
@@ -444,7 +624,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-12 registry-plate"
           id="slide-12"
           data-slide="12"
           data-chapter="三"
@@ -453,42 +633,80 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
           <header><h2 id="title-12">故鄉、邊境、戶口的誕生</h2></header>
           <div class="slide-body">
-            <div class="flow-wrap">
+            <div class="registry-note">
+              <p class="eyebrow">制度如何看見人</p>
+              <p class="lead">
+                <button class="term" data-term="registry">編戶齊民<sup>註</sup></button>
+              </p>
+              <p>進了名冊，<br />也就進了治理的範圍。</p>
+              <p class="marginal">
+                <button class="term" data-term="exile">避秦<sup>註</sup></button
+                >：想像名冊之外的生活。
+              </p>
+            </div>
+            <div class="flow-wrap diagram stair" data-diagram="stair">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-3"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M235 90 L390 90 L390 165"
+                  fill="none"
+                  marker-end="url(#route-arrow-3)"
+                />
+                <path
+                  class="route route-1"
+                  d="M465 235 L620 235 L620 305"
+                  fill="none"
+                  marker-end="url(#route-arrow-3)"
+                />
+                <path
+                  class="route route-2"
+                  d="M690 380 L850 380 L850 450"
+                  fill="none"
+                  marker-end="url(#route-arrow-3)"
+                />
+              </svg>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 16%; --y: 15%">
                   <span class="step-no">01</span>
                   <h3>編入名冊</h3>
-                  <p>誰是可辨認的人</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>把人辨認出來</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 39%; --y: 39%">
                   <span class="step-no">02</span>
                   <h3>連到土地</h3>
-                  <p>誰屬於哪個地方</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>人屬於哪個地方</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 62%; --y: 63%">
                   <span class="step-no">03</span>
                   <h3>分配義務</h3>
                   <p>賦稅、徭役與管理</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 85%; --y: 87%">
                   <span class="step-no">04</span>
                   <h3>劃定邊界</h3>
-                  <p>誰可以進入、離開</p>
+                  <p>限制進入與離開</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>
-              <button class="term" data-term="registry">編戶齊民<sup>註</sup></button>與<button
-                class="term"
-                data-term="exile"
-              >
-                避秦<sup>註</sup></button
-              >：一邊讓人口可管理，一邊想像權力之外的生活。
-            </p>
           </div>
           <footer>
             <span class="folio">12<i> / 43</i></span
@@ -500,26 +718,30 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-13 passport-plate"
           id="slide-13"
           data-slide="13"
           data-chapter="三"
           aria-labelledby="title-13"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-13">政府與平台的雙重戶籍</h2></header>
+          <header><h2 id="title-13">我們都有兩套戶籍</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <h3>國家的名冊</h3>
-                <p>戶籍、證件、公共服務<br />你是誰，由誰核發？</p>
+            <div class="passport-pair">
+              <div class="passport">
+                <span class="seal-number">I</span>
+                <p class="eyebrow">國家</p>
+                <h3>戶籍・證件<br />公共服務</h3>
+                <p>證明你的身分，<br />也決定你能使用哪些服務。</p>
               </div>
-              <div>
-                <h3>平台的帳號</h3>
-                <p>登入、社交、支付、資料<br />你能否繼續出現，由誰決定？</p>
+              <div class="passport">
+                <span class="seal-number">II</span>
+                <p class="eyebrow">平台</p>
+                <h3>帳號・登入<br />社交與支付</h3>
+                <p>朋友、作品與交易都在裡面。<br />帳號一停，入口就關了。</p>
               </div>
             </div>
-            <p class="lead">當帳號成為生活的入口，<br />停權也能成為一種驅逐。</p>
+            <p class="marginal">國籍與帳號的法律地位不同；但生活被擋在門外的感覺，未必那麼遙遠。</p>
           </div>
           <footer>
             <span class="folio">13<i> / 43</i></span
@@ -531,7 +753,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-14 identity-plate"
           id="slide-14"
           data-slide="14"
           data-chapter="三"
@@ -540,46 +762,69 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
           <header><h2 id="title-14">把身分的三件事拆開</h2></header>
           <div class="slide-body">
-            <div class="flow-wrap">
+            <div class="flow-wrap diagram triangle" data-diagram="triangle">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-4"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M240 350 L405 135"
+                  fill="none"
+                  marker-end="url(#route-arrow-4)"
+                />
+                <path
+                  class="route route-1"
+                  d="M590 135 L755 350"
+                  fill="none"
+                  marker-end="url(#route-arrow-4)"
+                />
+              </svg>
+              <div class="diagram-center">
+                <div class="identity-core">
+                  <button class="term" data-term="ssi">身分自主權<sup>註</sup></button
+                  ><small>核發 ≠ 保管 ≠ 使用</small>
+                </div>
+              </div>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 18%; --y: 73%">
                   <span class="step-no">01</span>
                   <h3>識別</h3>
-                  <p>核發者確認你是誰</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>核發者確認身分</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 50%; --y: 15%">
                   <span class="step-no">02</span>
                   <h3>憑證</h3>
-                  <p>把證明交到個人手上</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>把證明交給個人保管</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 82%; --y: 73%">
                   <span class="step-no">03</span>
                   <h3>驗證與授權</h3>
-                  <p>由個人選擇向誰出示</p>
+                  <p>需要時，由個人出示</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <div class="columns c3">
-              <div>
-                <h3>誰掌握個資權力？</h3>
-                <p>誰可以核發、撤銷與要求？</p>
-              </div>
-              <div>
-                <h3>資料存於何處？</h3>
-                <p>個人裝置、機構或平台？</p>
-              </div>
-              <div>
-                <h3>足跡對誰可見？</h3>
-                <p>使用證件會留下什麼紀錄？</p>
-              </div>
+            <div class="three-margins">
+              <p class="marginal">個資權力：核發與撤銷</p>
+              <p class="marginal">儲存位置：裝置與機構</p>
+              <p class="marginal">使用足跡：紀錄對誰可見</p>
             </div>
-            <p>
-              <button class="term" data-term="ssi">身分自主權<sup>註</sup></button
-              >：讓資料的使用，重新有人的選擇。
-            </p>
           </div>
           <footer>
             <span class="folio">14<i> / 43</i></span
@@ -591,50 +836,99 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-15 pgp-plate"
           id="slide-15"
           data-slide="15"
           data-chapter="三"
           aria-labelledby="title-15"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-15">1990 年代：散播潘朵拉之盒的人</h2></header>
+          <header><h2 id="title-15">把程式印成一本書</h2></header>
           <div class="slide-body">
-            <p class="lead">
-              <button class="term" data-term="pgp">PGP<sup>註</sup></button> 原始碼出版計畫
-            </p>
-            <div class="flow-wrap">
-              <ol class="flow">
-                <li class="flow-step">
-                  <span class="step-no">01</span>
-                  <h3>加密程式</h3>
-                  <p>保護私密通訊</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">02</span>
-                  <h3>出口管制</h3>
-                  <p>程式跨境受到限制</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">03</span>
-                  <h3>印成一本書</h3>
-                  <p>1995・MIT Press</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">04</span>
-                  <h3>可再讀取的文字</h3>
-                  <p>出版與程式的邊界</p>
-                </li>
-              </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+            <div class="book-emblem">
+              <div class="engraving">
+                <img
+                  src="assets/raven-book.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <p class="eyebrow">PGP · 1995 · MIT PRESS</p>
             </div>
-            <p>
-              <button class="term" data-term="cypher">密碼龐克<sup>註</sup></button
-              >把隱私寫成能使用、能傳遞的工具。
-            </p>
+            <div class="book-route">
+              <p class="lead">
+                <button class="term" data-term="pgp">PGP<sup>註</sup></button> 原始碼出版計畫
+              </p>
+              <div class="flow-wrap diagram book" data-diagram="book">
+                <svg
+                  class="route-svg"
+                  viewBox="0 0 1000 600"
+                  preserveAspectRatio="none"
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <marker
+                      id="route-arrow-5"
+                      viewBox="0 0 10 10"
+                      refX="8"
+                      refY="5"
+                      markerWidth="7"
+                      markerHeight="7"
+                      orient="auto-start-reverse"
+                    >
+                      <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                    </marker>
+                  </defs>
+                  <path
+                    class="route route-0"
+                    d="M180 165 L180 400"
+                    fill="none"
+                    marker-end="url(#route-arrow-5)"
+                  />
+                  <path
+                    class="route route-1"
+                    d="M310 500 L665 500"
+                    fill="none"
+                    marker-end="url(#route-arrow-5)"
+                  />
+                  <path
+                    class="route route-2"
+                    d="M800 400 L800 165"
+                    fill="none"
+                    marker-end="url(#route-arrow-5)"
+                  />
+                </svg>
+                <ol class="flow">
+                  <li class="flow-step" style="--x: 18%; --y: 15%">
+                    <span class="step-no">01</span>
+                    <h3>加密程式</h3>
+                    <p>讓私人通訊保持私密</p>
+                  </li>
+                  <li class="flow-step" style="--x: 18%; --y: 83%">
+                    <span class="step-no">02</span>
+                    <h3>出口管制</h3>
+                    <p>程式跨境受到限制</p>
+                  </li>
+                  <li class="flow-step" style="--x: 80%; --y: 83%">
+                    <span class="step-no">03</span>
+                    <h3>印成紙本</h3>
+                    <p>C 原始碼成了出版物</p>
+                  </li>
+                  <li class="flow-step" style="--x: 80%; --y: 15%">
+                    <span class="step-no">04</span>
+                    <h3>讀回程式</h3>
+                    <p>文字又能變成工具</p>
+                  </li>
+                </ol>
+                <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
+              </div>
+              <p class="marginal">
+                <button class="term" data-term="cypher">密碼龐克<sup>註</sup></button
+                >把主張寫成程式，也把程式印上了紙。
+              </p>
+            </div>
           </div>
           <footer>
             <span class="folio">15<i> / 43</i></span
@@ -647,7 +941,7 @@
           >
         </section>
         <section
-          class="slide manifesto"
+          class="slide plate-16 manifesto declaration"
           id="slide-16"
           data-slide="16"
           data-chapter="三"
@@ -656,13 +950,17 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
           <header><h2 id="title-16">1996：網路獨立宣言</h2></header>
           <div class="slide-body">
+            <p class="eyebrow">A DECLARATION OF THE INDEPENDENCE OF CYBERSPACE</p>
             <blockquote>
               “We are creating a world that all may enter without privilege”<cite
                 >John Perry Barlow・1996</cite
               >
             </blockquote>
-            <p class="lead">誰可以進入這個世界？<br />誰有權要求他離開？</p>
-            <p>三十年後，把宣言放回伺服器、平台條款、網路封鎖與人的肉身之中。</p>
+            <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+            <div class="declaration-tail">
+              <p class="lead">三十年後，<br />進入這個世界仍需要誰的許可？</p>
+              <p>伺服器、平台條款、網路封鎖。<br />還有，沒辦法搬進網路的肉身。</p>
+            </div>
           </div>
           <footer>
             <span class="folio">16<i> / 43</i></span
@@ -674,42 +972,43 @@
           >
         </section>
         <section
-          class="slide image-text"
+          class="slide plate-17 archive-plate"
           id="slide-17"
           data-slide="17"
           data-chapter="三"
           aria-labelledby="title-17"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-17">2000–2010 年代：逃離數位壟斷</h2></header>
+          <header><h2 id="title-17">網路也會失憶</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <h3>網路也會失憶</h3>
-                <p>無名小站下線，早期網頁失連。<br />「還在網路上」從來需要有人維護。</p>
-                <p>伺服器、網域、格式與資金，<br />都能決定哪些記憶繼續存在。</p>
-              </div>
-              <div>
-                <figure class="">
-                  <button
-                    class="image-zoom"
-                    data-image="assets/internet-404.webp"
-                    data-caption="〈中文互聯網正在加速崩塌〉失連畫面。原文圖／黃豆泥"
-                    aria-label="放大：文章無法查看的截圖"
-                  >
-                    <img
-                      src="assets/internet-404.webp"
-                      alt="文章無法查看的截圖"
-                      loading="lazy"
-                      width="1200"
-                      height="800"
-                    />
-                  </button>
-                  <figcaption>〈中文互聯網正在加速崩塌〉失連畫面。原文圖／黃豆泥</figcaption>
-                </figure>
-              </div>
+            <div class="lost-number" aria-hidden="true">404</div>
+            <div class="archive-copy">
+              <p class="eyebrow">2000–2010 年代・逃離數位壟斷</p>
+              <h3>無名小站下線，<br />早期網頁一個個失連。</h3>
+              <p>
+                伺服器要錢，網域要續，格式會過時。<br />「還在網路上」這件事，一直都需要有人照顧。
+              </p>
             </div>
-            <p>保存自己的資料，也是在保存自己與他人的共同歷史。</p>
+            <div class="archive-evidence">
+              <figure class="">
+                <button
+                  class="image-zoom"
+                  data-image="assets/internet-404.webp"
+                  data-caption="〈中文互聯網正在加速崩塌〉失連畫面。原文圖／黃豆泥"
+                  aria-label="放大：文章無法查看的截圖"
+                >
+                  <img
+                    src="assets/internet-404.webp"
+                    alt="文章無法查看的截圖"
+                    loading="lazy"
+                    width="1200"
+                    height="800"
+                  />
+                </button>
+                <figcaption>〈中文互聯網正在加速崩塌〉失連畫面。原文圖／黃豆泥</figcaption>
+              </figure>
+              <p class="marginal">連談論網路崩塌的文章，也可能消失。</p>
+            </div>
           </div>
           <footer>
             <span class="folio">17<i> / 43</i></span
@@ -719,7 +1018,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide image-text"
+          class="slide plate-18 elixus-plate"
           id="slide-18"
           data-slide="18"
           data-chapter="三"
@@ -728,38 +1027,38 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
           <header><h2 id="title-18">藝立協：誕生自網絡的部落美學</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <figure class="">
-                  <button
-                    class="image-zoom"
-                    data-image="assets/elixus.webp"
-                    data-caption="派樂西王國網站。原文圖／黃豆泥"
-                    aria-label="放大：派樂西王國網站頁面"
-                  >
-                    <img
-                      src="assets/elixus.webp"
-                      alt="派樂西王國網站頁面"
-                      loading="lazy"
-                      width="1200"
-                      height="800"
-                    />
-                  </button>
-                  <figcaption>派樂西王國網站。原文圖／黃豆泥</figcaption>
-                </figure>
-              </div>
-              <div>
-                <h3>
-                  <button class="term" data-term="elixus">Elixus<sup>註</sup></button>
-                </h3>
-                <p>IRC、部落格、紫藤廬。<br />線上相遇，也在實體空間裡生活。</p>
-                <p>
-                  <button class="term" data-term="piraport">Piraport 複照<sup>註</sup></button>與
-                  PiraGene：<br />在 2001 年，就把身分、版權與交互信任當成創作材料。
-                </p>
-              </div>
+            <div class="elixus-evidence">
+              <figure class="">
+                <button
+                  class="image-zoom"
+                  data-image="assets/elixus.webp"
+                  data-caption="派樂西王國網站。原文圖／黃豆泥"
+                  aria-label="放大：派樂西王國網站頁面"
+                >
+                  <img
+                    src="assets/elixus.webp"
+                    alt="派樂西王國網站頁面"
+                    loading="lazy"
+                    width="1200"
+                    height="800"
+                  />
+                </button>
+                <figcaption>派樂西王國網站。原文圖／黃豆泥</figcaption>
+              </figure>
             </div>
-            <p>一個社群留下的，也包括往後仍能運作的協作方法。</p>
+            <div class="elixus-copy">
+              <p class="eyebrow">2001・派樂西王國</p>
+              <p class="lead">
+                <button class="term" data-term="elixus">Elixus<sup>註</sup></button>
+              </p>
+              <p>IRC、部落格、紫藤廬。<br />網友也會在茶館見面。</p>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <h3>
+                <button class="term" data-term="piraport">Piraport 複照<sup>註</sup></button> /
+                PiraGene
+              </h3>
+              <p>身分、版權、交互信任，<br />都可以拿來當創作材料。</p>
+            </div>
           </div>
           <footer>
             <span class="folio">18<i> / 43</i></span
@@ -772,7 +1071,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-19 escape-plate"
           id="slide-19"
           data-slide="19"
           data-chapter="三"
@@ -781,43 +1080,92 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
           <header><h2 id="title-19">逃離社群平台</h2></header>
           <div class="slide-body">
-            <div class="flow-wrap">
+            <div class="flow-wrap diagram hub" data-diagram="hub" data-parallel="true">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-6"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M500 290 L500 80"
+                  fill="none"
+                  marker-end="url(#route-arrow-6)"
+                />
+                <path
+                  class="route route-1"
+                  d="M530 300 L745 222"
+                  fill="none"
+                  marker-end="url(#route-arrow-6)"
+                />
+                <path
+                  class="route route-2"
+                  d="M530 325 L670 460"
+                  fill="none"
+                  marker-end="url(#route-arrow-6)"
+                />
+                <path
+                  class="route route-3"
+                  d="M470 325 L335 460"
+                  fill="none"
+                  marker-end="url(#route-arrow-6)"
+                />
+                <path
+                  class="route route-4"
+                  d="M470 300 L250 225"
+                  fill="none"
+                  marker-end="url(#route-arrow-6)"
+                />
+              </svg>
+              <div class="diagram-center">
+                <div class="hub-core">五把鑰匙<small>帶著朋友一起走</small></div>
+              </div>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 50%; --y: 7%">
                   <span class="step-no">01</span>
                   <h3>協議</h3>
-                  <p>保留互通與搬遷</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>讓資料可以搬遷</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 86%; --y: 37%">
                   <span class="step-no">02</span>
                   <h3>結社</h3>
-                  <p>承諾、分工與成員</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>成員、承諾與分工</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 72%; --y: 86%">
                   <span class="step-no">03</span>
                   <h3>治理</h3>
-                  <p>規則、申訴與交接</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>申訴、決策與交接</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 28%; --y: 86%">
                   <span class="step-no">04</span>
                   <h3>金流</h3>
-                  <p>誰支付維護成本</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>維護成本有人支付</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 14%; --y: 37%">
                   <span class="step-no">05</span>
                   <h3>抗審查</h3>
                   <p>受壓時仍能連結</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>
+            <p class="marginal">
               <button class="term" data-term="fediverse">聯邦宇宙<sup>註</sup></button
-              >打開一條路；資料、朋友與共同生活，需要一起帶走。
+              >提供一條路。搬家之後，總還得有人付房租、整理公共空間。
             </p>
           </div>
           <footer>
@@ -830,46 +1178,63 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-20 experiments-plate"
           id="slide-20"
           data-slide="20"
           data-chapter="三"
           aria-labelledby="title-20"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-20">2020 年代：三種落地實驗</h2></header>
+          <header><h2 id="title-20">三種落地實驗</h2></header>
           <div class="slide-body">
-            <table>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>快閃城市</th>
-                  <th>游擊實驗</th>
-                  <th>新社會</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>做什麼</td>
-                  <td>短期聚集</td>
-                  <td>投入既有現場</td>
-                  <td>建立自己的聚落</td>
-                </tr>
-                <tr>
-                  <td>帶著什麼</td>
-                  <td>社群與活動</td>
-                  <td>技術與理念</td>
-                  <td>資金與制度藍圖</td>
-                </tr>
-                <tr>
-                  <td>留下什麼</td>
-                  <td>關係？共同計畫？</td>
-                  <td>可維護的工具？</td>
-                  <td>誰的生活規則？</td>
-                </tr>
-              </tbody>
-            </table>
-            <p>這是我的田野分類；實際案例會重疊，也會改變。</p>
+            <div class="experiment-triptych">
+              <div>
+                <div class="engraving">
+                  <img
+                    src="assets/swallow-colony.webp"
+                    alt=""
+                    width="1100"
+                    height="1100"
+                    loading="lazy"
+                  />
+                </div>
+                <span class="roman">I</span>
+                <h3>快閃城市</h3>
+                <p>包下一個地方，<br />讓網友來住一陣子。</p>
+                <a href="#21">短期聚集 ↗</a>
+              </div>
+              <div>
+                <div class="engraving">
+                  <img
+                    src="assets/fox-path.webp"
+                    alt=""
+                    width="1100"
+                    height="1100"
+                    loading="lazy"
+                  />
+                </div>
+                <span class="roman">II</span>
+                <h3>游擊實驗</h3>
+                <p>帶著技術與理念，<br />投入已經在發生的事。</p>
+                <a href="#23">投入現場 ↗</a>
+              </div>
+              <div>
+                <div class="engraving">
+                  <img
+                    src="assets/tree-roots.webp"
+                    alt=""
+                    width="1100"
+                    height="1100"
+                    loading="lazy"
+                  />
+                </div>
+                <span class="roman">III</span>
+                <h3>新社會</h3>
+                <p>集結資源，<br />照自己的藍圖蓋聚落。</p>
+                <a href="#25">圈地實踐 ↗</a>
+              </div>
+            </div>
+            <p class="marginal">我的主觀、不專業分類。案例還在變，也會跨過這幾條界線。</p>
           </div>
           <footer>
             <span class="folio">20<i> / 43</i></span
@@ -879,48 +1244,92 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-21 popup-plate"
           id="slide-21"
           data-slide="21"
           data-chapter="三"
           aria-labelledby="title-21"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-21">快閃城市：網友一起生活</h2></header>
+          <header><h2 id="title-21">快閃城市：網友見面搞事</h2></header>
           <div class="slide-body">
-            <p class="lead">
-              <button class="term" data-term="popup">Pop-up City<sup>註</sup></button>
-            </p>
-            <div class="name-list">
+            <div class="popup-names">
+              <p class="eyebrow">
+                <button class="term" data-term="popup">POP-UP CITY<sup>註</sup></button>
+              </p>
               <span>Zuzalu</span><span>Edge City</span><span>Mu</span><span>Frontier Tower</span>
+              <div class="engraving">
+                <img
+                  src="assets/swallow-colony.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
             </div>
-            <div class="flow-wrap">
+            <div class="flow-wrap diagram hourglass" data-diagram="hourglass">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-7"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M295 80 L710 80"
+                  fill="none"
+                  marker-end="url(#route-arrow-7)"
+                />
+                <path
+                  class="route route-1"
+                  d="M820 145 L500 300 L180 430"
+                  fill="none"
+                  marker-end="url(#route-arrow-7)"
+                />
+                <path
+                  class="route route-2"
+                  d="M295 510 L710 510"
+                  fill="none"
+                  marker-end="url(#route-arrow-7)"
+                />
+              </svg>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 18%; --y: 13%">
                   <span class="step-no">01</span>
                   <h3>找到空間</h3>
                   <p>短期共居與活動</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 82%; --y: 13%">
                   <span class="step-no">02</span>
                   <h3>網友見面</h3>
                   <p>讀書、工作、交換想法</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 18%; --y: 85%">
                   <span class="step-no">03</span>
                   <h3>一起搞事</h3>
-                  <p>嘗試新的合作</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>試試新的合作</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 82%; --y: 85%">
                   <span class="step-no">04</span>
                   <h3>再次離散</h3>
                   <p>把關係帶往下一站</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
           </div>
           <footer>
@@ -934,31 +1343,42 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-22 aftermath-plate"
           id="slide-22"
           data-slide="22"
           data-chapter="三"
           aria-labelledby="title-22"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-22">快閃之後，什麼留在地方？</h2></header>
+          <header><h2 id="title-22">散場之後，地方留下了什麼？</h2></header>
           <div class="slide-body">
             <blockquote>
               「介於共同工作空間、招商大會、青年旅館與讀書會的複合體。」<cite
                 >黃豆泥・加密社群田野文章</cite
               >
             </blockquote>
-            <div class="columns c2">
+            <div class="aftermath">
               <div>
-                <h3>對參與者</h3>
-                <p>認識的人、工作的機會、<br />新的想像與下一站</p>
+                <p class="eyebrow">對參與者</p>
+                <h3>朋友、工作機會<br />下一站的邀請</h3>
+              </div>
+              <div class="engraving">
+                <img
+                  src="assets/swallow-colony.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
               </div>
               <div>
-                <h3>對在地居民</h3>
-                <p>關係、資源、工作與成本，<br />哪些真的能留下？</p>
+                <p class="eyebrow">對在地居民</p>
+                <h3>哪些關係與資源<br />能待得久一點？</h3>
               </div>
             </div>
-            <p>聚在一起容易被看見；散場之後的關係，需要更長的觀察。</p>
+            <p class="marginal">
+              我問 Vitalik，Zuzalu 後來怎麼了。他說：去中心了，各地都有人繼續。
+            </p>
           </div>
           <footer>
             <span class="folio">22<i> / 43</i></span
@@ -971,32 +1391,34 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-23 rojava-plate"
           id="slide-23"
           data-slide="23"
           data-chapter="三"
           aria-labelledby="title-23"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-23">游擊實驗：羅賈瓦的數位實驗</h2></header>
+          <header><h2 id="title-23">游擊的人：Amir Taaki</h2></header>
           <div class="slide-body">
-            <p class="lead">
-              <button class="term" data-term="guerrilla">
-                Guerrilla Experimentation<sup>註</sup></button
-              ><br /><button class="term" data-term="rojava">Rojava<sup>註</sup></button> × Amir
-              Taaki
-            </p>
-            <div class="columns c2">
-              <div>
-                <h3>走進真實的現場</h3>
-                <p>自治社區、通訊、經濟重建<br />把加密理念放進現實衝突</p>
-              </div>
-              <div>
-                <h3>離開之後的問題</h3>
-                <p>誰會維修？誰繼續使用？<br />外來技術是否成為地方能力？</p>
-              </div>
+            <div class="engraving fox-emblem">
+              <img src="assets/fox-path.webp" alt="" width="1100" height="1100" loading="lazy" />
             </div>
-            <p>工具是否留下，與技術工作者曾經到過，是兩件需要分別回答的事。</p>
+            <div class="rojava-copy">
+              <p class="eyebrow">
+                <button class="term" data-term="guerrilla">
+                  GUERRILLA EXPERIMENTATION<sup>註</sup>
+                </button>
+              </p>
+              <p class="lead">
+                <button class="term" data-term="rojava">羅賈瓦 Rojava<sup>註</sup></button>
+              </p>
+              <p>自治社區、通訊、加密貨幣、經濟重建。<br />把手上的工具帶到真實的衝突現場。</p>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <blockquote>
+                「我著實好奇他在羅賈瓦留下的應用，至今究竟有沒有持續被使用。」<cite>黃豆泥</cite>
+              </blockquote>
+              <p class="marginal">去過，和有人接著用，是兩件事。</p>
+            </div>
           </div>
           <footer>
             <span class="folio">23<i> / 43</i></span
@@ -1010,7 +1432,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-24 voting-plate"
           id="slide-24"
           data-slide="24"
           data-chapter="三"
@@ -1019,37 +1441,67 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
           <header><h2 id="title-24">加泰隆尼亞／RARIMO 投票實驗</h2></header>
           <div class="slide-body">
-            <p class="lead">資格可以被證明，<br />政治選擇可以不暴露嗎？</p>
-            <div class="flow-wrap">
+            <div class="voting-copy">
+              <p class="lead">證明我有資格，<br />不交出我的選擇。</p>
+              <p>護照・匿名・公民資格・政治承認</p>
+            </div>
+            <div class="flow-wrap diagram triangle" data-diagram="triangle">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-8"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M240 350 L405 135"
+                  fill="none"
+                  marker-end="url(#route-arrow-8)"
+                />
+                <path
+                  class="route route-1"
+                  d="M590 135 L755 350"
+                  fill="none"
+                  marker-end="url(#route-arrow-8)"
+                />
+              </svg>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 18%; --y: 73%">
                   <span class="step-no">01</span>
                   <h3>已有的證件</h3>
-                  <p>誰有資格參與</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>確認參與資格</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 50%; --y: 15%">
                   <span class="step-no">02</span>
                   <h3>
                     <button class="term" data-term="zkp">零知識證明<sup>註</sup></button>
                   </h3>
                   <p>只證明所需條件</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 82%; --y: 73%">
                   <span class="step-no">03</span>
                   <h3>數位投票</h3>
                   <p>檢查程序與結果</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>
-              <button class="term" data-term="rarimo">RARIMO／加泰隆尼亞案例<sup>註</sup></button
-              >：護照、匿名、公民資格與政治承認。
-            </p>
             <p class="caveat">
-              案例線索：加泰隆尼亞的 Vocdoni 與 Rarimo 是不同專案；兩者關聯待補充。
+              <button class="term" data-term="rarimo">案例待釐清<sup>註</sup></button>：加泰隆尼亞的
+              Vocdoni 與 Rarimo 是不同專案；此圖說明 Rarimo 的一般架構。
             </p>
           </div>
           <footer>
@@ -1064,47 +1516,94 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-25 society-plate"
           id="slide-25"
           data-slide="25"
           data-chapter="三"
           aria-labelledby="title-25"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-25">新社會：把理念蓋成一個地方</h2></header>
+          <header><h2 id="title-25">把理念蓋成一個地方</h2></header>
           <div class="slide-body">
-            <p class="lead">
-              <button class="term" data-term="network">New Society／網路國家<sup>註</sup></button>
-            </p>
-            <div class="flow-wrap">
+            <div class="society-caption">
+              <p class="eyebrow">BALAJI SRINIVASAN</p>
+              <p class="lead">
+                <button class="term" data-term="network">New Society<sup>註</sup></button>
+              </p>
+              <div class="engraving">
+                <img
+                  src="assets/tree-roots.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <div class="flow-wrap diagram up" data-diagram="up">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-9"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M230 500 L380 500 L380 425"
+                  fill="none"
+                  marker-end="url(#route-arrow-9)"
+                />
+                <path
+                  class="route route-1"
+                  d="M465 360 L620 360 L620 280"
+                  fill="none"
+                  marker-end="url(#route-arrow-9)"
+                />
+                <path
+                  class="route route-2"
+                  d="M695 215 L860 215 L860 140"
+                  fill="none"
+                  marker-end="url(#route-arrow-9)"
+                />
+              </svg>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 14%; --y: 84%">
                   <span class="step-no">01</span>
                   <h3>網路社群</h3>
-                  <p>共享理念與認同</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>先有共同認同</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 38%; --y: 60%">
                   <span class="step-no">02</span>
                   <h3>集結資源</h3>
-                  <p>資金、技能與支持者</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>資金、技能、支持者</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 62%; --y: 36%">
                   <span class="step-no">03</span>
                   <h3>實體聚居</h3>
                   <p>Network School</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 86%; --y: 12%">
                   <span class="step-no">04</span>
                   <h3>生活規則</h3>
-                  <p>誰制定？如何更改？</p>
+                  <p>在同一棟樓裡實踐</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>Balaji Srinivasan 的倡議：讓網路社群走向實體社會的建構。</p>
+            <p class="marginal">網路國家的主權願景，還不是已經發生的事。</p>
           </div>
           <footer>
             <span class="folio">25<i> / 43</i></span
@@ -1116,31 +1615,40 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-26 exercise-plate"
           id="slide-26"
           data-slide="26"
           data-chapter="三"
           aria-labelledby="title-26"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第三章</span></div>
-          <header><h2 id="title-26">自由意志，遇到共同生活的規則</h2></header>
+          <header><h2 id="title-26">自由意志主義者，也要做早操？</h2></header>
           <div class="slide-body">
-            <blockquote>
-              「我還真沒辦法想像一群『自由意志主義者』會一起集體做早操。」<cite
-                >黃豆泥・加密社群田野文章</cite
-              >
-            </blockquote>
-            <div class="columns c2">
+            <div class="exercise-quote">
+              <p class="eyebrow">NETWORK SCHOOL・朋友轉述</p>
+              <blockquote>
+                「我還真沒辦法想像一群『自由意志主義者』會一起集體做早操。」<cite>黃豆泥</cite>
+              </blockquote>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+            </div>
+            <div class="exercise-notes">
               <div>
-                <h3>朋友轉述的經驗</h3>
-                <p>集體生活、居住問題、<br />公開抱怨與離開</p>
+                <span>一</span>
+                <h3>一起生活</h3>
+                <p>早操、居住問題，<br />還有公開表達的不滿。</p>
               </div>
               <div>
-                <h3>制度上的追問</h3>
-                <p>誰掌握空間與資源？<br />異議者有沒有申訴與留下的權利？</p>
+                <span>二</span>
+                <h3>「百花齊放」</h3>
+                <p>朋友用這四個字，形容<br />徵求意見後有人被逐出的經驗。</p>
+              </div>
+              <div>
+                <span>三</span>
+                <h3>誰能留下？</h3>
+                <p>空間握在主理人手上時，<br />異議者有什麼選擇？</p>
               </div>
             </div>
-            <p class="caveat">Network School 段落為講者友人的轉述，並非經獨立查證的調查報告。</p>
+            <p class="caveat">以上為講者友人的轉述，尚未經獨立查證。</p>
           </div>
           <footer>
             <span class="folio">26<i> / 43</i></span
@@ -1152,20 +1660,32 @@
           >
         </section>
         <section
-          class="slide landscape"
+          class="slide plate-27 village-chapter"
           id="slide-27"
           data-slide="27"
           data-chapter="四"
           aria-labelledby="title-27"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第四章</span></div>
-          <div class="slide-body special" id="title-27">
-            <div class="landscape-title">
-              <p class="chapter-number">第四章</p>
-              <h2 class="chapter-title">何處是<em>故鄉</em></h2>
-              <p class="lead">地方創生・山古志村・關係人口</p>
+          <header><h2 id="title-27">何處是故鄉</h2></header>
+          <div class="slide-body">
+            <div class="village-chapter-copy">
+              <p class="eyebrow">第四章　/　PUTTING DOWN ROOTS</p>
+              <p class="lead">地方創生<br />山古志村<br />關係人口</p>
+              <div class="engraving">
+                <img src="assets/koi-roots.webp" alt="" width="1100" height="1100" loading="lazy" />
+              </div>
             </div>
-            <p class="landscape-credit">山古志村雪景・攝影／張寶成</p>
+            <div class="village-landscape">
+              <img
+                src="assets/yamakoshi-snow.webp"
+                alt="山古志村雪景，張寶成攝影"
+                width="1000"
+                height="700"
+                loading="lazy"
+              />
+              <p>山古志村雪景・攝影／張寶成</p>
+            </div>
           </div>
           <footer>
             <span class="folio">27<i> / 43</i></span
@@ -1175,45 +1695,46 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide image-text"
+          class="slide plate-28 villagers-plate"
           id="slide-28"
           data-slide="28"
           data-chapter="四"
           aria-labelledby="title-28"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第四章</span></div>
-          <header><h2 id="title-28">不必先搬來，才開始與地方有關</h2></header>
+          <header><h2 id="title-28">遠方的人，也能成為村民嗎？</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <figure class="">
-                  <button
-                    class="image-zoom"
-                    data-image="assets/digital-villagers.webp"
-                    data-caption="台灣小隊展示錦鯉 NFT。原文圖／Nishikigoi NFT Discord"
-                    aria-label="放大：台灣小隊展示錦鯉 NFT"
-                  >
-                    <img
-                      src="assets/digital-villagers.webp"
-                      alt="台灣小隊展示錦鯉 NFT"
-                      loading="lazy"
-                      width="1200"
-                      height="800"
-                    />
-                  </button>
-                  <figcaption>台灣小隊展示錦鯉 NFT。原文圖／Nishikigoi NFT Discord</figcaption>
-                </figure>
+            <div class="villagers-photo">
+              <figure class="">
+                <button
+                  class="image-zoom"
+                  data-image="assets/digital-villagers.webp"
+                  data-caption="台灣小隊展示錦鯉 NFT。原文圖／Nishikigoi NFT Discord"
+                  aria-label="放大：台灣小隊展示錦鯉 NFT"
+                >
+                  <img
+                    src="assets/digital-villagers.webp"
+                    alt="台灣小隊展示錦鯉 NFT"
+                    loading="lazy"
+                    width="1200"
+                    height="800"
+                  />
+                </button>
+                <figcaption>台灣小隊展示錦鯉 NFT。原文圖／Nishikigoi NFT Discord</figcaption>
+              </figure>
+            </div>
+            <div class="villagers-copy">
+              <div class="engraving">
+                <img src="assets/koi-roots.webp" alt="" width="1100" height="1100" loading="lazy" />
               </div>
-              <div>
-                <h3>
-                  <button class="term" data-term="relation">關係人口<sup>註</sup></button>
-                </h3>
-                <p>不只觀光，也不必立刻定居。<br />遠方的人可以持續參與一個地方。</p>
-                <h3>
-                  <button class="term" data-term="nft">錦鯉 NFT<sup>註</sup></button>
-                </h3>
-                <p>藝術與數位村民的入口，<br />把陌生人的注意力帶向真實的村落。</p>
-              </div>
+              <h3>
+                <button class="term" data-term="relation">關係人口<sup>註</sup></button>
+              </h3>
+              <p>不只來玩一次，<br />也不必立刻搬來住。</p>
+              <h3>
+                <button class="term" data-term="nft">錦鯉 NFT<sup>註</sup></button>
+              </h3>
+              <p>從一件作品、一個群組，<br />開始與山古志有來往。</p>
             </div>
           </div>
           <footer>
@@ -1227,73 +1748,113 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-29 mediator-plate"
           id="slide-29"
           data-slide="29"
           data-chapter="四"
           aria-labelledby="title-29"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第四章</span></div>
-          <header><h2 id="title-29">地方連結，需要中介行動者</h2></header>
+          <header><h2 id="title-29">網路與村落之間，要有人來回跑</h2></header>
           <div class="slide-body">
-            <div class="flow-wrap">
+            <div class="flow-wrap diagram loop" data-diagram="loop">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-10"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M305 90 L675 90"
+                  fill="none"
+                  marker-end="url(#route-arrow-10)"
+                />
+                <path
+                  class="route route-1"
+                  d="M800 165 L800 400"
+                  fill="none"
+                  marker-end="url(#route-arrow-10)"
+                />
+                <path
+                  class="route route-2"
+                  d="M675 500 L310 500"
+                  fill="none"
+                  marker-end="url(#route-arrow-10)"
+                />
+                <path
+                  class="route route-3"
+                  d="M180 405 L180 165"
+                  fill="none"
+                  marker-end="url(#route-arrow-10)"
+                />
+              </svg>
+              <div class="diagram-center">
+                <div class="hub-core">
+                  <button class="term" data-term="mediator">中介行動者<sup>註</sup></button
+                  ><small>懂地方，也接得住外部資源</small>
+                </div>
+              </div>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 18%; --y: 15%">
                   <span class="step-no">01</span>
                   <h3>關注與加入</h3>
-                  <p>看見山古志</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>第一次看見山古志</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 80%; --y: 15%">
                   <span class="step-no">02</span>
                   <h3>共同參與</h3>
-                  <p>討論、提案、資源</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>討論、提案與資源</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 80%; --y: 83%">
                   <span class="step-no">03</span>
                   <h3>地方執行</h3>
-                  <p>熟悉村落的人</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>熟悉村落的人接手</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 18%; --y: 83%">
                   <span class="step-no">04</span>
                   <h3>持續回應</h3>
-                  <p>地方需求與日常</p>
+                  <p>再把日常需求帶回來</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <div class="columns c2">
-              <div>
-                <figure class="small-figure">
-                  <button
-                    class="image-zoom"
-                    data-image="assets/village-vote.webp"
-                    data-caption="原文圖／Nishikigoi NFT Snapshot"
-                    aria-label="放大：Nishikigoi 專案的投票頁面"
-                  >
-                    <img
-                      src="assets/village-vote.webp"
-                      alt="Nishikigoi 專案的投票頁面"
-                      loading="lazy"
-                      width="1200"
-                      height="800"
-                    />
-                  </button>
-                  <figcaption>原文圖／Nishikigoi NFT Snapshot</figcaption>
-                </figure>
-              </div>
-              <div>
-                <p>
-                  <button class="term" data-term="dao">DAO<sup>註</sup></button
-                  >可提供參與程序。<br /><button class="term" data-term="mediator">
-                    中介行動者<sup>註</sup></button
-                  >把全球網路與村落生活接在一起。
-                </p>
-                <p>誰執行、誰維護、誰願意再來，<br />都不會由代幣自動完成。</p>
-              </div>
-            </div>
+            <aside>
+              <figure class="">
+                <button
+                  class="image-zoom"
+                  data-image="assets/village-vote.webp"
+                  data-caption="原文圖／Nishikigoi NFT Snapshot"
+                  aria-label="放大：Nishikigoi 專案的投票頁面"
+                >
+                  <img
+                    src="assets/village-vote.webp"
+                    alt="Nishikigoi 專案的投票頁面"
+                    loading="lazy"
+                    width="1200"
+                    height="800"
+                  />
+                </button>
+                <figcaption>原文圖／Nishikigoi NFT Snapshot</figcaption>
+              </figure>
+              <p>
+                <button class="term" data-term="dao">DAO<sup>註</sup></button
+                >有投票程序。<br />提案落地，還是得靠人。
+              </p>
+            </aside>
           </div>
           <footer>
             <span class="folio">29<i> / 43</i></span
@@ -1303,7 +1864,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-30 association-plate"
           id="slide-30"
           data-slide="30"
           data-chapter="四"
@@ -1312,29 +1873,40 @@
           <div class="folio-top"><span>無國界的遊牧</span><span>第四章</span></div>
           <header><h2 id="title-30">海外者的數位結社？</h2></header>
           <div class="slide-body">
-            <div class="resource-list">
+            <div class="association-hub">
+              <div class="engraving">
+                <img
+                  src="assets/tree-roots.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <span>我們</span>
+            </div>
+            <div class="association-notes">
               <div>
                 <span>01</span>
                 <h3>資金</h3>
-                <p>共同支持什麼，如何支付長期成本</p>
+                <p>共同支持什麼？<br />長期成本怎麼付？</p>
               </div>
               <div>
                 <span>02</span>
                 <h3>人才</h3>
-                <p>誰能做什麼，如何分工與互助</p>
+                <p>把專長接起來。<br />也把工作分下去。</p>
               </div>
               <div>
                 <span>03</span>
                 <h3>資訊</h3>
-                <p>如何保存知識，避免只留在聊天室</p>
+                <p>經驗不要只留在<br />滑過就找不到的聊天室。</p>
               </div>
               <div>
                 <span>04</span>
                 <h3>制度</h3>
-                <p>如何決策、問責、交接與接納新成員</p>
+                <p>有人決策、有人接手，<br />新人也進得來。</p>
               </div>
             </div>
-            <p>身在不同城市的人，如何形成一個能持續行動的「我們」？</p>
           </div>
           <footer>
             <span class="folio">30<i> / 43</i></span
@@ -1346,19 +1918,27 @@
           >
         </section>
         <section
-          class="slide closing"
+          class="slide plate-31 closing"
           id="slide-31"
           data-slide="31"
           data-chapter="四"
           aria-labelledby="title-31"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>第四章</span></div>
-          <header><h2 id="title-31">落地生根，是持續的關係</h2></header>
+          <header><h2 id="title-31">何處是故鄉，還在田野裡找</h2></header>
           <div class="slide-body">
-            <blockquote>「與其說我在遊牧，不如說是在田野也不為過。」<cite>黃豆泥</cite></blockquote>
-            <p class="lead">我們想與誰一起生活？<br />又願意為哪個地方，持續付出？</p>
-            <p class="keywords">人　勞動　社群　空間　世界</p>
-            <a class="appendix-link" href="#32">續讀番外篇：AI、人類與工作 ⟶</a>
+            <div class="engraving closing-tree">
+              <img src="assets/tree-roots.webp" alt="" width="1100" height="1100" loading="lazy" />
+            </div>
+            <div class="closing-copy">
+              <p class="eyebrow">人・勞動・社群・空間・世界</p>
+              <blockquote>
+                「與其說我在遊牧，不如說是在田野也不為過。」<cite>黃豆泥</cite>
+              </blockquote>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <p>這些人真的很瘋。<br />但也真的有不少東西，值得去蹲點看看。</p>
+              <a class="appendix-link" href="#32">番外篇：AI、人類與工作 ↗</a>
+            </div>
           </div>
           <footer>
             <span class="folio">31<i> / 43</i></span
@@ -1368,25 +1948,36 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide manifesto"
+          class="slide plate-32 manifesto machine-plate"
           id="slide-32"
           data-slide="32"
           data-chapter="番外"
           aria-labelledby="title-32"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>番外篇・兩種未來觀</span></div>
-          <header><h2 id="title-32">兩種未來觀 I：被機器奴役</h2></header>
+          <header><h2 id="title-32">被機器奴役的未來</h2></header>
           <div class="slide-body">
-            <p class="edition">《論工業社會及其未來》・1995・§173</p>
-            <blockquote>
-              “At that stage the machines will be in effective control.”<cite>Ted Kaczynski</cite>
-            </blockquote>
-            <p class="lead">「到了那個階段，機器將實際掌握控制權。」</p>
-            <p>——本簡報譯文</p>
-            <p class="caveat">
-              <button class="term" data-term="ted">泰德・卡辛斯基<sup>註</sup></button
-              >的文本作為批判閱讀材料；不認同其暴力行動。
-            </p>
+            <div class="machine-quote">
+              <p class="eyebrow">兩種未來觀 I・1995・§173</p>
+              <blockquote>
+                “At that stage the machines will be in effective control.”<cite>Ted Kaczynski</cite>
+              </blockquote>
+              <p class="lead">「到了那個階段，<br />機器將實際掌握控制權。」</p>
+              <p class="marginal">本簡報譯文</p>
+              <p class="caveat">
+                <button class="term" data-term="ted">《論工業社會及其未來》<sup>註</sup></button
+                >作為批判閱讀材料；不認同作者的暴力行動。
+              </p>
+            </div>
+            <div class="engraving machine-emblem">
+              <img
+                src="assets/mechanical-bird.webp"
+                alt=""
+                width="1100"
+                height="1100"
+                loading="lazy"
+              />
+            </div>
           </div>
           <footer>
             <span class="folio">32<i> / 43</i></span
@@ -1398,48 +1989,51 @@
           >
         </section>
         <section
-          class="slide case-with-photo book"
+          class="slide plate-33 solaria-plate"
           id="slide-33"
           data-slide="33"
           data-chapter="番外"
           aria-labelledby="title-33"
         >
           <div class="folio-top"><span>無國界的遊牧</span><span>番外篇・兩種未來觀</span></div>
-          <header><h2 id="title-33">兩種未來觀 II：機器工作，人類稀疏</h2></header>
+          <header><h2 id="title-33">機器工作，人類稀疏</h2></header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <p class="lead">
-                  艾希莫夫《裸陽》<br /><button class="term" data-term="solaria">
-                    Solaria／索拉利星<sup>註</sup>
-                  </button>
-                </p>
-                <h3>勞動的安排</h3>
-                <p>大量機器人承擔工作，人類分散生活。</p>
-                <h3>關係的安排</h3>
-                <p>遠距交往成為常態，實際相見令人不安。</p>
+            <div class="solaria-copy">
+              <p class="eyebrow">兩種未來觀 II・1957</p>
+              <p class="lead">
+                艾希莫夫《裸陽》<br /><button class="term" data-term="solaria">
+                  Solaria／索拉利星<sup>註</sup>
+                </button>
+              </p>
+              <div class="solaria-pair">
+                <div class="panel">
+                  <h3>工作交給機器人</h3>
+                  <p>人類分散住在各自的領地。</p>
+                </div>
+                <div class="panel">
+                  <h3>見面變成難事</h3>
+                  <p>遠距交往很熟悉，肉身相見卻令人不安。</p>
+                </div>
               </div>
-              <div>
-                <figure class="">
-                  <button
-                    class="image-zoom"
-                    data-image="assets/naked-sun.webp"
-                    data-caption="《The Naked Sun》再版封面／Penguin Random House"
-                    aria-label="放大：Isaac Asimov The Naked Sun 書封"
-                  >
-                    <img
-                      src="assets/naked-sun.webp"
-                      alt="Isaac Asimov The Naked Sun 書封"
-                      loading="lazy"
-                      width="1200"
-                      height="800"
-                    />
-                  </button>
-                  <figcaption>《The Naked Sun》再版封面／Penguin Random House</figcaption>
-                </figure>
-              </div>
+              <p>不必再為工作聚集之後，<br />還有什麼讓人願意靠近彼此？</p>
             </div>
-            <p>如果不必再為工作聚集，我們還會為了什麼靠近彼此？</p>
+            <figure class="">
+              <button
+                class="image-zoom"
+                data-image="assets/naked-sun.webp"
+                data-caption="《The Naked Sun》再版封面／Penguin Random House"
+                aria-label="放大：Isaac Asimov The Naked Sun 書封"
+              >
+                <img
+                  src="assets/naked-sun.webp"
+                  alt="Isaac Asimov The Naked Sun 書封"
+                  loading="lazy"
+                  width="1200"
+                  height="800"
+                />
+              </button>
+              <figcaption>《The Naked Sun》再版封面／Penguin Random House</figcaption>
+            </figure>
           </div>
           <footer>
             <span class="folio">33<i> / 43</i></span
@@ -1452,7 +2046,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-34 work-opening-plate"
           id="slide-34"
           data-slide="34"
           data-chapter="工作"
@@ -1462,23 +2056,30 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-34">01｜問題在於「足夠的工作」</h2>
+            <h2 id="title-34">01｜還有多少「足夠的工作」？</h2>
             <p class="range">原簡報 P.15–18、20</p>
           </header>
           <div class="slide-body">
-            <p class="lead">工作仍然存在，<br />卻未必足以分配收入、地位與意義。</p>
-            <p>
-              Susskind
-              把技術性失業描寫成任務逐步被接手的過程。單看工作是否消失，會漏掉薪資下降、工時不穩與人退出勞動市場。
-            </p>
-            <div class="columns c2">
-              <div>
-                <h3>歷史提供經驗</h3>
-                <p>過去的替代與互補，曾讓新工作出現。</p>
+            <div class="work-opening">
+              <p class="eyebrow">DANIEL SUSSKIND</p>
+              <div class="work-large">工作還在。<br /><em>薪水呢？</em></div>
+              <p>
+                Susskind 看的是任務如何被逐步接手。<br />職缺沒有歸零，仍可能發生薪資下降、<br />工時不穩；收入、地位與意義，也跟著鬆動。
+              </p>
+            </div>
+            <div class="work-specimen">
+              <div class="engraving">
+                <img
+                  src="assets/mechanical-bird.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
               </div>
-              <div>
-                <h3>歷史不提供保證</h3>
-                <p>新任務也可能直接由機器完成。</p>
+              <div class="two-notes">
+                <p class="marginal">過去：新任務曾抵銷替代。</p>
+                <p class="marginal">往後：新任務也可能交給機器。</p>
               </div>
             </div>
           </div>
@@ -1492,7 +2093,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-35 bundle-plate"
           id="slide-35"
           data-slide="35"
           data-chapter="工作"
@@ -1506,40 +2107,28 @@
             <p class="range">原簡報 P.19、21–23</p>
           </header>
           <div class="slide-body">
-            <div class="flow-wrap">
-              <ol class="flow">
-                <li class="flow-step">
-                  <span class="step-no">01</span>
-                  <h3>原本的工作</h3>
-                  <p>由許多任務組成</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">02</span>
-                  <h3>機器接手一部分</h3>
-                  <p>未必需要通用人工智慧</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
-                </li>
-                <li class="flow-step">
-                  <span class="step-no">03</span>
-                  <h3>剩下的任務</h3>
-                  <p>價值與需求可能改變</p>
-                </li>
-              </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
-            </div>
-            <div class="columns c2">
-              <div>
-                <h3>
-                  <button class="term" data-term="complement">替代力量<sup>註</sup></button>
-                </h3>
-                <p>機器接手任務，人力需求下降。</p>
+            <div class="task-bundle">
+              <div class="bundle-origin">
+                <span>一份工作</span>
+                <div><b>觀察</b><b>診斷</b><b>操作</b><b>記錄</b><b>協調</b><b>判斷</b></div>
+                <p class="marginal">示意任務，非特定職業清單</p>
               </div>
-              <div>
-                <h3>互補力量</h3>
-                <p>提高生產力、擴大需求，或創造新的部門與任務。</p>
+              <div class="bundle-branches">
+                <div class="flow-step">
+                  <span class="step-no">A</span>
+                  <h3>
+                    <button class="term" data-term="complement">替代力量<sup>註</sup></button>
+                  </h3>
+                  <p>機器接手其中一部分，<br />對人的需求可能減少。</p>
+                </div>
+                <div class="flow-step">
+                  <span class="step-no">B</span>
+                  <h3>互補力量</h3>
+                  <p>生產力提高、需求擴大，<br />也可能長出新的部門與任務。</p>
+                </div>
               </div>
             </div>
+            <p class="marginal">不用先做出通用人工智慧，也能一步一步改變一份工作。</p>
           </div>
           <footer>
             <span class="folio">35<i> / 43</i></span
@@ -1549,7 +2138,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-36 gap-plate"
           id="slide-36"
           data-slide="36"
           data-chapter="工作"
@@ -1559,25 +2148,28 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-36">03｜有工作卻搆不到，與工作不夠</h2>
+            <h2 id="title-36">03｜有工作搆不到，還是工作不夠？</h2>
             <p class="range">原簡報 P.24–25</p>
           </header>
           <div class="slide-body">
-            <div class="columns c2">
+            <div class="gap-comparison">
               <div>
-                <h3>摩擦與錯配</h3>
-                <p>
-                  <b>技能</b>：新工作所需能力不同。<br /><b>認同</b
-                  >：某些工作與自我理解衝突。<br /><b>地點</b>：機會集中，搬遷有成本。
-                </p>
+                <p class="eyebrow">摩擦與錯配</p>
+                <h3>機會在另一邊</h3>
+                <ol>
+                  <li><b>技能</b><span>能力與職缺對不上</span></li>
+                  <li><b>認同</b><span>不願或不敢換一種身分</span></li>
+                  <li><b>地點</b><span>機會集中，搬遷有成本</span></li>
+                </ol>
               </div>
               <div>
-                <h3>結構性的需求不足</h3>
-                <p>即使完成再訓練，市場仍可能不需要足夠的人類勞動。</p>
-                <p>商品服務增加，不保證人的工作機會同步增加。</p>
+                <p class="eyebrow">結構性需求不足</p>
+                <h3>過了橋，也沒有職缺</h3>
+                <p>即使再訓練完成，市場仍可能<br />不需要那麼多人類勞動。</p>
+                <p>商品與服務變多，<br />人的工作機會未必跟著增加。</p>
               </div>
             </div>
-            <p>遠距與遊牧可以鬆動「地點」限制，卻不自動解決技能、照護與分配問題。</p>
+            <p class="marginal">遠距與遊牧鬆動了地點限制。技能、照護、收入分配，還在原地等著。</p>
           </div>
           <footer>
             <span class="folio">36<i> / 43</i></span
@@ -1587,7 +2179,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-37 balance-plate"
           id="slide-37"
           data-slide="37"
           data-chapter="工作"
@@ -1597,36 +2189,31 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-37">04｜繁榮如何分配</h2>
+            <h2 id="title-37">04｜機器創造的繁榮，分到誰手上？</h2>
             <p class="range">原簡報 P.26–28、57</p>
           </header>
           <div class="slide-body">
-            <table>
-              <thead>
-                <tr>
-                  <th>所得來自</th>
-                  <th>技術變化後的問題</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>人力資本：技能、經驗、知識</td>
-                  <td>薪資與需求可能下滑</td>
-                </tr>
-                <tr>
-                  <td>其他資本：機器、土地、股權、資料</td>
-                  <td>收益可能更集中於所有者</td>
-                </tr>
-              </tbody>
-            </table>
-            <p>
-              Susskind
-              提議收入分享、資本分享與勞動保障，也討論大型科技權力與休閒的公共安排。教育有用，卻不能獨自修補分配制度。
-            </p>
-            <p>
-              <button class="term" data-term="cbi">UBI／CBI<sup>註</sup></button
-              >的分歧：照護、創作與社群貢獻，由誰認定？
-            </p>
+            <div class="balance">
+              <div>
+                <p class="eyebrow">人力資本</p>
+                <h3>技能・經驗・知識</h3>
+                <p>靠工資分享收益。<br />需求與薪資卻可能往下走。</p>
+              </div>
+              <span class="balance-pivot" aria-hidden="true">△</span>
+              <div>
+                <p class="eyebrow">其他資本</p>
+                <h3>機器・土地・股權・資料</h3>
+                <p>持有資產的人，<br />可能拿走更多新增收益。</p>
+              </div>
+            </div>
+            <div class="distribution-band">
+              <h3>Susskind 的回應</h3>
+              <p>收入分享、資本分享、勞動保障；也要處理大型科技權力與休閒的公共安排。</p>
+              <p class="marginal">
+                <button class="term" data-term="cbi">UBI／CBI<sup>註</sup></button
+                >：照護與社群貢獻，要不要換成收入？由誰認定？
+              </p>
+            </div>
           </div>
           <footer>
             <span class="folio">37<i> / 43</i></span
@@ -1636,7 +2223,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-38 leisure-plate"
           id="slide-38"
           data-slide="38"
           data-chapter="工作"
@@ -1646,25 +2233,31 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-38">05｜後工作，不等於無所事事</h2>
+            <h2 id="title-38">05｜少一點上班，空出來做什麼？</h2>
             <p class="range">原簡報 P.29–32、36</p>
           </header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <h3>工資勞動</h3>
-                <p>為了維持生存，出售時間與能力。</p>
+            <div class="leisure-art">
+              <div class="engraving">
+                <img
+                  src="assets/moth-window.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
               </div>
-              <div>
-                <h3>人的活動</h3>
-                <p>學習、創作、照護、政治參與、社交與遊戲。</p>
-              </div>
+              <p class="eyebrow">SRNICEK & WILLIAMS</p>
             </div>
-            <p class="lead">Srnicek 與 Williams：<br />讓人有能力拒絕惡劣的工作。</p>
-            <p>
-              <button class="term" data-term="freedom">合成自由<sup>註</sup></button
-              >需要收入、時間、公共服務與共同建設。
-            </p>
+            <div class="leisure-copy">
+              <p class="lead">學習、創作、照護、<br />政治參與、社交、遊戲。</p>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <p>後工作主張讓人有能力拒絕惡劣的工作。<br />少賣一點時間，不代表人的活動也少了。</p>
+              <p>
+                <button class="term" data-term="freedom">合成自由<sup>註</sup></button
+                >需要收入、時間、公共服務。<br />不能只叫大家勇敢做自己。
+              </p>
+            </div>
           </div>
           <footer>
             <span class="folio">38<i> / 43</i></span
@@ -1674,7 +2267,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-39 politics-plate"
           id="slide-39"
           data-slide="39"
           data-chapter="工作"
@@ -1684,38 +2277,81 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-39">06｜地方實驗，如何變成制度力量</h2>
+            <h2 id="title-39">06｜一次活動，怎麼變成長期的力量？</h2>
             <p class="range">原簡報 P.33–35、37、39、58</p>
           </header>
           <div class="slide-body">
-            <p>
-              Srnicek 與 Williams 對<button class="term" data-term="folk">
-                常民政治<sup>註</sup></button
-              >的批評：短期、地方、直接行動能帶來能量，但若始終停在這裡，難以改變較大的制度。
-            </p>
-            <div class="flow-wrap">
+            <div class="politics-intro">
+              <p class="eyebrow">SRNICEK & WILLIAMS</p>
+              <p>
+                他們批評<button class="term" data-term="folk">常民政治<sup>註</sup></button
+                >：短期、地方、直接行動可以聚人；若始終停在這裡，就很難改變更大的制度。
+              </p>
+            </div>
+            <div class="flow-wrap diagram up" data-diagram="up">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-11"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M230 500 L380 500 L380 425"
+                  fill="none"
+                  marker-end="url(#route-arrow-11)"
+                />
+                <path
+                  class="route route-1"
+                  d="M465 360 L620 360 L620 280"
+                  fill="none"
+                  marker-end="url(#route-arrow-11)"
+                />
+                <path
+                  class="route route-2"
+                  d="M695 215 L860 215 L860 140"
+                  fill="none"
+                  marker-end="url(#route-arrow-11)"
+                />
+              </svg>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 14%; --y: 84%">
                   <span class="step-no">01</span>
                   <h3>共同想像</h3>
-                  <p>提出可欲的未來</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>提出值得爭取的未來</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 38%; --y: 60%">
                   <span class="step-no">02</span>
                   <h3>組織累積</h3>
-                  <p>社群、媒體、工會、政黨</p>
-                  <span class="flow-arrow" aria-hidden="true">⟶</span>
+                  <p>社群、媒體與工會</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 62%; --y: 36%">
                   <span class="step-no">03</span>
+                  <h3>擴大聯盟</h3>
+                  <p>連結政治組織與公共討論</p>
+                </li>
+                <li class="flow-step" style="--x: 86%; --y: 12%">
+                  <span class="step-no">04</span>
                   <h3>持續施力</h3>
-                  <p>政策、投資與公共制度</p>
+                  <p>政策、投資、公共制度</p>
                 </li>
               </ol>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>自治小島與數位遊牧社群，同樣需要面對：如何讓一次相聚超越一次活動？</p>
+            <p class="marginal">這也是快閃城市會遇到的問題：人散了，事情還做得下去嗎？</p>
           </div>
           <footer>
             <span class="folio">39<i> / 43</i></span
@@ -1727,7 +2363,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-40 demands-plate"
           id="slide-40"
           data-slide="40"
           data-chapter="工作"
@@ -1737,27 +2373,24 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-40">07｜後工作的四項要求與四條岔路</h2>
+            <h2 id="title-40">07｜後工作的要求，與它的岔路</h2>
             <p class="range">原簡報 P.38、40、58</p>
           </header>
           <div class="slide-body">
-            <div class="columns c2">
-              <div>
-                <h3>彼此支撐的要求</h3>
-                <ol class="plain-list">
-                  <li>把必要、枯燥的勞動自動化</li>
-                  <li>縮短工作週</li>
-                  <li>足以生活的全民基本收入</li>
-                  <li>鬆動「不工作就不配」的倫理</li>
-                </ol>
-              </div>
-              <div>
-                <h3>後工作仍可能不平等</h3>
-                <p>
-                  富國享受紅利、窮國維持低薪勞動。<br />自動化增加能源與生態負擔。<br />男性少工作、女性繼續無薪照護。
-                </p>
-                <p><b>作者主張的方向：</b><br />把解放連結到全球、性別與生態正義。</p>
-              </div>
+            <div class="demands">
+              <h3>四項要求，一起推</h3>
+              <div><span>01</span><b>必要勞動自動化</b></div>
+              <div><span>02</span><b>縮短工作週</b></div>
+              <div><span>03</span><b>足以生活的基本收入</b></div>
+              <div><span>04</span><b>鬆動工作倫理</b></div>
+            </div>
+            <div class="crossroads">
+              <h3>走下去，也可能走歪</h3>
+              <p>富國享受紅利，窮國繼續低薪勞動。</p>
+              <p>機器多了，能源與生態負擔也多了。</p>
+              <p>男性少上班，女性繼續無薪照護。</p>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <p class="marginal">作者要求的解放，同時包含全球、性別與生態正義。</p>
             </div>
           </div>
           <footer>
@@ -1768,7 +2401,7 @@
           <template class="speaker-notes"></template>
         </section>
         <section
-          class="slide"
+          class="slide plate-41 directions-plate"
           id="slide-41"
           data-slide="41"
           data-chapter="工作"
@@ -1778,41 +2411,38 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-41">08｜什麼才算親勞工 AI</h2>
+            <h2 id="title-41">08｜什麼才算親勞工 AI？</h2>
             <p class="range">原簡報 P.41–46</p>
           </header>
           <div class="slide-body">
             <p>
               <button class="term" data-term="proworker">
                 Acemoglu／Autor／Johnson<sup>註</sup></button
-              >：產出增加、操作變容易，都不足以保證勞工受益。還要問誰的專業變重要、誰的報酬與自主增加。
+              >關心的是：專業價值、報酬與自主，有沒有一起增加？
             </p>
-            <table>
-              <thead>
-                <tr>
-                  <th>技術方向</th>
-                  <th>可能的勞動效果</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>勞動增強／資本增強</td>
-                  <td>效率提高，分配結果仍不確定</td>
-                </tr>
-                <tr>
-                  <td>自動化</td>
-                  <td>接手任務，減少對人的需求</td>
-                </tr>
-                <tr>
-                  <td>專業平準化</td>
-                  <td>幫助新進者，也可能壓低原有專業價值</td>
-                </tr>
-                <tr>
-                  <td>創造新任務</td>
-                  <td>開啟對人類判斷與新專業的需求</td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="ai-directions">
+              <div>
+                <span>I</span>
+                <h3>增強勞動／資本</h3>
+                <p>效率提高。<br />收益分配仍未定。</p>
+              </div>
+              <div>
+                <span>II</span>
+                <h3>自動化</h3>
+                <p>機器接手任務。<br />對人的需求可能下降。</p>
+              </div>
+              <div>
+                <span>III</span>
+                <h3>專業平準化</h3>
+                <p>新手更容易上手。<br />原有專業也可能貶值。</p>
+              </div>
+              <div>
+                <span>IV</span>
+                <h3>創造新任務</h3>
+                <p>出現新的工作，<br />需要人的判斷與專業。</p>
+              </div>
+            </div>
+            <p class="marginal">產出增加了、按鈕變少了，還不足以回答這個問題。</p>
           </div>
           <footer>
             <span class="folio">41<i> / 43</i></span
@@ -1825,7 +2455,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-42 fork-plate"
           id="slide-42"
           data-slide="42"
           data-chapter="工作"
@@ -1835,35 +2465,80 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-42">09｜同一項技術，可以往三個方向走</h2>
+            <h2 id="title-42">09｜同一項技術，可以分成三條路</h2>
             <p class="range">原簡報 P.47–51</p>
           </header>
           <div class="slide-body">
-            <div class="flow-wrap">
+            <div class="flow-wrap diagram fork" data-diagram="fork" data-parallel="true">
+              <svg
+                class="route-svg"
+                viewBox="0 0 1000 600"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <defs>
+                  <marker
+                    id="route-arrow-12"
+                    viewBox="0 0 10 10"
+                    refX="8"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
+                  </marker>
+                </defs>
+                <path
+                  class="route route-0"
+                  d="M500 480 L500 340 L150 340 L150 180"
+                  fill="none"
+                  marker-end="url(#route-arrow-12)"
+                />
+                <path
+                  class="route route-1"
+                  d="M500 480 L500 180"
+                  fill="none"
+                  marker-end="url(#route-arrow-12)"
+                />
+                <path
+                  class="route route-2"
+                  d="M500 480 L500 340 L850 340 L850 180"
+                  fill="none"
+                  marker-end="url(#route-arrow-12)"
+                />
+              </svg>
+              <div class="diagram-center">
+                <div class="fork-source">
+                  航空維修的 AI<small>三種假想設計，並非演進順序</small>
+                </div>
+              </div>
               <ol class="flow">
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 15%; --y: 17%">
                   <span class="step-no">01</span>
                   <h3>自動化器</h3>
-                  <p>把技師變成指令的眼睛與雙手</p>
+                  <p>技師成為指令的眼睛與雙手</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 50%; --y: 17%">
                   <span class="step-no">02</span>
                   <h3>技師助手</h3>
                   <p>協助診斷、判斷與複雜修復</p>
                 </li>
-                <li class="flow-step">
+                <li class="flow-step" style="--x: 85%; --y: 17%">
                   <span class="step-no">03</span>
                   <h3>轉軌助手</h3>
                   <p>支持學習新領域與新任務</p>
                 </li>
               </ol>
-              <p class="flow-caption">航空維修的三種假想工具・並列設計方向，不是必然的演進階段</p>
-              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播流程</button>
+              <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
             </div>
-            <p>
-              既有案例包括電工、教師、專利審查與無障礙工作的輔助工具。部署也能走向中央監控；效果取決於目標與權力分配。
+            <div class="policy-band">
+              <p class="eyebrow">改變誘因的工具</p>
+              <p>採購・補助・稅制・競爭政策・勞工發言權</p>
+            </div>
+            <p class="marginal">
+              電工、教師、專利審查與無障礙工作已有輔助案例；部署也可能走向中央監控。
             </p>
-            <p>採購、補助、稅制、競爭政策與勞工發言權，可以改變技術被開發與採用的誘因。</p>
           </div>
           <footer>
             <span class="folio">42<i> / 43</i></span
@@ -1875,7 +2550,7 @@
           >
         </section>
         <section
-          class="slide"
+          class="slide plate-43 last-plate"
           id="slide-43"
           data-slide="43"
           data-chapter="工作"
@@ -1885,19 +2560,42 @@
             <span>無國界的遊牧</span><span>番外篇・關於工作的一點討論</span>
           </div>
           <header>
-            <h2 id="title-43">10｜回到人、工作與共同生活</h2>
+            <h2 id="title-43">10｜帶著這些分歧，繼續討論</h2>
             <p class="range">原簡報 P.52–60</p>
           </header>
           <div class="slide-body">
-            <div class="question-list">
-              <p><span>人</span>使用工具之後，我留下了哪些能力？</p>
-              <p><span>勞動</span>新任務、收入與收益，分給了誰？</p>
-              <p><span>社群</span>誰有力量改變規則，誰被排除？</p>
-              <p><span>制度</span>技術由誰設計、採購、管理與問責？</p>
+            <div class="last-questions">
+              <div>
+                <span>人</span>
+                <p>用了工具，我還留下哪些能力？</p>
+              </div>
+              <div>
+                <span>勞動</span>
+                <p>新任務、收入與收益，分給了誰？</p>
+              </div>
+              <div>
+                <span>社群</span>
+                <p>誰有力量改規則？誰被排除？</p>
+              </div>
+              <div>
+                <span>制度</span>
+                <p>誰設計、採購、管理，又向誰負責？</p>
+              </div>
             </div>
-            <p>
-              這些作者對行動者、市場角色與工作本身的未來並不完全同意。共同的追問是：我們能否把選擇，變成實際的集體能力？
-            </p>
+            <div class="last-colophon">
+              <div class="engraving">
+                <img
+                  src="assets/swallow-colony.webp"
+                  alt=""
+                  width="1100"
+                  height="1100"
+                  loading="lazy"
+                />
+              </div>
+              <p>這幾位作者對市場、行動者，<br />甚至工作本身的未來，都不完全同意。</p>
+              <div class="ornament-rule" aria-hidden="true"><span>✦</span></div>
+              <p class="eyebrow">人・勞動・社群・空間・世界</p>
+            </div>
           </div>
           <footer>
             <span class="folio">43<i> / 43</i></span
@@ -1952,17 +2650,17 @@
           },
           {
             "ch": "一",
-            "title": "躺平主義的遊牧",
+            "title": "躺一躺，然後呢？",
             "notes": "依我提供的清邁文章，這一群人來來去去，活動資訊又集中在中國平台。「不可持續」是我當時的田野判斷，不能用來否定所有遠距工作者；此處的 Copium 是比喻。",
             "sources": ["field"]
           },
           {
             "ch": "一",
-            "title": "身體力行的遊牧",
+            "title": "從大理，流動到清邁",
             "notes": "不要把不同社群的遷移拼成一條必然路線。大理到清邁是文中一部分人的路徑；706 是另一路來源。",
             "sources": ["field"]
           },
-          { "ch": "一", "title": "留下來之後，生活開始變厚", "notes": "", "sources": ["field"] },
+          { "ch": "一", "title": "人留下來，事情就多了", "notes": "", "sources": ["field"] },
           {
             "ch": "二",
             "title": "故鄉可能是排他的也可能是排擠的",
@@ -1983,7 +2681,7 @@
           },
           {
             "ch": "二",
-            "title": "次文化的遠方，也在日常裡",
+            "title": "次文化的遠方",
             "notes": "火腿族不是網際網路才誕生的次文化。把它放在這裡，是對照技術如何延伸社群，而非宣稱無線電起源於數位空間。照片為館方 2022 年電台影像，不是講者遇見志工爺爺的現場照片。",
             "sources": ["outline", "radio", "radioImage"]
           },
@@ -1996,7 +2694,7 @@
           },
           {
             "ch": "三",
-            "title": "政府與平台的雙重戶籍",
+            "title": "我們都有兩套戶籍",
             "notes": "平台帳號在功能上具有身分入口的效果，但法律地位與國籍不同。此處保留類比，同時不把平台停權等同正式剝奪公民權。",
             "sources": ["identity"]
           },
@@ -2008,7 +2706,7 @@
           },
           {
             "ch": "三",
-            "title": "1990 年代：散播潘朵拉之盒的人",
+            "title": "把程式印成一本書",
             "notes": "沿用講綱的「PGP 金鑰出版計畫」意象，但精確說法是原始碼出版。出版內容不是個人私鑰。紙本原始碼可被重新輸入或掃描；不能把這一案例推成所有密碼出口皆合法的結論。",
             "sources": ["pgp"]
           },
@@ -2018,12 +2716,7 @@
             "notes": "這是一份政治與文化宣言，不能視為網路真的沒有管轄權或實體依賴的證明。原引文取一個短片段，句末在原文尚有延伸。",
             "sources": ["declaration"]
           },
-          {
-            "ch": "三",
-            "title": "2000–2010 年代：逃離數位壟斷",
-            "notes": "",
-            "sources": ["internet"]
-          },
+          { "ch": "三", "title": "網路也會失憶", "notes": "", "sources": ["internet"] },
           {
             "ch": "三",
             "title": "藝立協：誕生自網絡的部落美學",
@@ -2036,22 +2729,22 @@
             "notes": "濃縮原簡報五把鑰匙。避免只講平台替代清單；帶回社群如何在工具更換後繼續存在。",
             "sources": ["escape"]
           },
-          { "ch": "三", "title": "2020 年代：三種落地實驗", "notes": "", "sources": ["field"] },
+          { "ch": "三", "title": "三種落地實驗", "notes": "", "sources": ["field"] },
           {
             "ch": "三",
-            "title": "快閃城市：網友一起生活",
+            "title": "快閃城市：網友見面搞事",
             "notes": "不同計畫有不同持續時間與組織方式。Frontier Tower 比典型短期聚會更接近持續空間，保留作為類型交界的例子。",
             "sources": ["field"]
           },
           {
             "ch": "三",
-            "title": "快閃之後，什麼留在地方？",
+            "title": "散場之後，地方留下了什麼？",
             "notes": "我問 Vitalik「Zuzalu 後來怎麼了」，他的回答是去中心、各地有人繼續。這是我在文章中記錄的對話，不以此證明任何一座城市的長期成效。",
             "sources": ["field"]
           },
           {
             "ch": "三",
-            "title": "游擊實驗：羅賈瓦的數位實驗",
+            "title": "游擊的人：Amir Taaki",
             "notes": "依講者文章介紹 Taaki 投入羅賈瓦的脈絡。長期使用狀態尚未核實；略去原文不精確的外交承認描述，並將地名拼字校正為 Rojava。",
             "sources": ["field"]
           },
@@ -2063,46 +2756,51 @@
           },
           {
             "ch": "三",
-            "title": "新社會：把理念蓋成一個地方",
+            "title": "把理念蓋成一個地方",
             "notes": "以講者文章中的 Network School 為例，不將網路國家的主權願景寫成已完成的事實。",
             "sources": ["field"]
           },
           {
             "ch": "三",
-            "title": "自由意志，遇到共同生活的規則",
+            "title": "自由意志主義者，也要做早操？",
             "notes": "原文友人以「百花齊放」形容公開徵求意見後有人被逐出的經驗。若現場講述，維持「友人轉述」歸屬，不呈現為已核實的普遍政策；也不把政治制度之間的諷刺類比當作相同的歷史事實。",
             "sources": ["field"]
           },
           { "ch": "四", "title": "何處是故鄉", "notes": "", "sources": ["village"] },
           {
             "ch": "四",
-            "title": "不必先搬來，才開始與地方有關",
+            "title": "遠方的人，也能成為村民嗎？",
             "notes": "原文合著者在村中停留半天。使用「關係人口」作為分析框架，不把 NFT 持有者直接當成活躍參與者或法定居民。",
             "sources": ["village"]
           },
-          { "ch": "四", "title": "地方連結，需要中介行動者", "notes": "", "sources": ["village"] },
+          {
+            "ch": "四",
+            "title": "網路與村落之間，要有人來回跑",
+            "notes": "",
+            "sources": ["village"]
+          },
           {
             "ch": "四",
             "title": "海外者的數位結社？",
             "notes": "依講綱保留資金、人才、資訊、制度四個向度。這是開放的討論框架，不宣稱已存在某個正式組織。",
             "sources": ["outline"]
           },
-          { "ch": "四", "title": "落地生根，是持續的關係", "notes": "", "sources": ["field"] },
+          { "ch": "四", "title": "何處是故鄉，還在田野裡找", "notes": "", "sources": ["field"] },
           {
             "ch": "番外",
-            "title": "兩種未來觀 I：被機器奴役",
+            "title": "被機器奴役的未來",
             "notes": "從這句話提出討論：當生活依靠機器運作，人是否仍能改變系統的目標？將思想文本與作者暴力行動明確區分。",
             "sources": ["ted"]
           },
           {
             "ch": "番外",
-            "title": "兩種未來觀 II：機器工作，人類稀疏",
+            "title": "機器工作，人類稀疏",
             "notes": "小說初版於 1957 年，圖為出版社現行再版封面，並非初版。這是文學情境，不要與後來《基地與地球》的索拉利人設定混為一談，也不要直接把這一社會稱為烏托邦。",
             "sources": ["asimov", "asimovText"]
           },
           {
             "ch": "工作",
-            "title": "01｜問題在於「足夠的工作」",
+            "title": "01｜還有多少「足夠的工作」？",
             "notes": "Leontief 的馬是對替代的比喻，不能用來證明人類必然被完全排除。",
             "sources": ["ai"],
             "range": "15–18、20",
@@ -2118,7 +2816,7 @@
           },
           {
             "ch": "工作",
-            "title": "03｜有工作卻搆不到，與工作不夠",
+            "title": "03｜有工作搆不到，還是工作不夠？",
             "notes": "",
             "sources": ["ai"],
             "range": "24–25",
@@ -2126,7 +2824,7 @@
           },
           {
             "ch": "工作",
-            "title": "04｜繁榮如何分配",
+            "title": "04｜機器創造的繁榮，分到誰手上？",
             "notes": "",
             "sources": ["ai"],
             "range": "26–28、57",
@@ -2134,7 +2832,7 @@
           },
           {
             "ch": "工作",
-            "title": "05｜後工作，不等於無所事事",
+            "title": "05｜少一點上班，空出來做什麼？",
             "notes": "",
             "sources": ["ai"],
             "range": "29–32、36",
@@ -2142,7 +2840,7 @@
           },
           {
             "ch": "工作",
-            "title": "06｜地方實驗，如何變成制度力量",
+            "title": "06｜一次活動，怎麼變成長期的力量？",
             "notes": "原簡報包含新自由主義長期思想與組織工程的對照。此處借其策略問題，不把所有地方組織都斷言為失敗。",
             "sources": ["ai"],
             "range": "33–35、37、39、58",
@@ -2150,7 +2848,7 @@
           },
           {
             "ch": "工作",
-            "title": "07｜後工作的四項要求與四條岔路",
+            "title": "07｜後工作的要求，與它的岔路",
             "notes": "",
             "sources": ["ai"],
             "range": "38、40、58",
@@ -2158,7 +2856,7 @@
           },
           {
             "ch": "工作",
-            "title": "08｜什麼才算親勞工 AI",
+            "title": "08｜什麼才算親勞工 AI？",
             "notes": "這是原簡報對 Building Pro-Worker AI 的整理。屬於分析框架與作者論點，不是對所有工具都適用的自動評分。",
             "sources": ["ai"],
             "range": "41–46",
@@ -2166,7 +2864,7 @@
           },
           {
             "ch": "工作",
-            "title": "09｜同一項技術，可以往三個方向走",
+            "title": "09｜同一項技術，可以分成三條路",
             "notes": "本頁三個航空維修工具是原文寓言中的假想設計，並非聲稱已上市產品。流程動畫依序呈現三條路，但字幕明示是並列方向。",
             "sources": ["ai"],
             "range": "47–51",
@@ -2174,7 +2872,7 @@
           },
           {
             "ch": "工作",
-            "title": "10｜回到人、工作與共同生活",
+            "title": "10｜帶著這些分歧，繼續討論",
             "notes": "保留第 53–54 頁的共識與分歧，以及第 55–59 頁四層提問。這也把番外篇帶回海外數位結社：有人維護、有人參與、有人能改變制度，才是共同生活。",
             "sources": ["ai"],
             "range": "52–60",

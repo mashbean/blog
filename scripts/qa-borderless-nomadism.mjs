@@ -95,6 +95,12 @@ try {
     });
     report.push({ slide: n, issues });
   }
+  await fs.writeFile(path.join(out, "layout-report.json"), JSON.stringify(report, null, 2));
+  assert.equal(
+    report.filter((x) => x.issues.length).length,
+    0,
+    JSON.stringify(report.filter((x) => x.issues.length)),
+  );
   await page.evaluate(() => window.nomadDeck.show(3));
   await page.locator(".active .term").first().click();
   assert.equal(await page.locator("#dialog").evaluate((e) => e.open), true);
@@ -159,6 +165,26 @@ try {
   await animated.keyboard.press("ArrowLeft");
   await animated.waitForTimeout(800);
   assert.equal(await animated.locator(".slide.active").count(), 1);
+  for (const n of [4, 14, 19, 29, 35, 42]) {
+    await animated.evaluate((n) => window.nomadDeck.show(n), n);
+    await animated.waitForTimeout(2900);
+    assert.equal(
+      await animated
+        .locator(".active .flow-step")
+        .evaluateAll((es) => es.every((e) => getComputedStyle(e).opacity === "1")),
+      true,
+      "Visible diagram " + n,
+    );
+    assert.equal(
+      await animated
+        .locator(".active .route")
+        .evaluateAll((es) =>
+          es.every((e) => Math.abs(parseFloat(getComputedStyle(e).strokeDashoffset)) < 0.1),
+        ),
+      true,
+      "Completed routes " + n,
+    );
+  }
   await animated.close();
   for (const w of [320, 390, 700]) {
     const mobile = await make(w, 844);
@@ -178,6 +204,11 @@ try {
     assert.equal(ms.length, 0, JSON.stringify(ms));
     if (w === 390) {
       await mobile.screenshot({ path: path.join(out, "mobile-cover.png") });
+      for (const n of [4, 7, 14, 30, 35, 42]) {
+        await mobile
+          .locator("#slide-" + n)
+          .screenshot({ path: path.join(out, "mobile-" + n + ".png") });
+      }
       await mobile.locator("#slide-24").scrollIntoViewIfNeeded();
       await mobile.locator("#slide-24 .term").last().click();
       await mobile.screenshot({ path: path.join(out, "mobile-note.png") });
