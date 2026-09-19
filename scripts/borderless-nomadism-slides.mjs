@@ -410,13 +410,13 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     32,
     "被機器奴役的未來",
-    `<div class="machine-quote">${tag("兩種未來觀 I・1995・§173")}${quote("“At that stage the machines will be in effective control.”", "Ted Kaczynski")}${lead("「到了那個階段，<br>機器將實際掌握控制權。」")}${note("本簡報譯文")}<p class="caveat">${term("ted", "《論工業社會及其未來》")}作為批判閱讀材料；不認同作者的暴力行動。</p></div>${art("mechanical-bird", "machine-emblem")}`,
+    `<div class="machine-quote">${tag("兩種未來觀 I・1995・§173")}${quote("“At that stage the machines will be in effective control.”", "Ted Kaczynski")}${lead("「到了那個階段，<br>機器將實際掌握控制權。」")}${note("本簡報譯文")}<p class="caveat">文章${term("ted", "〈論工業社會及其未來〉")}作為批判閱讀材料；不認同作者的暴力行動。</p></div>${art("mechanical-bird", "machine-emblem")}`,
     "manifesto machine-plate",
   );
   rev(
     33,
     "機器工作，人類稀疏",
-    `<div class="solaria-copy">${tag("兩種未來觀 II・1957")}${lead(`艾希莫夫《裸陽》<br>${term("solaria", "Solaria／索拉利星")}`)}<div class="solaria-pair">${panel(entry("工作交給機器人", "人類分散住在各自的領地。"))}${panel(entry("見面變成難事", "遠距交往很熟悉，肉身相見卻令人不安。"))}</div>${p("不必再為工作聚集之後，<br>還有什麼讓人願意靠近彼此？")}</div>${photo("naked-sun", "Isaac Asimov The Naked Sun 書封", "《The Naked Sun》再版封面／Penguin Random House")}`,
+    `<div class="solaria-copy">${tag("兩種未來觀 II・1957")}${lead(`艾希莫夫《裸陽》<br>${term("solaria", "Solaria／索拉利星")}`)}<div class="solaria-pair">${panel(entry("工作交給機器人", "人類分散住在各自的領地。"))}${panel(entry("見面變成難事", "遠距交往很熟悉，肉身相見卻令人不安。"))}</div>${p("不必再為工作聚集之後，<br>還有什麼讓人願意靠近彼此？")}</div><div class="book-cover-pair"><div class="book-cover-card"><span>ENGLISH EDITION</span>${photo("naked-sun", "Isaac Asimov The Naked Sun 英文版書封", "《The Naked Sun》英文版／Penguin Random House")}</div><div class="book-cover-card"><span>繁體中文版</span>${photo("naked-sun-zh", "艾西莫夫《裸陽》繁體中文版書封", "《機器人四部曲 II：裸陽》繁體中文版／貓頭鷹出版社")}</div></div>`,
     "solaria-plate",
   );
   rev(

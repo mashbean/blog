@@ -109,6 +109,11 @@ const sources = {
     url: "https://www.penguinrandomhouse.com/books/5794/the-naked-sun-by-isaac-asimov/",
     detail: "以 Solaria 的稀疏人口、機器人勞動及遠距交往為文學對照；並非預測或現實社會統計。",
   },
+  asimovZh: {
+    title: "貓頭鷹出版社｜《機器人四部曲 II：裸陽》繁體中文版",
+    url: "https://pansci.asia/archives/books/%E6%A9%9F%E5%99%A8%E4%BA%BA%E5%9B%9B%E9%83%A8%E6%9B%B2%E4%B9%8B%E2%85%B1%EF%BC%9A%E8%A3%B8%E9%99%BD",
+    detail: "2013 年繁體中文版，葉李華譯，ISBN 9789862621530。簡報並列英文版與台灣繁體中文版封面。",
+  },
   asimovText: {
     title: "The Naked Sun｜Solaria 情節與文本線索",
     url: "https://websites.umich.edu/~engb415/literature/cyberzach/Asimov/naksun.html",
@@ -122,10 +127,10 @@ const sources = {
       "1995 年原文，第 173 段。採用短引；中文為本簡報譯文。僅作批判性文本閱讀，不支持作者的暴力行動。",
   },
   ai: {
-    title: "AI、工作與能動性｜原簡報第 15–60 頁",
+    title: "AI、工作與能動性｜文化前線 II 讀書會",
     url: "https://mashbean.net/decks/ai-work-agency-reading-1/#15",
     detail:
-      "黃豆泥，文化前線 II 讀書會。濃縮頁逐頁標出對應頁次；保留 Susskind、Srnicek & Williams、Acemoglu / Autor / Johnson 的分歧，書中假設不當成已發生的實證結果。",
+      "黃豆泥，文化前線 II 讀書會。保留 Susskind、Srnicek & Williams、Acemoglu / Autor / Johnson 的分歧，書中假設不當成已發生的實證結果。",
   },
 };
 sources.radioImage = {
@@ -309,7 +314,7 @@ const clean = (s) => s.replace(/<[^>]*>/g, "");
 const html = slides
   .map(
     (s, i) =>
-      `<section class="slide plate-${i + 1} ${s.layout || ""}" id="slide-${i + 1}" data-slide="${i + 1}" data-chapter="${s.ch}" aria-labelledby="title-${i + 1}"><div class="folio-top"><span>無國界的遊牧</span><span>${s.ch === "序" ? "序章" : s.ch === "番外" ? "番外篇・兩種未來觀" : s.ch === "工作" ? "番外篇・關於工作的一點討論" : "第" + s.ch + "章"}</span></div>${["cover", "chapter", "landscape"].includes(s.layout) ? `<div class="slide-body special" id="title-${i + 1}">${s.body}</div>` : `<header><h2 id="title-${i + 1}">${s.title}</h2>${s.range ? `<p class="range">原簡報 P.${s.range}</p>` : ""}</header><div class="slide-body">${s.body}</div>`}<footer><span class="folio">${String(i + 1).padStart(2, "0")}<i> / ${slides.length}</i></span><span class="footer-center">${s.layout === "cover" ? "Borderless Nomadism" : "人・勞動・社群・空間・世界"}</span>${s.sources.length ? `<button class="source-button" data-source-slide="${i + 1}">來源與延伸 ↗</button>` : "<span></span>"}</footer><template class="speaker-notes">${esc(s.notes)}</template></section>`,
+      `<section class="slide plate-${i + 1} ${s.layout || ""}" id="slide-${i + 1}" data-slide="${i + 1}" data-chapter="${s.ch}" aria-labelledby="title-${i + 1}"><div class="folio-top"><span>無國界的遊牧</span><span>${s.ch === "序" ? "序章" : s.ch === "番外" ? "番外篇・兩種未來觀" : s.ch === "工作" ? "番外篇・關於工作的一點討論" : "第" + s.ch + "章"}</span></div>${["cover", "chapter", "landscape"].includes(s.layout) ? `<div class="slide-body special" id="title-${i + 1}">${s.body}</div>` : `<header><h2 id="title-${i + 1}">${s.title}</h2></header><div class="slide-body">${s.body}</div>`}<footer><span class="folio">${String(i + 1).padStart(2, "0")}<i> / ${slides.length}</i></span><span class="footer-center">${s.layout === "cover" ? "Borderless Nomadism" : "人・勞動・社群・空間・世界"}</span>${s.sources.length ? `<button class="source-button" data-source-slide="${i + 1}">來源與延伸 ↗</button>` : "<span></span>"}</footer><template class="speaker-notes">${esc(s.notes)}</template></section>`,
   )
   .join("\n");
 await fs.writeFile(
@@ -342,9 +347,9 @@ await fs.writeFile(
     )
     .join(
       "",
-    )}<article><h2>第二輪・原創銅版畫風格插畫</h2><p>十張圖由內建 imagegen 生成，為本簡報的概念插畫與裝飾，並非歷史文物、現場照片或特定人物的肖像。採平面線刻、暖白紙色與褐紅雙色。動物作為移動、結社與歸屬的視覺意象，未對人物作動物化分類。</p><p><a href="assets/illustrations.json">完整圖像清單與提示詞</a></p>${illustrations.map((x) => `<details><summary>${x.file}</summary><img src="assets/${x.file}" alt="原創概念插畫 ${x.file}" style="max-width:300px;width:100%" loading="lazy"><p>${esc(x.prompt)}</p></details>`).join("")}</article><article><h2>AI 番外篇對照</h2><p>兩種未來觀各一頁，另以十頁濃縮原簡報第 15–60 頁。</p>${slides
+    )}<article><h2>第二輪・原創銅版畫風格插畫</h2><p>十張圖由內建 imagegen 生成，為本簡報的概念插畫與裝飾，並非歷史文物、現場照片或特定人物的肖像。採平面線刻、暖白紙色與褐紅雙色。動物作為移動、結社與歸屬的視覺意象，未對人物作動物化分類。</p><p><a href="assets/illustrations.json">完整圖像清單與提示詞</a></p>${illustrations.map((x) => `<details><summary>${x.file}</summary><img src="assets/${x.file}" alt="原創概念插畫 ${x.file}" style="max-width:300px;width:100%" loading="lazy"><p>${esc(x.prompt)}</p></details>`).join("")}</article><article><h2>AI 番外篇對照</h2><p>兩種未來觀各一頁，另以十頁整理 AI、工作與能動性的討論。</p>${slides
     .filter((s) => s.condensed)
-    .map((s) => `<p>${clean(s.title)}：原簡報 P.${s.range}</p>`)
+    .map((s) => `<p>${clean(s.title)}</p>`)
     .join("")}</article></html>`,
 );
 console.log(

@@ -198,7 +198,7 @@
     const s = data.slides[current];
     open(
       `講者筆記 · ${current + 1} · ${s.title}`,
-      `<p>${esc(s.notes || "本頁沿投影片內容展開。")}</p>${s.range ? `<p><small>對照原簡報 P.${esc(s.range)}</small></p>` : ""}${s.sources.map(sourceHTML).join("")}`,
+      `<p>${esc(s.notes || "本頁沿投影片內容展開。")}</p>${s.sources.map(sourceHTML).join("")}`,
     );
   }
   function toast(message) {
