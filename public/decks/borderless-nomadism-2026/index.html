@@ -197,52 +197,33 @@
               </blockquote>
             </div>
             <div class="cycle-layout">
-              <div class="flow-wrap diagram cycle" data-diagram="cycle">
-                <svg
-                  class="route-svg"
-                  viewBox="0 0 1000 600"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <marker
-                      id="route-arrow-1"
-                      viewBox="0 0 10 10"
-                      refX="8"
-                      refY="5"
-                      markerWidth="7"
-                      markerHeight="7"
-                      orient="auto-start-reverse"
-                    >
-                      <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
-                    </marker>
-                  </defs>
-                  <path
-                    class="route route-0"
-                    d="M570 60 Q845 70 880 235"
-                    fill="none"
-                    marker-end="url(#route-arrow-1)"
-                  />
-                  <path
-                    class="route route-1"
-                    d="M920 350 Q850 520 590 520"
-                    fill="none"
-                    marker-end="url(#route-arrow-1)"
-                  />
-                  <path
-                    class="route route-2"
-                    d="M415 520 Q145 520 110 350"
-                    fill="none"
-                    marker-end="url(#route-arrow-1)"
-                  />
-                  <path
-                    class="route route-3"
-                    d="M110 230 Q155 80 415 60"
-                    fill="none"
-                    marker-end="url(#route-arrow-1)"
-                  />
-                </svg>
-                <div class="diagram-center">
+              <div class="cycle-safe flow-wrap" data-diagram="cycle">
+                <div class="cycle-orbit" aria-hidden="true">
+                  <span>→</span><span>→</span><span>→</span><span>→</span>
+                </div>
+                <ol class="flow cycle-cards">
+                  <li class="flow-step">
+                    <span class="step-no">01</span>
+                    <h3>高壓日常</h3>
+                    <p>工作、房價、內卷</p>
+                  </li>
+                  <li class="flow-step">
+                    <span class="step-no">02</span>
+                    <h3>清邁躺一躺</h3>
+                    <p>換一種生活節奏</p>
+                  </li>
+                  <li class="flow-step">
+                    <span class="step-no">03</span>
+                    <h3>積蓄見底</h3>
+                    <p>生活還是要花錢</p>
+                  </li>
+                  <li class="flow-step">
+                    <span class="step-no">04</span>
+                    <h3>回去當牛馬</h3>
+                    <p>存到錢，下次再來</p>
+                  </li>
+                </ol>
+                <div class="cycle-core">
                   <div class="engraving">
                     <img
                       src="assets/snail-house.webp"
@@ -254,28 +235,6 @@
                   </div>
                   <span>清邁 ⇄ 職場</span>
                 </div>
-                <ol class="flow">
-                  <li class="flow-step" style="--x: 50%; --y: 10%">
-                    <span class="step-no">01</span>
-                    <h3>高壓日常</h3>
-                    <p>工作、房價、內卷</p>
-                  </li>
-                  <li class="flow-step" style="--x: 84%; --y: 50%">
-                    <span class="step-no">02</span>
-                    <h3>清邁躺一躺</h3>
-                    <p>換一種生活節奏</p>
-                  </li>
-                  <li class="flow-step" style="--x: 50%; --y: 90%">
-                    <span class="step-no">03</span>
-                    <h3>積蓄見底</h3>
-                    <p>生活還是要花錢</p>
-                  </li>
-                  <li class="flow-step" style="--x: 16%; --y: 50%">
-                    <span class="step-no">04</span>
-                    <h3>回去當牛馬</h3>
-                    <p>存到錢，下次再來</p>
-                  </li>
-                </ol>
                 <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
               </div>
               <aside>
@@ -310,83 +269,36 @@
           <header><h2 id="title-5">從大理，流動到清邁</h2></header>
           <div class="slide-body">
             <div class="migration-grid">
-              <div class="migration-map">
-                <div class="flow-wrap diagram river" data-diagram="river">
-                  <svg
-                    class="route-svg"
-                    viewBox="0 0 1000 600"
-                    preserveAspectRatio="none"
-                    aria-hidden="true"
-                  >
-                    <defs>
-                      <marker
-                        id="route-arrow-2"
-                        viewBox="0 0 10 10"
-                        refX="8"
-                        refY="5"
-                        markerWidth="7"
-                        markerHeight="7"
-                        orient="auto-start-reverse"
-                      >
-                        <path
-                          d="M1 1 L8 5 L1 9"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1"
-                        />
-                      </marker>
-                    </defs>
-                    <path
-                      class="route route-0"
-                      d="M290 108 L380 108"
-                      fill="none"
-                      marker-end="url(#route-arrow-2)"
-                    />
-                    <path
-                      class="route route-1"
-                      d="M490 170 L490 385"
-                      fill="none"
-                      marker-end="url(#route-arrow-2)"
-                    />
-                    <path
-                      class="route route-2"
-                      d="M610 468 L725 468"
-                      fill="none"
-                      marker-end="url(#route-arrow-2)"
-                    />
-                  </svg>
-                  <div class="diagram-center">
-                    <div class="tributary">
-                      <button class="term" data-term="seven">706 青年空間<sup>註</sup></button
-                      ><small>另一批成員，也來到清邁 ↙</small>
-                    </div>
-                  </div>
-                  <ol class="flow">
-                    <li class="flow-step" style="--x: 17%; --y: 18%">
-                      <span class="step-no">01</span>
-                      <h3>
-                        <button class="term" data-term="dali">瓦貓之夏<sup>註</sup></button>
-                      </h3>
-                      <p>2022・大理的活動被清場</p>
-                    </li>
-                    <li class="flow-step" style="--x: 49%; --y: 18%">
-                      <span class="step-no">02</span>
-                      <h3>沒有大台，也繼續辦</h3>
-                      <p>聚會改用去中心的方式進行</p>
-                    </li>
-                    <li class="flow-step" style="--x: 49%; --y: 78%">
-                      <span class="step-no">03</span>
-                      <h3>一部分人來到清邁</h3>
-                      <p>有人就這樣定居下來</p>
-                    </li>
-                    <li class="flow-step" style="--x: 84%; --y: 78%">
-                      <span class="step-no">04</span>
-                      <h3>多中心的群落</h3>
-                      <p>有衝突，也長出了產業鏈</p>
-                    </li>
-                  </ol>
-                  <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
-                </div>
+              <div class="migration-sequence flow-wrap" data-diagram="river">
+                <ol class="flow migration-cards">
+                  <li class="flow-step">
+                    <span class="step-no">01</span>
+                    <h3>
+                      <button class="term" data-term="dali">瓦貓之夏<sup>註</sup></button>
+                    </h3>
+                    <p>2022・大理的活動被清場</p>
+                  </li>
+                  <li class="flow-step">
+                    <span class="step-no">02</span>
+                    <h3>沒有大台，也繼續辦</h3>
+                    <p>聚會改用去中心的方式進行</p>
+                    <small class="tributary-chip"
+                      ><button class="term" data-term="seven">706 青年空間<sup>註</sup></button
+                      >也匯入清邁</small
+                    >
+                  </li>
+                  <li class="flow-step">
+                    <span class="step-no">03</span>
+                    <h3>一部分人來到清邁</h3>
+                    <p>有人就這樣定居下來</p>
+                  </li>
+                  <li class="flow-step">
+                    <span class="step-no">04</span>
+                    <h3>多中心的群落</h3>
+                    <p>有衝突，也長出了產業鏈</p>
+                  </li>
+                </ol>
+                <button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button>
               </div>
               <aside class="migration-evidence">
                 <div class="engraving">
@@ -639,62 +551,24 @@
                 >：想像名冊之外的生活。
               </p>
             </div>
-            <div class="flow-wrap diagram stair" data-diagram="stair">
-              <svg
-                class="route-svg"
-                viewBox="0 0 1000 600"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <defs>
-                  <marker
-                    id="route-arrow-3"
-                    viewBox="0 0 10 10"
-                    refX="8"
-                    refY="5"
-                    markerWidth="7"
-                    markerHeight="7"
-                    orient="auto-start-reverse"
-                  >
-                    <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
-                  </marker>
-                </defs>
-                <path
-                  class="route route-0"
-                  d="M235 90 L390 90 L390 165"
-                  fill="none"
-                  marker-end="url(#route-arrow-3)"
-                />
-                <path
-                  class="route route-1"
-                  d="M465 235 L620 235 L620 305"
-                  fill="none"
-                  marker-end="url(#route-arrow-3)"
-                />
-                <path
-                  class="route route-2"
-                  d="M690 380 L850 380 L850 450"
-                  fill="none"
-                  marker-end="url(#route-arrow-3)"
-                />
-              </svg>
-              <ol class="flow">
-                <li class="flow-step" style="--x: 16%; --y: 15%">
+            <div class="registry-sequence flow-wrap" data-diagram="stair">
+              <ol class="flow registry-cards">
+                <li class="flow-step">
                   <span class="step-no">01</span>
                   <h3>編入名冊</h3>
                   <p>把人辨認出來</p>
                 </li>
-                <li class="flow-step" style="--x: 39%; --y: 39%">
+                <li class="flow-step">
                   <span class="step-no">02</span>
                   <h3>連到土地</h3>
                   <p>人屬於哪個地方</p>
                 </li>
-                <li class="flow-step" style="--x: 62%; --y: 63%">
+                <li class="flow-step">
                   <span class="step-no">03</span>
                   <h3>分配義務</h3>
                   <p>賦稅、徭役與管理</p>
                 </li>
-                <li class="flow-step" style="--x: 85%; --y: 87%">
+                <li class="flow-step">
                   <span class="step-no">04</span>
                   <h3>劃定邊界</h3>
                   <p>限制進入與離開</p>
@@ -766,7 +640,7 @@
               >
                 <defs>
                   <marker
-                    id="route-arrow-4"
+                    id="route-arrow-1"
                     viewBox="0 0 10 10"
                     refX="8"
                     refY="5"
@@ -781,13 +655,13 @@
                   class="route route-0"
                   d="M240 350 L405 135"
                   fill="none"
-                  marker-end="url(#route-arrow-4)"
+                  marker-end="url(#route-arrow-1)"
                 />
                 <path
                   class="route route-1"
                   d="M590 135 L755 350"
                   fill="none"
-                  marker-end="url(#route-arrow-4)"
+                  marker-end="url(#route-arrow-1)"
                 />
               </svg>
               <div class="diagram-center">
@@ -856,62 +730,24 @@
               <p class="lead">
                 <button class="term" data-term="pgp">PGP<sup>註</sup></button> 原始碼出版計畫
               </p>
-              <div class="flow-wrap diagram book" data-diagram="book">
-                <svg
-                  class="route-svg"
-                  viewBox="0 0 1000 600"
-                  preserveAspectRatio="none"
-                  aria-hidden="true"
-                >
-                  <defs>
-                    <marker
-                      id="route-arrow-5"
-                      viewBox="0 0 10 10"
-                      refX="8"
-                      refY="5"
-                      markerWidth="7"
-                      markerHeight="7"
-                      orient="auto-start-reverse"
-                    >
-                      <path d="M1 1 L8 5 L1 9" fill="none" stroke="currentColor" stroke-width="1" />
-                    </marker>
-                  </defs>
-                  <path
-                    class="route route-0"
-                    d="M180 165 L180 400"
-                    fill="none"
-                    marker-end="url(#route-arrow-5)"
-                  />
-                  <path
-                    class="route route-1"
-                    d="M310 500 L665 500"
-                    fill="none"
-                    marker-end="url(#route-arrow-5)"
-                  />
-                  <path
-                    class="route route-2"
-                    d="M800 400 L800 165"
-                    fill="none"
-                    marker-end="url(#route-arrow-5)"
-                  />
-                </svg>
-                <ol class="flow">
-                  <li class="flow-step" style="--x: 18%; --y: 15%">
+              <div class="book-sequence flow-wrap" data-diagram="book">
+                <ol class="flow book-cards">
+                  <li class="flow-step">
                     <span class="step-no">01</span>
                     <h3>加密程式</h3>
                     <p>讓私人通訊保持私密</p>
                   </li>
-                  <li class="flow-step" style="--x: 18%; --y: 83%">
+                  <li class="flow-step">
                     <span class="step-no">02</span>
                     <h3>出口管制</h3>
                     <p>程式跨境受到限制</p>
                   </li>
-                  <li class="flow-step" style="--x: 80%; --y: 83%">
+                  <li class="flow-step">
                     <span class="step-no">03</span>
                     <h3>印成紙本</h3>
                     <p>C 原始碼成了出版物</p>
                   </li>
-                  <li class="flow-step" style="--x: 80%; --y: 15%">
+                  <li class="flow-step">
                     <span class="step-no">04</span>
                     <h3>讀回程式</h3>
                     <p>文字又能變成工具</p>
@@ -1084,7 +920,7 @@
               >
                 <defs>
                   <marker
-                    id="route-arrow-6"
+                    id="route-arrow-2"
                     viewBox="0 0 10 10"
                     refX="8"
                     refY="5"
@@ -1099,31 +935,31 @@
                   class="route route-0"
                   d="M500 290 L500 80"
                   fill="none"
-                  marker-end="url(#route-arrow-6)"
+                  marker-end="url(#route-arrow-2)"
                 />
                 <path
                   class="route route-1"
                   d="M530 300 L745 222"
                   fill="none"
-                  marker-end="url(#route-arrow-6)"
+                  marker-end="url(#route-arrow-2)"
                 />
                 <path
                   class="route route-2"
                   d="M530 325 L670 460"
                   fill="none"
-                  marker-end="url(#route-arrow-6)"
+                  marker-end="url(#route-arrow-2)"
                 />
                 <path
                   class="route route-3"
                   d="M470 325 L335 460"
                   fill="none"
-                  marker-end="url(#route-arrow-6)"
+                  marker-end="url(#route-arrow-2)"
                 />
                 <path
                   class="route route-4"
                   d="M470 300 L250 225"
                   fill="none"
-                  marker-end="url(#route-arrow-6)"
+                  marker-end="url(#route-arrow-2)"
                 />
               </svg>
               <div class="diagram-center">
@@ -1542,7 +1378,7 @@
               >
                 <defs>
                   <marker
-                    id="route-arrow-7"
+                    id="route-arrow-3"
                     viewBox="0 0 10 10"
                     refX="8"
                     refY="5"
@@ -1557,19 +1393,19 @@
                   class="route route-0"
                   d="M230 500 L380 500 L380 425"
                   fill="none"
-                  marker-end="url(#route-arrow-7)"
+                  marker-end="url(#route-arrow-3)"
                 />
                 <path
                   class="route route-1"
                   d="M465 360 L620 360 L620 280"
                   fill="none"
-                  marker-end="url(#route-arrow-7)"
+                  marker-end="url(#route-arrow-3)"
                 />
                 <path
                   class="route route-2"
                   d="M695 215 L860 215 L860 140"
                   fill="none"
-                  marker-end="url(#route-arrow-7)"
+                  marker-end="url(#route-arrow-3)"
                 />
               </svg>
               <ol class="flow">
@@ -1759,7 +1595,7 @@
               >
                 <defs>
                   <marker
-                    id="route-arrow-8"
+                    id="route-arrow-4"
                     viewBox="0 0 10 10"
                     refX="8"
                     refY="5"
@@ -1774,25 +1610,25 @@
                   class="route route-0"
                   d="M305 90 L675 90"
                   fill="none"
-                  marker-end="url(#route-arrow-8)"
+                  marker-end="url(#route-arrow-4)"
                 />
                 <path
                   class="route route-1"
                   d="M800 165 L800 400"
                   fill="none"
-                  marker-end="url(#route-arrow-8)"
+                  marker-end="url(#route-arrow-4)"
                 />
                 <path
                   class="route route-2"
                   d="M675 500 L310 500"
                   fill="none"
-                  marker-end="url(#route-arrow-8)"
+                  marker-end="url(#route-arrow-4)"
                 />
                 <path
                   class="route route-3"
                   d="M180 405 L180 165"
                   fill="none"
-                  marker-end="url(#route-arrow-8)"
+                  marker-end="url(#route-arrow-4)"
                 />
               </svg>
               <div class="diagram-center">
@@ -2267,7 +2103,7 @@
               >
                 <defs>
                   <marker
-                    id="route-arrow-9"
+                    id="route-arrow-5"
                     viewBox="0 0 10 10"
                     refX="8"
                     refY="5"
@@ -2282,19 +2118,19 @@
                   class="route route-0"
                   d="M230 500 L380 500 L380 425"
                   fill="none"
-                  marker-end="url(#route-arrow-9)"
+                  marker-end="url(#route-arrow-5)"
                 />
                 <path
                   class="route route-1"
                   d="M465 360 L620 360 L620 280"
                   fill="none"
-                  marker-end="url(#route-arrow-9)"
+                  marker-end="url(#route-arrow-5)"
                 />
                 <path
                   class="route route-2"
                   d="M695 215 L860 215 L860 140"
                   fill="none"
-                  marker-end="url(#route-arrow-9)"
+                  marker-end="url(#route-arrow-5)"
                 />
               </svg>
               <ol class="flow">
@@ -2439,7 +2275,7 @@
               >
                 <defs>
                   <marker
-                    id="route-arrow-10"
+                    id="route-arrow-6"
                     viewBox="0 0 10 10"
                     refX="8"
                     refY="5"
@@ -2454,19 +2290,19 @@
                   class="route route-0"
                   d="M500 480 L500 340 L150 340 L150 180"
                   fill="none"
-                  marker-end="url(#route-arrow-10)"
+                  marker-end="url(#route-arrow-6)"
                 />
                 <path
                   class="route route-1"
                   d="M500 480 L500 180"
                   fill="none"
-                  marker-end="url(#route-arrow-10)"
+                  marker-end="url(#route-arrow-6)"
                 />
                 <path
                   class="route route-2"
                   d="M500 480 L500 340 L850 340 L850 180"
                   fill="none"
-                  marker-end="url(#route-arrow-10)"
+                  marker-end="url(#route-arrow-6)"
                 />
               </svg>
               <div class="diagram-center">

@@ -178,31 +178,37 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     4,
     "躺平體驗作為一種消費產業鏈",
-    `<div class="tangping-manifesto">${quote("「只要將整個世界倒轉 90 度，人們就會發現一個平時難以啟齒的真理：躺平才是真正的站立，而站立的正是爬行。」", "《躺平主義宣言》")}</div><div class="cycle-layout">${diagram(
-      "cycle",
-      [
-        ["高壓日常", "工作、房價、內卷"],
-        ["清邁躺一躺", "換一種生活節奏"],
-        ["積蓄見底", "生活還是要花錢"],
-        ["回去當牛馬", "存到錢，下次再來"],
-      ],
-      `${art("snail-house")}<span>清邁 ⇄ 職場</span>`,
-    )}<aside>${tag("清邁筆記・之一")}${p("微信、抖音、小紅書上的遊民大會，賣的正是這種生活想像。")}${note(`原文裡，我把這叫做精神上的${term("lie", "Copium")}。`)}</aside></div>`,
+    `<div class="tangping-manifesto">${quote("「只要將整個世界倒轉 90 度，人們就會發現一個平時難以啟齒的真理：躺平才是真正的站立，而站立的正是爬行。」", "《躺平主義宣言》")}</div><div class="cycle-layout"><div class="cycle-safe flow-wrap" data-diagram="cycle"><div class="cycle-orbit" aria-hidden="true"><span>→</span><span>→</span><span>→</span><span>→</span></div><ol class="flow cycle-cards">${[
+      ["高壓日常", "工作、房價、內卷"],
+      ["清邁躺一躺", "換一種生活節奏"],
+      ["積蓄見底", "生活還是要花錢"],
+      ["回去當牛馬", "存到錢，下次再來"],
+    ]
+      .map(
+        ([h, t], i) =>
+          `<li class="flow-step"><span class="step-no">0${i + 1}</span><h3>${h}</h3><p>${t}</p></li>`,
+      )
+      .join(
+        "",
+      )}</ol><div class="cycle-core">${art("snail-house")}<span>清邁 ⇄ 職場</span></div><button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button></div><aside>${tag("清邁筆記・之一")}${p("微信、抖音、小紅書上的遊民大會，賣的正是這種生活想像。")}${note(`原文裡，我把這叫做精神上的${term("lie", "Copium")}。`)}</aside></div>`,
     "cycle-plate",
   );
   rev(
     5,
     "從大理，流動到清邁",
-    `<div class="migration-grid"><div class="migration-map">${diagram(
-      "river",
-      [
-        [term("dali", "瓦貓之夏"), "2022・大理的活動被清場"],
-        ["沒有大台，也繼續辦", "聚會改用去中心的方式進行"],
-        ["一部分人來到清邁", "有人就這樣定居下來"],
-        ["多中心的群落", "有衝突，也長出了產業鏈"],
-      ],
-      `<div class="tributary">${term("seven", "706 青年空間")}<small>另一批成員，也來到清邁 ↙</small></div>`,
-    )}</div><aside class="migration-evidence">${art("swallow-colony")}${p("由於 Web3 生態系短暫繁榮，年輕工作者擁有了實踐生活型態的餘裕。")}${quote("「甚至還建造了多中心的群落，有了點衝突，也有相應的產業鏈出現。」", "黃豆泥・清邁的遊牧觀察")}</aside></div>${note(`${term("web3", "Web3 加密遊牧者")}彼此也不見得熟；有些人反而更常與各自的西方社群往來。`)}`,
+    `<div class="migration-grid"><div class="migration-sequence flow-wrap" data-diagram="river"><ol class="flow migration-cards">${[
+      [term("dali", "瓦貓之夏"), "2022・大理的活動被清場"],
+      ["沒有大台，也繼續辦", "聚會改用去中心的方式進行"],
+      ["一部分人來到清邁", "有人就這樣定居下來"],
+      ["多中心的群落", "有衝突，也長出了產業鏈"],
+    ]
+      .map(
+        ([h, t], i) =>
+          `<li class="flow-step"><span class="step-no">0${i + 1}</span><h3>${h}</h3><p>${t}</p>${i === 1 ? `<small class="tributary-chip">${term("seven", "706 青年空間")}也匯入清邁</small>` : ""}</li>`,
+      )
+      .join(
+        "",
+      )}</ol><button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button></div><aside class="migration-evidence">${art("swallow-colony")}${p("由於 Web3 生態系短暫繁榮，年輕工作者擁有了實踐生活型態的餘裕。")}${quote("「甚至還建造了多中心的群落，有了點衝突，也有相應的產業鏈出現。」", "黃豆泥・清邁的遊牧觀察")}</aside></div>${note(`${term("web3", "Web3 加密遊牧者")}彼此也不見得熟；有些人反而更常與各自的西方社群往來。`)}`,
     "migration-plate",
   );
   rev(
@@ -238,15 +244,19 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     12,
     "故鄉、邊境、戶口的誕生",
-    `<div class="registry-note">${tag("制度如何看見人")}${lead(term("registry", "編戶齊民"))}${p("進了名冊，<br>也就進了治理的範圍。")}${note(`${term("exile", "避秦")}：想像名冊之外的生活。`)}</div>${diagram(
-      "stair",
-      [
-        ["編入名冊", "把人辨認出來"],
-        ["連到土地", "人屬於哪個地方"],
-        ["分配義務", "賦稅、徭役與管理"],
-        ["劃定邊界", "限制進入與離開"],
-      ],
-    )}`,
+    `<div class="registry-note">${tag("制度如何看見人")}${lead(term("registry", "編戶齊民"))}${p("進了名冊，<br>也就進了治理的範圍。")}${note(`${term("exile", "避秦")}：想像名冊之外的生活。`)}</div><div class="registry-sequence flow-wrap" data-diagram="stair"><ol class="flow registry-cards">${[
+      ["編入名冊", "把人辨認出來"],
+      ["連到土地", "人屬於哪個地方"],
+      ["分配義務", "賦稅、徭役與管理"],
+      ["劃定邊界", "限制進入與離開"],
+    ]
+      .map(
+        ([h, t], i) =>
+          `<li class="flow-step"><span class="step-no">0${i + 1}</span><h3>${h}</h3><p>${t}</p></li>`,
+      )
+      .join(
+        "",
+      )}</ol><button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button></div>`,
     "registry-plate",
   );
   rev(
@@ -272,15 +282,19 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     15,
     "把程式印成一本書",
-    `<div class="book-emblem">${art("raven-book")}${tag("PGP · 1995 · MIT PRESS")}</div><div class="book-route">${lead(`${term("pgp", "PGP")} 原始碼出版計畫`)}${diagram(
-      "book",
-      [
-        ["加密程式", "讓私人通訊保持私密"],
-        ["出口管制", "程式跨境受到限制"],
-        ["印成紙本", "C 原始碼成了出版物"],
-        ["讀回程式", "文字又能變成工具"],
-      ],
-    )}${note(`${term("cypher", "密碼龐克")}把主張寫成程式，也把程式印上了紙。`)}</div>`,
+    `<div class="book-emblem">${art("raven-book")}${tag("PGP · 1995 · MIT PRESS")}</div><div class="book-route">${lead(`${term("pgp", "PGP")} 原始碼出版計畫`)}<div class="book-sequence flow-wrap" data-diagram="book"><ol class="flow book-cards">${[
+      ["加密程式", "讓私人通訊保持私密"],
+      ["出口管制", "程式跨境受到限制"],
+      ["印成紙本", "C 原始碼成了出版物"],
+      ["讀回程式", "文字又能變成工具"],
+    ]
+      .map(
+        ([h, t], i) =>
+          `<li class="flow-step"><span class="step-no">0${i + 1}</span><h3>${h}</h3><p>${t}</p></li>`,
+      )
+      .join(
+        "",
+      )}</ol><button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button></div>${note(`${term("cypher", "密碼龐克")}把主張寫成程式，也把程式印上了紙。`)}</div>`,
     "pgp-plate",
   );
   rev(

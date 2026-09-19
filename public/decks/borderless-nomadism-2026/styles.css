@@ -3853,3 +3853,340 @@ button:disabled {
     padding: 12px 0;
   }
 }
+
+/* Collision-safe process plates with reserved lanes for every card. */
+body.stage .cycle-safe,
+body.stage .migration-sequence,
+body.stage .registry-sequence,
+body.stage .book-sequence {
+  position: relative;
+  min-width: 0;
+}
+body.stage .cycle-safe {
+  height: 390px;
+}
+body.stage .cycle-safe .cycle-cards {
+  position: absolute;
+  inset: 0;
+}
+body.stage .cycle-safe .flow-step {
+  width: 245px;
+  min-height: 92px;
+  padding: 7px 12px 9px;
+  z-index: 2;
+}
+body.stage .cycle-safe .flow-step:nth-child(1) {
+  left: 50%;
+  top: 0;
+  translate: -50% 0;
+}
+body.stage .cycle-safe .flow-step:nth-child(2) {
+  left: auto;
+  right: 3px;
+  top: 145px;
+  translate: none;
+}
+body.stage .cycle-safe .flow-step:nth-child(3) {
+  left: 50%;
+  top: auto;
+  bottom: 0;
+  translate: -50% 0;
+}
+body.stage .cycle-safe .flow-step:nth-child(4) {
+  left: 3px;
+  top: 145px;
+  translate: none;
+}
+body.stage .cycle-safe .flow-step h3 {
+  font-size: 25px;
+  line-height: 1.35;
+  margin-bottom: 3px;
+}
+body.stage .cycle-safe .flow-step p {
+  font-size: 19px;
+  line-height: 1.45;
+}
+body.stage .cycle-safe .step-no {
+  font-size: 19px;
+  margin-bottom: 2px;
+}
+.cycle-orbit {
+  position: absolute;
+  inset: 52px 120px;
+  border: 1px solid var(--copper);
+  border-radius: 50%;
+  z-index: 0;
+}
+.cycle-orbit span {
+  position: absolute;
+  color: var(--copper);
+  font:
+    22px/1 Georgia,
+    serif;
+  background: var(--paper);
+  padding: 0 5px;
+}
+.cycle-orbit span:nth-child(1) {
+  right: 35px;
+  top: 23px;
+  rotate: 42deg;
+}
+.cycle-orbit span:nth-child(2) {
+  right: 36px;
+  bottom: 22px;
+  rotate: 138deg;
+}
+.cycle-orbit span:nth-child(3) {
+  left: 35px;
+  bottom: 22px;
+  rotate: 222deg;
+}
+.cycle-orbit span:nth-child(4) {
+  left: 36px;
+  top: 23px;
+  rotate: 318deg;
+}
+.cycle-core {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  translate: -50% -50%;
+  width: 185px;
+  text-align: center;
+  z-index: 1;
+}
+.cycle-core .engraving {
+  width: 170px;
+  height: 145px;
+  margin: 0 auto;
+}
+.cycle-core > span {
+  display: block;
+  margin-top: 1px;
+  font-size: 18px;
+  letter-spacing: 0.08em;
+}
+body.stage .cycle-safe .replay,
+body.stage .migration-sequence .replay,
+body.stage .registry-sequence .replay,
+body.stage .book-sequence .replay {
+  top: auto;
+  right: 0;
+  bottom: 0;
+}
+
+body.stage .migration-sequence {
+  height: 430px;
+  padding: 8px 4px 20px;
+}
+body.stage .migration-cards,
+body.stage .book-cards {
+  position: relative;
+  inset: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 42px 62px;
+  height: 100%;
+}
+body.stage .migration-cards .flow-step,
+body.stage .book-cards .flow-step,
+body.stage .registry-cards .flow-step {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: auto;
+  height: auto;
+  text-align: left;
+}
+body.stage .migration-cards .flow-step {
+  min-height: 155px;
+  padding: 16px 22px;
+}
+body.stage .migration-cards .flow-step h3 {
+  font-size: 27px;
+  line-height: 1.35;
+}
+body.stage .migration-cards .flow-step p {
+  font-size: 20px;
+  line-height: 1.5;
+}
+.tributary-chip {
+  display: block;
+  margin-top: 9px;
+  padding-top: 7px;
+  border-top: 1px dashed var(--line);
+  font-size: 15px;
+  color: var(--muted);
+}
+.tributary-chip .term {
+  font-size: inherit;
+}
+body.stage .migration-cards .flow-step:before,
+body.stage .book-cards .flow-step:before,
+body.stage .registry-cards .flow-step:before {
+  display: none;
+}
+body.stage .migration-cards .flow-step:after,
+body.stage .book-cards .flow-step:after,
+body.stage .registry-cards .flow-step:after {
+  width: auto;
+  height: auto;
+  background: var(--paper);
+  rotate: none;
+  color: var(--red);
+  font:
+    26px/1 Georgia,
+    serif;
+}
+body.stage .migration-cards .flow-step:nth-child(1):after,
+body.stage .migration-cards .flow-step:nth-child(3):after,
+body.stage .book-cards .flow-step:nth-child(1):after,
+body.stage .book-cards .flow-step:nth-child(3):after {
+  content: "→";
+  left: auto;
+  right: -46px;
+  top: 50%;
+  translate: 0 -50%;
+  padding: 2px 7px;
+}
+body.stage .migration-cards .flow-step:nth-child(2):after,
+body.stage .book-cards .flow-step:nth-child(2):after {
+  content: "↓";
+  left: 50%;
+  right: auto;
+  top: auto;
+  bottom: -36px;
+  translate: -50% 0;
+  padding: 2px 7px;
+}
+body.stage .migration-cards .flow-step:nth-child(4):after,
+body.stage .book-cards .flow-step:nth-child(4):after {
+  display: none;
+}
+
+body.stage .registry-sequence {
+  height: 430px;
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+body.stage .registry-cards {
+  position: relative;
+  inset: auto;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  width: 100%;
+}
+body.stage .registry-cards .flow-step {
+  min-height: 185px;
+  padding: 25px 16px 20px;
+}
+body.stage .registry-cards .flow-step h3 {
+  font-size: 25px;
+  line-height: 1.4;
+}
+body.stage .registry-cards .flow-step p {
+  font-size: 19px;
+  line-height: 1.55;
+}
+body.stage .registry-cards .flow-step:not(:last-child):after {
+  content: "→";
+  left: auto;
+  right: -26px;
+  top: 50%;
+  translate: 0 -50%;
+  padding: 2px 4px;
+}
+body.stage .registry-cards .flow-step:last-child:after {
+  display: none;
+}
+
+body.stage .book-sequence {
+  height: 320px;
+  margin-top: 18px;
+}
+body.stage .book-cards {
+  gap: 38px 60px;
+}
+body.stage .book-cards .flow-step {
+  min-height: 126px;
+  padding: 13px 20px;
+}
+body.stage .book-cards .flow-step h3 {
+  font-size: 25px;
+  line-height: 1.35;
+}
+body.stage .book-cards .flow-step p {
+  font-size: 19px;
+  line-height: 1.5;
+}
+body.stage .book-route .marginal {
+  margin-top: 10px;
+}
+
+.reading .cycle-safe,
+.reading .migration-sequence,
+.reading .registry-sequence,
+.reading .book-sequence {
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+.reading .cycle-orbit {
+  display: none;
+}
+.reading .cycle-cards,
+.reading .migration-cards,
+.reading .registry-cards,
+.reading .book-cards {
+  position: relative;
+  inset: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  height: auto;
+}
+.reading .cycle-safe .flow-step,
+.reading .migration-sequence .flow-step,
+.reading .registry-sequence .flow-step,
+.reading .book-sequence .flow-step {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: auto;
+  min-height: 0;
+}
+.reading .cycle-core {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 100%;
+  margin: 24px auto 0;
+}
+.reading .cycle-core .engraving {
+  height: 240px;
+}
+.reading .cycle-safe .replay,
+.reading .migration-sequence .replay,
+.reading .registry-sequence .replay,
+.reading .book-sequence .replay {
+  position: relative;
+  inset: auto;
+  display: block;
+  margin: 20px 0 0 auto;
+}
+.reading .migration-cards .flow-step:after,
+.reading .book-cards .flow-step:after,
+.reading .registry-cards .flow-step:after {
+  display: none !important;
+}
+@media (max-width: 800px) {
+  .reading .cycle-cards,
+  .reading .migration-cards,
+  .reading .registry-cards,
+  .reading .book-cards {
+    grid-template-columns: 1fr;
+  }
+}

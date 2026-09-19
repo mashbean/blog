@@ -102,6 +102,59 @@ try {
     0,
     JSON.stringify(report.filter((x) => x.issues.length)),
   );
+  const reportedViewport = await make(1616, 960);
+  const collisionSelectors = {
+    4: ".flow-step,.cycle-core,.cycle-layout>aside",
+    5: ".flow-step,.migration-evidence",
+    11: ".flow-step,.registry-note",
+    14: ".flow-step,.book-emblem,.book-route>.lead,.book-route>.marginal",
+  };
+  for (const [number, selector] of Object.entries(collisionSelectors)) {
+    const n = Number(number);
+    await reportedViewport.evaluate((slideNumber) => window.nomadDeck.show(slideNumber), n);
+    await reportedViewport.waitForTimeout(2600);
+    const result = await reportedViewport
+      .locator(`#slide-${n}`)
+      .evaluate((slide, targetSelector) => {
+        const frame = slide.getBoundingClientRect();
+        const targets = [...slide.querySelectorAll(targetSelector)].filter((element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.width > 0 && rect.height > 0;
+        });
+        const outside = targets
+          .filter((element) => {
+            const rect = element.getBoundingClientRect();
+            return (
+              rect.left < frame.left - 1 ||
+              rect.right > frame.right + 1 ||
+              rect.top < frame.top - 1 ||
+              rect.bottom > frame.bottom + 1
+            );
+          })
+          .map((element) => element.textContent.trim().slice(0, 50));
+        const collisions = [];
+        for (let i = 0; i < targets.length; i += 1) {
+          const a = targets[i].getBoundingClientRect();
+          for (let j = i + 1; j < targets.length; j += 1) {
+            const b = targets[j].getBoundingClientRect();
+            const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+            const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+            if (overlapX > 5 && overlapY > 5) {
+              collisions.push([
+                targets[i].textContent.trim().slice(0, 35),
+                targets[j].textContent.trim().slice(0, 35),
+              ]);
+            }
+          }
+        }
+        return { outside, collisions };
+      }, selector);
+    assert.deepEqual(result, { outside: [], collisions: [] }, `collision check slide ${n}`);
+    await reportedViewport
+      .locator(`#slide-${n}`)
+      .screenshot({ path: path.join(out, `reported-viewport-${String(n).padStart(2, "0")}.png`) });
+  }
+  await reportedViewport.close();
   await page.evaluate(() => window.nomadDeck.show(3));
   await page.locator(".active .term").first().click();
   assert.equal(await page.locator("#dialog").evaluate((e) => e.open), true);
