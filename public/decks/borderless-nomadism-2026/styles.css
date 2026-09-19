@@ -288,11 +288,9 @@ button:disabled {
 }
 .engraving {
   min-width: 0;
-  mix-blend-mode: multiply;
   pointer-events: none;
 }
 .engraving img {
-  filter: brightness(1.05) contrast(1.35);
   width: 100%;
   height: 100%;
   display: block;
@@ -3264,7 +3262,7 @@ button:disabled {
 /* Preserve the engraving's proportions on a portrait screen. */
 .cycle .diagram-center,
 .association-hub {
-  mix-blend-mode: multiply;
+  isolation: isolate;
 }
 .skip-link:not(:focus) {
   clip-path: inset(50%);
