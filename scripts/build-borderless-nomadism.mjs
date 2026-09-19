@@ -74,6 +74,18 @@ const sources = {
     url: "https://www.eff.org/cyberspace-independence",
     detail: "1996-02-08，EFF 保存之原文。簡報使用短引，其餘為講者對歷史宣言的提問。",
   },
+  zuzalu: {
+    title: "Cat Thu｜Zuzalu 居民筆記",
+    url: "https://www.catthu.com/writings/zuzalu-experience/",
+    detail:
+      "作者記錄 2023 年 4–5 月在黑山 Zuzalu 的共居生活、課程、共餐與社群討論。頁面使用 Luštica Bay 月夜與 ZK 課程照片，圖／Cat Thu。",
+  },
+  rojavaWired: {
+    title: "WIRED｜Amir Taaki 在羅賈瓦的工作紀錄",
+    url: "https://www.wired.com/2017/03/anarchist-bitcoin-coder-found-fighting-isis-syria/",
+    detail:
+      "Andy Greenberg，2017-03-29。報導記錄 Taaki 在中東約 15 個月，離開前線後教開源軟體與網路、參與肥料工廠與太陽能研究，並協助設計技術教育課程。肖像攝影／Anastasia Taylor-Lind for WIRED。",
+  },
   rarimo: {
     title: "Rarimo｜Freedom Tool 官方文件",
     url: "https://docs.rarimo.com/freedom-tool/",
@@ -81,10 +93,10 @@ const sources = {
       "說明護照、零知識證明與鏈上投票組件。文件列出 Russia2024、Iranians Vote、United Space。本文沒有找到足以確認「加泰隆尼亞 Rarimo 投票」的直接資料，故保留講綱關鍵字並註明。",
   },
   vocdoni: {
-    title: "Vocdoni｜數位投票工具",
-    url: "https://vocdoni.io/",
+    title: "加泰隆尼亞政府｜Vocdoni 數位投票案例",
+    url: "https://politiquesdigitals.gencat.cat/ca/detalls/Article/Nou-article-04638",
     detail:
-      "與 Rarimo 是不同專案。加泰隆尼亞案例與 Rarimo 的連結尚待講者補充；不將兩者合併，也不把匿名投票工具稱為受承認的國家選舉。",
+      "加泰隆尼亞政府將 Vocdoni 列為區塊鏈成功案例，描述其可普遍驗證、去中心化、匿名且抗審查的投票基礎設施。與 Rarimo 是不同專案，不把兩者合併或視為受承認的國家選舉。",
   },
   radio: {
     title: "Deutsches Museum｜Amateurfunk / DLØDM",

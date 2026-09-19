@@ -156,29 +156,29 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     2,
     "人、勞動、社群、空間、世界",
-    `<div class="contents-emblem">${art("tree-roots")}${tag("一份還在寫的田野筆記")}</div><div class="contents-copy"><ol class="contents">${[
+    `<div class="contents-emblem">${art("tree-roots")}${tag("虛擬與現實交錯的觀察筆記")}</div><div class="contents-copy"><ol class="contents">${[
       ["一", "兩種在清邁遊牧的人", 3],
-      ["二", "故鄉可能是排他的<br>也可能是排擠的", 7],
-      ["三", "數位避秦", 11],
-      ["四", "何處是故鄉", 27],
+      ["二", "故鄉可能是排他的<br>也可能是排擠的", 6],
+      ["三", "數位避秦", 10],
+      ["四", "何處是故鄉", 26],
     ]
       .map(
         ([n, t, to]) =>
           `<li><a href="#${to}"><span>${n}</span><b>${t}</b><small>↗</small></a></li>`,
       )
-      .join("")}</ol><a class="afterword" href="#32">番外篇　AI、人類與工作 ↗</a></div>`,
+      .join("")}</ol><a class="afterword" href="#30">番外篇　AI、人類與工作 ↗</a></div>`,
     "contents-plate",
   );
   rev(
     3,
     "兩種在清邁遊牧的人",
-    `<div class="specimens"><div>${art("snail-house")}${tag("I · 暫時離開")}<h3>躺平主義的遊牧</h3>${p("換個地方喘口氣，過一陣子再說。")}</div><div>${art("fox-path")}${tag("II · 動手重做")}<h3>身體力行的遊牧</h3>${p("帶著一群人，試著把想要的生活做出來。")}</div></div>${note(`這裡講的${term("nomad", "數位遊牧")}，是我在清邁遇見的兩種人。`)}`,
+    `<div class="specimens"><div>${art("snail-house")}${tag("I · 暫時離開")}<h3>躺平主義的遊牧</h3>${p("具有旅遊或體驗性質的追尋")}</div><div>${art("fox-path")}${tag("II · 動手重做")}<h3>身體力行的遊牧</h3>${p("具有生活或砍掉重練的實驗")}</div></div>${note(`這裡講的${term("nomad", "數位遊牧")}，是我在清邁遇見的兩種人。`)}`,
     "specimen-pair",
   );
   rev(
     4,
-    "躺一躺，然後呢？",
-    `<div class="cycle-layout">${diagram(
+    "躺平體驗作為一種消費產業鏈",
+    `<div class="tangping-manifesto">${quote("「只要將整個世界倒轉 90 度，人們就會發現一個平時難以啟齒的真理：躺平才是真正的站立，而站立的正是爬行。」", "《躺平主義宣言》")}</div><div class="cycle-layout">${diagram(
       "cycle",
       [
         ["高壓日常", "工作、房價、內卷"],
@@ -187,13 +187,13 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
         ["回去當牛馬", "存到錢，下次再來"],
       ],
       `${art("snail-house")}<span>清邁 ⇄ 職場</span>`,
-    )}<aside>${tag("清邁筆記・之一")}<h3>躺平也有<br>它的產業鏈</h3>${p("微信、抖音、小紅書上的遊民大會，賣的正是這種生活想像。")}${note(`原文裡，我把這叫做精神上的${term("lie", "Copium")}。`)}</aside></div>`,
+    )}<aside>${tag("清邁筆記・之一")}${p("微信、抖音、小紅書上的遊民大會，賣的正是這種生活想像。")}${note(`原文裡，我把這叫做精神上的${term("lie", "Copium")}。`)}</aside></div>`,
     "cycle-plate",
   );
   rev(
     5,
     "從大理，流動到清邁",
-    `${diagram(
+    `<div class="migration-grid"><div class="migration-map">${diagram(
       "river",
       [
         [term("dali", "瓦貓之夏"), "2022・大理的活動被清場"],
@@ -202,19 +202,13 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
         ["多中心的群落", "有衝突，也長出了產業鏈"],
       ],
       `<div class="tributary">${term("seven", "706 青年空間")}<small>另一批成員，也來到清邁 ↙</small></div>`,
-    )}${note(`${term("web3", "Web3 加密遊牧者")}彼此也不見得熟；有些人反而更常與各自的西方社群往來。`)}`,
+    )}</div><aside class="migration-evidence">${art("swallow-colony")}${p("由於 Web3 生態系短暫繁榮，年輕工作者擁有了實踐生活型態的餘裕。")}${quote("「甚至還建造了多中心的群落，有了點衝突，也有相應的產業鏈出現。」", "黃豆泥・清邁的遊牧觀察")}</aside></div>${note(`${term("web3", "Web3 加密遊牧者")}彼此也不見得熟；有些人反而更常與各自的西方社群往來。`)}`,
     "migration-plate",
-  );
-  rev(
-    6,
-    "人留下來，事情就多了",
-    `<div class="field-quote">${tag("清邁的遊牧觀察")}${quote("「甚至還建造了多中心的群落，有了點衝突，也有相應的產業鏈出現。」", "黃豆泥")}${rule}${p("我反而覺得這一群更有意思。<br>有了衝突，才知道大家究竟想怎麼一起生活。")}</div><div class="field-figure">${art("swallow-colony")}${note("共居・聚會・合作・分歧")}</div>`,
-    "field-spread",
   );
   rev(
     7,
     "故鄉可能是排他的<br>也可能是排擠的",
-    `${tag("第二章　/　HOME & ELSEWHERE")}${art("moon-birds", "chapter-art")}<div class="chapter-pair"><div><span>I</span><h3>千里共嬋娟</h3>${p("不同地方，共享同一個空間")}</div><div><span>II</span><h3>神遊於物外</h3>${p("同樣空間，尋找逃離的地方")}</div></div>`,
+    `${tag("第二章　/　HOME & ELSEWHERE")}${art("moon-birds", "chapter-art")}<div class="chapter-pair"><div><span>I</span><h3>千里共嬋娟</h3>${p("不同地方，共享同一個空間")}</div><div><span>II</span><h3>神遊於物外</h3>${p("同樣空間，尋找神遊的地方")}</div></div>`,
     "threshold-chapter",
   );
   rev(
@@ -226,7 +220,7 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     9,
     "神遊於物外",
-    `${art("moth-window", "window-art")}<div class="inner-copy">${tag("另一種遠方")}<div class="big-word">雲林的女兒<br><em>穆斯林的信仰</em></div>${rule}${lead("在同樣的空間，<br>尋找逃離的地方。")}${note("地方・家庭・信仰・歸屬")}</div>`,
+    `${art("moth-window", "window-art")}<div class="inner-copy">${tag("另一種遠方")}<div class="big-word">雲林的女兒<br><em>穆斯林的信仰</em></div>${rule}${lead("在同樣的空間，<br>尋找神遊的地方。")}${note("地方・家庭・信仰・歸屬")}</div>`,
     "inner-world",
   );
   rev(
@@ -326,21 +320,13 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     20,
     "三種落地實驗",
-    `<div class="experiment-triptych"><div>${art("swallow-colony")}<span class="roman">I</span><h3>快閃城市</h3>${p("包下一個地方，<br>讓網友來住一陣子。")}<a href="#21">短期聚集 ↗</a></div><div>${art("fox-path")}<span class="roman">II</span><h3>游擊實驗</h3>${p("帶著技術與理念，<br>投入已經在發生的事。")}<a href="#23">投入現場 ↗</a></div><div>${art("tree-roots")}<span class="roman">III</span><h3>新社會</h3>${p("集結資源，<br>照自己的藍圖蓋聚落。")}<a href="#25">圈地實踐 ↗</a></div></div>${note("我的主觀、不專業分類。案例還在變，也會跨過這幾條界線。")}`,
+    `<div class="experiment-triptych"><div>${art("swallow-colony")}<span class="roman">I</span><h3>快閃城市</h3>${p("包下一個地方，<br>讓網友來住一陣子。")}<a href="#20">短期聚集 ↗</a></div><div>${art("fox-path")}<span class="roman">II</span><h3>游擊實驗</h3>${p("帶著技術與理念，<br>投入已經在發生的事。")}<a href="#22">投入現場 ↗</a></div><div>${art("tree-roots")}<span class="roman">III</span><h3>新社會</h3>${p("集結資源，<br>照自己的藍圖蓋聚落。")}<a href="#24">圈地實踐 ↗</a></div></div>${note("這幾年看到了許多不同模式，也與不同參與者碰面聊過天，我覺得都是很有意思的田野題材。")}`,
     "experiments-plate",
   );
   rev(
     21,
-    "快閃城市：網友見面搞事",
-    `<div class="popup-names">${tag(term("popup", "POP-UP CITY"))}<span>Zuzalu</span><span>Edge City</span><span>Mu</span><span>Frontier Tower</span>${art("swallow-colony")}</div>${diagram(
-      "hourglass",
-      [
-        ["找到空間", "短期共居與活動"],
-        ["網友見面", "讀書、工作、交換想法"],
-        ["一起搞事", "試試新的合作"],
-        ["再次離散", "把關係帶往下一站"],
-      ],
-    )}`,
+    "快閃城市：Zuzalu 的兩個月",
+    `<div class="popup-report"><div class="popup-gallery">${photo("zuzalu-moon", "黑山共和國 Luštica Bay 的月夜", "Zuzalu 所在的 Luštica Bay・照片／Cat Thu")}${photo("zuzalu-talk", "Zuzalu 的零知識證明課程現場", "Zuzalu 的 ZK 課程・照片／Cat Thu", "popup-inset")}</div><div class="popup-copy">${tag(term("popup", "POP-UP CITY"))}${lead("住在一起，<br>也把課堂、晚餐與工作帶進日常。")}${rule}<ol class="popup-sequence"><li><b>2023・Montenegro</b><span>約兩個月的共同居住與活動。</span></li><li><b>技術與生活並排</b><span>ZK、公共財、健康，也包含居民自發的課程與共餐。</span></li><li><b>散場後繼續分岔</b><span>後續計畫在不同城市各自延伸。</span></li></ol><p class="popup-other">Edge City・Mu・Frontier Tower</p></div></div>`,
     "popup-plate",
   );
   rev(
@@ -352,20 +338,13 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     23,
     "游擊的人：Amir Taaki",
-    `${art("fox-path", "fox-emblem")}<div class="rojava-copy">${tag(term("guerrilla", "GUERRILLA EXPERIMENTATION"))}${lead(term("rojava", "羅賈瓦 Rojava"))}${p("自治社區、通訊、加密貨幣、經濟重建。<br>把手上的工具帶到真實的衝突現場。")}${rule}${quote("「我著實好奇他在羅賈瓦留下的應用，至今究竟有沒有持續被使用。」", "黃豆泥")}${note("去過，和有人接著用，是兩件事。")}</div>`,
+    `<div class="rojava-photo">${photo("amir-taaki", "Amir Taaki 肖像", "Amir Taaki・攝影／Anastasia Taylor-Lind for WIRED")}</div><div class="rojava-copy">${tag(term("guerrilla", "GUERRILLA EXPERIMENTATION"))}${lead(term("rojava", "羅賈瓦 Rojava"))}<div class="rojava-ledger"><div><b>2015–2016</b><span>WIRED 記錄他在中東停留約 15 個月。</span></div><div><b>離開前線之後</b><span>教當地人使用開源軟體與網路，並參與肥料工廠及太陽能研究。</span></div><div><b>留下的工作</b><span>他也協助設計新教育體系的技術課程。</span></div></div>${note("這些紀錄能確認他做過什麼；課程與工具後來是否延續，公開資料沒有回答。")}</div>`,
     "rojava-plate",
   );
   rev(
     24,
-    "加泰隆尼亞／RARIMO 投票實驗",
-    `<div class="voting-copy">${lead("證明我有資格，<br>不交出我的選擇。")}${p("護照・匿名・公民資格・政治承認")}</div>${diagram(
-      "triangle",
-      [
-        ["已有的證件", "確認參與資格"],
-        [term("zkp", "零知識證明"), "只證明所需條件"],
-        ["數位投票", "檢查程序與結果"],
-      ],
-    )}<p class="caveat">${term("rarimo", "案例待釐清")}：加泰隆尼亞的 Vocdoni 與 Rarimo 是不同專案；此圖說明 Rarimo 的一般架構。</p>`,
+    "兩條數位投票路徑：Rarimo × Vocdoni",
+    `<div class="voting-pair"><article><div class="voting-shot">${photo("rarimo-flow", "Rarimo Freedom Tool 投票流程", "Freedom Tool 流程圖／Rarimo 官方文件")}</div>${tag("RARIMO · FREEDOM TOOL")}<h3>先證明資格，再匿名投票</h3>${p(`手機讀取生物特徵護照，以${term("zkp", "零知識證明")}確認資格；官方列出的案例包括 Russia2024、Iranians Vote、United Space。`)}</article><article><div class="voting-shot">${photo("vocdoni", "加泰隆尼亞政府的 Vocdoni 案例圖", "Vocdoni 案例圖／Generalitat de Catalunya")}</div>${tag("VOCDONI · CATALUNYA")}<h3>讓數位投票可以公開驗證</h3>${p("加泰隆尼亞政府把 Vocdoni 列為區塊鏈成功案例：提供去中心化、可普遍驗證的投票基礎設施。")}</article></div><p class="caveat">${term("rarimo", "兩者不是同一專案")}：Rarimo 著重護照資格與隱私證明；Vocdoni 是另一套數位投票工具。</p>`,
     "voting-plate",
   );
   rev(
@@ -427,12 +406,6 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
       .map(([h, t], i) => `<div><span>0${i + 1}</span><h3>${h}</h3><p>${t}</p></div>`)
       .join("")}</div>`,
     "association-plate",
-  );
-  rev(
-    31,
-    "何處是故鄉，還在田野裡找",
-    `${art("tree-roots", "closing-tree")}<div class="closing-copy">${tag("人・勞動・社群・空間・世界")}${quote("「與其說我在遊牧，不如說是在田野也不為過。」", "黃豆泥")}${rule}${p("這些人真的很瘋。<br>但也真的有不少東西，值得去蹲點看看。")}<a class="appendix-link" href="#32">番外篇：AI、人類與工作 ↗</a></div>`,
-    "closing",
   );
   rev(
     32,

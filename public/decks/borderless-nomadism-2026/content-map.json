@@ -5,9 +5,7 @@
     "title": "無國界的遊牧",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
   },
   {
     "page": 2,
@@ -23,19 +21,15 @@
     "title": "兩種在清邁遊牧的人",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
   },
   {
     "page": 4,
     "chapter": "一",
-    "title": "躺一躺，然後呢？",
+    "title": "躺平體驗作為一種消費產業鏈",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
   },
   {
     "page": 5,
@@ -43,392 +37,294 @@
     "title": "從大理，流動到清邁",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
   },
   {
     "page": 6,
-    "chapter": "一",
-    "title": "人留下來，事情就多了",
-    "sourcePages": null,
-    "condensed": false,
-    "sources": [
-      "field"
-    ]
-  },
-  {
-    "page": 7,
     "chapter": "二",
     "title": "故鄉可能是排他的也可能是排擠的",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "outline"
-    ]
+    "sources": ["outline"]
   },
   {
-    "page": 8,
+    "page": 7,
     "chapter": "二",
     "title": "千里共嬋娟",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "outline"
-    ]
+    "sources": ["outline"]
   },
   {
-    "page": 9,
+    "page": 8,
     "chapter": "二",
     "title": "神遊於物外",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "outline"
-    ]
+    "sources": ["outline"]
   },
   {
-    "page": 10,
+    "page": 9,
     "chapter": "二",
     "title": "次文化的遠方",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "outline",
-      "radio",
-      "radioImage"
-    ]
+    "sources": ["outline", "radio", "radioImage"]
   },
   {
-    "page": 11,
+    "page": 10,
     "chapter": "三",
     "title": "數位避秦",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "identity"
-    ]
+    "sources": ["identity"]
   },
   {
-    "page": 12,
+    "page": 11,
     "chapter": "三",
     "title": "故鄉、邊境、戶口的誕生",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "identity"
-    ]
+    "sources": ["identity"]
   },
   {
-    "page": 13,
+    "page": 12,
     "chapter": "三",
     "title": "我們都有兩套戶籍",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "identity"
-    ]
+    "sources": ["identity"]
   },
   {
-    "page": 14,
+    "page": 13,
     "chapter": "三",
     "title": "把身分的三件事拆開",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "identity"
-    ]
+    "sources": ["identity"]
   },
   {
-    "page": 15,
+    "page": 14,
     "chapter": "三",
     "title": "把程式印成一本書",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "pgp"
-    ]
+    "sources": ["pgp"]
   },
   {
-    "page": 16,
+    "page": 15,
     "chapter": "三",
     "title": "1996：網路獨立宣言",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "declaration"
-    ]
+    "sources": ["declaration"]
   },
   {
-    "page": 17,
+    "page": 16,
     "chapter": "三",
     "title": "網路也會失憶",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "internet"
-    ]
+    "sources": ["internet"]
   },
   {
-    "page": 18,
+    "page": 17,
     "chapter": "三",
     "title": "藝立協：誕生自網絡的部落美學",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "elixus"
-    ]
+    "sources": ["elixus"]
   },
   {
-    "page": 19,
+    "page": 18,
     "chapter": "三",
     "title": "逃離社群平台",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "escape"
-    ]
+    "sources": ["escape"]
   },
   {
-    "page": 20,
+    "page": 19,
     "chapter": "三",
     "title": "三種落地實驗",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
+  },
+  {
+    "page": 20,
+    "chapter": "三",
+    "title": "快閃城市：Zuzalu 的兩個月",
+    "sourcePages": null,
+    "condensed": false,
+    "sources": ["field", "zuzalu"]
   },
   {
     "page": 21,
     "chapter": "三",
-    "title": "快閃城市：網友見面搞事",
+    "title": "散場之後，地方留下了什麼？",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
   },
   {
     "page": 22,
     "chapter": "三",
-    "title": "散場之後，地方留下了什麼？",
+    "title": "游擊的人：Amir Taaki",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field", "rojavaWired"]
   },
   {
     "page": 23,
     "chapter": "三",
-    "title": "游擊的人：Amir Taaki",
+    "title": "兩條數位投票路徑：Rarimo × Vocdoni",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["rarimo", "vocdoni"]
   },
   {
     "page": 24,
     "chapter": "三",
-    "title": "加泰隆尼亞／RARIMO 投票實驗",
+    "title": "把理念蓋成一個地方",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "rarimo",
-      "vocdoni"
-    ]
+    "sources": ["field"]
   },
   {
     "page": 25,
     "chapter": "三",
-    "title": "把理念蓋成一個地方",
-    "sourcePages": null,
-    "condensed": false,
-    "sources": [
-      "field"
-    ]
-  },
-  {
-    "page": 26,
-    "chapter": "三",
     "title": "自由意志主義者，也要做早操？",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "field"
-    ]
+    "sources": ["field"]
   },
   {
-    "page": 27,
+    "page": 26,
     "chapter": "四",
     "title": "何處是故鄉",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "village"
-    ]
+    "sources": ["village"]
   },
   {
-    "page": 28,
+    "page": 27,
     "chapter": "四",
     "title": "遠方的人，也能成為村民嗎？",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "village"
-    ]
+    "sources": ["village"]
   },
   {
-    "page": 29,
+    "page": 28,
     "chapter": "四",
     "title": "網路與村落之間，要有人來回跑",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "village"
-    ]
+    "sources": ["village"]
   },
   {
-    "page": 30,
+    "page": 29,
     "chapter": "四",
     "title": "海外者的數位結社？",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "outline"
-    ]
+    "sources": ["outline"]
   },
   {
-    "page": 31,
-    "chapter": "四",
-    "title": "何處是故鄉，還在田野裡找",
-    "sourcePages": null,
-    "condensed": false,
-    "sources": [
-      "field"
-    ]
-  },
-  {
-    "page": 32,
+    "page": 30,
     "chapter": "番外",
     "title": "被機器奴役的未來",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "ted"
-    ]
+    "sources": ["ted"]
   },
   {
-    "page": 33,
+    "page": 31,
     "chapter": "番外",
     "title": "機器工作，人類稀疏",
     "sourcePages": null,
     "condensed": false,
-    "sources": [
-      "asimov",
-      "asimovText"
-    ]
+    "sources": ["asimov", "asimovText"]
   },
   {
-    "page": 34,
+    "page": 32,
     "chapter": "工作",
     "title": "01｜還有多少「足夠的工作」？",
     "sourcePages": "15–18、20",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 35,
+    "page": 33,
     "chapter": "工作",
     "title": "02｜一份工作，是一束任務",
     "sourcePages": "19、21–23",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 36,
+    "page": 34,
     "chapter": "工作",
     "title": "03｜有工作搆不到，還是工作不夠？",
     "sourcePages": "24–25",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 37,
+    "page": 35,
     "chapter": "工作",
     "title": "04｜機器創造的繁榮，分到誰手上？",
     "sourcePages": "26–28、57",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 38,
+    "page": 36,
     "chapter": "工作",
     "title": "05｜少一點上班，空出來做什麼？",
     "sourcePages": "29–32、36",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 39,
+    "page": 37,
     "chapter": "工作",
     "title": "06｜一次活動，怎麼變成長期的力量？",
     "sourcePages": "33–35、37、39、58",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 40,
+    "page": 38,
     "chapter": "工作",
     "title": "07｜後工作的要求，與它的岔路",
     "sourcePages": "38、40、58",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 41,
+    "page": 39,
     "chapter": "工作",
     "title": "08｜什麼才算親勞工 AI？",
     "sourcePages": "41–46",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 42,
+    "page": 40,
     "chapter": "工作",
     "title": "09｜同一項技術，可以分成三條路",
     "sourcePages": "47–51",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   },
   {
-    "page": 43,
+    "page": 41,
     "chapter": "工作",
     "title": "10｜帶著這些分歧，繼續討論",
     "sourcePages": "52–60",
     "condensed": true,
-    "sources": [
-      "ai"
-    ]
+    "sources": ["ai"]
   }
 ]

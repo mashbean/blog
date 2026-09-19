@@ -15,6 +15,7 @@ const { chromium } = require("playwright");
 const sharp = require("sharp");
 const pub = path.join(root, "public");
 const slug = "borderless-nomadism-2026";
+const slideCount = 41;
 const server = http.createServer(async (req, res) => {
   try {
     let name = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
@@ -65,9 +66,9 @@ async function make(width, height, reduce = true) {
 }
 try {
   const page = await make(1600, 1020);
-  assert.equal(await page.locator(".slide").count(), 43);
+  assert.equal(await page.locator(".slide").count(), slideCount);
   assert.equal(await page.locator("body.stage").count(), 1);
-  for (let n = 1; n <= 43; n++) {
+  for (let n = 1; n <= slideCount; n++) {
     await page.evaluate((n) => window.nomadDeck.show(n), n);
     const slide = page.locator(".slide.active");
     await slide.screenshot({ path: path.join(out, `slide-${String(n).padStart(2, "0")}.png`) });
@@ -108,8 +109,8 @@ try {
   await page.keyboard.press("Escape");
   assert.equal(await page.locator("#dialog").evaluate((e) => e.open), false);
   await page.keyboard.press("g");
-  await page.locator('[data-go="26"]').click();
-  assert.equal(await page.locator("#counter").innerText(), "27 / 43");
+  await page.locator('[data-go="25"]').click();
+  assert.equal(await page.locator("#counter").innerText(), `26 / ${slideCount}`);
   await page.keyboard.press("n");
   assert.match(await page.locator("#dialog-content").innerText(), /張寶成/);
   await page.keyboard.press("Escape");
@@ -118,14 +119,14 @@ try {
   await page.keyboard.press("Escape");
   await page.keyboard.press("Home");
   await page.keyboard.press("ArrowRight");
-  assert.equal(await page.locator("#counter").innerText(), "2 / 43");
+  assert.equal(await page.locator("#counter").innerText(), `2 / ${slideCount}`);
   await page.keyboard.press("End");
-  assert.equal(await page.locator("#counter").innerText(), "43 / 43");
+  assert.equal(await page.locator("#counter").innerText(), `${slideCount} / ${slideCount}`);
   await page.keyboard.press("r");
   assert.equal(await page.locator("body.reading").count(), 1);
   await page.keyboard.press("r");
   assert.equal(await page.locator("body.stage").count(), 1);
-  await page.evaluate(() => window.nomadDeck.show(28));
+  await page.evaluate(() => window.nomadDeck.show(27));
   await page.locator(".active [data-image]").click();
   assert.equal(
     await page.locator("#dialog-content img").evaluate((e) => e.complete && e.naturalWidth > 0),
@@ -135,7 +136,7 @@ try {
   await page.locator("#fullscreen").click();
   assert.equal(await page.evaluate(() => !!document.fullscreenElement), true);
   await page.evaluate(() => document.exitFullscreen());
-  for (const n of [16, 32]) {
+  for (const n of [15, 30]) {
     assert.equal(
       await page.locator(`#slide-${n}`).evaluate((e) => getComputedStyle(e).color),
       "rgb(247, 239, 220)",
@@ -165,7 +166,7 @@ try {
   await animated.keyboard.press("ArrowLeft");
   await animated.waitForTimeout(800);
   assert.equal(await animated.locator(".slide.active").count(), 1);
-  for (const n of [4, 14, 19, 29, 35, 42]) {
+  for (const n of [4, 13, 18, 28, 33, 40]) {
     await animated.evaluate((n) => window.nomadDeck.show(n), n);
     await animated.waitForTimeout(2900);
     assert.equal(
@@ -204,27 +205,34 @@ try {
     assert.equal(ms.length, 0, JSON.stringify(ms));
     if (w === 390) {
       await mobile.screenshot({ path: path.join(out, "mobile-cover.png") });
-      for (const n of [4, 7, 14, 30, 35, 42]) {
+      for (const n of [4, 6, 13, 29, 33, 40]) {
         await mobile
           .locator("#slide-" + n)
           .screenshot({ path: path.join(out, "mobile-" + n + ".png") });
       }
-      await mobile.locator("#slide-24").scrollIntoViewIfNeeded();
-      await mobile.locator("#slide-24 .term").last().click();
+      await mobile.locator("#slide-23").scrollIntoViewIfNeeded();
+      await mobile.locator("#slide-23 .term").last().click();
       await mobile.screenshot({ path: path.join(out, "mobile-note.png") });
       await mobile.keyboard.press("Escape");
     }
     await mobile.close();
   }
   const thumbs = [];
-  for (let n = 1; n <= 43; n++) {
+  for (let n = 1; n <= slideCount; n++) {
     const input = await sharp(path.join(out, `slide-${String(n).padStart(2, "0")}.png`))
       .resize(400, 225)
       .png()
       .toBuffer();
     thumbs.push({ input, left: ((n - 1) % 4) * 400, top: Math.floor((n - 1) / 4) * 225 });
   }
-  await sharp({ create: { width: 1600, height: 2475, channels: 3, background: "#d8ceba" } })
+  await sharp({
+    create: {
+      width: 1600,
+      height: Math.ceil(slideCount / 4) * 225,
+      channels: 3,
+      background: "#d8ceba",
+    },
+  })
     .composite(thumbs)
     .png()
     .toFile(path.join(out, "contact-sheet.png"));
@@ -245,7 +253,7 @@ try {
   console.log(
     JSON.stringify(
       {
-        slides: 43,
+        slides: slideCount,
         overflows: report.filter((x) => x.issues.length),
         errors,
         bad,
