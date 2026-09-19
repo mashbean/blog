@@ -65,7 +65,7 @@ async function make(width, height, reduce = true) {
   return page;
 }
 try {
-  const page = await make(1600, 1020);
+  const page = await make(1616, 960);
   assert.equal(await page.locator(".slide").count(), slideCount);
   assert.equal(await page.locator("body.stage").count(), 1);
   for (let n = 1; n <= slideCount; n++) {
@@ -76,9 +76,9 @@ try {
       const r = s.getBoundingClientRect(),
         body = s.querySelector(".slide-body").getBoundingClientRect(),
         footer = s.querySelector("footer").getBoundingClientRect();
-      return [
+      const boundaryIssues = [
         ...s.querySelectorAll(
-          "h1,h2,h3,p,table,figure,.flow,.contents,.resource-list,.question-list,.big-word,.name-list,.era-line,.chapter-pair",
+          "h1,h2,h3,p,blockquote,table,figure,.engraving,.flow,.contents,.resource-list,.question-list,.big-word,.name-list,.era-line,.chapter-pair",
         ),
       ]
         .filter((e) => {
@@ -93,6 +93,30 @@ try {
           );
         })
         .map((e) => ({ tag: e.tagName, text: e.textContent.slice(0, 80) }));
+      const collisions = [];
+      s.querySelectorAll("[data-diagram]").forEach((diagram) => {
+        const nodes = [...diagram.querySelectorAll(".flow-step,.diagram-center")].filter(
+          (element) => {
+            const rect = element.getBoundingClientRect();
+            return rect.width > 0 && rect.height > 0;
+          },
+        );
+        for (let i = 0; i < nodes.length; i += 1) {
+          const a = nodes[i].getBoundingClientRect();
+          for (let j = i + 1; j < nodes.length; j += 1) {
+            const b = nodes[j].getBoundingClientRect();
+            const overlapX = Math.min(a.right, b.right) - Math.max(a.left, b.left);
+            const overlapY = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+            if (overlapX > 5 && overlapY > 5) {
+              collisions.push({
+                tag: "COLLISION",
+                text: `${nodes[i].textContent.trim().slice(0, 34)} <> ${nodes[j].textContent.trim().slice(0, 34)}`,
+              });
+            }
+          }
+        }
+      });
+      return [...boundaryIssues, ...collisions];
     });
     report.push({ slide: n, issues });
   }
@@ -108,6 +132,10 @@ try {
     5: ".flow-step,.migration-evidence",
     11: ".flow-step,.registry-note",
     14: ".flow-step,.book-emblem,.book-route>.lead,.book-route>.marginal",
+    18: ".escape-keystone,.flow-step,.slide-body>.marginal",
+    24: ".society-caption,.flow-step,.slide-body>.marginal",
+    29: ".association-hub,.association-notes>div",
+    30: ".machine-quote,.machine-emblem",
   };
   for (const [number, selector] of Object.entries(collisionSelectors)) {
     const n = Number(number);

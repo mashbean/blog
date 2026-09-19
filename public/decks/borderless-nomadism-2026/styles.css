@@ -3719,6 +3719,306 @@ button:disabled {
     font-size: 18px !important;
   }
 }
+
+/* Reported 1616×960 viewport: reserve independent lanes for late-section compositions. */
+body.stage .escape-plate .slide-body {
+  justify-content: flex-start;
+  gap: 14px;
+  padding-top: 104px;
+}
+body.stage .escape-map {
+  width: calc(100% - 350px);
+  height: 438px;
+  margin-left: 350px;
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 38px;
+  align-items: stretch;
+  position: relative;
+}
+body.stage .escape-keystone {
+  border: 3px double var(--line);
+  padding: 30px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--paper-light);
+  position: relative;
+}
+body.stage .escape-keystone:before,
+body.stage .escape-keystone:after {
+  content: "❦";
+  position: absolute;
+  left: 50%;
+  translate: -50% 0;
+  color: var(--copper);
+  font:
+    24px/1 Georgia,
+    serif;
+}
+body.stage .escape-keystone:before {
+  top: 18px;
+}
+body.stage .escape-keystone:after {
+  bottom: 18px;
+  rotate: 180deg;
+}
+body.stage .escape-keystone > span {
+  color: var(--red);
+  font:
+    italic 38px/1 Georgia,
+    serif;
+  margin-bottom: 20px;
+}
+body.stage .escape-keystone strong {
+  font-size: 34px;
+  letter-spacing: 0.09em;
+}
+body.stage .escape-keystone small {
+  font-size: 20px;
+  line-height: 1.55;
+  margin-top: 14px;
+}
+body.stage .escape-keys {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 16px 22px;
+}
+body.stage .escape-keys .flow-step {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: auto;
+  min-width: 0;
+  padding: 10px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+body.stage .escape-keys .flow-step:last-child {
+  grid-column: 1 / -1;
+  width: calc(50% - 11px);
+  justify-self: center;
+}
+body.stage .escape-keys .step-no {
+  font-size: 18px;
+  margin-bottom: 1px;
+}
+body.stage .escape-keys h3 {
+  font-size: 27px;
+  margin-bottom: 2px;
+}
+body.stage .escape-keys p {
+  font-size: 19px;
+  line-height: 1.45;
+}
+body.stage .escape-map .replay {
+  top: -50px;
+  right: 0;
+  bottom: auto;
+}
+body.stage .escape-plate .slide-body > .marginal {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  border-top: 3px double var(--line);
+  padding-top: 12px;
+  font-size: 20px;
+}
+
+body.stage .society-plate .slide-body {
+  display: flex;
+  gap: 12px;
+  padding-top: 0;
+}
+body.stage .society-layout {
+  display: grid;
+  grid-template-columns: 42% 1fr;
+  gap: 54px;
+  align-items: center;
+  min-height: 0;
+}
+body.stage .society-caption .lead {
+  margin: 4px 0 12px;
+  font-size: 34px;
+}
+body.stage .society-photo {
+  border: 3px double var(--line);
+  padding: 8px;
+  background: var(--paper-light);
+}
+body.stage .society-photo img {
+  width: 100%;
+  height: 318px;
+  object-fit: cover;
+  filter: sepia(0.18) saturate(0.86);
+}
+body.stage .society-photo figcaption {
+  font-size: 13px;
+  line-height: 1.45;
+  margin-top: 7px;
+}
+body.stage .society-stair {
+  position: relative;
+}
+body.stage .society-stair ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px 30px;
+}
+body.stage .society-stair .flow-step {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: auto;
+  min-height: 165px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+body.stage .society-stair .flow-step:nth-child(even) {
+  translate: 0 20px;
+}
+body.stage .society-stair .flow-step h3 {
+  font-size: 27px;
+  margin-bottom: 4px;
+}
+body.stage .society-stair .flow-step p {
+  font-size: 20px;
+  line-height: 1.5;
+}
+body.stage .society-stair .replay {
+  top: -44px;
+  right: 0;
+  bottom: auto;
+}
+body.stage .society-plate .slide-body > .marginal {
+  width: 100%;
+  margin: 0;
+  border-top: 3px double var(--line);
+  padding-top: 12px;
+  font-size: 19px;
+}
+
+body.stage .association-plate .slide-body {
+  display: block;
+  padding-top: 0;
+}
+body.stage .association-layout {
+  height: 520px;
+  display: grid;
+  grid-template-columns: 34% 1fr;
+  gap: 58px;
+  align-items: center;
+}
+body.stage .association-hub {
+  position: relative;
+  inset: auto;
+  translate: none;
+  width: 380px;
+  height: 380px;
+  justify-self: center;
+}
+body.stage .association-hub > span {
+  bottom: -4px;
+}
+body.stage .association-notes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 34px 42px;
+  padding: 0;
+}
+body.stage .association-notes > div,
+body.stage .association-notes > div:nth-child(odd) {
+  min-width: 0;
+  min-height: 195px;
+  padding: 20px 20px 18px;
+  border: 1px solid var(--line);
+  border-top: 3px double var(--line);
+  text-align: left;
+  background: color-mix(in srgb, var(--paper-light) 60%, transparent);
+}
+body.stage .association-notes h3 {
+  font-size: 31px;
+  margin-bottom: 7px;
+}
+body.stage .association-notes p {
+  font-size: 21px;
+  line-height: 1.55;
+}
+body.stage .association-notes > div > span {
+  font-size: 19px;
+  margin-bottom: 5px;
+}
+body.stage .politics-plate .flow-step {
+  width: 22%;
+}
+
+.reading .escape-map,
+.reading .society-layout,
+.reading .association-layout {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.reading .escape-keystone {
+  width: 100%;
+  border: 3px double var(--line);
+  padding: 24px;
+  text-align: center;
+}
+.reading .escape-keystone > span,
+.reading .escape-keystone strong,
+.reading .escape-keystone small {
+  display: block;
+}
+.reading .escape-keystone > span {
+  color: var(--red);
+  font:
+    italic 30px Georgia,
+    serif;
+}
+.reading .escape-keystone strong {
+  font-size: 29px;
+}
+.reading .escape-keystone small {
+  font-size: 18px;
+  margin-top: 8px;
+}
+.reading .escape-keys,
+.reading .society-stair ol {
+  list-style: none;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  padding: 0;
+}
+.reading .society-photo img {
+  width: 100%;
+  height: auto;
+}
+.reading .association-hub {
+  max-width: 360px;
+  margin: 0 auto;
+}
+@media (max-width: 700px) {
+  .reading .escape-keys,
+  .reading .society-stair ol {
+    grid-template-columns: 1fr;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *:before,

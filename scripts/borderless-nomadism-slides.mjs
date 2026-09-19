@@ -318,17 +318,20 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     19,
     "逃離社群平台",
-    `${diagram(
-      "hub",
-      [
-        ["協議", "讓資料可以搬遷"],
-        ["結社", "成員、承諾與分工"],
-        ["治理", "申訴、決策與交接"],
-        ["金流", "維護成本有人支付"],
-        ["抗審查", "受壓時仍能連結"],
-      ],
-      `<div class="hub-core">五把鑰匙<small>帶著朋友一起走</small></div>`,
-    )}${note(`${term("fediverse", "聯邦宇宙")}提供一條路。搬家之後，總還得有人付房租、整理公共空間。`)}`,
+    `<div class="escape-map" data-diagram="hub"><div class="escape-keystone"><span>V</span><strong>五把鑰匙</strong><small>帶著朋友一起走</small></div><ol class="escape-keys">${[
+      ["協議", "讓資料可以搬遷"],
+      ["結社", "成員、承諾與分工"],
+      ["治理", "申訴、決策與交接"],
+      ["金流", "維護成本有人支付"],
+      ["抗審查", "受壓時仍能連結"],
+    ]
+      .map(
+        ([h, t], i) =>
+          `<li class="flow-step"><span class="step-no">0${i + 1}</span><h3>${h}</h3><p>${t}</p></li>`,
+      )
+      .join(
+        "",
+      )}</ol><button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button></div>${note(`${term("fediverse", "聯邦宇宙")}提供一條路。搬家之後，總還得有人付房租、整理公共空間。`)}`,
     "escape-plate",
   );
   rev(
@@ -364,15 +367,19 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     25,
     "把理念蓋成一個地方",
-    `<div class="society-caption">${tag("BALAJI SRINIVASAN")}${lead(term("network", "New Society"))}${art("tree-roots")}</div>${diagram(
-      "up",
-      [
-        ["網路社群", "先有共同認同"],
-        ["集結資源", "資金、技能、支持者"],
-        ["實體聚居", "Network School"],
-        ["生活規則", "在同一棟樓裡實踐"],
-      ],
-    )}${note("網路國家的主權願景，還不是已經發生的事。")}`,
+    `<div class="society-layout"><div class="society-caption">${tag("BALAJI SRINIVASAN")}${lead(term("network", "New Society"))}${photo("network-school-cna", "Network School 在馬來西亞 Forest City 的展示空間", "Network School 展示空間，Forest City，2026・攝影／CNA・Zamzahuri Abas", "society-photo")}</div><div class="society-stair" data-diagram="up"><ol>${[
+      ["網路社群", "先有共同認同"],
+      ["集結資源", "資金、技能、支持者"],
+      ["實體聚居", "Network School"],
+      ["生活規則", "在同一棟樓裡實踐"],
+    ]
+      .map(
+        ([h, t], i) =>
+          `<li class="flow-step"><span class="step-no">0${i + 1}</span><h3>${h}</h3><p>${t}</p></li>`,
+      )
+      .join(
+        "",
+      )}</ol><button class="replay" data-replay aria-label="重播本頁流程動畫">↻ 重播</button></div></div>${note("網路國家的主權願景，還不是已經發生的事。")}`,
     "society-plate",
   );
   rev(
@@ -411,14 +418,14 @@ export function makeSlides({ term, photo, quote, lead, p, cols, entry, table }) 
   rev(
     30,
     "海外者的數位結社？",
-    `<div class="association-hub">${art("tree-roots")}<span>我們</span></div><div class="association-notes">${[
+    `<div class="association-layout"><div class="association-hub">${art("tree-roots")}<span>我們</span></div><div class="association-notes">${[
       ["資金", "共同支持什麼？<br>長期成本怎麼付？"],
       ["人才", "把專長接起來。<br>也把工作分下去。"],
       ["資訊", "經驗不要只留在<br>滑過就找不到的聊天室。"],
       ["制度", "有人決策、有人接手，<br>新人也進得來。"],
     ]
       .map(([h, t], i) => `<div><span>0${i + 1}</span><h3>${h}</h3><p>${t}</p></div>`)
-      .join("")}</div>`,
+      .join("")}</div></div>`,
     "association-plate",
   );
   rev(

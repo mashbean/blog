@@ -86,6 +86,12 @@ const sources = {
     detail:
       "Andy Greenberg，2017-03-29。報導記錄 Taaki 在中東約 15 個月，離開前線後教開源軟體與網路、參與肥料工廠與太陽能研究，並協助設計技術教育課程。肖像攝影／Anastasia Taylor-Lind for WIRED。",
   },
+  networkSchool: {
+    title: "CNA｜Network School 在 Forest City 的現場紀錄",
+    url: "https://www.channelnewsasia.com/asia/network-school-johor-malaysia-lessons-foreign-tech-investors-6285236",
+    detail:
+      "2026-07-29。頁面使用 CNA 於 2026-07-16 拍攝的 Network School 展示空間照片，攝影／Zamzahuri Abas；照片用來呈現實體空間，不替其政治願景或營運狀態背書。",
+  },
   rarimo: {
     title: "Rarimo｜Freedom Tool 官方文件",
     url: "https://docs.rarimo.com/freedom-tool/",
