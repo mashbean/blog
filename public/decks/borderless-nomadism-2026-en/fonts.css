@@ -1,0 +1,8 @@
+/* Noto Serif TC, SIL Open Font License; subset locally from the complete font. */
+@font-face {
+  font-family: "Noto Serif TC";
+  font-style: normal;
+  font-weight: 200 900;
+  font-display: swap;
+  src: url("assets/noto-serif-tc.woff2") format("woff2");
+}

@@ -1,0 +1,165 @@
+.toolbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: system-ui, sans-serif;
+}
+.toolbar button {
+  border: 0;
+  background: transparent;
+  padding: 10px 14px;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  min-height: 44px;
+}
+.toolbar button:hover {
+  background: #7c62451a;
+}
+.toolbar output {
+  font:
+    17px Georgia,
+    serif;
+  min-width: 70px;
+  text-align: center;
+}
+.toolbar-line {
+  height: 18px;
+  border-right: 1px solid var(--line);
+  margin: 0 10px;
+}
+.progress-track {
+  height: 4px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #cfc4ad;
+  z-index: 10;
+}
+#progress {
+  height: 100%;
+  background: var(--red);
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+dialog {
+  padding: 0;
+  border: 1px solid var(--copper);
+  background: var(--paper-light);
+  color: var(--ink);
+  width: min(850px, calc(100vw - 30px));
+  max-height: 85dvh;
+  box-shadow: 0 15px 70px #231a1650;
+}
+dialog::backdrop {
+  background: #1a1814ad;
+  backdrop-filter: blur(4px);
+}
+.dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  padding: 25px 32px;
+  position: sticky;
+  top: 0;
+  background: var(--paper-light);
+  z-index: 2;
+}
+.dialog-head h2 {
+  font-size: 25px;
+  line-height: 1.5;
+  margin: 0;
+  font-weight: 600;
+}
+.dialog-head button {
+  border: 0;
+  background: none;
+  font:
+    30px/1 system-ui,
+    sans-serif;
+  padding: 3px 7px;
+}
+.dialog-head button:hover {
+  color: var(--red);
+}
+#dialog-content {
+  padding: 22px 32px 35px;
+  font-size: 20px;
+  line-height: 1.85;
+}
+#dialog-content p {
+  margin: 0 0 18px;
+}
+#dialog-content a {
+  color: var(--red);
+}
+#dialog-content small {
+  font-size: 15px;
+  color: var(--muted);
+}
+#dialog-content ul {
+  padding-left: 1.3em;
+}
+#dialog-content li {
+  margin-bottom: 16px;
+}
+#dialog-content .index-list {
+  list-style: none;
+  padding: 0;
+}
+#dialog-content .index-list li {
+  margin: 0;
+  border-bottom: 1px solid var(--line);
+}
+#dialog-content .index-list button {
+  background: none;
+  border: 0;
+  width: 100%;
+  text-align: left;
+  padding: 13px 0;
+  font-size: 18px;
+  display: flex;
+  gap: 20px;
+}
+#dialog-content .index-list button span {
+  font:
+    20px Georgia,
+    serif;
+  min-width: 25px;
+  color: var(--copper);
+}
+#dialog-content .index-list button:hover {
+  color: var(--red);
+}
+#dialog-content img {
+  width: 100%;
+  max-height: 65dvh;
+  object-fit: contain;
+}
+.image-dialog {
+  width: min(1200px, calc(100vw - 30px));
+}
+.source-entry {
+  margin-bottom: 24px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--line);
+}
+#toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  background: var(--ink);
+  color: var(--paper-light);
+  padding: 10px 20px;
+  font:
+    15px/1.5 system-ui,
+    sans-serif;
+  display: none;
+}
