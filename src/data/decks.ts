@@ -30,6 +30,15 @@ export interface Deck {
 
 export const decks: Deck[] = [
   {
+    slug: "ntcam-2026-publicness",
+    title: "公共性如何被共同建造：去中心化協作 ∩ AI 能動性 ⟶ 知識機構的強健性",
+    event: "新北市美術館國際論壇 · NTCAM Forum 2026",
+    date: "2026-10-31",
+    location: "新北市美術館 · 線上參與",
+    lang: "zh-Hant",
+    featured: true,
+  },
+  {
     slug: "borderless-nomadism-2026",
     title: "無國界的遊牧：那些數位流動者的落地生根實驗",
     event: "飛地台灣季｜在世界之間 Taiwan Across Cities",
