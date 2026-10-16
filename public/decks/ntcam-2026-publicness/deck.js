@@ -37,8 +37,8 @@
     if (window.gsap) {
       gsap.set(nodes, { clearProps: 'all' });
       if (animate && !reading && !motion.matches) {
-        animation = gsap.timeline({ defaults: { duration: .58, ease: 'power2.out' } });
-        animation.fromTo(nodes, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, stagger: .075, clearProps: 'all' });
+        animation = gsap.timeline({ defaults: { duration: .65, ease: 'power3.out' } });
+        animation.fromTo(nodes, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, stagger: .08, clearProps: 'all' });
       }
     }
     wake();

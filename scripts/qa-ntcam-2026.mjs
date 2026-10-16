@@ -39,6 +39,7 @@ try {
   await page.goto(url, { waitUntil: 'load' });
   assert.equal(await page.locator('.slide').count(), 18);
   assert.equal(await page.locator('meta[name="description"]').getAttribute('content'), titleEn);
+  assert.equal(await page.locator('.cover').innerText().then(t => /公共性如何被共同建造|Building Publicness Together/.test(t)), false);
   for (const size of [[1440,900],[1920,1080],[1280,720],[390,844],[320,667],[844,390],[667,375]]) {
     await page.setViewportSize({ width: size[0], height: size[1] });
     for (let i = 1; i <= slides.length; i++) {
@@ -48,8 +49,14 @@ try {
         const c = s.querySelector('.content').getBoundingClientRect();
         return { top: c.top, bottom: c.bottom, left: c.left, right: c.right, width: innerWidth, height: innerHeight,
           uncentred: [...s.querySelectorAll('p,h1,h2')].some(e => getComputedStyle(e).textAlign !== 'center'),
-          oversize: [...s.querySelectorAll('.pair,.label,.credits')].some(e => e.scrollWidth > e.clientWidth + 1) };
+          oversize: [...s.querySelectorAll('.pair,.label,.credits')].some(e => e.scrollWidth > e.clientWidth + 1),
+          languageHierarchy: [...s.querySelectorAll('.pair,.label')].every(pair => {
+            const en = pair.querySelector('[lang=en]');
+            const zh = pair.querySelector('[lang=zh-Hant]');
+            return pair.firstElementChild === en && parseFloat(getComputedStyle(en).fontSize) > parseFloat(getComputedStyle(zh).fontSize);
+          }) };
       });
+      assert.equal(geometry.languageHierarchy, true, `English must come first and be larger on slide ${i} at ${size}`);
       if (geometry.top < 10 || geometry.bottom > size[1] - 56 || geometry.left < 0 || geometry.right > size[0] + 1 || geometry.oversize || geometry.uncentred) overflow.push({ size, slide: i, ...geometry });
       if (size[0] === 1440) {
         await page.evaluate(() => document.body.classList.add('idle'));

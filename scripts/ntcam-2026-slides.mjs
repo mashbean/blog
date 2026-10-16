@@ -1,10 +1,9 @@
 // The speaker's supplied sequence. Only slide 17 adds researched content.
-export const titleZh = "公共性如何被共同建造：去中心化協作 ∩ AI 能動性 ⟶ 知識機構的強健性";
-export const titleEn = "Building Publicness Together: Decentralized Collaboration, AI-Enabled Agency, and Institutional Robustness";
+export const titleZh = "去中心化協作 ∩ AI 能動性 ⟶ 知識機構的強健性";
+export const titleEn = "Decentralized Collaboration, AI-Enabled Agency, and Institutional Robustness";
 export const slides = [
   { type: "cover", pairs: [
-    ["公共性如何被共同建造", "Building Publicness Together"],
-    ["去中心化協作 ∩ AI 能動性\n⟶ 知識機構的強健性", "Decentralized Collaboration, AI-Enabled Agency,\nand Institutional Robustness"],
+    ["去中心化協作 ∩ AI 能動性\n⟶ 知識機構的強健性", "Decentralized Collaboration,\nAI-Enabled Agency,\nand Institutional Robustness"],
     ["黃豆泥", "mashbean"],
   ] },
   { type: "statement", dark: true, pairs: [["我們仍然從 AI 開始，\n從人本身結束", "We still begin with AI\nand end with human beings themselves"]] },

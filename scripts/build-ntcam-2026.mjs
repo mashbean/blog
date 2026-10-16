@@ -13,9 +13,9 @@ const escape = (s) => s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replace
 const lines = (s) => escape(s).replaceAll("\n", "<br>");
 const section = (s, i) => `<section class="slide ${s.type || "standard"}${s.dark ? " dark" : ""}" id="slide-${i + 1}" aria-label="${i + 1} / ${slides.length}" data-slide="${i + 1}">
   <div class="content">
-    ${s.label ? `<div class="label motion"><p lang="zh-Hant">${lines(s.label[0])}</p><p lang="en">${lines(s.label[1])}</p></div>` : ""}
+    ${s.label ? `<div class="label motion"><p lang="en">${lines(s.label[1])}</p><p lang="zh-Hant">${lines(s.label[0])}</p></div>` : ""}
     ${s.image ? `<img class="brand motion" src="${s.image.src}" alt="${s.image.alt}" width="930" height="838">` : ""}
-    ${s.pairs.map(([zh, en], j) => `<div class="pair pair-${j + 1} motion"><${j === 0 ? (i === 0 ? "h1" : "h2") : "p"} class="zh" lang="zh-Hant">${lines(zh)}</${j === 0 ? (i === 0 ? "h1" : "h2") : "p"}><p class="en" lang="en">${lines(en)}</p></div>`).join("\n")}
+    ${s.pairs.map(([zh, en], j) => `<div class="pair pair-${j + 1} motion"><${j === 0 ? (i === 0 ? "h1" : "h2") : "p"} class="en" lang="en">${lines(en)}</${j === 0 ? (i === 0 ? "h1" : "h2") : "p"}><p class="zh" lang="zh-Hant">${lines(zh)}</p></div>`).join("\n")}
     ${s.credits ? `<p class="credits motion">${escape(s.credits)}</p>` : ""}
   </div>
   <span class="print-number" aria-hidden="true">${String(i + 1).padStart(2, "0")}</span>
